@@ -1,0 +1,56 @@
+{
+	"name": "ui-kit",
+	"version": "0.1.0",
+	"private": false,
+	"main": "dist/index.cjs",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist",
+		"src/components",
+		"src/styles/globals.css"
+	],
+	"scripts": {
+		"build:css": "sass --no-source-map --style=compressed src:dist --update --glob '**/*.module.scss'",
+		"build": "npm run build:css && tsup",
+		"dev": "tsup --watch",
+		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+		"playground": "cd playground && next dev"
+	},
+	"peerDependencies": {
+		"react": ">=18",
+		"react-dom": ">=18"
+	},
+	"devDependencies": {
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"@typescript-eslint/eslint-plugin": "^7",
+		"@typescript-eslint/parser": "^7",
+		"autoprefixer": "^10",
+		"eslint": "^8.56.0",
+		"eslint-config-next": "^15",
+		"eslint-plugin-prettier": "^5",
+		"eslint-plugin-react": "^7",
+		"eslint-plugin-tailwindcss": "^3",
+		"postcss": "^8",
+		"prettier": "^3",
+		"sass": "^1",
+		"tailwindcss": "^3.4.0",
+		"tsup": "^8",
+		"typescript": "^5"
+	},
+	"description": "Reusable, scalable UI component library using React + TypeScript, styled with Tailwind CSS and SCSS modules.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/your-org/ui-kit"
+	},
+	"keywords": [
+		"react",
+		"ui-kit",
+		"component-library",
+		"tailwindcss",
+		"typescript"
+	],
+	"author": "",
+	"license": "MIT"
+}

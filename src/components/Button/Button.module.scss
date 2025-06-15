@@ -1,0 +1,6 @@
+.animated {
+  transition: transform 0.1s;
+  &:active {
+    transform: scale(0.97);
+  }
+}
