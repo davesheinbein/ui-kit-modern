@@ -1,7 +1,6 @@
 {
-	"name": "ui-kit",
-	"version": "0.1.0",
-	"private": false,
+	"name": "ui-kit-modern",
+	"version": "0.1.1",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -12,9 +11,9 @@
 	],
 	"scripts": {
 		"build": "vite build",
-		"dev": "vite",
+		"dev": "storybook dev -p 6006",
 		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-		"playground": "cd playground && next dev",
+		"playground": "cd playground && vite",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build"
 	},
