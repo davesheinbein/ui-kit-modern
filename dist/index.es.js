@@ -1,5 +1,5 @@
-import Q from "react";
-var b = {};
+import K from "react";
+var P = { exports: {} }, _ = {};
 /**
  * @license React
  * react-jsx-runtime.production.js
@@ -10,26 +10,26 @@ var b = {};
  * LICENSE file in the root directory of this source tree.
  */
 var I;
-function K() {
-  if (I) return b;
+function ee() {
+  if (I) return _;
   I = 1;
-  var l = Symbol.for("react.transitional.element"), _ = Symbol.for("react.fragment");
-  function f(d, o, s) {
-    var m = null;
-    if (s !== void 0 && (m = "" + s), o.key !== void 0 && (m = "" + o.key), "key" in o) {
-      s = {};
-      for (var E in o)
-        E !== "key" && (s[E] = o[E]);
-    } else s = o;
-    return o = s.ref, {
-      $$typeof: l,
-      type: d,
-      key: m,
-      ref: o !== void 0 ? o : null,
-      props: s
+  var s = Symbol.for("react.transitional.element"), f = Symbol.for("react.fragment");
+  function i(m, a, u) {
+    var E = null;
+    if (u !== void 0 && (E = "" + u), a.key !== void 0 && (E = "" + a.key), "key" in a) {
+      u = {};
+      for (var b in a)
+        b !== "key" && (u[b] = a[b]);
+    } else u = a;
+    return a = u.ref, {
+      $$typeof: s,
+      type: m,
+      key: E,
+      ref: a !== void 0 ? a : null,
+      props: u
     };
   }
-  return b.Fragment = _, b.jsx = f, b.jsxs = f, b;
+  return _.Fragment = f, _.jsx = i, _.jsxs = i, _;
 }
 var R = {};
 /**
@@ -41,58 +41,58 @@ var R = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var $;
-function ee() {
-  return $ || ($ = 1, process.env.NODE_ENV !== "production" && function() {
-    function l(e) {
+var F;
+function re() {
+  return F || (F = 1, process.env.NODE_ENV !== "production" && function() {
+    function s(e) {
       if (e == null) return null;
       if (typeof e == "function")
-        return e.$$typeof === B ? null : e.displayName || e.name || null;
+        return e.$$typeof === H ? null : e.displayName || e.name || null;
       if (typeof e == "string") return e;
       switch (e) {
-        case v:
+        case T:
           return "Fragment";
-        case W:
+        case U:
           return "Profiler";
-        case M:
+        case W:
           return "StrictMode";
-        case q:
-          return "Suspense";
         case G:
+          return "Suspense";
+        case J:
           return "SuspenseList";
-        case X:
+        case B:
           return "Activity";
       }
       if (typeof e == "object")
         switch (typeof e.tag == "number" && console.error(
           "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
         ), e.$$typeof) {
-          case L:
+          case M:
             return "Portal";
-          case z:
-            return (e.displayName || "Context") + ".Provider";
-          case U:
-            return (e._context.displayName || "Context") + ".Consumer";
           case V:
+            return (e.displayName || "Context") + ".Provider";
+          case z:
+            return (e._context.displayName || "Context") + ".Consumer";
+          case q:
             var r = e.render;
             return e = e.displayName, e || (e = r.displayName || r.name || "", e = e !== "" ? "ForwardRef(" + e + ")" : "ForwardRef"), e;
-          case J:
-            return r = e.displayName || null, r !== null ? r : l(e.type) || "Memo";
-          case j:
+          case X:
+            return r = e.displayName || null, r !== null ? r : s(e.type) || "Memo";
+          case x:
             r = e._payload, e = e._init;
             try {
-              return l(e(r));
+              return s(e(r));
             } catch {
             }
         }
       return null;
     }
-    function _(e) {
+    function f(e) {
       return "" + e;
     }
-    function f(e) {
+    function i(e) {
       try {
-        _(e);
+        f(e);
         var r = !1;
       } catch {
         r = !0;
@@ -104,35 +104,35 @@ function ee() {
           r,
           "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
           n
-        ), _(e);
+        ), f(e);
       }
     }
-    function d(e) {
-      if (e === v) return "<>";
-      if (typeof e == "object" && e !== null && e.$$typeof === j)
+    function m(e) {
+      if (e === T) return "<>";
+      if (typeof e == "object" && e !== null && e.$$typeof === x)
         return "<...>";
       try {
-        var r = l(e);
+        var r = s(e);
         return r ? "<" + r + ">" : "<...>";
       } catch {
         return "<...>";
       }
     }
-    function o() {
-      var e = k.A;
+    function a() {
+      var e = p.A;
       return e === null ? null : e.getOwner();
     }
-    function s() {
+    function u() {
       return Error("react-stack-top-frame");
     }
-    function m(e) {
+    function E(e) {
       if (h.call(e, "key")) {
         var r = Object.getOwnPropertyDescriptor(e, "key").get;
         if (r && r.isReactWarning) return !1;
       }
       return e.key !== void 0;
     }
-    function E(e, r) {
+    function b(e, r) {
       function t() {
         y || (y = !0, console.error(
           "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
@@ -144,22 +144,22 @@ function ee() {
         configurable: !0
       });
     }
-    function F() {
-      var e = l(this.type);
+    function D() {
+      var e = s(this.type);
       return N[e] || (N[e] = !0, console.error(
         "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
       )), e = this.props.ref, e !== void 0 ? e : null;
     }
-    function D(e, r, t, n, c, u, O, A) {
-      return t = u.ref, e = {
-        $$typeof: g,
+    function L(e, r, t, n, l, c, O, A) {
+      return t = c.ref, e = {
+        $$typeof: w,
         type: e,
         key: r,
-        props: u,
-        _owner: c
+        props: c,
+        _owner: l
       }, (t !== void 0 ? t : null) !== null ? Object.defineProperty(e, "ref", {
         enumerable: !1,
-        get: F
+        get: D
       }) : Object.defineProperty(e, "ref", { enumerable: !1, value: null }), e._store = {}, Object.defineProperty(e._store, "validated", {
         configurable: !1,
         enumerable: !1,
@@ -182,25 +182,25 @@ function ee() {
         value: A
       }), Object.freeze && (Object.freeze(e.props), Object.freeze(e)), e;
     }
-    function P(e, r, t, n, c, u, O, A) {
-      var a = r.children;
-      if (a !== void 0)
+    function g(e, r, t, n, l, c, O, A) {
+      var o = r.children;
+      if (o !== void 0)
         if (n)
-          if (H(a)) {
-            for (n = 0; n < a.length; n++)
-              w(a[n]);
-            Object.freeze && Object.freeze(a);
+          if (Z(o)) {
+            for (n = 0; n < o.length; n++)
+              j(o[n]);
+            Object.freeze && Object.freeze(o);
           } else
             console.error(
               "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
             );
-        else w(a);
+        else j(o);
       if (h.call(r, "key")) {
-        a = l(e);
-        var i = Object.keys(r).filter(function(Z) {
-          return Z !== "key";
+        o = s(e);
+        var d = Object.keys(r).filter(function(Q) {
+          return Q !== "key";
         });
-        n = 0 < i.length ? "{key: someKey, " + i.join(": ..., ") + ": ...}" : "{key: someKey}", Y[a + n] || (i = 0 < i.length ? "{" + i.join(": ..., ") + ": ...}" : "{}", console.error(
+        n = 0 < d.length ? "{key: someKey, " + d.join(": ..., ") + ": ...}" : "{key: someKey}", $[o + n] || (d = 0 < d.length ? "{" + d.join(": ..., ") + ": ...}" : "{}", console.error(
           `A props object containing a "key" prop is being spread into JSX:
   let props = %s;
   <%s {...props} />
@@ -208,71 +208,88 @@ React keys must be passed directly to JSX without using spread:
   let props = %s;
   <%s key={someKey} {...props} />`,
           n,
-          a,
-          i,
-          a
-        ), Y[a + n] = !0);
+          o,
+          d,
+          o
+        ), $[o + n] = !0);
       }
-      if (a = null, t !== void 0 && (f(t), a = "" + t), m(r) && (f(r.key), a = "" + r.key), "key" in r) {
+      if (o = null, t !== void 0 && (i(t), o = "" + t), E(r) && (i(r.key), o = "" + r.key), "key" in r) {
         t = {};
         for (var S in r)
           S !== "key" && (t[S] = r[S]);
       } else t = r;
-      return a && E(
+      return o && b(
         t,
         typeof e == "function" ? e.displayName || e.name || "Unknown" : e
-      ), D(
+      ), L(
         e,
-        a,
-        u,
+        o,
         c,
-        o(),
+        l,
+        a(),
         t,
         O,
         A
       );
     }
-    function w(e) {
-      typeof e == "object" && e !== null && e.$$typeof === g && e._store && (e._store.validated = 1);
+    function j(e) {
+      typeof e == "object" && e !== null && e.$$typeof === w && e._store && (e._store.validated = 1);
     }
-    var T = Q, g = Symbol.for("react.transitional.element"), L = Symbol.for("react.portal"), v = Symbol.for("react.fragment"), M = Symbol.for("react.strict_mode"), W = Symbol.for("react.profiler"), U = Symbol.for("react.consumer"), z = Symbol.for("react.context"), V = Symbol.for("react.forward_ref"), q = Symbol.for("react.suspense"), G = Symbol.for("react.suspense_list"), J = Symbol.for("react.memo"), j = Symbol.for("react.lazy"), X = Symbol.for("react.activity"), B = Symbol.for("react.client.reference"), k = T.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, h = Object.prototype.hasOwnProperty, H = Array.isArray, p = console.createTask ? console.createTask : function() {
+    var v = K, w = Symbol.for("react.transitional.element"), M = Symbol.for("react.portal"), T = Symbol.for("react.fragment"), W = Symbol.for("react.strict_mode"), U = Symbol.for("react.profiler"), z = Symbol.for("react.consumer"), V = Symbol.for("react.context"), q = Symbol.for("react.forward_ref"), G = Symbol.for("react.suspense"), J = Symbol.for("react.suspense_list"), X = Symbol.for("react.memo"), x = Symbol.for("react.lazy"), B = Symbol.for("react.activity"), H = Symbol.for("react.client.reference"), p = v.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, h = Object.prototype.hasOwnProperty, Z = Array.isArray, k = console.createTask ? console.createTask : function() {
       return null;
     };
-    T = {
+    v = {
       "react-stack-bottom-frame": function(e) {
         return e();
       }
     };
-    var y, N = {}, x = T["react-stack-bottom-frame"].bind(
-      T,
-      s
-    )(), C = p(d(s)), Y = {};
-    R.Fragment = v, R.jsx = function(e, r, t, n, c) {
-      var u = 1e4 > k.recentlyCreatedOwnerStacks++;
-      return P(
+    var y, N = {}, C = v["react-stack-bottom-frame"].bind(
+      v,
+      u
+    )(), Y = k(m(u)), $ = {};
+    R.Fragment = T, R.jsx = function(e, r, t, n, l) {
+      var c = 1e4 > p.recentlyCreatedOwnerStacks++;
+      return g(
         e,
         r,
         t,
         !1,
         n,
-        c,
-        u ? Error("react-stack-top-frame") : x,
-        u ? p(d(e)) : C
+        l,
+        c ? Error("react-stack-top-frame") : C,
+        c ? k(m(e)) : Y
       );
-    }, R.jsxs = function(e, r, t, n, c) {
-      var u = 1e4 > k.recentlyCreatedOwnerStacks++;
-      return P(
+    }, R.jsxs = function(e, r, t, n, l) {
+      var c = 1e4 > p.recentlyCreatedOwnerStacks++;
+      return g(
         e,
         r,
         t,
         !0,
         n,
-        c,
-        u ? Error("react-stack-top-frame") : x,
-        u ? p(d(e)) : C
+        l,
+        c ? Error("react-stack-top-frame") : C,
+        c ? k(m(e)) : Y
       );
     };
   }()), R;
 }
-process.env.NODE_ENV === "production" ? K() : ee();
+process.env.NODE_ENV === "production" ? P.exports = ee() : P.exports = re();
+var te = P.exports;
+const ne = "_animated_1ok3j_1", oe = {
+  animated: ne
+}, se = ({ label: s, onClick: f, className: i }) => /* @__PURE__ */ te.jsx(
+  "button",
+  {
+    type: "button",
+    role: "button",
+    "aria-label": s,
+    onClick: f,
+    className: `bg-blue-600 text-white px-4 py-2 rounded transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 ${oe.animated} ${i || ""}`.trim(),
+    children: s
+  }
+);
+export {
+  se as Button
+};
 //# sourceMappingURL=index.es.js.map
