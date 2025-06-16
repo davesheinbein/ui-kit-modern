@@ -11,33 +11,39 @@
 		"src/styles/globals.css"
 	],
 	"scripts": {
-		"build:css": "sass --no-source-map --style=compressed src:dist --update --glob '**/*.module.scss'",
-		"build": "npm run build:css && tsup",
-		"dev": "tsup --watch",
+		"build": "vite build",
+		"dev": "vite",
 		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-		"playground": "cd playground && next dev"
+		"playground": "cd playground && next dev",
+		"storybook": "storybook dev -p 6006",
+		"build-storybook": "storybook build"
 	},
 	"peerDependencies": {
 		"react": ">=18",
 		"react-dom": ">=18"
 	},
 	"devDependencies": {
+		"@storybook/addon-docs": "^9.0.10",
+		"@storybook/addon-onboarding": "^9.0.10",
+		"@storybook/react-vite": "^9.0.10",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
 		"@typescript-eslint/eslint-plugin": "^7",
 		"@typescript-eslint/parser": "^7",
+		"@vitejs/plugin-react": "^4.2.0",
 		"autoprefixer": "^10",
 		"eslint": "^8.56.0",
 		"eslint-config-next": "^15",
 		"eslint-plugin-prettier": "^5",
 		"eslint-plugin-react": "^7",
+		"eslint-plugin-storybook": "^9.0.10",
 		"eslint-plugin-tailwindcss": "^3",
-		"postcss": "^8",
-		"prettier": "^3",
-		"sass": "^1",
+		"postcss": "^8.4.38",
+		"sass": "^1.77.4",
+		"storybook": "^9.0.10",
 		"tailwindcss": "^3.4.0",
-		"tsup": "^8",
-		"typescript": "^5"
+		"typescript": "^5",
+		"vite": "^5.2.0"
 	},
 	"description": "Reusable, scalable UI component library using React + TypeScript, styled with Tailwind CSS and SCSS modules.",
 	"repository": {
