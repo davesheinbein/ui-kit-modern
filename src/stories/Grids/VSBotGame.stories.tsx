@@ -1,14 +1,31 @@
 import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { VSBotGame } from '../../index';
 
-export default {
+const meta: Meta<typeof VSBotGame> = {
 	title: 'Grids/VSBotGame',
 	component: VSBotGame,
+	tags: ['autodocs'],
+	parameters: {
+		docs: {
+			description: {
+				component: 'Component description to be updated.',
+			},
+		},
+	},
+	argTypes: {
+		// Add argTypes here
+	},
 };
+
+export default meta;
+type Story = StoryObj<typeof VSBotGame>;
 
 const Template = (args: any) => <VSBotGame {...args} />;
 
-export const Default = Template.bind({});
+export const Default: Story = {
+	args: {},
+};
 Default.args = {
 	botDifficulty: 'medium',
 	userId: 'user1',

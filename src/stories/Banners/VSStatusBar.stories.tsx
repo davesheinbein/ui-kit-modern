@@ -1,14 +1,31 @@
 import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { VSStatusBar } from '../../index';
 
-export default {
+const meta: Meta<typeof VSStatusBar> = {
 	title: 'Banners/VSStatusBar',
 	component: VSStatusBar,
+	tags: ['autodocs'],
+	parameters: {
+		docs: {
+			description: {
+				component: 'Component description to be updated.',
+			},
+		},
+	},
+	argTypes: {
+		// Add argTypes here
+	},
 };
+
+export default meta;
+type Story = StoryObj<typeof VSStatusBar>;
 
 const Template = (args: any) => <VSStatusBar {...args} />;
 
-export const Default = Template.bind({});
+export const Default: Story = {
+	args: {},
+};
 Default.args = {
 	player: {
 		username: 'You',

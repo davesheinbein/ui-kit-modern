@@ -1,16 +1,33 @@
 import React from 'react';
-import { SolvedGroupsDisplay } from '../../components/Grids/SolvedGroupsDisplay';
+import type { Meta, StoryObj } from '@storybook/react';
+import { SolvedGroupsDisplay } from '../../components/SolvedGroupsDisplay';
 
-export default {
+const meta: Meta<typeof SolvedGroupsDisplay> = {
 	title: 'Grids/SolvedGroupsDisplay',
 	component: SolvedGroupsDisplay,
+	tags: ['autodocs'],
+	parameters: {
+		docs: {
+			description: {
+				component: 'Component description to be updated.',
+			},
+		},
+	},
+	argTypes: {
+		// Add argTypes here
+	},
 };
+
+export default meta;
+type Story = StoryObj<typeof SolvedGroupsDisplay>;
 
 const Template = (args: any) => (
 	<SolvedGroupsDisplay {...args} />
 );
 
-export const Default = Template.bind({});
+export const Default: Story = {
+	args: {},
+};
 Default.args = {
 	pendingSolvedGroups: [
 		{ groupIdx: 0, words: ['Alpha', 'Beta', 'Gamma'] },

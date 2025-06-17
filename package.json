@@ -1,6 +1,6 @@
 {
 	"name": "ui-kit-modern",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -47,8 +47,9 @@
 	"description": "Reusable, scalable UI component library using React + TypeScript, styled with Tailwind CSS and SCSS modules.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/your-org/ui-kit"
+		"url": "https://github.com/davesheinbein/ui-kit.git"
 	},
+	"homepage": "https://github.com/your-org/ui-kit#readme",
 	"keywords": [
 		"react",
 		"ui-kit",

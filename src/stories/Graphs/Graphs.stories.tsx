@@ -1,35 +1,58 @@
 import React from 'react';
-import { Graphs, GraphsProps } from '../../components/Graphs';
+import type { Meta, StoryObj } from '@storybook/react';
+import Graphs, {
+	GraphsProps,
+} from '../../components/Graphs';
 
-export default {
+const meta: Meta<typeof Graphs> = {
 	title: 'Graphs/Graph',
 	component: Graphs,
+	tags: ['autodocs'],
+	parameters: {
+		docs: {
+			description: {
+				component: 'Component description to be updated.',
+			},
+		},
+	},
+	argTypes: {
+		// Add argTypes here
+	},
 };
 
-const Template = (args: GraphsProps) => <Graphs {...args} />;
+export default meta;
+type Story = StoryObj<typeof Graphs>;
 
-export const Bar = Template.bind({});
+const Template = (args: GraphsProps) => (
+	<Graphs {...args} />
+);
+
+export const Bar: Story = {
+	args: {},
+};
 Bar.args = {
-  data: [
-    { match: 'A', score: 10 },
-    { match: 'B', score: 20 },
-    { match: 'C', score: 15 },
-  ],
-  shape: 'bar',
-  dataKey: 'score',
-  labelKey: 'match',
-  title: 'Bar Chart',
+	data: [
+		{ match: 'A', score: 10 },
+		{ match: 'B', score: 20 },
+		{ match: 'C', score: 15 },
+	],
+	shape: 'bar',
+	dataKey: 'score',
+	labelKey: 'match',
+	title: 'Bar Chart',
 };
 
-export const Pie = Template.bind({});
+export const Pie: Story = {
+	args: {},
+};
 Pie.args = {
-  data: [
-    { match: 'A', score: 10 },
-    { match: 'B', score: 20 },
-    { match: 'C', score: 15 },
-  ],
-  shape: 'pie',
-  dataKey: 'score',
-  labelKey: 'match',
-  title: 'Pie Chart',
+	data: [
+		{ match: 'A', score: 10 },
+		{ match: 'B', score: 20 },
+		{ match: 'C', score: 15 },
+	],
+	shape: 'pie',
+	dataKey: 'score',
+	labelKey: 'match',
+	title: 'Pie Chart',
 };

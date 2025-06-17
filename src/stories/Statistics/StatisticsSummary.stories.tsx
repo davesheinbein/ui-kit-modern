@@ -1,19 +1,36 @@
 import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import {
 	StatisticsSummary,
 	StatisticsSummaryProps,
 } from '../../components/Statistics';
 
-export default {
-	title: 'StatisticsSummary',
+const meta: Meta<typeof StatisticsSummary> = {
+	title: 'Statistics/StatisticsSummary',
 	component: StatisticsSummary,
+	tags: ['autodocs'],
+	parameters: {
+		docs: {
+			description: {
+				component: 'Component description to be updated.',
+			},
+		},
+	},
+	argTypes: {
+		// Add argTypes here
+	},
 };
+
+export default meta;
+type Story = StoryObj<typeof StatisticsSummary>;
 
 const Template = (args: StatisticsSummaryProps) => (
 	<StatisticsSummary {...args} />
 );
 
-export const Default = Template.bind({});
+export const Default: Story = {
+	args: {},
+};
 Default.args = {
 	stats: {
 		total_matches_played: 42,
