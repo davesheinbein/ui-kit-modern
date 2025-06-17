@@ -12,6 +12,13 @@ const config: StorybookConfig = {
   "framework": {
     "name": "@storybook/react-vite",
     "options": {}
+  },
+  "viteFinal": async (config) => {
+    // Set the base path for GitHub Pages
+    if (process.env.NODE_ENV === 'production') {
+      config.base = '/ui-kit-modern/';
+    }
+    return config;
   }
 };
 export default config;

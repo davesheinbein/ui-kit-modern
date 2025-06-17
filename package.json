@@ -15,7 +15,8 @@
 		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
 		"playground": "cd playground && vite",
 		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"build-storybook": "storybook build",
+		"deploy-storybook": "npm run build-storybook && npx gh-pages -d storybook-static"
 	},
 	"peerDependencies": {
 		"react": ">=18",
@@ -37,6 +38,7 @@
 		"eslint-plugin-react": "^7",
 		"eslint-plugin-storybook": "^9.0.10",
 		"eslint-plugin-tailwindcss": "^3",
+		"gh-pages": "^6.1.1",
 		"postcss": "^8.4.38",
 		"sass": "^1.77.4",
 		"storybook": "^9.0.10",
@@ -47,9 +49,9 @@
 	"description": "Reusable, scalable UI component library using React + TypeScript, styled with Tailwind CSS and SCSS modules.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/davesheinbein/ui-kit.git"
+		"url": "https://github.com/davesheinbein/ui-kit-modern.git"
 	},
-	"homepage": "https://github.com/your-org/ui-kit#readme",
+	"homepage": "https://davesheinbein.github.io/ui-kit-modern",
 	"keywords": [
 		"react",
 		"ui-kit",
