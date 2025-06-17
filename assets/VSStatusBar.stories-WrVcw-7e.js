@@ -1,0 +1,3 @@
+import"./jsx-runtime-BjG_zV1W.js";import{V as o}from"./VSStatusBar-DTTLUo9H.js";const n={title:"Grids/VSStatusBar",component:o,tags:["autodocs"],parameters:{docs:{description:{component:"Component description to be updated."}}},argTypes:{}},e={args:{}};e.args={player:{name:"Player"},opponent:{name:"Opponent"},timer:60,totalGroups:4};var t,a,r;e.parameters={...e.parameters,docs:{...(t=e.parameters)==null?void 0:t.docs,source:{originalSource:`{
+  args: {}
+}`,...(r=(a=e.parameters)==null?void 0:a.docs)==null?void 0:r.source}}};const m=["Default"];export{e as Default,m as __namedExportsOrder,n as default};

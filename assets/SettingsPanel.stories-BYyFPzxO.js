@@ -1,0 +1,3 @@
+import"./jsx-runtime-BjG_zV1W.js";import{S as s}from"./SettingsPanel-Dm5wZ0VV.js";import"./iframe-DhC4iHDh.js";import"./UserSettingsProvider-BzuV_ylb.js";const m={title:"Settings/SettingsPanel",component:s,tags:["autodocs"],parameters:{docs:{description:{component:"Component description to be updated."}}},argTypes:{}},t={args:{}};var e,o,r;t.parameters={...t.parameters,docs:{...(e=t.parameters)==null?void 0:e.docs,source:{originalSource:`{
+  args: {}
+}`,...(r=(o=t.parameters)==null?void 0:o.docs)==null?void 0:r.source}}};const i=["Default"];export{t as Default,i as __namedExportsOrder,m as default};

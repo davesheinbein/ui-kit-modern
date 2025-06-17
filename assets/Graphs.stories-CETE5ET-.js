@@ -1,0 +1,5 @@
+import"./jsx-runtime-BjG_zV1W.js";import{G as m}from"./Graphs-aXRUnQ-x.js";import"./iframe-DhC4iHDh.js";import"./index-BHpnLCkc.js";const g={title:"Graphs/Graph",component:m,tags:["autodocs"],parameters:{docs:{description:{component:"Component description to be updated."}}},argTypes:{}},a={args:{}};a.args={data:[{match:"A",score:10},{match:"B",score:20},{match:"C",score:15}],shape:"bar",dataKey:"score",labelKey:"match",title:"Bar Chart"};const r={args:{}};r.args={data:[{match:"A",score:10},{match:"B",score:20},{match:"C",score:15}],shape:"pie",dataKey:"score",labelKey:"match",title:"Pie Chart"};var e,s,t;a.parameters={...a.parameters,docs:{...(e=a.parameters)==null?void 0:e.docs,source:{originalSource:`{
+  args: {}
+}`,...(t=(s=a.parameters)==null?void 0:s.docs)==null?void 0:t.source}}};var o,c,p;r.parameters={...r.parameters,docs:{...(o=r.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  args: {}
+}`,...(p=(c=r.parameters)==null?void 0:c.docs)==null?void 0:p.source}}};const l=["Bar","Pie"];export{a as Bar,r as Pie,l as __namedExportsOrder,g as default};

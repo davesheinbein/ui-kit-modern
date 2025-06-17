@@ -1,0 +1,3 @@
+import"./jsx-runtime-BjG_zV1W.js";import{F as t}from"./FriendCard-CAwtouwJ.js";import"./iframe-DhC4iHDh.js";const i={title:"Cards/FriendCard",component:t,tags:["autodocs"],parameters:{docs:{description:{component:"Component description to be updated."}}},argTypes:{}},e={args:{}};e.args={friend:{id:"1",username:"JaneDoe",online:!0,division:"Gold",tier:"II",inMatch:!1,idle:!1},onChallenge:()=>alert("Challenge!"),onMessage:()=>alert("Message!"),onRemove:()=>alert("Remove!"),unreadCount:2};var a,r,o;e.parameters={...e.parameters,docs:{...(a=e.parameters)==null?void 0:a.docs,source:{originalSource:`{
+  args: {}
+}`,...(o=(r=e.parameters)==null?void 0:r.docs)==null?void 0:o.source}}};const l=["Default"];export{e as Default,l as __namedExportsOrder,i as default};

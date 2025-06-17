@@ -1,0 +1,7 @@
+import{j as o}from"./jsx-runtime-BjG_zV1W.js";const i="_solvedGroupsDisplay_djxgz_1",t="_solvedGroup_djxgz_1",u="_solvedLabel_djxgz_27",m="_solvedWords_djxgz_35",g="_solvedWord_djxgz_35",d={solvedGroupsDisplay:i,solvedGroup:t,solvedLabel:u,solvedWords:m,solvedWord:g},v=({pendingSolvedGroups:a,activePuzzle:r})=>a.length?o.jsx("div",{className:d.solvedGroupsDisplay,"aria-label":"Solved Groups",children:a.filter((s,e,l)=>l.findIndex(n=>n.groupIdx===s.groupIdx)===e).sort((s,e)=>s.groupIdx-e.groupIdx).map(({groupIdx:s,words:e})=>{var l,n;return o.jsxs("section",{className:d.solvedGroup,role:"img","aria-label":`Solved group: ${((l=r==null?void 0:r.groupLabels)==null?void 0:l[s])||`Group ${s+1}`}`,children:[o.jsx("div",{className:d.solvedLabel,children:((n=r==null?void 0:r.groupLabels)==null?void 0:n[s])||`Group ${s+1}`}),o.jsx("ul",{className:d.solvedWords,children:(Array.isArray(e)?e:[]).map(p=>o.jsx("li",{className:d.solvedWord,children:p},p))})]},s)})}):null;v.__docgenInfo={description:"",methods:[],displayName:"SolvedGroupsDisplay",props:{pendingSolvedGroups:{required:!0,tsType:{name:"Array",elements:[{name:"signature",type:"object",raw:`{
+	groupIdx: number;
+	words: string[];
+}`,signature:{properties:[{key:"groupIdx",value:{name:"number",required:!0}},{key:"words",value:{name:"Array",elements:[{name:"string"}],raw:"string[]",required:!0}}]}}],raw:`{
+	groupIdx: number;
+	words: string[];
+}[]`},description:""},activePuzzle:{required:!0,tsType:{name:"any"},description:""}}};export{v as S};

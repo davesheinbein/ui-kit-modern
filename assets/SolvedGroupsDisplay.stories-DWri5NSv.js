@@ -1,0 +1,3 @@
+import"./jsx-runtime-BjG_zV1W.js";import{S as s}from"./SolvedGroupsDisplay-CWFyS1-G.js";const d={title:"Grids/SolvedGroupsDisplay",component:s,tags:["autodocs"],parameters:{docs:{description:{component:"Component description to be updated."}}},argTypes:{}},e={args:{}};e.args={pendingSolvedGroups:[{groupIdx:0,words:["Alpha","Beta","Gamma"]},{groupIdx:1,words:["Delta","Epsilon","Zeta"]}],activePuzzle:{groupLabels:["Greek 1","Greek 2"]}};var o,r,a;e.parameters={...e.parameters,docs:{...(o=e.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  args: {}
+}`,...(a=(r=e.parameters)==null?void 0:r.docs)==null?void 0:a.source}}};const n=["Default"];export{e as Default,n as __namedExportsOrder,d as default};

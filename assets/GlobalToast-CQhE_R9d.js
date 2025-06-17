@@ -1,0 +1,1 @@
+import{j as o}from"./jsx-runtime-BjG_zV1W.js";const t=()=>o.jsx("div",{style:{position:"fixed",top:24,left:0,right:0,zIndex:2e3,pointerEvents:"none"}});t.__docgenInfo={description:"",methods:[],displayName:"GlobalToast"};export{t as G};
