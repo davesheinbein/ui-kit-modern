@@ -1,0 +1,15 @@
+.rulesModalContent {
+	background: #fff;
+	color: #334155;
+	padding: 2rem 1.5rem 1.5rem 1.5rem;
+	border-radius: 1rem;
+	text-align: left;
+	min-width: 260px;
+	max-width: 90vw;
+	position: relative;
+}
+.modalCloseAbsolute {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+}

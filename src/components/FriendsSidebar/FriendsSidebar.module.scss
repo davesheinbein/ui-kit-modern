@@ -1,0 +1,39 @@
+/* FriendsSidebar styles migrated from VibeGrid */
+@use '../../styles/Variables.scss' as *;
+
+.friendsSidebarOverlay {
+	background: rgba(0, 0, 0, 0.3);
+	position: fixed;
+	inset: 0;
+	z-index: 2000;
+}
+
+.friendsSidebar {
+	background: #fff;
+	width: 320px;
+	height: 100vh;
+	position: fixed;
+	right: 0;
+	top: 0;
+	box-shadow: -2px 0 8px #0001;
+	transition: transform 0.3s;
+	z-index: 2100;
+}
+
+.friendsSidebarOpen {
+	transform: translateX(0);
+}
+
+.friendsSidebarClosed {
+	transform: translateX(100%);
+}
+
+.friendsSidebarCloseBtn {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	cursor: pointer;
+}

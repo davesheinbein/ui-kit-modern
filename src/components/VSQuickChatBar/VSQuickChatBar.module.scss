@@ -1,0 +1,20 @@
+/* VSQuickChatBar styles migrated from VibeGrid */
+@use '../../styles/Variables.scss' as *;
+
+/* Add relevant class selectors here after migration */
+.vsQuickChatBar {
+	display: flex;
+	gap: 8px;
+}
+.vsQuickChatButton {
+	background: #e0e7ff;
+	border: none;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	font-weight: 600;
+}
+.vsQuickChatButton:hover {
+	background: #2563eb;
+	color: #fff;
+}

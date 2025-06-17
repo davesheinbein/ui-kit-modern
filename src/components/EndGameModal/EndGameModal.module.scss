@@ -1,0 +1,25 @@
+.endgameModal {
+	max-width: 600px;
+}
+.endgameModalContent {
+	background: #fff;
+	color: #0a174e;
+	border-radius: 1.2rem;
+	text-align: center;
+	min-width: 200px;
+	max-width: 95vw;
+	width: 100%;
+}
+.endgameModalScore,
+.endgameModalAttempts,
+.endgameModalBurnBonus,
+.endgameModalFinishTime {
+	font-weight: 600;
+	margin: 0.5rem 0;
+}
+.endgameModalActions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	margin-top: 1.5rem;
+}
