@@ -13,6 +13,7 @@ export interface FooterProps {
 		onClick?: () => void;
 	}>;
 	showDivider?: boolean;
+	children?: React.ReactNode;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -23,6 +24,7 @@ const Footer: React.FC<FooterProps> = ({
 	copyright,
 	links = [],
 	showDivider = true,
+	children,
 }) => {
 	const defaultLeftContent =
 		copyright ||
@@ -78,23 +80,28 @@ const Footer: React.FC<FooterProps> = ({
 		<footer
 			className={`${styles.footer} ${className}`.trim()}
 		>
-			<div className={styles.footerLeft}>
-				{leftContent !== undefined ?
-					leftContent
-				:	defaultLeftContent}
-			</div>
+			{children ?
+				children
+			:	<>
+					<div className={styles.footerLeft}>
+						{leftContent !== undefined ?
+							leftContent
+						:	defaultLeftContent}
+					</div>
 
-			{centerContent && (
-				<div className={styles.footerCenter}>
-					{centerContent}
-				</div>
-			)}
+					{centerContent && (
+						<div className={styles.footerCenter}>
+							{centerContent}
+						</div>
+					)}
 
-			<div className={styles.footerRight}>
-				{rightContent !== undefined ?
-					rightContent
-				:	defaultRightContent}
-			</div>
+					<div className={styles.footerRight}>
+						{rightContent !== undefined ?
+							rightContent
+						:	defaultRightContent}
+					</div>
+				</>
+			}
 		</footer>
 	);
 };

@@ -82,11 +82,3 @@
 	// ThemePaletteProvider affects global theming
 	display: contents;
 }
-
-// Debug styles (only in development)
-@media (prefers-color-scheme: dark) {
-	.provider {
-		// Dark mode adjustments if needed (providers typically don't need visual changes)
-		color: inherit;
-	}
-}

@@ -129,6 +129,31 @@ export type {
 	ButtonConfiguration,
 } from './components/Button';
 
+// Enhanced Sidebar System - All sidebar types via single component
+export {
+	UnifiedSidebar,
+	FriendsSidebar,
+	SidebarFactory,
+	S,
+	SidebarPresets,
+	SidebarGroups,
+	SidebarComposer,
+	SIDEBAR_CONFIGURATIONS,
+	SIDEBAR_GROUPS,
+	QUICK_SIDEBARS,
+	createSidebarConfig,
+	getSidebarConfig,
+	isSidebarKind,
+} from './components/Sidebar';
+export type {
+	SidebarKind,
+	UnifiedSidebarProps,
+	FriendsSidebarProps,
+	ExtendedSidebarKind,
+	SidebarConfiguration,
+	SidebarVariant,
+} from './components/Sidebar';
+
 // Enhanced Card System - All card types via single component (DRY System)
 export {
 	UnifiedCard,
@@ -235,42 +260,33 @@ export type {
 } from './components/Pages';
 
 // Layout & Navigation
-export { Footer } from './components/Footer';
-
-// Theme & Settings
-// SettingsPanel and CustomizationCategory are now exported from ./components/Settings
+// Footer DRY System - Complete footer solution
 export {
-	ThemeSelector,
-	themes,
-	vsModeDefaults,
-} from './components/ThemeSelector';
-export type { ThemeSelectorProps } from './components/ThemeSelector';
+	Footer,
+	UnifiedFooter,
+	FooterFactory,
+	Foot,
+	FooterPresets,
+	FOOTER_CONFIGURATIONS,
+} from './components/Footer';
+export type {
+	FooterKind,
+	UnifiedFooterProps,
+	FooterProps,
+	FooterConfiguration,
+	FooterLink,
+} from './components/Footer';
 
-// Settings System (DRY)
+// Settings System (DRY) - Now includes comprehensive theme/appearance management
 export * from './components/Settings';
 
 // Context Providers
 export * from './components/Providers';
-export {
-	SocketProvider,
-	useSocket,
-	SocketContext,
-} from './components/SocketProvider';
-export {
-	ThemePaletteProvider,
-	useThemePalette,
-	ThemePaletteContext,
-} from './components/Providers';
-export {
-	UserSettingsProvider,
-	useUserSettings,
-	UserSettingsContext,
-} from './components/UserSettingsProvider';
 
 // Social & Communication
 // Note: FriendCard is deprecated - use UnifiedCard with kind="friend" instead
 // export { FriendCard } from './components/FriendCard';
-export { FriendsSidebar } from './components/FriendsSidebar';
+// Note: FriendsSidebar is now part of the DRY Sidebar system - exported above
 export { VSQuickChatBar } from './components/Chat';
 
 // ===== DRY CHAT SYSTEM =====

@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
-import Provider from './Provider';
-import ProviderBodyFactory from './ProviderBodyFactory';
+import UnifiedProvider from './UnifiedProvider';
 import {
 	PROVIDER_CONFIGURATIONS,
 	ProviderKind,
@@ -66,43 +65,20 @@ const ProviderFactory = forwardRef<
 		const finalInitialSettings =
 			initialSettings ?? finalConfig.initialSettings;
 
-		// For listeners, render the body factory directly without wrapper
-		if (finalConfig.variant === 'listener') {
-			return (
-				<ProviderBodyFactory
-					kind={finalConfig.kind}
-					configuration={finalConfig}
-					session={session}
-					autoConnect={finalAutoConnect}
-					url={finalUrl}
-					initialSettings={finalInitialSettings}
-					{...props}
-				>
-					{children}
-				</ProviderBodyFactory>
-			);
-		}
-
-		// For context providers, wrap with base Provider component
+		// Use UnifiedProvider directly with all the props
 		return (
-			<Provider
+			<UnifiedProvider
 				ref={ref}
-				variant={finalConfig.variant}
-				position={finalConfig.position}
+				kind={kind}
+				session={session}
+				autoConnect={finalAutoConnect}
+				url={finalUrl}
+				initialSettings={finalInitialSettings}
 				className={className}
+				{...props}
 			>
-				<ProviderBodyFactory
-					kind={finalConfig.kind}
-					configuration={finalConfig}
-					session={session}
-					autoConnect={finalAutoConnect}
-					url={finalUrl}
-					initialSettings={finalInitialSettings}
-					{...props}
-				>
-					{children}
-				</ProviderBodyFactory>
-			</Provider>
+				{children}
+			</UnifiedProvider>
 		);
 	}
 );

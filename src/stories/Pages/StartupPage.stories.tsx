@@ -1,19 +1,33 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PageFactory } from '../../components/Pages';
+import {
+	UnifiedPage,
+	PageFactory,
+	P,
+	PagePresets,
+} from '../../components/Pages';
+import type { UnifiedPageProps } from '../../components/Pages';
 
-const meta: Meta<typeof PageFactory> = {
+const meta: Meta<typeof UnifiedPage> = {
 	title: 'Pages/StartupPage (DRY System)',
-	component: PageFactory,
+	component: UnifiedPage,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
-				component:
-					'A startup page component built using the unified Pages system. Provides navigation options for different game modes with a centered, full-height layout.',
+				component: `### StartupPage (DRY System)
+
+A startup page component built using the unified Pages system. Provides navigation options for different game modes with a centered, full-height layout.
+
+Uses the DRY Page system with \`kind="startup"\` to render a startup page layout with consistent styling and behavior.`,
 			},
 		},
 	},
 	argTypes: {
+		kind: {
+			control: 'select',
+			options: ['startup'],
+			description: 'Page kind - startup for this component',
+		},
 		title: {
 			control: 'text',
 			description:
@@ -46,7 +60,7 @@ const meta: Meta<typeof PageFactory> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof UnifiedPage>;
 
 export const Default: Story = {
 	args: {
@@ -110,4 +124,83 @@ export const CustomStyling: Story = {
 			color: '#fff',
 		},
 	},
+};
+
+export const DRYFactoryExample: Story = {
+	name: '🏭 Factory Pattern',
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '2rem',
+				padding: '1rem',
+			}}
+		>
+			<div>
+				<h3>PageFactory Startup:</h3>
+				{PageFactory({
+					kind: 'startup',
+					title: 'Factory Startup Page',
+					subtitle: 'Created with PageFactory',
+					onStartDaily: () => console.log('Daily mode'),
+					onStartCustom: () => console.log('Custom mode'),
+					onBrowseCustom: () => console.log('Browse'),
+					onShare: () => console.log('Share'),
+				})}
+			</div>
+		</div>
+	),
+};
+
+export const UltraDRYExample: Story = {
+	name: '⚡ Ultra-DRY (P)',
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '2rem',
+				padding: '1rem',
+			}}
+		>
+			<div>
+				<h3>Ultra-short "P" alias:</h3>
+				{P({
+					kind: 'startup',
+					title: 'P Startup Page',
+					subtitle: 'Ultra-DRY with P alias',
+					onStartDaily: () => console.log('Daily mode'),
+					onStartCustom: () => console.log('Custom mode'),
+					onBrowseCustom: () => console.log('Browse'),
+				})}
+			</div>
+		</div>
+	),
+};
+
+export const PresetExample: Story = {
+	name: '🎯 Preset Pattern',
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '2rem',
+				padding: '1rem',
+			}}
+		>
+			<div>
+				<h3>PagePresets.Startup:</h3>
+				{PagePresets.Startup({
+					title: 'Preset Startup Page',
+					subtitle: 'Pre-configured startup pattern',
+					onStartDaily: () => console.log('Daily mode'),
+					onStartCustom: () => console.log('Custom mode'),
+					onBrowseCustom: () => console.log('Browse'),
+					onShare: () => console.log('Share'),
+				})}
+			</div>
+		</div>
+	),
 };

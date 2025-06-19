@@ -14,8 +14,11 @@ const meta: Meta<typeof UnifiedProvider> = {
 	parameters: {
 		docs: {
 			description: {
-				component:
-					'A DRY socket listener component that handles achievement-related WebSocket events. This component renders nothing but manages socket event handling. Built using the unified Providers system.',
+				component: `### AchievementSocketListener (DRY System)
+
+An achievement socket listener component built using the unified Providers system. Provides achievement event listening for the application with socket event handling and achievement notifications.
+
+Uses the DRY Provider system with \`kind="achievement-socket-listener"\` to render an achievement socket listener with consistent configuration and behavior.`,
 			},
 		},
 	},
@@ -91,6 +94,83 @@ export const ListenerUsingPresets: Story = {
 			<p>Achievement Listener (Presets Pattern)</p>
 			<p style={{ fontSize: '0.9em', color: '#666' }}>
 				Using ProviderPresets for common configurations.
+			</p>
+			{ProviderPresets.ACHIEVEMENT_LISTENER()}
+		</div>
+	),
+};
+
+export const FactoryPattern: Story = {
+	name: '🏭 Factory Pattern',
+	render: () => (
+		<div
+			style={{
+				padding: '2rem',
+				border: '1px dashed #ccc',
+				borderRadius: '8px',
+			}}
+		>
+			<h3>ProviderFactory AchievementListener:</h3>
+			<p style={{ fontSize: '0.9em', color: '#666' }}>
+				Using ProviderFactory for programmatic creation.
+			</p>
+			<ProviderFactory kind='achievement-socket-listener'>
+				<div
+					style={{
+						padding: '1rem',
+						border: '1px solid #ddd',
+						borderRadius: '8px',
+					}}
+				>
+					Achievement listener created via factory
+				</div>
+			</ProviderFactory>
+		</div>
+	),
+};
+
+export const UltraDRYExample: Story = {
+	name: '⚡ Ultra-DRY (P)',
+	render: () => (
+		<div
+			style={{
+				padding: '2rem',
+				border: '1px dashed #ccc',
+				borderRadius: '8px',
+			}}
+		>
+			<h3>Ultra-short "P" alias:</h3>
+			<p style={{ fontSize: '0.9em', color: '#666' }}>
+				Using ultra-short P alias for rapid development.
+			</p>
+			<P kind='achievement-socket-listener'>
+				<div
+					style={{
+						padding: '1rem',
+						border: '1px solid #ddd',
+						borderRadius: '8px',
+					}}
+				>
+					Achievement listener is active
+				</div>
+			</P>
+		</div>
+	),
+};
+
+export const PresetExample: Story = {
+	name: '🎯 Preset Pattern',
+	render: () => (
+		<div
+			style={{
+				padding: '2rem',
+				border: '1px dashed #ccc',
+				borderRadius: '8px',
+			}}
+		>
+			<h3>ProviderPresets.ACHIEVEMENT_LISTENER:</h3>
+			<p style={{ fontSize: '0.9em', color: '#666' }}>
+				Using pre-configured achievement listener pattern.
 			</p>
 			{ProviderPresets.ACHIEVEMENT_LISTENER()}
 		</div>

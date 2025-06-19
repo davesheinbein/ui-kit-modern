@@ -1,5 +1,6 @@
 @use '../../styles/Variables.scss' as *;
 
+// ===== BASE FOOTER STYLES =====
 .footer {
 	margin-top: auto;
 	width: 100%;
@@ -23,6 +24,117 @@
 	}
 }
 
+// ===== DRY SYSTEM: FOOTER KIND VARIANTS =====
+.footer-simple {
+	padding: 0.5rem 1rem;
+	font-size: 0.75rem;
+}
+
+.footer-standard {
+	// Uses base footer styles as default
+	padding: 1rem 2rem;
+}
+
+.footer-minimal {
+	padding: 0.75rem 1rem;
+	justify-content: center;
+	text-align: center;
+}
+
+.footer-social {
+	padding: 1rem 2rem;
+
+	.footerNav {
+		gap: 1rem;
+	}
+}
+
+.footer-corporate {
+	padding: 1.5rem 2rem;
+	font-size: 0.875rem;
+
+	.footerNav {
+		gap: 1.5rem;
+	}
+}
+
+.footer-app {
+	padding: 0.75rem 1rem;
+	font-size: 0.75rem;
+	border-top: none;
+	background: #f9fafb;
+}
+
+.footer-landing {
+	padding: 2rem;
+	font-size: 0.875rem;
+	background: #f8fafc;
+	border-top: 2px solid #e2e8f0;
+}
+
+.footer-custom {
+	// Custom styling can be applied via className prop
+	padding: 1rem 2rem;
+}
+
+// ===== DRY SYSTEM: THEME VARIANTS =====
+.footer-theme-light {
+	background: #fff;
+	color: #6b7280;
+	border-top-color: #e5e7eb;
+}
+
+.footer-theme-dark {
+	background: #1f2937;
+	color: #d1d5db;
+	border-top-color: #374151;
+
+	.footerLink {
+		color: #d1d5db;
+
+		&:hover {
+			color: $primary-blue-light;
+		}
+
+		&:focus {
+			outline-color: $primary-blue-light;
+		}
+	}
+}
+
+.footer-theme-transparent {
+	background: transparent;
+	border-top: none;
+	color: inherit;
+}
+
+// ===== DRY SYSTEM: SIZE VARIANTS =====
+.footer-size-small {
+	padding: 0.5rem 1rem;
+	font-size: 0.75rem;
+}
+
+.footer-size-medium {
+	padding: 1rem 2rem;
+	font-size: 0.875rem;
+}
+
+.footer-size-large {
+	padding: 1.5rem 2rem;
+	font-size: 1rem;
+}
+
+// ===== DRY SYSTEM: STICKY MODIFIER =====
+.footer-sticky {
+	position: fixed !important;
+	bottom: 0;
+	left: 0;
+	z-index: 1000;
+	margin-top: 0;
+	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+// ===== FOOTER LAYOUT COMPONENTS =====
 .footerLeft {
 	display: flex;
 	align-items: center;

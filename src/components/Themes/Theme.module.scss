@@ -1,0 +1,664 @@
+// Theme Component SCSS Module
+// Base styles for all theme variants
+
+.themeBase {
+	font-family: var(--font-family);
+	position: relative;
+	transition: all 0.3s ease;
+}
+
+// =============================================================================
+// LAYOUT VARIANTS
+// =============================================================================
+
+.horizontal {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.vertical {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(120px, 1fr)
+	);
+	justify-content: center;
+	align-items: start;
+}
+
+.compact {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+// =============================================================================
+// DISPLAY TYPES
+// =============================================================================
+
+.swatches {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.themeItem {
+		cursor: pointer;
+		border-radius: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.22s ease;
+		position: relative;
+
+		&:hover {
+			transform: translateY(-2px);
+		}
+
+		&.active {
+			transform: translateY(-1px);
+		}
+
+		.themePreview {
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.22s ease;
+
+			.themeInitial {
+				font-weight: 700;
+				text-shadow: 0 1px 4px rgba(255, 255, 255, 0.5);
+			}
+		}
+
+		.themeGlow {
+			position: absolute;
+			inset: 0;
+			border-radius: 16px;
+			pointer-events: none;
+			opacity: 0.7;
+			transition: opacity 0.22s ease;
+		}
+	}
+}
+
+.dropdown {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+
+	.themeLabel {
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--color-text-secondary);
+		margin-right: 0.5rem;
+	}
+
+	.themeSelect {
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.375rem;
+		border: 1px solid var(--color-border);
+		background: var(--color-background);
+		color: var(--color-text);
+		font-size: 0.875rem;
+		transition: all 0.2s ease;
+
+		&:hover {
+			border-color: var(--color-border-hover);
+		}
+
+		&:focus {
+			outline: none;
+			border-color: var(--color-primary);
+			box-shadow: 0 0 0 3px
+				rgba(var(--color-primary-rgb), 0.1);
+		}
+	}
+}
+
+.cards {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(150px, 1fr)
+	);
+	align-items: start;
+
+	.themeCard {
+		cursor: pointer;
+		border-radius: 12px;
+		border: 2px solid var(--color-border);
+		background: var(--color-background-secondary);
+		padding: 1rem;
+		transition: all 0.2s ease;
+		text-align: center;
+
+		&:hover {
+			border-color: var(--color-border-hover);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		}
+
+		&.active {
+			border-color: var(--color-primary);
+			box-shadow: 0 0 0 3px
+				rgba(var(--color-primary-rgb), 0.1);
+		}
+
+		.cardPreview {
+			width: 60px;
+			height: 60px;
+			border-radius: 8px;
+			margin: 0 auto 0.75rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.cardLabel {
+			font-size: 0.875rem;
+			font-weight: 600;
+			color: var(--color-text);
+		}
+
+		.cardDescription {
+			font-size: 0.75rem;
+			color: var(--color-text-secondary);
+			margin-top: 0.25rem;
+		}
+	}
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	.themeListItem {
+		cursor: pointer;
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.375rem;
+		transition: all 0.2s ease;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+
+		&:hover {
+			background: var(--color-background-hover);
+		}
+
+		&.active {
+			background: var(--color-primary);
+			color: white;
+		}
+
+		.listPreview {
+			width: 20px;
+			height: 20px;
+			border-radius: 4px;
+			border: 1px solid var(--color-border);
+		}
+
+		.listLabel {
+			font-size: 0.875rem;
+			font-weight: 500;
+		}
+	}
+}
+
+// =============================================================================
+// SIZE VARIANTS
+// =============================================================================
+
+.small {
+	&.swatches .themeItem {
+		width: 36px;
+		height: 36px;
+		border-width: 2px;
+
+		.themePreview {
+			width: 24px;
+			height: 24px;
+
+			.themeInitial {
+				font-size: 0.75rem;
+			}
+		}
+	}
+
+	&.cards .themeCard {
+		padding: 0.75rem;
+
+		.cardPreview {
+			width: 40px;
+			height: 40px;
+		}
+
+		.cardLabel {
+			font-size: 0.75rem;
+		}
+	}
+
+	&.dropdown .themeSelect {
+		padding: 0.25rem 0.5rem;
+		font-size: 0.75rem;
+	}
+}
+
+.medium {
+	&.swatches .themeItem {
+		width: 54px;
+		height: 54px;
+		border-width: 2px;
+
+		.themePreview {
+			width: 32px;
+			height: 32px;
+
+			.themeInitial {
+				font-size: 0.8125rem;
+			}
+		}
+
+		&.active {
+			border-width: 3px;
+		}
+	}
+
+	&.cards .themeCard {
+		padding: 1rem;
+
+		.cardPreview {
+			width: 60px;
+			height: 60px;
+		}
+	}
+
+	&.dropdown .themeSelect {
+		padding: 0.5rem 0.75rem;
+		font-size: 0.875rem;
+	}
+}
+
+.large {
+	&.swatches .themeItem {
+		width: 72px;
+		height: 72px;
+		border-width: 3px;
+
+		.themePreview {
+			width: 48px;
+			height: 48px;
+
+			.themeInitial {
+				font-size: 1rem;
+			}
+		}
+
+		&.active {
+			border-width: 4px;
+		}
+	}
+
+	&.cards .themeCard {
+		padding: 1.5rem;
+
+		.cardPreview {
+			width: 80px;
+			height: 80px;
+		}
+
+		.cardLabel {
+			font-size: 1rem;
+		}
+	}
+
+	&.dropdown .themeSelect {
+		padding: 0.75rem 1rem;
+		font-size: 1rem;
+	}
+}
+
+// =============================================================================
+// SPECIALIZED VARIANTS
+// =============================================================================
+
+.themeSelector {
+	// Default theme selector styling (combines swatches + horizontal + medium)
+	@extend .swatches;
+	@extend .horizontal;
+	@extend .medium;
+}
+
+.swatchSelector {
+	@extend .swatches;
+	@extend .horizontal;
+	gap: 12px;
+}
+
+.dropdownSelector {
+	@extend .dropdown;
+	@extend .compact;
+}
+
+.cardSelector {
+	@extend .cards;
+	@extend .grid;
+	gap: 20px;
+}
+
+.gridSelector {
+	@extend .cards;
+	@extend .grid;
+	gap: 16px;
+}
+
+.horizontalSelector {
+	@extend .swatches;
+	@extend .horizontal;
+	gap: 12px;
+}
+
+.verticalSelector {
+	@extend .swatches;
+	@extend .vertical;
+	gap: 8px;
+}
+
+.compactSelector {
+	@extend .swatches;
+	@extend .compact;
+	gap: 6px;
+
+	.themeItem {
+		width: 32px !important;
+		height: 32px !important;
+
+		.themePreview {
+			width: 20px !important;
+			height: 20px !important;
+
+			.themeInitial {
+				font-size: 0.625rem !important;
+			}
+		}
+	}
+}
+
+.expandedSelector {
+	@extend .cards;
+	@extend .grid;
+	gap: 24px;
+}
+
+.smallSelector {
+	@extend .swatches;
+	@extend .small;
+}
+
+.mediumSelector {
+	@extend .swatches;
+	@extend .medium;
+}
+
+.largeSelector {
+	@extend .swatches;
+	@extend .large;
+}
+
+.labeledSelector {
+	@extend .cards;
+	@extend .grid;
+}
+
+.unlabeledSelector {
+	@extend .swatches;
+	@extend .horizontal;
+}
+
+.previewSelector {
+	@extend .cards;
+	@extend .grid;
+}
+
+.noPreviewSelector {
+	@extend .list;
+	@extend .vertical;
+}
+
+.animatedSelector {
+	@extend .swatches;
+	@extend .horizontal;
+
+	.themeItem {
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+		&:hover {
+			transform: translateY(-4px) scale(1.05);
+		}
+	}
+}
+
+.staticSelector {
+	@extend .swatches;
+	@extend .horizontal;
+
+	.themeItem {
+		transition: none;
+
+		&:hover {
+			transform: none;
+		}
+	}
+}
+
+// =============================================================================
+// CONTEXTUAL VARIANTS
+// =============================================================================
+
+.paletteProvider {
+	@extend .swatches;
+	@extend .horizontal;
+	@extend .small;
+	gap: 4px;
+}
+
+.themeSwitcher {
+	@extend .dropdown;
+	@extend .compact;
+	@extend .small;
+}
+
+.customBuilder {
+	@extend .cards;
+	@extend .grid;
+	@extend .large;
+	gap: 24px;
+}
+
+.vsModeSelector {
+	@extend .swatches;
+	@extend .horizontal;
+	@extend .medium;
+	gap: 12px;
+}
+
+.mobileOptimized {
+	@extend .dropdown;
+	@extend .compact;
+	@extend .small;
+}
+
+.desktopOptimized {
+	@extend .swatches;
+	@extend .horizontal;
+	@extend .large;
+	gap: 20px;
+}
+
+.tabletOptimized {
+	@extend .cards;
+	@extend .grid;
+	@extend .medium;
+	gap: 16px;
+}
+
+.modalSelector {
+	@extend .cards;
+	@extend .grid;
+	@extend .large;
+	gap: 20px;
+}
+
+.sidebarSelector {
+	@extend .list;
+	@extend .vertical;
+	@extend .small;
+	gap: 8px;
+}
+
+.headerSelector {
+	@extend .dropdown;
+	@extend .compact;
+	@extend .small;
+}
+
+.footerSelector {
+	@extend .swatches;
+	@extend .horizontal;
+	@extend .small;
+	gap: 8px;
+}
+
+.customTheme {
+	@extend .swatches;
+	@extend .horizontal;
+	@extend .medium;
+	gap: 16px;
+}
+
+// =============================================================================
+// RESPONSIVE DESIGN
+// =============================================================================
+
+@media (max-width: 768px) {
+	.grid {
+		grid-template-columns: repeat(
+			auto-fit,
+			minmax(100px, 1fr)
+		);
+	}
+
+	.horizontal {
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.cards .themeCard {
+		padding: 0.75rem;
+
+		.cardPreview {
+			width: 40px;
+			height: 40px;
+		}
+
+		.cardLabel {
+			font-size: 0.75rem;
+		}
+	}
+
+	.swatches .themeItem {
+		width: 48px !important;
+		height: 48px !important;
+
+		.themePreview {
+			width: 28px !important;
+			height: 28px !important;
+
+			.themeInitial {
+				font-size: 0.75rem !important;
+			}
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.horizontal {
+		gap: 0.25rem;
+	}
+
+	.swatches .themeItem {
+		width: 40px !important;
+		height: 40px !important;
+
+		.themePreview {
+			width: 24px !important;
+			height: 24px !important;
+
+			.themeInitial {
+				font-size: 0.625rem !important;
+			}
+		}
+	}
+}
+
+// =============================================================================
+// THEME CONTAINER STYLES
+// =============================================================================
+
+.themeContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+
+	.themeHeader {
+		.themeTitle {
+			font-size: 1.125rem;
+			font-weight: 600;
+			color: var(--color-text);
+			margin: 0 0 0.25rem 0;
+		}
+
+		.themeSubtitle {
+			font-size: 0.875rem;
+			color: var(--color-text-secondary);
+			margin: 0;
+		}
+	}
+
+	.themeContent {
+		flex: 1;
+	}
+
+	.themeFooter {
+		margin-top: 0.75rem;
+		padding-top: 0.75rem;
+		border-top: 1px solid var(--color-border-light);
+
+		.themeActions {
+			display: flex;
+			gap: 0.5rem;
+			justify-content: center;
+		}
+	}
+}

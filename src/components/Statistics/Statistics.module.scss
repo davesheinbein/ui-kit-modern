@@ -1,0 +1,357 @@
+// Statistics Component SCSS Module
+// Base styles for all statistics variants
+
+.statisticsBase {
+	display: flex;
+	flex-direction: column;
+	font-family: var(--font-family);
+	position: relative;
+	background: var(--color-background);
+	color: var(--color-text);
+	border-radius: var(--border-radius);
+	transition: all 0.3s ease;
+
+	&:hover {
+		transform: translateY(-2px);
+	}
+}
+
+// Layout variants
+.compact {
+	padding: 0.75rem;
+	gap: 0.5rem;
+	min-height: auto;
+}
+
+.standard {
+	padding: 1rem;
+	gap: 0.75rem;
+	min-height: 120px;
+}
+
+.expanded {
+	padding: 1.5rem;
+	gap: 1rem;
+	min-height: 200px;
+}
+
+.minimal {
+	padding: 0.5rem;
+	gap: 0.25rem;
+	min-height: auto;
+	border: none;
+	background: transparent;
+}
+
+// Display types
+.card {
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	box-shadow: var(--shadow-sm);
+	background: var(--color-background-secondary);
+}
+
+.table {
+	display: table;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(120px, 1fr)
+	);
+	gap: 1rem;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.chart {
+	position: relative;
+	min-height: 200px;
+	padding: 1rem;
+}
+
+// Size variants
+.small {
+	font-size: 0.875rem;
+
+	.statisticsTitle {
+		font-size: 1rem;
+	}
+
+	.statisticsValue {
+		font-size: 1.25rem;
+	}
+}
+
+.medium {
+	font-size: 1rem;
+
+	.statisticsTitle {
+		font-size: 1.125rem;
+	}
+
+	.statisticsValue {
+		font-size: 1.5rem;
+	}
+}
+
+.large {
+	font-size: 1.125rem;
+
+	.statisticsTitle {
+		font-size: 1.25rem;
+	}
+
+	.statisticsValue {
+		font-size: 2rem;
+	}
+}
+
+// Header section
+.statisticsHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 0.75rem;
+
+	.statisticsTitle {
+		font-weight: 600;
+		color: var(--color-text-primary);
+		margin: 0;
+	}
+
+	.statisticsSubtitle {
+		font-size: 0.875rem;
+		color: var(--color-text-secondary);
+		margin: 0;
+		margin-top: 0.25rem;
+	}
+}
+
+// Content section
+.statisticsContent {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+// Individual stat item
+.statisticsItem {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.5rem 0;
+	border-bottom: 1px solid var(--color-border-light);
+
+	&:last-child {
+		border-bottom: none;
+	}
+
+	.statisticsLabel {
+		font-size: 0.875rem;
+		color: var(--color-text-secondary);
+		font-weight: 500;
+	}
+
+	.statisticsValue {
+		font-weight: 700;
+		color: var(--color-text-primary);
+		text-align: right;
+	}
+
+	.statisticsPercentage {
+		font-size: 0.75rem;
+		color: var(--color-text-muted);
+		margin-left: 0.5rem;
+	}
+}
+
+// Grid layout for stats
+.statisticsGrid {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(150px, 1fr)
+	);
+	gap: 1rem;
+
+	.statisticsGridItem {
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+		padding: 1rem;
+		border-radius: var(--border-radius);
+		background: var(--color-background-tertiary);
+
+		.statisticsValue {
+			font-size: 2rem;
+			font-weight: 700;
+			color: var(--color-primary);
+			margin-bottom: 0.25rem;
+		}
+
+		.statisticsLabel {
+			font-size: 0.875rem;
+			color: var(--color-text-secondary);
+		}
+	}
+}
+
+// Comparison layout
+.statisticsComparison {
+	display: flex;
+	gap: 1rem;
+
+	.comparisonColumn {
+		flex: 1;
+
+		.comparisonHeader {
+			font-weight: 600;
+			text-align: center;
+			margin-bottom: 0.75rem;
+			padding-bottom: 0.5rem;
+			border-bottom: 2px solid var(--color-primary);
+		}
+	}
+}
+
+// Trends and charts
+.statisticsTrends {
+	.trendItem {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+
+		.trendIndicator {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+
+			&.positive {
+				background: var(--color-success);
+			}
+
+			&.negative {
+				background: var(--color-error);
+			}
+
+			&.neutral {
+				background: var(--color-text-muted);
+			}
+		}
+	}
+}
+
+// Color schemes
+.defaultScheme {
+	--stat-primary: var(--color-primary);
+	--stat-secondary: var(--color-secondary);
+	--stat-accent: var(--color-accent);
+}
+
+.blueScheme {
+	--stat-primary: #3b82f6;
+	--stat-secondary: #60a5fa;
+	--stat-accent: #1d4ed8;
+}
+
+.greenScheme {
+	--stat-primary: #10b981;
+	--stat-secondary: #34d399;
+	--stat-accent: #047857;
+}
+
+.redScheme {
+	--stat-primary: #ef4444;
+	--stat-secondary: #f87171;
+	--stat-accent: #dc2626;
+}
+
+.purpleScheme {
+	--stat-primary: #8b5cf6;
+	--stat-secondary: #a78bfa;
+	--stat-accent: #7c3aed;
+}
+
+// Special effects
+.withBorders {
+	border: 1px solid var(--color-border);
+}
+
+.withShadows {
+	box-shadow: var(--shadow-md);
+}
+
+.highlighted {
+	border: 2px solid var(--stat-primary);
+	box-shadow: 0 0 0 4px rgba(var(--stat-primary-rgb), 0.1);
+}
+
+// Animation states
+.animating {
+	.statisticsValue {
+		transition: all 0.6s ease;
+	}
+}
+
+// Footer section
+.statisticsFooter {
+	margin-top: 0.75rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--color-border-light);
+
+	.footerText {
+		font-size: 0.75rem;
+		color: var(--color-text-muted);
+		text-align: center;
+	}
+
+	.footerActions {
+		display: flex;
+		gap: 0.5rem;
+		justify-content: center;
+		margin-top: 0.5rem;
+	}
+}
+
+// Responsive design
+@media (max-width: 768px) {
+	.statisticsGrid {
+		grid-template-columns: repeat(
+			auto-fit,
+			minmax(120px, 1fr)
+		);
+		gap: 0.75rem;
+	}
+
+	.statisticsComparison {
+		flex-direction: column;
+	}
+
+	.expanded {
+		padding: 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.statisticsGrid {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.standard,
+	.expanded {
+		padding: 0.75rem;
+	}
+}

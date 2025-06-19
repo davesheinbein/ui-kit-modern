@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import UnifiedSettings from './UnifiedSettings';
-import { UserSettingsContext } from '../UserSettingsProvider';
+import { UserSettingsContext } from '../Providers';
 import { SettingsSection } from './SettingsConfigurations';
 
 /**
@@ -8,11 +8,14 @@ import { SettingsSection } from './SettingsConfigurations';
  * For new development, use UnifiedSettings with kind="settings-panel"
  */
 const SettingsPanel: React.FC = () => {
-	const { settings, setSettings } = useContext(
+	const userSettingsContext = useContext(
 		UserSettingsContext
 	);
 
-	if (!settings) return null;
+	if (!userSettingsContext || !userSettingsContext.settings)
+		return null;
+
+	const { settings, setSettings } = userSettingsContext;
 
 	const handleSettingChange = (
 		sectionId: string,

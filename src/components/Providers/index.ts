@@ -1,7 +1,32 @@
+// ===== MAIN DRY PROVIDER SYSTEM =====
+
+// Export the main unified provider component
 export { default as UnifiedProvider } from './UnifiedProvider';
 export type {
 	ProviderKind,
 	UnifiedProviderProps,
+} from './UnifiedProvider';
+
+// Export provider factory system
+export {
+	default as ProviderFactory,
+	P,
+	ProviderPresets,
+	QuickProviders,
+} from './ProviderFactoryDRY';
+export type { ProviderFactoryProps } from './ProviderFactoryDRY';
+
+// Export configuration system
+export * from './ProviderConfigurations';
+
+// Export hooks and contexts from UnifiedProvider
+export {
+	useSocket,
+	useUserSettings,
+	useThemePalette,
+	SocketContext,
+	ThemePaletteContext,
+	UserSettingsContext,
 } from './UnifiedProvider';
 
 // Export backward compatibility provider wrappers
@@ -12,34 +37,5 @@ export {
 	ThemePaletteProvider,
 } from './BackwardCompatibilityWrappers';
 
-// Export enhanced provider configuration system
-export * from './ProviderConfigurations';
-
-// Export enhanced provider factory and ultra-DRY system
-export {
-	default as ProviderFactory,
-	P,
-	ProviderPresets,
-	QuickProviders,
-} from './ProviderFactoryDRY';
-export type { ProviderFactoryProps } from './ProviderFactoryDRY';
-
-// Export base components
-export { default as Provider } from './Provider';
-export type { ProviderProps } from './Provider';
-
-export { default as ProviderBodyFactory } from './ProviderBodyFactory';
-export type { ProviderBodyFactoryProps } from './ProviderBodyFactory';
-
-// Export hooks
-export {
-	useSocket,
-	useUserSettings,
-	useThemePalette,
-	ThemePaletteContext,
-	SocketContext,
-	UserSettingsContext,
-} from './ProviderBodyFactory';
-
-// Default export for backward compatibility
+// Default export
 export { default } from './UnifiedProvider';
