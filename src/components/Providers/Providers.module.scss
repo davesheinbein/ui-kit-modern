@@ -1,0 +1,92 @@
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+// Base provider component
+.provider {
+	// Most providers are invisible/logic-only, so minimal base styles
+	position: relative;
+
+	// Provider variants
+	&.provider--context {
+		// Context providers typically don't need visual styles
+		display: contents;
+	}
+
+	&.provider--socket {
+		// Socket providers are logic-only
+		display: contents;
+	}
+
+	&.provider--listener {
+		// Listeners render nothing
+		display: none;
+	}
+
+	&.provider--settings {
+		// Settings providers are typically context-only
+		display: contents;
+	}
+
+	&.provider--theme {
+		// Theme providers might affect global styling
+		display: contents;
+	}
+
+	&.provider--custom {
+		// Custom provider styling
+		display: contents;
+	}
+}
+
+// Position variants
+.provider {
+	&.provider--root {
+		// Root-level providers typically wrap the entire app
+		width: 100%;
+		height: 100%;
+	}
+
+	&.provider--app {
+		// App-level providers
+		width: 100%;
+	}
+
+	&.provider--component {
+		// Component-level providers
+		display: contents;
+	}
+
+	&.provider--inline {
+		// Inline providers
+		display: inline-block;
+	}
+}
+
+// Provider-specific styles (most providers don't need visual styling)
+.socketProvider {
+	// SocketProvider is context-only, no visual styles needed
+	display: contents;
+}
+
+.userSettingsProvider {
+	// UserSettingsProvider is context-only, no visual styles needed
+	display: contents;
+}
+
+.achievementSocketListener {
+	// AchievementSocketListener is logic-only, no visual styles needed
+	display: none;
+}
+
+.themePaletteProvider {
+	// ThemePaletteProvider affects global theming
+	display: contents;
+}
+
+// Debug styles (only in development)
+@media (prefers-color-scheme: dark) {
+	.provider {
+		// Dark mode adjustments if needed (providers typically don't need visual changes)
+		color: inherit;
+	}
+}

@@ -1,76 +1,88 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { IconButton } from '../../components/IconButton';
-import type { IconButtonProps } from '../../components/IconButton/IconButton';
+import {
+	UnifiedButton,
+	ButtonFactory,
+} from '../../components/Button';
+import type { UnifiedButtonProps } from '../../components/Button';
 
-const meta: Meta<typeof IconButton> = {
-	title: 'Buttons/IconButton',
-	component: IconButton,
+const meta: Meta<typeof UnifiedButton> = {
+	title: 'Buttons/Icon (Button)',
+	component: UnifiedButton,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component:
-					'An icon button component that displays an icon with optional label for accessibility.',
+					'Icon button using UnifiedButton with kind="icon". Displays an icon with optional label for accessibility.',
 			},
 		},
 	},
 	argTypes: {
-		icon: {
+		'icon': {
 			control: false,
 			description: 'The icon element to display',
 		},
-		label: {
+		'aria-label': {
 			control: 'text',
 			description: 'Accessibility label for the button',
 		},
-		disabled: {
+		'disabled': {
 			control: 'boolean',
 			description: 'Whether the button is disabled',
 		},
-		onClick: {
+		'onClick': {
 			action: 'clicked',
 			description: 'Function called when button is clicked',
 		},
-		className: {
+		'className': {
 			control: 'text',
 			description: 'Additional CSS classes to apply',
 		},
-		type: {
+		'type': {
 			control: 'select',
 			options: ['button', 'submit', 'reset'],
 			description: 'Button type attribute',
+		},
+		'kind': {
+			control: false,
+			description:
+				'Button kind (fixed to "icon" for this story)',
 		},
 	},
 };
 
 export default meta;
-type Story = StoryObj<typeof IconButton>;
+type Story = StoryObj<typeof UnifiedButton>;
 
 export const Default: Story = {
 	args: {
-		icon: <span>🔔</span>,
-		label: 'Notify',
+		'kind': 'icon',
+		'icon': <span>🔔</span>,
+		'aria-label': 'Notify',
 	},
 };
 
 export const Disabled: Story = {
 	args: {
-		icon: <span>🔔</span>,
-		label: 'Notify',
-		disabled: true,
+		'kind': 'icon',
+		'icon': <span>🔔</span>,
+		'aria-label': 'Notify',
+		'disabled': true,
 	},
 };
 
 export const WithoutLabel: Story = {
 	args: {
+		kind: 'icon',
 		icon: <span>⚙️</span>,
 	},
 };
 
 export const WithSVGIcon: Story = {
 	args: {
-		icon: (
+		'kind': 'icon',
+		'icon': (
 			<svg
 				width='16'
 				height='16'
@@ -80,6 +92,32 @@ export const WithSVGIcon: Story = {
 				<path d='M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.5 6L7 10.5 4.5 8 5.91 6.59 7 7.68l3.59-3.59L12 5.5z' />
 			</svg>
 		),
-		label: 'Success',
+		'aria-label': 'Success',
 	},
+};
+
+export const UsingFactory: Story = {
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				gap: '8px',
+				flexWrap: 'wrap',
+			}}
+		>
+			{ButtonFactory.create('icon', {
+				'icon': '⭐',
+				'aria-label': 'Star',
+			})}
+			{ButtonFactory.create('icon', {
+				'icon': '❤️',
+				'aria-label': 'Heart',
+				'disabled': true,
+			})}
+			{ButtonFactory.create('icon', {
+				'icon': '🔍',
+				'aria-label': 'Search',
+			})}
+		</div>
+	),
 };

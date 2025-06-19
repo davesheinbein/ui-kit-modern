@@ -1,0 +1,180 @@
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.fieldWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin-bottom: 1rem;
+}
+
+.fullWidth {
+	width: 100%;
+}
+
+.hasError {
+	.fieldContainer input,
+	.fieldContainer textarea,
+	.fieldContainer select {
+		border-color: $primary-red;
+
+		&:focus {
+			outline-color: $primary-red;
+			border-color: $primary-red;
+		}
+	}
+}
+
+.label {
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: #374151;
+	margin-bottom: 4px;
+	display: block;
+}
+
+.required {
+	color: $primary-red;
+	margin-left: 2px;
+}
+
+.fieldContainer {
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	input,
+	textarea,
+	select {
+		font-size: 1rem;
+		border-radius: 0.5rem;
+		transition: all 0.2s ease-in-out;
+		outline: none;
+		width: 100%;
+		padding: 0.75rem 1rem;
+		font-family: inherit;
+		border: 1px solid #d1d5db;
+		background-color: #fff;
+
+		&:focus {
+			outline: 2px solid $primary-blue;
+			outline-offset: 0;
+			border-color: $primary-blue;
+		}
+
+		&:disabled {
+			background-color: #f9fafb;
+			color: #9ca3af;
+			cursor: not-allowed;
+		}
+
+		&::placeholder {
+			color: #9ca3af;
+		}
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 80px;
+	}
+
+	select {
+		cursor: pointer;
+		background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+		background-position: right 0.5rem center;
+		background-repeat: no-repeat;
+		background-size: 1.5em 1.5em;
+		padding-right: 2.5rem;
+	}
+}
+
+.errorText {
+	font-size: 0.875rem;
+	color: $primary-red;
+	margin-top: 4px;
+}
+
+.helperText {
+	font-size: 0.875rem;
+	color: #6b7280;
+	margin-top: 4px;
+}
+
+// Checkbox and radio specific styles
+.fieldContainer {
+	.checkboxContainer,
+	.radioContainer {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		input[type='checkbox'],
+		input[type='radio'] {
+			width: auto;
+			padding: 0;
+			margin: 0;
+		}
+	}
+}
+
+// Switch specific styles
+.fieldContainer {
+	.switchContainer {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		input[type='checkbox'] {
+			width: auto;
+			padding: 0;
+			margin: 0;
+		}
+	}
+}
+
+// Range specific styles
+.fieldContainer {
+	input[type='range'] {
+		padding: 0;
+		background: transparent;
+		border: none;
+		outline: none;
+
+		&:focus {
+			outline: none;
+			border: none;
+		}
+
+		&::-webkit-slider-track {
+			background: #e5e7eb;
+			height: 4px;
+			border-radius: 2px;
+		}
+
+		&::-webkit-slider-thumb {
+			appearance: none;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: $primary-blue;
+			cursor: pointer;
+			margin-top: -8px;
+		}
+
+		&::-moz-range-track {
+			background: #e5e7eb;
+			height: 4px;
+			border-radius: 2px;
+			border: none;
+		}
+
+		&::-moz-range-thumb {
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: $primary-blue;
+			cursor: pointer;
+			border: none;
+		}
+	}
+}

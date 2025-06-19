@@ -1,20 +1,15 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { NotificationBanner } from '../../components/NotificationBanner';
-import type {
-	NotificationBannerProps,
-	NotificationType,
-} from '../../components/NotificationBanner/NotificationBanner';
+import { BannerFactory } from '../../components/Banner';
 
-const meta: Meta<typeof NotificationBanner> = {
-	title: 'Banners/NotificationBanner',
-	component: NotificationBanner,
+const meta: Meta<typeof BannerFactory> = {
+	title: 'Banners/Notification (Banners)',
+	component: BannerFactory,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component:
-					'A notification banner component that displays different types of messages with color-coded styling.',
+					'A notification banner component that displays different types of messages with color-coded styling and auto-dismiss functionality.',
 			},
 		},
 	},
@@ -27,68 +22,55 @@ const meta: Meta<typeof NotificationBanner> = {
 		},
 		message: {
 			control: 'text',
-			description:
-				'The message to display in the notification',
+			description: 'The notification message to display',
 		},
 		onClose: {
-			action: 'closed',
-			description:
-				'Function called when the notification is closed',
-		},
-		index: {
-			control: 'number',
-			description:
-				'Index for stacking multiple notifications',
+			action: 'close clicked',
+			description: 'Callback when notification is closed',
 		},
 	},
 };
 
 export default meta;
-type Story = StoryObj<typeof NotificationBanner>;
+type Story = StoryObj<typeof BannerFactory>;
+
+export const Default: Story = {
+	args: {
+		kind: 'notification',
+		message: 'This is a default notification',
+		onClose: () => console.log('Notification closed'),
+	},
+};
 
 export const Burn: Story = {
 	args: {
-		type: 'burn',
-		message: 'Burn notification! Something went wrong.',
-		onClose: () => {},
-		index: 0,
+		kind: 'burn-notification',
+		message: 'Player got burned!',
+		onClose: () => console.log('Burn notification closed'),
 	},
 };
 
 export const Achievement: Story = {
 	args: {
-		type: 'achievement',
-		message:
-			'Achievement unlocked! You completed the challenge.',
-		onClose: () => {},
-		index: 1,
+		kind: 'achievement-notification',
+		message: 'Achievement unlocked: Perfect Game!',
+		onClose: () => console.log('Achievement closed'),
 	},
 };
 
 export const System: Story = {
 	args: {
-		type: 'system',
-		message: 'System message: Update available.',
-		onClose: () => {},
-		index: 2,
+		kind: 'system-notification',
+		message: 'System maintenance scheduled for tonight',
+		onClose: () =>
+			console.log('System notification closed'),
 	},
 };
 
 export const Taunt: Story = {
 	args: {
-		type: 'taunt',
-		message: 'Taunt message: Your opponent is catching up!',
-		onClose: () => {},
-		index: 3,
-	},
-};
-
-export const LongMessage: Story = {
-	args: {
-		type: 'achievement',
-		message:
-			'This is a very long notification message that should wrap properly and display all the content without any issues.',
-		onClose: () => {},
-		index: 0,
+		kind: 'taunt-notification',
+		message: 'Player sent you a taunt!',
+		onClose: () => console.log('Taunt closed'),
 	},
 };

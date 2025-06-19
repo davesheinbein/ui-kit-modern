@@ -23,7 +23,7 @@ const storyFiles = [
 	'/Users/davidsheinbein/code/ui-kit/src/stories/Banners/FeedbackBanner.stories.tsx',
 	'/Users/davidsheinbein/code/ui-kit/src/stories/Banners/VSStatusBar.stories.tsx',
 	'/Users/davidsheinbein/code/ui-kit/src/stories/Theme/ThemeSelector.stories.tsx',
-	'/Users/davidsheinbein/code/ui-kit/src/stories/Theme/ThemePaletteProvider.stories.tsx',
+	'/Users/davidsheinbein/code/ui-kit/src/stories/Providers/ThemePaletteProvider.stories.tsx',
 	'/Users/davidsheinbein/code/ui-kit/src/stories/Headers/BrowseHeader.stories.tsx',
 	'/Users/davidsheinbein/code/ui-kit/src/stories/Graphs/Graphs.stories.tsx',
 	'/Users/davidsheinbein/code/ui-kit/src/stories/Friends/FriendsToggleButton.stories.tsx',

@@ -1,0 +1,428 @@
+@use '../../styles/utilities.scss' as *;
+
+// Base header styles
+.header {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	position: relative;
+}
+
+.headerInner {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	min-height: 3rem;
+}
+
+.headerChildren {
+	width: 100%;
+	margin-top: 1rem;
+}
+
+// Layout variants
+.layout-left-aligned {
+	justify-content: flex-start;
+
+	.headerInner {
+		justify-content: flex-start;
+	}
+}
+
+.layout-center-aligned {
+	justify-content: center;
+
+	.headerInner {
+		justify-content: center;
+	}
+}
+
+.layout-space-between {
+	justify-content: space-between;
+
+	.headerInner {
+		justify-content: space-between;
+	}
+}
+
+.layout-custom {
+	// Custom layout - let children define their own positioning
+	position: relative;
+}
+
+// Padding variants
+.padding-none {
+	padding: 0;
+}
+
+.padding-small {
+	padding: 0.5rem 0;
+}
+
+.padding-medium {
+	padding: 1rem 0;
+}
+
+.padding-large {
+	padding: 1.5rem 0;
+}
+
+// Background variants
+.bg-transparent {
+	background-color: transparent;
+}
+
+.bg-primary {
+	background-color: var(--color-primary);
+	color: var(--color-primary-foreground);
+}
+
+.bg-secondary {
+	background-color: var(--color-secondary);
+	color: var(--color-secondary-foreground);
+}
+
+.bg-custom {
+	// Custom background - will be set via style prop
+	background-color: transparent;
+}
+
+// Border bottom
+.borderBottom {
+	border-bottom: 1px solid var(--color-border);
+}
+
+// Sticky positioning
+.sticky {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	background-color: var(--color-background);
+}
+
+// Collapsible behavior
+.collapsible {
+	transition: all 0.3s ease-in-out;
+}
+
+.collapsed {
+	.titleContent,
+	.tabs,
+	.headerChildren {
+		display: none;
+	}
+}
+
+// Responsive behavior
+.responsive {
+	@media (max-width: 768px) {
+		.headerInner {
+			flex-wrap: wrap;
+		}
+
+		.tabs {
+			width: 100%;
+			margin-top: 0.5rem;
+		}
+
+		.rightSection {
+			margin-left: auto;
+		}
+	}
+}
+
+// Content sections
+.content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.contentCentered {
+	align-items: center;
+	text-align: center;
+}
+
+.leftSection {
+	display: flex;
+	align-items: center;
+	@extend .gap-md;
+}
+
+.rightSection {
+	display: flex;
+	align-items: center;
+	@extend .gap-md;
+}
+
+// Title section
+.titleSection {
+	display: flex;
+	align-items: center;
+	@extend .gap-sm;
+	flex: 1;
+}
+
+.titleIcon {
+	display: flex;
+	align-items: center;
+	font-size: 1.25rem;
+}
+
+.titleContent {
+	flex: 1;
+	min-width: 0; // Allow text truncation
+}
+
+.title {
+	margin: 0;
+	line-height: 1.2;
+	@extend .font-bold;
+}
+
+.title-small {
+	font-size: 1rem;
+}
+
+.title-medium {
+	font-size: 1.25rem;
+}
+
+.title-large {
+	font-size: 1.5rem;
+}
+
+.title-xlarge {
+	font-size: 2rem;
+}
+
+.title-normal {
+	font-weight: normal;
+}
+
+.title-medium {
+	font-weight: 500;
+}
+
+.title-bold {
+	@extend .font-bold;
+}
+
+.subtitle {
+	margin: 0;
+	margin-top: 0.25rem;
+	font-size: 0.875rem;
+	color: var(--color-muted-foreground);
+	line-height: 1.4;
+}
+
+// Actions
+.actions {
+	display: flex;
+	align-items: center;
+	@extend .gap-sm;
+}
+
+.actions-left {
+	margin-right: 1rem;
+}
+
+.actions-right {
+	margin-left: 1rem;
+}
+
+.actionButton {
+	// Inherits from UnifiedButton styles
+	flex-shrink: 0;
+}
+
+// Collapse button
+.collapseButton {
+	margin-left: 0.5rem;
+	font-size: 0.75rem;
+}
+
+// Tabs
+.tabs {
+	display: flex;
+	@extend .gap-sm;
+}
+
+.tabs-below-title {
+	margin-top: 0.5rem;
+	width: 100%;
+}
+
+.tabs-beside-title {
+	margin-left: 2rem;
+}
+
+.tabs-separate-row {
+	width: 100%;
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--color-border);
+}
+
+.tabs-align-left {
+	justify-content: flex-start;
+}
+
+.tabs-align-center {
+	justify-content: center;
+}
+
+.tabs-align-right {
+	justify-content: flex-end;
+}
+
+.tab {
+	display: flex;
+	align-items: center;
+	@extend .gap-sm;
+	padding: 0.5rem 1rem;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 0.875rem;
+	color: var(--color-muted-foreground);
+	transition: all 0.2s ease-in-out;
+	border-radius: 0.25rem;
+
+	&:hover {
+		color: var(--color-foreground);
+		background-color: var(--color-muted);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+
+		&:hover {
+			color: var(--color-muted-foreground);
+			background: none;
+		}
+	}
+}
+
+.tabActive {
+	@extend .font-bold;
+	color: #2563eb;
+	border-bottom: 2px solid #2563eb;
+	background: none;
+
+	&:hover {
+		color: #2563eb;
+		background: none;
+	}
+}
+
+.tabIcon {
+	font-size: 1rem;
+}
+
+.tabLabel {
+	white-space: nowrap;
+}
+
+.tabBadge {
+	background-color: var(--color-destructive);
+	color: var(--color-destructive-foreground);
+	font-size: 0.75rem;
+	padding: 0.125rem 0.375rem;
+	border-radius: 9999px;
+	line-height: 1;
+	font-weight: 500;
+}
+
+// Specific header variants
+.browseHeader {
+	// Matches original BrowseHeader styles
+	padding: 1rem 0;
+
+	.actions-left {
+		margin-right: 1rem;
+	}
+}
+
+.browseTabbedHeader {
+	@extend .browseHeader;
+
+	.tabs {
+		margin-top: 0.5rem;
+	}
+}
+
+.dashboardHeader {
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--color-border);
+	background-color: var(--color-background);
+}
+
+.dashboardSimpleHeader {
+	padding: 0.5rem 0;
+}
+
+.modalHeader {
+	padding: 1rem 1.5rem;
+	border-bottom: 1px solid var(--color-border);
+	background-color: var(--color-card);
+}
+
+.modalCloseOnlyHeader {
+	padding: 0.5rem 1rem;
+	justify-content: flex-end;
+}
+
+.pageHeader {
+	padding: 2rem 0;
+}
+
+.pageWithNavHeader {
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--color-border);
+	position: sticky;
+	top: 0;
+	background-color: var(--color-background);
+	z-index: 100;
+}
+
+.sidebarHeader {
+	padding: 1rem;
+	border-bottom: 1px solid var(--color-border);
+	background-color: var(--color-muted);
+}
+
+.navigationHeader {
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--color-border);
+	background-color: var(--color-primary);
+	color: var(--color-primary-foreground);
+	position: sticky;
+	top: 0;
+	z-index: 100;
+}
+
+.simpleHeader {
+	padding: 0.5rem 0;
+}
+
+.simpleCenteredHeader {
+	@extend .simpleHeader;
+	text-align: center;
+}
+
+.gameHeader {
+	padding: 0.5rem 0;
+}
+
+.settingsHeader {
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--color-border);
+}
+
+.profileHeader {
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--color-border);
+}

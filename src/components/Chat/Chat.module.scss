@@ -1,0 +1,217 @@
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+// Base chat component
+.chat {
+	@include chat-window;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+// Position variants
+.chat--fixed {
+	position: fixed;
+	z-index: 1300;
+	animation: fadeIn 0.18s;
+}
+
+.chat--relative {
+	position: relative;
+}
+
+.chat--absolute {
+	position: absolute;
+}
+
+// Chat variants
+.chat--friend {
+	bottom: 32px;
+	right: 380px;
+	width: 340px;
+	max-width: 95vw;
+}
+
+.chat--in-match {
+	background: #fff;
+	border-radius: 1rem;
+	box-shadow: 0 2px 8px #0002;
+	padding: 1rem;
+}
+
+.chat--match {
+	background: #fff;
+	border-radius: 1rem;
+	box-shadow: 0 2px 8px #0002;
+	padding: 1rem;
+}
+
+.chat--general {
+	// Default styling from chat-window mixin
+	background: rgba(255, 255, 255, 0.98);
+}
+
+// Chat header
+.chatHeader {
+	@include chat-header;
+}
+
+.chatAvatar {
+	position: relative;
+	width: 38px;
+	height: 38px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.chatTitle {
+	font-weight: 700;
+	color: #2563eb;
+	font-size: 1.08rem;
+	flex: 1;
+}
+
+.chatCloseBtn {
+	background: none;
+	border: none;
+	font-size: 1.2rem;
+	color: #64748b;
+	border-radius: 8px;
+	padding: 4px 10px;
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		color 0.13s;
+
+	&:hover {
+		background: #fbbf2422;
+		color: #f43f5e;
+	}
+}
+
+// Chat content
+.chatContent {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+// Chat messages container
+.chatMessages {
+	@include chat-messages;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+// Message variants
+.chatMessage {
+	@include chat-message;
+}
+
+.chatMessageSelf {
+	@include chat-message-self;
+	text-align: right;
+}
+
+.chatMessageFriend {
+	@include chat-message-friend;
+	text-align: left;
+}
+
+.chatMessageSystem {
+	@include chat-message-base;
+	color: #888;
+	font-style: italic;
+	background: #f5f5f5;
+	align-self: center;
+	text-align: center;
+	max-width: 90%;
+}
+
+// Message content
+.chatMessageText {
+	display: inline;
+}
+
+.chatMessageTime {
+	font-size: 0.8em;
+	color: #aaa;
+	margin-left: 8px;
+}
+
+// Chat input area
+.chatInput {
+	padding: 12px 18px;
+	border-top: 1.5px solid #e5e7eb;
+	background: rgba(255, 255, 255, 0.96);
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.chatInputField {
+	flex: 1;
+	padding: 8px 12px;
+	border: 1px solid #e5e7eb;
+	border-radius: 20px;
+	font-size: 0.9rem;
+	outline: none;
+	transition: border-color 0.15s;
+
+	&:focus {
+		border-color: #2563eb;
+	}
+}
+
+.chatSendBtn {
+	padding: 8px 16px;
+	background: #2563eb;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition: background 0.15s;
+
+	&:hover {
+		background: #1d4ed8;
+	}
+
+	&:disabled {
+		background: #d1d5db;
+		cursor: not-allowed;
+	}
+}
+
+// VSQuickChatBar styles (migrated from standalone component)
+.vsQuickChatBar {
+	display: flex;
+	gap: 8px;
+	padding: 12px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	backdrop-filter: blur(10px);
+}
+
+.vsQuickChatButton {
+	background: #e0e7ff;
+	border: none;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 0.875rem;
+	transition: all 0.15s ease;
+
+	&:hover {
+		background: #2563eb;
+		color: #fff;
+		transform: translateY(-1px);
+	}
+
+	&:active {
+		transform: translateY(0);
+	}
+}

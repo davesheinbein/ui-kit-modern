@@ -2,12 +2,12 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeSelector } from '../../components/ThemeSelector';
 
-// ThemeSelectorProps is not exported, so redefine it here for story typing
-type ThemeSelectorProps = {
-	value: string;
-	onChange: (theme: string) => void;
-	themes: string[];
-};
+interface ThemeSelectorProps {
+	value?: string;
+	onChange?: (theme: string) => void;
+	themes?: string[];
+	className?: string;
+}
 
 const meta: Meta<ThemeSelectorProps> = {
 	title: 'Theme/ThemeSelector',
@@ -17,7 +17,7 @@ const meta: Meta<ThemeSelectorProps> = {
 		docs: {
 			description: {
 				component:
-					'A theme selector component for switching between different visual themes.',
+					'A theme selector component for switching between different visual themes. Can render as a simple select dropdown or as visual theme swatches.',
 			},
 		},
 	},
@@ -33,7 +33,12 @@ const meta: Meta<ThemeSelectorProps> = {
 		},
 		themes: {
 			control: false,
-			description: 'Array of available theme options',
+			description:
+				'Array of theme names for simple dropdown mode',
+		},
+		className: {
+			control: 'text',
+			description: 'Additional CSS classes',
 		},
 	},
 };
@@ -43,8 +48,15 @@ type Story = StoryObj<ThemeSelectorProps>;
 
 export const Default: Story = {
 	args: {
-		themes: ['Light', 'Dark', 'Blue', 'Green'],
-		value: 'Light',
+		value: 'light',
+		onChange: () => {},
+	},
+};
+
+export const SimpleDropdown: Story = {
+	args: {
+		themes: ['light', 'dark', 'oceanic', 'sunset'],
+		value: 'light',
 		onChange: () => {},
 	},
 };

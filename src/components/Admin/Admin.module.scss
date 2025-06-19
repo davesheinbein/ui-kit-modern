@@ -1,0 +1,126 @@
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.adminComponent {
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
+	font-size: 12px;
+	z-index: 9999;
+	max-width: 300px;
+	min-width: 200px;
+	font-family: 'Courier New', monospace;
+}
+
+// Position variants
+.admin-top-left {
+	top: 10px;
+	left: 10px;
+}
+
+.admin-top-right {
+	top: 10px;
+	right: 10px;
+}
+
+.admin-bottom-left {
+	bottom: 10px;
+	left: 10px;
+}
+
+.admin-bottom-right {
+	bottom: 10px;
+	right: 10px;
+}
+
+.admin-center {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+// Admin component variants
+.sessionDebugger {
+	background-color: rgba(0, 0, 0, 0.8);
+
+	.debugRow {
+		margin-bottom: 4px;
+
+		strong {
+			color: #4ade80;
+		}
+	}
+}
+
+.performanceMonitor {
+	background-color: rgba(59, 130, 246, 0.9);
+
+	.metricRow {
+		margin-bottom: 4px;
+
+		.metricLabel {
+			color: #dbeafe;
+			font-weight: bold;
+		}
+
+		.metricValue {
+			color: #ffffff;
+		}
+	}
+}
+
+.errorLogger {
+	background-color: rgba(239, 68, 68, 0.9);
+	max-height: 200px;
+	overflow-y: auto;
+
+	.errorEntry {
+		margin-bottom: 6px;
+		padding: 4px;
+		background-color: rgba(0, 0, 0, 0.3);
+		border-radius: 3px;
+
+		.errorTime {
+			color: #fecaca;
+			font-size: 10px;
+		}
+
+		.errorMessage {
+			color: #ffffff;
+			font-weight: bold;
+		}
+	}
+}
+
+.debugPanel {
+	background-color: rgba(55, 65, 81, 0.95);
+	min-width: 400px;
+	max-width: 600px;
+	max-height: 400px;
+	overflow-y: auto;
+
+	.panelHeader {
+		border-bottom: 1px solid #6b7280;
+		padding-bottom: 8px;
+		margin-bottom: 8px;
+
+		h3 {
+			margin: 0;
+			color: #f3f4f6;
+			font-size: 14px;
+		}
+	}
+
+	.panelSection {
+		margin-bottom: 12px;
+
+		.sectionTitle {
+			color: #9ca3af;
+			font-size: 11px;
+			text-transform: uppercase;
+			margin-bottom: 4px;
+		}
+	}
+}

@@ -1,32 +1,35 @@
-import React from "react";
-import styles from "./Button.module.scss";
+import React from 'react';
+import UnifiedButton, {
+	UnifiedButtonProps,
+} from './UnifiedButton';
 
 /**
- * Button component
+ * Primary Button component - a wrapper around UnifiedButton for the most common use case
+ * For more advanced button types, use UnifiedButton with the 'kind' prop
  * @example
- * <Button label="Click me" onClick={() => alert('clicked')} />
+ * <Button>Click me</Button>
+ * <Button kind="secondary">Secondary Button</Button>
+ * <Button kind="icon" icon="🔥" label="Fire" />
  */
-export interface ButtonProps {
-  /** Button label */
-  label: string;
-  /** Click handler */
-  onClick?: () => void;
-  /** Additional className for styling */
-  className?: string;
+export interface ButtonProps
+	extends Omit<UnifiedButtonProps, 'kind'> {
+	/** Button kind - defaults to 'primary' */
+	kind?: UnifiedButtonProps['kind'];
+	/** Button label - for simple buttons */
+	label?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, onClick, className }) => {
-  return (
-    <button
-      type="button"
-      role="button"
-      aria-label={label}
-      onClick={onClick}
-      className={`bg-blue-600 text-white px-4 py-2 rounded transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 ${styles.animated} ${className || ""}`.trim()}
-    >
-      {label}
-    </button>
-  );
+const Button: React.FC<ButtonProps> = ({
+	label,
+	kind = 'primary',
+	children,
+	...props
+}) => {
+	return (
+		<UnifiedButton kind={kind} {...props}>
+			{label || children}
+		</UnifiedButton>
+	);
 };
 
 export default Button;

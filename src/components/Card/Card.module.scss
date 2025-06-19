@@ -1,0 +1,217 @@
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+// Base card styling
+.baseCard {
+	@include card;
+	border-radius: 0.75rem;
+	transition: all 0.2s ease;
+	position: relative;
+	outline: none;
+
+	&:focus-visible {
+		box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+	}
+}
+
+// Card variants
+.card-default {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-elevated {
+	background: #fff;
+	border: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-outlined {
+	background: transparent;
+	border: 2px solid #e5e7eb;
+	box-shadow: none;
+}
+
+.card-filled {
+	background: $primary-gray;
+	border: none;
+	box-shadow: none;
+}
+
+// Card sizes
+.card-small {
+	border-radius: 0.5rem;
+}
+
+.card-medium {
+	border-radius: 0.75rem;
+}
+
+.card-large {
+	border-radius: 1rem;
+}
+
+// Card padding variants
+.card-padding-none {
+	padding: 0;
+}
+
+.card-padding-small {
+	padding: 0.75rem;
+}
+
+.card-padding-medium {
+	padding: 1rem;
+}
+
+.card-padding-large {
+	padding: 1.5rem;
+}
+
+// Card states
+.cardHover {
+	&:hover {
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+		transform: translateY(-1px);
+	}
+}
+
+.cardClickable {
+	cursor: pointer;
+
+	&:hover {
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+		transform: translateY(-1px);
+	}
+
+	&:active {
+		transform: translateY(0);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+}
+
+// ===== SPECIFIC CARD KIND STYLES =====
+
+// Friend card styles
+.friend-card {
+	margin-bottom: 1rem;
+
+	&:hover {
+		box-shadow: 0 4px 16px #a259f733;
+	}
+}
+
+.friendCardHeader {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.75rem;
+}
+
+.friendStatusDot {
+	@include status-dot(10px);
+}
+
+.status-inmatch {
+	@include status-dot-state(#a259f7);
+}
+
+.status-idle {
+	@include status-dot-state(#fbbf24);
+}
+
+.status-online {
+	@include status-dot-state(#22c55e);
+}
+
+.status-offline {
+	@include status-dot-state(#64748b);
+}
+
+.friendUsername {
+	font-weight: 600;
+	color: $primary-black;
+}
+
+.friendCardActions {
+	display: flex;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+// Game card styles
+.game-card {
+	&:hover {
+		box-shadow: 0 4px 16px rgba($primary-color, 0.2);
+	}
+}
+
+// Profile card styles
+.profile-card {
+	text-align: center;
+
+	&:hover {
+		box-shadow: 0 4px 16px rgba($secondary-color, 0.2);
+	}
+}
+
+// Notification card styles
+.notification-card {
+	border-left: 4px solid $primary-color;
+
+	&.notification-warning {
+		border-left-color: $primary-yellow;
+	}
+
+	&.notification-error {
+		border-left-color: $primary-red;
+	}
+
+	&.notification-success {
+		border-left-color: #22c55e;
+	}
+}
+
+.notificationHeader {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.75rem;
+}
+
+.notificationIcon {
+	font-size: 1.2rem;
+	flex-shrink: 0;
+}
+
+.notification-info {
+	border-left-color: #007bff;
+}
+
+.notification-success {
+	border-left-color: #28a745;
+}
+
+.notification-warning {
+	border-left-color: #ffc107;
+}
+
+.notification-error {
+	border-left-color: #dc3545;
+}
+
+// Stats card styles
+.stats-card {
+	background: linear-gradient(
+		135deg,
+		$primary-blue 0%,
+		$secondary-color 100%
+	);
+	color: white;
+
+	.card-title {
+		color: white;
+		font-weight: 600;
+	}
+}

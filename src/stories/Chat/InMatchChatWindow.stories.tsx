@@ -1,35 +1,38 @@
-import React from 'react';
-import { InMatchChatWindow } from '../../components/InMatchChatWindow';
-import type { InMatchChatWindowProps } from '../../components/InMatchChatWindow/InMatchChatWindow';
+import type { Meta, StoryObj } from '@storybook/react';
+import { ChatFactory } from '../../components/Chat';
 
-export default {
-	title: 'Chat/InMatchChatWindow',
-	component: InMatchChatWindow,
+const meta: Meta<typeof ChatFactory> = {
+	title: 'Chat/InMatchChatWindow (Chat)',
+	component: ChatFactory,
+	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component:
-					'InMatchChatWindow displays a chat interface for in-match communication. It shows messages, allows sending, and highlights the current user.',
+					'In-match chat window using the DRY Chat system. Displays a chat interface for in-game communication between players.',
 			},
-			autodocs: true,
 		},
 	},
-	tags: ['autodocs'],
 	argTypes: {
 		messages: {
-			description:
-				'Array of chat messages, each with id, text, sender, and time.',
 			control: 'object',
+			description: 'Array of chat messages to display',
+		},
+		currentUser: {
+			control: 'text',
+			description: 'Current user ID for message styling',
 		},
 		onSend: {
-			action: 'send',
-			description: 'Callback when a message is sent.',
+			action: 'messageSent',
+			description: 'Callback when a message is sent',
 		},
-		currentUser: { description: 'The current user ID.' },
 	},
 };
 
-const baseMessages: InMatchChatWindowProps['messages'] = [
+export default meta;
+type Story = StoryObj<typeof ChatFactory>;
+
+const baseMessages = [
 	{
 		id: '1',
 		sender: 'alice',
@@ -48,52 +51,55 @@ const baseMessages: InMatchChatWindowProps['messages'] = [
 		text: 'Ready to play?',
 		time: '10:02',
 	},
+	{
+		id: '4',
+		sender: 'bob',
+		text: "Let's do this!",
+		time: '10:03',
+	},
 ];
 
-export const Empty = (args: InMatchChatWindowProps) => (
-	<InMatchChatWindow {...args} />
-);
-Empty.args = {
-	messages: [],
-	onSend: () => {},
-	currentUser: 'alice',
+export const Default: Story = {
+	args: {
+		kind: 'in-match',
+		messages: baseMessages,
+		currentUser: 'alice',
+	},
 };
-Empty.storyName = 'Empty Chat';
 
-export const WithMessages = (
-	args: InMatchChatWindowProps
-) => <InMatchChatWindow {...args} />;
-WithMessages.args = {
-	messages: baseMessages,
-	onSend: () => {},
-	currentUser: 'alice',
+export const EmptyChat: Story = {
+	args: {
+		kind: 'in-match',
+		messages: [],
+		currentUser: 'alice',
+	},
 };
-WithMessages.storyName = 'With Messages';
 
-export const AsOtherUser = (
-	args: InMatchChatWindowProps
-) => <InMatchChatWindow {...args} />;
-AsOtherUser.args = {
-	messages: baseMessages,
-	onSend: () => {},
-	currentUser: 'bob',
+export const GameChat: Story = {
+	args: {
+		kind: 'in-match',
+		messages: [
+			...baseMessages,
+			{
+				id: '5',
+				sender: 'alice',
+				text: 'Nice move!',
+				time: '10:05',
+			},
+			{
+				id: '6',
+				sender: 'bob',
+				text: 'Thanks! Your turn.',
+				time: '10:06',
+			},
+			{
+				id: '7',
+				sender: 'system',
+				text: 'Alice found a word!',
+				time: '10:07',
+				type: 'system',
+			},
+		],
+		currentUser: 'alice',
+	},
 };
-AsOtherUser.storyName = 'As Other User';
-
-export const SystemMessage = (
-	args: InMatchChatWindowProps
-) => <InMatchChatWindow {...args} />;
-SystemMessage.args = {
-	messages: [
-		...baseMessages,
-		{
-			id: '4',
-			sender: 'system',
-			text: 'Game will start soon.',
-			time: '10:03',
-		},
-	],
-	onSend: () => {},
-	currentUser: 'alice',
-};
-SystemMessage.storyName = 'With System Message';

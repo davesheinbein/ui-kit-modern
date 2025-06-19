@@ -1,111 +1,115 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ToastBanner } from '../../components/ToastBanner';
-import type { ToastBannerProps } from '../../components/ToastBanner/ToastBanner';
+import { BannerFactory } from '../../components/Banner';
 
-const meta: Meta<typeof ToastBanner> = {
-	title: 'Banners/ToastBanner',
-	component: ToastBanner,
+const meta: Meta<typeof BannerFactory> = {
+	title: 'Banners/Toast (Banners)',
+	component: BannerFactory,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component:
-					'A toast notification component that displays temporary messages with different types and auto-dismiss functionality.',
+					'Toast banners for displaying temporary notifications and messages.',
 			},
 		},
 	},
 	argTypes: {
 		message: {
 			control: 'text',
-			description: 'The message to display in the toast',
+			description: 'The toast message content',
 		},
-		type: {
-			control: 'select',
-			options: [
-				'achievement',
-				'success',
-				'error',
-				'info',
-				'warning',
-				'system',
-				'burn',
-				'taunt',
-			],
+		isVisible: {
+			control: 'boolean',
+			description: 'Whether the toast is visible',
+		},
+		autoHide: {
+			control: 'boolean',
 			description:
-				'The type of toast which determines the color scheme',
-		},
-		icon: {
-			control: false,
-			description: 'Optional icon to display in the toast',
-		},
-		onClose: {
-			action: 'closed',
-			description:
-				'Function called when the toast is closed',
+				'Whether the toast should auto-hide after a duration',
 		},
 		duration: {
 			control: 'number',
 			description:
-				'Duration in milliseconds before auto-dismiss',
+				'Duration in milliseconds before auto-hide',
 		},
-		style: {
-			control: 'object',
-			description: 'Additional inline styles',
+		position: {
+			control: 'select',
+			options: ['top', 'bottom', 'center'],
+			description: 'Position of the toast on screen',
+		},
+		onClose: {
+			action: 'toast closed',
+			description: 'Callback when toast is closed',
 		},
 	},
 };
 
 export default meta;
-type Story = StoryObj<typeof ToastBanner>;
+type Story = StoryObj<typeof BannerFactory>;
 
-export const Info: Story = {
+export const Default: Story = {
 	args: {
-		type: 'info',
-		message: 'This is an info toast message!',
+		kind: 'toast',
+		message: 'This is a toast notification',
+		isVisible: true,
+		autoHide: false,
+		position: 'top',
 	},
 };
 
 export const Success: Story = {
 	args: {
-		type: 'success',
-		message: 'Operation completed successfully!',
+		kind: 'toast',
+		variant: 'success',
+		message: 'Action completed successfully!',
+		isVisible: true,
+		autoHide: true,
+		duration: 3000,
+		position: 'top',
 	},
 };
 
 export const Error: Story = {
 	args: {
-		type: 'error',
+		kind: 'toast',
+		variant: 'error',
 		message: 'An error occurred. Please try again.',
+		isVisible: true,
+		autoHide: false,
+		position: 'top',
 	},
 };
 
 export const Warning: Story = {
 	args: {
-		type: 'warning',
-		message: 'Warning: This action cannot be undone.',
+		kind: 'toast',
+		variant: 'warning',
+		message: 'This action cannot be undone.',
+		isVisible: true,
+		autoHide: false,
+		position: 'center',
 	},
 };
 
-export const Achievement: Story = {
+export const Info: Story = {
 	args: {
-		type: 'achievement',
-		message: 'Achievement unlocked: First puzzle solved!',
+		kind: 'toast',
+		variant: 'info',
+		message: 'New feature available! Check it out.',
+		isVisible: true,
+		autoHide: true,
+		duration: 5000,
+		position: 'bottom',
 	},
 };
 
-export const WithIcon: Story = {
+export const AutoHiding: Story = {
 	args: {
-		type: 'success',
-		message: 'Custom icon toast',
-		icon: <span>✓</span>,
-	},
-};
-
-export const LongMessage: Story = {
-	args: {
-		type: 'info',
-		message:
-			'This is a very long toast message that should wrap properly and display all the content without any layout issues.',
+		kind: 'toast',
+		message: 'This toast will disappear in 3 seconds',
+		isVisible: true,
+		autoHide: true,
+		duration: 3000,
+		position: 'top',
 	},
 };

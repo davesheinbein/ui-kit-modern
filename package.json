@@ -1,5 +1,5 @@
 {
-	"name": "ui-kit-modern",
+	"name": "noble-beasts/ui-kit-modern",
 	"version": "0.1.4",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",

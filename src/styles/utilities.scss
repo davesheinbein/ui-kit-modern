@@ -1,0 +1,368 @@
+@use './Variables.scss' as *;
+@use './mixins.scss' as *;
+
+// Common utility classes for DRY styling
+
+// Layout utilities
+.flex-center {
+	@include flex-center;
+}
+
+.flex-between {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-wrap {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+// Spacing utilities
+.gap-sm {
+	gap: 8px;
+}
+.gap-md {
+	gap: 12px;
+}
+.gap-lg {
+	gap: 18px;
+}
+.gap-xl {
+	gap: 24px;
+}
+
+.p-sm {
+	padding: 8px;
+}
+.p-md {
+	padding: 12px;
+}
+.p-lg {
+	padding: 18px;
+}
+.p-xl {
+	padding: 24px;
+}
+
+.m-sm {
+	margin: 8px;
+}
+.m-md {
+	margin: 12px;
+}
+.m-lg {
+	margin: 18px;
+}
+.m-xl {
+	margin: 24px;
+}
+
+// Text utilities
+.text-center {
+	text-align: center;
+}
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+
+.font-bold {
+	font-weight: 700;
+}
+.font-semibold {
+	font-weight: 600;
+}
+.font-medium {
+	font-weight: 500;
+}
+
+.text-primary {
+	color: $primary-color;
+}
+.text-secondary {
+	color: $secondary-color;
+}
+.text-gray {
+	color: $primary-gray-dark;
+}
+.text-muted {
+	color: #64748b;
+}
+
+// Background utilities
+.bg-primary {
+	background: $primary-color;
+}
+.bg-secondary {
+	background: $secondary-color;
+}
+.bg-white {
+	background: $primary-white;
+}
+.bg-gray {
+	background: $primary-gray;
+}
+
+// Border utilities
+.border-primary {
+	border: 2px solid $primary-color;
+}
+.border-secondary {
+	border: 2px solid $secondary-color;
+}
+.border-gray {
+	border: 2px solid $primary-gray-dark;
+}
+
+.rounded-sm {
+	border-radius: 4px;
+}
+.rounded-md {
+	border-radius: 8px;
+}
+.rounded-lg {
+	border-radius: 12px;
+}
+.rounded-xl {
+	border-radius: 16px;
+}
+
+// Shadow utilities
+.shadow-sm {
+	box-shadow: 0 1px 4px $primary-shadow-blue-verylight;
+}
+.shadow-md {
+	box-shadow: 0 2px 8px $primary-shadow-blue-verylight;
+}
+.shadow-lg {
+	box-shadow: 0 4px 16px $primary-shadow-blue-verylight;
+}
+.shadow-glow {
+	box-shadow: 0 0 12px 2px $primary-shadow-blue-strong;
+}
+
+// Position utilities
+.absolute {
+	position: absolute;
+}
+.relative {
+	position: relative;
+}
+.fixed {
+	position: fixed;
+}
+
+.top-0 {
+	top: 0;
+}
+.right-0 {
+	right: 0;
+}
+.bottom-0 {
+	bottom: 0;
+}
+.left-0 {
+	left: 0;
+}
+
+// Size utilities
+.w-full {
+	width: 100%;
+}
+.h-full {
+	height: 100%;
+}
+.w-fit {
+	width: fit-content;
+}
+.h-fit {
+	height: fit-content;
+}
+
+.w-8 {
+	width: 2rem;
+}
+.w-10 {
+	width: 2.5rem;
+}
+.w-12 {
+	width: 3rem;
+}
+.w-16 {
+	width: 4rem;
+}
+
+.h-8 {
+	height: 2rem;
+}
+.h-10 {
+	height: 2.5rem;
+}
+.h-12 {
+	height: 3rem;
+}
+.h-16 {
+	height: 4rem;
+}
+
+// Interactive utilities
+.cursor-pointer {
+	cursor: pointer;
+}
+.cursor-not-allowed {
+	cursor: not-allowed;
+}
+.pointer-events-none {
+	pointer-events: none;
+}
+.user-select-none {
+	user-select: none;
+}
+
+// Animation utilities
+.transition {
+	transition: all 0.2s ease;
+}
+.transition-colors {
+	transition:
+		color 0.2s,
+		background-color 0.2s,
+		border-color 0.2s;
+}
+.transition-transform {
+	transition: transform 0.2s ease;
+}
+
+.hover-scale {
+	@include hover-scale;
+}
+
+.fade-in {
+	@include fade-in-animation;
+}
+
+// Status utilities
+.status-online {
+	@include status-dot;
+	background: #22c55e;
+}
+.status-offline {
+	@include status-dot;
+	background: #64748b;
+}
+.status-away {
+	@include status-dot;
+	background: #fbbf24;
+}
+.status-busy {
+	@include status-dot;
+	background: #ef4444;
+}
+
+// Component utilities
+.modal-overlay {
+	@include modal-overlay;
+}
+
+.modal-content {
+	@include modal-content;
+}
+
+.close-button-absolute {
+	@include close-button-absolute;
+}
+
+.primary-button {
+	@include primary-gradient;
+}
+
+.secondary-button {
+	@include secondary-button;
+}
+
+.card {
+	@include card;
+}
+
+.input-base {
+	@include input-base;
+}
+
+.chat-window {
+	@include chat-window-base;
+}
+
+.chat-message {
+	@include chat-message-base;
+}
+
+// Z-index utilities
+.z-10 {
+	z-index: 10;
+}
+.z-20 {
+	z-index: 20;
+}
+.z-50 {
+	z-index: 50;
+}
+.z-modal {
+	z-index: 2100;
+}
+.z-overlay {
+	z-index: 2000;
+}
+
+// Responsive utilities
+@media (max-width: 768px) {
+	.mobile-hidden {
+		display: none;
+	}
+	.mobile-flex-col {
+		flex-direction: column;
+	}
+	.mobile-text-center {
+		text-align: center;
+	}
+	.mobile-p-sm {
+		padding: 8px;
+	}
+	.mobile-gap-sm {
+		gap: 8px;
+	}
+}
+
+@media (min-width: 769px) {
+	.desktop-hidden {
+		display: none;
+	}
+}
+
+// Print utilities
+@media print {
+	.print-hidden {
+		display: none;
+	}
+}
+
+// Accessibility utilities
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}

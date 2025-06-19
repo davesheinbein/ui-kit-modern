@@ -1,21 +1,28 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { StartupPage } from '../../components/StartupPage';
-import type { StartupPageProps } from '../../components/StartupPage/StartupPage';
+import { PageFactory } from '../../components/Pages';
 
-const meta: Meta<typeof StartupPage> = {
-	title: 'Pages/StartupPage',
-	component: StartupPage,
+const meta: Meta<typeof PageFactory> = {
+	title: 'Pages/StartupPage (DRY System)',
+	component: PageFactory,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component:
-					'The main startup page component with navigation options for different game modes.',
+					'A startup page component built using the unified Pages system. Provides navigation options for different game modes with a centered, full-height layout.',
 			},
 		},
 	},
 	argTypes: {
+		title: {
+			control: 'text',
+			description:
+				'The main title displayed on the startup page',
+		},
+		subtitle: {
+			control: 'text',
+			description: 'Optional subtitle text',
+		},
 		onStartDaily: {
 			action: 'startDaily',
 			description:
@@ -39,13 +46,68 @@ const meta: Meta<typeof StartupPage> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StartupPage>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
+		kind: 'startup',
+		title: 'Game Title',
 		onStartDaily: () => {},
 		onStartCustom: () => {},
 		onBrowseCustom: () => {},
 		onShare: () => {},
+	},
+};
+
+export const WithCustomTitle: Story = {
+	args: {
+		kind: 'startup',
+		title: 'My Custom Game',
+		subtitle: 'Choose your adventure and start playing',
+		onStartDaily: () => {},
+		onStartCustom: () => {},
+		onBrowseCustom: () => {},
+		onShare: () => {},
+	},
+};
+
+export const WithoutShare: Story = {
+	args: {
+		kind: 'startup',
+		title: 'Puzzle Challenge',
+		subtitle: 'Test your skills with our daily puzzles',
+		onStartDaily: () => {},
+		onStartCustom: () => {},
+		onBrowseCustom: () => {},
+		// onShare not provided
+	},
+};
+
+export const MinimalVersion: Story = {
+	args: {
+		kind: 'startup',
+		title: 'Quick Start',
+		onStartDaily: () => {},
+		onStartCustom: () => {},
+		onBrowseCustom: () => {},
+	},
+};
+
+export const CustomStyling: Story = {
+	args: {
+		kind: 'startup',
+		title: 'Premium Game Experience',
+		subtitle: 'Enhanced with premium features',
+		onStartDaily: () => {},
+		onStartCustom: () => {},
+		onBrowseCustom: () => {},
+		onShare: () => {},
+		configuration: {
+			background:
+				'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+		},
+		style: {
+			color: '#fff',
+		},
 	},
 };

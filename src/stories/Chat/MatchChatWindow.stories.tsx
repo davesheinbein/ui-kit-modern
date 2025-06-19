@@ -1,72 +1,105 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MatchChatWindow } from '../../components/MatchChatWindow';
-import type { MatchChatWindowProps } from '../../components/MatchChatWindow/MatchChatWindow';
+import { ChatFactory } from '../../components/Chat';
 
-const meta: Meta<typeof MatchChatWindow> = {
-	title: 'Chat/MatchChatWindow',
-	component: MatchChatWindow,
+const meta: Meta<typeof ChatFactory> = {
+	title: 'Chat/MatchChatWindow (Chat)',
+	component: ChatFactory,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component:
-					'A chat window component for match communications between players.',
+					'Match chat window using the DRY Chat system. Displays a chat interface for match communications between players.',
 			},
 		},
 	},
 	argTypes: {
 		messages: {
-			control: false,
+			control: 'object',
 			description: 'Array of chat messages to display',
-		},
-		onSend: {
-			action: 'messageSent',
-			description: 'Function called when a message is sent',
 		},
 		currentUser: {
 			control: 'text',
-			description: 'ID of the current user',
+			description: 'Current user ID for message styling',
+		},
+		onSend: {
+			action: 'messageSent',
+			description: 'Callback when a message is sent',
 		},
 	},
 };
 
 export default meta;
-type Story = StoryObj<typeof MatchChatWindow>;
+type Story = StoryObj<typeof ChatFactory>;
 
-const mockMessages = [
+const matchMessages = [
 	{
 		id: '1',
-		text: 'Hello!',
-		sender: 'user1',
-		time: '10:30 AM',
+		sender: 'player1',
+		text: 'Good game!',
+		time: '3:45 PM',
 	},
 	{
 		id: '2',
-		text: 'Good luck!',
-		sender: 'user2',
-		time: '10:31 AM',
+		sender: 'player2',
+		text: 'Thanks! You too!',
+		time: '3:46 PM',
 	},
 	{
 		id: '3',
-		text: 'Thanks, you too!',
-		sender: 'user1',
-		time: '10:32 AM',
+		sender: 'player1',
+		text: 'Want a rematch?',
+		time: '3:47 PM',
+	},
+	{
+		id: '4',
+		sender: 'player2',
+		text: "Sure, let's do it!",
+		time: '3:48 PM',
 	},
 ];
 
 export const Default: Story = {
 	args: {
-		messages: mockMessages,
-		onSend: () => {},
-		currentUser: 'user1',
+		kind: 'match',
+		messages: matchMessages,
+		currentUser: 'player1',
 	},
 };
 
-export const EmptyChat: Story = {
+export const EmptyMatch: Story = {
 	args: {
+		kind: 'match',
 		messages: [],
-		onSend: () => {},
-		currentUser: 'user1',
+		currentUser: 'player1',
+	},
+};
+
+export const PostGameChat: Story = {
+	args: {
+		kind: 'match',
+		messages: [
+			...matchMessages,
+			{
+				id: '5',
+				sender: 'system',
+				text: 'Match completed!',
+				time: '3:50 PM',
+				type: 'system',
+			},
+			{
+				id: '6',
+				sender: 'player1',
+				text: 'Great strategy on that last round',
+				time: '3:51 PM',
+			},
+			{
+				id: '7',
+				sender: 'player2',
+				text: 'Thank you! I was nervous',
+				time: '3:52 PM',
+			},
+		],
+		currentUser: 'player1',
 	},
 };
