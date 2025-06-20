@@ -1,13 +1,27 @@
-@use '../../styles/mixins.scss' as *;
+@use '../../styles/mixins' as mixins;
 
+// Modal overlay - intentionally extends beyond bounds for full screen coverage
 .modalOverlay {
-	@include modal-overlay;
+	@include mixins.modal-overlay;
+	// Intentional overflow: Modal overlay needs to cover entire viewport
 }
 
+// Modal content - contained within overlay
 .modalContent {
-	@include modal-content;
-	min-width: 200px;
-	max-width: 95vw;
-	width: 100%;
-	padding: 2rem 1.5rem 1.5rem 1.5rem;
+	@include mixins.modal-content;
+	@include mixins.contained-width(100%, 95vw, 200px);
+	@include mixins.safe-area-padding(
+		var(--spacing-8) var(--spacing-6) var(--spacing-6)
+	);
+
+	// Ensure content doesn't overflow modal bounds
+	overflow: hidden auto;
+	max-height: calc(100vh - var(--spacing-8));
+
+	@include mixins.mobile {
+		@include mixins.safe-area-padding(
+			var(--spacing-6) var(--spacing-4) var(--spacing-4)
+		);
+		max-height: calc(100vh - var(--spacing-4));
+	}
 }

@@ -1,0 +1,122 @@
+/**
+ * UnifiedButton.module.scss - Modern Unified Button System Styles
+ */
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
+
+// ========================================
+// Unified Button Base Styles
+// ========================================
+
+.unifiedButton {
+	@include button-base;
+	@include interactive-element;
+	position: relative;
+	overflow: hidden;
+
+	// Focus states for accessibility
+	&:focus-visible {
+		@include focus-ring;
+	}
+
+	// Loading state
+	&.loading {
+		pointer-events: none;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			@include contained-size(16px, 16px);
+			margin: -8px 0 0 -8px;
+			border: 2px solid transparent;
+			border-top: 2px solid currentColor;
+			border-radius: 50%;
+			@include spinner-animation;
+		}
+	}
+
+	// Icon alignment
+	&.hasIcon {
+		@include flex-center;
+		gap: var(--spacing-2);
+	}
+}
+
+// ========================================
+// Variant Classes
+// ========================================
+
+.variant-primary {
+	@include button-primary;
+}
+
+.variant-secondary {
+	@include button-secondary;
+}
+
+.variant-outline {
+	@include button-outline;
+}
+
+.variant-ghost {
+	@include button-ghost;
+}
+
+.variant-link {
+	@include button-link;
+}
+
+.variant-danger {
+	@include button-danger;
+}
+
+// ========================================
+// Size Classes
+// ========================================
+
+.size-xs {
+	@include button-size-xs;
+}
+
+.size-sm {
+	@include button-size-sm;
+}
+
+.size-md {
+	@include button-size-md;
+}
+
+.size-lg {
+	@include button-size-lg;
+}
+
+.size-xl {
+	@include button-size-xl;
+}
+
+// ========================================
+// State Classes
+// ========================================
+
+.state-disabled {
+	@include disabled-state;
+}
+
+.state-loading {
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+.state-active {
+	background: var(--color-primary-dark);
+	color: var(--color-white);
+}
+
+.state-selected {
+	background: var(--color-primary-light);
+	color: var(--color-primary-dark);
+	border-color: var(--color-primary);
+}

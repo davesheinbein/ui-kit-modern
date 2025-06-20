@@ -1,0 +1,424 @@
+/**
+ * Media.module.scss - Modern Media Component with Design System
+ * Handles images, videos, audio, avatars, and media cards with proper containment
+ */
+
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
+
+.media {
+	@include contained-element();
+	display: flex;
+	flex-direction: column;
+
+	// Sizes using design system
+	&--xs {
+		@include size(var(--size-6)); // 24px
+	}
+
+	&--sm {
+		@include size(var(--size-8)); // 32px
+	}
+
+	&--md {
+		@include size(var(--size-12)); // 48px
+	}
+
+	&--lg {
+		@include size(var(--size-16)); // 64px
+	}
+
+	&--xl {
+		@include size(var(--size-24)); // 96px
+	}
+
+	&--2xl {
+		@include size(var(--size-32)); // 128px
+	}
+
+	// Card types - flexible sizing with constraints
+	&--image-card,
+	&--video-card,
+	&--audio-card,
+	&--document-card,
+	&--gallery-card {
+		width: auto;
+		height: auto;
+		min-width: var(--size-48); // 192px
+		max-width: var(--size-96); // 384px
+		@include aspect-ratio(16, 9);
+	}
+
+	// Viewer types - responsive full width
+	&--image-viewer,
+	&--video-player,
+	&--video-embed,
+	&--live-stream,
+	&--screen-share,
+	&--presentation-viewer {
+		width: 100%;
+		height: auto;
+		max-width: 100%;
+		@include contained-element();
+	}
+
+	// Shapes using design system
+	&--circle {
+		.media__avatar,
+		.media__image {
+			border-radius: var(--border-radius-full);
+		}
+	}
+
+	&--square {
+		.media__avatar,
+		.media__image {
+			border-radius: 0;
+		}
+	}
+
+	&--rounded {
+		.media__avatar,
+		.media__image {
+			border-radius: var(--border-radius-md);
+		}
+	}
+
+	&--pill {
+		.media__avatar,
+		.media__image {
+			border-radius: var(--border-radius-full);
+		}
+	}
+
+	// Object fit
+	&--cover {
+		.media__image,
+		.media__video {
+			object-fit: cover;
+		}
+	}
+
+	&--contain {
+		.media__image,
+		.media__video {
+			object-fit: contain;
+		}
+	}
+
+	&--fill {
+		.media__image,
+		.media__video {
+			object-fit: fill;
+		}
+	}
+
+	&--scale-down {
+		.media__image,
+		.media__video {
+			object-fit: scale-down;
+		}
+	}
+
+	&--none {
+		.media__image,
+		.media__video {
+			object-fit: none;
+		}
+	}
+
+	// Variants using design system
+	&--default {
+		.media__content {
+			border: none;
+			box-shadow: none;
+		}
+	}
+
+	&--bordered {
+		.media__content {
+			border: var(--border-width) solid var(--color-border);
+		}
+	}
+
+	&--shadow {
+		.media__content {
+			box-shadow: var(--shadow-md);
+		}
+	}
+
+	&--glass {
+		.media__content {
+			@include glass-effect();
+		}
+	}
+
+	&--gradient {
+		.media__content {
+			background: linear-gradient(
+				135deg,
+				var(--color-primary),
+				var(--color-secondary)
+			);
+		}
+	}
+
+	// Interactive states
+	&--clickable {
+		@include interactive-element();
+		@include hover-lift();
+
+		&:focus {
+			@include focus-ring();
+		}
+	}
+
+	// Content container with proper containment
+	&__content {
+		@include contained-element();
+		overflow: hidden;
+		border-radius: inherit;
+		width: 100%;
+		height: 100%;
+	}
+
+	// Avatar with design system
+	&__avatar {
+		@include contained-element();
+		@include flex-center();
+		overflow: hidden;
+		background: var(--color-background-secondary);
+	}
+
+	// Image container with proper containment
+	&__image_container {
+		@include contained-element();
+		overflow: hidden;
+	}
+
+	&__image {
+		@include responsive-media();
+		@include transition-opacity();
+
+		.media--loaded & {
+			opacity: 1;
+		}
+
+		.media--error & {
+			opacity: 0;
+		}
+	}
+
+	&__fallback {
+		@include flex-center();
+		@include contained-element();
+		background: var(--color-background-secondary);
+		color: var(--color-text-tertiary);
+		font-size: var(--font-size-xl);
+	}
+
+	// Video container with containment
+	&__video_container {
+		@include contained-element();
+	}
+
+	&__video {
+		@include responsive-media();
+	}
+
+	&__play_button {
+		@include absolute-center();
+		@include size(var(--size-15)); // 60px
+		@include interactive-element();
+		@include flex-center();
+		border: none;
+		border-radius: var(--border-radius-full);
+		background: rgba(0, 0, 0, 0.7);
+		color: white;
+		font-size: var(--font-size-xl);
+		transition: var(--transition-colors);
+
+		&:hover {
+			background: rgba(0, 0, 0, 0.8);
+		}
+	}
+
+	// Audio container
+	&__audio_container {
+		@include flex-column();
+		gap: var(--spacing-sm);
+		width: 100%;
+	}
+
+	&__audio_cover {
+		@include aspect-ratio(1, 1);
+
+		& {
+			width: 100%;
+			overflow: hidden;
+			border-radius: var(--border-radius-md);
+		}
+	}
+
+	&__audio {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	// Overlay with intentional positioning
+	&__overlay {
+		/* Intentional absolute positioning for overlay effect */
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to top,
+			rgba(0, 0, 0, 0.7) 0%,
+			rgba(0, 0, 0, 0.3) 50%,
+			transparent 100%
+		);
+		@include flex-column();
+		justify-content: flex-end;
+		padding: var(--spacing-md);
+		opacity: 0;
+		transition: var(--transition-opacity);
+
+		.media:hover & {
+			opacity: 1;
+		}
+	}
+
+	&__overlay_title {
+		color: white;
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-semibold);
+		margin-bottom: var(--spacing-xs);
+	}
+
+	&__overlay_description {
+		color: rgba(255, 255, 255, 0.9);
+		font-size: var(--font-size-sm);
+	}
+
+	// Metadata with design system
+	&__metadata {
+		padding: var(--spacing-md);
+		background: var(--color-background);
+		border-top: var(--border-width) solid
+			var(--color-border);
+	}
+
+	&__metadata_title {
+		@include text-heading-sm();
+		color: var(--color-text-primary);
+		margin-bottom: var(--spacing-xs);
+	}
+
+	&__metadata_description {
+		@include text-body-sm();
+		color: var(--color-text-secondary);
+		margin-bottom: var(--spacing-sm);
+	}
+
+	&__metadata_details {
+		@include flex-row();
+		gap: var(--spacing-sm);
+		@include text-caption();
+		color: var(--color-text-tertiary);
+		margin-bottom: var(--spacing-sm);
+	}
+
+	&__metadata_author,
+	&__metadata_duration,
+	&__metadata_size {
+		&:not(:last-child)::after {
+			content: '•';
+			margin-left: var(--spacing-sm);
+		}
+	}
+
+	&__metadata_tags {
+		@include flex-row();
+		flex-wrap: wrap;
+		gap: var(--spacing-xs);
+	}
+
+	&__metadata_tag {
+		@include tag-style();
+	}
+
+	// Actions with design system
+	&__actions {
+		@include flex-row();
+		gap: var(--spacing-sm);
+		padding: var(--spacing-md);
+		background: var(--color-background);
+		border-top: var(--border-width) solid
+			var(--color-border);
+	}
+
+	&__action {
+		@include button-base();
+		@include flex-row();
+		align-items: center;
+		gap: var(--spacing-xs);
+
+		&--primary {
+			@include button-primary();
+		}
+
+		&--secondary {
+			@include button-secondary();
+		}
+
+		&--ghost {
+			@include button-ghost();
+		}
+	}
+
+	&__action_icon {
+		@include flex-center();
+	}
+
+	&__action_label {
+		white-space: nowrap;
+	}
+
+	// Custom content
+	&__custom {
+		padding: var(--spacing-md);
+	}
+
+	// Loading states with skeleton
+	&:not(.media--loaded) {
+		.media__image {
+			opacity: 0;
+		}
+
+		.media__content::before {
+			@include skeleton-loading();
+		}
+	}
+}
+
+// Responsive design
+@include media-tablet-down {
+	.media {
+		&__actions {
+			@include flex-column();
+		}
+
+		&__action {
+			justify-content: center;
+		}
+
+		&__metadata_details {
+			@include flex-column();
+			gap: var(--spacing-xs);
+
+			span::after {
+				display: none;
+			}
+		}
+	}
+}

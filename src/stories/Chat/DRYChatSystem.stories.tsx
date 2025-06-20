@@ -42,6 +42,67 @@ const meta: Meta<typeof ChatFactory> = {
 			description:
 				'Callback when chat is closed (friend chat only)',
 		},
+		title: {
+			control: 'text',
+			description: 'Chat window title',
+		},
+		placeholder: {
+			control: 'text',
+			description: 'Input placeholder text',
+		},
+		disabled: {
+			control: 'boolean',
+			description: 'Whether chat input is disabled',
+		},
+		maxLength: {
+			control: {
+				type: 'range',
+				min: 50,
+				max: 500,
+				step: 10,
+			},
+			description: 'Maximum message length',
+		},
+		showTimestamps: {
+			control: 'boolean',
+			description: 'Whether to show message timestamps',
+		},
+		showOnlineStatus: {
+			control: 'boolean',
+			description: 'Whether to show user online status',
+		},
+		allowEmojis: {
+			control: 'boolean',
+			description: 'Whether to allow emoji input',
+		},
+		autoFocus: {
+			control: 'boolean',
+			description: 'Whether to auto-focus input on mount',
+		},
+		height: {
+			control: {
+				type: 'range',
+				min: 200,
+				max: 600,
+				step: 20,
+			},
+			description: 'Chat window height in pixels',
+		},
+		variant: {
+			control: 'select',
+			options: [
+				'default',
+				'compact',
+				'expanded',
+				'floating',
+			],
+			description: 'Visual variant of chat window',
+		},
+		theme: {
+			control: 'select',
+			options: ['light', 'dark', 'auto'],
+			description: 'Color theme for chat',
+		},
 	},
 };
 

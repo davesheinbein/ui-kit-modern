@@ -14,11 +14,17 @@ const meta: Meta<typeof BannerFactory> = {
 		},
 	},
 	argTypes: {
-		type: {
+		kind: {
 			control: 'select',
-			options: ['burn', 'achievement', 'system', 'taunt'],
+			options: [
+				'notification',
+				'burn-notification',
+				'achievement-notification',
+				'system-notification',
+				'taunt-notification',
+			],
 			description:
-				'The type of notification which determines the color scheme',
+				'The type of notification banner to display',
 		},
 		message: {
 			control: 'text',
@@ -27,6 +33,54 @@ const meta: Meta<typeof BannerFactory> = {
 		onClose: {
 			action: 'close clicked',
 			description: 'Callback when notification is closed',
+		},
+		autoHide: {
+			control: 'boolean',
+			description:
+				'Whether banner auto-hides after a delay',
+		},
+		duration: {
+			control: {
+				type: 'range',
+				min: 1000,
+				max: 10000,
+				step: 500,
+			},
+			description: 'Auto-hide duration in milliseconds',
+		},
+		position: {
+			control: 'select',
+			options: [
+				'top',
+				'bottom',
+				'fixed-top',
+				'fixed-bottom',
+			],
+			description: 'Banner position on screen',
+		},
+		showIcon: {
+			control: 'boolean',
+			description: 'Whether to show notification icon',
+		},
+		dismissible: {
+			control: 'boolean',
+			description:
+				'Whether banner can be dismissed by user',
+		},
+		priority: {
+			control: 'select',
+			options: ['low', 'normal', 'high', 'urgent'],
+			description: 'Banner priority level',
+		},
+		variant: {
+			control: 'select',
+			options: ['default', 'compact', 'expanded'],
+			description: 'Visual variant of the banner',
+		},
+		theme: {
+			control: 'select',
+			options: ['light', 'dark', 'auto'],
+			description: 'Color theme for the banner',
 		},
 	},
 };

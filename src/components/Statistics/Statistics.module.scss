@@ -1,243 +1,248 @@
-// Statistics Component SCSS Module
-// Base styles for all statistics variants
+/**
+ * Statistics.module.scss - Modern Statistics Component with Design System
+ * Provides flexible statistics layouts, charts, and data visualization
+ */
 
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
+
+// Base styles for all statistics variants with proper containment
 .statisticsBase {
-	display: flex;
-	flex-direction: column;
+	@include contained-element();
+	@include flex-column();
 	font-family: var(--font-family);
-	position: relative;
 	background: var(--color-background);
-	color: var(--color-text);
-	border-radius: var(--border-radius);
-	transition: all 0.3s ease;
+	color: var(--color-text-primary);
+	border-radius: var(--border-radius-md);
+	transition: var(--transition-all);
 
 	&:hover {
-		transform: translateY(-2px);
+		@include hover-lift();
 	}
 }
 
-// Layout variants
+// Layout variants using design system
 .compact {
-	padding: 0.75rem;
-	gap: 0.5rem;
+	padding: var(--spacing-sm);
+	gap: var(--spacing-xs);
 	min-height: auto;
 }
 
 .standard {
-	padding: 1rem;
-	gap: 0.75rem;
-	min-height: 120px;
+	padding: var(--spacing-md);
+	gap: var(--spacing-sm);
+	min-height: var(--size-30); // 120px
 }
 
 .expanded {
-	padding: 1.5rem;
-	gap: 1rem;
-	min-height: 200px;
+	padding: var(--spacing-lg);
+	gap: var(--spacing-md);
+	min-height: var(--size-50); // 200px
 }
 
 .minimal {
-	padding: 0.5rem;
-	gap: 0.25rem;
+	padding: var(--spacing-xs);
+	gap: var(--spacing-xs);
 	min-height: auto;
 	border: none;
 	background: transparent;
 }
 
-// Display types
+// Display types using design system
 .card {
-	border: 1px solid var(--color-border);
-	border-radius: var(--border-radius);
-	box-shadow: var(--shadow-sm);
+	@include card-base();
 	background: var(--color-background-secondary);
 }
 
 .table {
+	@include contained-element();
 	display: table;
 	width: 100%;
 	border-collapse: collapse;
 }
 
 .grid {
+	@include contained-element();
 	display: grid;
 	grid-template-columns: repeat(
 		auto-fit,
-		minmax(120px, 1fr)
-	);
-	gap: 1rem;
+		minmax(var(--size-30), 1fr)
+	); // 120px
+	gap: var(--spacing-md);
 }
 
 .list {
-	display: flex;
-	flex-direction: column;
+	@include flex-column();
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
 
 .chart {
-	position: relative;
-	min-height: 200px;
-	padding: 1rem;
+	@include contained-element();
+	min-height: var(--size-50); // 200px
+	padding: var(--spacing-md);
 }
 
-// Size variants
+// Size variants using design system typography
 .small {
-	font-size: 0.875rem;
+	@include text-body-sm();
 
 	.statisticsTitle {
-		font-size: 1rem;
+		@include text-body-base();
 	}
 
 	.statisticsValue {
-		font-size: 1.25rem;
+		@include text-heading-sm();
 	}
 }
 
 .medium {
-	font-size: 1rem;
+	@include text-body-base();
 
 	.statisticsTitle {
-		font-size: 1.125rem;
+		@include text-body-lg();
 	}
 
 	.statisticsValue {
-		font-size: 1.5rem;
+		@include text-heading-lg();
 	}
 }
 
 .large {
-	font-size: 1.125rem;
+	@include text-body-lg();
 
 	.statisticsTitle {
-		font-size: 1.25rem;
+		@include text-heading-sm();
 	}
 
 	.statisticsValue {
-		font-size: 2rem;
+		@include text-heading-xl();
 	}
 }
 
-// Header section
+// Header section with design system
 .statisticsHeader {
-	display: flex;
+	@include flex-row();
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 0.75rem;
+	margin-bottom: var(--spacing-sm);
 
 	.statisticsTitle {
-		font-weight: 600;
+		font-weight: var(--font-weight-semibold);
 		color: var(--color-text-primary);
 		margin: 0;
 	}
 
 	.statisticsSubtitle {
-		font-size: 0.875rem;
+		@include text-body-sm();
 		color: var(--color-text-secondary);
 		margin: 0;
-		margin-top: 0.25rem;
+		margin-top: var(--spacing-xs);
 	}
 }
 
 // Content section
 .statisticsContent {
 	flex: 1;
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
+	@include flex-column();
+	gap: var(--spacing-xs);
 }
 
-// Individual stat item
+// Individual stat item with design system
 .statisticsItem {
-	display: flex;
+	@include flex-row();
 	align-items: center;
 	justify-content: space-between;
-	padding: 0.5rem 0;
-	border-bottom: 1px solid var(--color-border-light);
+	padding: var(--spacing-xs) 0;
+	border-bottom: var(--border-width) solid
+		var(--color-border-light);
 
 	&:last-child {
 		border-bottom: none;
 	}
 
 	.statisticsLabel {
-		font-size: 0.875rem;
+		@include text-body-sm();
 		color: var(--color-text-secondary);
-		font-weight: 500;
+		font-weight: var(--font-weight-medium);
 	}
 
 	.statisticsValue {
-		font-weight: 700;
+		font-weight: var(--font-weight-bold);
 		color: var(--color-text-primary);
 		text-align: right;
 	}
 
 	.statisticsPercentage {
-		font-size: 0.75rem;
-		color: var(--color-text-muted);
-		margin-left: 0.5rem;
+		@include text-caption();
+		color: var(--color-text-tertiary);
+		margin-left: var(--spacing-xs);
 	}
 }
 
-// Grid layout for stats
+// Grid layout for stats with containment
 .statisticsGrid {
+	@include contained-element();
 	display: grid;
 	grid-template-columns: repeat(
 		auto-fit,
-		minmax(150px, 1fr)
-	);
-	gap: 1rem;
+		minmax(var(--size-37), 1fr)
+	); // 150px
+	gap: var(--spacing-md);
 
 	.statisticsGridItem {
-		display: flex;
-		flex-direction: column;
+		@include flex-column();
 		text-align: center;
-		padding: 1rem;
-		border-radius: var(--border-radius);
+		padding: var(--spacing-md);
+		border-radius: var(--border-radius-md);
 		background: var(--color-background-tertiary);
 
 		.statisticsValue {
-			font-size: 2rem;
-			font-weight: 700;
+			@include text-heading-xl();
+			font-weight: var(--font-weight-bold);
 			color: var(--color-primary);
-			margin-bottom: 0.25rem;
+			margin-bottom: var(--spacing-xs);
 		}
 
 		.statisticsLabel {
-			font-size: 0.875rem;
+			@include text-body-sm();
 			color: var(--color-text-secondary);
 		}
 	}
 }
 
-// Comparison layout
+// Comparison layout with design system
 .statisticsComparison {
-	display: flex;
-	gap: 1rem;
+	@include flex-row();
+	gap: var(--spacing-md);
 
 	.comparisonColumn {
 		flex: 1;
 
 		.comparisonHeader {
-			font-weight: 600;
+			font-weight: var(--font-weight-semibold);
 			text-align: center;
-			margin-bottom: 0.75rem;
-			padding-bottom: 0.5rem;
-			border-bottom: 2px solid var(--color-primary);
+			margin-bottom: var(--spacing-sm);
+			padding-bottom: var(--spacing-xs);
+			border-bottom: var(--border-width-thick) solid
+				var(--color-primary);
 		}
 	}
 }
 
-// Trends and charts
+// Trends and charts with design system
 .statisticsTrends {
 	.trendItem {
-		display: flex;
+		@include flex-row();
 		align-items: center;
-		gap: 0.5rem;
-		margin-bottom: 0.5rem;
+		gap: var(--spacing-xs);
+		margin-bottom: var(--spacing-xs);
 
 		.trendIndicator {
-			width: 8px;
-			height: 8px;
-			border-radius: 50%;
+			@include size(var(--spacing-xs));
+			border-radius: var(--border-radius-full);
 
 			&.positive {
 				background: var(--color-success);
@@ -248,13 +253,13 @@
 			}
 
 			&.neutral {
-				background: var(--color-text-muted);
+				background: var(--color-text-tertiary);
 			}
 		}
 	}
 }
 
-// Color schemes
+// Color schemes using design system
 .defaultScheme {
 	--stat-primary: var(--color-primary);
 	--stat-secondary: var(--color-secondary);
@@ -262,32 +267,32 @@
 }
 
 .blueScheme {
-	--stat-primary: #3b82f6;
-	--stat-secondary: #60a5fa;
-	--stat-accent: #1d4ed8;
+	--stat-primary: var(--color-blue-500);
+	--stat-secondary: var(--color-blue-400);
+	--stat-accent: var(--color-blue-600);
 }
 
 .greenScheme {
-	--stat-primary: #10b981;
-	--stat-secondary: #34d399;
-	--stat-accent: #047857;
+	--stat-primary: var(--color-success);
+	--stat-secondary: var(--color-success-light);
+	--stat-accent: var(--color-success-dark);
 }
 
 .redScheme {
-	--stat-primary: #ef4444;
-	--stat-secondary: #f87171;
-	--stat-accent: #dc2626;
+	--stat-primary: var(--color-error);
+	--stat-secondary: var(--color-error-light);
+	--stat-accent: var(--color-error-dark);
 }
 
 .purpleScheme {
-	--stat-primary: #8b5cf6;
-	--stat-secondary: #a78bfa;
-	--stat-accent: #7c3aed;
+	--stat-primary: var(--color-purple-500);
+	--stat-secondary: var(--color-purple-400);
+	--stat-accent: var(--color-purple-600);
 }
 
-// Special effects
+// Special effects using design system
 .withBorders {
-	border: 1px solid var(--color-border);
+	border: var(--border-width) solid var(--color-border);
 }
 
 .withShadows {
@@ -295,63 +300,66 @@
 }
 
 .highlighted {
-	border: 2px solid var(--stat-primary);
-	box-shadow: 0 0 0 4px rgba(var(--stat-primary-rgb), 0.1);
+	border: var(--border-width-thick) solid
+		var(--stat-primary);
+	box-shadow: 0 0 0 var(--spacing-xs)
+		color-mix(in srgb, var(--stat-primary) 10%, transparent);
 }
 
 // Animation states
 .animating {
 	.statisticsValue {
-		transition: all 0.6s ease;
+		transition: var(--transition-all-slow);
 	}
 }
 
-// Footer section
+// Footer section with design system
 .statisticsFooter {
-	margin-top: 0.75rem;
-	padding-top: 0.75rem;
-	border-top: 1px solid var(--color-border-light);
+	margin-top: var(--spacing-sm);
+	padding-top: var(--spacing-sm);
+	border-top: var(--border-width) solid
+		var(--color-border-light);
 
 	.footerText {
-		font-size: 0.75rem;
-		color: var(--color-text-muted);
+		@include text-caption();
+		color: var(--color-text-tertiary);
 		text-align: center;
 	}
 
 	.footerActions {
-		display: flex;
-		gap: 0.5rem;
+		@include flex-row();
+		gap: var(--spacing-xs);
 		justify-content: center;
-		margin-top: 0.5rem;
+		margin-top: var(--spacing-xs);
 	}
 }
 
-// Responsive design
-@media (max-width: 768px) {
+// Responsive design using design system breakpoints
+@include media-tablet-down {
 	.statisticsGrid {
 		grid-template-columns: repeat(
 			auto-fit,
-			minmax(120px, 1fr)
-		);
-		gap: 0.75rem;
+			minmax(var(--size-30), 1fr)
+		); // 120px
+		gap: var(--spacing-sm);
 	}
 
 	.statisticsComparison {
-		flex-direction: column;
+		@include flex-column();
 	}
 
 	.expanded {
-		padding: 1rem;
+		padding: var(--spacing-md);
 	}
 }
 
-@media (max-width: 480px) {
+@include media-mobile-down {
 	.statisticsGrid {
 		grid-template-columns: 1fr 1fr;
 	}
 
 	.standard,
 	.expanded {
-		padding: 0.75rem;
+		padding: var(--spacing-sm);
 	}
 }

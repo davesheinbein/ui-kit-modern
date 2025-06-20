@@ -1,5 +1,7 @@
 import React from 'react';
-import UnifiedWrapper, { UnifiedWrapperProps } from './UnifiedWrapper';
+import UnifiedWrapper, {
+	UnifiedWrapperProps,
+} from './UnifiedWrapper';
 import {
 	WrapperKind,
 	WrapperConfiguration,
@@ -12,7 +14,8 @@ import {
 // Factory Props Interface
 // ========================================
 
-export interface WrapperFactoryProps extends Omit<UnifiedWrapperProps, 'kind'> {
+export interface WrapperFactoryProps
+	extends Omit<UnifiedWrapperProps, 'kind'> {
 	kind: WrapperKind;
 	configuration?: Partial<WrapperConfiguration>;
 }
@@ -23,7 +26,7 @@ export interface WrapperFactoryProps extends Omit<UnifiedWrapperProps, 'kind'> {
 
 /**
  * WrapperFactory - Factory class for creating wrappers with maximum DRY principles
- * 
+ *
  * This factory provides multiple patterns for creating wrappers:
  * 1. Direct instantiation with full configuration
  * 2. Preset-based creation for common patterns
@@ -45,99 +48,155 @@ class WrapperFactory {
 	/**
 	 * Create a button wrapper
 	 */
-	static button(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="button-wrapper" {...props} />;
+	static button(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='button-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a header wrapper
 	 */
-	static header(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="header-wrapper" {...props} />;
+	static header(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='header-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a modal wrapper
 	 */
-	static modal(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="modal-wrapper" {...props} />;
+	static modal(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='modal-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a grid wrapper
 	 */
-	static grid(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="grid-wrapper" {...props} />;
+	static grid(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='grid-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a page wrapper
 	 */
-	static page(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="page-wrapper" {...props} />;
+	static page(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='page-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a graph wrapper
 	 */
-	static graph(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="graph-wrapper" {...props} />;
+	static graph(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='graph-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a sidebar wrapper
 	 */
-	static sidebar(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="sidebar-wrapper" {...props} />;
+	static sidebar(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='sidebar-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a settings wrapper
 	 */
-	static settings(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="settings-wrapper" {...props} />;
+	static settings(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='settings-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a theme wrapper
 	 */
-	static theme(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="theme-wrapper" {...props} />;
+	static theme(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='theme-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create an admin wrapper
 	 */
-	static admin(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="admin-wrapper" {...props} />;
+	static admin(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='admin-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a card wrapper
 	 */
-	static card(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="card-wrapper" {...props} />;
+	static card(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='card-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a banner wrapper
 	 */
-	static banner(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="banner-wrapper" {...props} />;
+	static banner(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='banner-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a chat wrapper
 	 */
-	static chat(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="chat-wrapper" {...props} />;
+	static chat(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='chat-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a form wrapper
 	 */
-	static form(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="form-wrapper" {...props} />;
+	static form(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='form-wrapper' {...props} />
+		);
 	}
 
 	// ========================================
@@ -147,29 +206,57 @@ class WrapperFactory {
 	/**
 	 * Create a socket provider wrapper
 	 */
-	static socketProvider(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="socket-provider-wrapper" {...props} />;
+	static socketProvider(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='socket-provider-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a user settings provider wrapper
 	 */
-	static userSettingsProvider(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="user-settings-provider-wrapper" {...props} />;
+	static userSettingsProvider(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='user-settings-provider-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a theme palette provider wrapper
 	 */
-	static themePaletteProvider(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="theme-palette-provider-wrapper" {...props} />;
+	static themePaletteProvider(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='theme-palette-provider-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create an achievement socket listener wrapper
 	 */
-	static achievementSocketListener(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="achievement-socket-listener-wrapper" {...props} />;
+	static achievementSocketListener(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='achievement-socket-listener-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	// ========================================
@@ -179,99 +266,194 @@ class WrapperFactory {
 	/**
 	 * Create a legacy primary button wrapper
 	 */
-	static primaryButton(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="primary-button-wrapper" {...props} />;
+	static primaryButton(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='primary-button-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy secondary button wrapper
 	 */
-	static secondaryButton(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="secondary-button-wrapper" {...props} />;
+	static secondaryButton(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='secondary-button-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy close button wrapper
 	 */
-	static closeButton(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="close-button-wrapper" {...props} />;
+	static closeButton(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='close-button-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy icon button wrapper
 	 */
-	static iconButton(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="icon-button-wrapper" {...props} />;
+	static iconButton(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='icon-button-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy browse header wrapper
 	 */
-	static browseHeader(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="browse-header-wrapper" {...props} />;
+	static browseHeader(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='browse-header-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy modal header wrapper
 	 */
-	static modalHeader(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="modal-header-wrapper" {...props} />;
+	static modalHeader(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='modal-header-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy VS grid wrapper
 	 */
-	static vsGrid(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="vs-grid-wrapper" {...props} />;
+	static vsGrid(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='vs-grid-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a legacy startup page wrapper
 	 */
-	static startupPage(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="startup-page-wrapper" {...props} />;
+	static startupPage(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='startup-page-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy customization category wrapper
 	 */
-	static customizationCategory(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="customization-category-wrapper" {...props} />;
+	static customizationCategory(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='customization-category-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy settings panel wrapper
 	 */
-	static settingsPanel(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="settings-panel-wrapper" {...props} />;
+	static settingsPanel(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='settings-panel-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy theme selector wrapper
 	 */
-	static themeSelector(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="theme-selector-wrapper" {...props} />;
+	static themeSelector(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='theme-selector-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy friends sidebar wrapper
 	 */
-	static friendsSidebar(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="friends-sidebar-wrapper" {...props} />;
+	static friendsSidebar(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='friends-sidebar-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy session debugger wrapper
 	 */
-	static sessionDebugger(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="session-debugger-wrapper" {...props} />;
+	static sessionDebugger(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='session-debugger-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy dark mode toggle wrapper
 	 */
-	static darkModeToggle(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="dark-mode-toggle-wrapper" {...props} />;
+	static darkModeToggle(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='dark-mode-toggle-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	// ========================================
@@ -281,15 +463,19 @@ class WrapperFactory {
 	/**
 	 * Create a generic component wrapper
 	 */
-	static component(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="component" {...props} />;
+	static component(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return <UnifiedWrapper kind='component' {...props} />;
 	}
 
 	/**
 	 * Create a generic provider wrapper
 	 */
-	static provider(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="provider" {...props} />;
+	static provider(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return <UnifiedWrapper kind='provider' {...props} />;
 	}
 
 	// ========================================
@@ -299,57 +485,92 @@ class WrapperFactory {
 	/**
 	 * Create a flexbox container wrapper
 	 */
-	static flexContainer(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="flex-container" {...props} />;
+	static flexContainer(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='flex-container' {...props} />
+		);
 	}
 
 	/**
 	 * Create a CSS grid container wrapper
 	 */
-	static gridContainer(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="grid-container" {...props} />;
+	static gridContainer(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='grid-container' {...props} />
+		);
 	}
 
 	/**
 	 * Create a center container wrapper
 	 */
-	static centerContainer(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="center-container" {...props} />;
+	static centerContainer(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='center-container' {...props} />
+		);
 	}
 
 	/**
 	 * Create a stack container wrapper
 	 */
-	static stackContainer(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="stack-container" {...props} />;
+	static stackContainer(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='stack-container' {...props} />
+		);
 	}
 
 	/**
 	 * Create a backward compatibility wrapper
 	 */
-	static backwardCompatibility(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="backward-compatibility-wrapper" {...props} />;
+	static backwardCompatibility(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper
+				kind='backward-compatibility-wrapper'
+				{...props}
+			/>
+		);
 	}
 
 	/**
 	 * Create a legacy wrapper
 	 */
-	static legacy(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="legacy-wrapper" {...props} />;
+	static legacy(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='legacy-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create a simple wrapper
 	 */
-	static simple(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="simple-wrapper" {...props} />;
+	static simple(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='simple-wrapper' {...props} />
+		);
 	}
 
 	/**
 	 * Create an enhanced wrapper
 	 */
-	static enhanced(props: Omit<WrapperFactoryProps, 'kind'>): JSX.Element {
-		return <UnifiedWrapper kind="enhanced-wrapper" {...props} />;
+	static enhanced(
+		props: Omit<WrapperFactoryProps, 'kind'>
+	): JSX.Element {
+		return (
+			<UnifiedWrapper kind='enhanced-wrapper' {...props} />
+		);
 	}
 
 	// ========================================
@@ -370,11 +591,16 @@ class WrapperFactory {
 		kind: WrapperKind,
 		config: Partial<WrapperConfiguration>
 	) {
-		return (props: Omit<WrapperFactoryProps, 'kind' | 'configuration'>) => (
-			<UnifiedWrapper 
-				kind={kind} 
-				configuration={config} 
-				{...props} 
+		return (
+			props: Omit<
+				WrapperFactoryProps,
+				'kind' | 'configuration'
+			>
+		) => (
+			<UnifiedWrapper
+				kind={kind}
+				configuration={config}
+				{...props}
 			/>
 		);
 	}
@@ -411,7 +637,10 @@ class WrapperBuilder {
 	/**
 	 * Set target component
 	 */
-	target(targetComponent: string, unifiedComponent: string) {
+	target(
+		targetComponent: string,
+		unifiedComponent: string
+	) {
 		this.config.targetComponent = targetComponent;
 		this.config.unifiedComponent = unifiedComponent;
 		return this;
@@ -461,11 +690,16 @@ class WrapperBuilder {
 	 * Build the wrapper component
 	 */
 	build() {
-		return (props: Omit<WrapperFactoryProps, 'kind' | 'configuration'>) => (
-			<UnifiedWrapper 
-				kind={this.kind} 
-				configuration={this.config} 
-				{...props} 
+		return (
+			props: Omit<
+				WrapperFactoryProps,
+				'kind' | 'configuration'
+			>
+		) => (
+			<UnifiedWrapper
+				kind={this.kind}
+				configuration={this.config}
+				{...props}
 			/>
 		);
 	}
@@ -477,7 +711,7 @@ class WrapperBuilder {
 
 /**
  * W - Ultra-short alias for WrapperFactory
- * 
+ *
  * Usage:
  * W.button({ children: 'Click me' })
  * W.modal({ isOpen: true })
@@ -531,25 +765,25 @@ export const WrapperPresets = {
 	/**
 	 * Legacy component wrapper with deprecation warning
 	 */
-	LEGACY_WITH_WARNING: (props: any) => 
-		WrapperFactory.legacy({ 
+	LEGACY_WITH_WARNING: (props: any) =>
+		WrapperFactory.legacy({
 			...props,
-			configuration: { deprecationWarning: true }
+			configuration: { deprecationWarning: true },
 		}),
 
 	/**
 	 * Legacy component wrapper without deprecation warning
 	 */
-	LEGACY_SILENT: (props: any) => 
-		WrapperFactory.legacy({ 
+	LEGACY_SILENT: (props: any) =>
+		WrapperFactory.legacy({
 			...props,
-			suppressDeprecationWarning: true 
+			suppressDeprecationWarning: true,
 		}),
 
 	/**
 	 * Backward compatibility wrapper
 	 */
-	BACKWARD_COMPATIBILITY: (props: any) => 
+	BACKWARD_COMPATIBILITY: (props: any) =>
 		WrapperFactory.backwardCompatibility(props),
 
 	/**
@@ -640,9 +874,18 @@ export function createWrapper(
 export function createWrapperWithConfig(
 	kind: WrapperKind,
 	config: Partial<WrapperConfiguration>,
-	props: Omit<WrapperFactoryProps, 'kind' | 'configuration'> = {}
+	props: Omit<
+		WrapperFactoryProps,
+		'kind' | 'configuration'
+	> = {}
 ): JSX.Element {
-	return <UnifiedWrapper kind={kind} configuration={config} {...props} />;
+	return (
+		<UnifiedWrapper
+			kind={kind}
+			configuration={config}
+			{...props}
+		/>
+	);
 }
 
 // ========================================

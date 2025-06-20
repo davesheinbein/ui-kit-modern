@@ -1,30 +1,28 @@
+// ========================================
+// Modern Button Styles with Proper Containment
+// ========================================
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
-@use 'sass:color';
+@use '../../styles/utilities.scss' as *;
 
-.animated {
-	transition: transform 0.1s;
-
-	&:active {
-		background: red;
-	}
-}
+// ========================================
+// Base Button Component
+// ========================================
 
 .baseButton {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	font-weight: 600;
+	@include button-base;
+	@include flex-center;
+	font-weight: var(--font-weight-semibold);
 	border: none;
-	border-radius: 0.7rem;
-	cursor: pointer;
-	transition: all 0.2s ease;
-	position: relative;
+	border-radius: var(--radius-md);
 	text-decoration: none;
 	outline: none;
+	white-space: nowrap;
+	position: relative;
+	max-width: 100%;
 
 	&:focus-visible {
-		box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+		@include focus-ring;
 	}
 
 	&:disabled {
@@ -34,138 +32,73 @@
 	}
 }
 
-// Variants
-.button-primary {
-	@include primary-gradient;
+// ========================================
+// Button Variants
+// ========================================
 
-	&:hover:not(:disabled) {
-		background: linear-gradient(
-			90deg,
-			color.scale($primary-color, $lightness: -9.375%) 0%,
-			color.scale(
-					$secondary-color,
-					$lightness: -8.3881578947%
-				)
-				100%
-		);
-		transform: translateY(-1px);
-	}
+.button-primary {
+	@include button-primary;
 }
 
 .button-secondary {
-	@include secondary-button;
-
-	&:hover:not(:disabled) {
-		background: $primary-color;
-		color: $primary-white;
-	}
+	@include button-secondary;
 }
 
 .button-danger {
-	background: linear-gradient(
-		90deg,
-		$primary-red 0%,
-		#f87171 100%
-	);
-	color: $primary-white;
-
-	&:hover:not(:disabled) {
-		background: linear-gradient(
-			90deg,
-			color.scale($primary-red, $lightness: -8.3061889251%)
-				0%,
-			#f87171 100%
-		);
-		transform: translateY(-1px);
-	}
+	@include button-danger;
 }
 
 .button-success {
-	background: linear-gradient(
-		90deg,
-		#22c55e 0%,
-		#4ade80 100%
-	);
-	color: $primary-white;
+	background: var(--color-success);
+	color: var(--color-on-success);
 
 	&:hover:not(:disabled) {
-		background: linear-gradient(
-			90deg,
-			color.scale(#22c55e, $lightness: -11.038961039%) 0%,
-			#4ade80 100%
-		);
-		transform: translateY(-1px);
+		background: var(--color-success-hover);
+		@include button-hover-transform;
 	}
 }
 
 .button-warning {
-	background: linear-gradient(
-		90deg,
-		$primary-yellow 0%,
-		#fde047 100%
-	);
-	color: #1f2937;
+	background: var(--color-warning);
+	color: var(--color-on-warning);
 
 	&:hover:not(:disabled) {
-		background: linear-gradient(
-			90deg,
-			color.scale(
-					$primary-yellow,
-					$lightness: -8.8850174216%
-				)
-				0%,
-			#fde047 100%
-		);
-		transform: translateY(-1px);
+		background: var(--color-warning-hover);
+		@include button-hover-transform;
 	}
 }
 
 .button-ghost {
-	background: transparent;
-	color: $primary-color;
-	border: 2px solid transparent;
-
-	&:hover:not(:disabled) {
-		background: rgba($primary-color, 0.1);
-		border-color: rgba($primary-color, 0.2);
-	}
+	@include button-ghost;
 }
 
 .button-link {
-	background: transparent;
-	color: $primary-color;
-	border: none;
-	text-decoration: underline;
-	border-radius: 0;
-
-	&:hover:not(:disabled) {
-		color: color.scale($primary-color, $lightness: -18.75%);
-		text-decoration-thickness: 2px;
-	}
+	@include button-link;
 }
 
-// Sizes
+// ========================================
+// Button Sizes
+// ========================================
+
 .button-small {
-	padding: 0.5rem 1.5rem;
-	font-size: 0.875rem;
-	min-height: 32px;
+	@include button-size-sm;
 }
 
 .button-medium {
-	padding: 0.75rem 2.2rem;
-	font-size: 1.1rem;
-	min-height: 44px;
+	@include button-size-md;
 }
 
 .button-large {
-	padding: 1rem 3rem;
-	font-size: 1.25rem;
-	min-height: 52px;
+	@include button-size-lg;
 }
 
-// Modifiers
+// ========================================
+// Button Modifiers
+// ========================================
+
 .fullWidth {
 	width: 100%;
+	max-width: 100%;
 }
 
 .loading {
@@ -174,202 +107,196 @@
 	}
 }
 
-// Icons
+// ========================================
+// Icon Layouts
+// ========================================
+
 .leftIcon {
-	margin-right: 0.5rem;
-	display: flex;
-	align-items: center;
+	margin-right: var(--spacing-xs);
+	@include flex-center;
+	flex-shrink: 0;
 }
 
 .rightIcon {
-	margin-left: 0.5rem;
-	display: flex;
-	align-items: center;
+	margin-left: var(--spacing-xs);
+	@include flex-center;
+	flex-shrink: 0;
 }
 
 .content {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include flex-center;
+	@include text-truncate;
+	flex: 1;
 }
 
-// Spinner
+// ========================================
+// Loading Spinner
+// ========================================
+
 .spinner {
 	position: absolute;
-	left: 0.75rem;
+	left: var(--spacing-sm);
 	width: 16px;
 	height: 16px;
-	border: 2px solid transparent;
-	border-top: 2px solid currentColor;
-	border-radius: 50%;
-	animation: spin 1s linear infinite;
+	@include spinner-animation;
 }
 
-@keyframes spin {
-	to {
-		transform: rotate(360deg);
+// ========================================
+// Specialized Button Components
+// ========================================
+
+// Close Button
+.close-button,
+.modalCloseAbsolute {
+	@include button-base;
+	@include button-danger;
+	padding: var(--spacing-md);
+	border-radius: var(--radius-md);
+	font-size: var(--text-base);
+	font-weight: var(--font-weight-semibold);
+	@include flex-center;
+	line-height: 1;
+
+	&.modalCloseAbsolute {
+		position: absolute;
+		top: var(--spacing-sm);
+		right: var(--spacing-sm);
+		z-index: var(--z-modal-content);
+		padding: var(--spacing-xs);
+		width: 32px;
+		height: 32px;
+		border-radius: var(--radius-full);
 	}
 }
 
-// ===== SPECIFIC BUTTON KIND STYLES =====
-
-// Close button styles
-.close-button {
-	padding: 20px;
-	background: linear-gradient(
-		90deg,
-		#eb2525 0%,
-		#f86838 100%
-	);
-	color: #fff;
-	border: none;
-	border-radius: 0.7rem;
-	font-size: 1.08rem;
-	font-weight: 600;
-	cursor: pointer;
-	transition: background 0.2s;
-	box-shadow: 0 2px 8px 0 rgba(16, 24, 40, 0.08);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	line-height: 1;
-}
-
-.modalCloseAbsolute {
-	position: absolute;
-	top: 16px;
-	right: 16px;
-	z-index: 10;
-}
-
-// Icon button styles
+// Icon Button
 .iconBtn {
-	background: none;
-	border: none;
-	padding: 0.5rem;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
+	@include button-base;
+	@include button-ghost;
+	padding: var(--spacing-xs);
+	border-radius: var(--radius-full);
+	@include flex-center;
 }
 
-// Word button styles
+// Word Button (for word games)
 .word-button {
-	background: #fff;
-	color: #222;
-	border: 2px solid #e0e7ef;
-	border-radius: 0.7rem;
-	padding: 0.7rem 1.5rem;
-	font-size: 1.1rem;
-	font-weight: 600;
-	cursor: pointer;
-	transition:
-		background 0.2s,
-		color 0.2s;
+	@include button-base;
+	background: var(--color-surface);
+	color: var(--color-on-surface);
+	border: 2px solid var(--color-outline);
+	border-radius: var(--radius-md);
+	padding: var(--spacing-sm) var(--spacing-md);
+	font-size: var(--text-base);
+	font-weight: var(--font-weight-semibold);
+	transition: var(--transition-normal);
+	@include text-truncate;
 
 	&.selected {
-		background: #e0e7ff;
-		color: #2563eb;
+		background: var(--color-primary-container);
+		color: var(--color-primary);
+		border-color: var(--color-primary);
 	}
 
 	&.locked {
-		background: #e0e7ef;
-		color: #a1a1aa;
-		cursor: not-allowed;
+		@include disabled-state;
 	}
 
 	&.burnSuspect {
-		background: #fee2e2;
-		color: #ef4444;
+		background: var(--color-error-container);
+		color: var(--color-error);
+		border-color: var(--color-error);
 	}
 
 	&.burned {
-		background: #fbbf24;
-		color: #fff;
+		background: var(--color-warning);
+		color: var(--color-on-warning);
+		border-color: var(--color-warning);
 	}
 }
 
-// Copy link button styles
+// Copy Link Button
 .copy-link {
+	@include button-base;
+	@include button-secondary;
 	text-decoration: none;
 	color: inherit;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
+	@include flex-row-center;
+	gap: var(--spacing-xs);
+	@include text-truncate;
 
 	&.share-link--copy {
-		background: #2563eb;
-		border-radius: 0.5rem;
-		padding: 0.5rem 1rem;
+		background: var(--color-primary);
+		color: var(--color-on-primary);
+		border-radius: var(--radius-sm);
+		padding: var(--spacing-xs) var(--spacing-sm);
+	}
+
+	.share-link-icon {
+		@include flex-center;
+		flex-shrink: 0;
+	}
+
+	.share-link-text {
+		font-weight: var(--font-weight-semibold);
+		@include text-truncate;
 	}
 }
 
-.share-link-icon {
-	display: flex;
-	align-items: center;
-}
-
-.share-link-text {
-	font-weight: 600;
-}
-
-// Go back button styles
+// Go Back Button
 .go-back {
-	gap: 0.5rem;
+	@include button-base;
+	@include button-ghost;
+	@include flex-row-center;
+	gap: var(--spacing-xs);
+
+	.goBackIcon {
+		color: var(--color-primary);
+		font-size: var(--text-lg);
+		flex-shrink: 0;
+	}
+
+	.goBackLabel {
+		font-weight: var(--font-weight-semibold);
+		@include text-truncate;
+	}
 }
 
-.goBackIcon {
-	color: #2563eb;
-	font-size: 1.2rem;
-}
-
-.goBackLabel {
-	font-weight: 600;
-	margin-left: 0.5rem;
-}
-
-// Friends toggle button styles
+// Friends Toggle Button
 .friends-toggle {
+	@include button-base;
 	border: none;
-	background: none;
+	background: var(--color-surface);
 	padding: 0;
-	border-radius: 50%;
+	border-radius: var(--radius-full);
 	width: 44px;
 	height: 44px;
-	box-shadow: 0 2px 8px #e3eaff33;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include surface-elevated;
+	@include flex-center;
+	flex-shrink: 0;
 
-	&:hover {
-		box-shadow: 0 4px 12px #e3eaff55;
+	&:hover:not(:disabled) {
+		@include surface-elevated-hover;
 		transform: translateY(-1px);
 	}
 
 	&:active {
 		transform: translateY(0);
-		box-shadow: 0 2px 6px #e3eaff44;
 	}
 
-	// Profile image styles
+	// Profile image
 	img {
 		width: 36px;
 		height: 36px;
-		border-radius: 50%;
+		border-radius: var(--radius-full);
 		object-fit: cover;
-		border: 2px solid #38bdf8;
+		border: 2px solid var(--color-primary);
 	}
 
-	// Default icon styles
+	// Icon fallback
 	.friends-toggle-icon {
 		font-size: 28px;
-		color: #2563eb;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		color: var(--color-primary);
+		@include flex-center;
 
 		svg {
 			width: 28px;
@@ -378,64 +305,36 @@
 	}
 }
 
-// Primary button override (more specific than variant)
+// Legacy button overrides (for backward compatibility)
 .primaryBtn {
-	background: linear-gradient(
-		90deg,
-		#2563eb 0%,
-		#38bdf8 100%
-	);
-	color: #fff;
-	font-weight: 600;
-	border: none;
-	border-radius: 0.7rem;
-	padding: 0.75rem 2.2rem;
-	box-shadow: 0 2px 8px 0 #e3eaff;
-	font-size: 1.1rem;
+	@include button-primary;
+	@include button-size-md;
 }
 
-// Secondary button override (more specific than variant)
 .secondaryBtn {
-	background: #fff;
-	color: #2563eb;
-	border: 2px solid #2563eb;
-	border-radius: 0.7rem;
-	padding: 0.75rem 2.2rem;
-	font-size: 1.1rem;
-	font-weight: 600;
+	@include button-secondary;
+	@include button-size-md;
 }
 
-// Navigation back button styles (icon-only)
+// Navigation Back Button
 .nav-back {
-	background: transparent;
-	border: none;
-	padding: 8px;
-	border-radius: 50%;
-	cursor: pointer;
-	transition: background-color 0.2s;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include button-base;
+	@include button-ghost;
+	padding: var(--spacing-xs);
+	border-radius: var(--radius-full);
+	@include flex-center;
 	width: 40px;
 	height: 40px;
-	font-size: 18px;
-	color: #6b7280;
+	font-size: var(--text-lg);
+	color: var(--color-on-surface-variant);
+	flex-shrink: 0;
 
-	&:hover {
-		background-color: #f3f4f6;
-		color: #374151;
+	&:hover:not(:disabled) {
+		background: var(--color-surface-container);
+		color: var(--color-on-surface);
 	}
 
 	&:active {
-		background-color: #e5e7eb;
-	}
-
-	&:disabled {
-		color: #d1d5db;
-		cursor: not-allowed;
-
-		&:hover {
-			background-color: transparent;
-		}
+		background: var(--color-surface-container-high);
 	}
 }

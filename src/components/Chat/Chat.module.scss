@@ -1,19 +1,19 @@
-@use '../../styles/Variables.scss' as *;
-@use '../../styles/mixins.scss' as *;
+@use '../../styles/mixins' as *;
 
-// Base chat component
+// Base chat component with proper containment
 .chat {
 	@include chat-window;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
+	@include flex-column;
+	gap: 0;
+	overflow: hidden; // Prevent content overflow
 }
 
-// Position variants
+// Position variants - some extend beyond bounds intentionally
 .chat--fixed {
 	position: fixed;
-	z-index: 1300;
+	z-index: var(--z-modal);
 	animation: fadeIn 0.18s;
+	// Intentional overflow: Fixed chat windows need to float over content
 }
 
 .chat--relative {
@@ -24,194 +24,223 @@
 	position: absolute;
 }
 
-// Chat variants
+// Chat variants with proper containment
 .chat--friend {
-	bottom: 32px;
+	bottom: var(--spacing-8);
 	right: 380px;
-	width: 340px;
-	max-width: 95vw;
+	@include contained-width(340px, 95vw);
 }
 
 .chat--in-match {
-	background: #fff;
-	border-radius: 1rem;
-	box-shadow: 0 2px 8px #0002;
-	padding: 1rem;
+	@include card-base;
+	background: var(--bg-surface);
+	padding: var(--spacing-4);
 }
 
 .chat--match {
-	background: #fff;
-	border-radius: 1rem;
-	box-shadow: 0 2px 8px #0002;
-	padding: 1rem;
+	@include card-base;
+	background: var(--bg-surface);
+	padding: var(--spacing-4);
 }
 
 .chat--general {
-	// Default styling from chat-window mixin
-	background: rgba(255, 255, 255, 0.98);
+	background: var(--bg-surface-alpha);
+	backdrop-filter: blur(8px);
 }
 
-// Chat header
+// Chat header with containment
 .chatHeader {
 	@include chat-header;
+	overflow: hidden; // Prevent header content overflow
 }
 
 .chatAvatar {
+	@include flex-center;
+	@include contained-size(38px);
 	position: relative;
-	width: 38px;
-	height: 38px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 
 .chatTitle {
+	@include text-lg;
+	@include text-truncate;
 	font-weight: 700;
-	color: #2563eb;
-	font-size: 1.08rem;
+	color: var(--accent-blue-500);
 	flex: 1;
+	min-width: 0; // Allow text truncation
 }
 
 .chatCloseBtn {
+	@include interactive-element;
 	background: none;
 	border: none;
-	font-size: 1.2rem;
-	color: #64748b;
-	border-radius: 8px;
-	padding: 4px 10px;
+	@include text-xl;
+	color: var(--text-tertiary);
+	border-radius: var(--radius-sm);
+	padding: var(--spacing-1) var(--spacing-3);
 	cursor: pointer;
-	transition:
-		background 0.15s,
-		color 0.13s;
 
 	&:hover {
-		background: #fbbf2422;
-		color: #f43f5e;
+		background: var(--semantic-warning-100);
+		color: var(--semantic-error-500);
+	}
+
+	&:focus {
+		@include focus-ring;
 	}
 }
 
-// Chat content
+// Chat content with proper scrolling
 .chatContent {
 	flex: 1;
-	display: flex;
-	flex-direction: column;
+	@include flex-column(0);
+	overflow: hidden; // Prevent content overflow
 }
 
-// Chat messages container
+// Chat messages container with contained scrolling
 .chatMessages {
 	@include chat-messages;
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+	@include flex-column(var(--spacing-2));
+	overflow-y: auto; // Allow scrolling within bounds
+	overflow-x: hidden; // Prevent horizontal overflow
+	max-height: 300px; // Limit message area height
 }
 
-// Message variants
+// Message variants with text containment
 .chatMessage {
 	@include chat-message;
+	word-wrap: break-word; // Prevent text overflow
+	overflow-wrap: break-word;
 }
 
 .chatMessageSelf {
 	@include chat-message-self;
 	text-align: right;
+	@include text-truncate-multiline(3);
 }
 
 .chatMessageFriend {
 	@include chat-message-friend;
 	text-align: left;
+	@include text-truncate-multiline(3);
 }
 
 .chatMessageSystem {
 	@include chat-message-base;
-	color: #888;
+	color: var(--text-tertiary);
 	font-style: italic;
-	background: #f5f5f5;
+	background: var(--bg-muted);
 	align-self: center;
 	text-align: center;
-	max-width: 90%;
+	@include contained-width(90%);
+	@include text-truncate-multiline(2);
 }
 
-// Message content
+// Message content with overflow handling
 .chatMessageText {
 	display: inline;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 .chatMessageTime {
-	font-size: 0.8em;
-	color: #aaa;
-	margin-left: 8px;
+	@include text-xs;
+	color: var(--text-tertiary);
+	margin-left: var(--spacing-2);
 }
 
-// Chat input area
+// Chat input area with contained layout
 .chatInput {
-	padding: 12px 18px;
-	border-top: 1.5px solid #e5e7eb;
-	background: rgba(255, 255, 255, 0.96);
-	display: flex;
-	gap: 8px;
-	align-items: center;
+	@include flex-row(var(--spacing-2), center);
+	padding: var(--spacing-3) var(--spacing-5);
+	border-top: 1px solid var(--border-default);
+	background: var(--bg-surface-alpha);
+	overflow: hidden; // Prevent input overflow
 }
 
 .chatInputField {
+	@include input-base;
 	flex: 1;
-	padding: 8px 12px;
-	border: 1px solid #e5e7eb;
-	border-radius: 20px;
-	font-size: 0.9rem;
-	outline: none;
-	transition: border-color 0.15s;
+	min-width: 0; // Allow input to shrink
+	padding: var(--spacing-2) var(--spacing-3);
+	border-radius: var(--radius-full);
+	@include text-sm;
 
 	&:focus {
-		border-color: #2563eb;
+		@include focus-ring(var(--accent-blue-500));
+		border-color: var(--accent-blue-500);
 	}
 }
 
 .chatSendBtn {
-	padding: 8px 16px;
-	background: #2563eb;
-	color: white;
+	@include button-base;
+	@include interactive-element;
+	padding: var(--spacing-2) var(--spacing-4);
+	background: var(--accent-blue-500);
+	color: var(--text-primary-inverse);
 	border: none;
-	border-radius: 20px;
-	font-size: 0.9rem;
+	border-radius: var(--radius-full);
+	@include text-sm;
 	cursor: pointer;
-	transition: background 0.15s;
+	flex-shrink: 0;
 
 	&:hover {
-		background: #1d4ed8;
+		background: var(--accent-blue-600);
 	}
 
 	&:disabled {
-		background: #d1d5db;
+		background: var(--bg-disabled);
+		color: var(--text-disabled);
 		cursor: not-allowed;
+	}
+
+	&:focus {
+		@include focus-ring;
 	}
 }
 
-// VSQuickChatBar styles (migrated from standalone component)
+// VSQuickChatBar styles with containment
 .vsQuickChatBar {
-	display: flex;
-	gap: 8px;
-	padding: 12px;
-	background: rgba(255, 255, 255, 0.1);
-	border-radius: 8px;
+	@include flex-row(var(--spacing-2), center, wrap);
+	padding: var(--spacing-3);
+	background: var(--bg-surface-alpha);
+	border-radius: var(--radius-md);
 	backdrop-filter: blur(10px);
+	overflow: hidden; // Prevent button overflow
 }
 
 .vsQuickChatButton {
-	background: #e0e7ff;
+	@include button-base;
+	@include interactive-element;
+	background: var(--accent-blue-100);
 	border: none;
-	border-radius: 0.5rem;
-	padding: 0.5rem 1rem;
+	border-radius: var(--radius-md);
+	padding: var(--spacing-2) var(--spacing-4);
 	cursor: pointer;
 	font-weight: 600;
-	font-size: 0.875rem;
-	transition: all 0.15s ease;
+	@include text-sm;
+	white-space: nowrap;
 
 	&:hover {
-		background: #2563eb;
-		color: #fff;
+		background: var(--accent-blue-500);
+		color: var(--text-primary-inverse);
 		transform: translateY(-1px);
 	}
 
 	&:active {
 		transform: translateY(0);
+	}
+
+	&:focus {
+		@include focus-ring;
+	}
+}
+
+// Animation keyframes
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
 	}
 }

@@ -28,6 +28,10 @@ const meta: Meta<typeof Footer> = {
 			control: false,
 			description: 'Custom content for the center section',
 		},
+		children: {
+			control: false,
+			description: 'Child components to render in footer',
+		},
 		className: {
 			control: 'text',
 			description: 'Additional CSS classes',

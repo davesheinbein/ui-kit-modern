@@ -56,6 +56,93 @@ const meta: Meta<typeof UnifiedCard> = {
 			control: 'text',
 			description: 'Card content',
 		},
+		onClick: {
+			action: 'cardClicked',
+			description: 'Function called when card is clicked',
+		},
+		size: {
+			control: 'select',
+			options: ['small', 'medium', 'large'],
+			description: 'Size variant of the card',
+		},
+		padding: {
+			control: 'select',
+			options: ['none', 'small', 'medium', 'large'],
+			description: 'Internal padding size',
+		},
+		hover: {
+			control: 'boolean',
+			description: 'Whether the card responds to hover',
+		},
+		clickable: {
+			control: 'boolean',
+			description: 'Whether the card is clickable',
+		},
+		// Friend-specific props
+		friend: {
+			control: 'object',
+			description: 'Friend data object (for friend cards)',
+			if: { arg: 'kind', eq: 'friend' },
+		},
+		onMessage: {
+			action: 'messageClicked',
+			description:
+				'Function called when message button is clicked',
+			if: { arg: 'kind', eq: 'friend' },
+		},
+		onChallenge: {
+			action: 'challengeClicked',
+			description:
+				'Function called when challenge button is clicked',
+			if: { arg: 'kind', eq: 'friend' },
+		},
+		onRemove: {
+			action: 'removeClicked',
+			description:
+				'Function called when remove button is clicked',
+			if: { arg: 'kind', eq: 'friend' },
+		},
+		unreadCount: {
+			control: {
+				type: 'range',
+				min: 0,
+				max: 99,
+				step: 1,
+			},
+			description: 'Number of unread messages',
+			if: { arg: 'kind', eq: 'friend' },
+		},
+		// Notification-specific props
+		notificationType: {
+			control: 'select',
+			options: ['info', 'warning', 'error', 'success'],
+			description: 'Type of notification',
+			if: { arg: 'kind', eq: 'notification' },
+		},
+		// Stats-specific props
+		statValue: {
+			control: 'text',
+			description: 'Main statistic value to display',
+			if: { arg: 'kind', eq: 'stats' },
+		},
+		statLabel: {
+			control: 'text',
+			description: 'Label for the statistic',
+			if: { arg: 'kind', eq: 'stats' },
+		},
+		// Common props
+		customClassName: {
+			control: 'text',
+			description: 'Custom CSS class names',
+		},
+		className: {
+			control: 'text',
+			description: 'Additional CSS classes',
+		},
+		overrideConfig: {
+			control: 'object',
+			description: 'Override configuration object',
+		},
 	},
 };
 

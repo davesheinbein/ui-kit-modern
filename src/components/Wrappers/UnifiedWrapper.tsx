@@ -15,14 +15,14 @@ export interface UnifiedWrapperProps {
 	kind: WrapperKind;
 	children?: React.ReactNode;
 	className?: string;
-	
+
 	// Target component props (will be passed through)
 	[key: string]: any;
-	
+
 	// Wrapper-specific props
 	suppressDeprecationWarning?: boolean;
 	onMigrationHelp?: () => void;
-	
+
 	// Configuration overrides
 	configuration?: Partial<WrapperConfiguration>;
 }
@@ -33,10 +33,10 @@ export interface UnifiedWrapperProps {
 
 /**
  * UnifiedWrapper - Main wrapper component for the DRY wrapper system
- * 
+ *
  * This component provides a unified interface for creating backward compatibility
  * wrappers and simplified interfaces to unified components.
- * 
+ *
  * Features:
  * - Automatic prop forwarding to target components
  * - Deprecation warnings for legacy wrappers
@@ -59,24 +59,27 @@ const UnifiedWrapper = forwardRef<any, UnifiedWrapperProps>(
 	) => {
 		// Get wrapper configuration
 		const baseConfig = getWrapperConfig(kind);
-		const config = configOverrides ? { ...baseConfig, ...configOverrides } : baseConfig;
-		
+		const config =
+			configOverrides ?
+				{ ...baseConfig, ...configOverrides }
+			:	baseConfig;
+
 		// Show deprecation warning if needed
 		React.useEffect(() => {
 			if (
-				config.deprecationWarning && 
+				config.deprecationWarning &&
 				!suppressDeprecationWarning &&
 				typeof window !== 'undefined'
 			) {
 				console.warn(
 					`🚨 Deprecation Warning: ${config.targetComponent} is deprecated.\n` +
-					`📖 Migration Path: ${config.migrationPath}\n` +
-					`🔗 Component: ${config.unifiedComponent}\n` +
-					`📝 Description: ${config.description}`
+						`📖 Migration Path: ${config.migrationPath}\n` +
+						`🔗 Component: ${config.unifiedComponent}\n` +
+						`📝 Description: ${config.description}`
 				);
 			}
 		}, [config, suppressDeprecationWarning]);
-		
+
 		// Build className
 		const wrapperClasses = [
 			styles.unifiedWrapper,
@@ -84,14 +87,17 @@ const UnifiedWrapper = forwardRef<any, UnifiedWrapperProps>(
 			styles[`wrapper--${config.layout}`],
 			config.wrapperClassName,
 			className,
-		].filter(Boolean).join(' ');
-		
+		]
+			.filter(Boolean)
+			.join(' ');
+
 		// Prepare props for target component
 		const targetProps = { ...props };
-		
+
 		// Remove wrapper-specific props
 		if ('suppressDeprecationWarning' in targetProps) {
-			delete (targetProps as any).suppressDeprecationWarning;
+			delete (targetProps as any)
+				.suppressDeprecationWarning;
 		}
 		if ('onMigrationHelp' in targetProps) {
 			delete (targetProps as any).onMigrationHelp;
@@ -99,33 +105,46 @@ const UnifiedWrapper = forwardRef<any, UnifiedWrapperProps>(
 		if ('configuration' in targetProps) {
 			delete (targetProps as any).configuration;
 		}
-		
+
 		// Add wrapper-managed props
 		if (config.forwardRef) {
 			(targetProps as any).ref = ref;
 		}
-		
+
 		if (config.preserveOriginalStyles) {
-			targetProps.className = [config.className, props.className].filter(Boolean).join(' ');
+			targetProps.className = [
+				config.className,
+				props.className,
+			]
+				.filter(Boolean)
+				.join(' ');
 		}
-		
+
 		// Render based on wrapper type
 		return (
-			<div className={wrapperClasses} data-wrapper-kind={kind}>
-				{config.deprecationWarning && typeof window !== 'undefined' && (
-					<div className={styles.migrationHelper}>
-						<button
-							onClick={onMigrationHelp}
-							className={styles.migrationButton}
-							title={`Migration help for ${config.targetComponent}`}
-						>
-							📖 Migration Guide
-						</button>
-					</div>
-				)}
-				
+			<div
+				className={wrapperClasses}
+				data-wrapper-kind={kind}
+			>
+				{config.deprecationWarning &&
+					typeof window !== 'undefined' && (
+						<div className={styles.migrationHelper}>
+							<button
+								onClick={onMigrationHelp}
+								className={styles.migrationButton}
+								title={`Migration help for ${config.targetComponent}`}
+							>
+								📖 Migration Guide
+							</button>
+						</div>
+					)}
+
 				{/* Dynamic component rendering based on configuration */}
-				{renderTargetComponent(config, targetProps, children)}
+				{renderTargetComponent(
+					config,
+					targetProps,
+					children
+				)}
 			</div>
 		);
 	}
@@ -145,7 +164,7 @@ function renderTargetComponent(
 ) {
 	// This is where we would dynamically import and render the target unified component
 	// For now, we'll use a placeholder approach that can be enhanced
-	
+
 	switch (config.unifiedComponent) {
 		case 'UnifiedButton':
 			return renderUnifiedButton(config, props, children);
@@ -195,11 +214,18 @@ function renderTargetComponent(
 // Unified Component Renderers
 // ========================================
 
-function renderUnifiedButton(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedButton(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	// Import and render UnifiedButton with appropriate kind mapping
 	const kind = mapToButtonKind(config.kind);
 	return (
-		<div data-wrapper="button" data-original-kind={config.kind}>
+		<div
+			data-wrapper='button'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedButton dynamically */}
 			<button {...props} data-unified-kind={kind}>
 				{children}
@@ -208,10 +234,17 @@ function renderUnifiedButton(config: WrapperConfiguration, props: any, children:
 	);
 }
 
-function renderUnifiedHeader(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedHeader(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToHeaderKind(config.kind);
 	return (
-		<div data-wrapper="header" data-original-kind={config.kind}>
+		<div
+			data-wrapper='header'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedHeader dynamically */}
 			<header {...props} data-unified-kind={kind}>
 				{children}
@@ -220,10 +253,17 @@ function renderUnifiedHeader(config: WrapperConfiguration, props: any, children:
 	);
 }
 
-function renderUnifiedModal(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedModal(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToModalKind(config.kind);
 	return (
-		<div data-wrapper="modal" data-original-kind={config.kind}>
+		<div
+			data-wrapper='modal'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedModal dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -232,10 +272,17 @@ function renderUnifiedModal(config: WrapperConfiguration, props: any, children: 
 	);
 }
 
-function renderUnifiedGrid(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedGrid(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToGridKind(config.kind);
 	return (
-		<div data-wrapper="grid" data-original-kind={config.kind}>
+		<div
+			data-wrapper='grid'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedGrid dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -244,10 +291,17 @@ function renderUnifiedGrid(config: WrapperConfiguration, props: any, children: R
 	);
 }
 
-function renderUnifiedPage(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedPage(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToPageKind(config.kind);
 	return (
-		<div data-wrapper="page" data-original-kind={config.kind}>
+		<div
+			data-wrapper='page'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedPage dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -256,10 +310,17 @@ function renderUnifiedPage(config: WrapperConfiguration, props: any, children: R
 	);
 }
 
-function renderUnifiedGraph(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedGraph(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToGraphKind(config.kind);
 	return (
-		<div data-wrapper="graph" data-original-kind={config.kind}>
+		<div
+			data-wrapper='graph'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedGraph dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -268,10 +329,17 @@ function renderUnifiedGraph(config: WrapperConfiguration, props: any, children: 
 	);
 }
 
-function renderUnifiedSidebar(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedSidebar(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToSidebarKind(config.kind);
 	return (
-		<div data-wrapper="sidebar" data-original-kind={config.kind}>
+		<div
+			data-wrapper='sidebar'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedSidebar dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -280,10 +348,17 @@ function renderUnifiedSidebar(config: WrapperConfiguration, props: any, children
 	);
 }
 
-function renderUnifiedSettings(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedSettings(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToSettingsKind(config.kind);
 	return (
-		<div data-wrapper="settings" data-original-kind={config.kind}>
+		<div
+			data-wrapper='settings'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedSettings dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -292,10 +367,17 @@ function renderUnifiedSettings(config: WrapperConfiguration, props: any, childre
 	);
 }
 
-function renderUnifiedTheme(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedTheme(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToThemeKind(config.kind);
 	return (
-		<div data-wrapper="theme" data-original-kind={config.kind}>
+		<div
+			data-wrapper='theme'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedTheme dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -304,10 +386,17 @@ function renderUnifiedTheme(config: WrapperConfiguration, props: any, children: 
 	);
 }
 
-function renderUnifiedAdmin(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedAdmin(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToAdminKind(config.kind);
 	return (
-		<div data-wrapper="admin" data-original-kind={config.kind}>
+		<div
+			data-wrapper='admin'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedAdmin dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -316,10 +405,17 @@ function renderUnifiedAdmin(config: WrapperConfiguration, props: any, children: 
 	);
 }
 
-function renderUnifiedCard(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedCard(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToCardKind(config.kind);
 	return (
-		<div data-wrapper="card" data-original-kind={config.kind}>
+		<div
+			data-wrapper='card'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedCard dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -328,10 +424,17 @@ function renderUnifiedCard(config: WrapperConfiguration, props: any, children: R
 	);
 }
 
-function renderUnifiedBanner(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedBanner(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToBannerKind(config.kind);
 	return (
-		<div data-wrapper="banner" data-original-kind={config.kind}>
+		<div
+			data-wrapper='banner'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedBanner dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -340,10 +443,17 @@ function renderUnifiedBanner(config: WrapperConfiguration, props: any, children:
 	);
 }
 
-function renderUnifiedChat(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedChat(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToChatKind(config.kind);
 	return (
-		<div data-wrapper="chat" data-original-kind={config.kind}>
+		<div
+			data-wrapper='chat'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedChat dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -352,10 +462,17 @@ function renderUnifiedChat(config: WrapperConfiguration, props: any, children: R
 	);
 }
 
-function renderUnifiedForm(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedForm(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToFormKind(config.kind);
 	return (
-		<div data-wrapper="form" data-original-kind={config.kind}>
+		<div
+			data-wrapper='form'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedForm dynamically */}
 			<form {...props} data-unified-kind={kind}>
 				{children}
@@ -364,10 +481,17 @@ function renderUnifiedForm(config: WrapperConfiguration, props: any, children: R
 	);
 }
 
-function renderUnifiedProvider(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderUnifiedProvider(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const kind = mapToProviderKind(config.kind);
 	return (
-		<div data-wrapper="provider" data-original-kind={config.kind}>
+		<div
+			data-wrapper='provider'
+			data-original-kind={config.kind}
+		>
 			{/* Placeholder - would import UnifiedProvider dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
@@ -380,7 +504,11 @@ function renderUnifiedProvider(config: WrapperConfiguration, props: any, childre
 // Layout Container Renderers
 // ========================================
 
-function renderFlexContainer(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderFlexContainer(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const {
 		direction = 'row',
 		justify = 'center',
@@ -401,9 +529,9 @@ function renderFlexContainer(config: WrapperConfiguration, props: any, children:
 	};
 
 	return (
-		<div 
+		<div
 			{...otherProps}
-			data-wrapper="flex-container" 
+			data-wrapper='flex-container'
 			data-original-kind={config.kind}
 			style={flexStyles}
 		>
@@ -412,7 +540,11 @@ function renderFlexContainer(config: WrapperConfiguration, props: any, children:
 	);
 }
 
-function renderGridContainer(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderGridContainer(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const {
 		columns = 'repeat(auto-fit, minmax(250px, 1fr))',
 		rows = 'auto',
@@ -433,9 +565,9 @@ function renderGridContainer(config: WrapperConfiguration, props: any, children:
 	};
 
 	return (
-		<div 
+		<div
 			{...otherProps}
-			data-wrapper="grid-container" 
+			data-wrapper='grid-container'
 			data-original-kind={config.kind}
 			style={gridStyles}
 		>
@@ -444,31 +576,36 @@ function renderGridContainer(config: WrapperConfiguration, props: any, children:
 	);
 }
 
-function renderCenterContainer(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderCenterContainer(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const {
 		method = 'flex', // 'flex' or 'grid'
 		...otherProps
 	} = props;
 
-	const centerStyles = method === 'grid' 
-		? {
-			display: 'grid',
-			placeItems: 'center',
-			minHeight: '100%',
-			...otherProps.style,
-		}
-		: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			minHeight: '100%',
-			...otherProps.style,
-		};
+	const centerStyles =
+		method === 'grid' ?
+			{
+				display: 'grid',
+				placeItems: 'center',
+				minHeight: '100%',
+				...otherProps.style,
+			}
+		:	{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				minHeight: '100%',
+				...otherProps.style,
+			};
 
 	return (
-		<div 
+		<div
 			{...otherProps}
-			data-wrapper="center-container" 
+			data-wrapper='center-container'
 			data-original-kind={config.kind}
 			style={centerStyles}
 		>
@@ -477,7 +614,11 @@ function renderCenterContainer(config: WrapperConfiguration, props: any, childre
 	);
 }
 
-function renderStackContainer(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderStackContainer(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	const {
 		direction = 'column',
 		gap = '1rem',
@@ -496,9 +637,9 @@ function renderStackContainer(config: WrapperConfiguration, props: any, children
 	};
 
 	return (
-		<div 
+		<div
 			{...otherProps}
-			data-wrapper="stack-container" 
+			data-wrapper='stack-container'
 			data-original-kind={config.kind}
 			style={stackStyles}
 		>
@@ -507,12 +648,17 @@ function renderStackContainer(config: WrapperConfiguration, props: any, children
 	);
 }
 
-function renderGenericWrapper(config: WrapperConfiguration, props: any, children: React.ReactNode) {
+function renderGenericWrapper(
+	config: WrapperConfiguration,
+	props: any,
+	children: React.ReactNode
+) {
 	return (
-		<div data-wrapper="generic" data-original-kind={config.kind}>
-			<div {...props}>
-				{children}
-			</div>
+		<div
+			data-wrapper='generic'
+			data-original-kind={config.kind}
+		>
+			<div {...props}>{children}</div>
 		</div>
 	);
 }
@@ -523,109 +669,148 @@ function renderGenericWrapper(config: WrapperConfiguration, props: any, children
 
 function mapToButtonKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		case 'primary-button-wrapper': return 'primary';
-		case 'secondary-button-wrapper': return 'secondary';
-		case 'close-button-wrapper': return 'close';
-		case 'icon-button-wrapper': return 'icon';
-		case 'dark-mode-toggle-wrapper': return 'dark-mode-toggle';
-		default: return 'default';
+		case 'primary-button-wrapper':
+			return 'primary';
+		case 'secondary-button-wrapper':
+			return 'secondary';
+		case 'close-button-wrapper':
+			return 'close';
+		case 'icon-button-wrapper':
+			return 'icon';
+		case 'dark-mode-toggle-wrapper':
+			return 'dark-mode-toggle';
+		default:
+			return 'default';
 	}
 }
 
 function mapToHeaderKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		case 'browse-header-wrapper': return 'browse-tabbed';
-		case 'modal-header-wrapper': return 'modal';
-		default: return 'simple';
+		case 'browse-header-wrapper':
+			return 'browse-tabbed';
+		case 'modal-header-wrapper':
+			return 'modal';
+		default:
+			return 'simple';
 	}
 }
 
 function mapToModalKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		default: return 'default';
+		default:
+			return 'default';
 	}
 }
 
 function mapToGridKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		case 'vs-grid-wrapper': return 'vs-grid';
-		default: return 'basic';
+		case 'vs-grid-wrapper':
+			return 'vs-grid';
+		default:
+			return 'basic';
 	}
 }
 
 function mapToPageKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		case 'startup-page-wrapper': return 'startup';
-		default: return 'basic';
+		case 'startup-page-wrapper':
+			return 'startup';
+		default:
+			return 'basic';
 	}
 }
 
 function mapToGraphKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		default: return 'bar';
+		default:
+			return 'bar';
 	}
 }
 
-function mapToSidebarKind(wrapperKind: WrapperKind): string {
+function mapToSidebarKind(
+	wrapperKind: WrapperKind
+): string {
 	switch (wrapperKind) {
-		case 'friends-sidebar-wrapper': return 'friends';
-		default: return 'basic';
+		case 'friends-sidebar-wrapper':
+			return 'friends';
+		default:
+			return 'basic';
 	}
 }
 
-function mapToSettingsKind(wrapperKind: WrapperKind): string {
+function mapToSettingsKind(
+	wrapperKind: WrapperKind
+): string {
 	switch (wrapperKind) {
-		case 'customization-category-wrapper': return 'customization-category';
-		case 'settings-panel-wrapper': return 'settings-panel';
-		default: return 'settings-panel';
+		case 'customization-category-wrapper':
+			return 'customization-category';
+		case 'settings-panel-wrapper':
+			return 'settings-panel';
+		default:
+			return 'settings-panel';
 	}
 }
 
 function mapToThemeKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		case 'theme-selector-wrapper': return 'selector';
-		default: return 'basic';
+		case 'theme-selector-wrapper':
+			return 'selector';
+		default:
+			return 'basic';
 	}
 }
 
 function mapToAdminKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		case 'session-debugger-wrapper': return 'session-debugger';
-		default: return 'basic';
+		case 'session-debugger-wrapper':
+			return 'session-debugger';
+		default:
+			return 'basic';
 	}
 }
 
 function mapToCardKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		default: return 'basic';
+		default:
+			return 'basic';
 	}
 }
 
 function mapToBannerKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		default: return 'notification';
+		default:
+			return 'notification';
 	}
 }
 
 function mapToChatKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		default: return 'basic';
+		default:
+			return 'basic';
 	}
 }
 
 function mapToFormKind(wrapperKind: WrapperKind): string {
 	switch (wrapperKind) {
-		default: return 'basic';
+		default:
+			return 'basic';
 	}
 }
 
-function mapToProviderKind(wrapperKind: WrapperKind): string {
+function mapToProviderKind(
+	wrapperKind: WrapperKind
+): string {
 	switch (wrapperKind) {
-		case 'socket-provider-wrapper': return 'socket-provider';
-		case 'user-settings-provider-wrapper': return 'user-settings-provider';
-		case 'theme-palette-provider-wrapper': return 'theme-palette-provider';
-		case 'achievement-socket-listener-wrapper': return 'achievement-socket-listener';
-		default: return 'generic';
+		case 'socket-provider-wrapper':
+			return 'socket-provider';
+		case 'user-settings-provider-wrapper':
+			return 'user-settings-provider';
+		case 'theme-palette-provider-wrapper':
+			return 'theme-palette-provider';
+		case 'achievement-socket-listener-wrapper':
+			return 'achievement-socket-listener';
+		default:
+			return 'generic';
 	}
 }
 

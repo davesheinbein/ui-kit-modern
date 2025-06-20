@@ -28,6 +28,20 @@ const meta: Meta<typeof CheckboxFactory> = {
 			control: 'text',
 			description: 'Label text for the checkbox',
 		},
+		labelPosition: {
+			control: 'select',
+			options: ['left', 'right', 'none'],
+			description:
+				'Position of the label relative to checkbox',
+		},
+		checked: {
+			control: 'boolean',
+			description: 'Whether the checkbox is checked',
+		},
+		defaultChecked: {
+			control: 'boolean',
+			description: 'Default checked state',
+		},
 		size: {
 			control: 'select',
 			options: ['small', 'medium', 'large'],
@@ -38,13 +52,78 @@ const meta: Meta<typeof CheckboxFactory> = {
 			options: ['default', 'success', 'warning', 'danger'],
 			description: 'Color variant of the checkbox',
 		},
+		animated: {
+			control: 'boolean',
+			description:
+				'Whether to animate checkbox transitions',
+		},
 		disabled: {
 			control: 'boolean',
 			description: 'Whether the checkbox is disabled',
 		},
-		checked: {
+		readOnly: {
 			control: 'boolean',
-			description: 'Whether the checkbox is checked',
+			description: 'Whether the checkbox is readonly',
+		},
+		required: {
+			control: 'boolean',
+			description: 'Whether the checkbox is required',
+		},
+		fullWidth: {
+			control: 'boolean',
+			description: 'Whether checkbox takes full width',
+		},
+		name: {
+			control: 'text',
+			description: 'Name attribute for form submission',
+		},
+		value: {
+			control: 'text',
+			description: 'Value attribute for form submission',
+		},
+		id: {
+			control: 'text',
+			description: 'Unique identifier for the checkbox',
+		},
+		helperText: {
+			control: 'text',
+			description: 'Helper text displayed below checkbox',
+		},
+		error: {
+			control: 'text',
+			description: 'Error message to display',
+		},
+		darkModeContext: {
+			control: 'boolean',
+			description: 'Dark mode context for dark-mode-toggle',
+			if: { arg: 'kind', eq: 'dark-mode-toggle' },
+		},
+		onChange: {
+			action: 'checkboxChanged',
+			description:
+				'Function called when checkbox state changes',
+		},
+		onFocus: {
+			action: 'checkboxFocused',
+			description:
+				'Function called when checkbox is focused',
+		},
+		onBlur: {
+			action: 'checkboxBlurred',
+			description:
+				'Function called when checkbox loses focus',
+		},
+		className: {
+			control: 'text',
+			description: 'Additional CSS classes',
+		},
+		style: {
+			control: 'object',
+			description: 'Inline styles for the checkbox',
+		},
+		configuration: {
+			control: 'object',
+			description: 'Override configuration object',
 		},
 	},
 };

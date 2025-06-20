@@ -1,0 +1,527 @@
+// ========================================
+// Modern Table Styles with Proper Containment
+// ========================================
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
+
+// ========================================
+// Main Table Container
+// ========================================
+
+.table_container {
+	@include container-contained;
+	background: var(--color-surface);
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	@include surface-base;
+	width: 100%;
+	max-width: 100%;
+}
+
+.table_wrapper {
+	@include overflow-auto;
+	position: relative;
+	max-width: 100%;
+}
+
+// ========================================
+// Core Table Styles
+// ========================================
+
+.table {
+	@include table-base;
+	width: 100%;
+	max-width: 100%;
+	border-collapse: collapse;
+	font-size: var(--text-sm);
+	line-height: var(--leading-5);
+	color: var(--color-on-surface);
+	background: var(--color-surface);
+
+	// Layout variants
+	&--fixed {
+		table-layout: fixed;
+	}
+
+	&--auto {
+		table-layout: auto;
+	}
+
+	&--responsive {
+		min-width: 100%;
+
+		@include breakpoint-mobile {
+			font-size: var(--text-xs);
+		}
+	}
+}
+
+// ========================================
+// Header Styles
+// ========================================
+
+.table__header {
+	background: var(--color-surface-variant);
+	color: var(--color-on-surface-variant);
+
+	.table--sticky-header & {
+		@include sticky-header;
+		top: 0;
+		z-index: var(--z-sticky);
+		box-shadow: var(--shadow-sm);
+	}
+}
+
+.table__header_row {
+	border-bottom: 1px solid var(--color-outline);
+}
+
+.table__header_cell {
+	padding: var(--spacing-sm);
+	text-align: left;
+	font-weight: var(--font-weight-semibold);
+	background: var(--color-surface-variant);
+	border-bottom: 1px solid var(--color-outline);
+	transition: var(--transition-normal);
+	@include text-truncate;
+
+	&--sortable {
+		@include interactive-element;
+		user-select: none;
+
+		&:hover {
+			background: var(--color-surface-container-high);
+		}
+	}
+}
+
+.table__header_content {
+	@include flex-row-between;
+	gap: var(--spacing-xs);
+	align-items: center;
+}
+
+.table__sort_indicator {
+	@include flex-center;
+	width: 1rem;
+	opacity: 0.7;
+	flex-shrink: 0;
+}
+
+// ========================================
+// Body Styles
+// ========================================
+
+.table__body {
+	background: var(--color-surface);
+}
+
+.table__row {
+	border-bottom: 1px solid var(--color-outline-variant);
+	transition: var(--transition-normal);
+
+	&:last-child {
+		border-bottom: none;
+	}
+
+	.table--hover &:hover {
+		background: var(--color-surface-container);
+	}
+
+	.table--clickable & {
+		@include interactive-element;
+	}
+
+	&--selected {
+		background: var(--color-primary-container) !important;
+		color: var(--color-on-primary-container);
+	}
+
+	&--expanded {
+		border-bottom: 2px solid var(--color-primary);
+	}
+
+	&--skeleton {
+		pointer-events: none;
+	}
+}
+
+.table__cell {
+	padding: var(--spacing-sm);
+	vertical-align: middle;
+	border-bottom: inherit;
+	transition: var(--transition-normal);
+	@include text-truncate;
+	max-width: 0; // Enable text truncation in table cells
+
+	&--skeleton {
+		opacity: 0.6;
+	}
+}
+
+.table__empty_row {
+	.table__empty_cell {
+		padding: var(--spacing-xl) var(--spacing-sm);
+		text-align: center;
+		color: var(--color-on-surface-variant);
+		font-style: italic;
+	}
+}
+
+// ========================================
+// Interactive Elements
+// ========================================
+
+.table__expand_button {
+	background: none;
+	border: 1px solid var(--table-border);
+	border-radius: 0.25rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: var(--table-transition);
+
+	&:hover {
+		background: var(--table-hover-bg);
+		border-color: var(--primary-color, #3b82f6);
+	}
+}
+
+// ========================================
+// Search Bar
+// ========================================
+
+.table__search {
+	padding: 1rem;
+	border-bottom: 1px solid var(--table-border);
+	background: var(--table-header-bg);
+}
+
+.table__search_input {
+	width: 100%;
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--table-border);
+	border-radius: var(--table-border-radius);
+	font-size: 0.875rem;
+	background: var(--table-bg);
+	color: var(--table-text);
+	transition: var(--table-transition);
+
+	&:focus {
+		outline: none;
+		border-color: var(--primary-color, #3b82f6);
+		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+	}
+
+	&::placeholder {
+		color: var(--text-color-muted, #6b7280);
+	}
+}
+
+// ========================================
+// Loading States
+// ========================================
+
+.skeleton_content {
+	height: 1rem;
+	background: linear-gradient(
+		90deg,
+		var(--table-skeleton-bg) 25%,
+		transparent 50%,
+		var(--table-skeleton-bg) 75%
+	);
+	background-size: 200% 100%;
+	animation: skeleton-loading 1.5s infinite;
+	border-radius: 0.25rem;
+}
+
+@keyframes skeleton-loading {
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
+}
+
+.table--loading {
+	.table__cell {
+		position: relative;
+		overflow: hidden;
+	}
+}
+
+// ========================================
+// Variant Styles
+// ========================================
+
+// Default variant - uses base styles
+.table--default {
+	// Base styles are applied by default
+	color: var(--table-text);
+}
+
+// Minimal variant
+.table--minimal {
+	box-shadow: none;
+
+	.table__header {
+		background: transparent;
+		border-bottom: 2px solid var(--table-border);
+	}
+
+	.table__header_cell {
+		background: transparent;
+		padding: 0.5rem 0;
+		border-bottom: none;
+	}
+
+	.table__cell {
+		padding: 0.5rem 0;
+		border-bottom: 1px solid var(--table-border);
+	}
+
+	.table__row:last-child .table__cell {
+		border-bottom: none;
+	}
+}
+
+// Striped variant
+.table--striped {
+	.table__row:nth-child(even) {
+		background: rgba(0, 0, 0, 0.02);
+	}
+}
+
+// Bordered variant
+.table--bordered {
+	border: 1px solid var(--table-border);
+
+	.table__header_cell,
+	.table__cell {
+		border-right: 1px solid var(--table-border);
+
+		&:last-child {
+			border-right: none;
+		}
+	}
+}
+
+// Compact variant
+.table--compact {
+	.table__header_cell,
+	.table__cell {
+		padding: var(--table-padding-compact);
+	}
+}
+
+// Spacious variant
+.table--spacious {
+	.table__header_cell,
+	.table__cell {
+		padding: var(--table-padding-spacious);
+	}
+}
+
+// Modern variant
+.table--modern {
+	border-radius: 0.5rem;
+	overflow: hidden;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+	.table__header {
+		background: linear-gradient(
+			135deg,
+			var(--primary-color, #3b82f6),
+			var(--primary-color-dark, #2563eb)
+		);
+		color: white;
+	}
+
+	.table__header_cell {
+		background: transparent;
+		color: white;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+		&--sortable:hover {
+			background: rgba(255, 255, 255, 0.1);
+		}
+	}
+}
+
+// Glass variant
+.table--glass {
+	background: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+
+	.table__header {
+		background: rgba(255, 255, 255, 0.9);
+	}
+
+	.table__row:hover {
+		background: rgba(255, 255, 255, 0.9);
+	}
+}
+
+// ========================================
+// Border Styles
+// ========================================
+
+.table--border-none {
+	.table__header_cell,
+	.table__cell,
+	.table__row {
+		border: none;
+	}
+}
+
+.table--border-horizontal {
+	.table__header_cell,
+	.table__cell {
+		border-left: none;
+		border-right: none;
+	}
+}
+
+.table--border-vertical {
+	.table__row {
+		border-bottom: none;
+	}
+}
+
+.table--border-all {
+	// Uses default border styles from base table
+	border-collapse: collapse;
+}
+
+// ========================================
+// Table Kind Specific Styles
+// ========================================
+
+// Data Grid
+.table--data-grid {
+	.table__header {
+		background: var(--primary-color-light, #dbeafe);
+		color: var(--primary-color-dark, #1e40af);
+	}
+}
+
+// Pricing Table
+.table--pricing-table {
+	.table__header_cell {
+		text-align: center;
+		background: var(--success-color-light, #dcfce7);
+		color: var(--success-color-dark, #166534);
+	}
+
+	.table__cell {
+		text-align: center;
+	}
+}
+
+// Comparison Table
+.table--comparison-table {
+	.table__header_cell:first-child {
+		background: var(--table-bg);
+		color: var(--table-text);
+		font-weight: bold;
+	}
+
+	.table__cell:first-child {
+		background: var(--table-header-bg);
+		font-weight: 600;
+	}
+}
+
+// Stats Table
+.table--stats-table {
+	.table__cell {
+		font-variant-numeric: tabular-nums;
+	}
+}
+
+// Leaderboard Table
+.table--leaderboard-table {
+	.table__row:first-child {
+		.table__cell {
+			background: linear-gradient(135deg, #ffd700, #ffed4e);
+			color: #92400e;
+			font-weight: bold;
+		}
+	}
+
+	.table__row:nth-child(2) {
+		.table__cell {
+			background: linear-gradient(135deg, #c0c0c0, #e5e7eb);
+			color: #374151;
+			font-weight: 600;
+		}
+	}
+
+	.table__row:nth-child(3) {
+		.table__cell {
+			background: linear-gradient(135deg, #cd7f32, #f59e0b);
+			color: #92400e;
+			font-weight: 600;
+		}
+	}
+}
+
+// ========================================
+// Responsive Design
+// ========================================
+
+@include breakpoint-tablet {
+	.table_container {
+		border-radius: 0;
+		margin: 0 calc(-1 * var(--spacing-sm));
+	}
+
+	.table__search {
+		padding: var(--spacing-sm);
+	}
+
+	.table__header_cell,
+	.table__cell {
+		padding: var(--spacing-xs);
+
+		&:first-child {
+			padding-left: var(--spacing-sm);
+		}
+
+		&:last-child {
+			padding-right: var(--spacing-sm);
+		}
+	}
+
+	// Hide non-essential columns on tablet
+	.table__header_cell:nth-child(n + 4),
+	.table__cell:nth-child(n + 4) {
+		display: none;
+	}
+}
+
+@include breakpoint-mobile {
+	.table {
+		font-size: var(--text-xs);
+	}
+
+	.table__header_cell,
+	.table__cell {
+		padding: var(--spacing-xs);
+	}
+
+	// Show only first 2 columns on mobile
+	.table__header_cell:nth-child(n + 3),
+	.table__cell:nth-child(n + 3) {
+		display: none;
+	}
+}
+
+// Dark mode support is handled by the design system variables
+// No explicit dark mode overrides needed

@@ -1,15 +1,23 @@
+/**
+ * Grid.module.scss - Modern Grid System with Design System
+ * Handles game grids, data grids, and layout grids with proper containment
+ */
+
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
 
 // ===== BASE GRID STYLES =====
 
 .unifiedGrid {
-	@include grid-pattern(4, 12px);
-	width: 100%;
+	@include contained-element();
+	@include grid-container();
+	gap: var(--spacing-sm);
 	margin: 0 auto;
+	max-width: 100%;
 
 	&.interactive {
-		cursor: pointer;
+		@include interactive-element();
 	}
 
 	&.preview {
@@ -17,21 +25,18 @@
 	}
 
 	&.locked {
-		pointer-events: none;
-		user-select: none;
-		cursor: not-allowed;
+		@include disabled-state();
 	}
 }
 
 // ===== GRID VARIANTS =====
 
 .grid-basic {
-	background: #fff;
-	border-radius: 16px;
-	box-shadow: 0 2px 16px 0 #e3eaff33;
-	padding: 12px;
-	max-width: 480px;
-	min-height: 320px;
+	@include card-base();
+	@include contained-element();
+	padding: var(--spacing-sm);
+	max-width: var(--size-120); // 480px
+	min-height: var(--size-80); // 320px
 }
 
 .grid-game {
@@ -43,85 +48,79 @@
 	filter: brightness(1.05);
 
 	.grid-cell {
-		background: rgb(
-			253.8571428571,
-			240.7142857143,
-			188.1428571429
+		background: color-mix(
+			in srgb,
+			var(--color-warning) 20%,
+			var(--color-background)
 		) !important;
-		color: #1e293b !important;
-		border-color: #fde047 !important;
-		box-shadow:
-			0 0 0 3px rgba(253, 224, 71, 0.3333333333),
-			0 4px 16px 0 rgba(56, 189, 248, 0.3333333333) !important;
+		color: var(--color-text-primary) !important;
+		border-color: var(--color-warning) !important;
+		box-shadow: var(--shadow-lg) !important;
 		transform: translateY(-2px) scale(1.03) !important;
-		z-index: 2;
+		z-index: var(--z-tooltip);
 	}
 }
 
 .grid-locked {
-	background: #f8fafc;
-	border-radius: 16px;
-	box-shadow: 0 2px 16px 0 #e3eaff33;
-	padding: 12px;
-	max-width: 480px;
-	min-height: 320px;
+	@include card-base();
+	@include contained-element();
+	padding: var(--spacing-sm);
+	max-width: var(--size-120);
+	min-height: var(--size-80);
 	filter: blur(0.5px);
+	background: var(--color-background-secondary);
 }
 
 .grid-solved {
+	@include contained-element();
 	background: transparent;
 	padding: 0;
-	max-width: 600px;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 18px;
+	max-width: var(--size-150); // 600px
+	@include flex-wrap();
+	gap: var(--spacing-md);
 	justify-content: center;
 	align-items: flex-start;
-	min-height: 48px;
-	margin: 0 auto 18px auto;
+	min-height: var(--size-12); // 48px
+	margin: 0 auto var(--spacing-md) auto;
 }
 
 // ===== SPECIFIC GRID KINDS =====
 
 .vs-grid {
 	@extend .grid-game;
+	@include contained-element();
 
-	// Dynamic styling will be applied via props/className modifiers
 	// Bot mode styling
 	&.bot-mode {
-		border: 2px solid #f59e0b;
+		border: var(--border-width-thick) solid
+			var(--color-warning);
 
 		&::before {
 			content: 'VS BOT';
-			position: absolute;
-			top: -8px;
-			left: 12px;
-			background: #f59e0b;
+			@include badge-style();
+			@include absolute-top-left(
+				calc(-1 * var(--spacing-xs)),
+				var(--spacing-sm)
+			);
+			background: var(--color-warning);
 			color: white;
-			padding: 2px 8px;
-			border-radius: 4px;
-			font-size: 10px;
-			font-weight: 700;
-			text-transform: uppercase;
 		}
 	}
 
 	// Multiplayer mode styling
 	&.multiplayer-mode {
-		border: 2px solid #10b981;
+		border: var(--border-width-thick) solid
+			var(--color-success);
 
 		&::before {
 			content: 'VS PLAYER';
-			position: absolute;
-			top: -8px;
-			left: 12px;
-			background: #10b981;
+			@include badge-style();
+			@include absolute-top-left(
+				calc(-1 * var(--spacing-xs)),
+				var(--spacing-sm)
+			);
+			background: var(--color-success);
 			color: white;
-			padding: 2px 8px;
-			border-radius: 4px;
-			font-size: 10px;
-			font-weight: 700;
-			text-transform: uppercase;
 		}
 	}
 }
@@ -137,86 +136,91 @@
 }
 
 .custom-grid {
-	// Custom styles can be overridden via props
+	@include contained-element();
 	display: grid;
 }
 
 // ===== GRID CELLS =====
 
 .grid-cell {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 44px;
-	border-radius: 8px;
-	transition: all 0.2s ease;
+	@include contained-element();
+	@include flex-center();
+	min-height: var(--size-11); // 44px
+	border-radius: var(--border-radius-md);
+	transition: var(--transition-all);
 
 	&.interactive {
-		cursor: pointer;
-
-		&:hover {
-			transform: translateY(-1px);
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-		}
+		@include interactive-element();
+		@include hover-lift();
 	}
 
 	&.selected {
-		background: #2563eb !important;
+		background: var(--color-primary) !important;
 		color: white !important;
 		transform: translateY(-2px) scale(1.02);
-		box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+		box-shadow: var(--shadow-primary);
 	}
 
 	&.locked {
-		pointer-events: none;
-		user-select: none;
-		cursor: not-allowed;
+		@include disabled-state();
 		opacity: 0.6;
 	}
 
 	&.wildcard {
-		border: 2px solid #fbbf24;
-		background: #fef3c7;
+		border: var(--border-width-thick) solid
+			var(--color-warning);
+		background: color-mix(
+			in srgb,
+			var(--color-warning) 10%,
+			var(--color-background)
+		);
 	}
 
 	&.opponent {
-		border: 2px solid #ef4444;
-		background: #fee2e2;
+		border: var(--border-width-thick) solid
+			var(--color-error);
+		background: color-mix(
+			in srgb,
+			var(--color-error) 10%,
+			var(--color-background)
+		);
 	}
 
 	&.solved-by-player {
-		background: #dbeafe !important;
-		border-color: #2563eb !important;
+		background: color-mix(
+			in srgb,
+			var(--color-primary) 20%,
+			var(--color-background)
+		) !important;
+		border-color: var(--color-primary) !important;
 	}
 
 	&.solved-by-opponent {
-		background: #fee2e2 !important;
-		border-color: #ef4444 !important;
+		background: color-mix(
+			in srgb,
+			var(--color-error) 20%,
+			var(--color-background)
+		) !important;
+		border-color: var(--color-error) !important;
 	}
 }
 
 // Locked cell variant
 .pregame-cell-lockout {
-	pointer-events: none;
-	user-select: none;
-	cursor: not-allowed;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 28px;
-	font-weight: 700;
-	color: #64748b;
-	background: #f1f5f9;
-	border: 1px solid #e5e7eb;
-	border-radius: 8px;
-	min-height: 44px;
+	@include disabled-state();
+	@include flex-center();
+	@include text-heading-xl();
+	color: var(--color-text-tertiary);
+	background: var(--color-background-secondary);
+	border: var(--border-width) solid var(--color-border);
+	border-radius: var(--border-radius-md);
+	min-height: var(--size-11); // 44px
 	width: 100%;
 	text-align: center;
 
 	span {
-		font-size: 32px;
-		font-weight: 800;
+		@include text-heading-2xl();
+		font-weight: var(--font-weight-bold);
 		line-height: 1;
 		display: block;
 	}
@@ -225,240 +229,268 @@
 // ===== VS MODE OVERLAYS =====
 
 .vsGhostOverlay {
-	position: absolute;
-	top: 4px;
-	right: 4px;
-	background: #ef4444;
-	color: #fff;
-	border-radius: 8px;
-	font-size: 12px;
-	padding: 2px 6px;
-	z-index: 2;
-	pointer-events: none;
+	@include badge-overlay();
+	@include absolute-top-right(
+		var(--spacing-xs),
+		var(--spacing-xs)
+	);
+	background: var(--color-error);
+	color: white;
 }
 
 .vsSolvedBadge {
-	position: absolute;
-	bottom: 4px;
-	right: 4px;
-	background: #2563eb;
-	color: #fff;
-	border-radius: 8px;
-	font-size: 12px;
-	padding: 2px 6px;
-	z-index: 2;
-	pointer-events: none;
+	@include badge-overlay();
+	@include absolute-bottom-right(
+		var(--spacing-xs),
+		var(--spacing-xs)
+	);
+	background: var(--color-primary);
+	color: white;
 }
 
 .bot-indicator {
-	position: absolute;
-	top: 4px;
-	left: 4px;
-	background: #f59e0b;
-	color: #fff;
-	border-radius: 8px;
-	font-size: 10px;
-	padding: 1px 4px;
-	z-index: 2;
-	pointer-events: none;
+	@include badge-overlay();
+	@include absolute-top-left(
+		var(--spacing-xs),
+		var(--spacing-xs)
+	);
+	background: var(--color-warning);
+	color: white;
+	font-size: var(--font-size-xs);
 }
 
 .player-indicator {
-	position: absolute;
-	top: 4px;
-	left: 4px;
-	background: #10b981;
-	color: #fff;
-	border-radius: 8px;
-	font-size: 10px;
-	padding: 1px 4px;
-	z-index: 2;
-	pointer-events: none;
+	@include badge-overlay();
+	@include absolute-top-left(
+		var(--spacing-xs),
+		var(--spacing-xs)
+	);
+	background: var(--color-success);
+	color: white;
+	font-size: var(--font-size-xs);
 }
 
 // ===== SOLVED GROUPS STYLES =====
 // Modern grid-based layout
 
 .boardContainer {
-	display: flex;
-	flex-direction: column;
+	@include flex-column();
 	align-items: center;
-	padding: 16px;
-	background: #f5f5f5;
-	border-radius: 12px;
+	padding: var(--spacing-md);
+	background: var(--color-background-secondary);
+	border-radius: var(--border-radius-lg);
+	@include contained-element();
 }
 
 .visuallyHidden {
-	position: absolute;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
+	@include sr-only();
 }
 
 .solvedCategories {
+	@include contained-element();
 	display: grid;
 	grid-template-columns: repeat(
 		auto-fit,
-		minmax(220px, 1fr)
-	);
-	gap: 16px;
-	margin: 24px 0;
+		minmax(var(--size-55), 1fr)
+	); // 220px
+	gap: var(--spacing-md);
+	margin: var(--spacing-xl) 0;
 	list-style: none;
 	padding: 0;
+	max-width: 100%;
 }
 
 .categoryGroup {
-	background-color: #fff;
-	border-radius: 12px;
-	padding: 16px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-	border: 2px solid #e0e0e0;
-	animation: fadeIn 0.5s ease forwards;
+	@include card-base();
+	@include contained-element();
+	padding: var(--spacing-md);
+	border: var(--border-width-thick) solid
+		var(--color-border);
+	animation: slide-up var(--transition-duration-slow) ease
+		forwards;
 
-	// Difficulty level colors (distinct color for each category)
+	// Difficulty level colors using design system
 	&[data-level='0'] {
-		border-color: #fbbf24;
+		border-color: var(--color-warning);
 		background: linear-gradient(
 			135deg,
-			#fef3c7 0%,
-			#fff 100%
+			color-mix(
+					in srgb,
+					var(--color-warning) 15%,
+					var(--color-background)
+				)
+				0%,
+			var(--color-background) 100%
 		);
 
 		.cardItem {
-			background-color: #fef3c7;
+			background-color: color-mix(
+				in srgb,
+				var(--color-warning) 15%,
+				var(--color-background)
+			);
 			&:hover {
-				background-color: #fde68a;
+				background-color: color-mix(
+					in srgb,
+					var(--color-warning) 25%,
+					var(--color-background)
+				);
 			}
 		}
 	}
 
 	&[data-level='1'] {
-		border-color: #10b981;
+		border-color: var(--color-success);
 		background: linear-gradient(
 			135deg,
-			#d1fae5 0%,
-			#fff 100%
+			color-mix(
+					in srgb,
+					var(--color-success) 15%,
+					var(--color-background)
+				)
+				0%,
+			var(--color-background) 100%
 		);
 
 		.cardItem {
-			background-color: #d1fae5;
+			background-color: color-mix(
+				in srgb,
+				var(--color-success) 15%,
+				var(--color-background)
+			);
 			&:hover {
-				background-color: #a7f3d0;
+				background-color: color-mix(
+					in srgb,
+					var(--color-success) 25%,
+					var(--color-background)
+				);
 			}
 		}
 	}
 
 	&[data-level='2'] {
-		border-color: #3b82f6;
+		border-color: var(--color-primary);
 		background: linear-gradient(
 			135deg,
-			#dbeafe 0%,
-			#fff 100%
+			color-mix(
+					in srgb,
+					var(--color-primary) 15%,
+					var(--color-background)
+				)
+				0%,
+			var(--color-background) 100%
 		);
 
 		.cardItem {
-			background-color: #dbeafe;
+			background-color: color-mix(
+				in srgb,
+				var(--color-primary) 15%,
+				var(--color-background)
+			);
 			&:hover {
-				background-color: #bfdbfe;
+				background-color: color-mix(
+					in srgb,
+					var(--color-primary) 25%,
+					var(--color-background)
+				);
 			}
 		}
 	}
 
 	&[data-level='3'] {
-		border-color: #a855f7;
+		border-color: var(--color-secondary);
 		background: linear-gradient(
 			135deg,
-			#e9d5ff 0%,
-			#fff 100%
+			color-mix(
+					in srgb,
+					var(--color-secondary) 15%,
+					var(--color-background)
+				)
+				0%,
+			var(--color-background) 100%
 		);
 
 		.cardItem {
-			background-color: #e9d5ff;
+			background-color: color-mix(
+				in srgb,
+				var(--color-secondary) 15%,
+				var(--color-background)
+			);
 			&:hover {
-				background-color: #ddd6fe;
+				background-color: color-mix(
+					in srgb,
+					var(--color-secondary) 25%,
+					var(--color-background)
+				);
 			}
 		}
 	}
 }
 
 .categoryTitle {
-	font-size: 18px;
-	font-weight: 600;
-	margin-bottom: 12px;
+	@include text-heading-lg();
+	@include flex-column();
+	align-items: center;
+	gap: var(--spacing-xs);
+	margin-bottom: var(--spacing-sm);
 	text-align: center;
 	text-transform: uppercase;
-	letter-spacing: 0.5px;
-	color: #1f2937;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 8px;
+	letter-spacing: 0.025em;
+	color: var(--color-text-primary);
 
 	// Color-coordinated titles for each difficulty level
 	.categoryGroup[data-level='0'] & {
-		color: #d97706; // Amber
+		color: var(--color-warning-dark);
 	}
 
 	.categoryGroup[data-level='1'] & {
-		color: #059669; // Emerald
+		color: var(--color-success-dark);
 	}
 
 	.categoryGroup[data-level='2'] & {
-		color: #2563eb; // Blue
+		color: var(--color-primary-dark);
 	}
 
 	.categoryGroup[data-level='3'] & {
-		color: #7c3aed; // Violet
+		color: var(--color-secondary-dark);
 	}
 }
 
 .categoryTitleText {
-	font-size: 18px;
-	font-weight: 600;
+	@include text-heading-lg();
 	text-transform: uppercase;
-	letter-spacing: 0.5px;
+	letter-spacing: 0.025em;
 }
 
 .playerPill {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 4px 12px;
-	border-radius: 20px;
-	font-size: 12px;
-	font-weight: 600;
+	@include flex-center();
+	@include pill-style();
+	@include text-caption();
+	font-weight: var(--font-weight-semibold);
 	text-transform: none;
-	letter-spacing: 0.25px;
-	margin-top: 4px;
-	animation: textFadeIn 0.6s ease forwards;
+	letter-spacing: 0.01em;
+	margin-top: var(--spacing-xs);
+	animation: fade-in var(--transition-duration-normal) ease
+		forwards;
 
 	// Player pill styling
 	&.player {
-		background-color: #2563eb;
-		color: white;
-		box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+		@include pill-primary();
 	}
 
 	// Bot pill styling
 	&.bot {
-		background-color: #ef4444;
-		color: white;
-		box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+		@include pill-error();
 	}
 
 	// Username pill styling (for multiplayer)
 	&.username {
-		background-color: #10b981;
-		color: white;
-		box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+		@include pill-success();
 	}
 
 	// Alternative username pill
 	&.username-alt {
-		background-color: #8b5cf6;
-		color: white;
-		box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+		@include pill-secondary();
 	}
 }
 
@@ -469,21 +501,23 @@
 }
 
 .cardItem {
-	background-color: #f0f0f0;
-	margin: 6px 0;
-	padding: 8px 12px;
-	border-radius: 8px;
-	font-size: 16px;
+	@include contained-element();
+	background-color: var(--color-background-tertiary);
+	margin: var(--spacing-xs) 0;
+	padding: var(--spacing-xs) var(--spacing-sm);
+	border-radius: var(--border-radius-md);
+	@include text-body-base();
 	text-align: center;
-	transition: background 0.3s;
+	transition: var(--transition-colors);
 
 	&:hover {
-		background-color: #e0e0e0;
+		background-color: var(--color-background-secondary);
 	}
 }
 
 .textFadeIn {
-	animation: textFadeIn 0.5s ease forwards;
+	animation: fade-in var(--transition-duration-slow) ease
+		forwards;
 }
 
 // Legacy class names for backward compatibility
@@ -519,78 +553,39 @@
 	@extend .cardItem;
 }
 
-// ===== ANIMATIONS =====
-
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-		transform: translateY(12px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes fadeInUp {
-	from {
-		opacity: 0;
-		transform: translateY(20px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes slideIn {
-	from {
-		opacity: 0;
-		transform: scale(0.8);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
-}
-
-@keyframes textFadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
 // ===== RESPONSIVE STYLES =====
 
-@media (max-width: 768px) {
+@include media-tablet-down {
 	.unifiedGrid {
-		gap: 8px;
-		padding: 8px;
+		gap: var(--spacing-xs);
+		padding: var(--spacing-xs);
 		max-width: 100%;
 	}
 
 	.grid-cell {
-		min-height: 36px;
-		font-size: 14px;
+		min-height: var(--size-9); // 36px
+		@include text-body-sm();
 	}
 
 	.solved-groups-display {
-		gap: 12px;
-		padding: 0 12px;
+		gap: var(--spacing-sm);
+		padding: 0 var(--spacing-sm);
+	}
+
+	.solvedCategories {
+		grid-template-columns: 1fr;
+		gap: var(--spacing-sm);
 	}
 }
 
-@media (max-width: 480px) {
+@include media-mobile-down {
 	.unifiedGrid {
-		gap: 6px;
-		padding: 6px;
+		gap: var(--spacing-xs);
+		padding: var(--spacing-xs);
 	}
 
 	.grid-cell {
-		min-height: 32px;
-		font-size: 12px;
+		min-height: var(--size-8); // 32px
+		@include text-body-sm();
 	}
 }

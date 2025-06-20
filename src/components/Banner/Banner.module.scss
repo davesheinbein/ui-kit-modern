@@ -1,26 +1,27 @@
-@use '../../styles/Variables.scss' as *;
-@use '../../styles/mixins.scss' as *;
+@use '../../styles/mixins' as *;
 
 .banner {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0.85rem 1.6rem;
-	border-radius: 1.2rem;
-	font-size: 1.13rem;
+	@include flex-center;
+	@include contained-width(100%, 420px, 260px);
+	@include smooth-transition(all);
+	padding: var(--spacing-3) var(--spacing-6);
+	border-radius: var(--radius-lg);
+	@include text-base;
 	font-weight: 600;
-	color: #222;
+	color: var(--text-primary);
 	position: relative;
-	transition: all 0.18s ease;
-	min-width: 260px;
-	max-width: 420px;
 	margin: 0 auto;
+	overflow: hidden; // Prevent content overflow
+
+	// Default animation
+	animation: bannerSlideIn 0.3s ease-out;
 }
 
-// Position variants
+// Position variants - some extend beyond parent bounds intentionally
 .banner--fixed {
 	position: fixed;
-	z-index: 1200;
+	z-index: var(--z-modal);
+	// Intentional overflow: Fixed banners need to stay visible over content
 }
 
 .banner--relative {
@@ -28,161 +29,205 @@
 }
 
 .banner--center {
-	margin: 18px auto 0 auto;
+	margin: var(--spacing-5) auto 0 auto;
 	text-align: center;
 }
 
 .banner--top {
-	top: 20px;
+	top: var(--spacing-5);
 	left: 50%;
 	transform: translateX(-50%);
+	// Intentional overflow: Positioned banners need specific placement
 }
 
 .banner--bottom {
-	bottom: 20px;
+	bottom: var(--spacing-5);
 	left: 50%;
 	transform: translateX(-50%);
+	// Intentional overflow: Positioned banners need specific placement
 }
 
-// Banner variants
+// Banner style variants
 .banner--feedback {
-	max-width: 420px;
-	margin: 18px auto 0 auto;
+	@include contained-width(100%, 420px);
+	margin: var(--spacing-5) auto 0 auto;
 	text-align: center;
-	background: rgba(255, 255, 255, 0.95);
-	color: #222;
-	font-size: 1.08rem;
-	border-radius: 0.5rem;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	padding: 16px 20px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	background: var(--bg-surface-alpha);
+	color: var(--text-primary);
+	@include text-base;
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-sm);
+	padding: var(--spacing-4) var(--spacing-5);
+	@include flex-center;
+	backdrop-filter: blur(8px);
 }
 
 .banner--notification {
-	box-shadow: 0 1.5px 0 #fff8;
-	z-index: 1200;
+	box-shadow: var(--shadow-sm);
+	z-index: var(--z-modal);
 }
 
 .banner--toast {
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	border: 1px solid rgba(255, 255, 255, 0.2);
+	box-shadow: var(--shadow-md);
+	border: 1px solid var(--border-alpha);
 	backdrop-filter: blur(10px);
 }
 
 .banner--status {
-	display: flex;
-	align-items: center;
+	@include flex-row(var(--spacing-4), center, nowrap);
 	justify-content: space-between;
-	gap: 16px;
-	margin-bottom: 16px;
-	padding: 0.5rem 0;
+	margin-bottom: var(--spacing-4);
+	padding: var(--spacing-2) 0;
 	background: transparent;
 	border-radius: 0;
 }
 
 .banner--global {
 	position: fixed;
-	top: 20px;
+	top: var(--spacing-5);
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 9999;
+	z-index: var(--z-maximum);
+	// Intentional overflow: Global banners need maximum visibility
 }
 
-// Type variants (colors)
+// Type variants using design system colors
 .banner--burn {
-	background: linear-gradient(135deg, #ff7043, #ff5722);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--semantic-warning-500),
+		var(--semantic-error-500)
+	);
+	color: var(--text-primary-inverse);
 }
 
 .banner--achievement {
-	background: linear-gradient(135deg, #ffd700, #ffb300);
-	color: #222;
+	background: linear-gradient(
+		135deg,
+		var(--accent-yellow-400),
+		var(--accent-yellow-500)
+	);
+	color: var(--text-primary);
 }
 
 .banner--system {
-	background: linear-gradient(135deg, #2196f3, #1976d2);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--accent-blue-500),
+		var(--accent-blue-600)
+	);
+	color: var(--text-primary-inverse);
 }
 
 .banner--taunt {
-	background: linear-gradient(135deg, #a259f7, #8e24aa);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--accent-purple-500),
+		var(--accent-purple-600)
+	);
+	color: var(--text-primary-inverse);
 }
 
 .banner--success {
-	background: linear-gradient(135deg, #22c55e, #16a34a);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--semantic-success-500),
+		var(--semantic-success-600)
+	);
+	color: var(--text-primary-inverse);
 }
 
 .banner--error {
-	background: linear-gradient(135deg, #ef4444, #dc2626);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--semantic-error-500),
+		var(--semantic-error-600)
+	);
+	color: var(--text-primary-inverse);
 }
 
 .banner--info {
-	background: linear-gradient(135deg, #2563eb, #1d4ed8);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--accent-blue-500),
+		var(--accent-blue-600)
+	);
+	color: var(--text-primary-inverse);
 }
 
 .banner--warning {
-	background: linear-gradient(135deg, #f59e42, #ea580c);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--semantic-warning-500),
+		var(--semantic-warning-600)
+	);
+	color: var(--text-primary-inverse);
 }
 
 // Close button
 .bannerCloseButton {
-	position: absolute;
-	top: 8px;
-	right: 8px;
+	@include absolute-position(
+		var(--spacing-2),
+		var(--spacing-2)
+	);
+	@include interactive-element;
 	background: none;
 	border: none;
-	font-size: 18px;
+	@include text-lg;
 	line-height: 1;
 	color: inherit;
 	cursor: pointer;
-	padding: 4px;
-	border-radius: 4px;
+	padding: var(--spacing-1);
+	border-radius: var(--radius-sm);
 	opacity: 0.7;
-	transition: opacity 0.2s ease;
 
 	&:hover {
 		opacity: 1;
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	&:focus {
+		@include focus-ring;
 	}
 }
 
 // Status bar specific styles
 .banner--status {
 	.vsStatusAvatar {
-		width: 32px;
-		height: 32px;
+		@include contained-size(32px);
 		border-radius: 50%;
+		object-fit: cover;
 	}
 
 	.vsStatusUsername {
 		font-weight: 700;
+		@include text-truncate;
 	}
 
 	.vsStatusGroups {
-		margin-left: 8px;
+		margin-left: var(--spacing-2);
 	}
 
 	.vsStatusMistakes {
-		margin-left: 8px;
+		margin-left: var(--spacing-2);
 	}
 
 	.vsStatusTimer {
 		font-weight: 700;
-		font-size: 18px;
+		@include text-lg;
 	}
 
 	.vsStatusEmoteBtn {
-		margin-left: 8px;
-		font-size: 20px;
+		@include interactive-element;
+		margin-left: var(--spacing-2);
+		@include text-xl;
 		background: none;
 		border: none;
 		cursor: pointer;
+
+		&:hover {
+			transform: scale(1.1);
+		}
 	}
 }
 
@@ -203,6 +248,24 @@
 	}
 }
 
-.banner {
-	animation: bannerSlideIn 0.3s ease-out;
+// Responsive adjustments
+@include mobile {
+	.banner {
+		@include contained-width(
+			100%,
+			calc(100vw - var(--spacing-4)),
+			200px
+		);
+		margin-inline: var(--spacing-2);
+		padding: var(--spacing-2) var(--spacing-4);
+		@include text-sm;
+	}
+
+	.banner--feedback {
+		@include contained-width(
+			100%,
+			calc(100vw - var(--spacing-4))
+		);
+		margin-inline: var(--spacing-2);
+	}
 }

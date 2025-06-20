@@ -1,12 +1,13 @@
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 
-// Base provider component
+// Base provider component - modernized with containment
 .provider {
 	// Most providers are invisible/logic-only, so minimal base styles
 	position: relative;
+	contain: layout;
 
-	// Provider variants
+	// Provider variants using semantic naming
 	&.provider--context {
 		// Context providers typically don't need visual styles
 		display: contents;
@@ -18,8 +19,8 @@
 	}
 
 	&.provider--listener {
-		// Listeners render nothing
-		display: none;
+		// Listeners render nothing but should be accessible
+		@include visually-hidden;
 	}
 
 	&.provider--settings {
@@ -28,7 +29,7 @@
 	}
 
 	&.provider--theme {
-		// Theme providers might affect global styling
+		// Theme providers affect global styling
 		display: contents;
 	}
 
@@ -38,17 +39,16 @@
 	}
 }
 
-// Position variants
+// Position variants with modern sizing
 .provider {
 	&.provider--root {
 		// Root-level providers typically wrap the entire app
-		width: 100%;
-		height: 100%;
+		@include full-viewport;
 	}
 
 	&.provider--app {
 		// App-level providers
-		width: 100%;
+		@include full-width;
 	}
 
 	&.provider--component {
@@ -74,8 +74,8 @@
 }
 
 .achievementSocketListener {
-	// AchievementSocketListener is logic-only, no visual styles needed
-	display: none;
+	// AchievementSocketListener is logic-only but accessible
+	@include visually-hidden;
 }
 
 .themePaletteProvider {

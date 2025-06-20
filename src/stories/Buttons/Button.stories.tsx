@@ -61,13 +61,34 @@ const meta: Meta<typeof UnifiedButton> = {
 			control: 'text',
 			description: 'Button text content',
 		},
+		word: {
+			control: 'text',
+			description: 'Word content (for word buttons)',
+		},
 		icon: {
 			control: 'text',
 			description: 'Icon to display (emoji or text)',
 		},
-		onClick: {
-			action: 'clicked',
-			description: 'Function called when button is clicked',
+		label: {
+			control: 'text',
+			description: 'Accessibility label for icon buttons',
+		},
+		size: {
+			control: 'select',
+			options: ['small', 'medium', 'large'],
+			description: 'Button size',
+		},
+		loading: {
+			control: 'boolean',
+			description: 'Show loading state',
+		},
+		fullWidth: {
+			control: 'boolean',
+			description: 'Take full width of container',
+		},
+		disabled: {
+			control: 'boolean',
+			description: 'Disable button interactions',
 		},
 		isSelected: {
 			control: 'boolean',
@@ -82,6 +103,10 @@ const meta: Meta<typeof UnifiedButton> = {
 			control: 'boolean',
 			description: 'Locked/disabled state',
 		},
+		burnSuspect: {
+			control: 'boolean',
+			description: 'Burn suspect state (for word buttons)',
+		},
 		href: {
 			control: 'text',
 			description: 'Link URL (for link buttons)',
@@ -89,6 +114,10 @@ const meta: Meta<typeof UnifiedButton> = {
 		copyText: {
 			control: 'text',
 			description: 'Text to copy (for copy-link buttons)',
+		},
+		onClick: {
+			action: 'clicked',
+			description: 'Function called when button is clicked',
 		},
 	},
 };

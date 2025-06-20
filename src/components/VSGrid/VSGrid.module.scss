@@ -1,36 +1,75 @@
+@use '../../styles/mixins' as mixins;
+
+// VS Grid Container
 .vsGrid {
-	display: grid;
-	gap: 12px;
-	width: 100%;
-	max-width: 480px;
-	margin: 0 auto;
+	@include mixins.contained-grid(
+		var(--spacing-3),
+		100%,
+		480px
+	);
+	@include mixins.card-base;
 	min-height: 320px;
-	background: #fff;
-	border-radius: 16px;
-	box-shadow: 0 2px 16px 0 #e3eaff33;
-	padding: 12px;
+	background: var(--bg-surface, #fff);
+
+	&:focus-within {
+		outline: 2px solid var(--accent-blue-500);
+		outline-offset: 2px;
+	}
 }
+
+// Badge Components
+%badge-base {
+	@include mixins.absolute-position;
+	@include mixins.flex-center;
+	@include mixins.text-xs;
+	padding: var(--spacing-1) var(--spacing-2);
+	border-radius: var(--radius-sm);
+	color: var(--text-primary-inverse);
+	z-index: var(--z-overlay);
+	pointer-events: none;
+	font-weight: 600;
+	line-height: 1;
+}
+
 .vsGhostOverlay {
-	position: absolute;
-	top: 4px;
-	right: 4px;
-	background: #ef4444;
-	color: #fff;
-	border-radius: 8px;
-	font-size: 12px;
-	padding: 2px 6px;
-	z-index: 2;
-	pointer-events: none;
+	@extend %badge-base;
+	top: var(--spacing-1);
+	right: var(--spacing-1);
+	background: var(--semantic-error-500);
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: -2px;
+		border-radius: inherit;
+		background: var(--semantic-error-300);
+		opacity: 0.3;
+		z-index: -1;
+	}
 }
+
 .vsSolvedBadge {
-	position: absolute;
-	bottom: 4px;
-	right: 4px;
-	background: #2563eb;
-	color: #fff;
-	border-radius: 8px;
-	font-size: 12px;
-	padding: 2px 6px;
-	z-index: 2;
-	pointer-events: none;
+	@extend %badge-base;
+	bottom: var(--spacing-1);
+	right: var(--spacing-1);
+	background: var(--accent-blue-500);
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: -2px;
+		border-radius: inherit;
+		background: var(--accent-blue-300);
+		opacity: 0.3;
+		z-index: -1;
+	}
+}
+
+// Responsive adjustments
+@include mixins.mobile {
+	.vsGrid {
+		max-width: 100%;
+		margin-inline: var(--spacing-2);
+		gap: var(--spacing-2);
+	}
 }

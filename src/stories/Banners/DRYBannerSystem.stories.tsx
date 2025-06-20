@@ -38,9 +38,85 @@ const meta: Meta<typeof BannerFactory> = {
 			control: 'text',
 			description: 'Message to display in the banner',
 		},
+		title: {
+			control: 'text',
+			description: 'Banner title (optional)',
+		},
+		variant: {
+			control: 'select',
+			options: [
+				'default',
+				'primary',
+				'secondary',
+				'success',
+				'warning',
+				'error',
+				'info',
+			],
+			description: 'Banner variant/style',
+		},
+		size: {
+			control: 'select',
+			options: ['sm', 'md', 'lg'],
+			description: 'Banner size',
+		},
+		position: {
+			control: 'select',
+			options: [
+				'top',
+				'bottom',
+				'top-left',
+				'top-right',
+				'bottom-left',
+				'bottom-right',
+				'center',
+			],
+			description: 'Banner position (for toasts)',
+		},
+		dismissible: {
+			control: 'boolean',
+			description: 'Can be dismissed by user',
+		},
+		autoHide: {
+			control: 'boolean',
+			description: 'Auto hide after delay',
+		},
+		duration: {
+			control: {
+				type: 'range',
+				min: 1000,
+				max: 10000,
+				step: 500,
+			},
+			description: 'Auto hide duration (ms)',
+		},
+		showIcon: {
+			control: 'boolean',
+			description: 'Show icon',
+		},
+		icon: {
+			control: 'text',
+			description: 'Custom icon (emoji or text)',
+		},
+		showProgress: {
+			control: 'boolean',
+			description: 'Show progress indicator',
+		},
+		animated: {
+			control: 'boolean',
+			description: 'Enable animations',
+		},
+		persistent: {
+			control: 'boolean',
+			description: 'Persist until manually dismissed',
+		},
 		onClose: {
 			action: 'close clicked',
 			description: 'Callback when banner is closed',
+		},
+		onClick: {
+			action: 'banner clicked',
+			description: 'Callback when banner is clicked',
 		},
 	},
 };

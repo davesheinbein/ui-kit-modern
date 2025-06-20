@@ -1,33 +1,37 @@
-// Theme Component SCSS Module
-// Base styles for all theme variants
+/**
+ * Theme.module.scss - Modern Theme Component Styles with DRY Design System
+ */
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
+
+// ========================================
+// Base Theme Component with Modern Containment
+// ========================================
 
 .themeBase {
 	font-family: var(--font-family);
 	position: relative;
-	transition: all 0.3s ease;
+	transition: all var(--transition-standard);
 }
 
-// =============================================================================
-// LAYOUT VARIANTS
-// =============================================================================
+// ========================================
+// Layout Variants with Modern Flexbox
+// ========================================
 
 .horizontal {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
+	@include flex-center;
 	flex-wrap: wrap;
 }
 
 .vertical {
-	display: flex;
-	flex-direction: column;
+	@include flex-column;
 	align-items: center;
-	gap: 0.5rem;
+	gap: var(--spacing-2);
 }
 
 .grid {
-	display: grid;
+	@include contained-grid(var(--spacing-3));
 	grid-template-columns: repeat(
 		auto-fit,
 		minmax(120px, 1fr)
@@ -37,9 +41,8 @@
 }
 
 .compact {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
+	@include flex-center;
+	gap: var(--spacing-2);
 }
 
 // =============================================================================

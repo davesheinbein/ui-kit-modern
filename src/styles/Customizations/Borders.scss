@@ -1,4 +1,4 @@
-@use '../Variables.scss' as *;
+@use '../mixins' as mixins;
 
 .customization-item-btn {
 	&.border-style-solid {
@@ -20,31 +20,33 @@
 }
 
 .customization-item-btn.border-preview {
-	width: 72px;
-	height: 72px;
-	border-radius: 12px;
-	background: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include mixins.contained-size(72px);
+	@include mixins.flex-center;
+	border-radius: var(--radius-lg);
+	background: var(--bg-surface);
 	padding: 0;
 	border-width: 3px;
-	transition: all 0.18s;
-}
-.customization-item-btn.border-preview.equipped {
-	border-color: #38bdf8 !important;
-	box-shadow: 0 0 10px #38bdf8;
+	@include mixins.smooth-transition(all);
+	overflow: hidden; // Prevent border preview overflow
+
+	&.equipped {
+		border-color: var(--accent-blue-500) !important;
+		box-shadow: 0 0 10px var(--accent-blue-200);
+	}
 }
 
 .border-option {
+	overflow: hidden; // Prevent option content overflow
+
 	.border-preview-sample {
-		width: 48px;
-		height: 24px;
-		border-radius: 8px;
-		margin-bottom: 8px;
-		background: #fff;
-		border: 3px solid $primary-blue;
+		@include mixins.contained-size(48px, 24px);
+		border-radius: var(--radius-md);
+		margin-bottom: var(--spacing-2);
+		background: var(--bg-surface);
+		border: 3px solid var(--accent-blue-500);
+		overflow: hidden; // Prevent sample overflow
 	}
+
 	&.border-style-solid .border-preview-sample {
 		border-style: solid;
 	}

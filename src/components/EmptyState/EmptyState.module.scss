@@ -1,0 +1,238 @@
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+/* EmptyState.module.scss - Modern Empty State Styles */
+
+.empty_state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: var(--spacing-lg);
+	min-block-size: 300px;
+	color: var(--text-secondary);
+
+	// Sizes with modern containment
+	&--small {
+		min-block-size: 200px;
+		padding: var(--spacing-md);
+	}
+
+	&--medium {
+		min-block-size: 300px;
+		padding: var(--spacing-lg);
+	}
+
+	&--large {
+		min-block-size: 400px;
+		padding: var(--spacing-xl);
+	}
+
+	&--full {
+		inline-size: 100vw;
+		block-size: 100vh;
+		padding: var(--spacing-xl);
+	}
+
+	// Icon/Image container
+	&__icon {
+		margin-block-end: var(--spacing-md);
+		opacity: 0.6;
+
+		svg {
+			inline-size: 64px;
+			block-size: 64px;
+			color: var(--text-tertiary);
+		}
+
+		img {
+			inline-size: 120px;
+			block-size: auto;
+			opacity: 0.8;
+		}
+	}
+
+	// Content area
+	&__content {
+		max-inline-size: 400px;
+		margin-block-end: var(--spacing-md);
+	}
+
+	&__title {
+		font-size: var(--text-xl);
+		font-weight: var(--font-weight-bold);
+		color: var(--text-primary);
+		margin: 0 0 var(--spacing-sm) 0;
+		line-height: var(--line-height-tight);
+	}
+
+	&__description {
+		font-size: var(--text-base);
+		color: var(--text-secondary);
+		margin: 0;
+		line-height: var(--line-height-relaxed);
+	}
+
+	// Actions area
+	&__actions {
+		display: flex;
+		gap: var(--spacing-sm);
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-block-start: var(--spacing-md);
+	}
+
+	// Custom content
+	&__custom {
+		margin-block-start: var(--spacing-md);
+	}
+
+	// Theme variants using semantic colors
+	&--error {
+		.empty_state__icon svg {
+			color: var(--error-500);
+		}
+		.empty_state__title {
+			color: var(--error-600);
+		}
+	}
+
+	&--warning {
+		.empty_state__icon svg {
+			color: var(--warning-500);
+		}
+		.empty_state__title {
+			color: var(--warning-600);
+		}
+	}
+
+	&--info {
+		.empty_state__icon svg {
+			color: var(--info-500);
+		}
+	}
+
+	&--success {
+		.empty_state__icon svg {
+			color: var(--success-500);
+		}
+	}
+
+	// Loading state with modern animation
+	&--loading {
+		.empty_state__icon {
+			animation: pulse var(--animation-duration-slow)
+				infinite;
+		}
+	}
+
+	// Compact layout
+	&--compact {
+		flex-direction: row;
+		text-align: start;
+		min-block-size: auto;
+		padding: var(--spacing-md);
+
+		.empty_state__icon {
+			margin-inline-end: var(--spacing-md);
+			margin-block-end: 0;
+			flex-shrink: 0;
+
+			svg {
+				inline-size: 48px;
+				block-size: 48px;
+			}
+		}
+
+		.empty_state__content {
+			margin-block-end: 0;
+		}
+
+		.empty_state__actions {
+			margin-block-start: var(--spacing-sm);
+			justify-content: flex-start;
+		}
+	}
+
+	// Interactive states with modern focus
+	&--interactive {
+		cursor: pointer;
+		transition: var(--transition-standard);
+		border-radius: var(--radius-md);
+		border: var(--border-thick) dashed transparent;
+
+		&:hover {
+			border-color: var(--primary-500);
+			background-color: var(--primary-50);
+		}
+
+		&:focus-visible {
+			@include focus-ring;
+		}
+	}
+}
+
+// Modern animations
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 0.6;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+// Dark mode with CSS custom properties
+@media (prefers-color-scheme: dark) {
+	.empty_state {
+		--text-secondary: var(--gray-400);
+		--text-primary: var(--gray-50);
+		--text-tertiary: var(--gray-500);
+
+		&--interactive:hover {
+			--primary-50: var(--gray-800);
+		}
+	}
+}
+
+// Responsive design with media queries
+@media (max-width: 768px) {
+	.empty_state {
+		padding: var(--spacing-md);
+		min-block-size: 250px;
+
+		&__icon svg {
+			inline-size: 48px;
+			block-size: 48px;
+		}
+
+		&__icon img {
+			inline-size: 100px;
+		}
+
+		&__title {
+			font-size: var(--text-lg);
+			font-weight: var(--font-weight-semibold);
+		}
+
+		&__description {
+			font-size: var(--text-sm);
+		}
+
+		&--compact {
+			flex-direction: column;
+			text-align: center;
+
+			.empty_state__icon {
+				margin-inline-end: 0;
+				margin-block-end: var(--spacing-sm);
+			}
+
+			.empty_state__actions {
+				justify-content: center;
+			}
+		}
+	}
+}

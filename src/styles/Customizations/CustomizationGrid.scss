@@ -1,21 +1,23 @@
+@use '../mixins' as mixins;
+
 .customization-grid {
-	display: grid;
-	gap: 18px;
+	@include mixins.contained-grid(var(--spacing-5));
 	justify-content: center;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	margin-top: 16px;
+	margin-top: var(--spacing-4);
+	overflow: hidden; // Prevent grid overflow
 
-	@media (min-width: 600px) {
+	@include mixins.tablet {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
-	@media (min-width: 1024px) {
+
+	@include mixins.desktop {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
 
 .customization-item-btn {
-	width: 100%;
-	min-width: 0;
-	max-width: 100px;
+	@include mixins.contained-width(100%, 100px);
 	margin: 0 auto;
+	overflow: hidden; // Prevent button content overflow
 }

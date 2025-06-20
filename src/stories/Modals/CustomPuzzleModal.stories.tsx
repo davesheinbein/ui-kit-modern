@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import {
 	ModalFactory,
 	ModalPresets,
+	M,
 } from '../../components/Modal';
 
 const meta: Meta = {
@@ -14,6 +15,57 @@ const meta: Meta = {
 				component:
 					'Custom Puzzle modal using the DRY modal system. Demonstrates the new unified modal approach with custom-puzzle kind.',
 			},
+		},
+	},
+	argTypes: {
+		open: {
+			control: 'boolean',
+			description: 'Whether the modal is open',
+		},
+		title: {
+			control: 'text',
+			description: 'Modal title',
+		},
+		message: {
+			control: 'text',
+			description: 'Modal message or description',
+		},
+		gridSize: {
+			control: 'select',
+			options: ['4x4', '5x5', '6x6'],
+			description: 'Size of the puzzle grid',
+		},
+		difficulty: {
+			control: 'select',
+			options: ['easy', 'medium', 'hard'],
+			description: 'Puzzle difficulty level',
+		},
+		timeLimit: {
+			control: {
+				type: 'range',
+				min: 30,
+				max: 300,
+				step: 30,
+			},
+			description: 'Time limit in seconds',
+		},
+		enableHints: {
+			control: 'boolean',
+			description: 'Whether to enable hints',
+		},
+		onConfirm: {
+			action: 'confirmed',
+			description:
+				'Function called when puzzle is confirmed',
+		},
+		onCancel: {
+			action: 'cancelled',
+			description:
+				'Function called when modal is cancelled',
+		},
+		onClose: {
+			action: 'closed',
+			description: 'Function called when modal is closed',
 		},
 	},
 };

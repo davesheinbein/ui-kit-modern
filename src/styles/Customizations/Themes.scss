@@ -1,53 +1,53 @@
-@use '../Variables.scss' as *;
+@use '../mixins' as mixins;
 
 // === Theme Customization Item ===
 .customization-item-btn.theme-preview {
-	width: 72px;
-	height: 72px;
-	border-radius: 12px;
-	border: 2px solid #e0e7ef;
-	background: #fff;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+	@include mixins.contained-size(72px);
+	@include mixins.flex-column(0, center, nowrap);
 	justify-content: center;
+	border-radius: var(--radius-lg);
+	border: 2px solid var(--border-default);
+	background: var(--bg-surface);
 	padding: 0;
 	position: relative;
-	overflow: hidden;
-	transition: all 0.18s;
+	overflow: hidden; // Prevent preview content overflow
+	@include mixins.smooth-transition(all);
+
+	&.equipped {
+		border-color: var(--accent-blue-500);
+		box-shadow: 0 0 10px var(--accent-blue-200);
+	}
 }
-.customization-item-btn.theme-preview.equipped {
-	border-color: #38bdf8;
-	box-shadow: 0 0 10px #38bdf8;
-}
+
 .theme-swatch-bar {
-	width: 80%;
+	@include mixins.contained-width(80%);
 	height: 18px;
-	border-radius: 6px;
-	margin: 8px 0 0 0;
+	border-radius: var(--radius-md);
+	margin: var(--spacing-2) 0 0 0;
 	background: linear-gradient(
 		90deg,
-		var(--theme-primary, #2563eb) 0%,
-		var(--theme-accent, #38bdf8) 100%
+		var(--accent-blue-500) 0%,
+		var(--accent-cyan-400) 100%
 	);
+	overflow: hidden; // Prevent swatch overflow
 }
 
 .theme-option {
-	border: 2px solid $primary-blue;
+	border: 2px solid var(--accent-blue-500);
+	overflow: hidden; // Prevent option content overflow
+
 	&.equipped {
-		box-shadow: 0 0 12px 2px $primary-blue-light;
-		border: 2.5px solid $primary-cyan;
+		box-shadow: 0 0 12px 2px var(--accent-blue-200);
+		border: 2.5px solid var(--accent-cyan-400);
 	}
 
 	.theme-preview-swatch {
-		width: 48px;
-		height: 24px;
-		border-radius: 8px;
-		margin-bottom: 8px;
-		background: $primary-blue-light;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		@include mixins.contained-size(48px, 24px);
+		@include mixins.flex-center;
+		border-radius: var(--radius-md);
+		margin-bottom: var(--spacing-2);
+		background: var(--accent-blue-400);
+		overflow: hidden; // Prevent swatch content overflow
 		position: relative;
 	}
 

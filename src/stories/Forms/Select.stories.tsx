@@ -30,13 +30,92 @@ const meta: Meta<typeof FormFieldFactory> = {
 			control: 'text',
 			description: 'Selected value',
 		},
+		defaultValue: {
+			control: 'text',
+			description: 'Default selected value',
+		},
+		options: {
+			control: 'object',
+			description: 'Array of select options',
+		},
+		label: {
+			control: 'text',
+			description: 'Label for the select field',
+		},
+		placeholder: {
+			control: 'text',
+			description:
+				'Placeholder text when no option is selected',
+		},
+		multiple: {
+			control: 'boolean',
+			description: 'Allow multiple selections',
+		},
+		searchable: {
+			control: 'boolean',
+			description:
+				'Whether select is searchable/filterable',
+		},
+		clearable: {
+			control: 'boolean',
+			description: 'Whether selected value can be cleared',
+		},
+		required: {
+			control: 'boolean',
+			description: 'Whether selection is required',
+		},
 		disabled: {
 			control: 'boolean',
 			description: 'Disable the select',
 		},
+		loading: {
+			control: 'boolean',
+			description: 'Whether select is in loading state',
+		},
 		error: {
 			control: 'text',
 			description: 'Error message to display',
+		},
+		helperText: {
+			control: 'text',
+			description: 'Helper text below select',
+		},
+		size: {
+			control: 'select',
+			options: ['small', 'medium', 'large'],
+			description: 'Size of the select field',
+		},
+		variant: {
+			control: 'select',
+			options: ['default', 'outlined', 'filled'],
+			description: 'Visual variant of the select',
+		},
+		maxMenuHeight: {
+			control: {
+				type: 'range',
+				min: 100,
+				max: 400,
+				step: 20,
+			},
+			description: 'Maximum height of dropdown menu',
+		},
+		onChange: {
+			action: 'selectionChanged',
+			description: 'Function called when selection changes',
+		},
+		onFocus: {
+			action: 'selectFocused',
+			description: 'Function called when select is focused',
+		},
+		onBlur: {
+			action: 'selectBlurred',
+			description:
+				'Function called when select loses focus',
+		},
+		onSearchChange: {
+			action: 'searchChanged',
+			description:
+				'Function called when search input changes',
 		},
 	},
 };

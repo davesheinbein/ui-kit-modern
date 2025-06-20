@@ -3,53 +3,57 @@
 
 // Base card styling
 .baseCard {
-	@include card;
-	border-radius: 0.75rem;
-	transition: all 0.2s ease;
+	@include modern-card;
+	@include interactive-element;
 	position: relative;
 	outline: none;
+	overflow: hidden; // Prevent content overflow
 
 	&:focus-visible {
-		box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+		@include focus-ring;
 	}
 }
 
-// Card variants
+// Card variants using modern surface styles
 .card-default {
-	background: #fff;
-	border: 1px solid #e5e7eb;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	@include surface-elevated;
+	background: var(--surface-primary);
+	border: var(--border-thin) solid var(--gray-200);
+	box-shadow: var(--shadow-sm);
 }
 
 .card-elevated {
-	background: #fff;
+	@include surface-elevated;
+	background: var(--surface-primary);
 	border: none;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	box-shadow: var(--shadow-md);
 }
 
 .card-outlined {
+	@include surface-outlined;
 	background: transparent;
-	border: 2px solid #e5e7eb;
+	border: var(--border-thick) solid var(--gray-300);
 	box-shadow: none;
 }
 
 .card-filled {
-	background: $primary-gray;
+	@include surface-neutral;
+	background: var(--gray-50);
 	border: none;
 	box-shadow: none;
 }
 
 // Card sizes
 .card-small {
-	border-radius: 0.5rem;
+	border-radius: var(--radius-sm);
 }
 
 .card-medium {
-	border-radius: 0.75rem;
+	border-radius: var(--radius-md);
 }
 
 .card-large {
-	border-radius: 1rem;
+	border-radius: var(--radius-lg);
 }
 
 // Card padding variants
@@ -58,92 +62,86 @@
 }
 
 .card-padding-small {
-	padding: 0.75rem;
+	padding: var(--spacing-3);
 }
 
 .card-padding-medium {
-	padding: 1rem;
+	padding: var(--spacing-4);
 }
 
 .card-padding-large {
-	padding: 1.5rem;
+	padding: var(--spacing-6);
 }
 
 // Card states
 .cardHover {
 	&:hover {
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+		box-shadow: var(--shadow-lg);
 		transform: translateY(-1px);
 	}
 }
 
 .cardClickable {
-	cursor: pointer;
-
-	&:hover {
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-		transform: translateY(-1px);
-	}
-
-	&:active {
-		transform: translateY(0);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	}
+	@include interactive-card;
 }
 
 // ===== SPECIFIC CARD KIND STYLES =====
 
 // Friend card styles
 .friend-card {
-	margin-bottom: 1rem;
+	margin-block-end: var(--spacing-4);
 
 	&:hover {
-		box-shadow: 0 4px 16px #a259f733;
+		box-shadow: 0 4px 16px var(--primary-200);
 	}
 }
 
 .friendCardHeader {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
-	margin-bottom: 0.75rem;
+	gap: var(--spacing-2);
+	margin-block-end: var(--spacing-3);
 }
 
 .friendStatusDot {
-	@include status-dot(10px);
+	@include status-indicator;
+	inline-size: 10px;
+	block-size: 10px;
+	border-radius: 50%;
 }
 
 .status-inmatch {
-	@include status-dot-state(#a259f7);
+	background-color: var(--primary-500);
 }
 
 .status-idle {
-	@include status-dot-state(#fbbf24);
+	background-color: var(--warning-500);
 }
 
 .status-online {
-	@include status-dot-state(#22c55e);
+	background-color: var(--success-500);
 }
 
 .status-offline {
-	@include status-dot-state(#64748b);
+	background-color: var(--gray-400);
 }
 
 .friendUsername {
-	font-weight: 600;
-	color: $primary-black;
+	@include typography-subtitle-md;
+	color: var(--text-primary);
 }
 
 .friendCardActions {
 	display: flex;
-	gap: 0.5rem;
+	align-items: flex-start;
+	gap: var(--spacing-2);
 	flex-wrap: wrap;
 }
 
 // Game card styles
 .game-card {
 	&:hover {
-		box-shadow: 0 4px 16px rgba($primary-color, 0.2);
+		box-shadow: 0 4px 16px var(--primary-200);
 	}
 }
 
@@ -152,66 +150,54 @@
 	text-align: center;
 
 	&:hover {
-		box-shadow: 0 4px 16px rgba($secondary-color, 0.2);
+		box-shadow: 0 4px 16px var(--success-200);
 	}
 }
 
 // Notification card styles
 .notification-card {
-	border-left: 4px solid $primary-color;
+	border-inline-start: 4px solid var(--primary-500);
 
 	&.notification-warning {
-		border-left-color: $primary-yellow;
+		border-inline-start-color: var(--warning-500);
 	}
 
 	&.notification-error {
-		border-left-color: $primary-red;
+		border-inline-start-color: var(--error-500);
 	}
 
 	&.notification-success {
-		border-left-color: #22c55e;
+		border-inline-start-color: var(--success-500);
+	}
+
+	&.notification-info {
+		border-inline-start-color: var(--info-500);
 	}
 }
 
 .notificationHeader {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
-	margin-bottom: 0.75rem;
+	gap: var(--spacing-2);
+	margin-block-end: var(--spacing-3);
 }
 
 .notificationIcon {
-	font-size: 1.2rem;
+	@include typography-lg;
 	flex-shrink: 0;
-}
-
-.notification-info {
-	border-left-color: #007bff;
-}
-
-.notification-success {
-	border-left-color: #28a745;
-}
-
-.notification-warning {
-	border-left-color: #ffc107;
-}
-
-.notification-error {
-	border-left-color: #dc3545;
 }
 
 // Stats card styles
 .stats-card {
 	background: linear-gradient(
 		135deg,
-		$primary-blue 0%,
-		$secondary-color 100%
+		var(--primary-500) 0%,
+		var(--success-500) 100%
 	);
-	color: white;
+	color: var(--surface-primary);
 
 	.card-title {
-		color: white;
-		font-weight: 600;
+		color: var(--surface-primary);
+		font-weight: var(--font-weight-semibold);
 	}
 }

@@ -1,6 +1,6 @@
 /**
  * WrapperConfigurations.ts - DRY Wrapper Configuration System
- * 
+ *
  * This file provides a comprehensive configuration system for all wrapper types
  * used throughout the application. Wrappers provide backward compatibility
  * and simplified interfaces to unified components.
@@ -15,13 +15,13 @@ export type WrapperKind =
 	| 'component'
 	| 'provider'
 	| 'legacy'
-	
+
 	// Layout Wrappers
 	| 'flex-container'
 	| 'grid-container'
 	| 'center-container'
 	| 'stack-container'
-	
+
 	// Component Wrappers
 	| 'button-wrapper'
 	| 'header-wrapper'
@@ -37,13 +37,13 @@ export type WrapperKind =
 	| 'banner-wrapper'
 	| 'chat-wrapper'
 	| 'form-wrapper'
-	
+
 	// Provider Wrappers
 	| 'socket-provider-wrapper'
 	| 'user-settings-provider-wrapper'
 	| 'theme-palette-provider-wrapper'
 	| 'achievement-socket-listener-wrapper'
-	
+
 	// Legacy Component Wrappers
 	| 'primary-button-wrapper'
 	| 'secondary-button-wrapper'
@@ -59,7 +59,7 @@ export type WrapperKind =
 	| 'friends-sidebar-wrapper'
 	| 'session-debugger-wrapper'
 	| 'dark-mode-toggle-wrapper'
-	
+
 	// Generic Wrappers
 	| 'backward-compatibility-wrapper'
 	| 'legacy-wrapper'
@@ -89,28 +89,28 @@ export interface WrapperConfiguration {
 	kind: WrapperKind;
 	variant: WrapperVariant;
 	layout: WrapperLayout;
-	
+
 	// Target Component
 	targetComponent: string;
 	unifiedComponent: string;
-	
+
 	// Wrapper Properties
 	maintainAPI?: boolean;
 	addEnhancements?: boolean;
 	simplifyProps?: boolean;
 	preserveEvents?: boolean;
-	
+
 	// Styling
 	className?: string;
 	wrapperClassName?: string;
 	preserveOriginalStyles?: boolean;
-	
+
 	// Behavior
 	forwardRef?: boolean;
 	memoized?: boolean;
 	deprecationWarning?: boolean;
 	migrationGuide?: string;
-	
+
 	// Documentation
 	description?: string;
 	migrationPath?: string;
@@ -131,7 +131,8 @@ const component: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	description: 'Generic component wrapper',
-	migrationPath: 'Use the specific unified component or factory method',
+	migrationPath:
+		'Use the specific unified component or factory method',
 };
 
 const provider: WrapperConfiguration = {
@@ -143,7 +144,8 @@ const provider: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	description: 'Generic provider wrapper',
-	migrationPath: 'Use the specific unified provider or factory method',
+	migrationPath:
+		'Use the specific unified provider or factory method',
 };
 
 const legacy: WrapperConfiguration = {
@@ -156,7 +158,8 @@ const legacy: WrapperConfiguration = {
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Generic legacy wrapper',
-	migrationPath: 'Migrate to the corresponding unified component',
+	migrationPath:
+		'Migrate to the corresponding unified component',
 };
 
 // Layout Wrapper Configurations
@@ -168,8 +171,10 @@ const flexContainer: WrapperConfiguration = {
 	unifiedComponent: 'FlexContainer',
 	maintainAPI: true,
 	preserveEvents: true,
-	description: 'Flexbox container wrapper with positioning control',
-	migrationPath: 'Use CSS flexbox directly or UnifiedWrapper with flex kind',
+	description:
+		'Flexbox container wrapper with positioning control',
+	migrationPath:
+		'Use CSS flexbox directly or UnifiedWrapper with flex kind',
 };
 
 const gridContainer: WrapperConfiguration = {
@@ -180,8 +185,10 @@ const gridContainer: WrapperConfiguration = {
 	unifiedComponent: 'GridContainer',
 	maintainAPI: true,
 	preserveEvents: true,
-	description: 'CSS Grid container wrapper with positioning control',
-	migrationPath: 'Use CSS grid directly or UnifiedWrapper with grid kind',
+	description:
+		'CSS Grid container wrapper with positioning control',
+	migrationPath:
+		'Use CSS grid directly or UnifiedWrapper with grid kind',
 };
 
 const centerContainer: WrapperConfiguration = {
@@ -192,8 +199,10 @@ const centerContainer: WrapperConfiguration = {
 	unifiedComponent: 'CenterContainer',
 	maintainAPI: true,
 	preserveEvents: true,
-	description: 'Container that centers content both horizontally and vertically',
-	migrationPath: 'Use CSS centering techniques or UnifiedWrapper with center kind',
+	description:
+		'Container that centers content both horizontally and vertically',
+	migrationPath:
+		'Use CSS centering techniques or UnifiedWrapper with center kind',
 };
 
 const stackContainer: WrapperConfiguration = {
@@ -205,7 +214,8 @@ const stackContainer: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	description: 'Vertical stack container with gap control',
-	migrationPath: 'Use CSS flexbox column or UnifiedWrapper with stack kind',
+	migrationPath:
+		'Use CSS flexbox column or UnifiedWrapper with stack kind',
 };
 
 const buttonWrapper: WrapperConfiguration = {
@@ -218,8 +228,10 @@ const buttonWrapper: WrapperConfiguration = {
 	preserveEvents: true,
 	forwardRef: true,
 	memoized: true,
-	description: 'Backward compatibility wrapper for Button component',
-	migrationPath: 'Use UnifiedButton directly or ButtonFactory for new code',
+	description:
+		'Backward compatibility wrapper for Button component',
+	migrationPath:
+		'Use UnifiedButton directly or ButtonFactory for new code',
 };
 
 const headerWrapper: WrapperConfiguration = {
@@ -231,8 +243,10 @@ const headerWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Simplified interface wrapper for Header component',
-	migrationPath: 'Use UnifiedHeader or HeaderFactory for advanced features',
+	description:
+		'Simplified interface wrapper for Header component',
+	migrationPath:
+		'Use UnifiedHeader or HeaderFactory for advanced features',
 };
 
 const modalWrapper: WrapperConfiguration = {
@@ -244,8 +258,10 @@ const modalWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Backward compatibility wrapper for Modal component',
-	migrationPath: 'Use UnifiedModal or ModalFactory for new features',
+	description:
+		'Backward compatibility wrapper for Modal component',
+	migrationPath:
+		'Use UnifiedModal or ModalFactory for new features',
 };
 
 const gridWrapper: WrapperConfiguration = {
@@ -257,8 +273,10 @@ const gridWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Basic wrapper around UnifiedGrid for simple use cases',
-	migrationPath: 'Use UnifiedGrid or GridFactory for advanced layouts',
+	description:
+		'Basic wrapper around UnifiedGrid for simple use cases',
+	migrationPath:
+		'Use UnifiedGrid or GridFactory for advanced layouts',
 };
 
 const pageWrapper: WrapperConfiguration = {
@@ -270,8 +288,10 @@ const pageWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Wrapper around UnifiedPage for the most common use case',
-	migrationPath: 'Use UnifiedPage or PageFactory for advanced features',
+	description:
+		'Wrapper around UnifiedPage for the most common use case',
+	migrationPath:
+		'Use UnifiedPage or PageFactory for advanced features',
 };
 
 const graphWrapper: WrapperConfiguration = {
@@ -283,8 +303,10 @@ const graphWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Wrapper around UnifiedGraph for the most common use case',
-	migrationPath: 'Use UnifiedGraph or GraphFactory for advanced charts',
+	description:
+		'Wrapper around UnifiedGraph for the most common use case',
+	migrationPath:
+		'Use UnifiedGraph or GraphFactory for advanced charts',
 };
 
 const sidebarWrapper: WrapperConfiguration = {
@@ -296,8 +318,10 @@ const sidebarWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Backward compatibility wrapper for Sidebar component',
-	migrationPath: 'Use UnifiedSidebar or SidebarFactory for new features',
+	description:
+		'Backward compatibility wrapper for Sidebar component',
+	migrationPath:
+		'Use UnifiedSidebar or SidebarFactory for new features',
 };
 
 const settingsWrapper: WrapperConfiguration = {
@@ -309,8 +333,10 @@ const settingsWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Backward compatibility wrapper for Settings component',
-	migrationPath: 'Use UnifiedSettings or SettingsFactory for new features',
+	description:
+		'Backward compatibility wrapper for Settings component',
+	migrationPath:
+		'Use UnifiedSettings or SettingsFactory for new features',
 };
 
 const themeWrapper: WrapperConfiguration = {
@@ -322,8 +348,10 @@ const themeWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Backward compatibility wrapper for Theme component',
-	migrationPath: 'Use UnifiedTheme or ThemeFactory for new features',
+	description:
+		'Backward compatibility wrapper for Theme component',
+	migrationPath:
+		'Use UnifiedTheme or ThemeFactory for new features',
 };
 
 const adminWrapper: WrapperConfiguration = {
@@ -335,8 +363,10 @@ const adminWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Backward compatibility wrapper for Admin component',
-	migrationPath: 'Use UnifiedAdmin or AdminFactory for new features',
+	description:
+		'Backward compatibility wrapper for Admin component',
+	migrationPath:
+		'Use UnifiedAdmin or AdminFactory for new features',
 };
 
 const cardWrapper: WrapperConfiguration = {
@@ -348,8 +378,10 @@ const cardWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Simplified interface wrapper for Card component',
-	migrationPath: 'Use UnifiedCard or CardFactory for advanced features',
+	description:
+		'Simplified interface wrapper for Card component',
+	migrationPath:
+		'Use UnifiedCard or CardFactory for advanced features',
 };
 
 const bannerWrapper: WrapperConfiguration = {
@@ -361,8 +393,10 @@ const bannerWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Simplified interface wrapper for Banner component',
-	migrationPath: 'Use UnifiedBanner or BannerFactory for advanced features',
+	description:
+		'Simplified interface wrapper for Banner component',
+	migrationPath:
+		'Use UnifiedBanner or BannerFactory for advanced features',
 };
 
 const chatWrapper: WrapperConfiguration = {
@@ -374,8 +408,10 @@ const chatWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Simplified interface wrapper for Chat component',
-	migrationPath: 'Use UnifiedChat or ChatFactory for advanced features',
+	description:
+		'Simplified interface wrapper for Chat component',
+	migrationPath:
+		'Use UnifiedChat or ChatFactory for advanced features',
 };
 
 const formWrapper: WrapperConfiguration = {
@@ -387,8 +423,10 @@ const formWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
-	description: 'Simplified interface wrapper for Form component',
-	migrationPath: 'Use UnifiedForm or FormFactory for advanced features',
+	description:
+		'Simplified interface wrapper for Form component',
+	migrationPath:
+		'Use UnifiedForm or FormFactory for advanced features',
 };
 
 // Provider Wrappers
@@ -400,8 +438,10 @@ const socketProviderWrapper: WrapperConfiguration = {
 	unifiedComponent: 'UnifiedProvider',
 	maintainAPI: true,
 	preserveEvents: true,
-	description: 'Backward compatibility wrapper for SocketProvider',
-	migrationPath: 'Use UnifiedProvider with kind="socket-provider"',
+	description:
+		'Backward compatibility wrapper for SocketProvider',
+	migrationPath:
+		'Use UnifiedProvider with kind="socket-provider"',
 };
 
 const userSettingsProviderWrapper: WrapperConfiguration = {
@@ -412,8 +452,10 @@ const userSettingsProviderWrapper: WrapperConfiguration = {
 	unifiedComponent: 'UnifiedProvider',
 	maintainAPI: true,
 	preserveEvents: true,
-	description: 'Backward compatibility wrapper for UserSettingsProvider',
-	migrationPath: 'Use UnifiedProvider with kind="user-settings-provider"',
+	description:
+		'Backward compatibility wrapper for UserSettingsProvider',
+	migrationPath:
+		'Use UnifiedProvider with kind="user-settings-provider"',
 };
 
 const themePaletteProviderWrapper: WrapperConfiguration = {
@@ -424,21 +466,26 @@ const themePaletteProviderWrapper: WrapperConfiguration = {
 	unifiedComponent: 'UnifiedProvider',
 	maintainAPI: true,
 	preserveEvents: true,
-	description: 'Backward compatibility wrapper for ThemePaletteProvider',
-	migrationPath: 'Use UnifiedProvider with kind="theme-palette-provider"',
+	description:
+		'Backward compatibility wrapper for ThemePaletteProvider',
+	migrationPath:
+		'Use UnifiedProvider with kind="theme-palette-provider"',
 };
 
-const achievementSocketListenerWrapper: WrapperConfiguration = {
-	kind: 'achievement-socket-listener-wrapper',
-	variant: 'provider-wrapper',
-	layout: 'passthrough',
-	targetComponent: 'AchievementSocketListener',
-	unifiedComponent: 'UnifiedProvider',
-	maintainAPI: true,
-	preserveEvents: true,
-	description: 'Backward compatibility wrapper for AchievementSocketListener',
-	migrationPath: 'Use UnifiedProvider with kind="achievement-socket-listener"',
-};
+const achievementSocketListenerWrapper: WrapperConfiguration =
+	{
+		kind: 'achievement-socket-listener-wrapper',
+		variant: 'provider-wrapper',
+		layout: 'passthrough',
+		targetComponent: 'AchievementSocketListener',
+		unifiedComponent: 'UnifiedProvider',
+		maintainAPI: true,
+		preserveEvents: true,
+		description:
+			'Backward compatibility wrapper for AchievementSocketListener',
+		migrationPath:
+			'Use UnifiedProvider with kind="achievement-socket-listener"',
+	};
 
 // Legacy Component Wrappers
 const primaryButtonWrapper: WrapperConfiguration = {
@@ -451,7 +498,8 @@ const primaryButtonWrapper: WrapperConfiguration = {
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for PrimaryButton component',
-	migrationPath: 'Use UnifiedButton with kind="primary" or ButtonFactory.primary()',
+	migrationPath:
+		'Use UnifiedButton with kind="primary" or ButtonFactory.primary()',
 };
 
 const secondaryButtonWrapper: WrapperConfiguration = {
@@ -463,8 +511,10 @@ const secondaryButtonWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description: 'Legacy wrapper for SecondaryButton component',
-	migrationPath: 'Use UnifiedButton with kind="secondary" or ButtonFactory.secondary()',
+	description:
+		'Legacy wrapper for SecondaryButton component',
+	migrationPath:
+		'Use UnifiedButton with kind="secondary" or ButtonFactory.secondary()',
 };
 
 const closeButtonWrapper: WrapperConfiguration = {
@@ -477,7 +527,8 @@ const closeButtonWrapper: WrapperConfiguration = {
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for CloseButton component',
-	migrationPath: 'Use UnifiedButton with kind="close" or ButtonFactory.close()',
+	migrationPath:
+		'Use UnifiedButton with kind="close" or ButtonFactory.close()',
 };
 
 const iconButtonWrapper: WrapperConfiguration = {
@@ -490,7 +541,8 @@ const iconButtonWrapper: WrapperConfiguration = {
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for IconButton component',
-	migrationPath: 'Use UnifiedButton with kind="icon" or ButtonFactory.icon()',
+	migrationPath:
+		'Use UnifiedButton with kind="icon" or ButtonFactory.icon()',
 };
 
 const browseHeaderWrapper: WrapperConfiguration = {
@@ -503,7 +555,8 @@ const browseHeaderWrapper: WrapperConfiguration = {
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for BrowseHeader component',
-	migrationPath: 'Use UnifiedHeader with kind="browse-tabbed" or HeaderFactory.browseWithTabs()',
+	migrationPath:
+		'Use UnifiedHeader with kind="browse-tabbed" or HeaderFactory.browseWithTabs()',
 };
 
 const modalHeaderWrapper: WrapperConfiguration = {
@@ -516,7 +569,8 @@ const modalHeaderWrapper: WrapperConfiguration = {
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for ModalHeader component',
-	migrationPath: 'Use UnifiedHeader with kind="modal" or HeaderFactory.modal()',
+	migrationPath:
+		'Use UnifiedHeader with kind="modal" or HeaderFactory.modal()',
 };
 
 const vsGridWrapper: WrapperConfiguration = {
@@ -528,8 +582,10 @@ const vsGridWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description: 'Legacy VSGrid component - wrapper around UnifiedGrid',
-	migrationPath: 'Use UnifiedGrid with kind="vs-grid" or GridFactory.vsGrid()',
+	description:
+		'Legacy VSGrid component - wrapper around UnifiedGrid',
+	migrationPath:
+		'Use UnifiedGrid with kind="vs-grid" or GridFactory.vsGrid()',
 };
 
 const startupPageWrapper: WrapperConfiguration = {
@@ -541,8 +597,10 @@ const startupPageWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description: 'Legacy wrapper using the unified page system',
-	migrationPath: 'Use UnifiedPage with kind="startup" or PageFactory.startup()',
+	description:
+		'Legacy wrapper using the unified page system',
+	migrationPath:
+		'Use UnifiedPage with kind="startup" or PageFactory.startup()',
 };
 
 const customizationCategoryWrapper: WrapperConfiguration = {
@@ -554,8 +612,10 @@ const customizationCategoryWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description: 'Backward compatibility wrapper for CustomizationCategory',
-	migrationPath: 'Use UnifiedSettings with kind="customization-category" or SettingsFactory',
+	description:
+		'Backward compatibility wrapper for CustomizationCategory',
+	migrationPath:
+		'Use UnifiedSettings with kind="customization-category" or SettingsFactory',
 };
 
 const settingsPanelWrapper: WrapperConfiguration = {
@@ -567,8 +627,10 @@ const settingsPanelWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description: 'Backward compatibility wrapper for SettingsPanel',
-	migrationPath: 'Use UnifiedSettings with kind="settings-panel" or SettingsFactory',
+	description:
+		'Backward compatibility wrapper for SettingsPanel',
+	migrationPath:
+		'Use UnifiedSettings with kind="settings-panel" or SettingsFactory',
 };
 
 const themeSelectorWrapper: WrapperConfiguration = {
@@ -580,8 +642,10 @@ const themeSelectorWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description: 'Legacy wrapper using the unified theme system',
-	migrationPath: 'Use UnifiedTheme with kind="selector" or ThemeFactory.selector()',
+	description:
+		'Legacy wrapper using the unified theme system',
+	migrationPath:
+		'Use UnifiedTheme with kind="selector" or ThemeFactory.selector()',
 };
 
 const friendsSidebarWrapper: WrapperConfiguration = {
@@ -593,8 +657,10 @@ const friendsSidebarWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description: 'Legacy FriendsSidebar - Backward compatibility wrapper',
-	migrationPath: 'Use UnifiedSidebar with kind="friends" or SidebarFactory.friends()',
+	description:
+		'Legacy FriendsSidebar - Backward compatibility wrapper',
+	migrationPath:
+		'Use UnifiedSidebar with kind="friends" or SidebarFactory.friends()',
 };
 
 const sessionDebuggerWrapper: WrapperConfiguration = {
@@ -606,8 +672,10 @@ const sessionDebuggerWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description: 'Backward Compatibility Wrapper for SessionDebugger',
-	migrationPath: 'Use UnifiedAdmin with kind="session-debugger" or AdminFactory.sessionDebugger()',
+	description:
+		'Backward Compatibility Wrapper for SessionDebugger',
+	migrationPath:
+		'Use UnifiedAdmin with kind="session-debugger" or AdminFactory.sessionDebugger()',
 };
 
 const darkModeToggleWrapper: WrapperConfiguration = {
@@ -619,8 +687,10 @@ const darkModeToggleWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description: 'Legacy component wrapper for dark mode toggle functionality',
-	migrationPath: 'Use UnifiedButton with kind="dark-mode-toggle" or ButtonFactory.darkModeToggle()',
+	description:
+		'Legacy component wrapper for dark mode toggle functionality',
+	migrationPath:
+		'Use UnifiedButton with kind="dark-mode-toggle" or ButtonFactory.darkModeToggle()',
 };
 
 // Generic Wrappers
@@ -633,7 +703,8 @@ const backwardCompatibilityWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	preserveEvents: true,
 	description: 'Generic backward compatibility wrapper',
-	migrationPath: 'Migrate to the corresponding unified component',
+	migrationPath:
+		'Migrate to the corresponding unified component',
 };
 
 const legacyWrapper: WrapperConfiguration = {
@@ -646,7 +717,8 @@ const legacyWrapper: WrapperConfiguration = {
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Generic legacy component wrapper',
-	migrationPath: 'Use the corresponding unified component or factory',
+	migrationPath:
+		'Use the corresponding unified component or factory',
 };
 
 const simpleWrapper: WrapperConfiguration = {
@@ -659,7 +731,8 @@ const simpleWrapper: WrapperConfiguration = {
 	simplifyProps: true,
 	preserveEvents: true,
 	description: 'Simple wrapper with reduced API surface',
-	migrationPath: 'Use unified component for advanced features',
+	migrationPath:
+		'Use unified component for advanced features',
 };
 
 const enhancedWrapper: WrapperConfiguration = {
@@ -671,26 +744,31 @@ const enhancedWrapper: WrapperConfiguration = {
 	maintainAPI: true,
 	addEnhancements: true,
 	preserveEvents: true,
-	description: 'Enhanced wrapper with additional functionality',
-	migrationPath: 'Use unified component directly for full control',
+	description:
+		'Enhanced wrapper with additional functionality',
+	migrationPath:
+		'Use unified component directly for full control',
 };
 
 // ========================================
 // Configuration Registry
 // ========================================
 
-export const WRAPPER_CONFIGURATIONS: Record<WrapperKind, WrapperConfiguration> = {
+export const WRAPPER_CONFIGURATIONS: Record<
+	WrapperKind,
+	WrapperConfiguration
+> = {
 	// Generic Wrappers
 	'component': component,
 	'provider': provider,
 	'legacy': legacy,
-	
+
 	// Layout Wrappers
 	'flex-container': flexContainer,
 	'grid-container': gridContainer,
 	'center-container': centerContainer,
 	'stack-container': stackContainer,
-	
+
 	// Component Wrappers
 	'button-wrapper': buttonWrapper,
 	'header-wrapper': headerWrapper,
@@ -706,13 +784,16 @@ export const WRAPPER_CONFIGURATIONS: Record<WrapperKind, WrapperConfiguration> =
 	'banner-wrapper': bannerWrapper,
 	'chat-wrapper': chatWrapper,
 	'form-wrapper': formWrapper,
-	
+
 	// Provider Wrappers
 	'socket-provider-wrapper': socketProviderWrapper,
-	'user-settings-provider-wrapper': userSettingsProviderWrapper,
-	'theme-palette-provider-wrapper': themePaletteProviderWrapper,
-	'achievement-socket-listener-wrapper': achievementSocketListenerWrapper,
-	
+	'user-settings-provider-wrapper':
+		userSettingsProviderWrapper,
+	'theme-palette-provider-wrapper':
+		themePaletteProviderWrapper,
+	'achievement-socket-listener-wrapper':
+		achievementSocketListenerWrapper,
+
 	// Legacy Component Wrappers
 	'primary-button-wrapper': primaryButtonWrapper,
 	'secondary-button-wrapper': secondaryButtonWrapper,
@@ -722,15 +803,17 @@ export const WRAPPER_CONFIGURATIONS: Record<WrapperKind, WrapperConfiguration> =
 	'modal-header-wrapper': modalHeaderWrapper,
 	'vs-grid-wrapper': vsGridWrapper,
 	'startup-page-wrapper': startupPageWrapper,
-	'customization-category-wrapper': customizationCategoryWrapper,
+	'customization-category-wrapper':
+		customizationCategoryWrapper,
 	'settings-panel-wrapper': settingsPanelWrapper,
 	'theme-selector-wrapper': themeSelectorWrapper,
 	'friends-sidebar-wrapper': friendsSidebarWrapper,
 	'session-debugger-wrapper': sessionDebuggerWrapper,
 	'dark-mode-toggle-wrapper': darkModeToggleWrapper,
-	
+
 	// Generic Wrappers
-	'backward-compatibility-wrapper': backwardCompatibilityWrapper,
+	'backward-compatibility-wrapper':
+		backwardCompatibilityWrapper,
 	'legacy-wrapper': legacyWrapper,
 	'simple-wrapper': simpleWrapper,
 	'enhanced-wrapper': enhancedWrapper,
@@ -743,23 +826,29 @@ export const WRAPPER_CONFIGURATIONS: Record<WrapperKind, WrapperConfiguration> =
 /**
  * Get wrapper configuration by kind
  */
-export function getWrapperConfig(kind: WrapperKind): WrapperConfiguration {
+export function getWrapperConfig(
+	kind: WrapperKind
+): WrapperConfiguration {
 	return WRAPPER_CONFIGURATIONS[kind];
 }
 
 /**
  * Check if a wrapper kind exists
  */
-export function isWrapperKind(kind: string): kind is WrapperKind {
+export function isWrapperKind(
+	kind: string
+): kind is WrapperKind {
 	return kind in WRAPPER_CONFIGURATIONS;
 }
 
 /**
  * Get all wrapper configurations by variant
  */
-export function getWrappersByVariant(variant: WrapperVariant): WrapperConfiguration[] {
+export function getWrappersByVariant(
+	variant: WrapperVariant
+): WrapperConfiguration[] {
 	return Object.values(WRAPPER_CONFIGURATIONS).filter(
-		config => config.variant === variant
+		(config) => config.variant === variant
 	);
 }
 
@@ -768,7 +857,7 @@ export function getWrappersByVariant(variant: WrapperVariant): WrapperConfigurat
  */
 export function getDeprecatedWrappers(): WrapperConfiguration[] {
 	return Object.values(WRAPPER_CONFIGURATIONS).filter(
-		config => config.deprecationWarning
+		(config) => config.deprecationWarning
 	);
 }
 
@@ -784,9 +873,10 @@ export function createWrapperConfig(
 		...baseConfig,
 		...overrides,
 		// Merge className if both exist
-		className: overrides.className ? 
-			`${baseConfig.className || ''} ${overrides.className}`.trim() : 
-			baseConfig.className,
+		className:
+			overrides.className ?
+				`${baseConfig.className || ''} ${overrides.className}`.trim()
+			:	baseConfig.className,
 	};
 }
 
@@ -796,28 +886,51 @@ export function createWrapperConfig(
 
 export const WRAPPER_GROUPS = {
 	COMPONENT: [
-		'button-wrapper', 'header-wrapper', 'modal-wrapper', 'grid-wrapper',
-		'page-wrapper', 'graph-wrapper', 'sidebar-wrapper', 'settings-wrapper',
-		'theme-wrapper', 'admin-wrapper', 'card-wrapper', 'banner-wrapper',
-		'chat-wrapper', 'form-wrapper'
+		'button-wrapper',
+		'header-wrapper',
+		'modal-wrapper',
+		'grid-wrapper',
+		'page-wrapper',
+		'graph-wrapper',
+		'sidebar-wrapper',
+		'settings-wrapper',
+		'theme-wrapper',
+		'admin-wrapper',
+		'card-wrapper',
+		'banner-wrapper',
+		'chat-wrapper',
+		'form-wrapper',
 	] as WrapperKind[],
-	
+
 	PROVIDER: [
-		'socket-provider-wrapper', 'user-settings-provider-wrapper',
-		'theme-palette-provider-wrapper', 'achievement-socket-listener-wrapper'
+		'socket-provider-wrapper',
+		'user-settings-provider-wrapper',
+		'theme-palette-provider-wrapper',
+		'achievement-socket-listener-wrapper',
 	] as WrapperKind[],
-	
+
 	LEGACY: [
-		'primary-button-wrapper', 'secondary-button-wrapper', 'close-button-wrapper',
-		'icon-button-wrapper', 'browse-header-wrapper', 'modal-header-wrapper',
-		'vs-grid-wrapper', 'startup-page-wrapper', 'customization-category-wrapper',
-		'settings-panel-wrapper', 'theme-selector-wrapper', 'friends-sidebar-wrapper',
-		'session-debugger-wrapper', 'dark-mode-toggle-wrapper'
+		'primary-button-wrapper',
+		'secondary-button-wrapper',
+		'close-button-wrapper',
+		'icon-button-wrapper',
+		'browse-header-wrapper',
+		'modal-header-wrapper',
+		'vs-grid-wrapper',
+		'startup-page-wrapper',
+		'customization-category-wrapper',
+		'settings-panel-wrapper',
+		'theme-selector-wrapper',
+		'friends-sidebar-wrapper',
+		'session-debugger-wrapper',
+		'dark-mode-toggle-wrapper',
 	] as WrapperKind[],
-	
+
 	GENERIC: [
-		'backward-compatibility-wrapper', 'legacy-wrapper',
-		'simple-wrapper', 'enhanced-wrapper'
+		'backward-compatibility-wrapper',
+		'legacy-wrapper',
+		'simple-wrapper',
+		'enhanced-wrapper',
 	] as WrapperKind[],
 };
 
@@ -834,5 +947,6 @@ export const QUICK_WRAPPERS = {
 	SIDEBAR: 'sidebar-wrapper' as WrapperKind,
 	SETTINGS: 'settings-wrapper' as WrapperKind,
 	LEGACY: 'legacy-wrapper' as WrapperKind,
-	COMPATIBILITY: 'backward-compatibility-wrapper' as WrapperKind,
+	COMPATIBILITY:
+		'backward-compatibility-wrapper' as WrapperKind,
 };

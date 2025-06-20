@@ -43,6 +43,74 @@ const meta: Meta<typeof FormFieldFactory> = {
 				'website-input',
 				'social-handle-input',
 			],
+			description: 'Input field kind/type',
+		},
+		label: {
+			control: 'text',
+			description: 'Field label text',
+		},
+		placeholder: {
+			control: 'text',
+			description: 'Placeholder text',
+		},
+		value: {
+			control: 'text',
+			description: 'Current value',
+		},
+		defaultValue: {
+			control: 'text',
+			description: 'Default/initial value',
+		},
+		required: {
+			control: 'boolean',
+			description: 'Mark field as required',
+		},
+		disabled: {
+			control: 'boolean',
+			description: 'Disable field interactions',
+		},
+		readOnly: {
+			control: 'boolean',
+			description: 'Make field read-only',
+		},
+		error: {
+			control: 'text',
+			description: 'Error message to display',
+		},
+		helperText: {
+			control: 'text',
+			description: 'Helper/hint text',
+		},
+		size: {
+			control: 'select',
+			options: ['sm', 'md', 'lg'],
+			description: 'Field size',
+		},
+		variant: {
+			control: 'select',
+			options: [
+				'default',
+				'filled',
+				'outlined',
+				'underlined',
+			],
+			description: 'Field visual variant',
+		},
+		autoComplete: {
+			control: 'text',
+			description: 'Autocomplete attribute',
+		},
+		autoFocus: {
+			control: 'boolean',
+			description: 'Auto focus on mount',
+		},
+		clearable: {
+			control: 'boolean',
+			description: 'Show clear button',
+		},
+		showPasswordToggle: {
+			control: 'boolean',
+			description: 'Show password visibility toggle',
 		},
 	},
 };

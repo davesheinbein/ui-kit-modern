@@ -1,0 +1,99 @@
+/**
+ * NavigationFactoryDRY.ts - Ultra DRY Navigation Factory
+ *
+ * Provides ultra-compact ways to create navigation components with minimal code.
+ * Follows the same pattern as ButtonFactoryDRY for consistency.
+ */
+
+import React from 'react';
+import UnifiedNavigation, {
+	UnifiedNavigationProps,
+} from './UnifiedNavigation';
+import {
+	NavigationKind,
+	getNavigationConfig,
+} from './NavigationConfigurations';
+
+// ========================================
+// Ultra-DRY Navigation Factory
+// ========================================
+
+export interface NavigationFactoryConfig {
+	kind: NavigationKind;
+	[key: string]: any;
+}
+
+/**
+ * Ultra-DRY Navigation Factory - creates navigation components with minimal code
+ */
+export const NavigationFactory = (
+	config: NavigationFactoryConfig | NavigationKind
+) => {
+	const finalConfig =
+		typeof config === 'string' ? { kind: config } : config;
+
+	return (props: Partial<UnifiedNavigationProps> = {}) => {
+		const mergedProps = { ...finalConfig, ...props };
+		return React.createElement(
+			UnifiedNavigation,
+			mergedProps
+		);
+	};
+};
+
+// ========================================
+// Ultra-Short Alias (N)
+// ========================================
+
+/**
+ * Ultra-short alias for NavigationFactory
+ * Usage: N('navbar')({ items: [...] })
+ */
+export const N = NavigationFactory;
+
+// ========================================
+// Pre-configured Navigation Presets
+// ========================================
+
+export const NavigationPresets = {
+	// Primary Navigation
+	navbar: NavigationFactory('navbar'),
+	mobileNav: NavigationFactory('mobile-nav'),
+	hamburger: NavigationFactory('hamburger-menu'),
+	sideDrawer: NavigationFactory('side-drawer'),
+
+	// Secondary Navigation
+	breadcrumbs: NavigationFactory('breadcrumbs'),
+	pagination: NavigationFactory('pagination'),
+	tabs: NavigationFactory('tabs'),
+	segmentedControls: NavigationFactory(
+		'segmented-controls'
+	),
+
+	// Utility Navigation
+	backNav: NavigationFactory('back-navigation'),
+	stepNav: NavigationFactory('step-navigation'),
+	filterNav: NavigationFactory('filter-navigation'),
+	quickNav: NavigationFactory('quick-navigation'),
+
+	// Advanced Presets
+	responsiveNav: NavigationFactory({
+		kind: 'navbar',
+		responsive: true,
+		mobileBreakpoint: 768,
+	}),
+
+	dashboardNav: NavigationFactory({
+		kind: 'side-drawer',
+		collapsible: true,
+		defaultCollapsed: false,
+	}),
+
+	wizardNav: NavigationFactory({
+		kind: 'step-navigation',
+		showProgress: true,
+		allowSkip: false,
+	}),
+};
+
+export default NavigationFactory;

@@ -1,0 +1,496 @@
+/**
+ * Notification.module.scss - Modern Notification System with Design System
+ */
+@use '../../styles/mixins' as mixins;
+
+.notification {
+	// Base styles with proper containment
+	display: flex;
+	align-items: flex-start;
+	gap: var(--spacing-3);
+	position: relative;
+	padding: var(--spacing-4);
+	margin: var(--spacing-2);
+	background: var(--bg-surface);
+	border: 1px solid var(--border-default);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-sm);
+	color: var(--text-primary);
+	font-size: var(--text-sm);
+	line-height: 1.25;
+	transition: all var(--transition-normal);
+	overflow: hidden; // Prevent content overflow
+
+	// States
+	&--hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+
+// Content sections with proper containment
+.notification__icon {
+	@include mixins.flex-center;
+	width: var(--spacing-5);
+	height: var(--spacing-5);
+	flex-shrink: 0;
+}
+
+.notification__icon_text {
+	font-size: var(--text-base);
+	font-weight: 700;
+}
+
+.notification__content {
+	flex: 1;
+	min-width: 0; // Allow text truncation
+	overflow: hidden; // Prevent text overflow
+}
+
+.notification__title {
+	font-weight: 600;
+	font-size: var(--text-base);
+	margin-bottom: var(--spacing-1);
+	@include mixins.text-truncate;
+}
+
+.notification__message {
+	opacity: 0.9;
+	@include mixins.text-truncate-lines(
+		3
+	); // Limit to 3 lines
+}
+
+.notification__children {
+	margin-top: var(--spacing-2);
+}
+
+.notification__close {
+	position: absolute;
+	top: var(--spacing-2);
+	right: var(--spacing-2);
+	background: none;
+	border: none;
+	font-size: var(--text-xl);
+	cursor: pointer;
+	opacity: 0.5;
+	padding: var(--spacing-1);
+	border-radius: var(--radius-sm);
+	transition: all var(--transition-fast);
+
+	&:hover {
+		opacity: 1;
+		background: var(--bg-muted);
+	}
+
+	&:focus {
+		@include mixins.focus-ring;
+	}
+}
+
+.notification__actions {
+	display: flex;
+	gap: var(--spacing-2);
+	margin-top: var(--spacing-3);
+	flex-wrap: wrap; // Allow wrapping on small screens
+}
+
+.notification__action {
+	@include mixins.button-base;
+	padding: var(--spacing-1) var(--spacing-3);
+	border: 1px solid var(--border-default);
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--text-primary);
+	cursor: pointer;
+	font-size: var(--text-sm);
+	transition: all var(--transition-fast);
+
+	&--primary {
+		background: var(--accent-blue-500);
+		color: var(--text-primary-inverse);
+		border-color: var(--accent-blue-500);
+	}
+
+	&--secondary {
+		background: var(--bg-secondary);
+		color: var(--text-secondary);
+		border-color: var(--border-default);
+	}
+
+	&--text {
+		border: none;
+		background: none;
+		color: var(--accent-blue-500);
+	}
+
+	&--confirm {
+		background: var(--accent-blue-500);
+		color: var(--text-primary-inverse);
+		border-color: var(--accent-blue-500);
+	}
+
+	&--cancel {
+		background: transparent;
+		color: var(--text-tertiary);
+		border-color: var(--border-default);
+	}
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow: var(--shadow-sm);
+	}
+}
+
+.notification__progress {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 3px;
+	background: var(--bg-muted);
+	border-radius: 0 0 var(--radius-md) var(--radius-md);
+	overflow: hidden;
+}
+
+.notification__progress_bar {
+	height: 100%;
+	background: currentColor;
+	transition: width 0.1s linear;
+	border-radius: inherit;
+	will-change: width; // Optimize for animation
+}
+
+// Severity variants using design system
+.notification--success {
+	background: var(--semantic-success-50);
+	border-color: var(--semantic-success-500);
+	color: var(--semantic-success-900);
+
+	.notification__icon {
+		color: var(--semantic-success-500);
+	}
+}
+
+.notification--error {
+	background: var(--semantic-error-50);
+	border-color: var(--semantic-error-500);
+	color: var(--semantic-error-900);
+
+	.notification__icon {
+		color: var(--semantic-error-500);
+	}
+}
+
+.notification--warning {
+	background: var(--semantic-warning-50);
+	border-color: var(--semantic-warning-500);
+	color: var(--semantic-warning-900);
+
+	.notification__icon {
+		color: var(--semantic-warning-500);
+	}
+}
+
+.notification--info {
+	background: var(--accent-blue-50);
+	border-color: var(--accent-blue-500);
+	color: var(--accent-blue-900);
+
+	.notification__icon {
+		color: var(--accent-blue-500);
+	}
+}
+
+.notification--neutral {
+	// Uses default notification styles
+	color: var(--text-primary);
+}
+
+// Variant styles
+.notification--filled {
+	&.notification--success {
+		background: var(--semantic-success-500);
+		color: var(--text-primary-inverse);
+		border-color: var(--semantic-success-500);
+	}
+
+	&.notification--error {
+		background: var(--semantic-error-500);
+		color: var(--text-primary-inverse);
+		border-color: var(--semantic-error-500);
+	}
+
+	&.notification--warning {
+		background: var(--semantic-warning-500);
+		color: var(--text-primary-inverse);
+		border-color: var(--semantic-warning-500);
+	}
+
+	&.notification--info {
+		background: var(--accent-blue-500);
+		color: var(--text-primary-inverse);
+		border-color: var(--accent-blue-500);
+	}
+}
+
+.notification--outlined {
+	background: transparent;
+	border-width: 2px;
+}
+
+.notification--minimal {
+	border: none;
+	box-shadow: none;
+	background: transparent;
+}
+
+.notification--modern {
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-lg);
+}
+
+.notification--glass {
+	background: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.notification--game_style {
+	background: linear-gradient(
+		135deg,
+		var(--accent-blue-800),
+		var(--accent-blue-500)
+	);
+	color: var(--text-primary-inverse);
+	border: 2px solid var(--accent-yellow-400);
+	box-shadow: 0 0 20px var(--accent-blue-200);
+}
+
+// Position styles - some extend beyond bounds intentionally for overlays
+%notification-positioned {
+	position: fixed;
+	z-index: var(--z-notification);
+	// Intentional overflow: Notifications need to appear over other content
+}
+
+.notification--top_left {
+	@extend %notification-positioned;
+	top: var(--spacing-4);
+	left: var(--spacing-4);
+}
+
+.notification--top_center {
+	@extend %notification-positioned;
+	top: var(--spacing-4);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.notification--top_right {
+	@extend %notification-positioned;
+	top: var(--spacing-4);
+	right: var(--spacing-4);
+}
+
+.notification--bottom_left {
+	@extend %notification-positioned;
+	bottom: var(--spacing-4);
+	left: var(--spacing-4);
+}
+
+.notification--bottom_center {
+	@extend %notification-positioned;
+	bottom: var(--spacing-4);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.notification--bottom_right {
+	@extend %notification-positioned;
+	bottom: var(--spacing-4);
+	right: var(--spacing-4);
+}
+
+.notification--center {
+	@extend %notification-positioned;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	max-width: 400px;
+	min-width: 300px;
+}
+
+// Optimized animations
+@keyframes slideInRight {
+	from {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes slideOutRight {
+	from {
+		transform: translateX(0);
+		opacity: 1;
+	}
+	to {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes scaleIn {
+	from {
+		transform: scale(0.8);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes scaleOut {
+	from {
+		transform: scale(1);
+		opacity: 1;
+	}
+	to {
+		transform: scale(0.8);
+		opacity: 0;
+	}
+}
+
+@keyframes bounceIn {
+	from {
+		transform: scale(0.3);
+		opacity: 0;
+	}
+	50% {
+		transform: scale(1.05);
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes shake {
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+	10%,
+	30%,
+	50%,
+	70%,
+	90% {
+		transform: translateX(-10px);
+	}
+	20%,
+	40%,
+	60%,
+	80% {
+		transform: translateX(10px);
+	}
+}
+
+// Animation classes
+.notification--enter-slide {
+	animation: slideInRight 0.3s ease-out;
+}
+
+.notification--exit-slide {
+	animation: slideOutRight 0.3s ease-in;
+}
+
+.notification--enter-fade {
+	animation: fadeIn 0.3s ease-out;
+}
+
+.notification--exit-fade {
+	animation: fadeOut 0.3s ease-in;
+}
+
+.notification--enter-scale {
+	animation: scaleIn 0.3s ease-out;
+}
+
+.notification--exit-scale {
+	animation: scaleOut 0.3s ease-in;
+}
+
+.notification--enter-bounce {
+	animation: bounceIn 0.5s ease-out;
+}
+
+.notification--enter-shake {
+	animation: shake 0.5s ease-out;
+}
+
+// Responsive design with proper containment
+@include mixins.mobile-only {
+	.notification {
+		margin: var(--spacing-1);
+		padding: var(--spacing-3);
+		font-size: var(--text-xs);
+
+		&--top_left,
+		&--top_center,
+		&--top_right {
+			top: var(--spacing-2);
+			left: var(--spacing-2);
+			right: var(--spacing-2);
+			transform: none;
+		}
+
+		&--bottom_left,
+		&--bottom_center,
+		&--bottom_right {
+			bottom: var(--spacing-2);
+			left: var(--spacing-2);
+			right: var(--spacing-2);
+			transform: none;
+		}
+
+		&--center {
+			top: 50%;
+			left: var(--spacing-2);
+			right: var(--spacing-2);
+			transform: translateY(-50%);
+			min-width: auto;
+		}
+	}
+
+	.notification__actions {
+		flex-direction: column;
+
+		.notification__action {
+			width: 100%;
+		}
+	}
+}

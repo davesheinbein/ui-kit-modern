@@ -1,87 +1,100 @@
+/**
+ * UnifiedButtonEnhanced.module.scss - Modern Enhanced Button Styles with DRY Design System
+ */
+@use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
 
-// Enhanced styles for the UnifiedButton component
+// ========================================
+// Enhanced Button State Modifiers
+// ========================================
 
-// Button state modifiers
 .selected {
-	background: #e0e7ff !important;
-	border-color: #2563eb !important;
+	background: var(--color-primary-light) !important;
+	border-color: var(--color-primary) !important;
+	color: var(--color-primary-dark) !important;
 }
 
 .active {
-	background: #2563eb !important;
-	color: white !important;
+	background: var(--color-primary) !important;
+	color: var(--color-white) !important;
+	box-shadow: var(--shadow-sm);
 }
 
 .locked {
-	opacity: 0.6;
-	cursor: not-allowed !important;
+	@include disabled-state;
 	pointer-events: none;
 }
 
 .burnSuspect {
-	background: #fef3c7 !important;
-	border-color: #f59e0b !important;
+	background: var(--color-warning-light) !important;
+	border-color: var(--color-warning) !important;
+	color: var(--color-warning-dark) !important;
 }
 
 .burned {
-	background: #fee2e2 !important;
-	border-color: #ef4444 !important;
-	color: #ef4444 !important;
+	background: var(--color-error-light) !important;
+	border-color: var(--color-error) !important;
+	color: var(--color-error) !important;
 }
 
-// Icon positioning
+// ========================================
+// Icon Positioning
+// ========================================
+
 .leftIcon {
-	margin-right: 8px;
-	display: inline-flex;
-	align-items: center;
+	margin-right: var(--spacing-2);
+	@include flex-center;
 }
 
 .rightIcon {
-	margin-left: 8px;
-	display: inline-flex;
-	align-items: center;
+	margin-left: var(--spacing-2);
+	@include flex-center;
 }
 
-// Link button styling
+// ========================================
+// Link Button Styling
+// ========================================
+
 .linkButton {
-	display: inline-flex;
-	align-items: center;
+	@include interactive-element;
+	@include flex-center;
 	text-decoration: none;
-	color: #2563eb;
-	padding: 0.5rem 1rem;
-	border-radius: 0.375rem;
-	transition: all 0.2s ease;
+	color: var(--color-primary);
+	padding: var(--spacing-2) var(--spacing-4);
+	border-radius: var(--radius-md);
 
 	&:hover {
-		background: #f1f5f9;
+		background: var(--color-surface-hover);
 		text-decoration: underline;
 	}
 }
 
-// Close button positioning
+// ========================================
+// Close Button Positioning
+// ========================================
+
 .closeButton {
-	@include close-button-absolute;
-	top: 16px;
-	right: 16px;
-}
-
-// Specialized button styles that aren't covered by BaseButton
-.wordButton {
-	min-width: 80px;
-	font-size: 0.9rem;
-	font-weight: 500;
-}
-
-// Screen reader only content
-.sr-only {
 	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
+	top: var(--spacing-4);
+	right: var(--spacing-4);
+	z-index: var(--z-overlay);
+}
+
+// ========================================
+// Specialized Button Styles
+// ========================================
+
+.wordButton {
+	@include contained-width(80px);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+}
+
+// ========================================
+// Accessibility
+// ========================================
+
+.sr-only {
+	@include visually-hidden;
 }

@@ -2,40 +2,41 @@
 @use '../../styles/mixins.scss' as *;
 
 .fieldWrapper {
+	@include form-field;
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
-	margin-bottom: 1rem;
+	gap: var(--spacing-xs);
+	margin-block-end: var(--spacing-md);
 }
 
 .fullWidth {
-	width: 100%;
+	@include full-width;
 }
 
 .hasError {
 	.fieldContainer input,
 	.fieldContainer textarea,
 	.fieldContainer select {
-		border-color: $primary-red;
+		border-color: var(--error-500);
 
 		&:focus {
-			outline-color: $primary-red;
-			border-color: $primary-red;
+			@include focus-ring;
+			border-color: var(--error-500);
 		}
 	}
 }
 
 .label {
-	font-size: 0.875rem;
-	font-weight: 500;
-	color: #374151;
-	margin-bottom: 4px;
+	@include typography-body-sm;
+	font-weight: var(--font-weight-medium);
+	color: var(--text-secondary);
+	margin-block-end: var(--spacing-1);
 	display: block;
 }
 
 .required {
-	color: $primary-red;
-	margin-left: 2px;
+	color: var(--error-500);
+	margin-inline-start: var(--spacing-1);
 }
 
 .fieldContainer {
@@ -46,58 +47,51 @@
 	input,
 	textarea,
 	select {
-		font-size: 1rem;
-		border-radius: 0.5rem;
-		transition: all 0.2s ease-in-out;
-		outline: none;
-		width: 100%;
-		padding: 0.75rem 1rem;
-		font-family: inherit;
-		border: 1px solid #d1d5db;
-		background-color: #fff;
+		@include form-input;
+		@include full-width;
+		padding: var(--spacing-3) var(--spacing-4);
 
 		&:focus {
-			outline: 2px solid $primary-blue;
-			outline-offset: 0;
-			border-color: $primary-blue;
+			@include focus-ring;
+			border-color: var(--primary-500);
 		}
 
 		&:disabled {
-			background-color: #f9fafb;
-			color: #9ca3af;
+			background-color: var(--gray-100);
+			color: var(--text-disabled);
 			cursor: not-allowed;
 		}
 
 		&::placeholder {
-			color: #9ca3af;
+			color: var(--text-placeholder);
 		}
 	}
 
 	textarea {
 		resize: vertical;
-		min-height: 80px;
+		min-block-size: 80px;
+		overflow: auto; // Prevent overflow
 	}
 
 	select {
+		@include select-input;
 		cursor: pointer;
-		background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
-		background-position: right 0.5rem center;
-		background-repeat: no-repeat;
-		background-size: 1.5em 1.5em;
-		padding-right: 2.5rem;
+		padding-inline-end: var(
+			--spacing-10
+		); // Space for arrow
 	}
 }
 
 .errorText {
-	font-size: 0.875rem;
-	color: $primary-red;
-	margin-top: 4px;
+	@include error-text;
+	color: var(--error-500);
+	margin-block-start: var(--spacing-1);
 }
 
 .helperText {
-	font-size: 0.875rem;
-	color: #6b7280;
-	margin-top: 4px;
+	@include helper-text;
+	color: var(--text-tertiary);
+	margin-block-start: var(--spacing-1);
 }
 
 // Checkbox and radio specific styles
@@ -106,11 +100,12 @@
 	.radioContainer {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: var(--spacing-2);
 
 		input[type='checkbox'],
 		input[type='radio'] {
-			width: auto;
+			inline-size: auto;
+			block-size: auto;
 			padding: 0;
 			margin: 0;
 		}
@@ -122,10 +117,11 @@
 	.switchContainer {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: var(--spacing-2);
 
 		input[type='checkbox'] {
-			width: auto;
+			inline-size: auto;
+			block-size: auto;
 			padding: 0;
 			margin: 0;
 		}
@@ -146,9 +142,9 @@
 		}
 
 		&::-webkit-slider-track {
-			background: #e5e7eb;
+			background: var(--bg-muted);
 			height: 4px;
-			border-radius: 2px;
+			border-radius: var(--radius-sm);
 		}
 
 		&::-webkit-slider-thumb {
@@ -156,15 +152,15 @@
 			width: 20px;
 			height: 20px;
 			border-radius: 50%;
-			background: $primary-blue;
+			background: var(--accent-blue-500);
 			cursor: pointer;
 			margin-top: -8px;
 		}
 
 		&::-moz-range-track {
-			background: #e5e7eb;
+			background: var(--bg-muted);
 			height: 4px;
-			border-radius: 2px;
+			border-radius: var(--radius-sm);
 			border: none;
 		}
 
@@ -172,7 +168,7 @@
 			width: 20px;
 			height: 20px;
 			border-radius: 50%;
-			background: $primary-blue;
+			background: var(--accent-blue-500);
 			cursor: pointer;
 			border: none;
 		}

@@ -1,5 +1,4 @@
-@use '../../styles/Variables.scss' as *;
-@use '../../styles/mixins.scss' as *;
+@use '../../styles/mixins' as mixins;
 
 // ========================================
 // Base Wrapper Styles
@@ -8,25 +7,24 @@
 .unifiedWrapper {
 	position: relative;
 	display: contents; // Allows wrapper to be transparent in layout
-	
+	overflow: hidden; // Prevent wrapper content overflow
+
 	&[data-wrapper-kind] {
-		// Debug styling in development
+		// Debug styling in development only
 		&::before {
 			content: 'Wrapper: ' attr(data-wrapper-kind);
-			position: absolute;
-			top: -20px;
-			left: 0;
-			font-size: 10px;
-			color: #888;
-			background: #f0f0f0;
-			padding: 2px 4px;
-			border-radius: 2px;
-			z-index: 9999;
+			@include mixins.absolute-position(-20px, 0);
+			@include mixins.text-xs;
+			color: var(--text-tertiary);
+			background: var(--bg-muted);
+			padding: var(--spacing-1);
+			border-radius: var(--radius-sm);
+			z-index: var(--z-debug);
 			pointer-events: none;
 			opacity: 0;
-			transition: opacity 0.2s;
+			@include mixins.smooth-transition(opacity);
 		}
-		
+
 		&:hover::before {
 			opacity: 1;
 		}
@@ -40,10 +38,8 @@
 .wrapper--backward-compatibility {
 	// Styles for backward compatibility wrappers
 	.migrationHelper {
-		position: absolute;
-		top: 0;
-		right: 0;
-		z-index: 10000;
+		@include mixins.absolute-position(0, 0);
+		z-index: var(--z-tooltip);
 	}
 }
 
@@ -57,10 +53,8 @@
 	// Styles for enhanced functionality wrappers
 	&::after {
 		content: '✨';
-		position: absolute;
-		top: 0;
-		right: 0;
-		font-size: 12px;
+		@include mixins.absolute-position(0, 0);
+		@include mixins.text-xs;
 		opacity: 0.5;
 		pointer-events: none;
 	}
@@ -68,21 +62,19 @@
 
 .wrapper--legacy-support {
 	// Styles for legacy support wrappers
-	border: 1px dashed orange;
-	border-radius: 4px;
-	padding: 2px;
-	
+	border: 1px dashed var(--semantic-warning-500);
+	border-radius: var(--radius-sm);
+	padding: var(--spacing-1);
+
 	&::before {
 		content: '⚠️ Legacy';
-		position: absolute;
-		top: -12px;
-		left: 0;
-		font-size: 10px;
-		color: orange;
-		background: white;
-		padding: 1px 3px;
-		border-radius: 2px;
-		z-index: 10001;
+		@include mixins.absolute-position(-12px, 0);
+		@include mixins.text-xs;
+		color: var(--semantic-warning-500);
+		background: var(--bg-surface);
+		padding: var(--spacing-1);
+		border-radius: var(--radius-sm);
+		z-index: var(--z-tooltip);
 	}
 }
 
@@ -96,43 +88,44 @@
 	// Styles for component wrappers
 	// Usually minimal styling to maintain component integrity
 	position: relative;
+	overflow: hidden; // Ensure component content doesn't overflow
 }
 
 .wrapper--layout-container {
 	// Base styles for layout containers
 	box-sizing: border-box;
-	
+
 	// Ensure containers take full available space
-	&[data-wrapper="flex-container"] {
+	&[data-wrapper='flex-container'] {
 		width: 100%;
-		
+
 		// Default flex container styles
-		&:not([style*="min-height"]) {
+		&:not([style*='min-height']) {
 			min-height: 200px; // Default minimum height
 		}
 	}
-	
-	&[data-wrapper="grid-container"] {
+
+	&[data-wrapper='grid-container'] {
 		width: 100%;
-		
+
 		// Default grid container styles
-		&:not([style*="min-height"]) {
+		&:not([style*='min-height']) {
 			min-height: 200px; // Default minimum height
 		}
 	}
-	
-	&[data-wrapper="center-container"] {
+
+	&[data-wrapper='center-container'] {
 		width: 100%;
-		
+
 		// Default center container styles
-		&:not([style*="min-height"]) {
+		&:not([style*='min-height']) {
 			min-height: 300px; // Taller default for centering
 		}
 	}
-	
-	&[data-wrapper="stack-container"] {
+
+	&[data-wrapper='stack-container'] {
 		width: 100%;
-		
+
 		// Default stack container styles - no minimum height needed
 	}
 }
@@ -159,7 +152,7 @@
 .wrapper--decorated {
 	// Decorated layout - adds visual decorations
 	position: relative;
-	
+
 	&::before,
 	&::after {
 		content: '';
@@ -180,7 +173,7 @@
 	opacity: 0;
 	transform: translateY(-10px);
 	transition: all 0.2s ease;
-	
+
 	.unifiedWrapper:hover & {
 		opacity: 1;
 		transform: translateY(0);
@@ -189,7 +182,11 @@
 
 .migrationButton {
 	@include button-base;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(
+		135deg,
+		#667eea 0%,
+		#764ba2 100%
+	);
 	color: white;
 	border: none;
 	padding: 4px 8px;
@@ -198,13 +195,17 @@
 	cursor: pointer;
 	white-space: nowrap;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	
+
 	&:hover {
-		background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+		background: linear-gradient(
+			135deg,
+			#764ba2 0%,
+			#667eea 100%
+		);
 		transform: translateY(-1px);
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 	}
-	
+
 	&:active {
 		transform: translateY(0);
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -216,36 +217,36 @@
 // ========================================
 
 // Button Wrappers
-.unifiedWrapper[data-wrapper-kind*="button"] {
+.unifiedWrapper[data-wrapper-kind*='button'] {
 	display: inline-block;
 }
 
 // Header Wrappers
-.unifiedWrapper[data-wrapper-kind*="header"] {
+.unifiedWrapper[data-wrapper-kind*='header'] {
 	display: block;
 	width: 100%;
 }
 
 // Modal Wrappers
-.unifiedWrapper[data-wrapper-kind*="modal"] {
+.unifiedWrapper[data-wrapper-kind*='modal'] {
 	position: fixed;
 	inset: 0;
 	z-index: 1000;
 }
 
 // Grid Wrappers
-.unifiedWrapper[data-wrapper-kind*="grid"] {
+.unifiedWrapper[data-wrapper-kind*='grid'] {
 	display: block;
 }
 
 // Page Wrappers
-.unifiedWrapper[data-wrapper-kind*="page"] {
+.unifiedWrapper[data-wrapper-kind*='page'] {
 	display: block;
 	min-height: 100vh;
 }
 
 // Sidebar Wrappers
-.unifiedWrapper[data-wrapper-kind*="sidebar"] {
+.unifiedWrapper[data-wrapper-kind*='sidebar'] {
 	position: fixed;
 	top: 0;
 	height: 100vh;
@@ -253,7 +254,7 @@
 }
 
 // Provider Wrappers
-.unifiedWrapper[data-wrapper-kind*="provider"] {
+.unifiedWrapper[data-wrapper-kind*='provider'] {
 	display: contents;
 }
 
@@ -264,13 +265,13 @@
 @media (max-width: 768px) {
 	.unifiedWrapper {
 		// Mobile-specific wrapper adjustments
-		
+
 		&::before {
 			// Hide debug info on mobile
 			display: none;
 		}
 	}
-	
+
 	.migrationHelper {
 		// Make migration helper more accessible on mobile
 		position: fixed;
@@ -279,7 +280,7 @@
 		opacity: 0.8;
 		transform: none;
 	}
-	
+
 	.migrationButton {
 		padding: 8px 12px;
 		font-size: 12px;
@@ -291,41 +292,42 @@
 // ========================================
 
 // Development-only styles (when debug mode is on)
-.unifiedWrapper[data-debug="true"] {
+.unifiedWrapper[data-debug='true'] {
 	&::before {
 		opacity: 1;
 		background: #ff6b6b;
 		color: white;
 	}
-	
-	&[data-wrapper-kind*="legacy"] {
+
+	&[data-wrapper-kind*='legacy'] {
 		animation: legacy-warning 2s infinite;
 	}
 }
 
 @keyframes legacy-warning {
-	0%, 100% { 
-		border-color: orange; 
+	0%,
+	100% {
+		border-color: orange;
 		background: transparent;
 	}
-	50% { 
-		border-color: #ff6b6b; 
+	50% {
+		border-color: #ff6b6b;
 		background: rgba(255, 107, 107, 0.1);
 	}
 }
 
 // Production styles (clean, minimal)
-.unifiedWrapper[data-production="true"] {
+.unifiedWrapper[data-production='true'] {
 	&::before,
 	&::after {
 		display: none;
 	}
-	
+
 	.migrationHelper {
 		display: none;
 	}
-	
-	&[data-wrapper-kind*="legacy"] {
+
+	&[data-wrapper-kind*='legacy'] {
 		border: none;
 		animation: none;
 	}
@@ -337,10 +339,10 @@
 
 .unifiedWrapper {
 	// Ensure wrappers don't interfere with screen readers
-	&[aria-hidden="true"] {
+	&[aria-hidden='true'] {
 		display: none;
 	}
-	
+
 	// Focus management
 	&:focus-within {
 		.migrationHelper {
@@ -354,14 +356,14 @@
 @media (prefers-contrast: high) {
 	.wrapper--legacy-support {
 		border-color: #000;
-		
+
 		&::before {
 			color: #000;
 			background: #fff;
 			border: 1px solid #000;
 		}
 	}
-	
+
 	.migrationButton {
 		background: #000;
 		color: #fff;
@@ -377,7 +379,7 @@
 		transition: none;
 		animation: none;
 	}
-	
+
 	.migrationButton:hover {
 		transform: none;
 	}
@@ -394,14 +396,14 @@
 			display: none;
 		}
 	}
-	
+
 	.migrationHelper {
 		display: none;
 	}
-	
+
 	.wrapper--legacy-support {
 		border: none;
-		
+
 		&::before {
 			display: none;
 		}

@@ -1,23 +1,27 @@
-@use '../../styles/utilities.scss' as *;
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
 
 // Base header styles
 .header {
+	@include header-base;
+	@include full-width;
+
 	display: flex;
 	align-items: center;
-	width: 100%;
 	position: relative;
+	overflow: hidden; // Prevent content overflow
 }
 
 .headerInner {
+	@include full-width;
 	display: flex;
 	align-items: center;
-	width: 100%;
-	min-height: 3rem;
+	min-block-size: var(--spacing-12);
 }
 
 .headerChildren {
-	width: 100%;
-	margin-top: 1rem;
+	@include full-width;
+	margin-block-start: var(--spacing-4);
 }
 
 // Layout variants
@@ -56,15 +60,15 @@
 }
 
 .padding-small {
-	padding: 0.5rem 0;
+	padding: var(--spacing-2) 0;
 }
 
 .padding-medium {
-	padding: 1rem 0;
+	padding: var(--spacing-4) 0;
 }
 
 .padding-large {
-	padding: 1.5rem 0;
+	padding: var(--spacing-6) 0;
 }
 
 // Background variants
@@ -73,13 +77,13 @@
 }
 
 .bg-primary {
-	background-color: var(--color-primary);
-	color: var(--color-primary-foreground);
+	background-color: var(--accent-blue-500);
+	color: var(--text-primary-inverse);
 }
 
 .bg-secondary {
-	background-color: var(--color-secondary);
-	color: var(--color-secondary-foreground);
+	background-color: var(--bg-secondary);
+	color: var(--text-secondary);
 }
 
 .bg-custom {
@@ -89,20 +93,21 @@
 
 // Border bottom
 .borderBottom {
-	border-bottom: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--border-default);
 }
 
-// Sticky positioning
+// Sticky positioning - intentionally extends beyond bounds
 .sticky {
 	position: sticky;
 	top: 0;
-	z-index: 100;
-	background-color: var(--color-background);
+	z-index: var(--z-sticky);
+	background-color: var(--bg-surface);
+	// Intentional overflow: Sticky header needs to stay in position
 }
 
 // Collapsible behavior
 .collapsible {
-	transition: all 0.3s ease-in-out;
+	@include smooth-transition(all);
 }
 
 .collapsed {
@@ -115,14 +120,14 @@
 
 // Responsive behavior
 .responsive {
-	@media (max-width: 768px) {
+	@include mobile-only {
 		.headerInner {
 			flex-wrap: wrap;
 		}
 
 		.tabs {
-			width: 100%;
-			margin-top: 0.5rem;
+			@include contained-width(100%);
+			margin-top: var(--spacing-2);
 		}
 
 		.rightSection {
@@ -134,9 +139,9 @@
 // Content sections
 .content {
 	flex: 1;
-	display: flex;
-	flex-direction: column;
+	@include flex-column(0);
 	align-items: flex-start;
+	min-width: 0; // Allow text truncation
 }
 
 .contentCentered {
@@ -145,56 +150,52 @@
 }
 
 .leftSection {
-	display: flex;
-	align-items: center;
-	@extend .gap-md;
+	@include flex-row(var(--spacing-4), center);
 }
 
 .rightSection {
-	display: flex;
-	align-items: center;
-	@extend .gap-md;
+	@include flex-row(var(--spacing-4), center);
 }
 
 // Title section
 .titleSection {
-	display: flex;
-	align-items: center;
-	@extend .gap-sm;
+	@include flex-row(var(--spacing-2), center);
 	flex: 1;
+	min-width: 0; // Allow text truncation
 }
 
 .titleIcon {
-	display: flex;
-	align-items: center;
-	font-size: 1.25rem;
+	@include flex-center;
+	@include text-xl;
 }
 
 .titleContent {
 	flex: 1;
 	min-width: 0; // Allow text truncation
+	overflow: hidden; // Prevent text overflow
 }
 
 .title {
+	@include text-truncate;
 	margin: 0;
 	line-height: 1.2;
-	@extend .font-bold;
+	font-weight: 700;
 }
 
 .title-small {
-	font-size: 1rem;
+	@include text-base;
 }
 
 .title-medium {
-	font-size: 1.25rem;
+	@include text-xl;
 }
 
 .title-large {
-	font-size: 1.5rem;
+	@include text-2xl;
 }
 
 .title-xlarge {
-	font-size: 2rem;
+	@include text-3xl;
 }
 
 .title-normal {
@@ -206,30 +207,29 @@
 }
 
 .title-bold {
-	@extend .font-bold;
+	font-weight: 700;
 }
 
 .subtitle {
+	@include text-sm;
+	@include text-truncate;
 	margin: 0;
-	margin-top: 0.25rem;
-	font-size: 0.875rem;
-	color: var(--color-muted-foreground);
+	margin-top: var(--spacing-1);
+	color: var(--text-tertiary);
 	line-height: 1.4;
 }
 
 // Actions
 .actions {
-	display: flex;
-	align-items: center;
-	@extend .gap-sm;
+	@include flex-row(var(--spacing-2), center);
 }
 
 .actions-left {
-	margin-right: 1rem;
+	margin-right: var(--spacing-4);
 }
 
 .actions-right {
-	margin-left: 1rem;
+	margin-left: var(--spacing-4);
 }
 
 .actionButton {
@@ -239,30 +239,35 @@
 
 // Collapse button
 .collapseButton {
-	margin-left: 0.5rem;
-	font-size: 0.75rem;
+	margin-left: var(--spacing-2);
+	@include text-xs;
 }
 
 // Tabs
 .tabs {
-	display: flex;
-	@extend .gap-sm;
+	@include flex-row(var(--spacing-2));
+	overflow-x: auto; // Allow horizontal scroll on small screens
+	scrollbar-width: none; // Hide scrollbar
+
+	&::-webkit-scrollbar {
+		display: none; // Hide scrollbar
+	}
 }
 
 .tabs-below-title {
-	margin-top: 0.5rem;
-	width: 100%;
+	margin-top: var(--spacing-2);
+	@include contained-width(100%);
 }
 
 .tabs-beside-title {
-	margin-left: 2rem;
+	margin-left: var(--spacing-8);
 }
 
 .tabs-separate-row {
-	width: 100%;
-	margin-top: 1rem;
-	padding-top: 1rem;
-	border-top: 1px solid var(--color-border);
+	@include contained-width(100%);
+	margin-top: var(--spacing-4);
+	padding-top: var(--spacing-4);
+	border-top: 1px solid var(--border-default);
 }
 
 .tabs-align-left {
@@ -278,21 +283,20 @@
 }
 
 .tab {
-	display: flex;
-	align-items: center;
-	@extend .gap-sm;
-	padding: 0.5rem 1rem;
+	@include flex-row(var(--spacing-2), center);
+	@include interactive-element;
+	@include text-sm;
+	padding: var(--spacing-2) var(--spacing-4);
 	background: none;
 	border: none;
 	cursor: pointer;
-	font-size: 0.875rem;
-	color: var(--color-muted-foreground);
-	transition: all 0.2s ease-in-out;
-	border-radius: 0.25rem;
+	color: var(--text-tertiary);
+	border-radius: var(--radius-sm);
+	white-space: nowrap;
 
 	&:hover {
-		color: var(--color-foreground);
-		background-color: var(--color-muted);
+		color: var(--text-primary);
+		background-color: var(--bg-muted);
 	}
 
 	&:disabled {
@@ -300,49 +304,46 @@
 		cursor: not-allowed;
 
 		&:hover {
-			color: var(--color-muted-foreground);
+			color: var(--text-tertiary);
 			background: none;
 		}
 	}
 }
 
 .tabActive {
-	@extend .font-bold;
-	color: #2563eb;
-	border-bottom: 2px solid #2563eb;
+	font-weight: 700;
+	color: var(--accent-blue-500);
+	border-bottom: 2px solid var(--accent-blue-500);
 	background: none;
 
 	&:hover {
-		color: #2563eb;
+		color: var(--accent-blue-500);
 		background: none;
 	}
 }
 
 .tabIcon {
-	font-size: 1rem;
+	@include text-base;
 }
 
 .tabLabel {
 	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .tabBadge {
-	background-color: var(--color-destructive);
-	color: var(--color-destructive-foreground);
-	font-size: 0.75rem;
-	padding: 0.125rem 0.375rem;
-	border-radius: 9999px;
-	line-height: 1;
-	font-weight: 500;
+	@include badge-sm;
+	background-color: var(--semantic-error-500);
+	color: var(--text-primary-inverse);
 }
 
-// Specific header variants
+// Specific header variants with contained styling
 .browseHeader {
-	// Matches original BrowseHeader styles
-	padding: 1rem 0;
+	padding: var(--spacing-4) 0;
 
 	.actions-left {
-		margin-right: 1rem;
+		margin-right: var(--spacing-4);
 	}
 }
 
@@ -350,62 +351,67 @@
 	@extend .browseHeader;
 
 	.tabs {
-		margin-top: 0.5rem;
+		margin-top: var(--spacing-2);
 	}
 }
 
 .dashboardHeader {
-	padding: 1rem 0;
-	border-bottom: 1px solid var(--color-border);
-	background-color: var(--color-background);
+	@include contained-section;
+	padding: var(--spacing-4) 0;
+	border-bottom: 1px solid var(--border-default);
+	background-color: var(--bg-surface);
 }
 
 .dashboardSimpleHeader {
-	padding: 0.5rem 0;
+	padding: var(--spacing-2) 0;
 }
 
 .modalHeader {
-	padding: 1rem 1.5rem;
-	border-bottom: 1px solid var(--color-border);
-	background-color: var(--color-card);
+	@include contained-section;
+	padding: var(--spacing-4) var(--spacing-6);
+	border-bottom: 1px solid var(--border-default);
+	background-color: var(--bg-surface);
 }
 
 .modalCloseOnlyHeader {
-	padding: 0.5rem 1rem;
+	padding: var(--spacing-2) var(--spacing-4);
 	justify-content: flex-end;
 }
 
 .pageHeader {
-	padding: 2rem 0;
+	padding: var(--spacing-8) 0;
 }
 
 .pageWithNavHeader {
-	padding: 1rem 0;
-	border-bottom: 1px solid var(--color-border);
+	@include contained-section;
+	padding: var(--spacing-4) 0;
+	border-bottom: 1px solid var(--border-default);
 	position: sticky;
 	top: 0;
-	background-color: var(--color-background);
-	z-index: 100;
+	background-color: var(--bg-surface);
+	z-index: var(--z-sticky);
 }
 
 .sidebarHeader {
-	padding: 1rem;
-	border-bottom: 1px solid var(--color-border);
-	background-color: var(--color-muted);
+	@include contained-section;
+	padding: var(--spacing-4);
+	border-bottom: 1px solid var(--border-default);
+	background-color: var(--bg-muted);
 }
 
 .navigationHeader {
-	padding: 1rem 0;
-	border-bottom: 1px solid var(--color-border);
-	background-color: var(--color-primary);
-	color: var(--color-primary-foreground);
+	@include contained-section;
+	padding: var(--spacing-4) 0;
+	border-bottom: 1px solid var(--border-default);
+	background-color: var(--accent-blue-500);
+	color: var(--text-primary-inverse);
 	position: sticky;
 	top: 0;
-	z-index: 100;
+	z-index: var(--z-sticky);
 }
 
 .simpleHeader {
-	padding: 0.5rem 0;
+	padding: var(--spacing-2) 0;
 }
 
 .simpleCenteredHeader {
@@ -414,15 +420,17 @@
 }
 
 .gameHeader {
-	padding: 0.5rem 0;
+	padding: var(--spacing-2) 0;
 }
 
 .settingsHeader {
-	padding: 1rem 0;
-	border-bottom: 1px solid var(--color-border);
+	@include contained-section;
+	padding: var(--spacing-4) 0;
+	border-bottom: 1px solid var(--border-default);
 }
 
 .profileHeader {
-	padding: 1rem 0;
-	border-bottom: 1px solid var(--color-border);
+	@include contained-section;
+	padding: var(--spacing-4) 0;
+	border-bottom: 1px solid var(--border-default);
 }

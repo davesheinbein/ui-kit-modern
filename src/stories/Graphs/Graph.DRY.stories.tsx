@@ -88,6 +88,26 @@ The new Graph system provides a unified, configuration-driven approach to creati
 			],
 			description: 'The type of chart to render',
 		},
+		data: {
+			control: 'object',
+			description: 'Chart data array',
+		},
+		dataKey: {
+			control: 'text',
+			description: 'Key for data values',
+		},
+		labelKey: {
+			control: 'text',
+			description: 'Key for data labels',
+		},
+		title: {
+			control: 'text',
+			description: 'Chart title',
+		},
+		subtitle: {
+			control: 'text',
+			description: 'Chart subtitle',
+		},
 		colorScheme: {
 			control: 'select',
 			options: [
@@ -109,6 +129,15 @@ The new Graph system provides a unified, configuration-driven approach to creati
 			},
 			description: 'Chart height in pixels',
 		},
+		width: {
+			control: {
+				type: 'range',
+				min: 200,
+				max: 800,
+				step: 20,
+			},
+			description: 'Chart width in pixels',
+		},
 		showGrid: {
 			control: 'boolean',
 			description: 'Show/hide grid lines',
@@ -121,9 +150,51 @@ The new Graph system provides a unified, configuration-driven approach to creati
 			control: 'boolean',
 			description: 'Show/hide tooltips',
 		},
+		showLabels: {
+			control: 'boolean',
+			description: 'Show/hide data labels',
+		},
 		animationEnabled: {
 			control: 'boolean',
 			description: 'Enable/disable animations',
+		},
+		responsive: {
+			control: 'boolean',
+			description: 'Enable responsive behavior',
+		},
+		smooth: {
+			control: 'boolean',
+			description: 'Smooth curves (for line/area charts)',
+		},
+		stacked: {
+			control: 'boolean',
+			description: 'Stack data series',
+		},
+		fillArea: {
+			control: 'boolean',
+			description: 'Fill area under line',
+		},
+		showDots: {
+			control: 'boolean',
+			description: 'Show dots on line charts',
+		},
+		strokeWidth: {
+			control: { type: 'range', min: 1, max: 5, step: 1 },
+			description: 'Line stroke width',
+		},
+		opacity: {
+			control: {
+				type: 'range',
+				min: 0.1,
+				max: 1,
+				step: 0.1,
+			},
+			description: 'Chart opacity',
+		},
+		legendPosition: {
+			control: 'select',
+			options: ['top', 'bottom', 'left', 'right'],
+			description: 'Legend position',
 		},
 	},
 };

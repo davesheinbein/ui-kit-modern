@@ -4,59 +4,62 @@
 // ===== BASE CHECKBOX STYLES =====
 
 .unifiedCheckbox {
+	@include form-control;
+	@include interactive-element;
+
 	display: inline-flex;
 	align-items: center;
-	gap: 8px;
+	gap: var(--spacing-xs);
 	cursor: pointer;
 	user-select: none;
-	transition: all 0.2s ease;
+	transition: var(--transition-standard);
 
 	&.disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
-		pointer-events: none;
+		@include disabled-state;
 	}
 
 	&.animated {
-		transition: all 0.3s ease;
+		transition: var(--transition-smooth);
 	}
 }
 
 // ===== CHECKBOX INPUT BASE =====
 
 .checkboxInput {
+	@include checkbox-input;
+	@include focus-visible;
+
 	position: relative;
 	appearance: none;
-	width: 20px;
-	height: 20px;
-	border: 2px solid #d1d5db;
-	background: white;
+	inline-size: 20px;
+	block-size: 20px;
+	border: var(--border-thick) solid var(--gray-300);
+	background: var(--surface-primary);
 	cursor: pointer;
-	transition: all 0.2s ease;
+	transition: var(--transition-standard);
 
 	&:checked {
-		background: $primary-blue;
-		border-color: $primary-blue;
+		background: var(--primary-500);
+		border-color: var(--primary-500);
 	}
 
 	&:checked::after {
 		content: '✓';
 		position: absolute;
-		top: 50%;
-		left: 50%;
+		inset-block-start: 50%;
+		inset-inline-start: 50%;
 		transform: translate(-50%, -50%);
-		color: white;
-		font-size: 12px;
-		font-weight: bold;
+		color: var(--surface-primary);
+		font-size: var(--text-sm);
+		font-weight: var(--font-weight-bold);
 	}
 
-	&:focus {
-		outline: 2px solid $primary-blue;
-		outline-offset: 2px;
+	&:focus-visible {
+		@include focus-ring;
 	}
 
 	&:hover:not(:disabled) {
-		border-color: $primary-blue;
+		border-color: var(--primary-500);
 	}
 }
 
@@ -64,34 +67,35 @@
 
 .checkbox-default {
 	.checkboxInput {
-		border-radius: 4px;
+		border-radius: var(--radius-xs);
 	}
 }
 
 .checkbox-toggle {
 	.checkboxInput {
-		width: 48px;
-		height: 24px;
+		@include toggle-switch;
+		inline-size: 48px;
+		block-size: 24px;
 		border-radius: 24px;
 		position: relative;
-		background: #e5e7eb;
+		background: var(--gray-200);
 		border: none;
 
 		&::after {
 			content: '';
 			position: absolute;
-			top: 2px;
-			left: 2px;
-			width: 20px;
-			height: 20px;
-			background: white;
+			inset-block-start: 2px;
+			inset-inline-start: 2px;
+			inline-size: 20px;
+			block-size: 20px;
+			background: var(--surface-primary);
 			border-radius: 50%;
-			transition: transform 0.2s ease;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			transition: transform var(--transition-standard);
+			box-shadow: var(--shadow-sm);
 		}
 
 		&:checked {
-			background: $primary-blue;
+			background: var(--primary-500);
 
 			&::after {
 				transform: translateX(24px);
@@ -102,28 +106,29 @@
 
 .checkbox-switch {
 	.checkboxInput {
-		width: 44px;
-		height: 24px;
+		@include toggle-switch;
+		inline-size: 44px;
+		block-size: 24px;
 		border-radius: 24px;
-		background: #e5e7eb;
+		background: var(--gray-200);
 		border: none;
 		position: relative;
 
 		&::after {
 			content: '';
 			position: absolute;
-			top: 2px;
-			left: 2px;
-			width: 20px;
-			height: 20px;
-			background: white;
+			inset-block-start: 2px;
+			inset-inline-start: 2px;
+			inline-size: 20px;
+			block-size: 20px;
+			background: var(--surface-primary);
 			border-radius: 50%;
-			transition: all 0.2s ease;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+			transition: all var(--transition-standard);
+			box-shadow: var(--shadow-sm);
 		}
 
 		&:checked {
-			background: $primary-color;
+			background: var(--primary-500);
 
 			&::after {
 				transform: translateX(20px);
@@ -136,24 +141,25 @@
 
 .dark-mode-toggle {
 	.checkboxInput {
-		width: 48px;
-		height: 48px;
+		@include icon-button;
+		inline-size: 48px;
+		block-size: 48px;
 		border-radius: 50%;
 		background: none;
 		border: none;
-		font-size: 1.5rem;
+		font-size: var(--text-xl);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transition: background 0.2s ease;
+		transition: background var(--transition-standard);
 
 		&:hover {
-			background: #f3f4f6;
+			background: var(--gray-100);
 		}
 
 		&::after {
 			content: attr(data-icon);
-			font-size: 1.5rem;
+			font-size: var(--text-xl);
 			color: inherit;
 			position: static;
 			transform: none;
@@ -163,7 +169,7 @@
 			background: none;
 
 			&:hover {
-				background: #374151;
+				background: var(--gray-700);
 			}
 		}
 	}
@@ -173,19 +179,19 @@
 
 .size-small {
 	.checkboxInput {
-		width: 16px;
-		height: 16px;
-		font-size: 10px;
+		inline-size: 16px;
+		block-size: 16px;
+		font-size: var(--text-xs);
 	}
 
 	&.checkbox-toggle .checkboxInput,
 	&.checkbox-switch .checkboxInput {
-		width: 36px;
-		height: 18px;
+		inline-size: 36px;
+		block-size: 18px;
 
 		&::after {
-			width: 14px;
-			height: 14px;
+			inline-size: 14px;
+			block-size: 14px;
 		}
 	}
 
@@ -200,19 +206,19 @@
 
 .size-large {
 	.checkboxInput {
-		width: 24px;
-		height: 24px;
-		font-size: 14px;
+		inline-size: 24px;
+		block-size: 24px;
+		font-size: var(--text-base);
 	}
 
 	&.checkbox-toggle .checkboxInput,
 	&.checkbox-switch .checkboxInput {
-		width: 56px;
-		height: 28px;
+		inline-size: 56px;
+		block-size: 28px;
 
 		&::after {
-			width: 24px;
-			height: 24px;
+			inline-size: 24px;
+			block-size: 24px;
 		}
 	}
 
@@ -225,46 +231,48 @@
 	}
 
 	&.dark-mode-toggle .checkboxInput {
-		width: 56px;
-		height: 56px;
-		font-size: 2rem;
+		inline-size: 56px;
+		block-size: 56px;
+		font-size: var(--text-2xl);
 	}
 }
 
 // ===== CHECKBOX LABEL =====
 
 .checkboxLabel {
-	font-size: 14px;
-	color: #374151;
-	font-weight: 500;
-	line-height: 1.4;
+	@include typography-body-sm;
+	color: var(--text-primary);
+	font-weight: var(--font-weight-medium);
+	line-height: var(--line-height-normal);
 
 	&.disabled {
-		color: #9ca3af;
+		color: var(--text-disabled);
 	}
 }
 
 // ===== ERROR AND HELPER TEXT =====
 
 .errorText {
-	font-size: 12px;
-	color: #ef4444;
-	margin-top: 4px;
+	@include error-text;
+	font-size: var(--text-xs);
+	color: var(--error-500);
+	margin-block-start: var(--spacing-xs);
 }
 
 .helperText {
-	font-size: 12px;
-	color: #6b7280;
-	margin-top: 4px;
+	@include helper-text;
+	font-size: var(--text-xs);
+	color: var(--text-secondary);
+	margin-block-start: var(--spacing-xs);
 }
 
 // ===== FULL WIDTH =====
 
 .fullWidth {
-	width: 100%;
+	@include full-width;
 
 	.unifiedCheckbox {
-		width: 100%;
+		inline-size: 100%;
 	}
 }
 
@@ -272,37 +280,37 @@
 
 .variant-success {
 	.checkboxInput:checked {
-		background: #10b981;
-		border-color: #10b981;
+		background: var(--success-500);
+		border-color: var(--success-500);
 	}
 
 	&.checkbox-toggle .checkboxInput:checked,
 	&.checkbox-switch .checkboxInput:checked {
-		background: #10b981;
+		background: var(--success-500);
 	}
 }
 
 .variant-warning {
 	.checkboxInput:checked {
-		background: #f59e0b;
-		border-color: #f59e0b;
+		background: var(--warning-500);
+		border-color: var(--warning-500);
 	}
 
 	&.checkbox-toggle .checkboxInput:checked,
 	&.checkbox-switch .checkboxInput:checked {
-		background: #f59e0b;
+		background: var(--warning-500);
 	}
 }
 
 .variant-danger {
 	.checkboxInput:checked {
-		background: #ef4444;
-		border-color: #ef4444;
+		background: var(--error-500);
+		border-color: var(--error-500);
 	}
 
 	&.checkbox-toggle .checkboxInput:checked,
 	&.checkbox-switch .checkboxInput:checked {
-		background: #ef4444;
+		background: var(--error-500);
 	}
 }
 
@@ -316,17 +324,17 @@
 
 .shadow {
 	.checkboxInput {
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		box-shadow: var(--shadow-sm);
 
 		&:checked {
-			box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+			box-shadow: var(--shadow-md);
 		}
 	}
 }
 
 .bordered {
 	.checkboxInput {
-		border-width: 2px;
+		border-width: var(--border-thick);
 	}
 }
 
@@ -334,21 +342,21 @@
 
 @media (max-width: 768px) {
 	.unifiedCheckbox {
-		gap: 6px;
+		gap: var(--spacing-xs);
 	}
 
 	.checkboxLabel {
-		font-size: 13px;
+		font-size: var(--text-xs);
 	}
 
 	.size-large .checkboxInput {
-		width: 20px;
-		height: 20px;
+		inline-size: 20px;
+		block-size: 20px;
 	}
 
 	.size-large.dark-mode-toggle .checkboxInput {
-		width: 48px;
-		height: 48px;
-		font-size: 1.5rem;
+		inline-size: 48px;
+		block-size: 48px;
+		font-size: var(--text-xl);
 	}
 }

@@ -1,0 +1,521 @@
+/**
+ * Utility.module.scss - Modern Utility Components with Design System
+ * Provides reusable utility components like badges, dividers, tooltips, ratings, etc.
+ */
+
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
+
+.utility {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--spacing-xs);
+
+	// Sizes using design system
+	&--xs {
+		@include text-caption();
+		padding: var(--spacing-xs);
+		gap: var(--spacing-xs);
+	}
+
+	&--sm {
+		@include text-body-sm();
+		padding: var(--spacing-xs) var(--spacing-sm);
+		gap: var(--spacing-xs);
+	}
+
+	&--md {
+		@include text-body-base();
+		padding: var(--spacing-sm) var(--spacing-md);
+		gap: var(--spacing-sm);
+	}
+
+	&--lg {
+		@include text-body-lg();
+		padding: var(--spacing-md) var(--spacing-lg);
+		gap: var(--spacing-sm);
+	}
+
+	&--xl {
+		@include text-heading-sm();
+		padding: var(--spacing-lg) var(--spacing-xl);
+		gap: var(--spacing-md);
+	}
+
+	// Variants using design system
+	&--default {
+		background: var(--color-background-secondary);
+		color: var(--color-text-primary);
+		border: var(--border-width) solid var(--color-border);
+	}
+
+	&--primary {
+		background: var(--color-primary);
+		color: white;
+		border: var(--border-width) solid var(--color-primary);
+	}
+
+	&--secondary {
+		background: var(--color-secondary);
+		color: white;
+		border: var(--border-width) solid var(--color-secondary);
+	}
+
+	&--success {
+		background: var(--color-success);
+		color: white;
+		border: var(--border-width) solid var(--color-success);
+	}
+
+	&--warning {
+		background: var(--color-warning);
+		color: white;
+		border: var(--border-width) solid var(--color-warning);
+	}
+
+	&--error {
+		background: var(--color-error);
+		color: white;
+		border: var(--border-width) solid var(--color-error);
+	}
+
+	&--info {
+		background: var(--color-info);
+		color: white;
+		border: var(--border-width) solid var(--color-info);
+	}
+
+	// States using design system
+	&--active {
+		background: var(--color-primary);
+		color: white;
+		border-color: var(--color-primary);
+	}
+
+	&--disabled {
+		@include disabled-state();
+	}
+
+	&--loading {
+		opacity: 0.7;
+		pointer-events: none;
+	}
+
+	&--interactive {
+		@include interactive-element();
+		@include hover-lift();
+	}
+
+	&--dismissible {
+		padding-right: var(--spacing-lg);
+	}
+
+	// Component type specifics
+	&--tooltip,
+	&--popover {
+		display: inline-block;
+	}
+
+	// Tag/Chip/Badge specific with design system
+	&--tag,
+	&--chip,
+	&--badge,
+	&--pill,
+	&--label,
+	&--status-indicator {
+		border-radius: var(--border-radius-md);
+		font-weight: var(--font-weight-medium);
+		white-space: nowrap;
+	}
+
+	&--badge {
+		@include badge-style();
+		@include flex-center();
+		min-width: var(--size-6); // 24px
+		height: var(--size-6);
+	}
+
+	&--pill {
+		border-radius: var(--border-radius-full);
+	}
+
+	// Divider/Separator with containment
+	&--divider,
+	&--separator {
+		@include contained-element();
+		width: 100%;
+		height: 1px;
+		background: var(--color-border);
+		border: none;
+		margin: var(--spacing-md) 0;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+
+		&.utility--lg {
+			height: 2px;
+			margin: var(--spacing-lg) 0;
+		}
+	}
+
+	&--spacer {
+		@include contained-element();
+		width: 100%;
+		height: var(--spacing-md);
+		background: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+
+		&.utility--sm {
+			height: var(--spacing-sm);
+		}
+
+		&.utility--lg {
+			height: var(--spacing-lg);
+		}
+
+		&.utility--xl {
+			height: var(--spacing-xl);
+		}
+	}
+
+	&--section-break {
+		@include contained-element();
+		width: 100%;
+		@include flex-row();
+		align-items: center;
+		margin: var(--spacing-xl) 0;
+
+		&::before,
+		&::after {
+			content: '';
+			flex: 1;
+			height: 1px;
+			background: var(--color-border);
+		}
+
+		&::before {
+			margin-right: var(--spacing-md);
+		}
+
+		&::after {
+			margin-left: var(--spacing-md);
+		}
+	}
+
+	// Layout utilities with containment
+	&--container {
+		@include container();
+
+		& {
+			background: transparent;
+			border: none;
+		}
+	}
+
+	&--stack {
+		@include flex-column();
+		align-items: stretch;
+		background: transparent;
+		border: none;
+		padding: 0;
+	}
+
+	&--inline-stack {
+		@include flex-row();
+		background: transparent;
+		border: none;
+		padding: 0;
+	}
+
+	// Rating specific
+	&--rating-stars,
+	&--rating-hearts,
+	&--thumbs-rating {
+		background: transparent;
+		border: none;
+		padding: 0;
+	}
+
+	// Stepper specific
+	&--stepper,
+	&--wizard-steps {
+		background: transparent;
+		border: none;
+		padding: 0;
+		width: 100%;
+		max-width: 100%;
+	}
+
+	// Element styles
+	&__icon {
+		@include flex-center();
+		flex-shrink: 0;
+	}
+
+	&__label {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+	}
+
+	&__dismiss {
+		@include absolute-center-y();
+		right: var(--spacing-xs);
+		@include size(var(--size-4)); // 16px
+		@include interactive-element();
+		@include flex-center();
+		border: none;
+		background: none;
+		color: inherit;
+		border-radius: var(--border-radius-full);
+		@include text-body-sm();
+		opacity: 0.7;
+		transition: var(--transition-opacity);
+
+		&:hover {
+			opacity: 1;
+			background: rgba(255, 255, 255, 0.2);
+		}
+	}
+
+	// Tooltip/Popover overlay with intentional positioning
+	&__overlay {
+		/* Intentional absolute positioning for overlay effect */
+		position: absolute;
+		z-index: var(--z-tooltip);
+		background: var(--color-background);
+		border: var(--border-width) solid var(--color-border);
+		border-radius: var(--border-radius-md);
+		box-shadow: var(--shadow-lg);
+		padding: var(--spacing-sm);
+		white-space: nowrap;
+		@include text-body-sm();
+		opacity: 0;
+		transform: translateY(-5px);
+		transition: var(--transition-all);
+		pointer-events: none;
+		max-width: 100vw;
+
+		.utility--visible & {
+			opacity: 1;
+			transform: translateY(0);
+			pointer-events: auto;
+		}
+	}
+
+	&--top .utility__overlay {
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-5px);
+		margin-bottom: var(--spacing-xs);
+
+		.utility--visible & {
+			transform: translateX(-50%) translateY(0);
+		}
+	}
+
+	&--bottom .utility__overlay {
+		top: 100%;
+		left: 50%;
+		transform: translateX(-50%) translateY(5px);
+		margin-top: var(--spacing-xs);
+
+		.utility--visible & {
+			transform: translateX(-50%) translateY(0);
+		}
+	}
+
+	&--left .utility__overlay {
+		right: 100%;
+		top: 50%;
+		transform: translateY(-50%) translateX(-5px);
+		margin-right: var(--spacing-xs);
+
+		.utility--visible & {
+			transform: translateY(-50%) translateX(0);
+		}
+	}
+
+	&--right .utility__overlay {
+		left: 100%;
+		top: 50%;
+		transform: translateY(-50%) translateX(5px);
+		margin-left: var(--spacing-xs);
+
+		.utility--visible & {
+			transform: translateY(-50%) translateX(0);
+		}
+	}
+
+	&__tooltip {
+		color: var(--color-text-primary);
+	}
+
+	&__popover {
+		min-width: var(--size-50); // 200px
+		max-width: var(--size-75); // 300px
+		white-space: normal;
+	}
+
+	&__popover_title {
+		font-weight: var(--font-weight-semibold);
+		margin-bottom: var(--spacing-xs);
+		color: var(--color-text-primary);
+	}
+
+	&__popover_content {
+		color: var(--color-text-secondary);
+	}
+
+	// Rating components with design system
+	&__rating {
+		@include flex-row();
+		align-items: center;
+		gap: var(--spacing-xs);
+	}
+
+	&__star {
+		@include interactive-element();
+		background: none;
+		border: none;
+		@include text-heading-lg();
+		color: var(--color-background-secondary);
+		transition: var(--transition-colors);
+		padding: 0;
+		line-height: 1;
+
+		&:hover,
+		&--filled {
+			color: var(--color-warning);
+		}
+
+		&:disabled {
+			@include disabled-state();
+		}
+
+		.utility--rating-hearts & {
+			&:hover,
+			&--filled {
+				color: var(--color-error);
+			}
+		}
+
+		.utility--thumbs-rating & {
+			&:hover,
+			&--filled {
+				color: var(--color-success);
+			}
+		}
+	}
+
+	&__rating_label {
+		margin-left: var(--spacing-sm);
+		@include text-body-sm();
+		color: var(--color-text-secondary);
+	}
+
+	// Stepper components with design system
+	&__stepper {
+		@include flex-row();
+		align-items: center;
+		gap: 0;
+	}
+
+	&__step {
+		@include flex-row();
+		align-items: center;
+		@include interactive-element();
+		transition: var(--transition-all);
+	}
+
+	&__step_marker {
+		@include size(var(--size-8)); // 32px
+		border-radius: var(--border-radius-full);
+		background: var(--color-background-secondary);
+		color: var(--color-text-secondary);
+		@include flex-center();
+		@include text-body-sm();
+		font-weight: var(--font-weight-semibold);
+		border: var(--border-width-thick) solid
+			var(--color-border);
+		transition: var(--transition-all);
+	}
+
+	&__step_connector {
+		width: var(--size-12); // 48px
+		height: 2px;
+		background: var(--color-border);
+		margin: 0 var(--spacing-sm);
+	}
+
+	&__step--completed {
+		.utility__step_marker {
+			background: var(--color-success);
+			color: white;
+			border-color: var(--color-success);
+		}
+
+		.utility__step_connector {
+			background: var(--color-success);
+		}
+	}
+
+	&__step--active {
+		.utility__step_marker {
+			background: var(--color-primary);
+			color: white;
+			border-color: var(--color-primary);
+			box-shadow: 0 0 0 var(--spacing-xs)
+				color-mix(
+					in srgb,
+					var(--color-primary) 20%,
+					transparent
+				);
+		}
+	}
+
+	// Divider label
+	&__divider_label {
+		background: var(--color-background);
+		padding: 0 var(--spacing-md);
+		color: var(--color-text-secondary);
+		@include text-body-sm();
+	}
+}
+
+// Responsive design
+@include media-tablet-down {
+	.utility {
+		&__stepper {
+			@include flex-column();
+			gap: var(--spacing-sm);
+		}
+
+		&__step {
+			@include flex-column();
+			text-align: center;
+		}
+
+		&__step_connector {
+			width: 2px;
+			height: var(--size-4); // 16px
+			margin: var(--spacing-xs) 0;
+		}
+
+		&__overlay {
+			max-width: 250px;
+			word-wrap: break-word;
+		}
+
+		&--container {
+			padding: 0 var(--spacing-sm);
+		}
+	}
+}

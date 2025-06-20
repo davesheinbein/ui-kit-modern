@@ -1,28 +1,37 @@
+/**
+ * Graphs.module.scss - Modern Graph Component Styles with DRY Design System
+ */
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
 
-// === BASE GRAPH CONTAINER ===
+// ========================================
+// Base Graph Container with Modern Containment
+// ========================================
+
 .graphsContainer {
+	@include container-base;
+	@include flex-column;
 	width: 100%;
-	margin: 1.2em 0 0.5em 0;
-	display: flex;
-	flex-direction: column;
-	position: relative;
+	margin: var(--spacing-5) 0 var(--spacing-2) 0;
+	gap: var(--spacing-2);
 }
 
 .graphsTitle {
-	margin: 0 0 0.5em 0;
-	font-size: 1em;
-	color: #0ea5e9;
-	font-weight: 600;
+	margin: 0 0 var(--spacing-2) 0;
+	font-size: var(--font-size-base);
+	color: var(--color-primary);
+	font-weight: var(--font-weight-semibold);
 }
 
-// === CHART TYPE SPECIFIC STYLES ===
+// ========================================
+// Chart Type Specific Styles with Modern Interactions
+// ========================================
 
 // Bar Charts
 .barChart {
 	.recharts-bar {
-		transition: opacity 0.2s ease;
+		transition: opacity var(--transition-fast);
 		&:hover {
 			opacity: 0.8;
 		}
@@ -31,13 +40,13 @@
 
 .stackedBarChart {
 	.recharts-bar {
-		transition: all 0.3s ease;
+		transition: all var(--transition-standard);
 	}
 }
 
 .groupedBarChart {
 	.recharts-bar {
-		transition: all 0.3s ease;
+		transition: all var(--transition-standard);
 		&:hover {
 			filter: brightness(1.1);
 		}
@@ -46,29 +55,29 @@
 
 .horizontalBarChart {
 	.recharts-bar {
-		transition: opacity 0.2s ease;
+		transition: opacity var(--transition-fast);
 		&:hover {
-			opacity: 0.8;
+			opacity: 0.9;
 		}
 	}
 }
 
 .horizontalStackedBarChart {
 	.recharts-bar {
-		transition: all 0.3s ease;
+		transition: all var(--transition-standard);
 	}
 }
 
 // Line Charts
 .lineChart {
 	.recharts-line {
-		transition: stroke-width 0.2s ease;
+		transition: stroke-width var(--transition-fast);
 		&:hover {
 			stroke-width: 3;
 		}
 	}
 	.recharts-dot {
-		transition: r 0.2s ease;
+		transition: r var(--transition-fast);
 		&:hover {
 			r: 5;
 		}
@@ -77,27 +86,16 @@
 
 .smoothLineChart {
 	.recharts-line {
-		transition: all 0.3s ease;
+		transition: all var(--transition-standard);
 		filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 	}
 }
 
 .multiLineChart {
 	.recharts-line {
-		transition: stroke-width 0.2s ease;
+		transition: stroke-width var(--transition-fast);
 		&:hover {
 			stroke-width: 3;
-			filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
-		}
-	}
-}
-
-.steppedLineChart {
-	.recharts-line {
-		stroke-dasharray: 5, 5;
-		transition: stroke-dasharray 0.3s ease;
-		&:hover {
-			stroke-dasharray: none;
 		}
 	}
 }
@@ -105,351 +103,203 @@
 // Area Charts
 .areaChart {
 	.recharts-area {
-		transition: fill-opacity 0.3s ease;
+		transition: fill-opacity var(--transition-fast);
 		&:hover {
-			fill-opacity: 0.7;
+			fill-opacity: 0.9;
 		}
 	}
 }
 
 .stackedAreaChart {
 	.recharts-area {
-		transition: all 0.3s ease;
-	}
-}
-
-.smoothAreaChart {
-	.recharts-area {
-		filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-		transition: all 0.3s ease;
+		transition: all var(--transition-standard);
 	}
 }
 
 // Pie Charts
 .pieChart {
 	.recharts-pie-sector {
-		transition: all 0.3s ease;
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.donutChart {
+	.recharts-pie-sector {
+		transition: all var(--transition-fast);
 		&:hover {
 			transform: scale(1.05);
-			filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+			transform-origin: center;
 		}
 	}
 }
 
-.doughnutChart {
-	.recharts-pie-sector {
-		transition: all 0.3s ease;
-		&:hover {
-			transform: scale(1.02);
-			filter: brightness(1.1);
-		}
-	}
-}
-
-.labeledPieChart {
-	.recharts-pie-label {
-		font-size: 12px;
-		font-weight: 600;
-		fill: #374151;
-	}
-	.recharts-pie-sector {
-		transition: all 0.3s ease;
-		&:hover {
-			filter: brightness(1.1);
-		}
-	}
-}
-
-// Specialized Charts
-.radarChart {
-	.recharts-radar {
-		transition: all 0.3s ease;
-		&:hover {
-			filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
-		}
-	}
-	.recharts-polygon {
-		transition: stroke-width 0.2s ease;
-		&:hover {
-			stroke-width: 2;
-		}
-	}
-}
-
+// Scatter Charts
 .scatterChart {
 	.recharts-scatter-symbol {
-		transition: all 0.2s ease;
+		transition: all var(--transition-fast);
 		&:hover {
-			transform: scale(1.2);
-			filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+			r: 6;
+			filter: brightness(1.2);
 		}
 	}
 }
 
+// Composed Charts
 .composedChart {
 	.recharts-bar,
-	.recharts-line {
-		transition: all 0.3s ease;
-	}
-	.recharts-bar:hover {
-		opacity: 0.8;
-	}
-	.recharts-line:hover {
-		stroke-width: 3;
-	}
-}
-
-.treemapChart {
-	.recharts-treemap-depth-1 {
-		transition: all 0.3s ease;
-		&:hover {
-			filter: brightness(1.1);
-			stroke-width: 2;
-		}
-	}
-}
-
-.funnelChart {
-	.recharts-funnel-sector {
-		transition: all 0.3s ease;
-		&:hover {
-			filter: brightness(1.1);
-		}
-	}
-}
-
-// === ANALYTICS SPECIFIC STYLES ===
-.analyticsTrendChart {
-	.recharts-line {
-		stroke-width: 3;
-		filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.3));
-	}
-	.recharts-dot {
-		display: none;
-	}
-}
-
-.analyticsComparisonChart {
-	.recharts-bar {
-		opacity: 0.8;
-		transition: opacity 0.2s ease;
-		&:hover {
-			opacity: 1;
-		}
-	}
-}
-
-.analyticsDistributionChart {
-	.recharts-pie-sector {
-		transition: all 0.3s ease;
-		&:hover {
-			transform: scale(1.02);
-		}
-	}
-}
-
-.analyticsPerformanceChart {
-	.recharts-radar {
-		fill-opacity: 0.3;
-		stroke-width: 2;
-	}
-	.recharts-polygon {
-		stroke-width: 1;
-		stroke-dasharray: 3, 3;
-	}
-}
-
-// === DASHBOARD SPECIFIC STYLES ===
-.dashboardSummaryChart {
+	.recharts-line,
 	.recharts-area {
-		fill-opacity: 0.2;
-	}
-	.recharts-line {
-		stroke-width: 2;
+		transition: all var(--transition-fast);
 	}
 }
 
-.dashboardKpiChart {
-	.recharts-bar {
-		opacity: 0.7;
-		border-radius: 2px;
-	}
+// ========================================
+// Chart Elements and Interactions
+// ========================================
+
+.recharts-tooltip-wrapper {
+	pointer-events: none;
 }
 
-.dashboardTrendChart {
-	.recharts-line {
-		stroke-width: 2;
-		stroke-dasharray: 5, 5;
-	}
-	.recharts-grid line {
-		stroke-opacity: 0.3;
-	}
+.recharts-cartesian-axis-tick-value {
+	fill: var(--color-text-muted);
+	font-size: var(--font-size-xs);
 }
 
-.dashboardMiniChart {
-	.recharts-line {
-		stroke-width: 1;
-	}
-	.recharts-dot {
-		display: none;
-	}
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+	stroke: var(--color-border);
+	stroke-dasharray: 3 3;
 }
 
-// === STATS SPECIFIC STYLES ===
-.statsScoreChart {
+.recharts-legend-wrapper {
+	padding-top: var(--spacing-3);
+}
+
+.recharts-legend-item {
+	margin-right: var(--spacing-3);
+}
+
+.recharts-brush .recharts-brush-slide {
+	fill: rgba(37, 99, 235, 0.1);
+	stroke: var(--color-primary);
+}
+
+// ========================================
+// Chart Container Variants
+// ========================================
+
+.graphsContainer--modern {
+	@include elevated-surface;
+	padding: var(--spacing-6);
+	background: var(--color-surface);
+	border-radius: var(--radius-lg);
+}
+
+.graphsContainer--minimal {
+	padding: var(--spacing-4);
+	background: transparent;
+}
+
+.graphsContainer--compact {
+	margin: var(--spacing-2) 0;
+	padding: var(--spacing-3);
+}
+
+.graphsContainer--bordered {
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	padding: var(--spacing-4);
+}
+
+// ========================================
+// Data-Driven Color Themes
+// ========================================
+
+.graphsContainer--theme-primary {
+	.recharts-bar,
+	.recharts-line,
 	.recharts-area {
-		fill-opacity: 0.3;
-		transition: fill-opacity 0.3s ease;
-		&:hover {
-			fill-opacity: 0.5;
-		}
-	}
-	.recharts-line {
-		stroke-width: 3;
-		filter: drop-shadow(0 2px 6px rgba(37, 99, 235, 0.4));
+		fill: var(--color-primary);
+		stroke: var(--color-primary);
 	}
 }
 
-.statsPerformanceChart {
-	.recharts-radar {
-		fill-opacity: 0.4;
-		stroke-width: 2;
-		transition: all 0.3s ease;
-		&:hover {
-			fill-opacity: 0.6;
-		}
+.graphsContainer--theme-success {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area {
+		fill: var(--color-success);
+		stroke: var(--color-success);
 	}
 }
 
-.statsMatchHistoryChart {
-	.recharts-bar {
-		border-radius: 4px 4px 0 0;
-		transition: all 0.2s ease;
-		&:hover {
-			filter: brightness(1.1);
-			transform: translateY(-2px);
-		}
+.graphsContainer--theme-warning {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area {
+		fill: var(--color-warning);
+		stroke: var(--color-warning);
 	}
 }
 
-.statsCategoryChart {
-	.recharts-pie-sector {
-		transition: all 0.3s ease;
-		&:hover {
-			transform: scale(1.05);
-			filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
-		}
-	}
-	.recharts-pie-label {
-		font-size: 11px;
-		font-weight: 600;
-		fill: #1f2937;
+.graphsContainer--theme-danger {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area {
+		fill: var(--color-danger);
+		stroke: var(--color-danger);
 	}
 }
 
-.statsTimeSeriesChart {
-	.recharts-line {
-		stroke-width: 2;
-		transition: stroke-width 0.2s ease;
-		&:hover {
-			stroke-width: 3;
-		}
-	}
-	.recharts-dot {
-		r: 2;
-		transition: r 0.2s ease;
-		&:hover {
-			r: 4;
-		}
+// ========================================
+// Accessibility and Motion
+// ========================================
+
+@media (prefers-reduced-motion: reduce) {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area,
+	.recharts-pie-sector,
+	.recharts-scatter-symbol {
+		transition: none !important;
 	}
 }
 
-// === RESPONSIVE BEHAVIOR ===
+// ========================================
+// Responsive Design with Modern Containment
+// ========================================
+
 @media (max-width: 768px) {
 	.graphsContainer {
-		margin: 0.8em 0 0.3em 0;
+		margin: var(--spacing-3) 0 var(--spacing-1) 0;
+		gap: var(--spacing-1);
 	}
 
 	.graphsTitle {
-		font-size: 0.9em;
-		margin-bottom: 0.3em;
+		font-size: var(--font-size-sm);
+		margin-bottom: var(--spacing-1);
 	}
 
-	// Reduce chart heights on mobile
-	.pieChart,
-	.doughnutChart,
-	.labeledPieChart {
-		height: 160px !important;
-	}
-
-	.radarChart,
-	.composedChart {
-		height: 140px !important;
+	.recharts-cartesian-axis-tick-value {
+		font-size: 10px;
 	}
 }
 
-// === ACCESSIBILITY ===
-.graphsContainer {
-	&:focus-within {
-		outline: 2px solid $primary-blue;
-		outline-offset: 2px;
-		border-radius: 4px;
+@media (max-width: 480px) {
+	.graphsContainer {
+		margin: var(--spacing-2) 0;
 	}
-}
 
-// Screen reader only content
-.srOnly {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
-}
-
-// === ANIMATION UTILITIES ===
-.fadeIn {
-	animation: fadeIn 0.5s ease-in-out;
-}
-
-.slideUp {
-	animation: slideUp 0.6s ease-out;
-}
-
-.scaleIn {
-	animation: scaleIn 0.4s ease-out;
-}
-
-@keyframes fadeIn {
-	from {
-		opacity: 0;
+	.graphsTitle {
+		font-size: var(--font-size-xs);
 	}
-	to {
-		opacity: 1;
-	}
-}
 
-@keyframes slideUp {
-	from {
-		transform: translateY(20px);
-		opacity: 0;
-	}
-	to {
-		transform: translateY(0);
-		opacity: 1;
-	}
-}
-
-@keyframes scaleIn {
-	from {
-		transform: scale(0.9);
-		opacity: 0;
-	}
-	to {
-		transform: scale(1);
-		opacity: 1;
+	.recharts-legend-item {
+		margin-right: var(--spacing-1);
+		font-size: 11px;
 	}
 }

@@ -30,13 +30,69 @@ const meta: Meta<typeof FormFieldFactory> = {
 			control: 'text',
 			description: 'Selected value',
 		},
+		defaultValue: {
+			control: 'text',
+			description: 'Default selected value',
+		},
+		name: {
+			control: 'text',
+			description: 'Radio group name attribute',
+		},
+		options: {
+			control: 'object',
+			description: 'Array of radio options',
+		},
+		label: {
+			control: 'text',
+			description: 'Label for the radio group',
+		},
+		required: {
+			control: 'boolean',
+			description: 'Whether radio selection is required',
+		},
 		disabled: {
 			control: 'boolean',
 			description: 'Disable the radio',
 		},
+		readonly: {
+			control: 'boolean',
+			description: 'Make the radio readonly',
+		},
 		error: {
 			control: 'text',
 			description: 'Error message to display',
+		},
+		helperText: {
+			control: 'text',
+			description: 'Helper text to display below radios',
+		},
+		onChange: {
+			action: 'radioChanged',
+			description:
+				'Function called when radio value changes',
+		},
+		onFocus: {
+			action: 'radioFocused',
+			description: 'Function called when radio is focused',
+		},
+		onBlur: {
+			action: 'radioBlurred',
+			description: 'Function called when radio loses focus',
+		},
+		layout: {
+			control: 'select',
+			options: ['horizontal', 'vertical', 'grid'],
+			description: 'Layout direction for radio group',
+		},
+		size: {
+			control: 'select',
+			options: ['small', 'medium', 'large'],
+			description: 'Size of radio buttons',
+		},
+		variant: {
+			control: 'select',
+			options: ['default', 'button', 'card'],
+			description: 'Visual variant of radio buttons',
 		},
 	},
 };

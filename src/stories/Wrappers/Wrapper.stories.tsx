@@ -49,6 +49,89 @@ const meta: Meta<typeof UnifiedWrapper> = {
 			control: 'object',
 			description: 'Custom wrapper configuration',
 		},
+		layout: {
+			control: 'select',
+			options: [
+				'flex',
+				'grid',
+				'block',
+				'inline',
+				'inline-block',
+			],
+			description: 'Layout display type',
+		},
+		direction: {
+			control: 'select',
+			options: [
+				'row',
+				'column',
+				'row-reverse',
+				'column-reverse',
+			],
+			description: 'Flex direction',
+		},
+		align: {
+			control: 'select',
+			options: [
+				'start',
+				'center',
+				'end',
+				'stretch',
+				'baseline',
+			],
+			description: 'Alignment',
+		},
+		justify: {
+			control: 'select',
+			options: [
+				'start',
+				'center',
+				'end',
+				'between',
+				'around',
+				'evenly',
+			],
+			description: 'Justification',
+		},
+		gap: {
+			control: 'select',
+			options: ['xs', 'sm', 'md', 'lg', 'xl', 'none'],
+			description: 'Gap between items',
+		},
+		padding: {
+			control: 'select',
+			options: ['xs', 'sm', 'md', 'lg', 'xl', 'none'],
+			description: 'Internal padding',
+		},
+		margin: {
+			control: 'select',
+			options: ['xs', 'sm', 'md', 'lg', 'xl', 'none'],
+			description: 'External margin',
+		},
+		fullWidth: {
+			control: 'boolean',
+			description: 'Take full width',
+		},
+		fullHeight: {
+			control: 'boolean',
+			description: 'Take full height',
+		},
+		centered: {
+			control: 'boolean',
+			description: 'Center content',
+		},
+		scrollable: {
+			control: 'boolean',
+			description: 'Enable scrolling',
+		},
+		bordered: {
+			control: 'boolean',
+			description: 'Show border',
+		},
+		elevated: {
+			control: 'boolean',
+			description: 'Add elevation/shadow',
+		},
 	},
 };
 
@@ -62,14 +145,16 @@ type Story = StoryObj<typeof UnifiedWrapper>;
 export const ComponentWrapper: Story = {
 	args: {
 		kind: 'component',
-		children: 'This content is wrapped in a component wrapper',
+		children:
+			'This content is wrapped in a component wrapper',
 	},
 };
 
 export const ProviderWrapper: Story = {
 	args: {
 		kind: 'provider',
-		children: 'This content is wrapped in a provider wrapper',
+		children:
+			'This content is wrapped in a provider wrapper',
 	},
 };
 
@@ -125,9 +210,33 @@ export const FlexContainer: Story = {
 		gap: '1rem',
 		children: (
 			<>
-				<div style={{ padding: '1rem', background: '#e3f2fd', borderRadius: '4px' }}>Item 1</div>
-				<div style={{ padding: '1rem', background: '#f3e5f5', borderRadius: '4px' }}>Item 2</div>
-				<div style={{ padding: '1rem', background: '#e8f5e8', borderRadius: '4px' }}>Item 3</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#e3f2fd',
+						borderRadius: '4px',
+					}}
+				>
+					Item 1
+				</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#f3e5f5',
+						borderRadius: '4px',
+					}}
+				>
+					Item 2
+				</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#e8f5e8',
+						borderRadius: '4px',
+					}}
+				>
+					Item 3
+				</div>
 			</>
 		),
 	},
@@ -140,10 +249,42 @@ export const GridContainer: Story = {
 		gap: '1rem',
 		children: (
 			<>
-				<div style={{ padding: '1rem', background: '#ffecb3', borderRadius: '4px' }}>Grid Item 1</div>
-				<div style={{ padding: '1rem', background: '#ffcdd2', borderRadius: '4px' }}>Grid Item 2</div>
-				<div style={{ padding: '1rem', background: '#c8e6c9', borderRadius: '4px' }}>Grid Item 3</div>
-				<div style={{ padding: '1rem', background: '#dcedc8', borderRadius: '4px' }}>Grid Item 4</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#ffecb3',
+						borderRadius: '4px',
+					}}
+				>
+					Grid Item 1
+				</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#ffcdd2',
+						borderRadius: '4px',
+					}}
+				>
+					Grid Item 2
+				</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#c8e6c9',
+						borderRadius: '4px',
+					}}
+				>
+					Grid Item 3
+				</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#dcedc8',
+						borderRadius: '4px',
+					}}
+				>
+					Grid Item 4
+				</div>
 			</>
 		),
 	},
@@ -154,15 +295,20 @@ export const CenterContainer: Story = {
 		kind: 'center-container',
 		method: 'flex',
 		children: (
-			<div style={{ 
-				padding: '2rem', 
-				background: '#f5f5f5', 
-				borderRadius: '8px',
-				border: '2px dashed #ccc',
-				textAlign: 'center'
-			}}>
+			<div
+				style={{
+					padding: '2rem',
+					background: '#f5f5f5',
+					borderRadius: '8px',
+					border: '2px dashed #ccc',
+					textAlign: 'center',
+				}}
+			>
 				<h3>Centered Content</h3>
-				<p>This content is perfectly centered both horizontally and vertically</p>
+				<p>
+					This content is perfectly centered both
+					horizontally and vertically
+				</p>
 			</div>
 		),
 	},
@@ -176,9 +322,33 @@ export const StackContainer: Story = {
 		align: 'stretch',
 		children: (
 			<>
-				<div style={{ padding: '1rem', background: '#e1f5fe', borderRadius: '4px' }}>Stack Item 1</div>
-				<div style={{ padding: '1rem', background: '#f3e5f5', borderRadius: '4px' }}>Stack Item 2</div>
-				<div style={{ padding: '1rem', background: '#fff3e0', borderRadius: '4px' }}>Stack Item 3</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#e1f5fe',
+						borderRadius: '4px',
+					}}
+				>
+					Stack Item 1
+				</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#f3e5f5',
+						borderRadius: '4px',
+					}}
+				>
+					Stack Item 2
+				</div>
+				<div
+					style={{
+						padding: '1rem',
+						background: '#fff3e0',
+						borderRadius: '4px',
+					}}
+				>
+					Stack Item 3
+				</div>
 			</>
 		),
 	},
@@ -192,40 +362,96 @@ export const FactoryComponent: Story = {
 	render: () => (
 		<div>
 			<h3>WrapperFactory Examples</h3>
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '2rem',
+				}}
+			>
 				<div>
 					<h4>Generic Wrappers</h4>
-					<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-						{WrapperFactory.component({ children: 'Factory component wrapper' })}
-						{WrapperFactory.provider({ children: 'Factory provider wrapper' })}
-						{WrapperFactory.legacy({ children: 'Factory legacy wrapper' })}
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '1rem',
+						}}
+					>
+						{WrapperFactory.component({
+							children: 'Factory component wrapper',
+						})}
+						{WrapperFactory.provider({
+							children: 'Factory provider wrapper',
+						})}
+						{WrapperFactory.legacy({
+							children: 'Factory legacy wrapper',
+						})}
 					</div>
 				</div>
-				
+
 				<div>
 					<h4>Layout Containers</h4>
-					<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-						{WrapperFactory.flexContainer({ 
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '1rem',
+						}}
+					>
+						{WrapperFactory.flexContainer({
 							children: (
 								<>
-									<span style={{ padding: '0.5rem', background: '#e3f2fd' }}>Flex Item 1</span>
-									<span style={{ padding: '0.5rem', background: '#f3e5f5' }}>Flex Item 2</span>
+									<span
+										style={{
+											padding: '0.5rem',
+											background: '#e3f2fd',
+										}}
+									>
+										Flex Item 1
+									</span>
+									<span
+										style={{
+											padding: '0.5rem',
+											background: '#f3e5f5',
+										}}
+									>
+										Flex Item 2
+									</span>
 								</>
 							),
-							gap: '0.5rem'
+							gap: '0.5rem',
 						})}
-						{WrapperFactory.centerContainer({ 
+						{WrapperFactory.centerContainer({
 							children: 'Centered content via factory',
-							style: { height: '100px', background: '#f5f5f5', border: '1px dashed #ccc' }
+							style: {
+								height: '100px',
+								background: '#f5f5f5',
+								border: '1px dashed #ccc',
+							},
 						})}
-						{WrapperFactory.stackContainer({ 
+						{WrapperFactory.stackContainer({
 							children: (
 								<>
-									<div style={{ padding: '0.5rem', background: '#ffecb3' }}>Stack Item 1</div>
-									<div style={{ padding: '0.5rem', background: '#ffcdd2' }}>Stack Item 2</div>
+									<div
+										style={{
+											padding: '0.5rem',
+											background: '#ffecb3',
+										}}
+									>
+										Stack Item 1
+									</div>
+									<div
+										style={{
+											padding: '0.5rem',
+											background: '#ffcdd2',
+										}}
+									>
+										Stack Item 2
+									</div>
 								</>
 							),
-							gap: '0.25rem'
+							gap: '0.25rem',
 						})}
 					</div>
 				</div>
@@ -238,40 +464,92 @@ export const UltraShortAliases: Story = {
 	render: () => (
 		<div>
 			<h3>Ultra-Short W Aliases</h3>
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '2rem',
+				}}
+			>
 				<div>
 					<h4>Generic W Aliases</h4>
-					<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-						{W.component({ children: 'W.component wrapper' })}
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '1rem',
+						}}
+					>
+						{W.component({
+							children: 'W.component wrapper',
+						})}
 						{W.provider({ children: 'W.provider wrapper' })}
 						{W.legacy({ children: 'W.legacy wrapper' })}
 					</div>
 				</div>
-				
+
 				<div>
 					<h4>Layout W Aliases</h4>
-					<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-						{W.flexContainer({ 
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '1rem',
+						}}
+					>
+						{W.flexContainer({
 							children: (
 								<>
-									<span style={{ padding: '0.5rem', background: '#e8f5e8' }}>W.flex Item 1</span>
-									<span style={{ padding: '0.5rem', background: '#fff3e0' }}>W.flex Item 2</span>
+									<span
+										style={{
+											padding: '0.5rem',
+											background: '#e8f5e8',
+										}}
+									>
+										W.flex Item 1
+									</span>
+									<span
+										style={{
+											padding: '0.5rem',
+											background: '#fff3e0',
+										}}
+									>
+										W.flex Item 2
+									</span>
 								</>
 							),
-							gap: '0.5rem'
+							gap: '0.5rem',
 						})}
-						{W.centerContainer({ 
+						{W.centerContainer({
 							children: 'W.center content',
-							style: { height: '80px', background: '#f0f0f0', border: '1px solid #ddd' }
+							style: {
+								height: '80px',
+								background: '#f0f0f0',
+								border: '1px solid #ddd',
+							},
 						})}
-						{W.stackContainer({ 
+						{W.stackContainer({
 							children: (
 								<>
-									<div style={{ padding: '0.5rem', background: '#e1f5fe' }}>W.stack Item 1</div>
-									<div style={{ padding: '0.5rem', background: '#fce4ec' }}>W.stack Item 2</div>
+									<div
+										style={{
+											padding: '0.5rem',
+											background: '#e1f5fe',
+										}}
+									>
+										W.stack Item 1
+									</div>
+									<div
+										style={{
+											padding: '0.5rem',
+											background: '#fce4ec',
+										}}
+									>
+										W.stack Item 2
+									</div>
 								</>
 							),
-							gap: '0.25rem'
+							gap: '0.25rem',
 						})}
 					</div>
 				</div>
@@ -289,7 +567,8 @@ export const WithCustomConfiguration: Story = {
 		kind: 'component',
 		children: 'Custom configured wrapper',
 		configuration: {
-			deprecationMessage: 'This is a custom deprecation message',
+			deprecationMessage:
+				'This is a custom deprecation message',
 			enableConsoleWarning: true,
 		},
 	},
@@ -333,11 +612,11 @@ export const WithComplexContent: Story = {
 
 export const NestedWrappers: Story = {
 	render: () => (
-		<UnifiedWrapper kind="component">
+		<UnifiedWrapper kind='component'>
 			<h4>Outer Wrapper</h4>
-			<UnifiedWrapper kind="provider">
+			<UnifiedWrapper kind='provider'>
 				<h5>Inner Provider Wrapper</h5>
-				<UnifiedWrapper kind="legacy">
+				<UnifiedWrapper kind='legacy'>
 					<span>Deeply nested legacy wrapper content</span>
 				</UnifiedWrapper>
 			</UnifiedWrapper>

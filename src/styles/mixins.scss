@@ -1,334 +1,1932 @@
-// Mixins for commonly repeated patterns
+// ========================================
+// Modern SCSS Mixins with Proper Containment
+// ========================================
 @use './Variables.scss' as *;
 
-// Modal overlay pattern
-@mixin modal-overlay {
-	position: fixed;
-	z-index: 2100;
-	inset: 0;
-	background: rgba(30, 41, 59, 0.38);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+// ========================================
+// Form Control Mixins
+// ========================================
 
-// Modal content pattern
-@mixin modal-content {
-	background: #fff;
-	border-radius: 1.2rem;
-	padding: 2rem 1.5rem 1.5rem 1.5rem;
-	min-width: 260px;
-	max-width: 95vw;
-	width: 100%;
-	text-align: center;
+// Base form control styling
+@mixin form-control {
 	position: relative;
-	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.18);
+	display: inline-block;
+	box-sizing: border-box;
+	font-family: inherit;
+	line-height: var(--line-height-normal);
 }
 
-// Close button pattern
-@mixin close-button-absolute {
-	position: absolute;
-	top: 16px;
-	right: 16px;
-	background: none;
-	border: none;
-	font-size: 1.5rem;
+// Interactive element styling
+@mixin interactive-element {
 	cursor: pointer;
-	z-index: 10;
-}
+	transition: all var(--transition-fast);
+	user-select: none;
 
-// Button gradient pattern
-@mixin primary-gradient {
-	background: linear-gradient(
-		90deg,
-		$primary-color 0%,
-		$secondary-color 100%
-	);
-	color: $primary-white;
-	font-weight: 600;
-	border: none;
-	border-radius: 0.7rem;
-	padding: 0.75rem 2.2rem;
-	font-size: 1.1rem;
-	cursor: pointer;
-	box-shadow: 0 2px 8px 0 $primary-shadow-blue;
-}
+	&:hover:not(:disabled) {
+		transform: translateY(-1px);
+	}
 
-// Button base pattern
-@mixin button-base {
-	border-radius: 0.7rem;
-	font-size: 1.1rem;
-	font-weight: 600;
-	cursor: pointer;
-	transition: all 0.2s ease;
-	border: none;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	text-decoration: none;
-	outline: none;
-
-	&:focus {
-		box-shadow: 0 0 0 2px rgba($primary-color, 0.5);
+	&:active:not(:disabled) {
+		transform: translateY(0);
 	}
 
 	&:disabled {
-		opacity: 0.6;
 		cursor: not-allowed;
+		opacity: 0.6;
 	}
 }
 
-// Secondary button pattern
-@mixin secondary-button {
-	background: $primary-white;
-	color: $primary-color;
-	border: 2px solid $primary-color;
-	border-radius: 0.7rem;
-	padding: 0.75rem 2.2rem;
-	font-size: 1.1rem;
-	font-weight: 600;
+// Disabled state styling
+@mixin disabled-state {
+	opacity: 0.6;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+// Form field container styling
+@mixin form-field {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: var(--spacing-4);
+	box-sizing: border-box;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+// Form input styling
+@mixin form-input {
+	@include form-control;
+	display: block;
+	width: 100%;
+	padding: var(--spacing-2) var(--spacing-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	background: var(--color-surface);
+	color: var(--color-text-primary);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-normal);
+	transition: border-color var(--transition-fast);
+
+	&:focus {
+		outline: none;
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 1px var(--color-primary);
+	}
+
+	&:disabled {
+		@include disabled-state;
+		background: var(--color-surface-disabled);
+	}
+}
+
+// Helper text styling for form fields
+@mixin helper-text {
+	display: block;
+	margin-top: var(--spacing-1);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-muted);
+
+	&.error {
+		color: var(--color-danger);
+	}
+
+	&.success {
+		color: var(--color-success);
+	}
+
+	&.warning {
+		color: var(--color-warning);
+	}
+}
+
+// Checkbox input styling
+@mixin checkbox-input {
+	@include form-control;
+	width: var(--size-4);
+	height: var(--size-4);
+	border: 2px solid var(--color-border);
+	border-radius: var(--radius-xs);
+	background: var(--color-surface);
 	cursor: pointer;
+	transition: all var(--transition-fast);
+
+	&:checked {
+		background: var(--color-primary);
+		border-color: var(--color-primary);
+	}
+
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-primary-alpha);
+	}
 }
 
-// Card pattern
-@mixin card {
-	background: $primary-white;
-	border-radius: 0.7rem;
-	box-shadow: 0 2px 8px $primary-shadow-blue-verylight;
-	padding: 1rem;
+// Select input styling
+@mixin select-input {
+	@include form-control;
+	display: block;
+	width: 100%;
+	padding: var(--spacing-2) var(--spacing-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	background: var(--color-surface);
+	color: var(--color-text-primary);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-normal);
+	cursor: pointer;
+	transition: border-color var(--transition-fast);
+
+	&:focus {
+		outline: none;
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 1px var(--color-primary);
+	}
+
+	&:disabled {
+		@include disabled-state;
+	}
 }
 
-// Flex center pattern
+// Toggle switch styling
+@mixin toggle-switch {
+	position: relative;
+	display: inline-block;
+	width: 44px;
+	height: 24px;
+	background: var(--color-neutral-300);
+	border-radius: 12px;
+	cursor: pointer;
+	transition: background-color var(--transition-fast);
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 2px;
+		left: 2px;
+		width: 20px;
+		height: 20px;
+		background: var(--color-white);
+		border-radius: 50%;
+		transition: transform var(--transition-fast);
+	}
+
+	&:checked {
+		background: var(--color-primary);
+
+		&::after {
+			transform: translateX(20px);
+		}
+	}
+
+	&:focus {
+		@include focus-ring;
+	}
+}
+
+// ========================================
+// Layout & Containment Mixins
+// ========================================
+
+// Base container with proper containment
+@mixin container-base {
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+// Container with proper containment
+@mixin container($max-width: var(--container-xl)) {
+	width: 100%;
+	max-width: $max-width;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: var(--spacing-4);
+	padding-right: var(--spacing-4);
+	box-sizing: border-box;
+
+	@media (max-width: 640px) {
+		padding-left: var(--spacing-3);
+		padding-right: var(--spacing-3);
+	}
+}
+
+// Container with containment
+@mixin container-contained {
+	@include container-base;
+	contain: layout style paint;
+}
+
+// Container padding utility
+@mixin container-padding($padding: var(--spacing-4)) {
+	@media (max-width: 640px) {
+		padding-left: var(--spacing-3);
+		padding-right: var(--spacing-3);
+	}
+
+	& {
+		padding-left: $padding;
+		padding-right: $padding;
+	}
+}
+
+// Safe area for content that should never overflow
+@mixin safe-area {
+	max-width: 100%;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+// Safe area padding for mobile devices
+@mixin safe-area-padding($padding: var(--spacing-4)) {
+	padding: $padding;
+	padding-top: calc(#{$padding} + env(safe-area-inset-top));
+	padding-right: calc(
+		#{$padding} + env(safe-area-inset-right)
+	);
+	padding-bottom: calc(
+		#{$padding} + env(safe-area-inset-bottom)
+	);
+	padding-left: calc(
+		#{$padding} + env(safe-area-inset-left)
+	);
+}
+
+// Safe area padding for bottom
+@mixin safe-area-padding-bottom {
+	padding-bottom: calc(
+		var(--spacing-4) + env(safe-area-inset-bottom)
+	);
+}
+
+// Safe area insets for iOS notch support
+@mixin safe-area-insets {
+	padding-top: env(safe-area-inset-top);
+	padding-right: env(safe-area-inset-right);
+	padding-bottom: env(safe-area-inset-bottom);
+	padding-left: env(safe-area-inset-left);
+}
+
+// Spacing padding utility with size variants
+@mixin spacing-padding($size: md) {
+	@if $size == xs {
+		padding: var(--spacing-1);
+	} @else if $size == sm {
+		padding: var(--spacing-2);
+	} @else if $size == md {
+		padding: var(--spacing-3);
+	} @else if $size == lg {
+		padding: var(--spacing-4);
+	} @else if $size == xl {
+		padding: var(--spacing-6);
+	} @else {
+		padding: $size;
+	}
+}
+
+// Flexbox utilities with proper containment
 @mixin flex-center {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-// Status dot pattern
-@mixin status-dot($size: 10px) {
-	width: $size;
-	height: $size;
-	border-radius: 50%;
-	display: inline-block;
+@mixin flex-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
-// Status dot state colors
-@mixin status-dot-state($color) {
-	background: $color;
-}
-
-// Grid pattern
-@mixin grid-pattern($cols: 4, $gap: 12px) {
-	display: grid;
-	grid-template-columns: repeat($cols, 1fr);
-	gap: $gap;
-	width: 100%;
-	max-width: 480px;
-	margin: 0 auto;
-}
-
-// Animation fade in
-@mixin fade-in-animation {
-	animation: fadeInUp 0.6s cubic-bezier(0.4, 2, 0.6, 1);
-}
-
-// Chat message base
-@mixin chat-message-base {
-	margin-bottom: 0.25rem;
-	padding: 8px 12px;
-	border-radius: 10px;
-	font-size: 1rem;
-	max-width: 80%;
-	word-break: break-word;
-}
-
-// Chat message variants
-@mixin chat-message {
-	@include chat-message-base;
-	background: #f3f4f6;
-	color: #222;
-}
-
-@mixin chat-message-self {
-	@include chat-message-base;
-	align-self: flex-end;
-	background: #e0e7ff;
-	color: #2563eb;
-}
-
-@mixin chat-message-friend {
-	@include chat-message-base;
-	align-self: flex-start;
-	background: #e0e7ff;
-	color: #2563eb;
-}
-
-// Chat window components
-@mixin chat-window {
-	background: rgba(255, 255, 255, 0.98);
-	border-radius: 18px;
-	box-shadow:
-		0 8px 32px 0 #00308733,
-		0 2px 8px 0 #e3eaff33;
+@mixin flex-column($gap: null) {
 	display: flex;
 	flex-direction: column;
+	@if $gap != null {
+		gap: $gap;
+	}
+}
+
+@mixin flex-wrap {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+@mixin flex-row($gap: 0, $align: stretch, $wrap: nowrap) {
+	display: flex;
+	flex-direction: row;
+	align-items: $align;
+	flex-wrap: $wrap;
+
+	@if $gap != 0 {
+		gap: $gap;
+	}
+}
+
+@mixin flex-row-center {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin flex-row-between {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+// Glass surface effect
+@mixin glass-surface {
+	background: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+}
+
+// Glass effect (alias for glass-surface)
+@mixin glass-effect {
+	@include glass-surface;
+}
+
+// Overflow utilities
+@mixin overflow-auto {
+	overflow: auto;
+}
+
+@mixin overflow-hidden {
 	overflow: hidden;
 }
 
-@mixin chat-header {
+// Elevated surface with shadow
+@mixin elevated-surface {
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+// Surface elevated (alias for elevated-surface)
+@mixin surface-elevated {
+	@include elevated-surface;
+}
+
+// Base surface styling
+@mixin surface-base {
+	background: var(--color-surface);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--color-border);
+}
+
+// Surface elevated hover state
+@mixin surface-elevated-hover {
+	@include elevated-surface;
+	transition: box-shadow var(--transition-fast);
+
+	&:hover {
+		box-shadow:
+			0 8px 12px -1px rgba(0, 0, 0, 0.15),
+			0 4px 8px -1px rgba(0, 0, 0, 0.1);
+	}
+}
+
+// Surface outlined styling
+@mixin surface-outlined {
+	background: transparent;
+	border: 2px solid var(--color-border);
+	border-radius: var(--radius-md);
+
+	&:hover {
+		border-color: var(--color-border-hover);
+	}
+}
+
+// Surface neutral styling
+@mixin surface-neutral {
+	background: var(--color-neutral-100);
+	border: 1px solid var(--color-neutral-200);
+	border-radius: var(--radius-md);
+}
+
+// Grid utilities with proper containment
+@mixin grid-container($columns: 1, $gap: var(--spacing-4)) {
+	display: grid;
+	grid-template-columns: repeat($columns, 1fr);
+	gap: $gap;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+@mixin grid-auto-fit(
+	$min-size: 250px,
+	$gap: var(--spacing-4)
+) {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax($min-size, 1fr)
+	);
+	gap: $gap;
+	width: 100%;
+}
+
+@mixin grid-auto-fill(
+	$min-size: 250px,
+	$gap: var(--spacing-4)
+) {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax($min-size, 1fr)
+	);
+	gap: $gap;
+	width: 100%;
+}
+
+// Basic auto grid
+@mixin grid-auto {
+	display: grid;
+	grid-template-columns: auto;
+	gap: var(--spacing-4);
+}
+
+// Full width utility
+@mixin full-width {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+// Full viewport utility
+@mixin full-viewport {
+	width: 100vw;
+	height: 100vh;
+	box-sizing: border-box;
+}
+
+// Aspect ratio utility
+@mixin aspect-ratio($width, $height) {
+	aspect-ratio: #{$width} / #{$height};
+
+	// Fallback for older browsers
+	@supports not (aspect-ratio: 1) {
+		position: relative;
+		overflow: hidden;
+
+		&::before {
+			content: '';
+			display: block;
+			padding-top: calc(#{$height} / #{$width} * 100%);
+		}
+
+		> * {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+// ========================================
+// Component Mixins
+// ========================================
+
+// Modern modal overlay with proper layering
+@mixin modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(4px);
 	display: flex;
 	align-items: center;
-	gap: 12px;
-	padding: 14px 18px 10px 18px;
-	border-bottom: 1.5px solid #e5e7eb;
-	background: rgba(255, 255, 255, 0.96);
-}
-
-@mixin chat-messages {
-	flex: 1;
+	justify-content: center;
+	padding: var(--spacing-4);
+	z-index: var(--z-modal-backdrop);
 	overflow-y: auto;
-	padding: 16px 18px 8px 18px;
+	box-sizing: border-box;
 }
 
-// Chat window base
-@mixin chat-window-base {
-	background: $primary-white;
-	border-radius: 1rem;
-	box-shadow: 0 2px 8px #0002;
-	padding: 1rem;
+// Modern modal content with contained sizing
+@mixin modal-content {
+	background: var(--color-surface);
+	border-radius: var(--radius-xl);
+	padding: var(--spacing-6);
+	width: 100%;
+	max-width: 32rem; // 512px
+	max-height: calc(100vh - var(--spacing-8));
+	overflow-y: auto;
+	position: relative;
+	box-shadow: var(--shadow-xl);
+	box-sizing: border-box;
+	margin: auto; // Centers vertically in flex container
 }
 
-// Gradient text
-@mixin gradient-text($gradient) {
-	background: $gradient;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
+// Card component with proper containment
+@mixin card($padding: var(--spacing-4)) {
+	background: var(--color-surface);
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--color-border);
+	box-shadow: var(--shadow-sm);
+	padding: $padding;
+	box-sizing: border-box;
+	overflow: hidden; // Prevents content bleeding
+
+	&:hover {
+		box-shadow: var(--shadow-md);
+		transition: box-shadow var(--transition-normal);
+	}
+}
+
+// Base card styling
+@mixin card-base {
+	@include surface-base;
+	@include contained-element;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+// Interactive card styling for clickable cards
+@mixin interactive-card {
+	@include card-base;
+	@include interactive-element;
+	cursor: pointer;
+	transition: all var(--transition-fast);
+
+	&:hover {
+		box-shadow: var(--shadow-md);
+		transform: translateY(-2px);
+	}
+
+	&:active {
+		transform: translateY(-1px);
+		box-shadow: var(--shadow-sm);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-focus);
+		outline-offset: 2px;
+	}
+}
+
+// Modern card styling with responsive design
+@mixin modern-card {
+	@include card-base;
+	@include surface-elevated;
+	transition: all var(--transition-fast);
+
+	&:hover {
+		@include surface-elevated-hover;
+	}
+}
+
+// Button base with proper sizing constraints
+@mixin button-base {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-2);
+	padding: var(--spacing-3) var(--spacing-6);
+	border-radius: var(--radius-lg);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	line-height: var(--line-height-tight);
+	text-decoration: none;
+	border: none;
+	cursor: pointer;
+	transition: all var(--transition-fast);
+	outline: none;
+	box-sizing: border-box;
+	min-height: 2.5rem; // Consistent height
+	max-width: 100%; // Prevents overflow
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 2px;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+}
+
+// Primary button style
+@mixin button-primary {
+	@include button-base;
+	background: linear-gradient(
+		135deg,
+		var(--color-primary) 0%,
+		var(--color-primary-light) 100%
+	);
+	color: var(--color-text-inverse);
+
+	&:hover:not(:disabled) {
+		background: linear-gradient(
+			135deg,
+			var(--color-primary-hover) 0%,
+			var(--color-primary) 100%
+		);
+		transform: translateY(-1px);
+		box-shadow: var(--shadow-md);
+	}
+
+	&:active:not(:disabled) {
+		transform: translateY(0);
+	}
+}
+
+// Secondary button style
+@mixin secondary-button {
+	@include button-base;
+	background: transparent;
+	border: var(--border-thin) solid var(--color-border);
+	color: var(--color-text);
+
+	&:hover {
+		background: var(--color-surface-hover);
+		border-color: var(--color-border-hover);
+	}
+
+	&:active {
+		background: var(--color-surface-active);
+	}
+}
+
+// Danger button style
+@mixin button-danger {
+	@include button-base;
+	background: var(--color-danger);
+	color: var(--color-text-inverse);
+	border: 1px solid var(--color-danger);
+
+	&:hover:not(:disabled) {
+		background: var(--color-danger-dark, #dc2626);
+		border-color: var(--color-danger-dark, #dc2626);
+	}
+}
+
+// Ghost button style
+@mixin button-ghost {
+	@include button-base;
+	background: transparent;
+	color: var(--color-text-primary);
+	border: 1px solid transparent;
+
+	&:hover:not(:disabled) {
+		background: var(--color-gray-100);
+		border-color: var(--color-border);
+	}
+}
+
+// Link button style
+@mixin button-link {
+	@include button-base;
+	background: transparent;
+	color: var(--color-primary);
+	border: none;
+	text-decoration: underline;
+	padding: 0;
+
+	&:hover:not(:disabled) {
+		color: var(--color-primary-dark, #1d4ed8);
+		text-decoration: none;
+	}
+}
+
+// Button sizes
+@mixin button-size-sm {
+	padding: var(--spacing-2) var(--spacing-3);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-tight);
+}
+
+@mixin button-size-md {
+	padding: var(--spacing-3) var(--spacing-4);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-normal);
+}
+
+@mixin button-size-lg {
+	padding: var(--spacing-4) var(--spacing-6);
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-normal);
+}
+
+@mixin button-size-xs {
+	padding: var(--spacing-1) var(--spacing-2);
+	font-size: var(--text-xs);
+	min-height: 24px;
+}
+
+@mixin button-size-xl {
+	padding: var(--spacing-4) var(--spacing-6);
+	font-size: var(--text-lg);
+	min-height: 56px;
+}
+
+// Button hover effects
+@mixin button-hover-transform {
+	&:hover:not(:disabled) {
+		transform: translateY(-1px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	&:active:not(:disabled) {
+		transform: translateY(0);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+}
+
+// Transition utilities
+@mixin transition-opacity($duration: 200ms) {
+	transition: opacity $duration ease-in-out;
+}
+
+@mixin transition-all($duration: 200ms) {
+	transition: all $duration ease-in-out;
+}
+
+// Pill style (rounded badge/button)
+@mixin pill-style {
+	border-radius: 9999px;
+	padding: var(--spacing-xs) var(--spacing-sm);
+	font-size: var(--text-sm);
+	font-weight: 500;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+// Pill variations
+@mixin pill-primary {
+	@include pill-style;
+	background: var(--color-primary);
+	color: var(--color-on-primary);
+}
+
+@mixin pill-secondary {
+	@include pill-style;
+	background: var(--color-secondary);
+	color: var(--color-on-secondary);
+}
+
+@mixin pill-outline {
+	@include pill-style;
+	background: transparent;
+	border: 1px solid var(--border-default);
+	color: var(--text-primary);
+}
+
+@mixin pill-error {
+	@include pill-style;
+	background: var(--color-error);
+	color: var(--color-on-error);
+}
+
+@mixin pill-warning {
+	@include pill-style;
+	background: var(--color-warning);
+	color: var(--color-on-warning);
+}
+
+@mixin pill-success {
+	@include pill-style;
+	background: var(--color-success);
+	color: var(--color-on-success);
+}
+
+// Skeleton loading animation
+@mixin skeleton-loading {
+	background: linear-gradient(
+		90deg,
+		var(--surface-subtle) 25%,
+		var(--surface-muted) 50%,
+		var(--surface-subtle) 75%
+	);
+	background-size: 200% 100%;
+	animation: skeleton-shimmer 1.5s ease-in-out infinite;
+
+	@keyframes skeleton-shimmer {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
+	}
+}
+
+// Tag style (for labels, categories, etc.)
+@mixin tag-style {
+	display: inline-flex;
+	align-items: center;
+	padding: var(--spacing-xs) var(--spacing-sm);
+	background: var(--surface-subtle);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-sm);
+	font-size: var(--text-xs);
+	font-weight: 500;
+	color: var(--text-secondary);
+	line-height: 1;
+	white-space: nowrap;
+}
+
+// Floating element (dropdown, tooltip, etc.)
+@mixin floating-element {
+	position: absolute;
+	z-index: var(--z-dropdown);
+	background: var(--surface-base);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-lg);
+	padding: var(--spacing-2);
+	min-width: 200px;
+}
+
+// Icon button styling for compact interactive elements
+@mixin icon-button {
+	@include button-base;
+	@include interactive-element;
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--spacing-10);
+	height: var(--spacing-10);
+	padding: 0;
+	border: none;
+	border-radius: var(--radius-md);
+	background: transparent;
+	color: var(--color-text-secondary);
+	cursor: pointer;
+	transition: all var(--transition-fast);
+
+	&:hover:not(:disabled) {
+		background: var(--color-surface-variant);
+		color: var(--color-text-primary);
+	}
+
+	&:active:not(:disabled) {
+		background: var(--color-surface-active);
+		transform: scale(0.95);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-focus);
+		outline-offset: 2px;
+	}
+
+	// Size variants
+	&.small {
+		width: var(--spacing-8);
+		height: var(--spacing-8);
+	}
+
+	&.large {
+		width: var(--spacing-12);
+		height: var(--spacing-12);
+	}
+}
+
+// Input field with proper containment
+@mixin input-base {
+	width: 100%;
+	padding: var(--spacing-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-normal);
+	background: var(--color-surface);
+	color: var(--color-text-primary);
+	box-sizing: border-box;
+	transition: border-color var(--transition-fast);
+
+	&::placeholder {
+		color: var(--color-text-muted);
+	}
+
+	&:focus {
+		outline: none;
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+	}
+
+	&:disabled {
+		background: var(--color-gray-50);
+		cursor: not-allowed;
+	}
+
+	&[aria-invalid='true'] {
+		border-color: var(--color-danger);
+
+		&:focus {
+			border-color: var(--color-danger);
+			box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+		}
+	}
+}
+
+// ========================================
+// Positioning Mixins with Safe Constraints
+// ========================================
+
+// Absolute positioning that respects boundaries
+@mixin absolute-contained(
+	$top: null,
+	$right: null,
+	$bottom: null,
+	$left: null
+) {
+	position: absolute;
+	@if $top {
+		top: $top;
+	}
+	@if $right {
+		right: $right;
+	}
+	@if $bottom {
+		bottom: $bottom;
+	}
+	@if $left {
+		left: $left;
+	}
+	max-width: 100%;
+	max-height: 100%;
+	box-sizing: border-box;
+}
+
+// Absolute centering mixins
+@mixin absolute-center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+@mixin absolute-center-x {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+@mixin absolute-center-y {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+// Fixed positioning with proper z-index management
+@mixin fixed-positioned($z-index: var(--z-fixed)) {
+	position: fixed;
+	z-index: $z-index;
+	box-sizing: border-box;
+}
+
+// Fixed positioning (alias)
+@mixin fixed-positioning($z-index: var(--z-fixed)) {
+	@include fixed-positioned($z-index);
+}
+
+// Sticky positioning with contained behavior
+@mixin sticky-top($top: 0, $z-index: var(--z-sticky)) {
+	position: sticky;
+	top: $top;
+	z-index: $z-index;
+	box-sizing: border-box;
+}
+
+// Sticky header utility
+@mixin sticky-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	background: var(--surface-base);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+// ========================================
+// Text & Typography Mixins
+// ========================================
+
+// Text truncation with proper containment
+@mixin text-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 100%;
+}
+
+// Multi-line text truncation
+@mixin text-truncate-lines($lines: 2) {
+	display: -webkit-box;
+	-webkit-line-clamp: $lines;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	line-height: var(--line-height-normal);
+}
+
+// Multiline text truncation (alias for text-truncate-lines)
+@mixin text-truncate-multiline($lines: 2) {
+	@include text-truncate-lines($lines);
+}
+
+// ========================================
+// Typography Mixins
+// ========================================
+
+// Text size mixins
+@mixin text-xs {
+	font-size: var(--font-size-xs);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin text-sm {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin text-base {
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin text-lg {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin text-xl {
+	font-size: var(--font-size-xl);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin text-2xl {
+	font-size: var(--font-size-2xl);
+	line-height: var(--line-height-tight);
+	color: var(--color-text-primary);
+}
+
+@mixin text-3xl {
+	font-size: var(--font-size-3xl);
+	line-height: var(--line-height-tight);
+	color: var(--color-text-primary);
+}
+
+// Text utility mixins
+@mixin text-caption {
+	font-size: var(--font-size-xs);
+	line-height: var(--line-height-tight);
+	color: var(--color-text-muted);
+}
+
+@mixin text-body {
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin text-heading {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-tight);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-primary);
+}
+
+// Heading size variants
+@mixin text-heading-xs {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-tight);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-primary);
+}
+
+@mixin text-heading-sm {
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-tight);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-primary);
+}
+
+@mixin text-heading-md {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-tight);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-primary);
+}
+
+@mixin text-heading-lg {
+	font-size: var(--font-size-xl);
+	line-height: var(--line-height-tight);
+	font-weight: var(--font-weight-bold);
+	color: var(--color-text-primary);
+}
+
+@mixin text-heading-xl {
+	font-size: var(--font-size-2xl);
+	line-height: var(--line-height-tight);
+	font-weight: var(--font-weight-bold);
+	color: var(--color-text-primary);
+}
+
+@mixin text-heading-2xl {
+	font-size: var(--font-size-3xl);
+	line-height: var(--line-height-tight);
+	font-weight: var(--font-weight-bold);
+	color: var(--color-text-primary);
+}
+
+@mixin text-base {
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+// Specific typography styles
+@mixin typography-body-sm {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin typography-body-xs {
+	font-size: var(--font-size-xs);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin text-body-sm {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin text-body-base {
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+@mixin text-body-lg {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+}
+
+// Hover effect utilities
+@mixin hover-lift {
+	transition: transform var(--transition-fast);
+
+	&:hover {
+		transform: translateY(-2px);
+	}
 }
 
 // Hover scale effect
 @mixin hover-scale($scale: 1.05) {
-	transition: transform 0.2s ease;
+	transition: transform 200ms ease-in-out;
 
 	&:hover {
 		transform: scale($scale);
 	}
 }
 
-// Badge pattern
-@mixin badge($bg-color: $primary-color) {
+// Screen reader only content
+@mixin sr-only {
 	position: absolute;
-	background: $bg-color;
-	color: $primary-white;
-	border-radius: 8px;
-	font-size: 12px;
-	padding: 2px 6px;
-	z-index: 2;
-	pointer-events: none;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
 }
 
-// Input field base
-@mixin input-base {
-	font-size: 1rem;
-	border-radius: 0.5rem;
-	transition: all 0.2s ease-in-out;
-	outline: none;
-	padding: 0.75rem 1rem;
+// Visually hidden (alias for sr-only)
+@mixin visually-hidden {
+	@include sr-only;
+}
 
-	&:focus {
-		box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-	}
+// Focus ring for accessibility
+@mixin focus-ring($color: var(--color-primary)) {
+	outline: 2px solid $color;
+	outline-offset: 2px;
+	box-shadow: 0 0 0 2px #{$color}33; // 33 is 20% opacity in hex
+}
 
-	&:disabled {
-		background-color: #f9fafb;
-		color: #9ca3af;
-		cursor: not-allowed;
-	}
-
-	&::placeholder {
-		color: #9ca3af;
+// Focus visible (modern approach)
+@mixin focus-visible {
+	&:focus-visible {
+		@include focus-ring;
 	}
 }
 
-// Input variant - outlined
-@mixin input-outlined {
-	border: 1px solid #d1d5db;
-	background-color: #ffffff;
+// ========================================
+// Chat Component Mixins
+// ========================================
 
-	&:hover:not(:disabled) {
-		border-color: #9ca3af;
-	}
+// Chat window base styling (without positioning)
+@mixin chat-window-base {
+	@include surface-elevated;
+	@include contained-element;
+	width: 320px;
+	height: 400px;
+	display: flex;
+	flex-direction: column;
+}
 
-	&:focus {
-		border-color: #3b82f6;
+// Chat window base styling
+@mixin chat-window {
+	@include chat-window-base;
+	position: fixed;
+	bottom: var(--spacing-4);
+	right: var(--spacing-4);
+	z-index: var(--z-chat);
+}
+
+// Chat header styling
+@mixin chat-header {
+	@include flex-between;
+	padding: var(--spacing-3);
+	border-bottom: 1px solid var(--color-border);
+	background: var(--color-surface);
+}
+
+// Chat messages container
+@mixin chat-messages {
+	flex: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: var(--spacing-2);
+}
+
+// Base chat message styling
+@mixin chat-message-base {
+	padding: var(--spacing-2) var(--spacing-3);
+	margin-bottom: var(--spacing-1);
+	border-radius: var(--radius-md);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-normal);
+	word-wrap: break-word;
+}
+
+// Generic chat message
+@mixin chat-message {
+	@include chat-message-base;
+	background: var(--color-neutral-100);
+	border: 1px solid var(--color-border);
+}
+
+// Self chat message styling
+@mixin chat-message-self {
+	@include chat-message;
+	background: var(--color-primary);
+	color: var(--color-white);
+	align-self: flex-end;
+	max-width: 80%;
+}
+
+// Friend chat message styling
+@mixin chat-message-friend {
+	@include chat-message;
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	align-self: flex-start;
+	max-width: 80%;
+}
+
+// ========== MISSING MIXINS BATCH ==========
+
+// Typography variants
+@mixin typography-subtitle-md {
+	font-size: var(--text-lg);
+	font-weight: 500;
+	line-height: 1.4;
+	color: var(--color-text-secondary);
+}
+
+@mixin typography-heading-lg {
+	@include text-heading-lg;
+}
+
+@mixin typography-heading-md {
+	@include text-heading-md;
+}
+
+@mixin typography-body-md {
+	@include text-base;
+}
+
+// Button variants missing
+@mixin button-secondary {
+	@include secondary-button;
+}
+
+@mixin button-outline {
+	background: transparent;
+	color: var(--color-primary);
+	border: var(--border-thin) solid var(--color-primary);
+
+	&:hover {
+		background: var(--color-primary);
+		color: var(--color-on-primary);
 	}
 }
 
-// Input variant - filled
-@mixin input-filled {
-	border: none;
-	background-color: #f3f4f6;
-	border-bottom: 2px solid #d1d5db;
-	border-radius: 0.5rem 0.5rem 0 0;
+// Header and layout
+@mixin header-base {
+	@include surface-elevated;
+	@include safe-area-padding;
+	@include full-width;
+	position: sticky;
+	top: 0;
+	z-index: var(--z-header);
+	border-bottom: var(--border-thin) solid
+		var(--color-border);
+}
 
-	&:hover:not(:disabled) {
-		background-color: #e5e7eb;
-	}
-
-	&:focus {
-		background-color: #ffffff;
-		border-bottom-color: #3b82f6;
+@mixin mobile-only {
+	@media (max-width: 640px) {
+		@content;
 	}
 }
 
-// Input variant - underlined
-@mixin input-underlined {
-	border: none;
-	background-color: transparent;
-	border-bottom: 1px solid #d1d5db;
-	border-radius: 0;
-	padding-left: 0;
-	padding-right: 0;
+@mixin contained-section {
+	@include contained-element;
+	@include spacing-padding(md);
+}
 
-	&:hover:not(:disabled) {
-		border-bottom-color: #9ca3af;
+// Size and positioning utilities
+@mixin contained-size($size) {
+	width: $size;
+	height: $size;
+	max-width: $size;
+	max-height: $size;
+}
+
+@mixin size($width, $height: $width) {
+	width: $width;
+	height: $height;
+}
+
+@mixin contained-width(
+	$width,
+	$max-width: null,
+	$min-width: null
+) {
+	width: $width;
+
+	@if $max-width {
+		max-width: $max-width;
 	}
 
-	&:focus {
-		border-bottom-color: #3b82f6;
-		border-bottom-width: 2px;
+	@if $min-width {
+		min-width: $min-width;
 	}
 }
 
-// Skeleton loading
-@mixin skeleton {
-	background: linear-gradient(
-		90deg,
-		#f0f0f0 25%,
-		#e0e0e0 50%,
-		#f0f0f0 75%
+@mixin contained-element {
+	max-width: 100%;
+	overflow: hidden;
+	contain: layout style;
+}
+
+@mixin smooth-transition(
+	$properties: all,
+	$duration: 200ms
+) {
+	transition: $properties $duration ease-in-out;
+}
+
+@mixin absolute-position(
+	$top: null,
+	$right: null,
+	$bottom: null,
+	$left: null
+) {
+	position: absolute;
+
+	@if $top {
+		top: $top;
+	}
+	@if $right {
+		right: $right;
+	}
+	@if $bottom {
+		bottom: $bottom;
+	}
+	@if $left {
+		left: $left;
+	}
+}
+
+@mixin absolute-top-left($top: 0, $left: 0) {
+	position: absolute;
+	top: $top;
+	left: $left;
+}
+
+@mixin absolute-top-right($top: 0, $right: 0) {
+	position: absolute;
+	top: $top;
+	right: $right;
+}
+
+@mixin absolute-bottom-right($bottom: 0, $right: 0) {
+	position: absolute;
+	bottom: $bottom;
+	right: $right;
+}
+
+// Surface and state variants
+@mixin surface-primary {
+	background: var(--color-primary);
+	color: var(--color-on-primary);
+}
+
+@mixin focus-ring-visible {
+	&:focus-visible {
+		@include focus-ring;
+	}
+}
+
+// Layout sections
+@mixin header-section {
+	@include flex-row(0, center, nowrap);
+	@include spacing-padding(md);
+	border-bottom: var(--border-thin) solid
+		var(--color-border);
+}
+
+@mixin footer-section {
+	@include flex-row(0, center, nowrap);
+	@include spacing-padding(md);
+	border-top: var(--border-thin) solid var(--color-border);
+	margin-top: auto;
+}
+
+@mixin scroll-area {
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-border) transparent;
+
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: var(--color-border);
+		border-radius: var(--radius-sm);
+	}
+}
+
+@mixin section-spacing {
+	@include spacing-padding(lg);
+
+	& + & {
+		border-top: var(--border-thin) solid var(--color-border);
+	}
+}
+
+// Form inputs
+@mixin range-input {
+	@include form-input;
+
+	&[type='range'] {
+		-webkit-appearance: none;
+		appearance: none;
+		background: transparent;
+
+		&::-webkit-slider-track {
+			background: var(--color-border);
+			height: 4px;
+			border-radius: var(--radius-sm);
+		}
+
+		&::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			background: var(--color-primary);
+			border: 2px solid var(--color-surface);
+			box-shadow: var(--shadow-sm);
+		}
+	}
+}
+
+// Grid and layout
+@mixin responsive-grid(
+	$min-width: 200px,
+	$gap: var(--spacing-4)
+) {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax($min-width, 1fr)
 	);
-	background-size: 200% 100%;
-	animation: loading 1.5s infinite;
+	gap: $gap;
 }
 
-@keyframes loading {
-	0% {
-		background-position: 200% 0;
+@mixin customization-item {
+	@include card-base;
+	@include interactive-element;
+	cursor: pointer;
+
+	&:hover {
+		@include surface-elevated-hover;
 	}
-	100% {
-		background-position: -200% 0;
+
+	&.selected {
+		@include surface-primary;
 	}
 }
 
-@keyframes fadeInUp {
-	from {
-		opacity: 0;
-		transform: translateY(20px);
+// Status and feedback
+@mixin status-indicator {
+	@include badge-base;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-1);
+
+	&::before {
+		content: '';
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: currentColor;
 	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
+}
+
+@mixin price-badge {
+	@include badge-base;
+	background: var(--color-success);
+	color: var(--color-on-success);
+	font-weight: 600;
+}
+
+@mixin empty-state {
+	@include flex-center;
+	@include text-center;
+	@include spacing-padding(xl);
+	color: var(--color-text-secondary);
+
+	svg {
+		@include contained-size(48px);
+		margin-bottom: var(--spacing-2);
+		opacity: 0.5;
 	}
+}
+
+// Preview containers
+@mixin preview-container {
+	@include card-base;
+	@include contained-element;
+	min-height: 120px;
+	@include flex-center;
+	position: relative;
+}
+
+@mixin preview-text {
+	@include text-sm;
+	color: var(--color-text-secondary);
+	text-align: center;
+}
+
+// Navigation specific
+@mixin flex-column-center {
+	@include flex-column;
+	align-items: center;
+}
+
+@mixin badge-floating {
+	@include badge-base;
+	position: absolute;
+	top: -4px;
+	right: -4px;
+	min-width: 18px;
+	height: 18px;
+	@include flex-center;
+	font-size: 10px;
+	font-weight: 600;
+}
+
+@mixin container-padding-sm {
+	padding-left: var(--spacing-2);
+	padding-right: var(--spacing-2);
+}
+
+@mixin container-padding-xs {
+	padding-left: var(--spacing-1);
+	padding-right: var(--spacing-1);
+}
+
+@mixin breakpoint-tablet {
+	@media (max-width: 768px) {
+		@content;
+	}
+}
+
+@mixin breakpoint-mobile {
+	@media (max-width: 640px) {
+		@content;
+	}
+}
+
+@mixin mobile {
+	@include breakpoint-mobile {
+		@content;
+	}
+}
+
+// Hover and interaction
+@mixin hover-lift {
+	transition: transform 200ms ease-in-out;
+
+	&:hover {
+		transform: translateY(-2px);
+	}
+}
+
+// Badge variants
+@mixin badge-overlay {
+	@include badge-base;
+	position: absolute;
+	z-index: var(--z-dropdown);
+	background: var(--color-surface);
+	border: var(--border-thin) solid var(--color-border);
+	box-shadow: var(--shadow-sm);
+}
+
+// Close button
+@mixin close-button {
+	@include icon-button;
+	position: absolute;
+	top: var(--spacing-2);
+	right: var(--spacing-2);
+	z-index: var(--z-dropdown);
+}
+
+// Spinner animation
+@mixin spinner-animation {
+	animation: spin 1s linear infinite;
+
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+}
+
+// Constrained width for settings
+@mixin constrained-width($width) {
+	max-width: $width;
+	width: 100%;
+}
+
+// Error text
+@mixin error-text {
+	color: var(--color-error);
+	font-size: var(--text-sm);
+	font-weight: 500;
+}
+
+// Close button absolute positioning
+@mixin close-button-absolute {
+	@include close-button;
+	@include absolute-position(
+		var(--spacing-2),
+		var(--spacing-2)
+	);
+}
+
+// Primary gradient
+@mixin primary-gradient {
+	background: linear-gradient(
+		135deg,
+		var(--color-primary),
+		var(--color-primary-dark, var(--color-primary))
+	);
+}
+
+// Text center utility
+@mixin text-center {
+	text-align: center;
+}
+
+// Fade in animation
+@mixin fade-in-animation($duration: 200ms) {
+	animation: fade-in $duration ease-in-out;
+
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+}
+
+// Status dot indicator
+@mixin status-dot(
+	$size: 8px,
+	$color: var(--color-success)
+) {
+	width: $size;
+	height: $size;
+	border-radius: 50%;
+	background: $color;
+	display: inline-block;
+	flex-shrink: 0;
+}
+
+// Badge base styling
+@mixin badge-base {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--spacing-1) var(--spacing-2);
+	border-radius: var(--radius-full);
+	font-size: var(--text-xs);
+	font-weight: 600;
+	line-height: 1;
+	background: var(--color-primary);
+	color: var(--color-on-primary);
+	white-space: nowrap;
+	user-select: none;
+}
+
+// Badge size variants
+@mixin badge-sm {
+	@include badge-base;
+	padding: var(--spacing-1) var(--spacing-2);
+	font-size: var(--text-xs);
+	line-height: 1.2;
+}
+
+@mixin badge-md {
+	@include badge-base;
+	padding: var(--spacing-2) var(--spacing-3);
+	font-size: var(--text-sm);
+	line-height: 1.3;
+}
+
+@mixin badge-lg {
+	@include badge-base;
+	padding: var(--spacing-3) var(--spacing-4);
+	font-size: var(--text-base);
+	line-height: 1.4;
+}
+
+// Badge style utility
+@mixin badge-style {
+	@include badge-base;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	user-select: none;
+}
+
+// Contained component wrapper
+@mixin contained-component {
+	@include contained-element;
+	@include container-base;
+	margin-inline: auto;
+}
+
+// Typography size utility
+@mixin typography-lg {
+	font-size: var(--text-lg);
+	line-height: 1.4;
+}
+
+// Table base styling
+@mixin table-base {
+	@include contained-element;
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: var(--border-thin) solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+	overflow: hidden;
+
+	th,
+	td {
+		padding: var(--spacing-3);
+		text-align: left;
+		border-bottom: var(--border-thin) solid
+			var(--color-border);
+
+		&:not(:last-child) {
+			border-right: var(--border-thin) solid
+				var(--color-border);
+		}
+	}
+
+	th {
+		background: var(--color-surface-elevated);
+		font-weight: 600;
+		color: var(--color-text-primary);
+	}
+
+	tr:last-child {
+		td {
+			border-bottom: none;
+		}
+	}
+}
+
+// Sidebar layout with proper spacing and containment
+@mixin sidebar-layout {
+	@include contained-width(250px);
+	@include contained-element;
+	overflow-y: auto;
+	background: var(--color-surface);
+	border-inline-end: var(--border-thin) solid
+		var(--color-border);
+}
+
+// Responsive breakpoint mixins
+@mixin tablet-up {
+	@media (min-width: 768px) {
+		@content;
+	}
+}
+
+@mixin mobile-up {
+	@media (min-width: 640px) {
+		@content;
+	}
+}
+
+@mixin desktop-up {
+	@media (min-width: 1024px) {
+		@content;
+	}
+}
+
+// Responsive media element
+@mixin responsive-media($aspect-ratio: '16 / 9') {
+	aspect-ratio: #{$aspect-ratio};
+	@include contained-element;
+	overflow: hidden;
+
+	img,
+	video,
+	iframe {
+		@include size(100%);
+		object-fit: cover;
+		display: block;
+	}
+}
+
+// Media query mixins
+@mixin mobile {
+	@media (max-width: 480px) {
+		@content;
+	}
+}
+
+@mixin tablet-up {
+	@media (min-width: 768px) {
+		@content;
+	}
+}
+
+@mixin media-tablet-down {
+	@media (max-width: 767px) {
+		@content;
+	}
+}
+
+@mixin media-mobile-down {
+	@media (max-width: 479px) {
+		@content;
+	}
+}
+
+// Sticky header utility
+@mixin sticky-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	background: var(--surface-base);
+	border-bottom: 1px solid var(--border-subtle);
 }
