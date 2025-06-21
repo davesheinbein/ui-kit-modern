@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
-import Settings from './Settings';
-import SettingsBodyFactory from './SettingsBodyFactory';
+import UnifiedSettings from './UnifiedSettings';
 import {
 	SETTINGS_CONFIGURATIONS,
 	SettingsKind,
@@ -91,30 +90,22 @@ const SettingsFactory = forwardRef<
 			showFooter ?? finalConfig.showFooter;
 
 		return (
-			<Settings
+			<UnifiedSettings
 				ref={ref}
-				variant={finalConfig.variant}
-				position={finalConfig.position}
+				kind={kind}
 				title={finalTitle}
+				items={items}
+				sections={sections}
+				onEquip={onEquip}
+				onSettingChange={onSettingChange}
+				onLockedClick={onLockedClick}
+				onShopItemClick={onShopItemClick}
 				onClose={onClose}
-				showHeader={finalShowHeader}
-				showFooter={finalShowFooter}
+				ariaLabelPrefix={ariaLabelPrefix}
+				lockedIndices={lockedIndices}
 				className={className}
-			>
-				<SettingsBodyFactory
-					kind={finalConfig.kind}
-					configuration={finalConfig}
-					items={items}
-					sections={sections}
-					onEquip={onEquip}
-					onSettingChange={onSettingChange}
-					onLockedClick={onLockedClick}
-					onShopItemClick={onShopItemClick}
-					ariaLabelPrefix={ariaLabelPrefix}
-					lockedIndices={lockedIndices}
-					{...props}
-				/>
-			</Settings>
+				{...props}
+			/>
 		);
 	}
 );

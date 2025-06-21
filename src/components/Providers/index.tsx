@@ -1,4 +1,33 @@
 import React from 'react';
+
+export { default as UnifiedProvider } from './UnifiedProvider';
+export type {
+	ProviderKind,
+	UnifiedProviderProps,
+} from './UnifiedProvider';
+
+export {
+	default as ProviderFactory,
+	P,
+	ProviderPresets,
+	QuickProviders,
+	SimpleProviderFactory,
+	ExtendedProviderPresets,
+} from './factory';
+export type { ProviderFactoryProps } from './factory';
+
+export * from './configurations';
+
+export {
+	useSocket,
+	useUserSettings,
+	useThemePalette,
+	SocketContext,
+	ThemePaletteContext,
+	UserSettingsContext,
+} from './UnifiedProvider';
+
+// Backward compatibility wrappers - inline for DRY consolidation
 import UnifiedProvider, {
 	UnifiedProviderProps,
 } from './UnifiedProvider';
@@ -8,9 +37,7 @@ type ProviderProps = Omit<UnifiedProviderProps, 'kind'>;
 
 /**
  * SocketProvider - Backward compatibility wrapper
- *
- * This component maintains the same API as the original SocketProvider
- * but delegates to the new DRY UnifiedProvider system.
+ * For new development, use UnifiedProvider with kind="socket-provider"
  */
 export const SocketProvider: React.FC<ProviderProps> = (
 	props
@@ -18,9 +45,7 @@ export const SocketProvider: React.FC<ProviderProps> = (
 
 /**
  * UserSettingsProvider - Backward compatibility wrapper
- *
- * This component maintains the same API as the original UserSettingsProvider
- * but delegates to the new DRY UnifiedProvider system.
+ * For new development, use UnifiedProvider with kind="user-settings-provider"
  */
 export const UserSettingsProvider: React.FC<
 	ProviderProps
@@ -33,9 +58,7 @@ export const UserSettingsProvider: React.FC<
 
 /**
  * AchievementSocketListener - Backward compatibility wrapper
- *
- * This component maintains the same API as the original AchievementSocketListener
- * but delegates to the new DRY UnifiedProvider system.
+ * For new development, use UnifiedProvider with kind="achievement-socket-listener"
  */
 export const AchievementSocketListener: React.FC<
 	ProviderProps
@@ -48,9 +71,7 @@ export const AchievementSocketListener: React.FC<
 
 /**
  * ThemePaletteProvider - Backward compatibility wrapper
- *
- * This component maintains the same API as the original ThemePaletteProvider
- * but delegates to the new DRY UnifiedProvider system.
+ * For new development, use UnifiedProvider with kind="theme-palette-provider"
  */
 export const ThemePaletteProvider: React.FC<
 	ProviderProps
@@ -60,3 +81,6 @@ export const ThemePaletteProvider: React.FC<
 		{...props}
 	/>
 );
+
+// Default export
+export { default } from './UnifiedProvider';

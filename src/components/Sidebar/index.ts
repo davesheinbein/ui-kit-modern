@@ -5,9 +5,9 @@ export type {
 	SidebarVariant,
 } from './UnifiedSidebar';
 
-// Keep the original FriendsSidebar component for backward compatibility
-export { default as FriendsSidebar } from './FriendsSidebar';
-export type { FriendsSidebarProps } from './FriendsSidebar';
+// Base Sidebar component
+export { default as Sidebar, FriendsSidebar } from './Sidebar';
+export type { SidebarProps, FriendsSidebarProps } from './Sidebar';
 
 export * from './configurations';
 
@@ -40,7 +40,6 @@ export {
 	createPushSidebar,
 	createOverlaySidebar,
 	createSidebar,
-	Sidebar,
 	SettingsSidebar,
 	ChatSidebar,
 	NotificationsSidebar,

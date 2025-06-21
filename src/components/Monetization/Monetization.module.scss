@@ -1,0 +1,535 @@
+/* Monetization Component Styles */
+
+.monetizationWrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	font-family: var(--font-family-primary, 'Inter', sans-serif);
+}
+
+/* =============================================================================
+   THEME VARIATIONS
+   ============================================================================= */
+
+.light {
+	background: var(--color-background-primary, #ffffff);
+	color: var(--color-text-primary, #1a1a1a);
+	border: 1px solid var(--color-border-primary, #e5e5e5);
+}
+
+.dark {
+	background: var(--color-background-dark, #1a1a1a);
+	color: var(--color-text-dark, #ffffff);
+	border: 1px solid var(--color-border-dark, #333333);
+}
+
+.gradient {
+	background: linear-gradient(135deg, 
+		var(--color-primary-500, #3b82f6) 0%, 
+		var(--color-primary-600, #2563eb) 100%);
+	color: white;
+	border: none;
+}
+
+/* =============================================================================
+   SIZE VARIATIONS
+   ============================================================================= */
+
+.small {
+	padding: 1rem;
+	min-height: 200px;
+	font-size: 0.875rem;
+}
+
+.medium {
+	padding: 1.5rem;
+	min-height: 300px;
+	font-size: 1rem;
+}
+
+.large {
+	padding: 2rem;
+	min-height: 400px;
+	font-size: 1.125rem;
+}
+
+/* =============================================================================
+   BORDER RADIUS VARIATIONS
+   ============================================================================= */
+
+.borderRadiusNone { border-radius: 0; }
+.borderRadiusSmall { border-radius: 0.25rem; }
+.borderRadiusMedium { border-radius: 0.5rem; }
+.borderRadiusLarge { border-radius: 1rem; }
+.borderRadiusRound { border-radius: 9999px; }
+
+/* =============================================================================
+   SHADOW VARIATIONS
+   ============================================================================= */
+
+.shadowNone { box-shadow: none; }
+.shadowSmall { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+.shadowMedium { box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+.shadowLarge { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); }
+
+/* =============================================================================
+   COLOR VARIATIONS
+   ============================================================================= */
+
+.primary {
+	--accent-color: var(--color-primary-500, #3b82f6);
+	--accent-color-hover: var(--color-primary-600, #2563eb);
+}
+
+.secondary {
+	--accent-color: var(--color-secondary-500, #6b7280);
+	--accent-color-hover: var(--color-secondary-600, #4b5563);
+}
+
+.success {
+	--accent-color: var(--color-success-500, #10b981);
+	--accent-color-hover: var(--color-success-600, #059669);
+}
+
+.warning {
+	--accent-color: var(--color-warning-500, #f59e0b);
+	--accent-color-hover: var(--color-warning-600, #d97706);
+}
+
+.error {
+	--accent-color: var(--color-error-500, #ef4444);
+	--accent-color-hover: var(--color-error-600, #dc2626);
+}
+
+/* =============================================================================
+   INTERACTIVE STATES
+   ============================================================================= */
+
+.interactive {
+	transition: all 0.2s ease-in-out;
+}
+
+.clickable:hover {
+	cursor: pointer;
+}
+
+.hoverable:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.highlight {
+	position: relative;
+	border: 2px solid var(--accent-color);
+}
+
+.highlight::before {
+	content: '';
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	right: -2px;
+	bottom: -2px;
+	background: linear-gradient(45deg, var(--accent-color), transparent);
+	border-radius: inherit;
+	z-index: -1;
+	opacity: 0.1;
+}
+
+/* =============================================================================
+   ANIMATION VARIATIONS
+   ============================================================================= */
+
+.pulse {
+	animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.8; }
+}
+
+.bounce {
+	animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+	0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+	40% { transform: translateY(-5px); }
+	60% { transform: translateY(-3px); }
+}
+
+.subtle {
+	animation: subtle 3s ease-in-out infinite;
+}
+
+@keyframes subtle {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.02); }
+}
+
+/* =============================================================================
+   PRICING CARD SPECIFIC STYLES
+   ============================================================================= */
+
+.pricingCard {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	position: relative;
+}
+
+.pricingHeader {
+	margin-bottom: 1.5rem;
+}
+
+.pricingTitle {
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-bottom: 0.5rem;
+}
+
+.pricingSubtitle {
+	color: var(--color-text-secondary, #6b7280);
+	margin-bottom: 1rem;
+}
+
+.pricingPrice {
+	display: flex;
+	align-items: baseline;
+	justify-content: center;
+	margin-bottom: 0.5rem;
+}
+
+.pricingAmount {
+	font-size: 3rem;
+	font-weight: 800;
+	color: var(--accent-color);
+}
+
+.pricingCurrency {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-right: 0.25rem;
+}
+
+.pricingPeriod {
+	font-size: 1rem;
+	color: var(--color-text-secondary, #6b7280);
+	margin-left: 0.25rem;
+}
+
+.pricingOriginalPrice {
+	font-size: 1.125rem;
+	color: var(--color-text-secondary, #6b7280);
+	text-decoration: line-through;
+	margin-left: 0.5rem;
+}
+
+.pricingFeatures {
+	flex: 1;
+	margin: 1.5rem 0;
+}
+
+.pricingFeaturesList {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.pricingFeature {
+	display: flex;
+	align-items: center;
+	padding: 0.5rem 0;
+	border-bottom: 1px solid var(--color-border-primary, #e5e5e5);
+}
+
+.pricingFeature:last-child {
+	border-bottom: none;
+}
+
+.pricingFeatureIcon {
+	color: var(--accent-color);
+	margin-right: 0.75rem;
+	font-size: 1.25rem;
+}
+
+.pricingButton {
+	padding: 1rem 2rem;
+	border: none;
+	border-radius: 0.5rem;
+	font-weight: 600;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+	background: var(--accent-color);
+	color: white;
+}
+
+.pricingButton:hover {
+	background: var(--accent-color-hover);
+	transform: translateY(-1px);
+}
+
+.pricingBadge {
+	position: absolute;
+	top: -0.5rem;
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--accent-color);
+	color: white;
+	padding: 0.25rem 1rem;
+	border-radius: 1rem;
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+/* =============================================================================
+   USAGE METER SPECIFIC STYLES
+   ============================================================================= */
+
+.usageMeter {
+	display: flex;
+	flex-direction: column;
+}
+
+.usageHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.usageTitle {
+	font-weight: 600;
+	font-size: 1.125rem;
+}
+
+.usageValue {
+	font-weight: 700;
+	color: var(--accent-color);
+}
+
+.usageBar {
+	width: 100%;
+	height: 0.5rem;
+	background: var(--color-background-secondary, #f3f4f6);
+	border-radius: 0.25rem;
+	overflow: hidden;
+	margin-bottom: 0.5rem;
+}
+
+.usageProgress {
+	height: 100%;
+	background: var(--accent-color);
+	border-radius: 0.25rem;
+	transition: width 0.3s ease-in-out;
+}
+
+.usageProgress.warning {
+	background: var(--color-warning-500, #f59e0b);
+}
+
+.usageProgress.critical {
+	background: var(--color-error-500, #ef4444);
+}
+
+.usageInfo {
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.875rem;
+	color: var(--color-text-secondary, #6b7280);
+}
+
+/* =============================================================================
+   PAYMENT FORM SPECIFIC STYLES
+   ============================================================================= */
+
+.paymentForm {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.paymentSection {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.paymentSectionTitle {
+	font-weight: 600;
+	font-size: 1.125rem;
+	margin-bottom: 0.5rem;
+}
+
+.paymentMethods {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+	gap: 0.75rem;
+}
+
+.paymentMethod {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	border: 2px solid var(--color-border-primary, #e5e5e5);
+	border-radius: 0.5rem;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+
+.paymentMethod:hover {
+	border-color: var(--accent-color);
+}
+
+.paymentMethod.selected {
+	border-color: var(--accent-color);
+	background: var(--accent-color);
+	color: white;
+}
+
+.paymentActions {
+	display: flex;
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.paymentButton {
+	flex: 1;
+	padding: 1rem;
+	border: none;
+	border-radius: 0.5rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+
+.paymentButtonPrimary {
+	background: var(--accent-color);
+	color: white;
+}
+
+.paymentButtonSecondary {
+	background: transparent;
+	border: 2px solid var(--color-border-primary, #e5e5e5);
+	color: var(--color-text-primary, #1a1a1a);
+}
+
+/* =============================================================================
+   FEATURE COMPARISON SPECIFIC STYLES
+   ============================================================================= */
+
+.featureComparison {
+	display: flex;
+	flex-direction: column;
+}
+
+.comparisonTable {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.comparisonHeader {
+	background: var(--color-background-secondary, #f3f4f6);
+}
+
+.comparisonHeaderCell {
+	padding: 1rem;
+	text-align: center;
+	font-weight: 600;
+	border: 1px solid var(--color-border-primary, #e5e5e5);
+}
+
+.comparisonRow {
+	border-bottom: 1px solid var(--color-border-primary, #e5e5e5);
+}
+
+.comparisonRow:nth-child(even) {
+	background: var(--color-background-secondary, #f9fafb);
+}
+
+.comparisonCell {
+	padding: 1rem;
+	text-align: center;
+	border: 1px solid var(--color-border-primary, #e5e5e5);
+}
+
+.comparisonFeature {
+	text-align: left;
+	font-weight: 500;
+}
+
+.comparisonCheckmark {
+	color: var(--color-success-500, #10b981);
+	font-size: 1.25rem;
+}
+
+.comparisonCross {
+	color: var(--color-error-500, #ef4444);
+	font-size: 1.25rem;
+}
+
+/* =============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================= */
+
+@media (max-width: 768px) {
+	.medium {
+		padding: 1rem;
+		font-size: 0.875rem;
+	}
+	
+	.large {
+		padding: 1.25rem;
+		font-size: 1rem;
+	}
+	
+	.pricingAmount {
+		font-size: 2.5rem;
+	}
+	
+	.paymentMethods {
+		grid-template-columns: 1fr;
+	}
+	
+	.paymentActions {
+		flex-direction: column;
+	}
+}
+
+/* =============================================================================
+   LOADING & DISABLED STATES
+   ============================================================================= */
+
+.loading {
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+
+.loading::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 2rem;
+	height: 2rem;
+	margin: -1rem 0 0 -1rem;
+	border: 2px solid var(--accent-color);
+	border-top: 2px solid transparent;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	to { transform: rotate(360deg); }
+}

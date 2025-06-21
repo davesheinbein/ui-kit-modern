@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import UnifiedProvider from './UnifiedProvider';
+import UnifiedProvider, { UnifiedProviderProps } from './UnifiedProvider';
 import {
 	PROVIDER_CONFIGURATIONS,
 	ProviderKind,
@@ -153,6 +153,82 @@ export const QuickProviders = {
 	achievements: ProviderPresets.ACHIEVEMENT_LISTENER,
 	theme: ProviderPresets.THEME_PALETTE,
 	full: ProviderPresets.FULL_SETUP,
+};
+
+/**
+ * Simple ProviderFactory Class - Class-based provider creation
+ */
+export class SimpleProviderFactory {
+	/**
+	 * Create any provider by kind with optional props override
+	 */
+	static create(
+		kind: ProviderKind,
+		props: Partial<UnifiedProviderProps> = {}
+	) {
+		return <UnifiedProvider kind={kind} {...props} />;
+	}
+
+	// Convenience methods for common providers
+	static socket(props: Partial<UnifiedProviderProps> = {}) {
+		return this.create('socket-provider', props);
+	}
+
+	static userSettings(
+		props: Partial<UnifiedProviderProps> = {}
+	) {
+		return this.create('user-settings-provider', props);
+	}
+
+	static themePalette(
+		props: Partial<UnifiedProviderProps> = {}
+	) {
+		return this.create('theme-palette-provider', props);
+	}
+
+	static achievementListener(
+		props: Partial<UnifiedProviderProps> = {}
+	) {
+		return this.create(
+			'achievement-socket-listener',
+			props
+		);
+	}
+}
+
+/**
+ * Extended Provider Presets - Pre-configured providers for common scenarios
+ */
+export const ExtendedProviderPresets = {
+	// Socket providers
+	SOCKET_CONNECTED: (session: any) =>
+		SimpleProviderFactory.socket({ session, autoConnect: true }),
+
+	SOCKET_MANUAL: (session: any) =>
+		SimpleProviderFactory.socket({ session, autoConnect: false }),
+
+	// Settings providers
+	USER_SETTINGS: (initialSettings?: any) =>
+		SimpleProviderFactory.userSettings({ initialSettings }),
+
+	EMPTY_SETTINGS: () =>
+		SimpleProviderFactory.userSettings({ initialSettings: {} }),
+
+	// Theme providers
+	THEME_LIGHT: () =>
+		SimpleProviderFactory.themePalette({ initialTheme: 'light' }),
+
+	THEME_DARK: () =>
+		SimpleProviderFactory.themePalette({ initialTheme: 'dark' }),
+
+	THEME_AUTO: () =>
+		SimpleProviderFactory.themePalette({ initialTheme: 'auto' }),
+
+	// Achievement listeners
+	ACHIEVEMENT_LISTENER: (
+		onAchievement?: (achievement: any) => void
+	) =>
+		SimpleProviderFactory.achievementListener({ onAchievement }),
 };
 
 export default ProviderFactory;
