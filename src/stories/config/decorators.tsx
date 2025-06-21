@@ -1,4 +1,14 @@
 // Shared Storybook configuration and decorators
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
+
+// Redux Provider decorator for components that use Redux hooks
+export const reduxDecorator = (Story: any) => (
+	<Provider store={store}>
+		<Story />
+	</Provider>
+);
 
 export const commonDecorators = [
 	(Story: any) => (
@@ -68,4 +78,13 @@ export const cardGridDecorator = (Story: any) => (
 	>
 		<Story />
 	</div>
+);
+
+// Combined decorators for components that need both Redux and common styling
+export const reduxWithCommonDecorator = (Story: any) => (
+	<Provider store={store}>
+		<div style={{ padding: '1rem', minHeight: '400px' }}>
+			<Story />
+		</div>
+	</Provider>
 );

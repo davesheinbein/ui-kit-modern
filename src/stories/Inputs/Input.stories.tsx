@@ -6,10 +6,12 @@ import {
 	INPUT_CONFIGURATIONS,
 	INPUT_GROUPS,
 } from '../../components/Inputs';
+import { reduxDecorator } from '../config/decorators';
 
 const meta: Meta<typeof UnifiedInput> = {
 	title: 'Inputs/Input',
 	component: UnifiedInput,
+	decorators: [reduxDecorator],
 	tags: ['autodocs'],
 	parameters: {
 		docs: {

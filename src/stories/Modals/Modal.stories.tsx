@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ModalFactory } from '../../components/Modal';
+import { reduxDecorator } from '../config/decorators';
 
 // Types for different modal configurations
 interface UserStats {
@@ -22,6 +23,7 @@ interface PurchaseItem {
 const meta: Meta<typeof ModalFactory> = {
 	title: 'Modals/Modal',
 	component: ModalFactory,
+	decorators: [reduxDecorator],
 	tags: ['autodocs'],
 	parameters: {
 		docs: {

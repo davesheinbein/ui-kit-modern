@@ -5,10 +5,12 @@ import {
 	N,
 	NavigationPresets,
 } from '../../components/Navigation';
+import { reduxDecorator } from '../config/decorators';
 
 const meta: Meta<typeof UnifiedNavigation> = {
 	title: 'Navigation/UnifiedNavigation',
 	component: UnifiedNavigation,
+	decorators: [reduxDecorator],
 	parameters: {
 		layout: 'fullscreen',
 	},

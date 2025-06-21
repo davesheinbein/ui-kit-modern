@@ -4,10 +4,12 @@ import {
 	UnifiedFileUpload,
 	FileUploadComponents,
 } from '../../components/FileUpload';
+import { reduxDecorator } from '../config/decorators';
 
 const meta: Meta<typeof FileUpload> = {
 	title: 'Components/FileUpload',
 	component: FileUpload,
+	decorators: [reduxDecorator],
 	parameters: {
 		layout: 'centered',
 		docs: {

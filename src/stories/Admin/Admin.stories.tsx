@@ -4,10 +4,12 @@ import {
 	AdminFactory,
 	AdminPresets,
 } from '../../components/Admin';
+import { reduxDecorator } from '../config/decorators';
 
 const meta: Meta<typeof AdminFactory> = {
 	title: 'Admin/Admin',
 	component: AdminFactory,
+	decorators: [reduxDecorator],
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
