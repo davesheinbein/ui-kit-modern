@@ -1,9 +1,20 @@
-import React, {
-	forwardRef,
-	memo,
-	useState,
-	useEffect,
-} from 'react';
+import React, { forwardRef, memo, useEffect } from 'react';
+import {
+	useAppDispatch,
+	useAppSelector,
+} from '../../store';
+import {
+	initializeComponentState,
+	setIsOpen,
+	toggleNavigation,
+	closeNavigation,
+	setIsMobile,
+	setActiveItem,
+	selectIsNavigationOpen,
+	selectIsMobile,
+	selectActiveItemId,
+	selectMobileBreakpoint,
+} from '../../store/slices/navigationSlice';
 import {
 	NavigationKind,
 	NavigationConfiguration,
@@ -15,6 +26,7 @@ import styles from './Navigation.module.scss';
 
 export interface UnifiedNavigationProps {
 	kind: NavigationKind;
+	componentId?: string; // For identifying this navigation instance in Redux
 	children?: React.ReactNode;
 	className?: string;
 
@@ -78,6 +90,7 @@ const UnifiedNavigation = forwardRef<
 	(
 		{
 			kind,
+			componentId,
 			children,
 			className,
 			items = [],
@@ -101,6 +114,25 @@ const UnifiedNavigation = forwardRef<
 		},
 		ref
 	) => {
+		// Generate componentId if not provided
+		const finalComponentId =
+			componentId || `navigation-${kind}-${Date.now()}`;
+
+		// Redux hooks
+		const dispatch = useAppDispatch();
+		const internalIsOpen = useAppSelector((state) =>
+			selectIsNavigationOpen(state, finalComponentId)
+		);
+		const isMobile = useAppSelector((state) =>
+			selectIsMobile(state, finalComponentId)
+		);
+		const activeItemId = useAppSelector((state) =>
+			selectActiveItemId(state, finalComponentId)
+		);
+		const mobileBreakpointValue = useAppSelector((state) =>
+			selectMobileBreakpoint(state, finalComponentId)
+		);
+
 		// Get navigation configuration
 		const baseConfig = getNavigationConfig(kind);
 		const config =
@@ -108,10 +140,26 @@ const UnifiedNavigation = forwardRef<
 				{ ...baseConfig, ...configOverrides }
 			:	baseConfig;
 
-		// State management
-		const [internalIsOpen, setInternalIsOpen] =
-			useState(isOpen);
-		const [isMobile, setIsMobile] = useState(false);
+		// Initialize component state in Redux on mount
+		useEffect(() => {
+			const breakpoint =
+				mobileBreakpoint || config.mobileBreakpoint || 768;
+			dispatch(
+				initializeComponentState({
+					componentId: finalComponentId,
+					initialState: {
+						isOpen: isOpen,
+						mobileBreakpoint: breakpoint,
+					},
+				})
+			);
+		}, [
+			dispatch,
+			finalComponentId,
+			isOpen,
+			mobileBreakpoint,
+			config.mobileBreakpoint,
+		]);
 
 		// Responsive detection
 		useEffect(() => {
@@ -121,7 +169,12 @@ const UnifiedNavigation = forwardRef<
 					config.mobileBreakpoint ||
 					768;
 				const checkMobile = () =>
-					setIsMobile(window.innerWidth < breakpoint);
+					dispatch(
+						setIsMobile({
+							componentId: finalComponentId,
+							isMobile: window.innerWidth < breakpoint,
+						})
+					);
 
 				checkMobile();
 				window.addEventListener('resize', checkMobile);
@@ -133,6 +186,8 @@ const UnifiedNavigation = forwardRef<
 			mobileBreakpoint,
 			config.responsive,
 			config.mobileBreakpoint,
+			dispatch,
+			finalComponentId,
 		]);
 
 		// Handle navigation
@@ -144,9 +199,19 @@ const UnifiedNavigation = forwardRef<
 				(closeOnSelect ?? config.closeOnSelect) &&
 				isMobile
 			) {
-				setInternalIsOpen(false);
+				dispatch(
+					closeNavigation({ componentId: finalComponentId })
+				);
 				onToggle?.(false);
 			}
+
+			// Set active item in Redux
+			dispatch(
+				setActiveItem({
+					componentId: finalComponentId,
+					itemId: item.id,
+				})
+			);
 
 			// Handle different navigation types
 			if (item.onClick) {

@@ -4,8 +4,12 @@ export {
 	BannerFactoryClass,
 	Ban,
 	BannerPresets,
+	BannerBodyFactory,
 } from './factory';
-export type { BannerFactoryProps } from './factory';
+export type {
+	BannerFactoryProps,
+	BannerBodyFactoryProps,
+} from './factory';
 
 export * from './configurations';
 
@@ -14,9 +18,6 @@ export type { UnifiedBannerProps } from './UnifiedBanner';
 
 export { default as Banner } from './Banner';
 export type { BannerProps } from './Banner';
-
-export { default as BannerBodyFactory } from './BannerBodyFactory';
-export type { BannerBodyFactoryProps } from './BannerBodyFactory';
 
 // Legacy component compatibility (for gradual migration)
 // These will be removed in a future version

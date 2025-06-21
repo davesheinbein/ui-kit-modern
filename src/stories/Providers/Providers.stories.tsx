@@ -64,7 +64,9 @@ const SocketDemo: React.FC = () => {
 		>
 			<h3>Socket Status</h3>
 			<p>Connected: {isConnected ? 'Yes' : 'No'}</p>
-			<p>Socket: {socket ? 'Available' : 'Not available'}</p>
+			<p>
+				Socket: {socket ? 'Available' : 'Not available'}
+			</p>
 			<div
 				style={{
 					marginTop: '1rem',
@@ -73,7 +75,9 @@ const SocketDemo: React.FC = () => {
 				}}
 			>
 				<button
-					onClick={() => emit('test-event', { message: 'Hello' })}
+					onClick={() =>
+						emit('test-event', { message: 'Hello' })
+					}
 					disabled={!isConnected}
 				>
 					Send Test Event
@@ -112,9 +116,18 @@ const UserSettingsDemo: React.FC = () => {
 		>
 			<h3>User Settings</h3>
 			<div style={{ marginBottom: '1rem' }}>
-				<p>Chat Enabled: {settings?.chatEnabled ? 'Yes' : 'No'}</p>
-				<p>Profanity Filter: {settings?.profanityFilter ? 'Yes' : 'No'}</p>
-				<p>Notifications: {settings?.notificationsEnabled ? 'Yes' : 'No'}</p>
+				<p>
+					Chat Enabled:{' '}
+					{settings?.chatEnabled ? 'Yes' : 'No'}
+				</p>
+				<p>
+					Profanity Filter:{' '}
+					{settings?.profanityFilter ? 'Yes' : 'No'}
+				</p>
+				<p>
+					Notifications:{' '}
+					{settings?.notificationsEnabled ? 'Yes' : 'No'}
+				</p>
 			</div>
 			<div
 				style={{
@@ -152,7 +165,9 @@ const UserSettingsDemo: React.FC = () => {
 				<label>
 					<input
 						type='checkbox'
-						checked={settings?.notificationsEnabled || false}
+						checked={
+							settings?.notificationsEnabled || false
+						}
 						onChange={(e) =>
 							setSettings({
 								...settings,
@@ -184,7 +199,8 @@ const ThemePaletteDemo: React.FC = () => {
 		);
 	}
 
-	const { palette, setPalette, currentTheme, setTheme } = themePaletteContext;
+	const { palette, setPalette, currentTheme, setTheme } =
+		themePaletteContext;
 
 	return (
 		<div
@@ -202,7 +218,9 @@ const ThemePaletteDemo: React.FC = () => {
 			<div style={{ marginTop: '1rem' }}>
 				<button
 					onClick={() =>
-						setTheme(currentTheme === 'light' ? 'dark' : 'light')
+						setTheme(
+							currentTheme === 'light' ? 'dark' : 'light'
+						)
 					}
 					style={{
 						backgroundColor: '#007bff',
@@ -230,7 +248,8 @@ const AchievementListenerDemo: React.FC = () => (
 	>
 		<h3>Achievement Socket Listener Status</h3>
 		<p style={{ fontSize: '0.9em', color: '#666' }}>
-			Achievement listener is active (invisible component that listens for socket events)
+			Achievement listener is active (invisible component
+			that listens for socket events)
 		</p>
 		<div
 			style={{
@@ -713,7 +732,8 @@ export const SocketProviderDetailed: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Socket provider with detailed connection status and event handling.',
+				story:
+					'Socket provider with detailed connection status and event handling.',
 			},
 		},
 	},
@@ -730,7 +750,8 @@ export const SocketAutoConnect: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Socket provider that automatically connects on mount.',
+				story:
+					'Socket provider that automatically connects on mount.',
 			},
 		},
 	},
@@ -751,7 +772,8 @@ export const SocketWithSession: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Socket provider with session data for authentication.',
+				story:
+					'Socket provider with session data for authentication.',
 			},
 		},
 	},
@@ -766,7 +788,8 @@ export const UserSettingsDetailed: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'User settings provider with interactive controls.',
+				story:
+					'User settings provider with interactive controls.',
 			},
 		},
 	},
@@ -786,7 +809,8 @@ export const UserSettingsWithInitial: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'User settings provider with initial settings configuration.',
+				story:
+					'User settings provider with initial settings configuration.',
 			},
 		},
 	},
@@ -801,7 +825,8 @@ export const ThemePaletteDetailed: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Theme palette provider with interactive theme switching.',
+				story:
+					'Theme palette provider with interactive theme switching.',
 			},
 		},
 	},
@@ -816,7 +841,8 @@ export const AchievementListenerDetailed: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Achievement socket listener that monitors for achievement events.',
+				story:
+					'Achievement socket listener that monitors for achievement events.',
 			},
 		},
 	},
@@ -877,7 +903,8 @@ export const SocketDRYExamples: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'All DRY patterns for Socket Provider: Factory, Ultra-DRY, and Presets.',
+				story:
+					'All DRY patterns for Socket Provider: Factory, Ultra-DRY, and Presets.',
 			},
 		},
 	},
@@ -944,7 +971,8 @@ export const UserSettingsDRYExamples: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'All DRY patterns for User Settings Provider: Factory, Ultra-DRY, and Presets.',
+				story:
+					'All DRY patterns for User Settings Provider: Factory, Ultra-DRY, and Presets.',
 			},
 		},
 	},
@@ -982,7 +1010,8 @@ export const ThemePaletteDRYExamples: Story = {
 						padding: '1rem',
 					}}
 				>
-					{ProviderPresets.THEME_PALETTE && ProviderPresets.THEME_PALETTE()}
+					{ProviderPresets.THEME_PALETTE &&
+						ProviderPresets.THEME_PALETTE()}
 					<ThemePaletteDemo />
 				</div>
 			</div>
@@ -991,7 +1020,8 @@ export const ThemePaletteDRYExamples: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'All DRY patterns for Theme Palette Provider: Factory, Ultra-DRY, and Presets.',
+				story:
+					'All DRY patterns for Theme Palette Provider: Factory, Ultra-DRY, and Presets.',
 			},
 		},
 	},
@@ -1029,7 +1059,8 @@ export const AchievementListenerDRYExamples: Story = {
 						padding: '1rem',
 					}}
 				>
-					{ProviderPresets.ACHIEVEMENT_LISTENER && ProviderPresets.ACHIEVEMENT_LISTENER()}
+					{ProviderPresets.ACHIEVEMENT_LISTENER &&
+						ProviderPresets.ACHIEVEMENT_LISTENER()}
 					<AchievementListenerDemo />
 				</div>
 			</div>
@@ -1038,7 +1069,8 @@ export const AchievementListenerDRYExamples: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'All DRY patterns for Achievement Socket Listener: Factory, Ultra-DRY, and Presets.',
+				story:
+					'All DRY patterns for Achievement Socket Listener: Factory, Ultra-DRY, and Presets.',
 			},
 		},
 	},

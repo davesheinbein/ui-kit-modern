@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from './Footer';
-import FooterBodyFactory from './FooterBodyFactory';
+import { FooterBodyFactory } from './factory';
 import { FOOTER_CONFIGURATIONS } from './configurations';
 import type {
 	FooterKind,

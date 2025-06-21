@@ -678,10 +678,7 @@ export const LegacyFriendsSidebarAlwaysOpen: Story = {
 		<div
 			style={{ minHeight: '400px', position: 'relative' }}
 		>
-			<FriendsSidebar
-				open={true}
-				onClose={() => {}}
-			>
+			<FriendsSidebar open={true} onClose={() => {}}>
 				<div style={{ padding: '20px' }}>
 					<h3>Friends List</h3>
 					<p>

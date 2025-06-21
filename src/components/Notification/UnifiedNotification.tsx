@@ -1,9 +1,10 @@
 import React, {
 	forwardRef,
 	memo,
-	useState,
 	useEffect,
+	useId,
 } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
 	NotificationKind,
 	NotificationConfiguration,
@@ -11,10 +12,17 @@ import {
 	getNotificationConfig,
 	getDefaultIcon,
 } from './configurations';
+import {
+	setNotificationState,
+	cleanupComponent,
+	selectNotificationState,
+} from '../../store/slices/uiSlice';
+import type { RootState } from '../../store';
 import styles from './Notification.module.scss';
 
 export interface UnifiedNotificationProps {
 	kind: NotificationKind;
+	componentId?: string; // For Redux state identification
 	children?: React.ReactNode;
 	className?: string;
 
@@ -70,6 +78,7 @@ const UnifiedNotification = forwardRef<
 >((props, ref) => {
 	const {
 		kind,
+		componentId,
 		children,
 		className,
 
@@ -171,12 +180,43 @@ const UnifiedNotification = forwardRef<
 	};
 
 	// ========================================
-	// State Management
+	// Redux State Management
 	// ========================================
 
-	const [isVisible, setIsVisible] = useState(visible);
-	const [isPaused, setIsPaused] = useState(false);
-	const [progress, setProgress] = useState(100);
+	// Generate unique component ID for Redux state isolation
+	const uniqueId = useId();
+	const notificationComponentId =
+		componentId || `notification-${uniqueId}`;
+
+	const dispatch = useDispatch();
+
+	// Initialize component state on mount
+	useEffect(() => {
+		dispatch(
+			setNotificationState({
+				notificationId: notificationComponentId,
+				updates: {
+					isVisible: visible,
+					isPaused: false,
+					progress: 100,
+				},
+			})
+		);
+
+		// Cleanup on unmount
+		return () => {
+			dispatch(cleanupComponent(notificationComponentId));
+		};
+	}, [dispatch, notificationComponentId, visible]);
+
+	// Get state from Redux
+	const notificationState = useSelector(
+		selectNotificationState(notificationComponentId)
+	);
+
+	const isVisible = notificationState?.isVisible ?? visible;
+	const isPaused = notificationState?.isPaused ?? false;
+	const progress = notificationState?.progress ?? 100;
 
 	// ========================================
 	// Auto-hide Effect
@@ -208,11 +248,18 @@ const UnifiedNotification = forwardRef<
 			return;
 
 		const interval = setInterval(() => {
-			setProgress((prev) => {
-				const decrement =
-					100 / ((config.duration || 4000) / 100);
-				return Math.max(0, prev - decrement);
-			});
+			dispatch(
+				setNotificationState({
+					notificationId: notificationComponentId,
+					updates: {
+						progress: Math.max(
+							0,
+							progress -
+								100 / ((config.duration || 4000) / 100)
+						),
+					},
+				})
+			);
 		}, 100);
 
 		return () => clearInterval(interval);
@@ -229,7 +276,12 @@ const UnifiedNotification = forwardRef<
 	// ========================================
 
 	const handleHide = () => {
-		setIsVisible(false);
+		dispatch(
+			setNotificationState({
+				notificationId: notificationComponentId,
+				updates: { isVisible: false },
+			})
+		);
 		onHide?.();
 	};
 
@@ -382,7 +434,14 @@ const UnifiedNotification = forwardRef<
 
 	if (!isVisible && config.exitAnimation) {
 		// Allow exit animation to complete
-		setTimeout(() => setIsVisible(false), 300);
+		setTimeout(() => {
+			dispatch(
+				setNotificationState({
+					notificationId: notificationComponentId,
+					updates: { isVisible: false },
+				})
+			);
+		}, 300);
 	}
 
 	if (!isVisible && !config.exitAnimation) {
@@ -400,10 +459,22 @@ const UnifiedNotification = forwardRef<
 			className={notificationClasses}
 			onClick={onClick}
 			onMouseEnter={() =>
-				config.pauseOnHover && setIsPaused(true)
+				config.pauseOnHover &&
+				dispatch(
+					setNotificationState({
+						notificationId: notificationComponentId,
+						updates: { isPaused: true },
+					})
+				)
 			}
 			onMouseLeave={() =>
-				config.pauseOnHover && setIsPaused(false)
+				config.pauseOnHover &&
+				dispatch(
+					setNotificationState({
+						notificationId: notificationComponentId,
+						updates: { isPaused: false },
+					})
+				)
 			}
 			role='alert'
 			aria-live='polite'

@@ -1,7 +1,7 @@
 import React, {
 	forwardRef,
-	useState,
 	useCallback,
+	useEffect,
 } from 'react';
 import {
 	InputKind,
@@ -12,6 +12,26 @@ import {
 	InputConfiguration,
 	INPUT_CONFIGURATIONS,
 } from './configurations';
+import {
+	useAppDispatch,
+	useAppSelector,
+} from '../../store';
+import {
+	initializeComponentState,
+	setValue,
+	setInputState,
+	setErrorText,
+	togglePasswordVisibility,
+	setFocused,
+	setValid,
+	removeComponentState,
+	selectInputValue,
+	selectInputState,
+	selectInputErrorText,
+	selectShowPassword,
+	selectIsFocused,
+	selectIsValid,
+} from '../../store/slices/inputSlice';
 import styles from './Input.module.scss';
 
 // Extended props interface for UnifiedInput
@@ -24,6 +44,7 @@ export interface UnifiedInputProps
 			'size' | 'prefix' | 'style'
 		> {
 	kind: InputKind;
+	componentId?: string; // For Redux state identification
 	style?: InputStyle; // Use our custom style type instead of React's
 	onValueChange?: (value: string) => void;
 	containerClassName?: string;
@@ -42,6 +63,7 @@ const UnifiedInput = forwardRef<
 	(
 		{
 			kind,
+			componentId,
 			variant,
 			size = 'medium',
 			state = 'default',
@@ -79,6 +101,69 @@ const UnifiedInput = forwardRef<
 		},
 		ref
 	) => {
+		// Generate componentId if not provided
+		const finalComponentId =
+			componentId || `input-${kind}-${Date.now()}`;
+
+		// Redux hooks
+		const dispatch = useAppDispatch();
+		const inputValue = useAppSelector((state) =>
+			selectInputValue(state, finalComponentId)
+		);
+		const currentState = useAppSelector((state) =>
+			selectInputState(state, finalComponentId)
+		);
+		const showPassword = useAppSelector((state) =>
+			selectShowPassword(state, finalComponentId)
+		);
+		const isFocused = useAppSelector((state) =>
+			selectIsFocused(state, finalComponentId)
+		);
+		const isValid = useAppSelector((state) =>
+			selectIsValid(state, finalComponentId)
+		);
+		const reduxErrorText = useAppSelector((state) =>
+			selectInputErrorText(state, finalComponentId)
+		);
+
+		// Initialize Redux state on mount
+		useEffect(() => {
+			const initialValue = String(
+				defaultValue || controlledValue || ''
+			);
+			dispatch(
+				initializeComponentState({
+					componentId: finalComponentId,
+					initialState: {
+						value: initialValue,
+						state:
+							state === 'disabled' ? 'error' : 'default', // Map to Redux InputState
+					},
+				})
+			);
+
+			// Cleanup on unmount
+			return () => {
+				dispatch(
+					removeComponentState({
+						componentId: finalComponentId,
+					})
+				);
+			};
+		}, [dispatch, finalComponentId, defaultValue, state]);
+
+		// Update Redux when controlled value changes
+		useEffect(() => {
+			if (controlledValue !== undefined) {
+				dispatch(
+					setValue({
+						componentId: finalComponentId,
+						value: String(controlledValue),
+					})
+				);
+			}
+		}, [controlledValue, dispatch, finalComponentId]);
+
 		// Get configuration for this input kind
 		const config = INPUT_CONFIGURATIONS[kind] || {};
 		const mergedConfig = {
@@ -88,7 +173,11 @@ const UnifiedInput = forwardRef<
 			placeholder: placeholder || config.placeholder || '',
 			label: label || config.label || '',
 			helperText: helperText || config.helperText || '',
-			errorText: errorText || config.errorText || '',
+			errorText:
+				errorText ||
+				reduxErrorText ||
+				config.errorText ||
+				'',
 			successText: successText || config.successText || '',
 			required: required || config.required || false,
 			disabled: disabled || config.disabled || false,
@@ -108,34 +197,24 @@ const UnifiedInput = forwardRef<
 			debounceMs: debounceMs || config.debounceMs || 0,
 		};
 
-		// Internal state management
-		const [internalValue, setInternalValue] = useState(
-			defaultValue || ''
-		);
-		const [showPassword, setShowPassword] = useState(false);
-		const [currentState, setCurrentState] =
-			useState<InputState>(state);
-		const [validationMessage, setValidationMessage] =
-			useState('');
-
 		// Determine if component is controlled or uncontrolled
 		const isControlled = controlledValue !== undefined;
-		const inputValue =
-			isControlled ? controlledValue : internalValue;
-
-		// Debounce functionality
-		const [debounceTimeout, setDebounceTimeout] = useState<
-			number | null
-		>(null);
+		const finalInputValue =
+			isControlled ? controlledValue : inputValue;
 
 		// Handle input changes
 		const handleChange = useCallback(
 			(event: React.ChangeEvent<HTMLInputElement>) => {
 				const newValue = event.target.value;
 
-				// Update internal state if uncontrolled
+				// Update Redux state if uncontrolled
 				if (!isControlled) {
-					setInternalValue(newValue);
+					dispatch(
+						setValue({
+							componentId: finalComponentId,
+							value: newValue,
+						})
+					);
 				}
 
 				// Call original onChange if provided
@@ -146,31 +225,59 @@ const UnifiedInput = forwardRef<
 				// Handle debounced value changes
 				if (onValueChange) {
 					if (mergedConfig.debounceMs > 0 && debounced) {
-						if (debounceTimeout) {
-							clearTimeout(debounceTimeout);
-						}
-						const timeout = setTimeout(() => {
+						// For debounced inputs, we could use Redux to manage the timeout
+						// For now, use immediate callback
+						setTimeout(() => {
 							onValueChange(newValue);
 						}, mergedConfig.debounceMs);
-						setDebounceTimeout(timeout);
 					} else {
 						onValueChange(newValue);
 					}
 				}
 
 				// Custom validation
-				if (config.customValidation) {
+				if (customValidation) {
 					const validationResult =
-						config.customValidation(newValue);
+						customValidation(newValue);
 					if (typeof validationResult === 'string') {
-						setCurrentState('error');
-						setValidationMessage(validationResult);
+						dispatch(
+							setInputState({
+								componentId: finalComponentId,
+								inputState: 'error',
+							})
+						);
+						dispatch(
+							setErrorText({
+								componentId: finalComponentId,
+								errorText: validationResult,
+							})
+						);
 					} else if (validationResult === false) {
-						setCurrentState('error');
-						setValidationMessage('Invalid input');
+						dispatch(
+							setInputState({
+								componentId: finalComponentId,
+								inputState: 'error',
+							})
+						);
+						dispatch(
+							setErrorText({
+								componentId: finalComponentId,
+								errorText: 'Invalid input',
+							})
+						);
 					} else {
-						setCurrentState('default');
-						setValidationMessage('');
+						dispatch(
+							setInputState({
+								componentId: finalComponentId,
+								inputState: 'default',
+							})
+						);
+						dispatch(
+							setErrorText({
+								componentId: finalComponentId,
+								errorText: '',
+							})
+						);
 					}
 				}
 			},
@@ -180,8 +287,9 @@ const UnifiedInput = forwardRef<
 				onValueChange,
 				mergedConfig.debounceMs,
 				debounced,
-				debounceTimeout,
-				config.customValidation,
+				customValidation,
+				dispatch,
+				finalComponentId,
 			]
 		);
 
@@ -189,17 +297,58 @@ const UnifiedInput = forwardRef<
 		const handleClear = useCallback(() => {
 			const newValue = '';
 			if (!isControlled) {
-				setInternalValue(newValue);
+				dispatch(
+					setValue({
+						componentId: finalComponentId,
+						value: newValue,
+					})
+				);
 			}
 			if (onValueChange) {
 				onValueChange(newValue);
 			}
-		}, [isControlled, onValueChange]);
+		}, [
+			isControlled,
+			onValueChange,
+			dispatch,
+			finalComponentId,
+		]);
 
 		// Handle password toggle
 		const handlePasswordToggle = useCallback(() => {
-			setShowPassword((prev) => !prev);
-		}, []);
+			dispatch(
+				togglePasswordVisibility({
+					componentId: finalComponentId,
+				})
+			);
+		}, [dispatch, finalComponentId]);
+
+		// Handle focus and blur events
+		const handleFocus = useCallback(
+			(event: React.FocusEvent<HTMLInputElement>) => {
+				dispatch(
+					setFocused({
+						componentId: finalComponentId,
+						isFocused: true,
+					})
+				);
+				props.onFocus?.(event);
+			},
+			[dispatch, finalComponentId, props.onFocus]
+		);
+
+		const handleBlur = useCallback(
+			(event: React.FocusEvent<HTMLInputElement>) => {
+				dispatch(
+					setFocused({
+						componentId: finalComponentId,
+						isFocused: false,
+					})
+				);
+				props.onBlur?.(event);
+			},
+			[dispatch, finalComponentId, props.onBlur]
+		);
 
 		// Determine input type
 		const inputType =
@@ -234,9 +383,9 @@ const UnifiedInput = forwardRef<
 		const displayHelperText =
 			(
 				currentState === 'error' &&
-				(validationMessage || mergedConfig.errorText)
+				(reduxErrorText || mergedConfig.errorText)
 			) ?
-				validationMessage || mergedConfig.errorText
+				reduxErrorText || mergedConfig.errorText
 			: (
 				currentState === 'success' &&
 				mergedConfig.successText
@@ -275,7 +424,7 @@ const UnifiedInput = forwardRef<
 					<input
 						ref={ref}
 						type={inputType}
-						value={inputValue}
+						value={finalInputValue}
 						placeholder={mergedConfig.placeholder}
 						disabled={mergedConfig.disabled}
 						required={mergedConfig.required}
@@ -283,8 +432,10 @@ const UnifiedInput = forwardRef<
 						maxLength={mergedConfig.maxLength}
 						minLength={mergedConfig.minLength}
 						pattern={mergedConfig.pattern}
-						className={inputClasses}
 						onChange={handleChange}
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+						className={inputClasses}
 						{...props}
 					/>
 

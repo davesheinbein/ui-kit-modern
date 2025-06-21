@@ -50,7 +50,9 @@ export interface VSGridPropsLegacy {
  * VSGrid - Legacy component wrapper
  * @deprecated Use UnifiedGrid with kind="vs-grid" instead
  */
-export const VSGrid: React.FC<VSGridPropsLegacy> = (props) => {
+export const VSGrid: React.FC<VSGridPropsLegacy> = (
+	props
+) => {
 	console.warn(
 		'VSGrid is deprecated. Use UnifiedGrid with kind="vs-grid" instead. ' +
 			'See migration guide in component documentation.'

@@ -3,8 +3,9 @@ import React, {
 	memo,
 	useRef,
 	useEffect,
-	useState,
+	useId,
 } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
 	MapKind,
 	MapConfiguration,
@@ -13,10 +14,17 @@ import {
 	MapRegion,
 	getMapConfig,
 } from './configurations';
+import {
+	setMapState,
+	cleanupComponent,
+	selectMapState,
+} from '../../store/slices/uiSlice';
+import type { RootState } from '../../store';
 import styles from './Map.module.scss';
 
 export interface UnifiedMapProps {
 	kind: MapKind;
+	componentId?: string; // For Redux state identification
 	children?: React.ReactNode;
 	className?: string;
 
@@ -70,6 +78,7 @@ const UnifiedMap = forwardRef<
 	(
 		{
 			kind,
+			componentId,
 			children,
 			className = '',
 			center,
@@ -105,13 +114,52 @@ const UnifiedMap = forwardRef<
 		ref
 	) => {
 		const config = getMapConfig(kind);
+
+		// Generate unique component ID for Redux state isolation
+		const uniqueId = useId();
+		const mapComponentId = componentId || `map-${uniqueId}`;
+
+		// Redux state management
+		const dispatch = useDispatch();
+
+		// Initialize component state on mount
+		useEffect(() => {
+			dispatch(
+				setMapState({
+					mapId: mapComponentId,
+					updates: {
+						currentZoom: zoom ?? config.zoom ?? 1,
+						currentCenter: center ??
+							config.center ?? { lat: 0, lng: 0 },
+					},
+				})
+			);
+
+			// Cleanup on unmount
+			return () => {
+				dispatch(cleanupComponent(mapComponentId));
+			};
+		}, [
+			dispatch,
+			mapComponentId,
+			zoom,
+			config.zoom,
+			center,
+			config.center,
+		]);
+
+		// Get state from Redux
+		const mapState = useSelector(
+			selectMapState(mapComponentId)
+		);
+
+		const currentZoom =
+			mapState?.currentZoom ?? zoom ?? config.zoom ?? 1;
+		const currentCenter = mapState?.currentCenter ??
+			center ??
+			config.center ?? { lat: 0, lng: 0 };
+
 		const mapRef = useRef<HTMLDivElement>(null);
-		const [currentZoom, setCurrentZoom] = useState(
-			zoom ?? config.zoom ?? 1
-		);
-		const [currentCenter, setCurrentCenter] = useState(
-			center ?? config.center ?? { lat: 0, lng: 0 }
-		);
 
 		// Merge configuration with props
 		const finalConfig = {
@@ -161,7 +209,12 @@ const UnifiedMap = forwardRef<
 				currentZoom + 1,
 				finalConfig.maxZoom ?? 20
 			);
-			setCurrentZoom(newZoom);
+			dispatch(
+				setMapState({
+					mapId: mapComponentId,
+					updates: { currentZoom: newZoom },
+				})
+			);
 			onZoomChange?.(newZoom);
 		};
 
@@ -170,7 +223,12 @@ const UnifiedMap = forwardRef<
 				currentZoom - 1,
 				finalConfig.minZoom ?? 1
 			);
-			setCurrentZoom(newZoom);
+			dispatch(
+				setMapState({
+					mapId: mapComponentId,
+					updates: { currentZoom: newZoom },
+				})
+			);
 			onZoomChange?.(newZoom);
 		};
 

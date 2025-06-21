@@ -1,6 +1,3 @@
-import React, { forwardRef } from 'react';
-import UnifiedCheckbox, { UnifiedCheckboxProps } from './UnifiedCheckbox';
-
 export { default as UnifiedCheckbox } from './UnifiedCheckbox';
 export type {
 	CheckboxKind,
@@ -23,6 +20,9 @@ export {
 export type { CheckboxFactoryProps } from './factory';
 
 // Legacy exports for specific checkbox types (these now use the unified system)
+import React, { forwardRef } from 'react';
+import UnifiedCheckbox, { UnifiedCheckboxProps } from './UnifiedCheckbox';
+
 export interface DarkModeToggleProps extends Omit<UnifiedCheckboxProps, 'kind'> {}
 
 export const DarkModeToggle = forwardRef<HTMLInputElement, DarkModeToggleProps>((props, ref) => {

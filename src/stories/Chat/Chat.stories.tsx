@@ -41,7 +41,8 @@ const meta: Meta<typeof ChatFactory> = {
 		},
 		onClose: {
 			action: 'chatClosed',
-			description: 'Callback when chat is closed (friend chat only)',
+			description:
+				'Callback when chat is closed (friend chat only)',
 		},
 		title: {
 			control: 'text',
@@ -91,7 +92,12 @@ const meta: Meta<typeof ChatFactory> = {
 		},
 		variant: {
 			control: 'select',
-			options: ['default', 'compact', 'expanded', 'floating'],
+			options: [
+				'default',
+				'compact',
+				'expanded',
+				'floating',
+			],
 			description: 'Visual variant of chat window',
 		},
 		theme: {
@@ -213,12 +219,15 @@ export const AllChatTypes: Story = {
 			style={{
 				display: 'grid',
 				gap: '2rem',
-				gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+				gridTemplateColumns:
+					'repeat(auto-fit, minmax(300px, 1fr))',
 				padding: '1rem',
 			}}
 		>
 			<div>
-				<h3 style={{ marginBottom: '1rem' }}>Friend Chat</h3>
+				<h3 style={{ marginBottom: '1rem' }}>
+					Friend Chat
+				</h3>
 				<ChatFactory
 					kind='friend'
 					messages={friendMessages}
@@ -229,7 +238,9 @@ export const AllChatTypes: Story = {
 				/>
 			</div>
 			<div>
-				<h3 style={{ marginBottom: '1rem' }}>In-Match Chat</h3>
+				<h3 style={{ marginBottom: '1rem' }}>
+					In-Match Chat
+				</h3>
 				<ChatFactory
 					kind='in-match'
 					messages={gameMessages}
@@ -245,7 +256,9 @@ export const AllChatTypes: Story = {
 				/>
 			</div>
 			<div>
-				<h3 style={{ marginBottom: '1rem' }}>General Chat</h3>
+				<h3 style={{ marginBottom: '1rem' }}>
+					General Chat
+				</h3>
 				<ChatFactory
 					kind='general'
 					messages={sampleMessages}
@@ -450,7 +463,8 @@ export const SystemMessages: Story = {
 export const VSQuickChat: Story = {
 	args: {
 		kind: 'vs-quick-chat',
-		onSend: (message: string) => console.log('Quick chat sent:', message),
+		onSend: (message: string) =>
+			console.log('Quick chat sent:', message),
 	},
 	parameters: {
 		docs: {
@@ -469,12 +483,15 @@ export const ChatVariantsShowcase: Story = {
 			style={{
 				display: 'grid',
 				gap: '1.5rem',
-				gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+				gridTemplateColumns:
+					'repeat(auto-fit, minmax(320px, 1fr))',
 				padding: '1rem',
 			}}
 		>
 			<div>
-				<h4 style={{ marginBottom: '0.5rem' }}>Friend Chat - Online</h4>
+				<h4 style={{ marginBottom: '0.5rem' }}>
+					Friend Chat - Online
+				</h4>
 				<ChatFactory
 					kind='friend'
 					messages={friendMessages.slice(0, 2)}
@@ -484,7 +501,9 @@ export const ChatVariantsShowcase: Story = {
 				/>
 			</div>
 			<div>
-				<h4 style={{ marginBottom: '0.5rem' }}>In-Match - Active Game</h4>
+				<h4 style={{ marginBottom: '0.5rem' }}>
+					In-Match - Active Game
+				</h4>
 				<ChatFactory
 					kind='in-match'
 					messages={[
@@ -501,7 +520,9 @@ export const ChatVariantsShowcase: Story = {
 				/>
 			</div>
 			<div>
-				<h4 style={{ marginBottom: '0.5rem' }}>Match Chat - Completed</h4>
+				<h4 style={{ marginBottom: '0.5rem' }}>
+					Match Chat - Completed
+				</h4>
 				<ChatFactory
 					kind='match'
 					messages={[
@@ -518,7 +539,9 @@ export const ChatVariantsShowcase: Story = {
 				/>
 			</div>
 			<div>
-				<h4 style={{ marginBottom: '0.5rem' }}>General - Community Chat</h4>
+				<h4 style={{ marginBottom: '0.5rem' }}>
+					General - Community Chat
+				</h4>
 				<ChatFactory
 					kind='general'
 					messages={[

@@ -1,4 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import {
+	useAppDispatch,
+	useAppSelector,
+} from '../../store';
+import {
+	openModal,
+	setModalFormField,
+	setModalLoading,
+	setModalError,
+	setModalSuccess,
+	selectModalData,
+	selectModalLoading,
+	selectModalError,
+	selectModalSuccess,
+} from '../../store/slices/modalSlice';
 import Modal, { ModalProps } from '../Modal/Modal';
 import UnifiedButton from '../Button/UnifiedButton';
 import styles from './UnifiedModal.module.scss';
@@ -18,6 +33,7 @@ export type ModalKind = ExtendedModalKind;
 export interface UnifiedModalProps
 	extends Omit<ModalProps, 'children'> {
 	kind: ExtendedModalKind;
+	modalId?: string; // For identifying this modal instance in Redux
 	title?: string;
 	message?: string;
 	children?: React.ReactNode;
@@ -75,6 +91,7 @@ export interface UnifiedModalProps
 
 const UnifiedModal: React.FC<UnifiedModalProps> = ({
 	kind,
+	modalId,
 	title,
 	message,
 	children,
@@ -148,13 +165,37 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 		...configOverrides,
 	});
 
-	// Local state for specific modal types
-	const [roomCode, setRoomCode] = useState(
-		initialRoomCode || ''
+	// Generate modalId if not provided
+	const finalModalId = modalId || `${kind}-${Date.now()}`;
+
+	// Redux hooks
+	const dispatch = useAppDispatch();
+	const modalData = useAppSelector((state) =>
+		selectModalData(state, finalModalId)
 	);
-	const [error, setError] = useState('');
-	const [loading, setLoading] = useState(false);
-	const [success, setSuccess] = useState(false);
+	const loading = useAppSelector((state) =>
+		selectModalLoading(state, finalModalId)
+	);
+	const error = useAppSelector((state) =>
+		selectModalError(state, finalModalId)
+	);
+	const success = useAppSelector((state) =>
+		selectModalSuccess(state, finalModalId)
+	);
+
+	// Get room code from Redux or use initial value
+	const roomCode =
+		modalData.roomCode || initialRoomCode || '';
+
+	// Initialize modal state in Redux on mount
+	useEffect(() => {
+		dispatch(
+			openModal({
+				id: finalModalId,
+				data: { roomCode: initialRoomCode || '' },
+			})
+		);
+	}, [dispatch, finalModalId, initialRoomCode]);
 
 	// Compute final title and message
 	const finalTitle = title || config.defaultTitle;
@@ -273,7 +314,9 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 						{user && (
 							<div className={styles.userInfo}>
 								<img
-									src={user.photoUrl || '/default-avatar.png'}
+									src={
+										user.photoUrl || '/default-avatar.png'
+									}
 									alt={user.name}
 									className={styles.userAvatar}
 								/>
@@ -289,26 +332,31 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 						)}
 
 						<div className={styles.statsGrid}>
-							{Object.entries(mockStats).map(([key, value]) => (
-								<div key={key} className={styles.statRow}>
-									<span className={styles.statLabel}>
-										{key
-											.replace(/([A-Z])/g, ' $1')
-											.replace(/^./, (str) =>
-												str.toUpperCase()
-											)}
-									</span>
-									<span className={styles.statValue}>
-										{value}
-										{key.includes('Percentage') ? '%' : ''}
-									</span>
-								</div>
-							))}
+							{Object.entries(mockStats).map(
+								([key, value]) => (
+									<div key={key} className={styles.statRow}>
+										<span className={styles.statLabel}>
+											{key
+												.replace(/([A-Z])/g, ' $1')
+												.replace(/^./, (str) =>
+													str.toUpperCase()
+												)}
+										</span>
+										<span className={styles.statValue}>
+											{value}
+											{key.includes('Percentage') ?
+												'%'
+											:	''}
+										</span>
+									</div>
+								)
+							)}
 						</div>
 
 						{!user && (
 							<div className={styles.guestMessage}>
-								Sign in to track your statistics across devices
+								Sign in to track your statistics across
+								devices
 							</div>
 						)}
 
@@ -401,7 +449,15 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 								id='room-code'
 								type='text'
 								value={roomCode}
-								onChange={(e) => setRoomCode(e.target.value)}
+								onChange={(e) =>
+									dispatch(
+										setModalFormField({
+											id: finalModalId,
+											field: 'roomCode',
+											value: e.target.value,
+										})
+									)
+								}
 								placeholder='Enter room code'
 								className={styles.roomInput}
 							/>
@@ -452,7 +508,8 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 						</UnifiedButton>
 						<UnifiedButton
 							kind={
-								(config.primaryButtonKind || 'primary') as any
+								(config.primaryButtonKind ||
+									'primary') as any
 							}
 							onClick={onConfirm}
 						>
@@ -487,7 +544,8 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 						</UnifiedButton>
 						<UnifiedButton
 							kind={
-								(config.primaryButtonKind || 'primary') as any
+								(config.primaryButtonKind ||
+									'primary') as any
 							}
 							onClick={onSubmit}
 						>
@@ -505,7 +563,10 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 						>
 							{finalCancelText}
 						</UnifiedButton>
-						<UnifiedButton kind='primary' onClick={onConfirm}>
+						<UnifiedButton
+							kind='primary'
+							onClick={onConfirm}
+						>
 							{finalConfirmText}
 						</UnifiedButton>
 					</>
@@ -531,7 +592,10 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 			case 'purchase':
 				return (
 					<>
-						<UnifiedButton kind='secondary' onClick={onClose}>
+						<UnifiedButton
+							kind='secondary'
+							onClick={onClose}
+						>
 							Cancel
 						</UnifiedButton>
 						<UnifiedButton
@@ -569,10 +633,16 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 			case 'custom-puzzle':
 				return (
 					<>
-						<UnifiedButton kind='secondary' onClick={onClose}>
+						<UnifiedButton
+							kind='secondary'
+							onClick={onClose}
+						>
 							{finalCancelText}
 						</UnifiedButton>
-						<UnifiedButton kind='primary' onClick={onConfirm}>
+						<UnifiedButton
+							kind='primary'
+							onClick={onConfirm}
+						>
 							{finalConfirmText}
 						</UnifiedButton>
 					</>
@@ -587,16 +657,32 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 	const handlePurchase = async () => {
 		if (!onPurchase || !item) return;
 
-		setLoading(true);
-		setError('');
+		dispatch(
+			setModalLoading({ id: finalModalId, loading: true })
+		);
+		dispatch(
+			setModalError({ id: finalModalId, error: null })
+		);
 		try {
 			await onPurchase(item);
-			setSuccess(true);
+			dispatch(
+				setModalSuccess({ id: finalModalId, success: true })
+			);
 			setTimeout(() => onClose(), 1200);
 		} catch (e: any) {
-			setError(e?.message || 'Purchase failed.');
+			dispatch(
+				setModalError({
+					id: finalModalId,
+					error: e?.message || 'Purchase failed.',
+				})
+			);
 		} finally {
-			setLoading(false);
+			dispatch(
+				setModalLoading({
+					id: finalModalId,
+					loading: false,
+				})
+			);
 		}
 	};
 
@@ -605,16 +691,29 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 			.toString(36)
 			.substring(2, 8)
 			.toUpperCase();
-		setRoomCode(newCode);
+		dispatch(
+			setModalFormField({
+				id: finalModalId,
+				field: 'roomCode',
+				value: newCode,
+			})
+		);
 		onCreateRoom?.(newCode);
 	};
 
 	const handleJoinRoom = () => {
 		if (!roomCode.trim()) {
-			setError('Please enter a room code.');
+			dispatch(
+				setModalError({
+					id: finalModalId,
+					error: 'Please enter a room code.',
+				})
+			);
 			return;
 		}
-		setError('');
+		dispatch(
+			setModalError({ id: finalModalId, error: null })
+		);
 		onJoinRoom?.(roomCode.trim());
 	};
 

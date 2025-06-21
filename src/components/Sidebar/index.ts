@@ -6,8 +6,14 @@ export type {
 } from './UnifiedSidebar';
 
 // Base Sidebar component
-export { default as Sidebar, FriendsSidebar } from './Sidebar';
-export type { SidebarProps, FriendsSidebarProps } from './Sidebar';
+export {
+	default as Sidebar,
+	FriendsSidebar,
+} from './Sidebar';
+export type {
+	SidebarProps,
+	FriendsSidebarProps,
+} from './Sidebar';
 
 export * from './configurations';
 

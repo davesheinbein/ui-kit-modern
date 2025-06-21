@@ -29,9 +29,19 @@ export type MonetizationVariant =
 
 export type MonetizationSize = 'small' | 'medium' | 'large';
 
-export type PricingPeriod = 'monthly' | 'yearly' | 'lifetime' | 'usage';
+export type PricingPeriod =
+	| 'monthly'
+	| 'yearly'
+	| 'lifetime'
+	| 'usage';
 
-export type PaymentMethod = 'card' | 'paypal' | 'bank' | 'crypto' | 'apple-pay' | 'google-pay';
+export type PaymentMethod =
+	| 'card'
+	| 'paypal'
+	| 'bank'
+	| 'crypto'
+	| 'apple-pay'
+	| 'google-pay';
 
 // =============================================================================
 // CONFIGURATION INTERFACES
@@ -48,8 +58,18 @@ export interface MonetizationConfiguration {
 
 export interface MonetizationStyling {
 	theme?: 'light' | 'dark' | 'gradient';
-	color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
-	borderRadius?: 'none' | 'small' | 'medium' | 'large' | 'round';
+	color?:
+		| 'primary'
+		| 'secondary'
+		| 'success'
+		| 'warning'
+		| 'error';
+	borderRadius?:
+		| 'none'
+		| 'small'
+		| 'medium'
+		| 'large'
+		| 'round';
 	shadow?: 'none' | 'small' | 'medium' | 'large';
 	animation?: 'none' | 'subtle' | 'bounce' | 'pulse';
 	highlight?: boolean;
@@ -123,14 +143,16 @@ export interface PaymentData {
 // COMPONENT-SPECIFIC INTERFACES
 // =============================================================================
 
-export interface PricingCardConfig extends MonetizationConfiguration {
+export interface PricingCardConfig
+	extends MonetizationConfiguration {
 	kind: 'pricing-card';
 	plan: PricingPlan;
 	selected?: boolean;
 	onSelect?: (plan: PricingPlan) => void;
 }
 
-export interface SubscriptionPlanConfig extends MonetizationConfiguration {
+export interface SubscriptionPlanConfig
+	extends MonetizationConfiguration {
 	kind: 'subscription-plan';
 	plans: PricingPlan[];
 	selectedPlan?: string;
@@ -138,14 +160,16 @@ export interface SubscriptionPlanConfig extends MonetizationConfiguration {
 	showComparison?: boolean;
 }
 
-export interface FeatureComparisonConfig extends MonetizationConfiguration {
+export interface FeatureComparisonConfig
+	extends MonetizationConfiguration {
 	kind: 'feature-comparison';
 	plans: PricingPlan[];
 	features: string[];
 	selectedPlan?: string;
 }
 
-export interface PaymentFormConfig extends MonetizationConfiguration {
+export interface PaymentFormConfig
+	extends MonetizationConfiguration {
 	kind: 'payment-form';
 	paymentData: PaymentData;
 	acceptedMethods?: PaymentMethod[];
@@ -153,7 +177,8 @@ export interface PaymentFormConfig extends MonetizationConfiguration {
 	onCancel?: () => void;
 }
 
-export interface BillingSummaryConfig extends MonetizationConfiguration {
+export interface BillingSummaryConfig
+	extends MonetizationConfiguration {
 	kind: 'billing-summary';
 	items: Array<{
 		description: string;
@@ -166,7 +191,8 @@ export interface BillingSummaryConfig extends MonetizationConfiguration {
 	discount?: number;
 }
 
-export interface UpgradePromptConfig extends MonetizationConfiguration {
+export interface UpgradePromptConfig
+	extends MonetizationConfiguration {
 	kind: 'upgrade-prompt';
 	currentPlan: string;
 	recommendedPlan: PricingPlan;
@@ -175,7 +201,8 @@ export interface UpgradePromptConfig extends MonetizationConfiguration {
 	onDismiss?: () => void;
 }
 
-export interface UsageMeterConfig extends MonetizationConfiguration {
+export interface UsageMeterConfig
+	extends MonetizationConfiguration {
 	kind: 'usage-meter';
 	usage: UsageData;
 	warningThreshold?: number;
@@ -183,7 +210,8 @@ export interface UsageMeterConfig extends MonetizationConfiguration {
 	onUpgrade?: () => void;
 }
 
-export interface CreditDisplayConfig extends MonetizationConfiguration {
+export interface CreditDisplayConfig
+	extends MonetizationConfiguration {
 	kind: 'credit-display';
 	credits: number;
 	maxCredits?: number;
@@ -192,7 +220,8 @@ export interface CreditDisplayConfig extends MonetizationConfiguration {
 	onEarn?: () => void;
 }
 
-export interface PurchaseButtonConfig extends MonetizationConfiguration {
+export interface PurchaseButtonConfig
+	extends MonetizationConfiguration {
 	kind: 'purchase-button';
 	product: {
 		name: string;
@@ -204,7 +233,8 @@ export interface PurchaseButtonConfig extends MonetizationConfiguration {
 	disabled?: boolean;
 }
 
-export interface DiscountBannerConfig extends MonetizationConfiguration {
+export interface DiscountBannerConfig
+	extends MonetizationConfiguration {
 	kind: 'discount-banner';
 	discount: {
 		type: 'percentage' | 'fixed';
@@ -220,7 +250,10 @@ export interface DiscountBannerConfig extends MonetizationConfiguration {
 // PREDEFINED CONFIGURATIONS
 // =============================================================================
 
-export const MONETIZATION_CONFIGURATIONS: Record<MonetizationKind, MonetizationConfiguration> = {
+export const MONETIZATION_CONFIGURATIONS: Record<
+	MonetizationKind,
+	MonetizationConfiguration
+> = {
 	'pricing-card': {
 		kind: 'pricing-card',
 		variant: 'default',
@@ -370,10 +403,24 @@ export const MONETIZATION_CONFIGURATIONS: Record<MonetizationKind, MonetizationC
 // =============================================================================
 
 export const MONETIZATION_GROUPS = {
-	pricing: ['pricing-card', 'subscription-plan', 'feature-comparison'] as MonetizationKind[],
-	payment: ['payment-form', 'billing-summary', 'purchase-button'] as MonetizationKind[],
-	engagement: ['upgrade-prompt', 'discount-banner'] as MonetizationKind[],
-	tracking: ['usage-meter', 'credit-display'] as MonetizationKind[],
+	pricing: [
+		'pricing-card',
+		'subscription-plan',
+		'feature-comparison',
+	] as MonetizationKind[],
+	payment: [
+		'payment-form',
+		'billing-summary',
+		'purchase-button',
+	] as MonetizationKind[],
+	engagement: [
+		'upgrade-prompt',
+		'discount-banner',
+	] as MonetizationKind[],
+	tracking: [
+		'usage-meter',
+		'credit-display',
+	] as MonetizationKind[],
 };
 
 // =============================================================================
@@ -388,8 +435,12 @@ export const createMonetizationConfig = (
 	...overrides,
 });
 
-export const validateMonetizationConfig = (config: MonetizationConfiguration): boolean => {
-	return !!(config.kind && MONETIZATION_CONFIGURATIONS[config.kind]);
+export const validateMonetizationConfig = (
+	config: MonetizationConfiguration
+): boolean => {
+	return !!(
+		config.kind && MONETIZATION_CONFIGURATIONS[config.kind]
+	);
 };
 
 export const formatPrice = (
@@ -401,13 +452,17 @@ export const formatPrice = (
 		style: 'currency',
 		currency,
 	});
-	
+
 	const formattedPrice = formatter.format(price);
-	
+
 	if (period && period !== 'lifetime') {
-		return `${formattedPrice}/${period === 'monthly' ? 'mo' : period === 'yearly' ? 'yr' : period}`;
+		return `${formattedPrice}/${
+			period === 'monthly' ? 'mo'
+			: period === 'yearly' ? 'yr'
+			: period
+		}`;
 	}
-	
+
 	return formattedPrice;
 };
 
@@ -416,7 +471,9 @@ export const calculateDiscount = (
 	discountedPrice: number
 ): { amount: number; percentage: number } => {
 	const amount = originalPrice - discountedPrice;
-	const percentage = Math.round((amount / originalPrice) * 100);
-	
+	const percentage = Math.round(
+		(amount / originalPrice) * 100
+	);
+
 	return { amount, percentage };
 };

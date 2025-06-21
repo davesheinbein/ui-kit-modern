@@ -1,4 +1,5 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
 	CARD_CONFIGURATIONS,
 	ExtendedCardKind,
@@ -7,6 +8,11 @@ import {
 } from './configurations';
 import styles from './Card.module.scss';
 import cardStyles from './Card.module.scss';
+import {
+	setCardState,
+	selectCardState,
+	cleanupComponent,
+} from '../../store/slices/uiSlice';
 
 // Base card props interface
 export interface BaseCardProps
@@ -27,6 +33,7 @@ export interface UnifiedCardProps
 		'variant' | 'children' | 'content'
 	> {
 	kind: CardKind;
+	componentId?: string; // For Redux state isolation
 
 	// Content props
 	children?: React.ReactNode;
@@ -73,6 +80,7 @@ const UnifiedCard = forwardRef<
 	(
 		{
 			kind,
+			componentId = `card-${Date.now()}-${Math.random()}`, // Generate unique ID if not provided
 			children,
 			title,
 			subtitle,
@@ -94,7 +102,27 @@ const UnifiedCard = forwardRef<
 		},
 		ref
 	) => {
-		const [isHovered, setIsHovered] = useState(false);
+		const dispatch = useDispatch();
+		const cardState = useSelector(
+			selectCardState(componentId)
+		);
+		const isHovered = cardState?.isHovered || false;
+
+		// Initialize Redux state
+		useEffect(() => {
+			if (!cardState) {
+				dispatch(
+					setCardState({
+						cardId: componentId,
+						updates: { isHovered: false },
+					})
+				);
+			}
+
+			return () => {
+				dispatch(cleanupComponent(componentId));
+			};
+		}, [dispatch, componentId, cardState]);
 
 		// Get base configuration and apply overrides
 		const config: CardConfiguration = {
@@ -301,8 +329,22 @@ const UnifiedCard = forwardRef<
 				ref={ref}
 				className={combinedClassName}
 				onClick={handleClick}
-				onMouseEnter={() => setIsHovered(true)}
-				onMouseLeave={() => setIsHovered(false)}
+				onMouseEnter={() =>
+					dispatch(
+						setCardState({
+							cardId: componentId,
+							updates: { isHovered: true },
+						})
+					)
+				}
+				onMouseLeave={() =>
+					dispatch(
+						setCardState({
+							cardId: componentId,
+							updates: { isHovered: false },
+						})
+					)
+				}
 				{...props}
 			>
 				{renderCardContent()}

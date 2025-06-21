@@ -1,14 +1,14 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { 
-	MonetizationFactory, 
+import {
+	MonetizationFactory,
 	UnifiedMonetization,
 	MonetizationPresets,
 	QuickMonetization,
 	SimpleMonetizationFactory,
 	PricingPlan,
 	UsageData,
-	PaymentData 
+	PaymentData,
 } from '../../components/Monetization';
 
 // =============================================================================
@@ -121,10 +121,10 @@ const samplePlans: PricingPlan[] = [
 			'Up to 1,000 API calls',
 			'Basic support',
 			'1 team member',
-			'Standard templates'
+			'Standard templates',
 		],
 		description: 'Perfect for getting started',
-		buttonText: 'Start Free Trial'
+		buttonText: 'Start Free Trial',
 	},
 	{
 		id: 'professional',
@@ -139,13 +139,13 @@ const samplePlans: PricingPlan[] = [
 			'5 team members',
 			'Advanced templates',
 			'Analytics dashboard',
-			'Custom integrations'
+			'Custom integrations',
 		],
 		highlights: ['Most Popular'],
 		popular: true,
 		badge: 'Popular',
 		description: 'Great for growing businesses',
-		buttonText: 'Upgrade Now'
+		buttonText: 'Upgrade Now',
 	},
 	{
 		id: 'enterprise',
@@ -161,11 +161,11 @@ const samplePlans: PricingPlan[] = [
 			'Advanced analytics',
 			'Custom integrations',
 			'Dedicated account manager',
-			'SLA guarantee'
+			'SLA guarantee',
 		],
 		description: 'For large organizations',
-		buttonText: 'Contact Sales'
-	}
+		buttonText: 'Contact Sales',
+	},
 ];
 
 const sampleUsage: UsageData = {
@@ -173,7 +173,7 @@ const sampleUsage: UsageData = {
 	limit: 1000,
 	unit: 'API Calls',
 	period: 'this month',
-	resetDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days from now
+	resetDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
 };
 
 const samplePaymentData: PaymentData = {
@@ -182,13 +182,13 @@ const samplePaymentData: PaymentData = {
 	method: 'card',
 	description: 'Professional Plan Subscription',
 	recurring: true,
-	period: 'monthly'
+	period: 'monthly',
 };
 
 const sampleBillingItems = [
 	{ description: 'Professional Plan', amount: 29.99 },
-	{ description: 'Extra API Calls (500)', amount: 5.00 },
-	{ description: 'Priority Support', amount: 9.99 }
+	{ description: 'Extra API Calls (500)', amount: 5.0 },
+	{ description: 'Priority Support', amount: 9.99 },
 ];
 
 // =============================================================================
@@ -218,7 +218,8 @@ export const PaymentForm: Story = {
 		kind: 'payment-form',
 		paymentData: samplePaymentData,
 		acceptedMethods: ['card', 'paypal', 'apple-pay'],
-		onSubmit: (data) => console.log('Payment submitted:', data),
+		onSubmit: (data) =>
+			console.log('Payment submitted:', data),
 		onCancel: () => console.log('Payment cancelled'),
 	},
 };
@@ -229,8 +230,12 @@ export const BillingSummary: Story = {
 		items: sampleBillingItems,
 		total: 44.98,
 		currency: 'USD',
-		tax: 4.50,
-		discount: { type: 'percentage', value: 10, code: 'SAVE10' },
+		tax: 4.5,
+		discount: {
+			type: 'percentage',
+			value: 10,
+			code: 'SAVE10',
+		},
 	},
 };
 
@@ -244,7 +249,7 @@ export const FeatureComparison: Story = {
 			'Support Level',
 			'Analytics',
 			'Custom Integrations',
-			'SLA Guarantee'
+			'SLA Guarantee',
 		],
 		selectedPlan: 'professional',
 	},
@@ -259,7 +264,7 @@ export const UpgradePrompt: Story = {
 			'10x more API calls',
 			'Priority support',
 			'Advanced analytics',
-			'Team collaboration tools'
+			'Team collaboration tools',
 		],
 		onUpgrade: () => console.log('Upgrade initiated'),
 		onDismiss: () => console.log('Upgrade dismissed'),
@@ -282,7 +287,7 @@ export const PurchaseButton: Story = {
 		product: {
 			name: 'API Credits Bundle',
 			price: 19.99,
-			currency: 'USD'
+			currency: 'USD',
 		},
 		onPurchase: () => console.log('Purchase initiated'),
 	},
@@ -295,9 +300,10 @@ export const DiscountBanner: Story = {
 			type: 'percentage',
 			value: 25,
 			code: 'FLASH25',
-			expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours from now
+			expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
 		},
-		onApply: (code) => console.log('Applied discount code:', code),
+		onApply: (code) =>
+			console.log('Applied discount code:', code),
 		onDismiss: () => console.log('Banner dismissed'),
 	},
 };
@@ -307,15 +313,16 @@ export const SubscriptionPlans: Story = {
 		kind: 'subscription-plan',
 		plans: samplePlans,
 		selectedPlan: 'professional',
-		onPlanSelect: (planId) => console.log('Selected plan:', planId),
+		onPlanSelect: (planId) =>
+			console.log('Selected plan:', planId),
 	},
 	parameters: {
 		layout: 'fullscreen',
 		docs: {
-			canvas: { 
-				sourceState: 'shown' 
-			}
-		}
+			canvas: {
+				sourceState: 'shown',
+			},
+		},
 	},
 };
 
@@ -325,11 +332,19 @@ export const SubscriptionPlans: Story = {
 
 export const PricingCardVariants: Story = {
 	render: () => (
-		<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', padding: '2rem' }}>
+		<div
+			style={{
+				display: 'grid',
+				gridTemplateColumns:
+					'repeat(auto-fit, minmax(300px, 1fr))',
+				gap: '2rem',
+				padding: '2rem',
+			}}
+		>
 			<div style={{ textAlign: 'center' }}>
 				<h3>Default</h3>
 				<UnifiedMonetization
-					kind="pricing-card"
+					kind='pricing-card'
 					plan={samplePlans[0]}
 					config={{ variant: 'default' }}
 				/>
@@ -337,22 +352,22 @@ export const PricingCardVariants: Story = {
 			<div style={{ textAlign: 'center' }}>
 				<h3>Premium</h3>
 				<UnifiedMonetization
-					kind="pricing-card"
+					kind='pricing-card'
 					plan={samplePlans[1]}
-					config={{ 
+					config={{
 						variant: 'premium',
-						styling: { theme: 'gradient', highlight: true }
+						styling: { theme: 'gradient', highlight: true },
 					}}
 				/>
 			</div>
 			<div style={{ textAlign: 'center' }}>
 				<h3>Featured</h3>
 				<UnifiedMonetization
-					kind="pricing-card"
+					kind='pricing-card'
 					plan={samplePlans[2]}
-					config={{ 
+					config={{
 						variant: 'featured',
-						styling: { theme: 'dark', animation: 'subtle' }
+						styling: { theme: 'dark', animation: 'subtle' },
 					}}
 				/>
 			</div>
@@ -365,27 +380,46 @@ export const PricingCardVariants: Story = {
 
 export const UsageMeterStates: Story = {
 	render: () => (
-		<div style={{ display: 'grid', gap: '2rem', padding: '2rem', maxWidth: '600px' }}>
+		<div
+			style={{
+				display: 'grid',
+				gap: '2rem',
+				padding: '2rem',
+				maxWidth: '600px',
+			}}
+		>
 			<div>
 				<h3>Low Usage (25%)</h3>
 				<UnifiedMonetization
-					kind="usage-meter"
-					usage={{ current: 250, limit: 1000, unit: 'API Calls' }}
+					kind='usage-meter'
+					usage={{
+						current: 250,
+						limit: 1000,
+						unit: 'API Calls',
+					}}
 				/>
 			</div>
 			<div>
 				<h3>Warning Level (85%)</h3>
 				<UnifiedMonetization
-					kind="usage-meter"
-					usage={{ current: 850, limit: 1000, unit: 'API Calls' }}
+					kind='usage-meter'
+					usage={{
+						current: 850,
+						limit: 1000,
+						unit: 'API Calls',
+					}}
 					warningThreshold={80}
 				/>
 			</div>
 			<div>
 				<h3>Critical Level (98%)</h3>
 				<UnifiedMonetization
-					kind="usage-meter"
-					usage={{ current: 980, limit: 1000, unit: 'API Calls' }}
+					kind='usage-meter'
+					usage={{
+						current: 980,
+						limit: 1000,
+						unit: 'API Calls',
+					}}
 					warningThreshold={80}
 					criticalThreshold={95}
 					onUpgrade={() => console.log('Upgrade needed!')}
@@ -401,34 +435,48 @@ export const UsageMeterStates: Story = {
 
 export const FactoryExamples: Story = {
 	render: () => (
-		<div style={{ display: 'grid', gap: '2rem', padding: '2rem' }}>
+		<div
+			style={{
+				display: 'grid',
+				gap: '2rem',
+				padding: '2rem',
+			}}
+		>
 			<div>
 				<h3>MonetizationFactory</h3>
 				<MonetizationFactory
-					kind="pricing-card"
+					kind='pricing-card'
 					plan={samplePlans[1]}
-					config={{ 
-						styling: { theme: 'gradient', animation: 'pulse' }
+					config={{
+						styling: {
+							theme: 'gradient',
+							animation: 'pulse',
+						},
 					}}
 				/>
 			</div>
-			
+
 			<div>
 				<h3>MonetizationPresets.premiumPlan</h3>
-				{MonetizationPresets.premiumPlan(samplePlans[1], (plan) => console.log('Selected:', plan))}
+				{MonetizationPresets.premiumPlan(
+					samplePlans[1],
+					(plan) => console.log('Selected:', plan)
+				)}
 			</div>
-			
+
 			<div>
 				<h3>QuickMonetization.UsageBar</h3>
-				<QuickMonetization.UsageBar 
+				<QuickMonetization.UsageBar
 					usage={sampleUsage}
 					onUpgrade={() => console.log('Quick upgrade!')}
 				/>
 			</div>
-			
+
 			<div>
 				<h3>SimpleMonetizationFactory.creditDisplay</h3>
-				{SimpleMonetizationFactory.creditDisplay(2500, () => console.log('Buy credits'))}
+				{SimpleMonetizationFactory.creditDisplay(2500, () =>
+					console.log('Buy credits')
+				)}
 			</div>
 		</div>
 	),
@@ -445,31 +493,44 @@ export const ResponsiveLayout: Story = {
 	render: () => (
 		<div style={{ padding: '1rem' }}>
 			<h2>Responsive Monetization Components</h2>
-			<p>Resize the viewport to see how components adapt to different screen sizes.</p>
-			
-			<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginTop: '2rem' }}>
+			<p>
+				Resize the viewport to see how components adapt to
+				different screen sizes.
+			</p>
+
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns:
+						'repeat(auto-fit, minmax(280px, 1fr))',
+					gap: '1.5rem',
+					marginTop: '2rem',
+				}}
+			>
 				{samplePlans.map((plan) => (
 					<UnifiedMonetization
 						key={plan.id}
-						kind="pricing-card"
+						kind='pricing-card'
 						plan={plan}
 						config={{
 							size: 'medium',
-							styling: { 
+							styling: {
 								theme: plan.popular ? 'gradient' : 'light',
-								highlight: plan.popular
-							}
+								highlight: plan.popular,
+							},
 						}}
 					/>
 				))}
 			</div>
-			
+
 			<div style={{ marginTop: '3rem', maxWidth: '600px' }}>
 				<h3>Usage Tracking</h3>
 				<UnifiedMonetization
-					kind="usage-meter"
+					kind='usage-meter'
 					usage={sampleUsage}
-					onUpgrade={() => console.log('Upgrade from responsive view')}
+					onUpgrade={() =>
+						console.log('Upgrade from responsive view')
+					}
 				/>
 			</div>
 		</div>
@@ -488,29 +549,48 @@ export const ResponsiveLayout: Story = {
 
 export const InteractiveDemo: Story = {
 	render: () => {
-		const [selectedPlan, setSelectedPlan] = React.useState<string>('professional');
+		const [selectedPlan, setSelectedPlan] =
+			React.useState<string>('professional');
 		const [credits, setCredits] = React.useState(2500);
 		const [usage, setUsage] = React.useState(750);
 
 		return (
 			<div style={{ padding: '2rem' }}>
 				<h2>Interactive Monetization Demo</h2>
-				
-				<div style={{ display: 'grid', gap: '2rem', marginTop: '2rem' }}>
+
+				<div
+					style={{
+						display: 'grid',
+						gap: '2rem',
+						marginTop: '2rem',
+					}}
+				>
 					<div>
 						<h3>Plan Selection</h3>
-						<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+						<div
+							style={{
+								display: 'grid',
+								gridTemplateColumns:
+									'repeat(auto-fit, minmax(280px, 1fr))',
+								gap: '1rem',
+							}}
+						>
 							{samplePlans.map((plan) => (
 								<UnifiedMonetization
 									key={plan.id}
-									kind="pricing-card"
+									kind='pricing-card'
 									plan={plan}
-									onSelect={(selectedPlan) => setSelectedPlan(selectedPlan.id)}
+									onSelect={(selectedPlan) =>
+										setSelectedPlan(selectedPlan.id)
+									}
 									config={{
-										styling: { 
+										styling: {
 											highlight: selectedPlan === plan.id,
-											theme: selectedPlan === plan.id ? 'gradient' : 'light'
-										}
+											theme:
+												selectedPlan === plan.id ?
+													'gradient'
+												:	'light',
+										},
 									}}
 								/>
 							))}
@@ -520,27 +600,51 @@ export const InteractiveDemo: Story = {
 						</p>
 					</div>
 
-					<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+					<div
+						style={{
+							display: 'grid',
+							gridTemplateColumns: '1fr 1fr',
+							gap: '2rem',
+						}}
+					>
 						<div>
 							<h3>Credits Balance</h3>
 							<UnifiedMonetization
-								kind="credit-display"
+								kind='credit-display'
 								credits={credits}
-								onPurchase={() => setCredits(credits + 1000)}
+								onPurchase={() =>
+									setCredits(credits + 1000)
+								}
 								onEarn={() => setCredits(credits + 100)}
 							/>
 						</div>
-						
+
 						<div>
 							<h3>API Usage</h3>
 							<UnifiedMonetization
-								kind="usage-meter"
-								usage={{ current: usage, limit: 1000, unit: 'API Calls' }}
-								onUpgrade={() => setUsage(Math.floor(usage * 0.5))} // "Upgrade" reduces usage by giving more quota
+								kind='usage-meter'
+								usage={{
+									current: usage,
+									limit: 1000,
+									unit: 'API Calls',
+								}}
+								onUpgrade={() =>
+									setUsage(Math.floor(usage * 0.5))
+								} // "Upgrade" reduces usage by giving more quota
 							/>
-							<button 
-								onClick={() => setUsage(Math.min(usage + 50, 1000))}
-								style={{ marginTop: '1rem', padding: '0.5rem 1rem', border: 'none', borderRadius: '4px', background: '#3b82f6', color: 'white', cursor: 'pointer' }}
+							<button
+								onClick={() =>
+									setUsage(Math.min(usage + 50, 1000))
+								}
+								style={{
+									marginTop: '1rem',
+									padding: '0.5rem 1rem',
+									border: 'none',
+									borderRadius: '4px',
+									background: '#3b82f6',
+									color: 'white',
+									cursor: 'pointer',
+								}}
 							>
 								Use 50 API Calls
 							</button>
@@ -561,11 +665,17 @@ export const InteractiveDemo: Story = {
 
 export const LoadingStates: Story = {
 	render: () => (
-		<div style={{ display: 'grid', gap: '2rem', padding: '2rem' }}>
+		<div
+			style={{
+				display: 'grid',
+				gap: '2rem',
+				padding: '2rem',
+			}}
+		>
 			<div>
 				<h3>Loading Pricing Card</h3>
 				<UnifiedMonetization
-					kind="pricing-card"
+					kind='pricing-card'
 					plan={samplePlans[1]}
 					loading={true}
 				/>
@@ -573,7 +683,7 @@ export const LoadingStates: Story = {
 			<div>
 				<h3>Loading Payment Form</h3>
 				<UnifiedMonetization
-					kind="payment-form"
+					kind='payment-form'
 					paymentData={samplePaymentData}
 					loading={true}
 				/>
@@ -581,8 +691,12 @@ export const LoadingStates: Story = {
 			<div>
 				<h3>Loading Purchase Button</h3>
 				<UnifiedMonetization
-					kind="purchase-button"
-					product={{ name: 'Premium Plan', price: 29.99, currency: 'USD' }}
+					kind='purchase-button'
+					product={{
+						name: 'Premium Plan',
+						price: 29.99,
+						currency: 'USD',
+					}}
 					loading={true}
 				/>
 			</div>
@@ -592,11 +706,17 @@ export const LoadingStates: Story = {
 
 export const DisabledStates: Story = {
 	render: () => (
-		<div style={{ display: 'grid', gap: '2rem', padding: '2rem' }}>
+		<div
+			style={{
+				display: 'grid',
+				gap: '2rem',
+				padding: '2rem',
+			}}
+		>
 			<div>
 				<h3>Disabled Pricing Card</h3>
 				<UnifiedMonetization
-					kind="pricing-card"
+					kind='pricing-card'
 					plan={samplePlans[1]}
 					disabled={true}
 				/>
@@ -604,7 +724,7 @@ export const DisabledStates: Story = {
 			<div>
 				<h3>Disabled Payment Form</h3>
 				<UnifiedMonetization
-					kind="payment-form"
+					kind='payment-form'
 					paymentData={samplePaymentData}
 					disabled={true}
 				/>

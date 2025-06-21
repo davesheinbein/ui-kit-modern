@@ -629,7 +629,8 @@ export const CustomizationCategoryThemes: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Customization category specifically for theme selection and management.',
+				story:
+					'Customization category specifically for theme selection and management.',
 			},
 		},
 	},
@@ -646,7 +647,8 @@ export const CustomizationCategoryEmotes: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Customization category for emote selection with shop integration.',
+				story:
+					'Customization category for emote selection with shop integration.',
 			},
 		},
 	},
@@ -663,7 +665,8 @@ export const CustomizationCategoryFonts: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Font customization category with premium options.',
+				story:
+					'Font customization category with premium options.',
 			},
 		},
 	},
@@ -680,7 +683,8 @@ export const CustomizationInteractiveThemes: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Fully interactive theme customization with equip/unequip functionality.',
+				story:
+					'Fully interactive theme customization with equip/unequip functionality.',
 			},
 		},
 	},
@@ -710,7 +714,8 @@ export const CustomizationWithLockedItems: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Customization category with locked premium items.',
+				story:
+					'Customization category with locked premium items.',
 			},
 		},
 	},
@@ -755,7 +760,8 @@ export const CustomizationShopIntegration: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Customization category with integrated shop functionality.',
+				story:
+					'Customization category with integrated shop functionality.',
 			},
 		},
 	},
@@ -841,7 +847,8 @@ export const CustomizationCustomGridLayout: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Customization with custom configuration overrides for specialized grid layouts.',
+				story:
+					'Customization with custom configuration overrides for specialized grid layouts.',
 			},
 		},
 	},
@@ -869,7 +876,8 @@ export const ThemeSwatchesSelector: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Theme selector using color swatches in horizontal layout.',
+				story:
+					'Theme selector using color swatches in horizontal layout.',
 			},
 		},
 	},
@@ -892,7 +900,8 @@ export const ThemeDropdownSelector: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Compact dropdown theme selector for limited space.',
+				story:
+					'Compact dropdown theme selector for limited space.',
 			},
 		},
 	},
@@ -924,7 +933,8 @@ export const ThemeCardsSelector: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Theme selector using card-based interface with previews.',
+				story:
+					'Theme selector using card-based interface with previews.',
 			},
 		},
 	},
@@ -949,7 +959,8 @@ export const MobileOptimizedThemeSelector: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Mobile-optimized theme selector with touch-friendly interface.',
+				story:
+					'Mobile-optimized theme selector with touch-friendly interface.',
 			},
 		},
 		viewport: {
@@ -988,7 +999,8 @@ export const DesktopThemeSelector: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Desktop-optimized theme selector with advanced features.',
+				story:
+					'Desktop-optimized theme selector with advanced features.',
 			},
 		},
 	},
@@ -1012,7 +1024,8 @@ export const ModalThemeSelector: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Compact theme selector designed for modal dialogs.',
+				story:
+					'Compact theme selector designed for modal dialogs.',
 			},
 		},
 	},
@@ -1043,7 +1056,8 @@ export const BasicThemeCustomization: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Basic theme customization with color pickers and presets.',
+				story:
+					'Basic theme customization with color pickers and presets.',
 			},
 		},
 	},
@@ -1075,7 +1089,8 @@ export const AdvancedThemeBuilder: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Advanced theme builder with full customization capabilities.',
+				story:
+					'Advanced theme builder with full customization capabilities.',
 			},
 		},
 	},
@@ -1106,7 +1121,8 @@ export const ThemeCustomizationPanel: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Full theme customization panel with grid layout.',
+				story:
+					'Full theme customization panel with grid layout.',
 			},
 		},
 	},
@@ -1123,7 +1139,8 @@ export const ThemeSettingsAdvanced: Story = {
 		configuration: {
 			kind: 'theme-settings',
 			title: 'Theme Settings',
-			description: 'Configure theme appearance and behavior',
+			description:
+				'Configure theme appearance and behavior',
 			themeSettings: {
 				display: 'list',
 				layout: 'vertical',
@@ -1138,7 +1155,8 @@ export const ThemeSettingsAdvanced: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Advanced theme settings with appearance configuration.',
+				story:
+					'Advanced theme settings with appearance configuration.',
 			},
 		},
 	},
@@ -1165,7 +1183,8 @@ export const ThemeAppearanceSelector: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Theme appearance selector with visual swatches.',
+				story:
+					'Theme appearance selector with visual swatches.',
 			},
 		},
 	},
@@ -1193,7 +1212,8 @@ export const ThemeBuilderInterface: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Theme builder interface for creating custom themes.',
+				story:
+					'Theme builder interface for creating custom themes.',
 			},
 		},
 	},
@@ -1291,7 +1311,8 @@ export const BasicCustomizationCategory: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Basic customization category showing theme items in a grid.',
+				story:
+					'Basic customization category showing theme items in a grid.',
 			},
 		},
 	},
@@ -1309,7 +1330,8 @@ export const ThemeCustomizationCategory: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Theme customization with locked premium items.',
+				story:
+					'Theme customization with locked premium items.',
 			},
 		},
 	},
@@ -1356,7 +1378,8 @@ export const EmoteCustomizationCategory: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Emote customization category with different item types.',
+				story:
+					'Emote customization category with different item types.',
 			},
 		},
 	},
@@ -1406,7 +1429,8 @@ export const FontCustomizationCategory: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Font customization category with typography options.',
+				story:
+					'Font customization category with typography options.',
 			},
 		},
 	},
@@ -1428,7 +1452,8 @@ export const LargeCustomizationCategory: Story = {
 				type: 'theme' as const,
 				unlocked: false,
 				icon: '🌈',
-				preview: 'linear-gradient(135deg, #ec4899, #f472b6)',
+				preview:
+					'linear-gradient(135deg, #ec4899, #f472b6)',
 				description: 'Aurora borealis theme',
 				price: 1500,
 			},
@@ -1441,7 +1466,8 @@ export const LargeCustomizationCategory: Story = {
 				type: 'theme' as const,
 				unlocked: false,
 				icon: '🌙',
-				preview: 'linear-gradient(135deg, #1f2937, #374151)',
+				preview:
+					'linear-gradient(135deg, #1f2937, #374151)',
 				description: 'Dark midnight theme',
 				price: 1200,
 			},
@@ -1452,7 +1478,8 @@ export const LargeCustomizationCategory: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Large customization category with many items and locked content.',
+				story:
+					'Large customization category with many items and locked content.',
 			},
 		},
 	},
@@ -1465,26 +1492,38 @@ export const LargeCustomizationCategory: Story = {
 export const AllSettingsShowcase: Story = {
 	name: '🌟 All Settings Showcase',
 	render: (args) => {
-		const [currentSettings, setCurrentSettings] = React.useState({
-			theme: 'light',
-			language: 'en',
-			notifications: true,
-			privacy: 'friends',
-		});
+		const [currentSettings, setCurrentSettings] =
+			React.useState({
+				theme: 'light',
+				language: 'en',
+				notifications: true,
+				privacy: 'friends',
+			});
 
-		const handleSettingChange = (key: string, value: any) => {
-			setCurrentSettings(prev => ({ ...prev, [key]: value }));
+		const handleSettingChange = (
+			key: string,
+			value: any
+		) => {
+			setCurrentSettings((prev) => ({
+				...prev,
+				[key]: value,
+			}));
 		};
 
 		return (
 			<div className='space-y-8 p-6'>
 				<div className='text-center'>
-					<h2 className='text-2xl font-bold mb-2'>Settings DRY System Showcase</h2>
+					<h2 className='text-2xl font-bold mb-2'>
+						Settings DRY System Showcase
+					</h2>
 					<p className='text-gray-600 mb-4'>
-						Comprehensive demonstration of all settings types and configurations
+						Comprehensive demonstration of all settings
+						types and configurations
 					</p>
 					<div className='bg-blue-50 p-4 rounded-lg'>
-						<h3 className='font-semibold mb-2'>Current Settings:</h3>
+						<h3 className='font-semibold mb-2'>
+							Current Settings:
+						</h3>
 						<pre className='text-sm text-left'>
 							{JSON.stringify(currentSettings, null, 2)}
 						</pre>
@@ -1493,16 +1532,24 @@ export const AllSettingsShowcase: Story = {
 
 				<div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
 					<div>
-						<h3 className='text-lg font-semibold mb-4'>Theme Settings</h3>
+						<h3 className='text-lg font-semibold mb-4'>
+							Theme Settings
+						</h3>
 						<SettingsFactory
 							kind='theme-settings'
-							items={createThemeItems(currentSettings.theme)}
-							onEquip={(themeId: string) => handleSettingChange('theme', themeId)}
+							items={createThemeItems(
+								currentSettings.theme
+							)}
+							onEquip={(themeId: string) =>
+								handleSettingChange('theme', themeId)
+							}
 						/>
 					</div>
 
 					<div>
-						<h3 className='text-lg font-semibold mb-4'>User Preferences</h3>
+						<h3 className='text-lg font-semibold mb-4'>
+							User Preferences
+						</h3>
 						<SettingsFactory
 							kind='user-settings'
 							configuration={{
@@ -1531,7 +1578,8 @@ export const AllSettingsShowcase: Story = {
 												type: 'toggle',
 												name: 'notifications',
 												label: 'Enable Notifications',
-												value: currentSettings.notifications,
+												value:
+													currentSettings.notifications,
 											},
 										],
 									},
@@ -1542,17 +1590,23 @@ export const AllSettingsShowcase: Story = {
 					</div>
 
 					<div>
-						<h3 className='text-lg font-semibold mb-4'>Theme Customization</h3>
+						<h3 className='text-lg font-semibold mb-4'>
+							Theme Customization
+						</h3>
 						<SettingsFactory
 							kind='customization-category'
 							title='Themes'
 							items={customizationThemeItems.slice(0, 4)}
-							onEquip={(themeId: string) => handleSettingChange('theme', themeId)}
+							onEquip={(themeId: string) =>
+								handleSettingChange('theme', themeId)
+							}
 						/>
 					</div>
 
 					<div>
-						<h3 className='text-lg font-semibold mb-4'>Privacy Settings</h3>
+						<h3 className='text-lg font-semibold mb-4'>
+							Privacy Settings
+						</h3>
 						<SettingsFactory
 							kind='privacy-settings'
 							configuration={{
@@ -1567,9 +1621,18 @@ export const AllSettingsShowcase: Story = {
 												label: 'Profile Visibility',
 												value: currentSettings.privacy,
 												options: [
-													{ value: 'public', label: 'Public' },
-													{ value: 'friends', label: 'Friends Only' },
-													{ value: 'private', label: 'Private' },
+													{
+														value: 'public',
+														label: 'Public',
+													},
+													{
+														value: 'friends',
+														label: 'Friends Only',
+													},
+													{
+														value: 'private',
+														label: 'Private',
+													},
 												],
 											},
 										],
@@ -1586,7 +1649,8 @@ export const AllSettingsShowcase: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Comprehensive showcase of all settings types working together.',
+				story:
+					'Comprehensive showcase of all settings types working together.',
 			},
 		},
 	},

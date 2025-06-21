@@ -17,6 +17,7 @@ export type {
 } from './components/ComponentFactory';
 
 // Core Unified Components
+export * from './components/Advertisements';
 export * from './components/Button';
 export * from './components/Navigation';
 export * from './components/Table';
@@ -293,8 +294,6 @@ export * from './components/Settings';
 export * from './components/Providers';
 
 // Social & Communication
-
-
 
 // ===== DRY CHAT SYSTEM =====
 export {

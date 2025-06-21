@@ -14,6 +14,14 @@ import {
 	getThemeClassName,
 	validateTheme,
 } from './configurations';
+import {
+	useAppDispatch,
+	useAppSelector,
+} from '../../store';
+import {
+	setTheme,
+	selectCurrentTheme,
+} from '../../store/slices/themeSlice';
 import styles from './Theme.module.scss';
 
 // Extended props interface for UnifiedTheme
@@ -167,17 +175,26 @@ const UnifiedTheme: React.FC<UnifiedThemeProps> = ({
 		restProps,
 	]);
 
-	// State management
-	const [activeTheme, setActiveTheme] = React.useState(
-		value || defaultTheme
+	// Redux state management
+	const dispatch = useAppDispatch();
+	const currentTheme = useAppSelector((state) =>
+		selectCurrentTheme({ theme: state.theme as any })
 	);
+	const activeTheme = value || currentTheme || defaultTheme;
 
-	// Update active theme when value prop changes
+	// Update Redux theme when value prop changes
 	React.useEffect(() => {
-		if (value !== undefined) {
-			setActiveTheme(value);
+		if (value !== undefined && value !== currentTheme) {
+			dispatch(setTheme(value));
 		}
-	}, [value]);
+	}, [value, currentTheme, dispatch]);
+
+	// Set initial theme in Redux if not set
+	React.useEffect(() => {
+		if (!currentTheme && defaultTheme) {
+			dispatch(setTheme(defaultTheme));
+		}
+	}, [currentTheme, defaultTheme, dispatch]);
 
 	// Apply theme to document body
 	React.useEffect(() => {
@@ -219,7 +236,7 @@ const UnifiedTheme: React.FC<UnifiedThemeProps> = ({
 
 	// Handle theme change
 	const handleThemeChange = (themeName: string) => {
-		setActiveTheme(themeName);
+		dispatch(setTheme(themeName));
 		if (onChange) {
 			onChange(themeName);
 		}

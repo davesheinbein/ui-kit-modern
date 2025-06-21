@@ -1,19 +1,27 @@
 import React, {
 	forwardRef,
-	useState,
 	useEffect,
 	useRef,
 	useMemo,
+	useId,
 } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import {
 	SelectConfiguration,
 	SelectOption,
 	SelectOptionGroup,
 } from './configurations';
+import {
+	setSelectState,
+	cleanupComponent,
+	selectSelectState,
+} from '../../store/slices/uiSlice';
+import type { RootState } from '../../store';
 import styles from './Select.module.scss';
 
 export interface UnifiedSelectProps {
+	componentId?: string; // For Redux state identification
 	options: SelectOption[] | SelectOptionGroup[];
 	value?: string | string[];
 	defaultValue?: string | string[];
@@ -43,6 +51,7 @@ export const UnifiedSelect = forwardRef<
 >(
 	(
 		{
+			componentId,
 			options,
 			value: controlledValue,
 			defaultValue,
@@ -62,16 +71,54 @@ export const UnifiedSelect = forwardRef<
 		},
 		ref
 	) => {
-		const [internalValue, setInternalValue] = useState<
-			string | string[]
-		>(
-			controlledValue ||
-				defaultValue ||
-				(configuration.multiple ? [] : '')
+		// Generate unique component ID for Redux state isolation
+		const uniqueId = useId();
+		const selectComponentId =
+			componentId || `select-${uniqueId}`;
+
+		// Redux state management
+		const dispatch = useDispatch();
+
+		// Initialize component state on mount
+		useEffect(() => {
+			dispatch(
+				setSelectState({
+					selectId: selectComponentId,
+					updates: {
+						internalValue:
+							controlledValue ||
+							defaultValue ||
+							(configuration.multiple ? [] : ''),
+						isOpen: false,
+						searchValue: '',
+						focusedIndex: -1,
+					},
+				})
+			);
+
+			// Cleanup on unmount
+			return () => {
+				dispatch(cleanupComponent(selectComponentId));
+			};
+		}, [
+			dispatch,
+			selectComponentId,
+			controlledValue,
+			defaultValue,
+			configuration.multiple,
+		]);
+
+		// Get state from Redux
+		const selectState = useSelector(
+			selectSelectState(selectComponentId)
 		);
-		const [isOpen, setIsOpen] = useState(false);
-		const [searchValue, setSearchValue] = useState('');
-		const [focusedIndex, setFocusedIndex] = useState(-1);
+
+		const internalValue =
+			selectState?.internalValue ||
+			(configuration.multiple ? [] : '');
+		const isOpen = selectState?.isOpen || false;
+		const searchValue = selectState?.searchValue || '';
+		const focusedIndex = selectState?.focusedIndex || -1;
 
 		const containerRef = useRef<HTMLDivElement>(null);
 		const inputRef = useRef<HTMLInputElement>(null);

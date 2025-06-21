@@ -1,14 +1,27 @@
-import React, { forwardRef, memo, useState } from 'react';
+import React, { forwardRef, memo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	ChartKind,
 	ChartConfiguration,
 	ChartDataSeries,
 	getChartConfig,
 } from './configurations';
+import {
+	initializeChart,
+	setChartSelectedSeries,
+	setChartSearchTerm,
+	toggleChartSeries,
+	selectAllChartSeries,
+	cleanupChart,
+	selectChartSelectedSeries,
+	selectChartSearchTerm,
+} from '../../store/slices/uiSlice';
+import { RootState } from '../../store';
 import styles from './Chart.module.scss';
 
 export interface UnifiedChartProps {
 	kind: ChartKind;
+	chartId: string; // Unique identifier for this chart instance
 	children?: React.ReactNode;
 	className?: string;
 
@@ -51,6 +64,7 @@ const UnifiedChart = forwardRef<
 >((props, ref) => {
 	const {
 		kind,
+		chartId,
 		children,
 		className,
 		dataSeries = [],
@@ -131,11 +145,34 @@ const UnifiedChart = forwardRef<
 		size: size || baseConfig.size,
 	};
 
-	// State Management
-	const [selectedSeries, setSelectedSeries] = useState<
-		string[]
-	>(dataSeries.filter((s) => s.visible).map((s) => s.id));
-	const [searchTerm, setSearchTerm] = useState('');
+	// Redux hooks
+	const dispatch = useDispatch();
+	const selectedSeries = useSelector(
+		selectChartSelectedSeries(chartId)
+	);
+	const searchTerm = useSelector(
+		selectChartSearchTerm(chartId)
+	);
+
+	// Initialize chart state on mount
+	useEffect(() => {
+		const initialSelectedSeries = dataSeries
+			.filter((s) => s.visible)
+			.map((s) => s.id);
+		dispatch(
+			initializeChart({
+				chartId,
+				selectedSeries: initialSelectedSeries,
+				isInteractive: config.interactive,
+				allowMultiSelect: config.allowMultiSelect,
+			})
+		);
+
+		// Cleanup on unmount
+		return () => {
+			dispatch(cleanupChart(chartId));
+		};
+	}, [chartId, dispatch]); // Note: config and dataSeries are derived from props, so we don't include them as dependencies
 
 	// Event Handlers
 	const handleSeriesToggle = (seriesId: string) => {
@@ -150,14 +187,21 @@ const UnifiedChart = forwardRef<
 		series.visible = newVisible;
 
 		if (config.allowMultiSelect) {
+			dispatch(toggleChartSeries({ chartId, seriesId }));
 			const newSelected =
 				newVisible ?
 					[...selectedSeries, seriesId]
-				:	selectedSeries.filter((id) => id !== seriesId);
-			setSelectedSeries(newSelected);
+				:	selectedSeries.filter(
+						(id: string) => id !== seriesId
+					);
 			onFilterChange?.(newSelected);
 		} else {
-			setSelectedSeries([seriesId]);
+			dispatch(
+				setChartSelectedSeries({
+					chartId,
+					selectedSeries: [seriesId],
+				})
+			);
 			onFilterChange?.([seriesId]);
 		}
 
@@ -169,7 +213,12 @@ const UnifiedChart = forwardRef<
 		dataSeries.forEach((s) => (s.visible = !allVisible));
 		const newSelected =
 			allVisible ? [] : dataSeries.map((s) => s.id);
-		setSelectedSeries(newSelected);
+		dispatch(
+			selectAllChartSeries({
+				chartId,
+				allSeriesIds: dataSeries.map((s) => s.id),
+			})
+		);
 		onFilterChange?.(newSelected);
 	};
 
@@ -236,7 +285,14 @@ const UnifiedChart = forwardRef<
 						type='text'
 						placeholder='Search...'
 						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
+						onChange={(e) =>
+							dispatch(
+								setChartSearchTerm({
+									chartId,
+									searchTerm: e.target.value,
+								})
+							)
+						}
 						className={styles.filter__search}
 					/>
 				)}

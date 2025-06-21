@@ -362,10 +362,10 @@ const UnifiedSettings = forwardRef<
 					return (
 						<div className={styles.customizationCategory}>
 							{items.length === 0 ?
-								<div className={styles.customizationEmptyMsg}>
-									No{' '}
-									{config?.customizationType ||
-										'items'}{' '}
+								<div
+									className={styles.customizationEmptyMsg}
+								>
+									No {config?.customizationType || 'items'}{' '}
 									unlocked yet.
 								</div>
 							:	<div className={styles.customizationGrid}>
@@ -384,7 +384,9 @@ const UnifiedSettings = forwardRef<
 					return (
 						<div>
 							{sections.length === 0 ?
-								<div className={styles.customizationEmptyMsg}>
+								<div
+									className={styles.customizationEmptyMsg}
+								>
 									No settings configured.
 								</div>
 							:	sections.map(renderSettingsSection)}
@@ -394,7 +396,9 @@ const UnifiedSettings = forwardRef<
 		};
 
 		// Map configuration variant to Settings component variant
-		const mapVariant = (configVariant: string | undefined) => {
+		const mapVariant = (
+			configVariant: string | undefined
+		) => {
 			switch (configVariant) {
 				case 'theme-customization':
 					return 'customization';
@@ -403,7 +407,13 @@ const UnifiedSettings = forwardRef<
 				case 'user-preferences':
 					return 'user-preferences';
 				default:
-					return configVariant as 'panel' | 'customization' | 'user-preferences' | 'theme-selector' | 'accessibility' | 'privacy';
+					return configVariant as
+						| 'panel'
+						| 'customization'
+						| 'user-preferences'
+						| 'theme-selector'
+						| 'accessibility'
+						| 'privacy';
 			}
 		};
 

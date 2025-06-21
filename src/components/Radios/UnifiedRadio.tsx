@@ -1,16 +1,20 @@
-import React, {
-	forwardRef,
-	useState,
-	useEffect,
-} from 'react';
+import React, { forwardRef, useEffect, useId } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import {
 	RadioConfiguration,
 	RadioOption,
 } from './configurations';
+import {
+	setRadioState,
+	cleanupComponent,
+	selectRadioState,
+} from '../../store/slices/uiSlice';
+import type { RootState } from '../../store';
 import styles from './Radio.module.scss';
 
 export interface UnifiedRadioProps {
+	componentId?: string; // For Redux state identification
 	name: string;
 	options: RadioOption[];
 	value?: string;
@@ -37,6 +41,7 @@ export const UnifiedRadio = forwardRef<
 >(
 	(
 		{
+			componentId,
 			name,
 			options,
 			value: controlledValue,
@@ -53,9 +58,42 @@ export const UnifiedRadio = forwardRef<
 		},
 		ref
 	) => {
-		const [internalValue, setInternalValue] = useState<
-			string | undefined
-		>(controlledValue || defaultValue);
+		// Generate unique component ID for Redux state isolation
+		const uniqueId = useId();
+		const radioComponentId =
+			componentId || `radio-${uniqueId}`;
+
+		// Redux state management
+		const dispatch = useDispatch();
+
+		// Initialize component state on mount
+		useEffect(() => {
+			dispatch(
+				setRadioState({
+					radioId: radioComponentId,
+					updates: {
+						internalValue: controlledValue || defaultValue,
+					},
+				})
+			);
+
+			// Cleanup on unmount
+			return () => {
+				dispatch(cleanupComponent(radioComponentId));
+			};
+		}, [
+			dispatch,
+			radioComponentId,
+			controlledValue,
+			defaultValue,
+		]);
+
+		// Get state from Redux
+		const radioState = useSelector(
+			selectRadioState(radioComponentId)
+		);
+
+		const internalValue = radioState?.internalValue;
 
 		const isControlled = controlledValue !== undefined;
 		const currentValue =
@@ -63,9 +101,19 @@ export const UnifiedRadio = forwardRef<
 
 		useEffect(() => {
 			if (isControlled) {
-				setInternalValue(controlledValue);
+				dispatch(
+					setRadioState({
+						radioId: radioComponentId,
+						updates: { internalValue: controlledValue },
+					})
+				);
 			}
-		}, [controlledValue, isControlled]);
+		}, [
+			controlledValue,
+			isControlled,
+			dispatch,
+			radioComponentId,
+		]);
 
 		const handleChange = (optionValue: string) => {
 			if (disabled) return;
@@ -80,7 +128,12 @@ export const UnifiedRadio = forwardRef<
 				:	optionValue;
 
 			if (!isControlled) {
-				setInternalValue(newValue);
+				dispatch(
+					setRadioState({
+						radioId: radioComponentId,
+						updates: { internalValue: newValue },
+					})
+				);
 			}
 
 			onChange?.(newValue || '');

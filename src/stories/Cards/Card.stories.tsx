@@ -42,7 +42,8 @@ const meta: Meta<typeof UnifiedCard> = {
 				'match-summary',
 				'user-status',
 			],
-			description: 'Card kind - determines styling and behavior',
+			description:
+				'Card kind - determines styling and behavior',
 		},
 		title: {
 			control: 'text',
@@ -85,17 +86,20 @@ const meta: Meta<typeof UnifiedCard> = {
 		},
 		onMessage: {
 			action: 'messageClicked',
-			description: 'Function called when message button is clicked',
+			description:
+				'Function called when message button is clicked',
 			if: { arg: 'kind', eq: 'friend' },
 		},
 		onChallenge: {
 			action: 'challengeClicked',
-			description: 'Function called when challenge button is clicked',
+			description:
+				'Function called when challenge button is clicked',
 			if: { arg: 'kind', eq: 'friend' },
 		},
 		onRemove: {
 			action: 'removeClicked',
-			description: 'Function called when remove button is clicked',
+			description:
+				'Function called when remove button is clicked',
 			if: { arg: 'kind', eq: 'friend' },
 		},
 		unreadCount: {
@@ -126,7 +130,8 @@ const meta: Meta<typeof UnifiedCard> = {
 		},
 		actions: {
 			control: 'object',
-			description: 'Action buttons/elements for the card footer',
+			description:
+				'Action buttons/elements for the card footer',
 		},
 		overrideConfig: {
 			control: 'object',
@@ -152,7 +157,8 @@ export const DefaultCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Basic card with standard styling, no shadows or borders.',
+				story:
+					'Basic card with standard styling, no shadows or borders.',
 			},
 		},
 	},
@@ -169,7 +175,8 @@ export const ElevatedCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Card with shadow elevation for depth and emphasis.',
+				story:
+					'Card with shadow elevation for depth and emphasis.',
 			},
 		},
 	},
@@ -186,7 +193,8 @@ export const OutlinedCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Card with border outline for clean, minimal appearance.',
+				story:
+					'Card with border outline for clean, minimal appearance.',
 			},
 		},
 	},
@@ -203,7 +211,8 @@ export const FilledCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Card with background fill for visual grouping.',
+				story:
+					'Card with background fill for visual grouping.',
 			},
 		},
 	},
@@ -224,15 +233,19 @@ export const FriendCard: Story = {
 			inMatch: false,
 			idle: false,
 		},
-		onChallenge: (id: string) => console.log('Challenge friend:', id),
-		onMessage: (id: string) => console.log('Message friend:', id),
-		onRemove: (id: string) => console.log('Remove friend:', id),
+		onChallenge: (id: string) =>
+			console.log('Challenge friend:', id),
+		onMessage: (id: string) =>
+			console.log('Message friend:', id),
+		onRemove: (id: string) =>
+			console.log('Remove friend:', id),
 		unreadCount: 3,
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'Friend card with status, actions, and unread message count.',
+				story:
+					'Friend card with status, actions, and unread message count.',
 			},
 		},
 	},
@@ -250,9 +263,12 @@ export const FriendCardInMatch: Story = {
 			inMatch: true,
 			idle: false,
 		},
-		onChallenge: (id: string) => console.log('Challenge friend:', id),
-		onMessage: (id: string) => console.log('Message friend:', id),
-		onRemove: (id: string) => console.log('Remove friend:', id),
+		onChallenge: (id: string) =>
+			console.log('Challenge friend:', id),
+		onMessage: (id: string) =>
+			console.log('Message friend:', id),
+		onRemove: (id: string) =>
+			console.log('Remove friend:', id),
 		unreadCount: 0,
 	},
 	parameters: {
@@ -276,9 +292,12 @@ export const FriendCardOffline: Story = {
 			inMatch: false,
 			idle: false,
 		},
-		onChallenge: (id: string) => console.log('Challenge friend:', id),
-		onMessage: (id: string) => console.log('Message friend:', id),
-		onRemove: (id: string) => console.log('Remove friend:', id),
+		onChallenge: (id: string) =>
+			console.log('Challenge friend:', id),
+		onMessage: (id: string) =>
+			console.log('Message friend:', id),
+		onRemove: (id: string) =>
+			console.log('Remove friend:', id),
 		unreadCount: 1,
 	},
 	parameters: {
@@ -392,12 +411,14 @@ export const StatsCard: Story = {
 		title: 'Win Rate',
 		statValue: '87%',
 		statLabel: 'Overall Performance',
-		content: 'Your win rate has improved by 15% this month.',
+		content:
+			'Your win rate has improved by 15% this month.',
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'Statistics card with main value and performance data.',
+				story:
+					'Statistics card with main value and performance data.',
 			},
 		},
 	},
@@ -409,7 +430,13 @@ export const UserStatusOnline: Story = {
 		title: 'Currently Online',
 		subtitle: 'Available for challenges',
 		content: (
-			<div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					gap: '0.75rem',
+				}}
+			>
 				<div
 					style={{
 						width: '12px',
@@ -425,7 +452,8 @@ export const UserStatusOnline: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'User status card showing online availability.',
+				story:
+					'User status card showing online availability.',
 			},
 		},
 	},
@@ -441,19 +469,46 @@ export const GameCard: Story = {
 		subtitle: 'Word Connections Pro',
 		content: (
 			<div>
-				<p style={{ margin: '0.5rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+				<p
+					style={{
+						margin: '0.5rem 0',
+						display: 'flex',
+						alignItems: 'center',
+						gap: '0.5rem',
+					}}
+				>
 					🎯 <span>Difficulty: Hard</span>
 				</p>
-				<p style={{ margin: '0.5rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+				<p
+					style={{
+						margin: '0.5rem 0',
+						display: 'flex',
+						alignItems: 'center',
+						gap: '0.5rem',
+					}}
+				>
 					⏰ <span>Time Limit: 5 minutes</span>
 				</p>
-				<p style={{ margin: '0.5rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+				<p
+					style={{
+						margin: '0.5rem 0',
+						display: 'flex',
+						alignItems: 'center',
+						gap: '0.5rem',
+					}}
+				>
 					🏆 <span>Reward: 250 XP</span>
 				</p>
 			</div>
 		),
 		actions: (
-			<div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+			<div
+				style={{
+					display: 'flex',
+					gap: '0.5rem',
+					marginTop: '1rem',
+				}}
+			>
 				<button
 					style={{
 						padding: '0.5rem 1rem',
@@ -485,7 +540,8 @@ export const GameCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Game card with challenge details and action buttons.',
+				story:
+					'Game card with challenge details and action buttons.',
 			},
 		},
 	},
@@ -498,16 +554,40 @@ export const PuzzleCard: Story = {
 		subtitle: 'Science & Nature Theme',
 		content: (
 			<div>
-				<div style={{ display: 'flex', justifyContent: 'space-between', margin: '0.5rem 0' }}>
-					<span><strong>Difficulty:</strong></span>
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						margin: '0.5rem 0',
+					}}
+				>
+					<span>
+						<strong>Difficulty:</strong>
+					</span>
 					<span>⭐⭐⭐⭐⭐</span>
 				</div>
-				<div style={{ display: 'flex', justifyContent: 'space-between', margin: '0.5rem 0' }}>
-					<span><strong>Solved by:</strong></span>
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						margin: '0.5rem 0',
+					}}
+				>
+					<span>
+						<strong>Solved by:</strong>
+					</span>
 					<span>1,247 players</span>
 				</div>
-				<div style={{ display: 'flex', justifyContent: 'space-between', margin: '0.5rem 0' }}>
-					<span><strong>Average time:</strong></span>
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						margin: '0.5rem 0',
+					}}
+				>
+					<span>
+						<strong>Average time:</strong>
+					</span>
 					<span>3:24</span>
 				</div>
 			</div>
@@ -516,7 +596,8 @@ export const PuzzleCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Puzzle card with difficulty and completion stats.',
+				story:
+					'Puzzle card with difficulty and completion stats.',
 			},
 		},
 	},
@@ -531,7 +612,8 @@ export const AchievementCard: Story = {
 			<div>
 				<div
 					style={{
-						background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+						background:
+							'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
 						color: 'white',
 						padding: '1rem',
 						borderRadius: '0.5rem',
@@ -539,14 +621,30 @@ export const AchievementCard: Story = {
 						marginBottom: '1rem',
 					}}
 				>
-					<div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Progress: 7/10</div>
-					<div style={{ fontSize: '0.9rem' }}>3 more to unlock!</div>
+					<div
+						style={{
+							fontSize: '1.2rem',
+							fontWeight: 'bold',
+						}}
+					>
+						Progress: 7/10
+					</div>
+					<div style={{ fontSize: '0.9rem' }}>
+						3 more to unlock!
+					</div>
 				</div>
 				<div style={{ marginBottom: '1rem' }}>
-					<div style={{ background: '#e9ecef', borderRadius: '1rem', height: '8px' }}>
+					<div
+						style={{
+							background: '#e9ecef',
+							borderRadius: '1rem',
+							height: '8px',
+						}}
+					>
 						<div
 							style={{
-								background: 'linear-gradient(90deg, #667eea, #764ba2)',
+								background:
+									'linear-gradient(90deg, #667eea, #764ba2)',
 								borderRadius: '1rem',
 								height: '8px',
 								width: '70%',
@@ -575,26 +673,56 @@ export const MatchSummaryCard: Story = {
 			<div>
 				<div
 					style={{
-						background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
+						background:
+							'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
 						padding: '1rem',
 						borderRadius: '0.5rem',
 						marginBottom: '1rem',
 						textAlign: 'center',
 					}}
 				>
-					<div style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>+847 XP</div>
-					<div style={{ fontSize: '0.9rem' }}>+125 bonus points</div>
+					<div
+						style={{
+							fontSize: '1.1rem',
+							fontWeight: 'bold',
+						}}
+					>
+						+847 XP
+					</div>
+					<div style={{ fontSize: '0.9rem' }}>
+						+125 bonus points
+					</div>
 				</div>
-				<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-					<div><strong>Duration:</strong> 4:23</div>
-					<div><strong>Accuracy:</strong> 94%</div>
-					<div><strong>Words found:</strong> 47/50</div>
-					<div><strong>Rank:</strong> 3rd</div>
+				<div
+					style={{
+						display: 'grid',
+						gridTemplateColumns: '1fr 1fr',
+						gap: '0.5rem',
+					}}
+				>
+					<div>
+						<strong>Duration:</strong> 4:23
+					</div>
+					<div>
+						<strong>Accuracy:</strong> 94%
+					</div>
+					<div>
+						<strong>Words found:</strong> 47/50
+					</div>
+					<div>
+						<strong>Rank:</strong> 3rd
+					</div>
 				</div>
 			</div>
 		),
 		actions: (
-			<div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+			<div
+				style={{
+					display: 'flex',
+					gap: '0.5rem',
+					marginTop: '1rem',
+				}}
+			>
 				<button
 					style={{
 						padding: '0.5rem 1rem',
@@ -626,7 +754,8 @@ export const MatchSummaryCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Match summary card with results and actions.',
+				story:
+					'Match summary card with results and actions.',
 			},
 		},
 	},
@@ -647,23 +776,52 @@ export const RoomInfoCard: Story = {
 						marginBottom: '1rem',
 					}}
 				>
-					<div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-						<span><strong>Players:</strong></span>
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							marginBottom: '0.5rem',
+						}}
+					>
+						<span>
+							<strong>Players:</strong>
+						</span>
 						<span>3/4</span>
 					</div>
-					<div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-						<span><strong>Difficulty:</strong></span>
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							marginBottom: '0.5rem',
+						}}
+					>
+						<span>
+							<strong>Difficulty:</strong>
+						</span>
 						<span>Expert</span>
 					</div>
-					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-						<span><strong>Time limit:</strong></span>
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'space-between',
+						}}
+					>
+						<span>
+							<strong>Time limit:</strong>
+						</span>
 						<span>3 minutes</span>
 					</div>
 				</div>
 			</div>
 		),
 		actions: (
-			<div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+			<div
+				style={{
+					display: 'flex',
+					gap: '0.5rem',
+					marginTop: '1rem',
+				}}
+			>
 				<button
 					style={{
 						padding: '0.5rem 1rem',
@@ -696,7 +854,8 @@ export const RoomInfoCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Game room information card with player status.',
+				story:
+					'Game room information card with player status.',
 			},
 		},
 	},
@@ -713,13 +872,26 @@ export const ChatPreviewCard: Story = {
 		content: (
 			<div>
 				<div style={{ marginBottom: '0.75rem' }}>
-					<div style={{ fontSize: '0.85rem', marginBottom: '0.25rem' }}>
-						<strong>Sarah:</strong> Anyone ready for the next challenge?
+					<div
+						style={{
+							fontSize: '0.85rem',
+							marginBottom: '0.25rem',
+						}}
+					>
+						<strong>Sarah:</strong> Anyone ready for the
+						next challenge?
 					</div>
-					<div style={{ fontSize: '0.85rem', marginBottom: '0.25rem' }}>
+					<div
+						style={{
+							fontSize: '0.85rem',
+							marginBottom: '0.25rem',
+						}}
+					>
 						<strong>Mike:</strong> Let's do this! 🔥
 					</div>
-					<div style={{ fontSize: '0.85rem', color: '#666' }}>
+					<div
+						style={{ fontSize: '0.85rem', color: '#666' }}
+					>
 						<strong>Alex:</strong> I'm in!
 					</div>
 				</div>
@@ -771,7 +943,8 @@ export const ChatPreviewCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Chat preview card with recent messages and actions.',
+				story:
+					'Chat preview card with recent messages and actions.',
 			},
 		},
 	},
@@ -785,7 +958,8 @@ export const ClickableCard: Story = {
 		kind: 'default',
 		title: 'Clickable Card',
 		subtitle: 'Interactive card with click handlers',
-		content: 'This card responds to clicks and shows hover effects. Click me to see the interaction!',
+		content:
+			'This card responds to clicks and shows hover effects. Click me to see the interaction!',
 		clickable: true,
 		hover: true,
 		onClick: () => alert('Card clicked!'),
@@ -793,7 +967,8 @@ export const ClickableCard: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Interactive card with click and hover effects.',
+				story:
+					'Interactive card with click and hover effects.',
 			},
 		},
 	},
@@ -804,9 +979,16 @@ export const ActionCard: Story = {
 		kind: 'elevated',
 		title: 'Card with Actions',
 		subtitle: 'Interactive card with action buttons',
-		content: 'This card includes action buttons in the footer area for user interactions.',
+		content:
+			'This card includes action buttons in the footer area for user interactions.',
 		actions: (
-			<div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+			<div
+				style={{
+					display: 'flex',
+					gap: '0.5rem',
+					justifyContent: 'flex-end',
+				}}
+			>
 				<button
 					style={{
 						padding: '0.5rem 1rem',
@@ -850,7 +1032,8 @@ export const SmallCard: Story = {
 		kind: 'elevated',
 		title: 'Small Card',
 		subtitle: 'Compact size variant',
-		content: 'This is a small card with reduced padding and border radius.',
+		content:
+			'This is a small card with reduced padding and border radius.',
 		size: 'small',
 		padding: 'small',
 	},
@@ -868,7 +1051,8 @@ export const LargeCard: Story = {
 		kind: 'elevated',
 		title: 'Large Card',
 		subtitle: 'Spacious size variant',
-		content: 'This is a large card with increased padding and border radius. Perfect for featured content or when you need more space for complex layouts.',
+		content:
+			'This is a large card with increased padding and border radius. Perfect for featured content or when you need more space for complex layouts.',
 		size: 'large',
 		padding: 'large',
 	},
@@ -887,16 +1071,20 @@ export const LargeCard: Story = {
 export const FactoryExample: Story = {
 	render: () => (
 		<div style={{ padding: '1rem' }}>
-			<h3 style={{ marginBottom: '1.5rem' }}>CardFactory System</h3>
+			<h3 style={{ marginBottom: '1.5rem' }}>
+				CardFactory System
+			</h3>
 			<p style={{ marginBottom: '1.5rem', color: '#666' }}>
-				Examples of creating cards using the factory system for rapid development.
+				Examples of creating cards using the factory system
+				for rapid development.
 			</p>
-			
+
 			<div
 				style={{
 					display: 'grid',
 					gap: '1rem',
-					gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+					gridTemplateColumns:
+						'repeat(auto-fit, minmax(300px, 1fr))',
 				}}
 			>
 				<CardFactory
@@ -930,7 +1118,8 @@ export const FactoryExample: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Examples using CardFactory for quick card creation.',
+				story:
+					'Examples using CardFactory for quick card creation.',
 			},
 		},
 	},
@@ -939,7 +1128,9 @@ export const FactoryExample: Story = {
 export const CardPresetsDemo: Story = {
 	render: () => (
 		<div style={{ padding: '1rem' }}>
-			<h3 style={{ marginBottom: '1.5rem' }}>CardPresets - Pre-configured Cards</h3>
+			<h3 style={{ marginBottom: '1.5rem' }}>
+				CardPresets - Pre-configured Cards
+			</h3>
 			<p style={{ marginBottom: '1.5rem', color: '#666' }}>
 				Ready-to-use card components for common use cases.
 			</p>
@@ -948,7 +1139,8 @@ export const CardPresetsDemo: Story = {
 				style={{
 					display: 'grid',
 					gap: '1rem',
-					gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+					gridTemplateColumns:
+						'repeat(auto-fit, minmax(300px, 1fr))',
 				}}
 			>
 				<div>
@@ -993,7 +1185,8 @@ export const CardPresetsDemo: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Pre-configured card presets for common patterns.',
+				story:
+					'Pre-configured card presets for common patterns.',
 			},
 		},
 	},
@@ -1024,7 +1217,8 @@ export const AllCardKinds: Story = {
 			<div
 				style={{
 					display: 'grid',
-					gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+					gridTemplateColumns:
+						'repeat(auto-fit, minmax(280px, 1fr))',
 					gap: '1rem',
 					padding: '1rem',
 				}}
@@ -1033,7 +1227,9 @@ export const AllCardKinds: Story = {
 					<UnifiedCard
 						key={kind}
 						kind={kind as any}
-						title={kind.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+						title={kind
+							.replace('-', ' ')
+							.replace(/\b\w/g, (l) => l.toUpperCase())}
 						subtitle={`${kind} card example`}
 						content={`This is a ${kind} card showing the unified system.`}
 						{...(kind === 'friend' && {
@@ -1062,7 +1258,8 @@ export const AllCardKinds: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Showcase of all available card kinds in the UnifiedCard system.',
+				story:
+					'Showcase of all available card kinds in the UnifiedCard system.',
 			},
 		},
 	},
@@ -1072,18 +1269,52 @@ export const CardGroupShowcase: Story = {
 	render: () => (
 		<div style={{ padding: '1rem' }}>
 			<div style={{ marginBottom: '2rem' }}>
-				<h3 style={{ marginBottom: '1rem' }}>Layout Cards</h3>
-				<div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
-					<UnifiedCard kind='default' title='Default' content='Basic card styling' />
-					<UnifiedCard kind='elevated' title='Elevated' content='Card with shadow' />
-					<UnifiedCard kind='outlined' title='Outlined' content='Card with border' />
-					<UnifiedCard kind='filled' title='Filled' content='Card with background' />
+				<h3 style={{ marginBottom: '1rem' }}>
+					Layout Cards
+				</h3>
+				<div
+					style={{
+						display: 'grid',
+						gap: '1rem',
+						gridTemplateColumns:
+							'repeat(auto-fit, minmax(250px, 1fr))',
+					}}
+				>
+					<UnifiedCard
+						kind='default'
+						title='Default'
+						content='Basic card styling'
+					/>
+					<UnifiedCard
+						kind='elevated'
+						title='Elevated'
+						content='Card with shadow'
+					/>
+					<UnifiedCard
+						kind='outlined'
+						title='Outlined'
+						content='Card with border'
+					/>
+					<UnifiedCard
+						kind='filled'
+						title='Filled'
+						content='Card with background'
+					/>
 				</div>
 			</div>
 
 			<div style={{ marginBottom: '2rem' }}>
-				<h3 style={{ marginBottom: '1rem' }}>User Interface Cards</h3>
-				<div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+				<h3 style={{ marginBottom: '1rem' }}>
+					User Interface Cards
+				</h3>
+				<div
+					style={{
+						display: 'grid',
+						gap: '1rem',
+						gridTemplateColumns:
+							'repeat(auto-fit, minmax(300px, 1fr))',
+					}}
+				>
 					<UnifiedCard
 						kind='friend'
 						friend={{
@@ -1113,10 +1344,29 @@ export const CardGroupShowcase: Story = {
 
 			<div>
 				<h3 style={{ marginBottom: '1rem' }}>Game Cards</h3>
-				<div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
-					<UnifiedCard kind='game' title='Daily Challenge' content='Complete today&apos;s puzzle' />
-					<UnifiedCard kind='achievement' title='🏆 Champion' content='Win 10 matches in a row' />
-					<UnifiedCard kind='puzzle' title='Puzzle #42' content='Medium difficulty challenge' />
+				<div
+					style={{
+						display: 'grid',
+						gap: '1rem',
+						gridTemplateColumns:
+							'repeat(auto-fit, minmax(300px, 1fr))',
+					}}
+				>
+					<UnifiedCard
+						kind='game'
+						title='Daily Challenge'
+						content="Complete today's puzzle"
+					/>
+					<UnifiedCard
+						kind='achievement'
+						title='🏆 Champion'
+						content='Win 10 matches in a row'
+					/>
+					<UnifiedCard
+						kind='puzzle'
+						title='Puzzle #42'
+						content='Medium difficulty challenge'
+					/>
 				</div>
 			</div>
 		</div>
@@ -1124,7 +1374,8 @@ export const CardGroupShowcase: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Organized showcase of card groups: Layout, UI, and Game cards.',
+				story:
+					'Organized showcase of card groups: Layout, UI, and Game cards.',
 			},
 		},
 	},

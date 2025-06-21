@@ -1,6 +1,6 @@
 import React from 'react';
 import Admin from './Admin';
-import AdminBodyFactory from './AdminBodyFactory';
+import { AdminBodyFactory } from './factory';
 import { ADMIN_CONFIGURATIONS } from './configurations';
 import type {
 	AdminKind,
@@ -10,6 +10,7 @@ import type {
 export interface UnifiedAdminProps
 	extends AdminConfiguration {
 	kind: AdminKind;
+	componentId?: string; // For identifying this instance in Redux
 	children?: React.ReactNode;
 	[key: string]: any;
 }
@@ -22,6 +23,7 @@ export interface UnifiedAdminProps
  */
 const UnifiedAdmin: React.FC<UnifiedAdminProps> = ({
 	kind,
+	componentId,
 	children,
 	...props
 }) => {
@@ -38,7 +40,11 @@ const UnifiedAdmin: React.FC<UnifiedAdminProps> = ({
 	return (
 		<Admin {...finalConfig}>
 			{children || (
-				<AdminBodyFactory kind={kind} {...props} />
+				<AdminBodyFactory
+					kind={kind}
+					componentId={componentId}
+					{...props}
+				/>
 			)}
 		</Admin>
 	);

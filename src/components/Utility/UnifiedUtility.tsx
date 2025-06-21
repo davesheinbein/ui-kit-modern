@@ -1,22 +1,30 @@
 import React, {
 	forwardRef,
 	memo,
-	useState,
 	useRef,
 	useEffect,
+	useId,
 } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
 	UtilityKind,
 	UtilityConfiguration,
 	UtilityAction,
 	getUtilityConfig,
 } from './configurations';
+import {
+	setComponentState,
+	cleanupComponent,
+	selectComponentState,
+} from '../../store/slices/uiSlice';
+import type { RootState } from '../../store';
 import styles from './Utility.module.scss';
 
 export interface UnifiedUtilityProps {
 	kind: UtilityKind;
 	children?: React.ReactNode;
 	className?: string;
+	componentId?: string;
 
 	// Content overrides
 	label?: string;
@@ -67,6 +75,7 @@ const UnifiedUtility = forwardRef<
 			kind,
 			children,
 			className = '',
+			componentId,
 			label,
 			description,
 			icon,
@@ -97,10 +106,49 @@ const UnifiedUtility = forwardRef<
 		ref
 	) => {
 		const config = getUtilityConfig(kind);
-		const [isVisible, setIsVisible] = useState(false);
-		const [hoverTimeout, setHoverTimeout] = useState<
-			number | null
-		>(null);
+
+		// Generate unique component ID for Redux state isolation
+		const uniqueId = useId();
+		const utilityComponentId =
+			componentId || `utility-${uniqueId}`;
+
+		// Redux state management
+		const dispatch = useDispatch();
+
+		// Initialize component state on mount
+		useEffect(() => {
+			dispatch(
+				setComponentState({
+					componentId: utilityComponentId,
+					updates: {
+						isLoading: false,
+						isVisible: false,
+						isExpanded: false,
+						isDragging: false,
+						isHovered: false,
+						isFocused: false,
+						error: null,
+						data: null,
+					},
+				})
+			);
+
+			// Cleanup on unmount
+			return () => {
+				dispatch(cleanupComponent(utilityComponentId));
+			};
+		}, [dispatch, utilityComponentId]);
+
+		// Get state from Redux
+		const componentState = useSelector(
+			selectComponentState(utilityComponentId)
+		);
+
+		const isVisible = componentState?.isVisible || false;
+		const isHovered = componentState?.isHovered || false;
+
+		// Handle hover timeout locally (since it's ephemeral)
+		const hoverTimeoutRef = useRef<number | null>(null);
 		const containerRef = useRef<HTMLDivElement>(null);
 
 		// Merge configuration with props
@@ -150,30 +198,52 @@ const UnifiedUtility = forwardRef<
 		// Handle tooltip/popover visibility
 		const handleMouseEnter = () => {
 			if (finalConfig.trigger === 'hover') {
-				if (hoverTimeout) clearTimeout(hoverTimeout);
+				if (hoverTimeoutRef.current)
+					clearTimeout(hoverTimeoutRef.current);
 				const timeout = setTimeout(() => {
-					setIsVisible(true);
+					dispatch(
+						setComponentState({
+							componentId: utilityComponentId,
+							updates: { isVisible: true },
+						})
+					);
 				}, finalConfig.delay || 0);
-				setHoverTimeout(timeout);
+				hoverTimeoutRef.current = timeout;
 			}
 		};
 
 		const handleMouseLeave = () => {
 			if (finalConfig.trigger === 'hover') {
-				if (hoverTimeout) clearTimeout(hoverTimeout);
-				setIsVisible(false);
+				if (hoverTimeoutRef.current)
+					clearTimeout(hoverTimeoutRef.current);
+				dispatch(
+					setComponentState({
+						componentId: utilityComponentId,
+						updates: { isVisible: false },
+					})
+				);
 			}
 		};
 
 		const handleClick = () => {
 			if (finalConfig.trigger === 'click') {
-				setIsVisible(!isVisible);
+				dispatch(
+					setComponentState({
+						componentId: utilityComponentId,
+						updates: { isVisible: !isVisible },
+					})
+				);
 			}
 			onClick?.();
 		};
 
 		const handleDismiss = () => {
-			setIsVisible(false);
+			dispatch(
+				setComponentState({
+					componentId: utilityComponentId,
+					updates: { isVisible: false },
+				})
+			);
 			onDismiss?.();
 		};
 

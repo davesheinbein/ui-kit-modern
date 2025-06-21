@@ -4,7 +4,11 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	font-family: var(--font-family-primary, 'Inter', sans-serif);
+	font-family: var(
+		--font-family-primary,
+		'Inter',
+		sans-serif
+	);
 }
 
 /* =============================================================================
@@ -24,9 +28,11 @@
 }
 
 .gradient {
-	background: linear-gradient(135deg, 
-		var(--color-primary-500, #3b82f6) 0%, 
-		var(--color-primary-600, #2563eb) 100%);
+	background: linear-gradient(
+		135deg,
+		var(--color-primary-500, #3b82f6) 0%,
+		var(--color-primary-600, #2563eb) 100%
+	);
 	color: white;
 	border: none;
 }
@@ -57,20 +63,38 @@
    BORDER RADIUS VARIATIONS
    ============================================================================= */
 
-.borderRadiusNone { border-radius: 0; }
-.borderRadiusSmall { border-radius: 0.25rem; }
-.borderRadiusMedium { border-radius: 0.5rem; }
-.borderRadiusLarge { border-radius: 1rem; }
-.borderRadiusRound { border-radius: 9999px; }
+.borderRadiusNone {
+	border-radius: 0;
+}
+.borderRadiusSmall {
+	border-radius: 0.25rem;
+}
+.borderRadiusMedium {
+	border-radius: 0.5rem;
+}
+.borderRadiusLarge {
+	border-radius: 1rem;
+}
+.borderRadiusRound {
+	border-radius: 9999px;
+}
 
 /* =============================================================================
    SHADOW VARIATIONS
    ============================================================================= */
 
-.shadowNone { box-shadow: none; }
-.shadowSmall { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
-.shadowMedium { box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-.shadowLarge { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); }
+.shadowNone {
+	box-shadow: none;
+}
+.shadowSmall {
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.shadowMedium {
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.shadowLarge {
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
 
 /* =============================================================================
    COLOR VARIATIONS
@@ -130,7 +154,11 @@
 	left: -2px;
 	right: -2px;
 	bottom: -2px;
-	background: linear-gradient(45deg, var(--accent-color), transparent);
+	background: linear-gradient(
+		45deg,
+		var(--accent-color),
+		transparent
+	);
 	border-radius: inherit;
 	z-index: -1;
 	opacity: 0.1;
@@ -145,8 +173,13 @@
 }
 
 @keyframes pulse {
-	0%, 100% { opacity: 1; }
-	50% { opacity: 0.8; }
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.8;
+	}
 }
 
 .bounce {
@@ -154,9 +187,19 @@
 }
 
 @keyframes bounce {
-	0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-	40% { transform: translateY(-5px); }
-	60% { transform: translateY(-3px); }
+	0%,
+	20%,
+	50%,
+	80%,
+	100% {
+		transform: translateY(0);
+	}
+	40% {
+		transform: translateY(-5px);
+	}
+	60% {
+		transform: translateY(-3px);
+	}
 }
 
 .subtle {
@@ -164,8 +207,13 @@
 }
 
 @keyframes subtle {
-	0%, 100% { transform: scale(1); }
-	50% { transform: scale(1.02); }
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.02);
+	}
 }
 
 /* =============================================================================
@@ -241,7 +289,8 @@
 	display: flex;
 	align-items: center;
 	padding: 0.5rem 0;
-	border-bottom: 1px solid var(--color-border-primary, #e5e5e5);
+	border-bottom: 1px solid
+		var(--color-border-primary, #e5e5e5);
 }
 
 .pricingFeature:last-child {
@@ -366,7 +415,10 @@
 
 .paymentMethods {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(120px, 1fr)
+	);
 	gap: 0.75rem;
 }
 
@@ -445,7 +497,8 @@
 }
 
 .comparisonRow {
-	border-bottom: 1px solid var(--color-border-primary, #e5e5e5);
+	border-bottom: 1px solid
+		var(--color-border-primary, #e5e5e5);
 }
 
 .comparisonRow:nth-child(even) {
@@ -482,20 +535,20 @@
 		padding: 1rem;
 		font-size: 0.875rem;
 	}
-	
+
 	.large {
 		padding: 1.25rem;
 		font-size: 1rem;
 	}
-	
+
 	.pricingAmount {
 		font-size: 2.5rem;
 	}
-	
+
 	.paymentMethods {
 		grid-template-columns: 1fr;
 	}
-	
+
 	.paymentActions {
 		flex-direction: column;
 	}
@@ -531,5 +584,7 @@
 }
 
 @keyframes spin {
-	to { transform: rotate(360deg); }
+	to {
+		transform: rotate(360deg);
+	}
 }

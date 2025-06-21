@@ -611,13 +611,22 @@ export const AllCheckboxTypes: Story = {
 				style={{
 					display: 'grid',
 					gap: '2rem',
-					gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+					gridTemplateColumns:
+						'repeat(auto-fit, minmax(300px, 1fr))',
 					padding: '1rem',
 				}}
 			>
 				<div>
-					<h4 style={{ marginBottom: '1rem' }}>Standard Checkbox</h4>
-					<div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+					<h4 style={{ marginBottom: '1rem' }}>
+						Standard Checkbox
+					</h4>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '0.5rem',
+						}}
+					>
 						<CheckboxFactory
 							kind='checkbox'
 							label='Basic checkbox'
@@ -638,8 +647,16 @@ export const AllCheckboxTypes: Story = {
 				</div>
 
 				<div>
-					<h4 style={{ marginBottom: '1rem' }}>Toggle Switch</h4>
-					<div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+					<h4 style={{ marginBottom: '1rem' }}>
+						Toggle Switch
+					</h4>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '0.5rem',
+						}}
+					>
 						<CheckboxFactory
 							kind='toggle'
 							label='Toggle control'
@@ -662,7 +679,13 @@ export const AllCheckboxTypes: Story = {
 
 				<div>
 					<h4 style={{ marginBottom: '1rem' }}>Switch</h4>
-					<div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '0.5rem',
+						}}
+					>
 						<CheckboxFactory
 							kind='switch'
 							label='Switch control'
@@ -684,8 +707,16 @@ export const AllCheckboxTypes: Story = {
 				</div>
 
 				<div>
-					<h4 style={{ marginBottom: '1rem' }}>Dark Mode Toggle</h4>
-					<div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+					<h4 style={{ marginBottom: '1rem' }}>
+						Dark Mode Toggle
+					</h4>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '0.5rem',
+						}}
+					>
 						<CheckboxFactory
 							kind='dark-mode-toggle'
 							darkModeContext={true}
@@ -695,7 +726,13 @@ export const AllCheckboxTypes: Story = {
 							size='large'
 							darkModeContext={true}
 						/>
-						<div style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}>
+						<div
+							style={{
+								fontSize: '0.9rem',
+								color: '#666',
+								marginTop: '0.5rem',
+							}}
+						>
 							Integrated with ThemePaletteProvider
 						</div>
 					</div>

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import Banner from './Banner';
-import BannerBodyFactory from './BannerBodyFactory';
+import { BannerBodyFactory } from './factory';
 import {
 	BannerKind,
 	BANNER_CONFIGURATIONS,

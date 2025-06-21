@@ -1,13 +1,20 @@
 import React, {
 	forwardRef,
-	useState,
 	useCallback,
+	useEffect,
 } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { RangeConfiguration } from './configurations';
 import './Range.module.scss';
+import {
+	setRangeState,
+	selectRangeState,
+	cleanupComponent,
+} from '../../store/slices/uiSlice';
 
 export interface UnifiedRangeProps {
 	'configuration': RangeConfiguration;
+	'componentId'?: string; // For Redux state isolation
 	'value'?: number | number[];
 	'defaultValue'?: number | number[];
 	'onChange'?: (value: number | number[]) => void;
@@ -36,6 +43,7 @@ export const UnifiedRange = forwardRef<
 	(
 		{
 			configuration,
+			componentId = `range-${Date.now()}-${Math.random()}`, // Generate unique ID if not provided
 			value,
 			defaultValue,
 			onChange,
@@ -59,17 +67,41 @@ export const UnifiedRange = forwardRef<
 		},
 		ref
 	) => {
-		const [internalValue, setInternalValue] = useState<
-			number | number[]
-		>(
-			value ??
-				defaultValue ??
-				(configuration.range ?
-					[configuration.min, configuration.max / 2]
-				:	configuration.min)
+		const dispatch = useDispatch();
+		const rangeState = useSelector(
+			selectRangeState(componentId)
 		);
-		const [isDragging, setIsDragging] = useState(false);
-		const [showTooltip, setShowTooltip] = useState(false);
+
+		const initialValue =
+			value ??
+			defaultValue ??
+			(configuration.range ?
+				[configuration.min, configuration.max / 2]
+			:	configuration.min);
+
+		const internalValue = rangeState?.value ?? initialValue;
+		const isDragging = rangeState?.isDragging || false;
+		const showTooltip = rangeState?.showTooltip || false;
+
+		// Initialize Redux state
+		useEffect(() => {
+			if (!rangeState) {
+				dispatch(
+					setRangeState({
+						rangeId: componentId,
+						updates: {
+							value: initialValue,
+							isDragging: false,
+							showTooltip: false,
+						},
+					})
+				);
+			}
+
+			return () => {
+				dispatch(cleanupComponent(componentId));
+			};
+		}, [dispatch, componentId, rangeState, initialValue]);
 
 		const currentValue = value ?? internalValue;
 		const finalMin = min ?? configuration.min;
@@ -78,24 +110,51 @@ export const UnifiedRange = forwardRef<
 
 		const handleChange = useCallback(
 			(newValue: number | number[]) => {
-				setInternalValue(newValue);
+				dispatch(
+					setRangeState({
+						rangeId: componentId,
+						updates: { value: newValue },
+					})
+				);
 				onChange?.(newValue);
 			},
-			[onChange]
+			[onChange, dispatch, componentId]
 		);
 
 		const handleMouseDown = useCallback(() => {
-			setIsDragging(true);
+			dispatch(
+				setRangeState({
+					rangeId: componentId,
+					updates: { isDragging: true },
+				})
+			);
 			if (configuration.showTooltip) {
-				setShowTooltip(true);
+				dispatch(
+					setRangeState({
+						rangeId: componentId,
+						updates: { showTooltip: true },
+					})
+				);
 			}
-		}, [configuration.showTooltip]);
+		}, [configuration.showTooltip, dispatch, componentId]);
 
 		const handleMouseUp = useCallback(() => {
-			setIsDragging(false);
-			setShowTooltip(false);
+			dispatch(
+				setRangeState({
+					rangeId: componentId,
+					updates: {
+						isDragging: false,
+						showTooltip: false,
+					},
+				})
+			);
 			onChangeComplete?.(currentValue);
-		}, [onChangeComplete, currentValue]);
+		}, [
+			onChangeComplete,
+			currentValue,
+			dispatch,
+			componentId,
+		]);
 
 		const handleInputChange = (
 			event: React.ChangeEvent<HTMLInputElement>

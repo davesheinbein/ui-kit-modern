@@ -207,7 +207,9 @@
 		padding-bottom: 4px;
 	}
 
-	div:not(.panelHeader):not(.panelSection):not(.sectionTitle) {
+	div:not(.panelHeader):not(.panelSection):not(
+			.sectionTitle
+		) {
 		margin-bottom: 4px;
 		padding: 2px 0;
 		color: #cccccc;
@@ -339,7 +341,9 @@
 			color: #4477cc;
 		}
 
-		div:not(.panelHeader):not(.panelSection):not(.sectionTitle) {
+		div:not(.panelHeader):not(.panelSection):not(
+				.sectionTitle
+			) {
 			color: #666666;
 		}
 	}
@@ -369,7 +373,8 @@
 }
 
 @keyframes pulseAdmin {
-	0%, 100% {
+	0%,
+	100% {
 		border-color: #333;
 	}
 	50% {

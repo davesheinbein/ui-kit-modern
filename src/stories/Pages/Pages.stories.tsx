@@ -110,19 +110,23 @@ Available Page Kinds: startup, landing, dashboard, settings, profile, game, brow
 		},
 		onStartDaily: {
 			action: 'startDaily',
-			description: 'Function called when starting daily mode (startup pages)',
+			description:
+				'Function called when starting daily mode (startup pages)',
 		},
 		onStartCustom: {
 			action: 'startCustom',
-			description: 'Function called when starting custom mode (startup pages)',
+			description:
+				'Function called when starting custom mode (startup pages)',
 		},
 		onBrowseCustom: {
 			action: 'browseCustom',
-			description: 'Function called when browsing custom puzzles (startup pages)',
+			description:
+				'Function called when browsing custom puzzles (startup pages)',
 		},
 		onShare: {
 			action: 'share',
-			description: 'Function called when sharing (startup pages)',
+			description:
+				'Function called when sharing (startup pages)',
 		},
 		configuration: {
 			control: 'object',
@@ -542,7 +546,8 @@ export const StartupWithCallbacks: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Startup page with all callback functions for game mode navigation.',
+				story:
+					'Startup page with all callback functions for game mode navigation.',
 			},
 		},
 	},
@@ -562,7 +567,8 @@ export const StartupWithCustomTitle: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Startup page with custom title and subtitle text.',
+				story:
+					'Startup page with custom title and subtitle text.',
 			},
 		},
 	},
@@ -600,7 +606,8 @@ export const StartupMinimal: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Minimal startup page with just essential navigation.',
+				story:
+					'Minimal startup page with just essential navigation.',
 			},
 		},
 	},
@@ -617,7 +624,8 @@ export const StartupCustomStyling: Story = {
 		onBrowseCustom: () => {},
 		onShare: () => {},
 		configuration: {
-			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+			background:
+				'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
 		},
 		style: {
 			color: '#fff',
@@ -626,7 +634,8 @@ export const StartupCustomStyling: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Startup page with custom gradient background and styling.',
+				story:
+					'Startup page with custom gradient background and styling.',
 			},
 		},
 	},
@@ -660,7 +669,8 @@ export const StartupDRYFactoryExample: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Startup page created using the PageFactory pattern with callbacks.',
+				story:
+					'Startup page created using the PageFactory pattern with callbacks.',
 			},
 		},
 	},
@@ -693,7 +703,8 @@ export const StartupUltraDRYExample: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Startup page using the ultra-short "P" alias for maximum development speed.',
+				story:
+					'Startup page using the ultra-short "P" alias for maximum development speed.',
 			},
 		},
 	},
@@ -726,7 +737,8 @@ export const StartupPresetExample: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Startup page using the preset pattern for common startup configurations.',
+				story:
+					'Startup page using the preset pattern for common startup configurations.',
 			},
 		},
 	},

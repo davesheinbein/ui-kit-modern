@@ -2,16 +2,38 @@ import React, {
 	forwardRef,
 	createContext,
 	useContext,
-	useState,
 	useEffect,
 	useRef,
 } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './Providers.module.scss';
 import {
 	PROVIDER_CONFIGURATIONS,
 	ProviderKind,
 	ProviderConfiguration,
 } from './configurations';
+import type { RootState } from '../../store';
+
+// Import Redux actions and selectors
+import {
+	connectSocket,
+	disconnectSocket,
+	selectSocket,
+	selectIsConnected,
+} from '../../store/slices/socketSlice';
+import {
+	setTheme,
+	selectCurrentTheme,
+	selectCurrentPalette,
+} from '../../store/slices/themeSlice';
+import {
+	updateNotificationSettings,
+	updatePrivacySettings,
+	updateAccessibilitySettings,
+	updatePerformanceSettings,
+	updateSecuritySettings,
+	selectSettings,
+} from '../../store/slices/settingsSlice';
 
 // Use the extended provider kinds from configurations
 export type { ProviderKind };
@@ -215,37 +237,43 @@ const SocketProviderComponent = forwardRef<
 		},
 		ref
 	) => {
-		const [socket, setSocket] = useState<any>(null);
-		const [isConnected, setIsConnected] = useState(false);
+		const dispatch = useDispatch();
+		const socket = useSelector(selectSocket);
+		const isConnected = useSelector(selectIsConnected);
 
 		useEffect(() => {
 			if (autoConnect && session) {
-				// Mock socket connection logic
-				const mockSocket = {
-					emit: (event: string, data?: any) => {},
-					on: (
-						event: string,
-						handler: (data: any) => void
-					) => {},
-					off: (
-						event: string,
-						handler?: (data: any) => void
-					) => {},
-				};
-				setSocket(mockSocket);
-				setIsConnected(true);
+				dispatch(
+					connectSocket({
+						url: url || '/socket',
+						options: { session },
+					})
+				);
 			}
-		}, [autoConnect, session]);
+
+			return () => {
+				dispatch(disconnectSocket());
+			};
+		}, [autoConnect, session, url, dispatch]);
 
 		const contextValue: SocketContextType = {
-			socket,
+			socket: socket as any, // Cast for compatibility with context interface
 			isConnected,
-			emit: (event: string, data?: any) =>
-				socket?.emit(event, data),
-			on: (event: string, handler: (data: any) => void) =>
-				socket?.on(event, handler),
-			off: (event: string, handler?: (data: any) => void) =>
-				socket?.off(event, handler),
+			emit: (event: string, data?: any) => {
+				// TODO: Implement actual socket emit through Redux if needed
+				console.log('Socket emit:', event, data);
+			},
+			on: (event: string, handler: (data: any) => void) => {
+				// TODO: Implement actual socket event listeners through Redux if needed
+				console.log('Socket on:', event, handler);
+			},
+			off: (
+				event: string,
+				handler?: (data: any) => void
+			) => {
+				// TODO: Implement actual socket event cleanup through Redux if needed
+				console.log('Socket off:', event, handler);
+			},
 		};
 
 		return (
@@ -275,21 +303,40 @@ const UserSettingsProviderComponent = forwardRef<
 		{ initialSettings, children, className, ...props },
 		ref
 	) => {
-		const [settings, setSettings] = useState(
-			initialSettings || {}
-		);
+		const dispatch = useDispatch();
+		const settings = useSelector(selectSettings);
 
-		const updateSetting = (key: string, value: any) => {
-			setSettings((prev: any) => ({
-				...prev,
-				[key]: value,
-			}));
+		useEffect(() => {
+			if (initialSettings) {
+				// Initialize settings with provided initial values
+				// For now, we'll log the settings since we need to map them to specific Redux actions
+				console.log(
+					'Initializing settings:',
+					initialSettings
+				);
+				// TODO: Map initial settings to appropriate Redux actions based on setting type
+			}
+		}, [initialSettings, dispatch]);
+
+		const handleUpdateSetting = (
+			key: string,
+			value: any
+		) => {
+			// Map the setting key to the appropriate Redux action
+			console.log('Updating setting:', key, value);
+			// TODO: Implement mapping logic for different setting types
+		};
+
+		const handleSetSettings = (newSettings: any) => {
+			// Update all settings by mapping to appropriate actions
+			console.log('Setting all settings:', newSettings);
+			// TODO: Implement mapping logic for different setting types
 		};
 
 		const contextValue: UserSettingsContextType = {
 			settings,
-			setSettings,
-			updateSetting,
+			setSettings: handleSetSettings,
+			updateSetting: handleUpdateSetting,
 		};
 
 		return (
@@ -326,18 +373,31 @@ const ThemePaletteProviderComponent = forwardRef<
 		},
 		ref
 	) => {
-		const [currentTheme, setTheme] = useState(
-			initialTheme || 'default'
-		);
-		const [palette, setPalette] = useState(
-			initialPalette || {}
-		);
+		const dispatch = useDispatch();
+		const currentTheme = useSelector(selectCurrentTheme);
+		const palette = useSelector(selectCurrentPalette);
+
+		useEffect(() => {
+			if (initialTheme && initialTheme !== currentTheme) {
+				dispatch(setTheme(initialTheme));
+			}
+		}, [initialTheme, currentTheme, dispatch]);
+
+		const handleSetTheme = (theme: string) => {
+			dispatch(setTheme(theme));
+		};
+
+		const handleSetPalette = (newPalette: any) => {
+			// For now, just update the theme since palette is derived from theme
+			// If we need separate palette management, we'd need to add that to themeSlice
+			console.log('Setting palette:', newPalette);
+		};
 
 		const contextValue: ThemePaletteContextType = {
 			palette,
-			setPalette,
+			setPalette: handleSetPalette,
 			currentTheme,
-			setTheme,
+			setTheme: handleSetTheme,
 		};
 
 		return (

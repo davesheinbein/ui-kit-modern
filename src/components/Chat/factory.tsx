@@ -1,11 +1,293 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ChatWindow from './Chat';
-import ChatBodyFactory from './ChatBodyFactory';
+import styles from './Chat.module.scss';
 import {
 	CHAT_CONFIGURATIONS,
 	ChatKind,
 	ChatConfiguration,
 } from './configurations';
+import {
+	setChatState,
+	selectChatState,
+	cleanupComponent,
+} from '../../store/slices/uiSlice';
+
+export interface ChatBodyFactoryProps {
+	kind:
+		| 'friend'
+		| 'in-match'
+		| 'match'
+		| 'general'
+		| 'vs-quick-chat';
+	componentId?: string; // For Redux state isolation
+	configuration?: any;
+	messages?: Array<{
+		id: string;
+		text: string;
+		sender: string;
+		time: string;
+		type?: 'self' | 'friend' | 'system';
+	}>;
+	currentUser?: string;
+	onSend?: (message: string) => void;
+	showInput?: boolean;
+	placeholder?: string;
+	quickOptions?: string[];
+	[key: string]: any;
+}
+
+/**
+ * ChatBodyFactory - Creates the chat content based on chat kind
+ * This is the DRY equivalent of the individual chat components
+ */
+export const ChatBodyFactory = forwardRef<
+	HTMLDivElement,
+	ChatBodyFactoryProps
+>(
+	(
+		{
+			kind,
+			componentId = `chat-${Date.now()}-${Math.random()}`, // Generate unique ID if not provided
+			configuration,
+			messages = [],
+			currentUser = '',
+			onSend,
+			showInput = true,
+			placeholder = 'Type a message...',
+			quickOptions,
+			...props
+		},
+		ref
+	) => {
+		const dispatch = useDispatch();
+		const chatState = useSelector(
+			selectChatState(componentId)
+		);
+		const inputValue = chatState?.inputValue || '';
+
+		// Initialize Redux state
+		useEffect(() => {
+			if (!chatState) {
+				dispatch(
+					setChatState({
+						chatId: componentId,
+						updates: { inputValue: '' },
+					})
+				);
+			}
+
+			return () => {
+				dispatch(cleanupComponent(componentId));
+			};
+		}, [dispatch, componentId, chatState]);
+
+		const handleSend = () => {
+			if (inputValue.trim() && onSend) {
+				onSend(inputValue.trim());
+				dispatch(
+					setChatState({
+						chatId: componentId,
+						updates: { inputValue: '' },
+					})
+				);
+			}
+		};
+
+		const handleKeyPress = (e: React.KeyboardEvent) => {
+			if (e.key === 'Enter' && !e.shiftKey) {
+				e.preventDefault();
+				handleSend();
+			}
+		};
+
+		const handleInputChange = (
+			e: React.ChangeEvent<HTMLInputElement>
+		) => {
+			dispatch(
+				setChatState({
+					chatId: componentId,
+					updates: { inputValue: e.target.value },
+				})
+			);
+		};
+
+		const renderMessage = (msg: {
+			id: string;
+			text: string;
+			sender: string;
+			time: string;
+			type?: 'self' | 'friend' | 'system';
+		}) => {
+			const messageType =
+				msg.type ||
+				(msg.sender === currentUser ? 'self'
+				: msg.sender === 'system' ? 'system'
+				: 'friend');
+
+			const messageClass =
+				messageType === 'self' ? styles.chatMessageSelf
+				: messageType === 'system' ?
+					styles.chatMessageSystem
+				:	styles.chatMessageFriend;
+
+			return (
+				<div key={msg.id} className={messageClass}>
+					<span className={styles.chatMessageText}>
+						{msg.text}
+					</span>
+					{msg.time && (
+						<span className={styles.chatMessageTime}>
+							{msg.time}
+						</span>
+					)}
+				</div>
+			);
+		};
+
+		switch (kind) {
+			case 'friend':
+				return (
+					<div ref={ref} {...props}>
+						<div className={styles.chatMessages}>
+							{messages.map(renderMessage)}
+						</div>
+						{showInput && (
+							<div className={styles.chatInput}>
+								<input
+									type='text'
+									value={inputValue}
+									onChange={(e) => handleInputChange(e)}
+									onKeyPress={handleKeyPress}
+									placeholder={placeholder}
+									className={styles.chatInputField}
+								/>
+								<button
+									onClick={handleSend}
+									disabled={!inputValue.trim()}
+									className={styles.chatSendBtn}
+								>
+									Send
+								</button>
+							</div>
+						)}
+					</div>
+				);
+
+			case 'in-match':
+				return (
+					<div ref={ref} {...props}>
+						<div className={styles.chatMessages}>
+							{messages.map(renderMessage)}
+						</div>
+						{showInput && (
+							<div className={styles.chatInput}>
+								<input
+									type='text'
+									value={inputValue}
+									onChange={(e) => handleInputChange(e)}
+									onKeyPress={handleKeyPress}
+									placeholder={placeholder}
+									className={styles.chatInputField}
+								/>
+								<button
+									onClick={handleSend}
+									disabled={!inputValue.trim()}
+									className={styles.chatSendBtn}
+								>
+									Send
+								</button>
+							</div>
+						)}
+					</div>
+				);
+
+			case 'match':
+				return (
+					<div ref={ref} {...props}>
+						<div className={styles.chatMessages}>
+							{messages.map(renderMessage)}
+						</div>
+						{showInput && (
+							<div className={styles.chatInput}>
+								<input
+									type='text'
+									value={inputValue}
+									onChange={(e) => handleInputChange(e)}
+									onKeyPress={handleKeyPress}
+									placeholder={placeholder}
+									className={styles.chatInputField}
+								/>
+								<button
+									onClick={handleSend}
+									disabled={!inputValue.trim()}
+									className={styles.chatSendBtn}
+								>
+									Send
+								</button>
+							</div>
+						)}
+					</div>
+				);
+
+			case 'general':
+			default:
+				return (
+					<div ref={ref} {...props}>
+						<div className={styles.chatMessages}>
+							{messages.map(renderMessage)}
+						</div>
+						{showInput && (
+							<div className={styles.chatInput}>
+								<input
+									type='text'
+									value={inputValue}
+									onChange={(e) => handleInputChange(e)}
+									onKeyPress={handleKeyPress}
+									placeholder={placeholder}
+									className={styles.chatInputField}
+								/>
+								<button
+									onClick={handleSend}
+									disabled={!inputValue.trim()}
+									className={styles.chatSendBtn}
+								>
+									Send
+								</button>
+							</div>
+						)}
+					</div>
+				);
+
+			case 'vs-quick-chat':
+				return (
+					<div ref={ref} {...props}>
+						<div className={styles.vsQuickChatBar}>
+							{(
+								configuration?.quickOptions ||
+								quickOptions || [
+									'Hello',
+									'Good luck!',
+									'Nice move!',
+									'GG',
+								]
+							).map((opt: string) => (
+								<button
+									key={opt}
+									className={styles.vsQuickChatButton}
+									onClick={() => onSend?.(opt)}
+								>
+									{opt}
+								</button>
+							))}
+						</div>
+					</div>
+				);
+		}
+	}
+);
+
+ChatBodyFactory.displayName = 'ChatBodyFactory';
 
 export interface ChatFactoryProps {
 	kind: ChatKind;

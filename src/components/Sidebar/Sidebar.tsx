@@ -44,16 +44,10 @@ export interface FriendsSidebarProps {
 	children?: React.ReactNode;
 }
 
-export const FriendsSidebar: React.FC<FriendsSidebarProps> = ({
-	open,
-	onClose,
-	children,
-}) => (
-	<Sidebar
-		kind='friends'
-		open={open}
-		onClose={onClose}
-	>
+export const FriendsSidebar: React.FC<
+	FriendsSidebarProps
+> = ({ open, onClose, children }) => (
+	<Sidebar kind='friends' open={open} onClose={onClose}>
 		{children}
 	</Sidebar>
 );

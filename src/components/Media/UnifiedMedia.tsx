@@ -1,8 +1,10 @@
 import React, {
 	forwardRef,
 	memo,
-	useState,
 	useRef,
+	useEffect,
+	useCallback,
+	useId,
 } from 'react';
 import {
 	MediaKind,
@@ -11,10 +13,18 @@ import {
 	MediaMetadata,
 	getMediaConfig,
 } from './configurations';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+	setMediaState,
+	cleanupComponent,
+	selectMediaState,
+} from '../../store/slices/uiSlice';
+import type { RootState } from '../../store';
 import styles from './Media.module.scss';
 
 export interface UnifiedMediaProps {
 	kind: MediaKind;
+	componentId?: string; // For Redux state identification
 	children?: React.ReactNode;
 	className?: string;
 
@@ -71,6 +81,7 @@ const UnifiedMedia = forwardRef<
 	(
 		{
 			kind,
+			componentId,
 			children,
 			className = '',
 			src,
@@ -111,8 +122,43 @@ const UnifiedMedia = forwardRef<
 		ref
 	) => {
 		const config = getMediaConfig(kind);
-		const [imageError, setImageError] = useState(false);
-		const [imageLoaded, setImageLoaded] = useState(false);
+
+		// Generate unique component ID for Redux state isolation
+		const uniqueId = useId();
+		const mediaComponentId =
+			componentId || `media-${uniqueId}`;
+
+		// Redux state management
+		const dispatch = useDispatch();
+
+		// Initialize component state on mount
+		useEffect(() => {
+			dispatch(
+				setMediaState({
+					mediaId: mediaComponentId,
+					updates: {
+						isLoading: false,
+						hasError: false,
+						isPlaying: false,
+						hasLoaded: false,
+					},
+				})
+			);
+
+			// Cleanup on unmount
+			return () => {
+				dispatch(cleanupComponent(mediaComponentId));
+			};
+		}, [dispatch, mediaComponentId]);
+
+		// Get state from Redux
+		const mediaState = useSelector(
+			selectMediaState(mediaComponentId)
+		);
+
+		const imageError = mediaState?.hasError || false;
+		const imageLoaded = mediaState?.hasLoaded || false;
+
 		const mediaRef = useRef<
 			HTMLImageElement | HTMLVideoElement | HTMLAudioElement
 		>(null);
@@ -163,15 +209,23 @@ const UnifiedMedia = forwardRef<
 
 		// Handle image load
 		const handleImageLoad = () => {
-			setImageLoaded(true);
-			setImageError(false);
+			dispatch(
+				setMediaState({
+					mediaId: mediaComponentId,
+					updates: { hasLoaded: true, hasError: false },
+				})
+			);
 			onLoad?.();
 		};
 
 		// Handle image error
 		const handleImageError = () => {
-			setImageError(true);
-			setImageLoaded(false);
+			dispatch(
+				setMediaState({
+					mediaId: mediaComponentId,
+					updates: { hasError: true, hasLoaded: false },
+				})
+			);
 			onError?.();
 		};
 

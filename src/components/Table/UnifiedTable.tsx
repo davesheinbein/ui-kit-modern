@@ -1,10 +1,11 @@
 import React, {
 	forwardRef,
 	memo,
-	useState,
 	useEffect,
 	useMemo,
+	useId,
 } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
 	TableKind,
 	TableConfiguration,
@@ -15,12 +16,30 @@ import {
 	getTableConfig,
 	TABLE_CONFIGURATIONS,
 } from './configurations';
+import {
+	initializeComponentState,
+	setSorting,
+	setFilters,
+	setSearchTerm,
+	setSelectedRows,
+	setExpandedRows,
+	setEditingCell,
+	removeComponentState,
+	selectTableSorting,
+	selectTableFilters,
+	selectTableSearchTerm,
+	selectTableSelectedRows,
+	selectTableExpandedRows,
+	selectTableEditingCell,
+} from '../../store/slices/tableSlice';
+import type { RootState } from '../../store';
 import styles from './Table.module.scss';
 
 export interface UnifiedTableProps {
 	kind: TableKind;
 	children?: React.ReactNode;
 	className?: string;
+	componentId?: string;
 
 	// Table-specific props
 	columns?: TableColumn[];
@@ -109,6 +128,7 @@ const UnifiedTable = forwardRef<
 		kind,
 		children,
 		className,
+		componentId,
 		columns: propColumns,
 		data: propData,
 		keyField = 'id',
@@ -246,24 +266,99 @@ const UnifiedTable = forwardRef<
 		),
 	};
 
-	const [currentSort, setCurrentSort] =
-		useState<TableSorting>(
-			defaultSort || { column: '', direction: 'none' }
+	// Generate unique component ID for Redux state isolation
+	const uniqueId = useId();
+	const tableComponentId =
+		componentId || `table-${uniqueId}`;
+
+	// Redux state management
+	const dispatch = useDispatch();
+
+	// Initialize Redux state on mount
+	useEffect(() => {
+		dispatch(
+			initializeComponentState({
+				componentId: tableComponentId,
+				initialState: {
+					sorting:
+						(
+							defaultSort &&
+							defaultSort.direction !== 'none'
+						) ?
+							{
+								column: defaultSort.column,
+								direction: defaultSort.direction as
+									| 'asc'
+									| 'desc',
+							}
+						:	{ column: '', direction: 'asc' },
+					filters:
+						defaultFilters ?
+							defaultFilters.reduce(
+								(acc, filter) => {
+									acc[filter.column] = filter.value;
+									return acc;
+								},
+								{} as Record<string, any>
+							)
+						:	{},
+					searchTerm: '',
+					selectedRows: new Set(propSelectedRows || []),
+					expandedRows: new Set(defaultExpanded || []),
+					editingCell: null,
+				},
+			})
 		);
-	const [currentFilters, setCurrentFilters] = useState<
-		TableFilter[]
-	>(defaultFilters || []);
-	const [searchTerm, setSearchTerm] = useState('');
-	const [selectedRows, setSelectedRows] = useState<
-		(string | number)[]
-	>(propSelectedRows || []);
-	const [expandedRows, setExpandedRows] = useState<
-		(string | number)[]
-	>(defaultExpanded || []);
-	const [editingCell, setEditingCell] = useState<{
-		rowId: string | number;
-		column: string;
-	} | null>(null);
+
+		// Cleanup on unmount
+		return () => {
+			dispatch(
+				removeComponentState({
+					componentId: tableComponentId,
+				})
+			);
+		};
+	}, [
+		dispatch,
+		tableComponentId,
+		defaultSort,
+		defaultFilters,
+		propSelectedRows,
+		defaultExpanded,
+	]);
+
+	// Get state from Redux
+	const currentSort = useSelector((state: RootState) =>
+		selectTableSorting(state, tableComponentId)
+	);
+	const currentFilters = useSelector((state: RootState) =>
+		selectTableFilters(state, tableComponentId)
+	);
+	const searchTerm = useSelector((state: RootState) =>
+		selectTableSearchTerm(state, tableComponentId)
+	);
+	const selectedRowsSet = useSelector((state: RootState) =>
+		selectTableSelectedRows(state, tableComponentId)
+	);
+	const expandedRowsSet = useSelector((state: RootState) =>
+		selectTableExpandedRows(state, tableComponentId)
+	);
+	const editingCell = useSelector((state: RootState) =>
+		selectTableEditingCell(state, tableComponentId)
+	);
+
+	// Convert Sets to arrays for compatibility
+	const selectedRows = Array.from(selectedRowsSet);
+	const expandedRows = Array.from(expandedRowsSet);
+
+	// Convert filters object to array format for compatibility
+	const currentFiltersArray: TableFilter[] = Object.entries(
+		currentFilters
+	).map(([column, value]) => ({
+		column,
+		value,
+		operator: 'equals' as const,
+	}));
 
 	// ========================================
 	// Data Processing
@@ -314,42 +409,45 @@ const UnifiedTable = forwardRef<
 		if (currentFilters.length === 0) return searchedData;
 
 		return searchedData.filter((row) => {
-			return currentFilters.every((filter) => {
-				const value = row[filter.column];
-				switch (filter.operator || 'equals') {
-					case 'equals':
-						return value === filter.value;
-					case 'contains':
-						return String(value)
-							.toLowerCase()
-							.includes(String(filter.value).toLowerCase());
-					case 'startsWith':
-						return String(value)
-							.toLowerCase()
-							.startsWith(
-								String(filter.value).toLowerCase()
-							);
-					case 'endsWith':
-						return String(value)
-							.toLowerCase()
-							.endsWith(String(filter.value).toLowerCase());
-					case 'greaterThan':
-						return Number(value) > Number(filter.value);
-					case 'lessThan':
-						return Number(value) < Number(filter.value);
-					default:
-						return true;
+			return currentFiltersArray.every(
+				(filter: TableFilter) => {
+					const value = row[filter.column];
+					switch (filter.operator || 'equals') {
+						case 'equals':
+							return value === filter.value;
+						case 'contains':
+							return String(value)
+								.toLowerCase()
+								.includes(
+									String(filter.value).toLowerCase()
+								);
+						case 'startsWith':
+							return String(value)
+								.toLowerCase()
+								.startsWith(
+									String(filter.value).toLowerCase()
+								);
+						case 'endsWith':
+							return String(value)
+								.toLowerCase()
+								.endsWith(
+									String(filter.value).toLowerCase()
+								);
+						case 'greaterThan':
+							return Number(value) > Number(filter.value);
+						case 'lessThan':
+							return Number(value) < Number(filter.value);
+						default:
+							return true;
+					}
 				}
-			});
+			);
 		});
-	}, [searchedData, currentFilters]);
+	}, [searchedData, currentFiltersArray]);
 
 	// Apply sorting
 	const sortedData = useMemo(() => {
-		if (
-			!config.sortable ||
-			currentSort.direction === 'none'
-		) {
+		if (!config.sortable || !currentSort.column) {
 			return filteredData;
 		}
 
@@ -383,7 +481,22 @@ const UnifiedTable = forwardRef<
 		}
 
 		const newSort = { column, direction: newDirection };
-		setCurrentSort(newSort);
+
+		// For Redux, we handle "none" direction by resetting to empty column
+		const reduxSort =
+			newDirection === 'none' ?
+				{ column: '', direction: 'asc' as const }
+			:	{
+					column,
+					direction: newDirection as 'asc' | 'desc',
+				};
+
+		dispatch(
+			setSorting({
+				componentId: tableComponentId,
+				sorting: reduxSort,
+			})
+		);
 		onSort?.(newSort);
 	};
 
@@ -401,10 +514,17 @@ const UnifiedTable = forwardRef<
 			newSelection =
 				selected ?
 					[...selectedRows, rowId]
-				:	selectedRows.filter((id) => id !== rowId);
+				:	selectedRows.filter(
+						(id: string | number) => id !== rowId
+					);
 		}
 
-		setSelectedRows(newSelection);
+		dispatch(
+			setSelectedRows({
+				componentId: tableComponentId,
+				selectedRows: newSelection,
+			})
+		);
 		onSelect?.(newSelection);
 	};
 
@@ -414,10 +534,17 @@ const UnifiedTable = forwardRef<
 		const isExpanded = expandedRows.includes(rowId);
 		const newExpanded =
 			isExpanded ?
-				expandedRows.filter((id) => id !== rowId)
+				expandedRows.filter(
+					(id: string | number) => id !== rowId
+				)
 			:	[...expandedRows, rowId];
 
-		setExpandedRows(newExpanded);
+		dispatch(
+			setExpandedRows({
+				componentId: tableComponentId,
+				expandedRows: newExpanded,
+			})
+		);
 		onExpand?.(rowId, !isExpanded);
 	};
 
@@ -427,7 +554,12 @@ const UnifiedTable = forwardRef<
 		value: any
 	) => {
 		onCellEdit?.(rowId, column, value);
-		setEditingCell(null);
+		dispatch(
+			setEditingCell({
+				componentId: tableComponentId,
+				editingCell: null,
+			})
+		);
 	};
 
 	// ========================================
@@ -479,7 +611,12 @@ const UnifiedTable = forwardRef<
 								);
 								const newSelection =
 									e.target.checked ? allIds : [];
-								setSelectedRows(newSelection);
+								dispatch(
+									setSelectedRows({
+										componentId: tableComponentId,
+										selectedRows: newSelection,
+									})
+								);
 								onSelect?.(newSelection);
 							}}
 							checked={
@@ -627,10 +764,15 @@ const UnifiedTable = forwardRef<
 							}}
 							onDoubleClick={() => {
 								if (config.editable) {
-									setEditingCell({
-										rowId,
-										column: column.key,
-									});
+									dispatch(
+										setEditingCell({
+											componentId: tableComponentId,
+											editingCell: {
+												rowId,
+												column: column.key,
+											},
+										})
+									);
 								}
 							}}
 						>
@@ -653,7 +795,12 @@ const UnifiedTable = forwardRef<
 												e.currentTarget.value
 											);
 										} else if (e.key === 'Escape') {
-											setEditingCell(null);
+											dispatch(
+												setEditingCell({
+													componentId: tableComponentId,
+													editingCell: null,
+												})
+											);
 										}
 									}}
 									autoFocus
@@ -685,7 +832,14 @@ const UnifiedTable = forwardRef<
 						'Search...'
 					}
 					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
+					onChange={(e) =>
+						dispatch(
+							setSearchTerm({
+								componentId: tableComponentId,
+								searchTerm: e.target.value,
+							})
+						)
+					}
 					className={styles.table__search_input}
 				/>
 			</div>

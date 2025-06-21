@@ -401,16 +401,36 @@ export const ModalWorkflows = {
 			finishTime?: string;
 		}
 	) => ({
-		preGame: SimpleModalFactory.create('pre-game', open, onClose, {
-			onConfirm: onReady,
-			onCancel: onGoHome,
-		}),
-		endGame: SimpleModalFactory.create('end-game', open, onClose, {
-			onConfirm: onShare,
-			...gameData,
-		}),
-		rules: SimpleModalFactory.create('rules', open, onClose, {}),
-		statistics: SimpleModalFactory.create('statistics', open, onClose, {}),
+		preGame: SimpleModalFactory.create(
+			'pre-game',
+			open,
+			onClose,
+			{
+				onConfirm: onReady,
+				onCancel: onGoHome,
+			}
+		),
+		endGame: SimpleModalFactory.create(
+			'end-game',
+			open,
+			onClose,
+			{
+				onConfirm: onShare,
+				...gameData,
+			}
+		),
+		rules: SimpleModalFactory.create(
+			'rules',
+			open,
+			onClose,
+			{}
+		),
+		statistics: SimpleModalFactory.create(
+			'statistics',
+			open,
+			onClose,
+			{}
+		),
 	}),
 
 	/**
@@ -423,13 +443,23 @@ export const ModalWorkflows = {
 		onCreateRoom: (code: string) => void,
 		onJoinRoom: (code: string) => void
 	) => ({
-		modeSelection: SimpleModalFactory.create('vs-mode', open, onClose, {
-			onSelect,
-		}),
-		roomManagement: SimpleModalFactory.create('vs-room', open, onClose, {
-			onCreateRoom,
-			onJoinRoom,
-		}),
+		modeSelection: SimpleModalFactory.create(
+			'vs-mode',
+			open,
+			onClose,
+			{
+				onSelect,
+			}
+		),
+		roomManagement: SimpleModalFactory.create(
+			'vs-room',
+			open,
+			onClose,
+			{
+				onCreateRoom,
+				onJoinRoom,
+			}
+		),
 	}),
 
 	/**
@@ -443,14 +473,24 @@ export const ModalWorkflows = {
 		item?: any,
 		user?: any
 	) => ({
-		purchase: SimpleModalFactory.create('purchase', open, onClose, {
-			item,
-			onPurchase,
-			user,
-		}),
-		signIn: SimpleModalFactory.create('sign-in', open, onClose, {
-			onConfirm: onSignIn,
-		}),
+		purchase: SimpleModalFactory.create(
+			'purchase',
+			open,
+			onClose,
+			{
+				item,
+				onPurchase,
+				user,
+			}
+		),
+		signIn: SimpleModalFactory.create(
+			'sign-in',
+			open,
+			onClose,
+			{
+				onConfirm: onSignIn,
+			}
+		),
 	}),
 };
 
@@ -469,14 +509,14 @@ export function useModal() {
 		id: string,
 		modalElement: React.ReactElement
 	) => {
-		setModals(prev => ({
+		setModals((prev) => ({
 			...prev,
 			[id]: { open: true, element: modalElement },
 		}));
 	};
 
 	const close = (id: string) => {
-		setModals(prev => ({
+		setModals((prev) => ({
 			...prev,
 			[id]: { ...prev[id], open: false },
 		}));

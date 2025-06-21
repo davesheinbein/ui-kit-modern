@@ -1,5 +1,7 @@
 import React, { forwardRef } from 'react';
-import UnifiedProvider, { UnifiedProviderProps } from './UnifiedProvider';
+import UnifiedProvider, {
+	UnifiedProviderProps,
+} from './UnifiedProvider';
 import {
 	PROVIDER_CONFIGURATIONS,
 	ProviderKind,
@@ -202,33 +204,49 @@ export class SimpleProviderFactory {
 export const ExtendedProviderPresets = {
 	// Socket providers
 	SOCKET_CONNECTED: (session: any) =>
-		SimpleProviderFactory.socket({ session, autoConnect: true }),
+		SimpleProviderFactory.socket({
+			session,
+			autoConnect: true,
+		}),
 
 	SOCKET_MANUAL: (session: any) =>
-		SimpleProviderFactory.socket({ session, autoConnect: false }),
+		SimpleProviderFactory.socket({
+			session,
+			autoConnect: false,
+		}),
 
 	// Settings providers
 	USER_SETTINGS: (initialSettings?: any) =>
 		SimpleProviderFactory.userSettings({ initialSettings }),
 
 	EMPTY_SETTINGS: () =>
-		SimpleProviderFactory.userSettings({ initialSettings: {} }),
+		SimpleProviderFactory.userSettings({
+			initialSettings: {},
+		}),
 
 	// Theme providers
 	THEME_LIGHT: () =>
-		SimpleProviderFactory.themePalette({ initialTheme: 'light' }),
+		SimpleProviderFactory.themePalette({
+			initialTheme: 'light',
+		}),
 
 	THEME_DARK: () =>
-		SimpleProviderFactory.themePalette({ initialTheme: 'dark' }),
+		SimpleProviderFactory.themePalette({
+			initialTheme: 'dark',
+		}),
 
 	THEME_AUTO: () =>
-		SimpleProviderFactory.themePalette({ initialTheme: 'auto' }),
+		SimpleProviderFactory.themePalette({
+			initialTheme: 'auto',
+		}),
 
 	// Achievement listeners
 	ACHIEVEMENT_LISTENER: (
 		onAchievement?: (achievement: any) => void
 	) =>
-		SimpleProviderFactory.achievementListener({ onAchievement }),
+		SimpleProviderFactory.achievementListener({
+			onAchievement,
+		}),
 };
 
 export default ProviderFactory;

@@ -1,10 +1,19 @@
 import React, {
 	forwardRef,
-	useState,
 	useEffect,
+	useCallback,
 } from 'react';
 import classNames from 'classnames';
 import { SwitchConfiguration } from './configurations';
+import {
+	useAppDispatch,
+	useAppSelector,
+} from '../../store';
+import {
+	setSwitchState,
+	cleanupComponent,
+	selectSwitchState,
+} from '../../store/slices/uiSlice';
 import styles from './Switch.module.scss';
 
 export interface UnifiedSwitchProps {
@@ -21,6 +30,7 @@ export interface UnifiedSwitchProps {
 	required?: boolean;
 	name?: string;
 	id?: string;
+	componentId?: string; // For Redux state identification
 	configuration: SwitchConfiguration;
 }
 
@@ -43,37 +53,100 @@ export const UnifiedSwitch = forwardRef<
 			required,
 			name,
 			id,
+			componentId,
 			configuration,
 			...props
 		},
 		ref
 	) => {
-		const [internalChecked, setInternalChecked] =
-			useState<boolean>(
-				controlledChecked || defaultChecked || false
-			);
+		// Generate componentId if not provided
+		const finalComponentId =
+			componentId || `switch-${Date.now()}`;
+
+		// Redux hooks
+		const dispatch = useAppDispatch();
+		const switchState = useAppSelector((state) => {
+			const uiState = state.ui as any; // Cast to bypass type issues
+			return selectSwitchState(finalComponentId)({
+				ui: uiState,
+			});
+		});
 
 		const isControlled = controlledChecked !== undefined;
 		const currentChecked =
-			isControlled ? controlledChecked : internalChecked;
+			isControlled ?
+				controlledChecked
+			:	(switchState?.checked ?? defaultChecked ?? false);
 
+		// Initialize Redux state on mount
 		useEffect(() => {
-			if (isControlled) {
-				setInternalChecked(controlledChecked);
-			}
-		}, [controlledChecked, isControlled]);
+			dispatch(
+				setSwitchState({
+					switchId: finalComponentId,
+					checked:
+						defaultChecked ?? controlledChecked ?? false,
+					disabled: disabled ?? false,
+				})
+			);
 
-		const handleToggle = () => {
+			// Cleanup on unmount
+			return () => {
+				dispatch(cleanupComponent(finalComponentId));
+			};
+		}, [
+			dispatch,
+			finalComponentId,
+			defaultChecked,
+			controlledChecked,
+			disabled,
+		]);
+
+		// Update Redux when controlled checked changes
+		useEffect(() => {
+			if (isControlled && controlledChecked !== undefined) {
+				dispatch(
+					setSwitchState({
+						switchId: finalComponentId,
+						checked: controlledChecked,
+						disabled: disabled ?? false,
+					})
+				);
+			}
+		}, [
+			controlledChecked,
+			isControlled,
+			dispatch,
+			finalComponentId,
+			disabled,
+		]);
+
+		const handleToggle = useCallback(() => {
 			if (disabled) return;
 
 			const newChecked = !currentChecked;
 
 			if (!isControlled) {
-				setInternalChecked(newChecked);
+				dispatch(
+					setSwitchState({
+						switchId: finalComponentId,
+						checked: newChecked,
+						disabled: disabled ?? false,
+					})
+				);
 			}
 
-			onChange?.(newChecked);
-		};
+			// Call onChange callback
+			if (onChange) {
+				onChange(newChecked);
+			}
+		}, [
+			disabled,
+			currentChecked,
+			isControlled,
+			dispatch,
+			finalComponentId,
+			onChange,
+		]);
 
 		const containerClasses = classNames(
 			styles.switchContainer,
