@@ -7,7 +7,7 @@ import {
 } from '../../components/Sidebar';
 
 const meta: Meta<typeof FriendsSidebar> = {
-	title: 'Sidebars/FriendsSidebar (DRY System)',
+	title: 'Sidebars/FriendsSidebar',
 	component: FriendsSidebar,
 	tags: ['autodocs'],
 	parameters: {

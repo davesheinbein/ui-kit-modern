@@ -31,7 +31,8 @@
 }
 
 .grid {
-	@include contained-grid(var(--spacing-3));
+	display: grid;
+	gap: var(--spacing-3);
 	grid-template-columns: repeat(
 		auto-fit,
 		minmax(120px, 1fr)

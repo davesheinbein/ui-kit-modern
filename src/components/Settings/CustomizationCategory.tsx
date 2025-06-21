@@ -1,6 +1,6 @@
 import React from 'react';
 import UnifiedSettings from './UnifiedSettings';
-import { SettingsItem } from './SettingsConfigurations';
+import { SettingsItem } from './configurations';
 
 export interface CustomizationCategoryProps {
 	title: string;

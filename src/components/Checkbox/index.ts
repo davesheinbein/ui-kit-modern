@@ -9,17 +9,15 @@ export type {
 export { default as Checkbox } from './Checkbox';
 export type { CheckboxProps } from './Checkbox';
 
-// Export enhanced checkbox configuration system
-export * from './CheckboxConfigurations';
+export * from './configurations';
 
-// Export enhanced checkbox factory and ultra-DRY system
 export {
 	default as CheckboxFactory,
 	C,
 	CheckboxPresets,
 	CheckboxFactory as CheckboxFactoryClass,
-} from './CheckboxFactoryDRY';
-export type { CheckboxFactoryProps } from './CheckboxFactoryDRY';
+} from './factory';
+export type { CheckboxFactoryProps } from './factory';
 
 // Legacy exports for specific checkbox types (these now use the unified system)
 export { default as DarkModeToggle } from './DarkModeToggle';

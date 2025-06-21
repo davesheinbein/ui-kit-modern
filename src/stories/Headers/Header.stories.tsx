@@ -12,7 +12,7 @@ import {
 
 // Meta configuration for the DRY Header system
 const meta: Meta<typeof UnifiedHeader> = {
-	title: 'Headers/Header (DRY System)',
+	title: 'Headers/Header',
 	component: UnifiedHeader,
 	tags: ['autodocs'],
 	parameters: {

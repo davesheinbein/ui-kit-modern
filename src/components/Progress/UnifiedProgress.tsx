@@ -4,7 +4,7 @@ import {
 	ProgressConfiguration,
 	ProgressStep,
 	getProgressConfig,
-} from './ProgressConfigurations';
+} from './configurations';
 import styles from './Progress.module.scss';
 
 export interface UnifiedProgressProps {

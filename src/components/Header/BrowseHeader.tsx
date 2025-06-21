@@ -3,7 +3,7 @@ import { UnifiedHeader } from '../Header';
 import {
 	TabConfiguration,
 	ActionConfiguration,
-} from '../Header/HeaderConfigurations';
+} from '../Header/configurations';
 
 export interface BrowseHeaderProps {
 	title: string;

@@ -4,7 +4,7 @@ import {
 	PageConfiguration,
 	ExtendedPageKind,
 	PAGE_CONFIGURATIONS,
-} from './PageConfigurations';
+} from './configurations';
 
 // Base page variant types
 export type PageVariant =

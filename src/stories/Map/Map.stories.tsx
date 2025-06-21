@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Map } from '../../components/Map';
 
 const meta: Meta<typeof Map> = {
-	title: 'Components/Map',
+	title: 'Map/Map',
 	component: Map,
 	parameters: {
 		layout: 'centered',

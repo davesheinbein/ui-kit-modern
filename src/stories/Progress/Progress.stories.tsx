@@ -5,7 +5,7 @@ import {
 } from '../../components/Progress';
 
 const meta: Meta<typeof UnifiedProgress> = {
-	title: 'Components/Progress',
+	title: 'Progress/Progress',
 	component: UnifiedProgress,
 	parameters: {
 		layout: 'centered',

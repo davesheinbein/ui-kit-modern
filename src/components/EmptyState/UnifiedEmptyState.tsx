@@ -4,7 +4,7 @@ import {
 	EmptyStateConfiguration,
 	EmptyStateAction,
 	getEmptyStateConfig,
-} from './EmptyStateConfigurations';
+} from './configurations';
 import styles from './EmptyState.module.scss';
 
 export interface UnifiedEmptyStateProps {

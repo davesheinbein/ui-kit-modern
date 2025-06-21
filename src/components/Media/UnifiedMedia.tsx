@@ -10,7 +10,7 @@ import {
 	MediaAction,
 	MediaMetadata,
 	getMediaConfig,
-} from './MediaConfigurations';
+} from './configurations';
 import styles from './Media.module.scss';
 
 export interface UnifiedMediaProps {

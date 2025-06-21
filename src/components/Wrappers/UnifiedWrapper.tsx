@@ -4,12 +4,8 @@ import {
 	WrapperConfiguration,
 	getWrapperConfig,
 	WRAPPER_CONFIGURATIONS,
-} from './WrapperConfigurations';
+} from './configurations';
 import styles from './Wrapper.module.scss';
-
-// ========================================
-// Props Interfaces
-// ========================================
 
 export interface UnifiedWrapperProps {
 	kind: WrapperKind;
@@ -162,7 +158,7 @@ function renderTargetComponent(
 	props: any,
 	children: React.ReactNode
 ) {
-	// This is where we would dynamically import and render the target unified component
+	// Dynamically import and render the target unified component
 	// For now, we'll use a placeholder approach that can be enhanced
 
 	switch (config.unifiedComponent) {

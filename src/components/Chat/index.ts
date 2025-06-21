@@ -3,10 +3,10 @@ export {
 	ChatFactoryClass,
 	ChatFactoryShortcut,
 	ChatPresets,
-} from './ChatFactoryDRY';
-export type { ChatFactoryProps } from './ChatFactoryDRY';
+} from './factory';
+export type { ChatFactoryProps } from './factory';
 
-export * from './ChatConfigurations';
+export * from './configurations';
 
 export { default as UnifiedChat } from './UnifiedChat';
 export type { UnifiedChatProps } from './UnifiedChat';
@@ -16,7 +16,3 @@ export type { ChatProps } from './Chat';
 
 export { default as ChatBodyFactory } from './ChatBodyFactory';
 export type { ChatBodyFactoryProps } from './ChatBodyFactory';
-
-// VSQuickChatBar component (migrated into Chat system)
-export { default as VSQuickChatBar } from './VSQuickChatBar';
-export type { VSQuickChatBarProps } from './VSQuickChatBar';

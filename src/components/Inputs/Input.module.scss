@@ -1,0 +1,357 @@
+/**
+ * Input Component Styles
+ * Modern input styling with proper containment and design system integration
+ */
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
+
+// ========================================
+// Input Container
+// ========================================
+.inputContainer {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-2);
+	width: 100%;
+
+	&.disabled {
+		opacity: 0.6;
+		pointer-events: none;
+	}
+}
+
+// ========================================
+// Label Styles
+// ========================================
+.label {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-normal);
+	color: var(--color-text-primary);
+	font-weight: 500;
+	margin-bottom: var(--spacing-1);
+
+	.required {
+		color: var(--color-error);
+		margin-left: var(--spacing-1);
+	}
+}
+
+// ========================================
+// Input Wrapper
+// ========================================
+.inputWrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+	background: var(--color-surface);
+	border-radius: var(--border-radius);
+	transition: all 0.2s ease;
+}
+
+// ========================================
+// Input Element
+// ========================================
+.input {
+	flex: 1;
+	padding: var(--spacing-3);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-normal);
+	border: none;
+	background: transparent;
+	color: var(--color-text-primary);
+	outline: none;
+
+	&::placeholder {
+		color: var(--color-text-tertiary);
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		color: var(--color-text-secondary);
+	}
+
+	// Adjustments for icons and affixes
+	&.hasIcon {
+		padding-left: var(--spacing-10);
+	}
+
+	&.hasPrefix {
+		padding-left: var(--spacing-2);
+	}
+
+	&.hasSuffix {
+		padding-right: var(--spacing-2);
+	}
+}
+
+// ========================================
+// Size Variants
+// ========================================
+.size-small {
+	.input {
+		padding: var(--spacing-2);
+		font-size: var(--font-size-sm);
+	}
+
+	.icon,
+	.prefix,
+	.suffix {
+		font-size: var(--font-size-sm);
+	}
+}
+
+.size-medium {
+	.input {
+		padding: var(--spacing-3);
+		font-size: var(--font-size-base);
+	}
+}
+
+.size-large {
+	.input {
+		padding: var(--spacing-4);
+		font-size: var(--font-size-lg);
+	}
+
+	.icon,
+	.prefix,
+	.suffix {
+		font-size: var(--font-size-lg);
+	}
+}
+
+// ========================================
+// Style Variants
+// ========================================
+.style-outlined {
+	.inputWrapper {
+		border: 1px solid var(--color-border);
+		background: var(--color-surface);
+
+		&:hover {
+			border-color: var(--color-border-hover);
+		}
+
+		&:focus-within {
+			border-color: var(--color-primary);
+			box-shadow: 0 0 0 2px var(--color-primary-alpha-20);
+		}
+	}
+}
+
+.style-filled {
+	.inputWrapper {
+		border: 1px solid transparent;
+		background: var(--color-surface-secondary);
+
+		&:hover {
+			background: var(--color-surface-tertiary);
+		}
+
+		&:focus-within {
+			background: var(--color-surface);
+			border-color: var(--color-primary);
+			box-shadow: 0 0 0 2px var(--color-primary-alpha-20);
+		}
+	}
+}
+
+.style-underlined {
+	.inputWrapper {
+		border: none;
+		border-bottom: 2px solid var(--color-border);
+		background: transparent;
+		border-radius: 0;
+
+		&:hover {
+			border-bottom-color: var(--color-border-hover);
+		}
+
+		&:focus-within {
+			border-bottom-color: var(--color-primary);
+		}
+	}
+}
+
+.style-ghost {
+	.inputWrapper {
+		border: 1px solid transparent;
+		background: transparent;
+
+		&:hover {
+			background: var(--color-surface-secondary);
+		}
+
+		&:focus-within {
+			background: var(--color-surface);
+			border-color: var(--color-primary);
+		}
+	}
+}
+
+// ========================================
+// State Variants
+// ========================================
+.state-error {
+	.inputWrapper {
+		border-color: var(--color-error) !important;
+		box-shadow: 0 0 0 2px var(--color-error-alpha-20) !important;
+	}
+
+	.helperText {
+		color: var(--color-error);
+	}
+}
+
+.state-success {
+	.inputWrapper {
+		border-color: var(--color-success) !important;
+		box-shadow: 0 0 0 2px var(--color-success-alpha-20) !important;
+	}
+
+	.helperText {
+		color: var(--color-success);
+	}
+}
+
+.state-focus {
+	.inputWrapper {
+		border-color: var(--color-primary) !important;
+		box-shadow: 0 0 0 2px var(--color-primary-alpha-20) !important;
+	}
+}
+
+// ========================================
+// Icon and Affixes
+// ========================================
+.icon {
+	position: absolute;
+	left: var(--spacing-3);
+	color: var(--color-text-secondary);
+	pointer-events: none;
+	z-index: 1;
+}
+
+.prefix {
+	padding-left: var(--spacing-3);
+	color: var(--color-text-secondary);
+	font-size: inherit;
+	white-space: nowrap;
+}
+
+.suffix {
+	padding-right: var(--spacing-3);
+	color: var(--color-text-secondary);
+	font-size: inherit;
+	white-space: nowrap;
+}
+
+// ========================================
+// Action Buttons
+// ========================================
+.passwordToggle,
+.clearButton {
+	position: absolute;
+	right: var(--spacing-3);
+	padding: var(--spacing-1);
+	color: var(--color-text-secondary);
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	border-radius: var(--border-radius-sm);
+	transition: all 0.2s ease;
+
+	&:hover {
+		color: var(--color-text-primary);
+		background: var(--color-surface-secondary);
+	}
+
+	&:focus {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
+	}
+}
+
+.clearButton {
+	right: var(--spacing-8);
+}
+
+// ========================================
+// Helper Text
+// ========================================
+.helperText {
+	font-size: var(--font-size-sm);
+	line-height: 1.4;
+	color: var(--color-text-secondary);
+	margin-top: var(--spacing-1);
+}
+
+// ========================================
+// Responsive Design
+// ========================================
+@media (max-width: 768px) {
+	.size-large {
+		.input {
+			padding: var(--spacing-3);
+			font-size: var(--font-size-base);
+		}
+	}
+}
+
+// ========================================
+// Dark Mode Support
+// ========================================
+@media (prefers-color-scheme: dark) {
+	.inputWrapper {
+		background: var(--color-surface-dark);
+		border-color: var(--color-border-dark);
+	}
+
+	.input {
+		color: var(--color-text-primary-dark);
+
+		&::placeholder {
+			color: var(--color-text-tertiary-dark);
+		}
+	}
+
+	.label {
+		color: var(--color-text-primary-dark);
+	}
+
+	.helperText {
+		color: var(--color-text-secondary-dark);
+	}
+}
+
+// ========================================
+// Accessibility Improvements
+// ========================================
+@media (prefers-reduced-motion: reduce) {
+	.inputWrapper,
+	.passwordToggle,
+	.clearButton {
+		transition: none;
+	}
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+	.inputWrapper {
+		border-width: 2px;
+	}
+
+	.state-error .inputWrapper {
+		border-width: 3px;
+	}
+
+	.state-success .inputWrapper {
+		border-width: 3px;
+	}
+}

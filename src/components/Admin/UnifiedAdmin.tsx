@@ -1,11 +1,11 @@
 import React from 'react';
 import Admin from './Admin';
 import AdminBodyFactory from './AdminBodyFactory';
-import { ADMIN_CONFIGURATIONS } from './AdminConfigurations';
+import { ADMIN_CONFIGURATIONS } from './configurations';
 import type {
 	AdminKind,
 	AdminConfiguration,
-} from './AdminConfigurations';
+} from './configurations';
 
 export interface UnifiedAdminProps
 	extends AdminConfiguration {

@@ -1,16 +1,16 @@
 // ===== PRIMARY DRY FORM FIELD SYSTEM =====
 // Use these for new development - Maximum DRYness
 
-// Enhanced form field factory and ultra-DRY system
+// Enhanced form field factory and factory system
 export {
 	default as FormFieldFactory,
 	F,
 	FormFieldPresets,
-} from './FormFieldFactoryDRY';
-export type { FormFieldFactoryProps } from './FormFieldFactoryDRY';
+} from './factory';
+export type { FormFieldFactoryProps } from './factory';
 
 // Enhanced form field configuration system
-export * from './FormFieldConfigurations';
+export * from './configurations';
 
 // Core unified components
 export { default as UnifiedFormField } from './UnifiedFormField';

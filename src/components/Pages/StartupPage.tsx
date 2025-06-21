@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { PageFactory } from './PageFactoryDRY';
+import { PageFactory } from './factory';
 
 export interface StartupPageProps {
 	onStartDaily: () => void;

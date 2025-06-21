@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import UnifiedModal, {
 	UnifiedModalProps,
 } from './UnifiedModal';
-import { ExtendedModalKind } from './ModalConfigurations';
+import { ExtendedModalKind } from './configurations';
 
 /**
  * Simple Modal Factory - Main entry point for creating modals

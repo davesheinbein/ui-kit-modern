@@ -4,10 +4,10 @@ export {
 	BannerFactoryClass,
 	Ban,
 	BannerPresets,
-} from './BannerFactoryDRY';
-export type { BannerFactoryProps } from './BannerFactoryDRY';
+} from './factory';
+export type { BannerFactoryProps } from './factory';
 
-export * from './BannerConfigurations';
+export * from './configurations';
 
 export { default as UnifiedBanner } from './UnifiedBanner';
 export type { UnifiedBannerProps } from './UnifiedBanner';

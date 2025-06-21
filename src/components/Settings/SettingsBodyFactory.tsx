@@ -5,7 +5,7 @@ import {
 	SettingsConfiguration,
 	SettingsItem,
 	SettingsSection,
-} from './SettingsConfigurations';
+} from './configurations';
 
 export interface SettingsBodyFactoryProps {
 	kind:

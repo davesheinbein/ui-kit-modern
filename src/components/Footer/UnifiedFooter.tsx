@@ -1,14 +1,14 @@
 import React from 'react';
 import Footer from './Footer';
 import FooterBodyFactory from './FooterBodyFactory';
-import { FOOTER_CONFIGURATIONS } from './FooterConfigurations';
+import { FOOTER_CONFIGURATIONS } from './configurations';
 import type {
 	FooterKind,
 	FooterConfiguration,
-} from './FooterConfigurations';
+} from './configurations';
 
 // Re-export types for easier importing
-export type { FooterKind } from './FooterConfigurations';
+export type { FooterKind } from './configurations';
 
 export interface UnifiedFooterProps
 	extends FooterConfiguration {

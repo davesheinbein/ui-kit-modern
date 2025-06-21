@@ -10,17 +10,15 @@ export type { CustomizationCategoryProps } from './CustomizationCategory';
 
 export { default as SettingsPanel } from './SettingsPanel';
 
-// Export enhanced settings configuration system
-export * from './SettingsConfigurations';
+export * from './configurations';
 
-// Export enhanced settings factory and ultra-DRY system
 export {
 	default as SettingsFactory,
 	S,
 	SettingsPresets,
 	QuickSettings,
-} from './SettingsFactoryDRY';
-export type { SettingsFactoryProps } from './SettingsFactoryDRY';
+} from './factory';
+export type { SettingsFactoryProps } from './factory';
 
 // Export base components
 export { default as Settings } from './Settings';

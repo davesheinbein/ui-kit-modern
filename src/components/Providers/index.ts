@@ -1,25 +1,19 @@
-// ===== MAIN DRY PROVIDER SYSTEM =====
-
-// Export the main unified provider component
 export { default as UnifiedProvider } from './UnifiedProvider';
 export type {
 	ProviderKind,
 	UnifiedProviderProps,
 } from './UnifiedProvider';
 
-// Export provider factory system
 export {
 	default as ProviderFactory,
 	P,
 	ProviderPresets,
 	QuickProviders,
-} from './ProviderFactoryDRY';
-export type { ProviderFactoryProps } from './ProviderFactoryDRY';
+} from './factory';
+export type { ProviderFactoryProps } from './factory';
 
-// Export configuration system
-export * from './ProviderConfigurations';
+export * from './configurations';
 
-// Export hooks and contexts from UnifiedProvider
 export {
 	useSocket,
 	useUserSettings,
@@ -29,7 +23,6 @@ export {
 	UserSettingsContext,
 } from './UnifiedProvider';
 
-// Export backward compatibility provider wrappers
 export {
 	SocketProvider,
 	UserSettingsProvider,

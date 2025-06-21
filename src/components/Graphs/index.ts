@@ -8,16 +8,14 @@ export type {
 export { default as Graphs } from './Graphs';
 export type { GraphsProps, GraphShape } from './Graphs';
 
-// Export enhanced graph configuration system
-export * from './GraphConfigurations';
+export * from './configurations';
 
-// Export enhanced graph factory and ultra-DRY system
 export {
 	default as GraphFactory,
 	G,
 	GraphPresets,
 	QuickGraphs,
-} from './GraphFactoryDRY';
+} from './factory';
 
 // Default export for backward compatibility
 export { default } from './Graphs';

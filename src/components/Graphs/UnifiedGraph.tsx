@@ -34,7 +34,7 @@ import {
 	GraphConfiguration,
 	createGraphConfig,
 	getColorScheme,
-} from './GraphConfigurations';
+} from './configurations';
 import styles from './Graphs.module.scss';
 
 // Re-export types for backward compatibility

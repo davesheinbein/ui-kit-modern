@@ -192,9 +192,15 @@
 	@include text-truncate;
 
 	&.selected {
-		background: var(--color-primary-container);
-		color: var(--color-primary);
-		border-color: var(--color-primary);
+		background: var(--color-primary-light) !important;
+		border-color: var(--color-primary) !important;
+		color: var(--color-primary-dark) !important;
+	}
+
+	&.active {
+		background: var(--color-primary) !important;
+		color: var(--color-white) !important;
+		box-shadow: var(--shadow-sm);
 	}
 
 	&.locked {
@@ -202,15 +208,15 @@
 	}
 
 	&.burnSuspect {
-		background: var(--color-error-container);
-		color: var(--color-error);
-		border-color: var(--color-error);
+		background: var(--color-warning-light) !important;
+		border-color: var(--color-warning) !important;
+		color: var(--color-warning-dark) !important;
 	}
 
 	&.burned {
-		background: var(--color-warning);
-		color: var(--color-on-warning);
-		border-color: var(--color-warning);
+		background: var(--color-error-light) !important;
+		color: var(--color-error) !important;
+		border-color: var(--color-error);
 	}
 }
 
@@ -337,4 +343,84 @@
 	&:active {
 		background: var(--color-surface-container-high);
 	}
+}
+
+// ========================================
+// Enhanced Button State Modifiers (from UnifiedButtonEnhanced)
+// ========================================
+
+.selected {
+	background: var(--color-primary-light) !important;
+	border-color: var(--color-primary) !important;
+	color: var(--color-primary-dark) !important;
+}
+
+.active {
+	background: var(--color-primary) !important;
+	color: var(--color-white) !important;
+	box-shadow: var(--shadow-sm);
+}
+
+.locked {
+	@include disabled-state;
+	pointer-events: none;
+}
+
+.burnSuspect {
+	background: var(--color-warning-light) !important;
+	border-color: var(--color-warning) !important;
+	color: var(--color-warning-dark) !important;
+}
+
+.burned {
+	background: var(--color-error-light) !important;
+	border-color: var(--color-error) !important;
+	color: var(--color-error) !important;
+}
+
+// ========================================
+// Link Button Styling (Enhanced)
+// ========================================
+
+.linkButton {
+	@include interactive-element;
+	@include flex-center;
+	text-decoration: none;
+	color: var(--color-primary);
+	padding: var(--spacing-2) var(--spacing-4);
+	border-radius: var(--radius-md);
+
+	&:hover {
+		background: var(--color-surface-hover);
+		text-decoration: underline;
+	}
+}
+
+// ========================================
+// Close Button Positioning (Enhanced)
+// ========================================
+
+.closeButton {
+	position: absolute;
+	top: var(--spacing-4);
+	right: var(--spacing-4);
+	z-index: var(--z-overlay);
+}
+
+// ========================================
+// Word Button Enhancement
+// ========================================
+
+.wordButton {
+	@include contained-width(80px);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+}
+
+// ========================================
+// Accessibility
+// ========================================
+
+.sr-only {
+	@include visually-hidden;
 }

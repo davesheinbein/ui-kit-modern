@@ -9,7 +9,7 @@ import React from 'react';
 import {
 	ExtendedModalKind,
 	ModalConfiguration,
-} from './ModalConfigurations';
+} from './configurations';
 import UnifiedButton from '../Button/UnifiedButton';
 
 export interface ModalFooterProps {

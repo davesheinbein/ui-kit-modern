@@ -2,7 +2,7 @@ import React, { forwardRef, memo } from 'react';
 import {
 	FileUploadKind,
 	getFileUploadConfig,
-} from './FileUploadConfigurations';
+} from './configurations';
 
 export interface UnifiedFileUploadProps {
 	kind: FileUploadKind;

@@ -6,7 +6,7 @@ import {
 } from '../../components/Admin';
 
 const meta: Meta<typeof AdminFactory> = {
-	title: 'Admin/Admin Components (DRY System)',
+	title: 'Admin/Admin',
 	component: AdminFactory,
 	tags: ['autodocs'],
 	parameters: {
@@ -60,6 +60,37 @@ export const SessionDebugger: Story = {
 		kind: 'session-debugger',
 		enabled: true,
 		position: 'top-left',
+	},
+};
+
+export const SessionDebuggerDisabled: Story = {
+	args: {
+		kind: 'session-debugger',
+		enabled: false,
+		position: 'top-left',
+	},
+};
+
+export const SessionDebuggerTopRight: Story = {
+	args: {
+		kind: 'session-debugger',
+		enabled: true,
+		position: 'top-right',
+	},
+};
+
+export const SessionDebuggerWithMockSession: Story = {
+	args: {
+		kind: 'session-debugger',
+		enabled: true,
+		position: 'top-left',
+		session: {
+			user: {
+				id: '12345',
+				email: 'test@example.com',
+			},
+		},
+		status: 'authenticated',
 	},
 };
 

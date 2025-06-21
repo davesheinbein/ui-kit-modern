@@ -8,7 +8,7 @@ import styles from './Footer.module.scss';
 import type {
 	FooterKind,
 	FooterLink,
-} from './FooterConfigurations';
+} from './configurations';
 
 export interface FooterBodyFactoryProps {
 	kind: FooterKind;
@@ -66,7 +66,7 @@ const StandardFooterBody: React.FC<any> = (props) => {
 								<React.Fragment
 									key={link.href || link.label || index}
 								>
-									{link.onClick ? (
+									{link.onClick ?
 										<button
 											onClick={link.onClick}
 											className={styles.footerLink}
@@ -74,28 +74,27 @@ const StandardFooterBody: React.FC<any> = (props) => {
 										>
 											{link.label}
 										</button>
-									) : link.href ? (
+									: link.href ?
 										<a
 											href={link.href}
 											className={styles.footerLink}
 											target={
-												link.href.startsWith('http')
-													? '_blank'
-													: undefined
+												link.href.startsWith('http') ?
+													'_blank'
+												:	undefined
 											}
 											rel={
-												link.href.startsWith('http')
-													? 'noopener noreferrer'
-													: undefined
+												link.href.startsWith('http') ?
+													'noopener noreferrer'
+												:	undefined
 											}
 										>
 											{link.label}
 										</a>
-									) : (
-										<span className={styles.footerLink}>
+									:	<span className={styles.footerLink}>
 											{link.label}
 										</span>
-									)}
+									}
 									{showDivider &&
 										index < links.length - 1 && (
 											<span
@@ -258,7 +257,7 @@ const AppFooterBody: React.FC<any> = (props) => {
 								<React.Fragment
 									key={link.href || link.label || index}
 								>
-									{link.onClick ? (
+									{link.onClick ?
 										<button
 											onClick={link.onClick}
 											className={styles.footerLink}
@@ -266,14 +265,13 @@ const AppFooterBody: React.FC<any> = (props) => {
 										>
 											{link.label}
 										</button>
-									) : (
-										<a
+									:	<a
 											href={link.href}
 											className={styles.footerLink}
 										>
 											{link.label}
 										</a>
-									)}
+									}
 								</React.Fragment>
 							)
 						)}
@@ -356,10 +354,11 @@ const FooterBodyFactory: React.FC<
 		return (
 			<>
 				<div className={styles.footerLeft}>
-					{leftContent !== undefined
-						? leftContent
-						: props.copyright ||
-						  `© ${new Date().getFullYear()} UI Kit Modern`}
+					{leftContent !== undefined ?
+						leftContent
+					:	props.copyright ||
+						`© ${new Date().getFullYear()} UI Kit Modern`
+					}
 				</div>
 				{centerContent && (
 					<div className={styles.footerCenter}>

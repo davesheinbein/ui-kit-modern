@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Utility } from '../../components/Utility';
-import { UtilityKind } from '../../components/Utility/UtilityConfigurations';
+import { UtilityKind } from '../../components/Utility/configurations';
 
 const meta: Meta<typeof Utility> = {
-	title: 'Components/Utility',
+	title: 'Utility/Utility',
 	component: Utility,
 	parameters: {
 		layout: 'centered',

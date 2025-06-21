@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { ExtendedModalKind } from './ModalConfigurations';
+import { ExtendedModalKind } from './configurations';
 import styles from './UnifiedModal.module.scss';
 
 export interface ModalBodyProps {

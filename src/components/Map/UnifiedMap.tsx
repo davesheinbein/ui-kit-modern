@@ -12,7 +12,7 @@ import {
 	MapMarker,
 	MapRegion,
 	getMapConfig,
-} from './MapConfigurations';
+} from './configurations';
 import styles from './Map.module.scss';
 
 export interface UnifiedMapProps {

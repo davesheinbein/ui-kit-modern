@@ -10,7 +10,7 @@ import type { UnifiedPageProps } from '../../components/Pages';
 
 // Meta configuration for the DRY Page system
 const meta: Meta<typeof UnifiedPage> = {
-	title: 'Pages/Page (DRY System)',
+	title: 'Pages/Page',
 	component: UnifiedPage,
 	tags: ['autodocs'],
 	parameters: {
@@ -107,6 +107,30 @@ Available Page Kinds: startup, landing, dashboard, settings, profile, game, brow
 		className: {
 			control: 'text',
 			description: 'Additional CSS classes',
+		},
+		onStartDaily: {
+			action: 'startDaily',
+			description: 'Function called when starting daily mode (startup pages)',
+		},
+		onStartCustom: {
+			action: 'startCustom',
+			description: 'Function called when starting custom mode (startup pages)',
+		},
+		onBrowseCustom: {
+			action: 'browseCustom',
+			description: 'Function called when browsing custom puzzles (startup pages)',
+		},
+		onShare: {
+			action: 'share',
+			description: 'Function called when sharing (startup pages)',
+		},
+		configuration: {
+			control: 'object',
+			description: 'Page configuration object',
+		},
+		style: {
+			control: 'object',
+			description: 'Custom style object',
 		},
 	},
 };
@@ -498,6 +522,211 @@ export const AllVariantsShowcase: Story = {
 4. **Preset Patterns**: Pre-configured common patterns
 
 This system eliminates code duplication and provides a consistent API for all page variants.`,
+			},
+		},
+	},
+};
+
+// ===== DETAILED STARTUP PAGE VARIANTS =====
+
+export const StartupWithCallbacks: Story = {
+	name: '🚀 Startup with Callbacks',
+	args: {
+		kind: 'startup',
+		title: 'Game Title',
+		onStartDaily: () => {},
+		onStartCustom: () => {},
+		onBrowseCustom: () => {},
+		onShare: () => {},
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Startup page with all callback functions for game mode navigation.',
+			},
+		},
+	},
+};
+
+export const StartupWithCustomTitle: Story = {
+	name: '🚀 Startup with Custom Title',
+	args: {
+		kind: 'startup',
+		title: 'My Custom Game',
+		subtitle: 'Choose your adventure and start playing',
+		onStartDaily: () => {},
+		onStartCustom: () => {},
+		onBrowseCustom: () => {},
+		onShare: () => {},
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Startup page with custom title and subtitle text.',
+			},
+		},
+	},
+};
+
+export const StartupWithoutShare: Story = {
+	name: '🚀 Startup without Share',
+	args: {
+		kind: 'startup',
+		title: 'Puzzle Challenge',
+		subtitle: 'Test your skills with our daily puzzles',
+		onStartDaily: () => {},
+		onStartCustom: () => {},
+		onBrowseCustom: () => {},
+		// onShare not provided
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Startup page without share functionality.',
+			},
+		},
+	},
+};
+
+export const StartupMinimal: Story = {
+	name: '🚀 Startup Minimal',
+	args: {
+		kind: 'startup',
+		title: 'Quick Start',
+		onStartDaily: () => {},
+		onStartCustom: () => {},
+		onBrowseCustom: () => {},
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Minimal startup page with just essential navigation.',
+			},
+		},
+	},
+};
+
+export const StartupCustomStyling: Story = {
+	name: '🚀 Startup Custom Styling',
+	args: {
+		kind: 'startup',
+		title: 'Premium Game Experience',
+		subtitle: 'Enhanced with premium features',
+		onStartDaily: () => {},
+		onStartCustom: () => {},
+		onBrowseCustom: () => {},
+		onShare: () => {},
+		configuration: {
+			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+		},
+		style: {
+			color: '#fff',
+		},
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Startup page with custom gradient background and styling.',
+			},
+		},
+	},
+};
+
+export const StartupDRYFactoryExample: Story = {
+	name: '🚀 Startup Factory Pattern',
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '2rem',
+				padding: '1rem',
+			}}
+		>
+			<div>
+				<h3>PageFactory Startup:</h3>
+				{PageFactory({
+					kind: 'startup',
+					title: 'Factory Startup Page',
+					subtitle: 'Created with PageFactory',
+					onStartDaily: () => console.log('Daily mode'),
+					onStartCustom: () => console.log('Custom mode'),
+					onBrowseCustom: () => console.log('Browse'),
+					onShare: () => console.log('Share'),
+				})}
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Startup page created using the PageFactory pattern with callbacks.',
+			},
+		},
+	},
+};
+
+export const StartupUltraDRYExample: Story = {
+	name: '🚀 Startup Ultra-DRY (P)',
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '2rem',
+				padding: '1rem',
+			}}
+		>
+			<div>
+				<h3>Ultra-short "P" alias:</h3>
+				{P({
+					kind: 'startup',
+					title: 'P Startup Page',
+					subtitle: 'Ultra-DRY with P alias',
+					onStartDaily: () => console.log('Daily mode'),
+					onStartCustom: () => console.log('Custom mode'),
+					onBrowseCustom: () => console.log('Browse'),
+				})}
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Startup page using the ultra-short "P" alias for maximum development speed.',
+			},
+		},
+	},
+};
+
+export const StartupPresetExample: Story = {
+	name: '🚀 Startup Preset Pattern',
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '2rem',
+				padding: '1rem',
+			}}
+		>
+			<div>
+				<h3>PagePresets.Startup:</h3>
+				{PagePresets.Startup({
+					title: 'Preset Startup Page',
+					subtitle: 'Pre-configured startup pattern',
+					onStartDaily: () => console.log('Daily mode'),
+					onStartCustom: () => console.log('Custom mode'),
+					onBrowseCustom: () => console.log('Browse'),
+					onShare: () => console.log('Share'),
+				})}
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Startup page using the preset pattern for common startup configurations.',
 			},
 		},
 	},

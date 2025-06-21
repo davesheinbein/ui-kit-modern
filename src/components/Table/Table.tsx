@@ -3,10 +3,6 @@ import UnifiedTable, {
 	UnifiedTableProps,
 } from './UnifiedTable';
 
-// ========================================
-// Props Interface
-// ========================================
-
 export interface TableProps
 	extends Omit<UnifiedTableProps, 'kind'> {
 	// Make kind optional and default to 'data-table'

@@ -9,7 +9,7 @@ import {
 	ExtendedSidebarKind,
 	SidebarConfiguration,
 	createSidebarConfig,
-} from './SidebarConfigurations';
+} from './configurations';
 import styles from './Sidebar.module.scss';
 
 // Base sidebar variant types

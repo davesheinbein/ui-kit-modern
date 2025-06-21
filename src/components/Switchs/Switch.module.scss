@@ -1,0 +1,127 @@
+/**
+ * Switch Component Styles
+ */
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.switchContainer {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-2);
+
+	&.disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+}
+
+.fieldLabel {
+	color: var(--color-text-primary);
+	font-weight: 500;
+
+	.requiredMark {
+		color: var(--color-error);
+		margin-left: var(--spacing-1);
+	}
+}
+
+.switchWrapper {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2);
+}
+
+.switchInput {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+.switchLabel {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2);
+	cursor: pointer;
+}
+
+.switchTrack {
+	position: relative;
+	width: 44px;
+	height: 24px;
+	background: var(--color-background-secondary);
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius-full);
+	transition: all 0.2s ease;
+
+	.checked & {
+		background: var(--color-primary);
+		border-color: var(--color-primary);
+	}
+}
+
+.switchThumb {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 18px;
+	height: 18px;
+	background: var(--color-background);
+	border-radius: 50%;
+	transition: transform 0.2s ease;
+	box-shadow: var(--shadow-sm);
+
+	.checked & {
+		transform: translateX(20px);
+	}
+}
+
+.switchLabels {
+	color: var(--color-text-primary);
+}
+
+.helpText {
+	color: var(--color-text-secondary);
+}
+
+.errorText {
+	color: var(--color-error);
+}
+
+// Size variants
+.size-small {
+	.switchTrack {
+		width: 36px;
+		height: 20px;
+	}
+
+	.switchThumb {
+		width: 14px;
+		height: 14px;
+		top: 2px;
+		left: 2px;
+
+		.checked & {
+			transform: translateX(16px);
+		}
+	}
+}
+
+.size-large {
+	.switchTrack {
+		width: 52px;
+		height: 28px;
+	}
+
+	.switchThumb {
+		width: 22px;
+		height: 22px;
+		top: 2px;
+		left: 2px;
+
+		.checked & {
+			transform: translateX(24px);
+		}
+	}
+}

@@ -3,7 +3,7 @@ import {
 	GridConfiguration,
 	ExtendedGridKind,
 	GRID_CONFIGURATIONS,
-} from './GridConfigurations';
+} from './configurations';
 import { UnifiedButton } from '../Button';
 import styles from './Grid.module.scss';
 

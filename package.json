@@ -13,7 +13,6 @@
 		"build": "vite build",
 		"dev": "storybook dev -p 6006",
 		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-		"playground": "cd playground && vite",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build",
 		"deploy-storybook": "npm run build-storybook && npx gh-pages -d storybook-static"

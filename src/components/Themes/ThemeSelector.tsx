@@ -3,7 +3,7 @@ import UnifiedTheme from './UnifiedTheme';
 import {
 	defaultThemes,
 	vsModeDefaults,
-} from './ThemeConfigurations';
+} from './configurations';
 
 // Re-export the original exports for backward compatibility
 export { defaultThemes as themes, vsModeDefaults };

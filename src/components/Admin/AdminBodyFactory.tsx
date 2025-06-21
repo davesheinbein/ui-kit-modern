@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styles from './Admin.module.scss';
-import type { AdminKind } from './AdminConfigurations';
+import type { AdminKind } from './configurations';
 
 export interface AdminBodyFactoryProps {
 	kind: AdminKind;
@@ -31,8 +31,7 @@ const SessionDebuggerBody: React.FC<any> = (props) => {
 		return () => clearInterval(interval);
 	}, []);
 
-	// NOTE: You must provide your own session context or hook in your app
-	// This is a UI-only debug component
+	// You must provide your own session context or hook in your app
 	const session: any = props.session || undefined;
 	const status = props.status || 'unknown';
 

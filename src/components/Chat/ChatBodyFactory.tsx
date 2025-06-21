@@ -1,6 +1,5 @@
 import React, { forwardRef, useState } from 'react';
 import styles from './Chat.module.scss';
-import VSQuickChatBar from './VSQuickChatBar';
 
 export interface ChatBodyFactoryProps {
 	kind:
@@ -221,17 +220,22 @@ const ChatBodyFactory = forwardRef<
 			case 'vs-quick-chat':
 				return (
 					<div ref={ref} {...props}>
-						<VSQuickChatBar
-							options={
-								configuration?.quickOptions || [
-									'Hello',
-									'Good luck!',
-									'Nice move!',
-									'GG',
-								]
-							}
-							onSend={onSend || (() => {})}
-						/>
+						<div className={styles.vsQuickChatBar}>
+							{(configuration?.quickOptions || quickOptions || [
+								'Hello',
+								'Good luck!',
+								'Nice move!',
+								'GG',
+							]).map((opt: string) => (
+								<button
+									key={opt}
+									className={styles.vsQuickChatButton}
+									onClick={() => onSend?.(opt)}
+								>
+									{opt}
+								</button>
+							))}
+						</div>
 					</div>
 				);
 		}

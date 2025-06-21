@@ -6,13 +6,13 @@ export type {
 	UtilityPlacement,
 	UtilityAction,
 	UtilityConfiguration,
-} from './UtilityConfigurations';
+} from './configurations';
 
 export type { UnifiedUtilityProps } from './UnifiedUtility';
 export { default as UnifiedUtility } from './UnifiedUtility';
 export { default as Utility } from './Utility';
 export {
-	UtilityFactoryDRY,
+	UtilityFactory,
 	UtilityComponents,
-} from './UtilityFactoryDRY';
-export { getUtilityConfig } from './UtilityConfigurations';
+} from './factory';
+export { getUtilityConfig } from './configurations';

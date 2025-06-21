@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Admin.module.scss';
-import type { AdminConfiguration } from './AdminConfigurations';
+import type { AdminConfiguration } from './configurations';
 
 export interface AdminProps extends AdminConfiguration {
 	children?: React.ReactNode;

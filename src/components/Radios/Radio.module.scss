@@ -1,0 +1,441 @@
+/**
+ * Radio Component Styles
+ * Modern radio button styling with proper containment and accessibility
+ */
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
+
+// Base radio container
+.radioContainer {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-2);
+
+	&.disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	&.error {
+		.optionsContainer {
+			border-color: var(--color-error);
+		}
+	}
+}
+
+// Field label
+.fieldLabel {
+	color: var(--color-text-primary);
+	font-weight: 500;
+
+	.requiredMark {
+		color: var(--color-error);
+		margin-left: var(--spacing-1);
+	}
+}
+
+// Options container
+.optionsContainer {
+	display: flex;
+	gap: var(--spacing-2);
+
+	// Alignment variants
+	.alignment-horizontal & {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.alignment-vertical & {
+		flex-direction: column;
+	}
+
+	.alignment-grid & {
+		display: grid;
+		grid-template-columns: repeat(
+			auto-fit,
+			minmax(200px, 1fr)
+		);
+		gap: var(--spacing-3);
+	}
+}
+
+// Spacing variants
+.spacing-tight {
+	.optionsContainer {
+		gap: var(--spacing-1);
+	}
+}
+
+.spacing-normal {
+	.optionsContainer {
+		gap: var(--spacing-2);
+	}
+}
+
+.spacing-loose {
+	.optionsContainer {
+		gap: var(--spacing-4);
+	}
+}
+
+// Base radio option
+.radioOption {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&.disabled {
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+
+	&:hover:not(.disabled) {
+		transform: translateY(-1px);
+	}
+}
+
+// Radio input (hidden)
+.radioInput {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+// Radio label
+.radioLabel {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	width: 100%;
+
+	&::before {
+		content: '';
+		flex-shrink: 0;
+		width: 20px;
+		height: 20px;
+		border: 2px solid var(--color-border);
+		border-radius: 50%;
+		background: var(--color-background);
+		transition: all 0.2s ease;
+	}
+
+	.radioInput:checked + &::before {
+		border-color: var(--color-primary);
+		background: var(--color-primary);
+		box-shadow: inset 0 0 0 3px var(--color-background);
+	}
+
+	.radioInput:focus + &::before {
+		box-shadow: 0 0 0 2px var(--color-focus-ring);
+	}
+
+	.disabled &::before {
+		border-color: var(--color-border-disabled);
+		background: var(--color-background-disabled);
+	}
+}
+
+// Option text
+.optionText {
+	color: var(--color-text-primary);
+	line-height: 1.4;
+}
+
+// Option description
+.radioDescription {
+	color: var(--color-text-secondary);
+	margin-top: var(--spacing-1);
+	line-height: 1.3;
+}
+
+// Option icon
+.optionIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	color: var(--color-text-secondary);
+
+	.selected & {
+		color: var(--color-primary);
+	}
+}
+
+// Option image
+.optionImage {
+	width: 48px;
+	height: 48px;
+	border-radius: var(--border-radius-medium);
+	overflow: hidden;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+// === VARIANT STYLES ===
+
+// Standard variant
+.variant-standard {
+	.radioOption {
+		padding: var(--spacing-2);
+		border-radius: var(--border-radius-small);
+
+		&:hover:not(.disabled) {
+			background: var(--color-background-hover);
+		}
+
+		&.selected {
+			background: var(--color-background-selected);
+		}
+	}
+}
+
+// Button variant
+.variant-button {
+	.radioOption {
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius-medium);
+		padding: var(--spacing-3) var(--spacing-4);
+		background: var(--color-background);
+
+		&:hover:not(.disabled) {
+			border-color: var(--color-primary);
+			box-shadow: var(--shadow-sm);
+		}
+
+		&.selected {
+			border-color: var(--color-primary);
+			background: var(--color-primary-light);
+			color: var(--color-primary);
+		}
+	}
+
+	.radioLabel::before {
+		display: none;
+	}
+}
+
+// Card variant
+.variant-card {
+	.radioOption {
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius-large);
+		padding: var(--spacing-4);
+		background: var(--color-background);
+		box-shadow: var(--shadow-xs);
+
+		&:hover:not(.disabled) {
+			border-color: var(--color-primary);
+			box-shadow: var(--shadow-md);
+		}
+
+		&.selected {
+			border-color: var(--color-primary);
+			box-shadow: var(--shadow-lg);
+			background: var(--color-primary-light);
+		}
+	}
+
+	.radioLabel {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--spacing-3);
+
+		&::before {
+			align-self: flex-end;
+		}
+	}
+
+	.optionText {
+		font-weight: 500;
+	}
+}
+
+// Switch variant
+.variant-switch {
+	.radioOption {
+		padding: var(--spacing-2);
+		border-radius: var(--border-radius-full);
+	}
+
+	.radioLabel::before {
+		width: 44px;
+		height: 24px;
+		border-radius: var(--border-radius-full);
+		position: relative;
+		background: var(--color-background-secondary);
+		border: 1px solid var(--color-border);
+	}
+
+	.radioLabel::after {
+		content: '';
+		position: absolute;
+		top: 3px;
+		left: 3px;
+		width: 18px;
+		height: 18px;
+		background: var(--color-background);
+		border-radius: 50%;
+		transition: transform 0.2s ease;
+	}
+
+	.radioInput:checked + .radioLabel::before {
+		background: var(--color-primary);
+		border-color: var(--color-primary);
+	}
+
+	.radioInput:checked + .radioLabel::after {
+		transform: translateX(20px);
+	}
+}
+
+// === SIZE VARIANTS ===
+.size-small {
+	.radioLabel::before {
+		width: 16px;
+		height: 16px;
+	}
+
+	.optionText {
+	}
+
+	.variant-button & .radioOption {
+		padding: var(--spacing-2) var(--spacing-3);
+	}
+
+	.variant-card & .radioOption {
+		padding: var(--spacing-3);
+	}
+}
+
+.size-large {
+	.radioLabel::before {
+		width: 24px;
+		height: 24px;
+	}
+
+	.optionText {
+	}
+
+	.variant-button & .radioOption {
+		padding: var(--spacing-4) var(--spacing-5);
+	}
+
+	.variant-card & .radioOption {
+		padding: var(--spacing-5);
+	}
+}
+
+// === STYLE VARIANTS ===
+.style-outlined {
+	.radioOption {
+		border: 1px solid var(--color-border);
+	}
+}
+
+.style-filled {
+	.radioOption {
+		background: var(--color-background-secondary);
+
+		&.selected {
+			background: var(--color-primary);
+			color: var(--color-on-primary);
+		}
+	}
+}
+
+.style-ghost {
+	.radioOption {
+		background: transparent;
+		border: none;
+
+		&:hover:not(.disabled) {
+			background: var(--color-background-hover);
+		}
+
+		&.selected {
+			background: var(--color-primary-light);
+		}
+	}
+}
+
+.style-minimal {
+	.radioOption {
+		border: none;
+		background: none;
+		padding: var(--spacing-1);
+
+		&.selected {
+			background: none;
+		}
+	}
+}
+
+// === BORDER RADIUS VARIANTS ===
+.radius-none {
+	.radioOption {
+		border-radius: 0;
+	}
+}
+
+.radius-small {
+	.radioOption {
+		border-radius: var(--border-radius-small);
+	}
+}
+
+.radius-medium {
+	.radioOption {
+		border-radius: var(--border-radius-medium);
+	}
+}
+
+.radius-large {
+	.radioOption {
+		border-radius: var(--border-radius-large);
+	}
+}
+
+.radius-full {
+	.radioOption {
+		border-radius: var(--border-radius-full);
+	}
+}
+
+// Help text
+.helpText {
+	color: var(--color-text-secondary);
+	margin-top: var(--spacing-1);
+}
+
+// Error text
+.errorText {
+	color: var(--color-error);
+	margin-top: var(--spacing-1);
+}
+
+// Responsive design
+@media (max-width: 768px) {
+	.alignment-horizontal {
+		.optionsContainer {
+			flex-direction: column;
+		}
+	}
+
+	.alignment-grid {
+		.optionsContainer {
+			grid-template-columns: 1fr;
+		}
+	}
+}

@@ -3,7 +3,7 @@ import {
 	CheckboxConfiguration,
 	ExtendedCheckboxKind,
 	CHECKBOX_CONFIGURATIONS,
-} from './CheckboxConfigurations';
+} from './configurations';
 import { ThemePaletteContext } from '../Providers';
 import styles from './Checkbox.module.scss';
 

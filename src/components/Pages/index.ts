@@ -9,16 +9,14 @@ export type {
 export { default as Page } from './Page';
 export type { PageProps } from './Page';
 
-// Export enhanced page configuration system
-export * from './PageConfigurations';
+export * from './configurations';
 
-// Export enhanced page factory and ultra-DRY system
 export {
 	default as PageFactory,
 	P,
 	PagePresets,
 	createPage,
-} from './PageFactoryDRY';
+} from './factory';
 export type { UnifiedPageProps as PageFactoryProps } from './UnifiedPage';
 
 // Legacy components using the unified system

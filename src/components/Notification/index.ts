@@ -5,12 +5,10 @@ export type { UnifiedNotificationProps } from './UnifiedNotification';
 export { default as Notification } from './Notification';
 export type { NotificationProps } from './Notification';
 
-// Export enhanced notification configuration system
-export * from './NotificationConfigurations';
+export * from './configurations';
 
-// Export enhanced notification factory and ultra-DRY system
 export {
 	default as NotificationFactory,
 	NF,
 	NotificationPresets,
-} from './NotificationFactoryDRY';
+} from './factory';

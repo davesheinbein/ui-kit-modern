@@ -10,12 +10,8 @@ import {
 	NavigationItem,
 	getNavigationConfig,
 	NAVIGATION_CONFIGURATIONS,
-} from './NavigationConfigurations';
+} from './configurations';
 import styles from './Navigation.module.scss';
-
-// ========================================
-// Props Interfaces
-// ========================================
 
 export interface UnifiedNavigationProps {
 	kind: NavigationKind;

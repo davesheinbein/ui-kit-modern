@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
-import ChatFactory from './ChatFactoryDRY';
-import { ChatKind } from './ChatConfigurations';
+import ChatFactory from './factory';
+import { ChatKind } from './configurations';
 
 export interface UnifiedChatProps {
 	kind: ChatKind;

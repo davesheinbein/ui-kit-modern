@@ -4,7 +4,7 @@ import {
 	ChartConfiguration,
 	ChartDataSeries,
 	getChartConfig,
-} from './ChartConfigurations';
+} from './configurations';
 import styles from './Chart.module.scss';
 
 export interface UnifiedChartProps {

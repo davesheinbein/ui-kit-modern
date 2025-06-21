@@ -8,7 +8,7 @@ import {
 import type { UnifiedButtonProps } from '../../components/Button';
 
 const meta: Meta<typeof UnifiedButton> = {
-	title: 'Buttons/UnifiedButton',
+	title: 'Buttons/Button',
 	component: UnifiedButton,
 	tags: ['autodocs'],
 	parameters: {
@@ -133,10 +133,55 @@ export const Primary: Story = {
 	},
 };
 
+export const PrimaryWithIcon: Story = {
+	args: {
+		kind: 'primary',
+		text: 'Primary with Icon',
+		icon: '✓',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Primary button with an icon.',
+			},
+		},
+	},
+};
+
+export const PrimaryLongText: Story = {
+	args: {
+		kind: 'primary',
+		text: 'This is a very long button text to test wrapping and overflow behavior',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Primary button with long text to test text handling.',
+			},
+		},
+	},
+};
+
 export const Secondary: Story = {
 	args: {
 		kind: 'secondary',
 		text: 'Secondary Button',
+	},
+};
+
+export const SecondaryWithIcon: Story = {
+	args: {
+		kind: 'secondary',
+		text: 'Secondary with Icon',
+		icon: '📝',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Secondary button with an icon.',
+			},
+		},
 	},
 };
 
@@ -183,6 +228,19 @@ export const CloseButton: Story = {
 	},
 };
 
+export const CloseButtonIconOnly: Story = {
+	args: {
+		kind: 'close-icon-only',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Close button with icon only (no text).',
+			},
+		},
+	},
+};
+
 export const CopyLinkButton: Story = {
 	args: {
 		kind: 'copy-link',
@@ -191,9 +249,133 @@ export const CopyLinkButton: Story = {
 	},
 };
 
+export const CopyLinkButtonLongUrl: Story = {
+	args: {
+		kind: 'copy-link',
+		copyText:
+			'https://example.com/very/long/url/path/that/might/overflow',
+		text: 'Copy Very Long URL',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Copy link button with a very long URL to test text handling.',
+			},
+		},
+	},
+};
+
 export const GoBackButton: Story = {
 	args: {
 		kind: 'go-back',
+	},
+};
+
+export const GoBackButtonWithLabel: Story = {
+	args: {
+		kind: 'go-back',
+		label: 'Return to previous page',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Go back button with custom accessibility label.',
+			},
+		},
+	},
+};
+
+export const IconButtonCustom: Story = {
+	args: {
+		kind: 'icon',
+		icon: '🎮',
+		label: 'Gaming Settings',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Icon button with custom icon and label.',
+			},
+		},
+	},
+};
+
+export const IconButtonVariations: Story = {
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				gap: '1rem',
+				flexWrap: 'wrap',
+			}}
+		>
+			<UnifiedButton
+				kind='icon'
+				icon='⚙️'
+				label='Settings'
+			/>
+			<UnifiedButton
+				kind='icon'
+				icon='🔔'
+				label='Notifications'
+			/>
+			<UnifiedButton
+				kind='icon'
+				icon='👤'
+				label='Profile'
+			/>
+			<UnifiedButton kind='icon' icon='🏠' label='Home' />
+			<UnifiedButton
+				kind='icon'
+				icon='❤️'
+				label='Favorites'
+			/>
+			<UnifiedButton kind='icon' icon='🔍' label='Search' />
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Various icon button examples with different icons.',
+			},
+		},
+	},
+};
+
+// Social/Toggle buttons
+export const FriendsToggleDefault: Story = {
+	args: {
+		kind: 'friends-toggle',
+		isAuthenticated: false,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Friends toggle button in unauthenticated state.',
+			},
+		},
+	},
+};
+
+export const FriendsToggleAuthenticated: Story = {
+	args: {
+		kind: 'friends-toggle',
+		isAuthenticated: true,
+		imageUrl:
+			'https://via.placeholder.com/36x36/2563eb/ffffff?text=JD',
+		userName: 'John Doe',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Friends toggle button with authenticated user profile image.',
+			},
+		},
 	},
 };
 
@@ -211,6 +393,100 @@ export const WordButtonSelected: Story = {
 		kind: 'word',
 		text: 'WORLD',
 		isSelected: true,
+	},
+};
+
+export const WordButtonLocked: Story = {
+	args: {
+		kind: 'word',
+		text: 'LOCKED',
+		isSelected: false,
+		isLocked: true,
+	},
+};
+
+export const WordButtonBurnSuspect: Story = {
+	args: {
+		kind: 'word',
+		text: 'SUSPECT',
+		isSelected: false,
+		burnSuspect: true,
+	},
+};
+
+export const WordButtonBurned: Story = {
+	args: {
+		kind: 'word',
+		text: 'BURNED',
+		isSelected: false,
+		isBurned: true,
+	},
+};
+
+export const WordButtonAllStates: Story = {
+	render: () => (
+		<div
+			style={{
+				display: 'grid',
+				gridTemplateColumns: 'repeat(3, 1fr)',
+				gap: '1rem',
+				maxWidth: '600px',
+			}}
+		>
+			<UnifiedButton
+				kind='word'
+				text='Default'
+				isSelected={false}
+				isLocked={false}
+				onClick={() => {}}
+			/>
+			<UnifiedButton
+				kind='word'
+				text='Selected'
+				isSelected={true}
+				isLocked={false}
+				onClick={() => {}}
+			/>
+			<UnifiedButton
+				kind='word'
+				text='Locked'
+				isSelected={false}
+				isLocked={true}
+				onClick={() => {}}
+			/>
+			<UnifiedButton
+				kind='word'
+				text='Suspect'
+				isSelected={false}
+				isLocked={false}
+				burnSuspect={true}
+				onClick={() => {}}
+			/>
+			<UnifiedButton
+				kind='word'
+				text='Burned'
+				isSelected={false}
+				isLocked={false}
+				isBurned={true}
+				onClick={() => {}}
+			/>
+			<UnifiedButton
+				kind='word'
+				text='Sel+Susp'
+				isSelected={true}
+				isLocked={false}
+				burnSuspect={true}
+				onClick={() => {}}
+			/>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'All word button states in a grid layout for comparison.',
+			},
+		},
 	},
 };
 
@@ -265,6 +541,103 @@ export const FormSubmit: Story = {
 export const FormReset: Story = {
 	args: {
 		kind: 'form-reset',
+	},
+};
+
+// Button Size Variations
+export const ButtonSizes: Story = {
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				gap: '1rem',
+				alignItems: 'center',
+			}}
+		>
+			<UnifiedButton
+				kind='primary'
+				text='Small'
+				size='small'
+			/>
+			<UnifiedButton
+				kind='primary'
+				text='Medium'
+				size='medium'
+			/>
+			<UnifiedButton
+				kind='primary'
+				text='Large'
+				size='large'
+			/>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Primary buttons in different sizes.',
+			},
+		},
+	},
+};
+
+// Button States
+export const ButtonStates: Story = {
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				gap: '1rem',
+				flexWrap: 'wrap',
+			}}
+		>
+			<UnifiedButton kind='primary' text='Normal' />
+			<UnifiedButton
+				kind='primary'
+				text='Loading'
+				loading={true}
+			/>
+			<UnifiedButton
+				kind='primary'
+				text='Disabled'
+				disabled={true}
+			/>
+			<UnifiedButton
+				kind='primary'
+				text='Full Width'
+				fullWidth={true}
+			/>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Primary buttons in different states.',
+			},
+		},
+	},
+};
+
+// Link Button Variations
+export const LinkButton: Story = {
+	args: {
+		kind: 'link',
+		text: 'Link Button',
+		href: 'https://example.com',
+	},
+};
+
+export const LinkButtonExternal: Story = {
+	args: {
+		kind: 'link',
+		text: 'External Link',
+		href: 'https://github.com',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Link button that opens external URL.',
+			},
+		},
 	},
 };
 

@@ -12,7 +12,7 @@ import UnifiedModal, {
 import {
 	ExtendedModalKind,
 	getModalConfiguration,
-} from './ModalConfigurations';
+} from './configurations';
 
 /**
  * Modal Factory Class - Main factory for creating modals

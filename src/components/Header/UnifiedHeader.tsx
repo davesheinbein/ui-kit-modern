@@ -6,7 +6,7 @@ import {
 	TabConfiguration,
 	ActionConfiguration,
 	createHeaderConfig,
-} from './HeaderConfigurations';
+} from './configurations';
 import { UnifiedButton } from '../Button';
 import styles from './Header.module.scss';
 

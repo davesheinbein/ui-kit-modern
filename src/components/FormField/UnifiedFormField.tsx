@@ -5,7 +5,7 @@ import {
 	FORM_FIELD_CONFIGURATIONS,
 	ExtendedFormFieldKind,
 	FormFieldConfiguration,
-} from './FormFieldConfigurations';
+} from './configurations';
 
 export type FieldKind =
 	| 'input'

@@ -181,7 +181,7 @@
 }
 
 .migrationButton {
-	@include button-base;
+	@include mixins.button-base;
 	background: linear-gradient(
 		135deg,
 		#667eea 0%,

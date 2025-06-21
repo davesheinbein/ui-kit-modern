@@ -4,9 +4,8 @@ import {
 	ExtendedButtonKind,
 	ButtonConfiguration,
 	createButtonConfig,
-} from './ButtonConfigurations';
-import styles from './UnifiedButtonEnhanced.module.scss';
-import buttonStyles from './Button.module.scss';
+} from './configurations';
+import styles from './Button.module.scss';
 
 // Base button variant types
 export type ButtonVariant =
@@ -160,9 +159,9 @@ const UnifiedButton = forwardRef<
 
 		// Build comprehensive className with proper styling
 		const combinedClassName = [
-			buttonStyles.baseButton, // Base button styles
-			buttonStyles[`button-${config.variant}`], // Variant styles (button-primary, button-secondary, etc.)
-			buttonStyles[`button-${config.size}`], // Size styles (button-small, button-medium, button-large)
+			styles.baseButton, // Base button styles
+			styles[`button-${config.variant}`], // Variant styles (button-primary, button-secondary, etc.)
+			styles[`button-${config.size}`], // Size styles (button-small, button-medium, button-large)
 			className,
 			config.className,
 			customClassName,

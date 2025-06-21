@@ -14,12 +14,8 @@ import {
 	TableFilter,
 	getTableConfig,
 	TABLE_CONFIGURATIONS,
-} from './TableConfigurations';
+} from './configurations';
 import styles from './Table.module.scss';
-
-// ========================================
-// Props Interfaces
-// ========================================
 
 export interface UnifiedTableProps {
 	kind: TableKind;
@@ -105,10 +101,6 @@ export interface UnifiedTableProps {
 		  ) => string);
 }
 
-// ========================================
-// Main Component
-// ========================================
-
 const UnifiedTable = forwardRef<
 	HTMLTableElement,
 	UnifiedTableProps
@@ -182,78 +174,77 @@ const UnifiedTable = forwardRef<
 		...restProps
 	} = props;
 
-	// ========================================
-	// Configuration Resolution
-	// ========================================
-
 	const baseConfig = getTableConfig(kind);
+
+	// Helper to merge optional props with base config
+	const mergeConfigValue = <T,>(
+		propValue: T | undefined,
+		configValue: T
+	): T =>
+		propValue !== undefined ? propValue : configValue;
+
 	const config: TableConfiguration = {
 		...baseConfig,
 		variant: variant || baseConfig.variant,
 		layout: layout || baseConfig.layout,
-		sortable:
-			sortable !== undefined ? sortable : (
-				baseConfig.sortable
-			),
-		filterable:
-			filterable !== undefined ? filterable : (
-				baseConfig.filterable
-			),
-		selectable:
-			selectable !== undefined ? selectable : (
-				baseConfig.selectable
-			),
-		expandable:
-			expandable !== undefined ? expandable : (
-				baseConfig.expandable
-			),
-		editable:
-			editable !== undefined ? editable : (
-				baseConfig.editable
-			),
-		multiSort:
-			multiSort !== undefined ? multiSort : (
-				baseConfig.multiSort
-			),
-		searchable:
-			searchable !== undefined ? searchable : (
-				baseConfig.searchable
-			),
-		pagination:
-			pagination !== undefined ? pagination : (
-				baseConfig.pagination
-			),
+		sortable: mergeConfigValue(
+			sortable,
+			baseConfig.sortable
+		),
+		filterable: mergeConfigValue(
+			filterable,
+			baseConfig.filterable
+		),
+		selectable: mergeConfigValue(
+			selectable,
+			baseConfig.selectable
+		),
+		expandable: mergeConfigValue(
+			expandable,
+			baseConfig.expandable
+		),
+		editable: mergeConfigValue(
+			editable,
+			baseConfig.editable
+		),
+		multiSort: mergeConfigValue(
+			multiSort,
+			baseConfig.multiSort
+		),
+		searchable: mergeConfigValue(
+			searchable,
+			baseConfig.searchable
+		),
+		pagination: mergeConfigValue(
+			pagination,
+			baseConfig.pagination
+		),
 		selectionMode:
 			selectionMode || baseConfig.selectionMode,
-		expandableRows:
-			expandableRows !== undefined ? expandableRows : (
-				baseConfig.expandableRows
-			),
-		loading:
-			loading !== undefined ? loading : baseConfig.loading,
+		expandableRows: mergeConfigValue(
+			expandableRows,
+			baseConfig.expandableRows
+		),
+		loading: mergeConfigValue(loading, baseConfig.loading),
 		loadingRows: loadingRows || baseConfig.loadingRows,
-		stickyHeader:
-			stickyHeader !== undefined ? stickyHeader : (
-				baseConfig.stickyHeader
-			),
-		zebraStripes:
-			zebraStripes !== undefined ? zebraStripes : (
-				baseConfig.zebraStripes
-			),
+		stickyHeader: mergeConfigValue(
+			stickyHeader,
+			baseConfig.stickyHeader
+		),
+		zebraStripes: mergeConfigValue(
+			zebraStripes,
+			baseConfig.zebraStripes
+		),
 		borderStyle: borderStyle || baseConfig.borderStyle,
-		clickableRows:
-			clickableRows !== undefined ? clickableRows : (
-				baseConfig.clickableRows
-			),
-		hoverEffects:
-			hoverEffects !== undefined ? hoverEffects : (
-				baseConfig.hoverEffects
-			),
+		clickableRows: mergeConfigValue(
+			clickableRows,
+			baseConfig.clickableRows
+		),
+		hoverEffects: mergeConfigValue(
+			hoverEffects,
+			baseConfig.hoverEffects
+		),
 	};
-
-	// ========================================
-	// State Management
-	// ========================================
 
 	const [currentSort, setCurrentSort] =
 		useState<TableSorting>(

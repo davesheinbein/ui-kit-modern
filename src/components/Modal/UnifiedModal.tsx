@@ -10,7 +10,7 @@ import {
 	ModalSize,
 	ModalPosition,
 	ModalAnimation,
-} from './ModalConfigurations';
+} from './configurations';
 import ModalBodyFactory from './ModalBodyFactory';
 import ModalFooterFactory from './ModalFooterFactory';
 

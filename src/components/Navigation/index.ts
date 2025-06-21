@@ -5,12 +5,10 @@ export type { UnifiedNavigationProps } from './UnifiedNavigation';
 export { default as Navigation } from './Navigation';
 export type { NavigationProps } from './Navigation';
 
-// Export enhanced navigation configuration system
-export * from './NavigationConfigurations';
+export * from './configurations';
 
-// Export enhanced navigation factory and ultra-DRY system
 export {
 	default as NavigationFactory,
 	N,
 	NavigationPresets,
-} from './NavigationFactoryDRY';
+} from './factory';

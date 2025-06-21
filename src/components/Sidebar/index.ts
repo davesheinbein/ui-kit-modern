@@ -9,10 +9,8 @@ export type {
 export { default as FriendsSidebar } from './FriendsSidebar';
 export type { FriendsSidebarProps } from './FriendsSidebar';
 
-// Export enhanced sidebar configuration system
-export * from './SidebarConfigurations';
+export * from './configurations';
 
-// Export enhanced sidebar factory and ultra-DRY system
 export {
 	default as SidebarFactory,
 	S,
@@ -46,4 +44,4 @@ export {
 	SettingsSidebar,
 	ChatSidebar,
 	NotificationsSidebar,
-} from './SidebarFactoryDRY';
+} from './factory';

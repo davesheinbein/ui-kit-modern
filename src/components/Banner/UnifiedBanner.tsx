@@ -4,7 +4,7 @@ import BannerBodyFactory from './BannerBodyFactory';
 import {
 	BannerKind,
 	BANNER_CONFIGURATIONS,
-} from './BannerConfigurations';
+} from './configurations';
 
 export interface UnifiedBannerProps {
 	kind: BannerKind;

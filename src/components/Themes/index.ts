@@ -56,6 +56,6 @@ export {
 	TG,
 	TQ,
 	Themes,
-} from './ThemeFactoryDRY';
+} from './factory';
 
-export * from './ThemeConfigurations';
+export * from './configurations';

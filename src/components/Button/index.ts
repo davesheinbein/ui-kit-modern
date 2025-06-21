@@ -8,12 +8,10 @@ export type {
 export { default as Button } from './Button';
 export type { ButtonProps } from './Button';
 
-// Export enhanced button configuration system
-export * from './ButtonConfigurations';
+export * from './configurations';
 
-// Export enhanced button factory and ultra-DRY system
 export {
 	default as ButtonFactory,
 	B,
 	ButtonPresets,
-} from './ButtonFactoryDRY';
+} from './factory';

@@ -32,7 +32,7 @@ const SidebarDemo: React.FC<{ sidebarType: string }> = ({
 
 // Meta configuration for the DRY Sidebar system
 const meta: Meta<typeof UnifiedSidebar> = {
-	title: 'Sidebars/Sidebar (DRY System)',
+	title: 'Sidebars/Sidebar',
 	component: UnifiedSidebar,
 	tags: ['autodocs'],
 	parameters: {

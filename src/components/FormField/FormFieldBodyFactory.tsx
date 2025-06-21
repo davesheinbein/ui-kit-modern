@@ -4,7 +4,7 @@ import {
 	FORM_FIELD_CONFIGURATIONS,
 	ExtendedFormFieldKind,
 	FormFieldConfiguration,
-} from './FormFieldConfigurations';
+} from './configurations';
 import { FieldKind } from './UnifiedFormField';
 
 export interface FormFieldBodyFactoryProps {

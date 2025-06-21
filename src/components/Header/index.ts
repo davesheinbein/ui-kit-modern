@@ -13,13 +13,11 @@ export type { HeaderProps } from './Header';
 export { default as BrowseHeader } from './BrowseHeader';
 export type { BrowseHeaderProps } from './BrowseHeader';
 
-// Export enhanced header configuration system
-export * from './HeaderConfigurations';
+export * from './configurations';
 
-// Export enhanced header factory and ultra-DRY system
 export {
 	default as HeaderFactory,
 	H,
 	HeaderPresets,
 	createHeader,
-} from './HeaderFactoryDRY';
+} from './factory';

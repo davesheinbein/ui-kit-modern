@@ -5,7 +5,7 @@ import {
 } from '../../components/Media';
 
 const meta: Meta<typeof UnifiedMedia> = {
-	title: 'Components/Media',
+	title: 'Media/Media',
 	component: UnifiedMedia,
 	parameters: {
 		layout: 'centered',

@@ -9,7 +9,7 @@ export {
 	M,
 	ModalPresets,
 	createModal,
-} from './ModalFactoryDRY';
+} from './factory';
 export { default as ModalBodyFactory } from './ModalBodyFactory';
 export { default as ModalFooterFactory } from './ModalFooterFactory';
 export type {
@@ -22,7 +22,7 @@ export type {
 	ModalSize,
 	ModalPosition,
 	ModalAnimation,
-} from './ModalConfigurations';
+} from './configurations';
 export {
 	getModalConfiguration,
 	mergeModalConfiguration,
@@ -33,4 +33,4 @@ export {
 	isCommerceModal,
 	isInteractionModal,
 	isLayoutModal,
-} from './ModalConfigurations';
+} from './configurations';

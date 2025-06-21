@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
-import SettingsFactory from './SettingsFactoryDRY';
-import { ExtendedSettingsKind } from './SettingsConfigurations';
+import SettingsFactory from './factory';
+import { ExtendedSettingsKind } from './configurations';
 
 // Re-export types for backward compatibility
 export type SettingsKind = ExtendedSettingsKind;

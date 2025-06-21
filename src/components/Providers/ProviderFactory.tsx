@@ -3,7 +3,7 @@ import UnifiedProvider, {
 	UnifiedProviderProps,
 	ProviderKind,
 } from './UnifiedProvider';
-import { PROVIDER_CONFIGURATIONS } from './ProviderConfigurations';
+import { PROVIDER_CONFIGURATIONS } from './configurations';
 
 /**
  * ProviderFactory - Creates providers with minimal configuration

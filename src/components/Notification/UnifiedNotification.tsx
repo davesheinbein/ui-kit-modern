@@ -10,12 +10,8 @@ import {
 	NotificationAction,
 	getNotificationConfig,
 	getDefaultIcon,
-} from './NotificationConfigurations';
+} from './configurations';
 import styles from './Notification.module.scss';
-
-// ========================================
-// Props Interfaces
-// ========================================
 
 export interface UnifiedNotificationProps {
 	kind: NotificationKind;

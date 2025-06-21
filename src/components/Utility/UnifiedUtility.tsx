@@ -10,7 +10,7 @@ import {
 	UtilityConfiguration,
 	UtilityAction,
 	getUtilityConfig,
-} from './UtilityConfigurations';
+} from './configurations';
 import styles from './Utility.module.scss';
 
 export interface UnifiedUtilityProps {

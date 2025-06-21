@@ -4,7 +4,7 @@ import {
 	ExtendedCardKind,
 	CardConfiguration,
 	createCardConfig,
-} from './CardConfigurations';
+} from './configurations';
 import styles from './Card.module.scss';
 import cardStyles from './Card.module.scss';
 

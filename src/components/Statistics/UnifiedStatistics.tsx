@@ -16,7 +16,7 @@ import {
 	calculateAverageTime,
 	getPerformanceRating,
 	getTrendDirection,
-} from './StatisticsConfigurations';
+} from './configurations';
 import styles from './Statistics.module.scss';
 
 // Extended props interface for UnifiedStatistics
@@ -41,7 +41,6 @@ export interface UnifiedStatisticsProps
 	'data-testid'?: string;
 }
 
-// Export types for convenience
 export type StatisticsKind = ExtendedStatisticsKind;
 export type {
 	StatisticsVariant,

@@ -1,0 +1,406 @@
+/**
+ * Admin Component Styles
+ * 
+ * Base styles for the DRY admin system including positioning,
+ * debug panels, performance monitors, error loggers, and session debuggers.
+ */
+
+/* =============================================================================
+   BASE ADMIN COMPONENT
+   ============================================================================= */
+
+.adminComponent {
+	position: fixed;
+	background: rgba(0, 0, 0, 0.9);
+	color: #ffffff;
+	font-family: 'Courier New', monospace;
+	font-size: 12px;
+	padding: 12px;
+	border-radius: 6px;
+	border: 1px solid #333;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+	z-index: 9999;
+	max-width: 300px;
+	min-width: 200px;
+	backdrop-filter: blur(10px);
+	transition: all 0.3s ease;
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.95);
+		border-color: #555;
+	}
+}
+
+/* =============================================================================
+   POSITIONING CLASSES
+   ============================================================================= */
+
+.admin-top-left {
+	top: 20px;
+	left: 20px;
+}
+
+.admin-top-right {
+	top: 20px;
+	right: 20px;
+}
+
+.admin-bottom-left {
+	bottom: 20px;
+	left: 20px;
+}
+
+.admin-bottom-right {
+	bottom: 20px;
+	right: 20px;
+}
+
+.admin-center {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 500px;
+	min-width: 400px;
+}
+
+/* =============================================================================
+   SESSION DEBUGGER STYLES
+   ============================================================================= */
+
+.sessionDebugger {
+	.debugRow {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 8px;
+		padding: 4px 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+		&:last-child {
+			border-bottom: none;
+			margin-bottom: 0;
+		}
+
+		strong {
+			color: #00ff88;
+			font-weight: bold;
+			margin-right: 8px;
+			flex-shrink: 0;
+		}
+	}
+}
+
+/* =============================================================================
+   PERFORMANCE MONITOR STYLES
+   ============================================================================= */
+
+.performanceMonitor {
+	.metricRow {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 6px;
+		padding: 3px 0;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.metricLabel {
+		color: #ffaa00;
+		font-weight: bold;
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		flex-shrink: 0;
+		margin-right: 8px;
+	}
+
+	.metricValue {
+		color: #ffffff;
+		font-family: 'Courier New', monospace;
+		font-weight: bold;
+		text-align: right;
+		background: rgba(255, 170, 0, 0.1);
+		padding: 2px 6px;
+		border-radius: 3px;
+		border: 1px solid rgba(255, 170, 0, 0.3);
+	}
+}
+
+/* =============================================================================
+   ERROR LOGGER STYLES
+   ============================================================================= */
+
+.errorLogger {
+	max-height: 200px;
+	overflow-y: auto;
+
+	.errorEntry {
+		margin-bottom: 8px;
+		padding: 6px;
+		background: rgba(255, 0, 0, 0.1);
+		border: 1px solid rgba(255, 0, 0, 0.3);
+		border-radius: 4px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.errorTime {
+		color: #ff6666;
+		font-size: 10px;
+		font-weight: bold;
+		margin-bottom: 2px;
+	}
+
+	.errorMessage {
+		color: #ffffff;
+		font-size: 11px;
+		line-height: 1.3;
+		word-break: break-word;
+	}
+}
+
+/* =============================================================================
+   DEBUG PANEL STYLES
+   ============================================================================= */
+
+.debugPanel {
+	.panelHeader {
+		margin-bottom: 16px;
+		padding-bottom: 8px;
+		border-bottom: 2px solid #00ff88;
+
+		h3 {
+			margin: 0;
+			color: #00ff88;
+			font-size: 14px;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+	}
+
+	.panelSection {
+		margin-bottom: 16px;
+		padding: 8px;
+		background: rgba(255, 255, 255, 0.05);
+		border-radius: 4px;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.sectionTitle {
+		color: #88aaff;
+		font-weight: bold;
+		font-size: 12px;
+		margin-bottom: 8px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		border-bottom: 1px solid rgba(136, 170, 255, 0.3);
+		padding-bottom: 4px;
+	}
+
+	div:not(.panelHeader):not(.panelSection):not(.sectionTitle) {
+		margin-bottom: 4px;
+		padding: 2px 0;
+		color: #cccccc;
+		font-size: 11px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+/* =============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================= */
+
+@media (max-width: 768px) {
+	.adminComponent {
+		font-size: 11px;
+		padding: 8px;
+		max-width: 250px;
+		min-width: 180px;
+	}
+
+	.admin-top-left,
+	.admin-top-right {
+		top: 10px;
+	}
+
+	.admin-top-left,
+	.admin-bottom-left {
+		left: 10px;
+	}
+
+	.admin-top-right,
+	.admin-bottom-right {
+		right: 10px;
+	}
+
+	.admin-bottom-left,
+	.admin-bottom-right {
+		bottom: 10px;
+	}
+
+	.admin-center {
+		max-width: 300px;
+		min-width: 250px;
+	}
+
+	.debugPanel {
+		.panelHeader h3 {
+			font-size: 12px;
+		}
+	}
+}
+
+/* =============================================================================
+   DARK THEME VARIATIONS
+   ============================================================================= */
+
+.adminComponent.darkTheme {
+	background: rgba(20, 20, 20, 0.95);
+	border-color: #555555;
+
+	.sessionDebugger .debugRow strong {
+		color: #66ff99;
+	}
+
+	.performanceMonitor .metricLabel {
+		color: #ffcc44;
+	}
+
+	.errorLogger .errorTime {
+		color: #ff8888;
+	}
+
+	.debugPanel .panelHeader h3 {
+		color: #66ff99;
+	}
+
+	.debugPanel .sectionTitle {
+		color: #99bbff;
+	}
+}
+
+/* =============================================================================
+   LIGHT THEME VARIATIONS
+   ============================================================================= */
+
+.adminComponent.lightTheme {
+	background: rgba(255, 255, 255, 0.95);
+	color: #333333;
+	border-color: #cccccc;
+
+	.sessionDebugger .debugRow strong {
+		color: #008855;
+	}
+
+	.performanceMonitor .metricLabel {
+		color: #cc6600;
+	}
+
+	.performanceMonitor .metricValue {
+		background: rgba(204, 102, 0, 0.1);
+		border-color: rgba(204, 102, 0, 0.3);
+		color: #333333;
+	}
+
+	.errorLogger {
+		.errorEntry {
+			background: rgba(220, 20, 20, 0.1);
+			border-color: rgba(220, 20, 20, 0.3);
+		}
+
+		.errorTime {
+			color: #cc3333;
+		}
+
+		.errorMessage {
+			color: #333333;
+		}
+	}
+
+	.debugPanel {
+		.panelHeader h3 {
+			color: #008855;
+		}
+
+		.sectionTitle {
+			color: #4477cc;
+		}
+
+		div:not(.panelHeader):not(.panelSection):not(.sectionTitle) {
+			color: #666666;
+		}
+	}
+}
+
+/* =============================================================================
+   ANIMATION CLASSES
+   ============================================================================= */
+
+.adminComponent.animated {
+	animation: fadeInAdmin 0.3s ease-out;
+}
+
+@keyframes fadeInAdmin {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.adminComponent.pulse {
+	animation: pulseAdmin 2s infinite;
+}
+
+@keyframes pulseAdmin {
+	0%, 100% {
+		border-color: #333;
+	}
+	50% {
+		border-color: #666;
+	}
+}
+
+/* =============================================================================
+   UTILITY CLASSES
+   ============================================================================= */
+
+.adminComponent.compact {
+	padding: 6px;
+	font-size: 10px;
+	min-width: 150px;
+	max-width: 200px;
+}
+
+.adminComponent.expanded {
+	padding: 16px;
+	font-size: 13px;
+	min-width: 300px;
+	max-width: 450px;
+}
+
+.adminComponent.translucent {
+	background: rgba(0, 0, 0, 0.7);
+	backdrop-filter: blur(5px);
+}
+
+.adminComponent.opaque {
+	background: rgba(0, 0, 0, 0.98);
+	backdrop-filter: none;
+}

@@ -12,15 +12,13 @@ export type {
 export { default as Grid } from './Grid';
 export type { GridProps } from './Grid';
 
-// Export enhanced grid configuration system
-export * from './GridConfigurations';
+export * from './configurations';
 
-// Export enhanced grid factory and ultra-DRY system
 export {
 	default as GridFactory,
 	GridFactoryClass,
 	G,
 	GridPresets,
 	QuickGrids,
-} from './GridFactoryDRY';
-export type { GridFactoryProps } from './GridFactoryDRY';
+} from './factory';
+export type { GridFactoryProps } from './factory';

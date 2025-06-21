@@ -1,20 +1,20 @@
 // ===== UNIFIED COMPONENT SYSTEM =====
 // Primary exports - Use these for new development
 
-// Ultra-DRY Component Factory System - Universal component creation
+// Component Factory System - Universal component creation
 export {
 	ComponentFactory,
 	C,
 	ComponentPresets,
 	QuickComponents,
 	COMPONENT_CONFIGURATIONS,
-} from './components/UltraDRYComponentFactory';
+} from './components/ComponentFactory';
 export type {
 	ComponentType,
 	ComponentKind,
 	ComponentConfiguration,
 	ComponentFactoryProps,
-} from './components/UltraDRYComponentFactory';
+} from './components/ComponentFactory';
 
 // Core Unified Components
 export * from './components/Button';
@@ -177,7 +177,7 @@ export {
 	QUICK_CARDS,
 	createCardConfig,
 } from './components/Card';
-// Note: Card factory uses CardFactory or QuickCards instead of 'C' to avoid conflict with ComponentFactory
+
 export { C as CardC } from './components/Card'; // Card factory alias
 export type {
 	CardKind,
@@ -222,7 +222,6 @@ export type {
 export * from './components/Button';
 // These are lightweight wrappers around unified components for backward compatibility
 
-// Note: Legacy form field components have been migrated to the DRY FormField system.
 // Use FormFieldFactory, F, or FormFieldPresets from './components/FormField' instead.
 
 // Enhanced Modal System - All modal types via single component
@@ -243,7 +242,6 @@ export {
 // ===== DOMAIN-SPECIFIC COMPONENTS =====
 // Specialized components for specific use cases
 
-// Note: Legacy modal components have been migrated to the DRY modal system.
 // Use ModalFactory, M, or ModalPresets from './components/Modal' instead.
 
 // Enhanced Pages System - All page types via single component (DRY System)
@@ -294,10 +292,8 @@ export * from './components/Settings';
 export * from './components/Providers';
 
 // Social & Communication
-// Note: FriendCard is deprecated - use UnifiedCard with kind="friend" instead
-// export { FriendCard } from './components/FriendCard';
-// Note: FriendsSidebar is now part of the DRY Sidebar system - exported above
-export { VSQuickChatBar } from './components/Chat';
+
+
 
 // ===== DRY CHAT SYSTEM =====
 export {
@@ -326,13 +322,9 @@ export type {
 // Use BannerFactory, Ban, or BannerPresets instead
 
 // Game Components - VSStatusBar moved to DRY Banner System
-// Note: Legacy grid components have been migrated to the DRY Grid system.
+
 // Use GridFactory, G, or QuickGrids from './components/Grid' instead.
-// export { PregameGridLockout } from './components/PregameGridLockout'; // @deprecated Use UnifiedGrid with kind="pregame-lockout"
-// export { SolvedGroupsDisplay } from './components/SolvedGroupsDisplay'; // @deprecated Use UnifiedGrid with kind="solved-groups"
-// export { VSBotGame } from './components/VSBotGame'; // @deprecated Use UnifiedGrid with kind="vs-bot"
-// export { VSGrid } from './components/VSGrid'; // @deprecated Use UnifiedGrid with kind="vs-grid"
-// export { VSMultiplayerGame } from './components/VSMultiplayerGame'; // @deprecated Use UnifiedGrid with kind="vs-multiplayer"
+
 // VSStatusBar moved to Banner system: use BannerFactory with kind="vs-status"
 
 // Data Visualization
@@ -368,5 +360,22 @@ export type {
 } from './components/Admin';
 
 // Legacy compatibility
-export { default as SessionDebugger } from './components/Admin/SessionDebugger';
-export type { SessionDebuggerProps } from './components/Admin/SessionDebugger';
+export { SessionDebugger } from './components/Admin';
+export type { SessionDebuggerProps } from './components/Admin';
+
+// Enhanced Range System - All range/slider types via single component (DRY System)
+export {
+	RangeFactory,
+	Range,
+	UnifiedRange,
+	RANGE_CONFIGURATIONS,
+} from './components/Ranges';
+export type {
+	RangeFactoryProps,
+	RangeConfiguration,
+	ExtendedRangeKind,
+	RangeVariant,
+	RangeSize,
+	RangeState,
+	RangeStyle,
+} from './components/Ranges';

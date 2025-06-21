@@ -4,13 +4,13 @@ export type {
 	EmptyStateVariant,
 	EmptyStateAction,
 	EmptyStateConfiguration,
-} from './EmptyStateConfigurations';
+} from './configurations';
 
 export type { UnifiedEmptyStateProps } from './UnifiedEmptyState';
 export { default as UnifiedEmptyState } from './UnifiedEmptyState';
 export { default as EmptyState } from './EmptyState';
 export {
-	EmptyStateFactoryDRY,
+	EmptyStateFactory,
 	EmptyStateComponents,
-} from './EmptyStateFactoryDRY';
-export { getEmptyStateConfig } from './EmptyStateConfigurations';
+} from './factory';
+export { getEmptyStateConfig } from './configurations';

@@ -8,13 +8,10 @@ export type {
 	MediaAction,
 	MediaMetadata,
 	MediaConfiguration,
-} from './MediaConfigurations';
+} from './configurations';
 
 export type { UnifiedMediaProps } from './UnifiedMedia';
 export { default as UnifiedMedia } from './UnifiedMedia';
 export { default as Media } from './Media';
-export {
-	MediaFactoryDRY,
-	MediaComponents,
-} from './MediaFactoryDRY';
-export { getMediaConfig } from './MediaConfigurations';
+export { MediaFactory, MediaComponents } from './factory';
+export { getMediaConfig } from './configurations';

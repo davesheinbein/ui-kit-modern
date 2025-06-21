@@ -8,13 +8,11 @@ export type {
 export { default as Footer } from './Footer';
 export type { FooterProps } from './Footer';
 
-// Export footer configuration system
-export * from './FooterConfigurations';
+export * from './configurations';
 
-// Export footer factory and ultra-DRY system
 export {
 	default as FooterFactory,
 	Foot,
 	FooterPresets,
 	createFooter,
-} from './FooterFactoryDRY';
+} from './factory';

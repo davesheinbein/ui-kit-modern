@@ -8,14 +8,12 @@ export type {
 export { default as Card } from './Card';
 export type { CardProps } from './Card';
 
-// Export enhanced card configuration system
-export * from './CardConfigurations';
+export * from './configurations';
 
-// Export enhanced card factory and ultra-DRY system
 export {
 	default as CardFactory,
 	C,
 	CardPresets,
 	CardFactoryClass,
 	QuickCards,
-} from './CardFactoryDRY';
+} from './factory';

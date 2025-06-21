@@ -5,10 +5,8 @@ export type { UnifiedWrapperProps } from './UnifiedWrapper';
 export { default as Wrapper } from './Wrapper';
 export type { WrapperProps } from './Wrapper';
 
-// Export enhanced wrapper configuration system
-export * from './WrapperConfigurations';
+export * from './configurations';
 
-// Export enhanced wrapper factory and ultra-DRY system
 export {
 	default as WrapperFactory,
 	W,
@@ -16,4 +14,4 @@ export {
 	createWrapper,
 	createWrapperWithConfig,
 	type WrapperFactoryProps,
-} from './WrapperFactoryDRY';
+} from './factory';

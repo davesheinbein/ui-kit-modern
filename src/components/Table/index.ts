@@ -5,12 +5,10 @@ export type { UnifiedTableProps } from './UnifiedTable';
 export { default as Table } from './Table';
 export type { TableProps } from './Table';
 
-// Export enhanced table configuration system
-export * from './TableConfigurations';
+export * from './configurations';
 
-// Export enhanced table factory and ultra-DRY system
 export {
 	default as TableFactory,
 	T,
 	TablePresets,
-} from './TableFactoryDRY';
+} from './factory';

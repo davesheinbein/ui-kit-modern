@@ -13,7 +13,7 @@ import {
 	applyTheme,
 	getThemeClassName,
 	validateTheme,
-} from './ThemeConfigurations';
+} from './configurations';
 import styles from './Theme.module.scss';
 
 // Extended props interface for UnifiedTheme

@@ -11,7 +11,7 @@ import {
 	PROVIDER_CONFIGURATIONS,
 	ProviderKind,
 	ProviderConfiguration,
-} from './ProviderConfigurations';
+} from './configurations';
 
 // Use the extended provider kinds from configurations
 export type { ProviderKind };
@@ -222,16 +222,15 @@ const SocketProviderComponent = forwardRef<
 			if (autoConnect && session) {
 				// Mock socket connection logic
 				const mockSocket = {
-					emit: (event: string, data?: any) =>
-						console.log('Socket emit:', event, data),
+					emit: (event: string, data?: any) => {},
 					on: (
 						event: string,
 						handler: (data: any) => void
-					) => console.log('Socket on:', event),
+					) => {},
 					off: (
 						event: string,
 						handler?: (data: any) => void
-					) => console.log('Socket off:', event),
+					) => {},
 				};
 				setSocket(mockSocket);
 				setIsConnected(true);

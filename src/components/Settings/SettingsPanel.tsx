@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import UnifiedSettings from './UnifiedSettings';
 import { UserSettingsContext } from '../Providers';
-import { SettingsSection } from './SettingsConfigurations';
+import { SettingsSection } from './configurations';
 
 /**
  * SettingsPanel - Backward compatibility wrapper
