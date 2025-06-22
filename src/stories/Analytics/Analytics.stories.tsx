@@ -176,7 +176,8 @@ export const Error: Story = {
 	args: {
 		kind: 'dashboard',
 		title: 'Error Dashboard',
-		error: 'Failed to load analytics data. Please try again.',
+		error:
+			'Failed to load analytics data. Please try again.',
 		variant: 'default',
 		size: 'md',
 	},

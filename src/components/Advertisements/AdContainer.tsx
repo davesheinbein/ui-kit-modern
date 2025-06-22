@@ -152,8 +152,11 @@ const AdContainer: React.FC<AdContainerProps> = ({
 	providerSpecificTargeting = {},
 }) => {
 	// Generate unique container ID
-	const containerId = useMemo(() => `ad-container-${Date.now()}-${Math.random()}`, []);
-	
+	const containerId = useMemo(
+		() => `ad-container-${Date.now()}-${Math.random()}`,
+		[]
+	);
+
 	// Redux state management
 	const {
 		currentAds,
@@ -297,9 +300,10 @@ const AdContainer: React.FC<AdContainerProps> = ({
 		(providerType: AdProviderType, error: string) => {
 			// Record the failure in Redux
 			recordFailure(providerType as any); // Type cast needed due to type conflicts
-			
+
 			// Get current failure count
-			const currentCount = providerFailures[providerType] || 0;
+			const currentCount =
+				providerFailures[providerType] || 0;
 			const newCount = currentCount + 1;
 
 			// Update provider health based on failure count
@@ -308,14 +312,16 @@ const AdContainer: React.FC<AdContainerProps> = ({
 					isHealthy: false,
 					failureCount: newCount,
 					lastFailure: new Date(),
-					latency: 0
+					latency: 0,
 				});
-			} else if (newCount >= Math.floor(providerFailureThreshold / 2)) {
+			} else if (
+				newCount >= Math.floor(providerFailureThreshold / 2)
+			) {
 				updateHealth(providerType as any, {
 					isHealthy: false,
 					failureCount: newCount,
 					lastFailure: new Date(),
-					latency: 0
+					latency: 0,
 				});
 			}
 
@@ -333,7 +339,13 @@ const AdContainer: React.FC<AdContainerProps> = ({
 				)
 			);
 		},
-		[providerFailureThreshold, trackEvent, providerFailures, recordFailure, updateHealth]
+		[
+			providerFailureThreshold,
+			trackEvent,
+			providerFailures,
+			recordFailure,
+			updateHealth,
+		]
 	);
 
 	const rotateProvider = useCallback(() => {
@@ -651,7 +663,10 @@ const AdContainer: React.FC<AdContainerProps> = ({
 					>
 						<button
 							onClick={() => {
-								const newIndex = currentIndex === 0 ? currentAds.length - 1 : currentIndex - 1;
+								const newIndex =
+									currentIndex === 0 ?
+										currentAds.length - 1
+									:	currentIndex - 1;
 								setCurrentIndex(newIndex);
 							}}
 							aria-label='Previous advertisement'
@@ -683,7 +698,8 @@ const AdContainer: React.FC<AdContainerProps> = ({
 						</div>
 						<button
 							onClick={() => {
-								const newIndex = (currentIndex + 1) % currentAds.length;
+								const newIndex =
+									(currentIndex + 1) % currentAds.length;
 								setCurrentIndex(newIndex);
 							}}
 							aria-label='Next advertisement'

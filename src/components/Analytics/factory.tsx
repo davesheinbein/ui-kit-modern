@@ -182,27 +182,26 @@ export const AnalyticsBodyFactory = forwardRef<
 									value={timeRange}
 									className={styles.timeRangeSelect}
 								>
-									<option value="1h">Last Hour</option>
-									<option value="24h">Last 24 Hours</option>
-									<option value="7d">Last 7 Days</option>
-									<option value="30d">Last 30 Days</option>
-									<option value="90d">Last 90 Days</option>
-									<option value="1y">Last Year</option>
+									<option value='1h'>Last Hour</option>
+									<option value='24h'>Last 24 Hours</option>
+									<option value='7d'>Last 7 Days</option>
+									<option value='30d'>Last 30 Days</option>
+									<option value='90d'>Last 90 Days</option>
+									<option value='1y'>Last Year</option>
 								</select>
 							</div>
 						</div>
 						<div className={styles.reportsContent}>
-							{data.length > 0 ? (
+							{data.length > 0 ?
 								<div className={styles.reportsTable}>
 									<div className={styles.tablePlaceholder}>
 										📋 Reports table would go here
 									</div>
 								</div>
-							) : (
-								<div className={styles.noData}>
+							:	<div className={styles.noData}>
 									No data available for selected time range
 								</div>
-							)}
+							}
 						</div>
 					</div>
 				);
@@ -220,7 +219,9 @@ export const AnalyticsBodyFactory = forwardRef<
 						<div className={styles.metricsGrid}>
 							{metric && (
 								<div className={styles.metricCard}>
-									<div className={styles.metricIcon}>📊</div>
+									<div className={styles.metricIcon}>
+										📊
+									</div>
 									<div className={styles.metricContent}>
 										<div className={styles.metricValue}>
 											{metric.value}
@@ -252,7 +253,9 @@ export const AnalyticsBodyFactory = forwardRef<
 							<div className={styles.performanceBar}>
 								<div
 									className={styles.performanceFill}
-									style={{ width: `${metric?.value || 85}%` }}
+									style={{
+										width: `${metric?.value || 85}%`,
+									}}
 								></div>
 							</div>
 							<div className={styles.performanceLabel}>
@@ -327,7 +330,8 @@ export const AnalyticsFactory = forwardRef<
 		ref
 	) => {
 		// Get configuration if not provided
-		const config = configuration || analyticsConfigurations[kind];
+		const config =
+			configuration || analyticsConfigurations[kind];
 
 		return (
 			<Analytics
@@ -367,19 +371,19 @@ export class AnalyticsFactoryClass {
 // Export preset configurations for common analytics types
 export const AnalyticsPresets = {
 	Dashboard: (props: Partial<AnalyticsFactoryProps>) => (
-		<AnalyticsFactory kind="dashboard" {...props} />
+		<AnalyticsFactory kind='dashboard' {...props} />
 	),
 	Realtime: (props: Partial<AnalyticsFactoryProps>) => (
-		<AnalyticsFactory kind="realtime" {...props} />
+		<AnalyticsFactory kind='realtime' {...props} />
 	),
 	Reports: (props: Partial<AnalyticsFactoryProps>) => (
-		<AnalyticsFactory kind="reports" {...props} />
+		<AnalyticsFactory kind='reports' {...props} />
 	),
 	Metrics: (props: Partial<AnalyticsFactoryProps>) => (
-		<AnalyticsFactory kind="metrics" {...props} />
+		<AnalyticsFactory kind='metrics' {...props} />
 	),
 	Performance: (props: Partial<AnalyticsFactoryProps>) => (
-		<AnalyticsFactory kind="performance" {...props} />
+		<AnalyticsFactory kind='performance' {...props} />
 	),
 };
 

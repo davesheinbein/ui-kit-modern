@@ -2,8 +2,15 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ModalFactory } from '../../components/Modal';
 import { reduxDecorator } from '../config/decorators';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { openModal, closeModal, selectIsModalOpen } from '../../store/slices/modalSlice';
+import {
+	useAppDispatch,
+	useAppSelector,
+} from '../../store';
+import {
+	openModal,
+	closeModal,
+	selectIsModalOpen,
+} from '../../store/slices/modalSlice';
 
 // Types for different modal configurations
 interface UserStats {
@@ -138,7 +145,9 @@ export const AllModalTypesOverview: Story = {
 					}}
 				>
 					<button
-						onClick={() => dispatch(openModal({ id: 'pre-game' }))}
+						onClick={() =>
+							dispatch(openModal({ id: 'pre-game' }))
+						}
 						style={{
 							padding: '1rem',
 							borderRadius: '8px',
@@ -148,7 +157,9 @@ export const AllModalTypesOverview: Story = {
 						Pre-Game Modal
 					</button>
 					<button
-						onClick={() => dispatch(openModal({ id: 'end-game' }))}
+						onClick={() =>
+							dispatch(openModal({ id: 'end-game' }))
+						}
 						style={{
 							padding: '1rem',
 							borderRadius: '8px',
@@ -158,7 +169,9 @@ export const AllModalTypesOverview: Story = {
 						End Game Modal
 					</button>
 					<button
-						onClick={() => dispatch(openModal({ id: 'rules' }))}
+						onClick={() =>
+							dispatch(openModal({ id: 'rules' }))
+						}
 						style={{
 							padding: '1rem',
 							borderRadius: '8px',

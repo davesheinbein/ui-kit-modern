@@ -748,7 +748,8 @@ const sampleCartItems = [
 		quantity: 1,
 		currency: 'USD',
 		image: 'https://via.placeholder.com/60x60?text=Pro',
-		description: 'Monthly subscription with advanced features',
+		description:
+			'Monthly subscription with advanced features',
 		variant: 'Monthly',
 	},
 	{
@@ -784,13 +785,19 @@ const sampleProduct = {
 
 export const ShoppingCart: Story = {
 	render: () => (
-		<div style={{ maxWidth: '600px', margin: '0 auto', padding: '2rem' }}>
+		<div
+			style={{
+				maxWidth: '600px',
+				margin: '0 auto',
+				padding: '2rem',
+			}}
+		>
 			<UnifiedMonetization
-				kind="shopping-cart"
+				kind='shopping-cart'
 				cartItems={sampleCartItems}
 				cartTotal={89.95}
 				cartSubtotal={89.95}
-				currency="USD"
+				currency='USD'
 				onUpdateQuantity={(itemId, quantity) => {
 					console.log('Update quantity:', itemId, quantity);
 				}}
@@ -810,13 +817,19 @@ export const ShoppingCart: Story = {
 
 export const EmptyCart: Story = {
 	render: () => (
-		<div style={{ maxWidth: '600px', margin: '0 auto', padding: '2rem' }}>
+		<div
+			style={{
+				maxWidth: '600px',
+				margin: '0 auto',
+				padding: '2rem',
+			}}
+		>
 			<UnifiedMonetization
-				kind="shopping-cart"
+				kind='shopping-cart'
 				cartItems={[]}
 				cartTotal={0}
 				cartSubtotal={0}
-				currency="USD"
+				currency='USD'
 			/>
 		</div>
 	),
@@ -824,16 +837,22 @@ export const EmptyCart: Story = {
 
 export const CartSummary: Story = {
 	render: () => (
-		<div style={{ maxWidth: '400px', margin: '0 auto', padding: '2rem' }}>
+		<div
+			style={{
+				maxWidth: '400px',
+				margin: '0 auto',
+				padding: '2rem',
+			}}
+		>
 			<UnifiedMonetization
-				kind="cart-summary"
+				kind='cart-summary'
 				cartSubtotal={89.95}
-				tax={7.20}
+				tax={7.2}
 				cartTotal={82.75}
-				currency="USD"
+				currency='USD'
 				cartItemCount={4}
-				discount={{ type: 'fixed', value: 14.40 }}
-				promoCode="SAVE15"
+				discount={{ type: 'fixed', value: 14.4 }}
+				promoCode='SAVE15'
 				onCheckout={() => {
 					console.log('Checkout from summary');
 				}}
@@ -847,9 +866,15 @@ export const CartSummary: Story = {
 
 export const CartItem: Story = {
 	render: () => (
-		<div style={{ maxWidth: '500px', margin: '0 auto', padding: '2rem' }}>
+		<div
+			style={{
+				maxWidth: '500px',
+				margin: '0 auto',
+				padding: '2rem',
+			}}
+		>
 			<UnifiedMonetization
-				kind="cart-item"
+				kind='cart-item'
 				cartItems={[sampleCartItems[0]]}
 				onUpdateQuantity={(itemId, quantity) => {
 					console.log('Update quantity:', itemId, quantity);
@@ -867,9 +892,15 @@ export const CartItem: Story = {
 
 export const CartItemReadOnly: Story = {
 	render: () => (
-		<div style={{ maxWidth: '500px', margin: '0 auto', padding: '2rem' }}>
+		<div
+			style={{
+				maxWidth: '500px',
+				margin: '0 auto',
+				padding: '2rem',
+			}}
+		>
 			<UnifiedMonetization
-				kind="cart-item"
+				kind='cart-item'
 				cartItems={[sampleCartItems[1]]}
 				editable={false}
 				showImage={true}
@@ -881,18 +912,25 @@ export const CartItemReadOnly: Story = {
 
 export const AddToCartButton: Story = {
 	render: () => (
-		<div style={{ display: 'flex', gap: '1rem', padding: '2rem', flexWrap: 'wrap' }}>
+		<div
+			style={{
+				display: 'flex',
+				gap: '1rem',
+				padding: '2rem',
+				flexWrap: 'wrap',
+			}}
+		>
 			<UnifiedMonetization
-				kind="add-to-cart-button"
+				kind='add-to-cart-button'
 				product={sampleProduct}
 				quantity={1}
 				onAddToCart={(product, quantity) => {
 					console.log('Add to cart:', product, quantity);
 				}}
 			/>
-			
+
 			<UnifiedMonetization
-				kind="add-to-cart-button"
+				kind='add-to-cart-button'
 				product={sampleProduct}
 				quantity={1}
 				inCart={true}
@@ -900,9 +938,9 @@ export const AddToCartButton: Story = {
 					console.log('Add to cart:', product, quantity);
 				}}
 			/>
-			
+
 			<UnifiedMonetization
-				kind="add-to-cart-button"
+				kind='add-to-cart-button'
 				product={sampleProduct}
 				quantity={1}
 				loading={true}
@@ -916,23 +954,33 @@ export const AddToCartButton: Story = {
 
 export const CartWorkflow: Story = {
 	render: () => {
-		const [cartItems, setCartItems] = React.useState(sampleCartItems);
+		const [cartItems, setCartItems] =
+			React.useState(sampleCartItems);
 		const [cartOpen, setCartOpen] = React.useState(false);
 
-		const updateQuantity = (itemId: string, quantity: number) => {
+		const updateQuantity = (
+			itemId: string,
+			quantity: number
+		) => {
 			if (quantity <= 0) {
-				setCartItems(items => items.filter(item => item.id !== itemId));
+				setCartItems((items) =>
+					items.filter((item) => item.id !== itemId)
+				);
 			} else {
-				setCartItems(items => 
-					items.map(item => 
-						item.id === itemId ? { ...item, quantity } : item
+				setCartItems((items) =>
+					items.map((item) =>
+						item.id === itemId ?
+							{ ...item, quantity }
+						:	item
 					)
 				);
 			}
 		};
 
 		const removeItem = (itemId: string) => {
-			setCartItems(items => items.filter(item => item.id !== itemId));
+			setCartItems((items) =>
+				items.filter((item) => item.id !== itemId)
+			);
 		};
 
 		const clearCart = () => {
@@ -940,29 +988,57 @@ export const CartWorkflow: Story = {
 		};
 
 		const addToCart = (product: any, quantity: number) => {
-			const existingItem = cartItems.find(item => item.id === product.id);
+			const existingItem = cartItems.find(
+				(item) => item.id === product.id
+			);
 			if (existingItem) {
-				updateQuantity(product.id, existingItem.quantity + quantity);
+				updateQuantity(
+					product.id,
+					existingItem.quantity + quantity
+				);
 			} else {
-				setCartItems(items => [...items, { ...product, quantity }]);
+				setCartItems((items) => [
+					...items,
+					{ ...product, quantity },
+				]);
 			}
 		};
 
-		const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-		const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+		const total = cartItems.reduce(
+			(sum, item) => sum + item.price * item.quantity,
+			0
+		);
+		const itemCount = cartItems.reduce(
+			(sum, item) => sum + item.quantity,
+			0
+		);
 
 		return (
-			<div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-				<div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem' }}>
+			<div
+				style={{
+					padding: '2rem',
+					maxWidth: '800px',
+					margin: '0 auto',
+				}}
+			>
+				<div
+					style={{
+						display: 'flex',
+						gap: '2rem',
+						marginBottom: '2rem',
+					}}
+				>
 					<UnifiedMonetization
-						kind="add-to-cart-button"
+						kind='add-to-cart-button'
 						product={sampleProduct}
 						quantity={1}
-						inCart={cartItems.some(item => item.id === sampleProduct.id)}
+						inCart={cartItems.some(
+							(item) => item.id === sampleProduct.id
+						)}
 						onAddToCart={addToCart}
 					/>
-					
-					<button 
+
+					<button
 						onClick={() => setCartOpen(!cartOpen)}
 						style={{
 							padding: '0.75rem 1rem',
@@ -970,7 +1046,7 @@ export const CartWorkflow: Story = {
 							color: 'white',
 							border: 'none',
 							borderRadius: '0.5rem',
-							cursor: 'pointer'
+							cursor: 'pointer',
 						}}
 					>
 						{cartOpen ? 'Hide' : 'Show'} Cart ({itemCount})
@@ -978,28 +1054,43 @@ export const CartWorkflow: Story = {
 				</div>
 
 				{cartOpen && (
-					<div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '2fr 1fr' }}>
+					<div
+						style={{
+							display: 'grid',
+							gap: '2rem',
+							gridTemplateColumns: '2fr 1fr',
+						}}
+					>
 						<UnifiedMonetization
-							kind="shopping-cart"
+							kind='shopping-cart'
 							cartItems={cartItems}
 							cartTotal={total}
 							cartSubtotal={total}
-							currency="USD"
+							currency='USD'
 							onUpdateQuantity={updateQuantity}
 							onRemoveItem={removeItem}
 							onClearCart={clearCart}
-							onCheckout={() => console.log('Checkout with items:', cartItems)}
+							onCheckout={() =>
+								console.log(
+									'Checkout with items:',
+									cartItems
+								)
+							}
 						/>
 
 						<UnifiedMonetization
-							kind="cart-summary"
+							kind='cart-summary'
 							cartSubtotal={total}
 							tax={total * 0.08}
 							cartTotal={total * 1.08}
-							currency="USD"
+							currency='USD'
 							cartItemCount={itemCount}
-							onCheckout={() => console.log('Checkout from summary')}
-							onApplyPromo={(code) => console.log('Apply promo:', code)}
+							onCheckout={() =>
+								console.log('Checkout from summary')
+							}
+							onApplyPromo={(code) =>
+								console.log('Apply promo:', code)
+							}
 						/>
 					</div>
 				)}
@@ -1016,25 +1107,56 @@ export const CartWithHooks: Story = {
 	render: () => {
 		const CartComponent = () => {
 			const cart = useCartRedux();
-			
+
 			const sampleProducts = [
-				{ id: 'prod-1', name: 'Basic Plan', price: 9.99, currency: 'USD' },
-				{ id: 'prod-2', name: 'Pro Plan', price: 29.99, currency: 'USD' },
-				{ id: 'prod-3', name: 'Enterprise Plan', price: 99.99, currency: 'USD' },
+				{
+					id: 'prod-1',
+					name: 'Basic Plan',
+					price: 9.99,
+					currency: 'USD',
+				},
+				{
+					id: 'prod-2',
+					name: 'Pro Plan',
+					price: 29.99,
+					currency: 'USD',
+				},
+				{
+					id: 'prod-3',
+					name: 'Enterprise Plan',
+					price: 99.99,
+					currency: 'USD',
+				},
 			];
 
 			return (
-				<div style={{ padding: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
+				<div
+					style={{
+						padding: '2rem',
+						maxWidth: '1000px',
+						margin: '0 auto',
+					}}
+				>
 					<h2>Cart Management with Redux Cart Hook</h2>
-					
-					<div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', marginBottom: '2rem' }}>
-						{sampleProducts.map(product => (
+
+					<div
+						style={{
+							display: 'grid',
+							gap: '1rem',
+							gridTemplateColumns:
+								'repeat(auto-fit, minmax(200px, 1fr))',
+							marginBottom: '2rem',
+						}}
+					>
+						{sampleProducts.map((product) => (
 							<UnifiedMonetization
 								key={product.id}
-								kind="add-to-cart-button"
+								kind='add-to-cart-button'
 								product={product}
 								quantity={1}
-								inCart={cart.items.some(item => item.id === product.id)}
+								inCart={cart.items.some(
+									(item) => item.id === product.id
+								)}
 								onAddToCart={(product, quantity) => {
 									cart.addItem(product, quantity);
 								}}
@@ -1042,13 +1164,20 @@ export const CartWithHooks: Story = {
 						))}
 					</div>
 
-					<div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: cart.isEmpty ? '1fr' : '2fr 1fr' }}>
+					<div
+						style={{
+							display: 'grid',
+							gap: '2rem',
+							gridTemplateColumns:
+								cart.isEmpty ? '1fr' : '2fr 1fr',
+						}}
+					>
 						<UnifiedMonetization
-							kind="shopping-cart"
+							kind='shopping-cart'
 							cartItems={cart.items}
 							cartTotal={cart.total}
 							cartSubtotal={cart.subtotal}
-							currency="USD"
+							currency='USD'
 							onUpdateQuantity={cart.updateQuantity}
 							onRemoveItem={cart.removeItem}
 							onClearCart={cart.clearCart}
@@ -1057,33 +1186,49 @@ export const CartWithHooks: Story = {
 
 						{!cart.isEmpty && (
 							<UnifiedMonetization
-								kind="cart-summary"
+								kind='cart-summary'
 								cartSubtotal={cart.subtotal}
 								tax={cart.tax || 0}
 								cartTotal={cart.total}
-								currency="USD"
+								currency='USD'
 								cartItemCount={cart.itemCount}
 								onCheckout={cart.checkout}
 								onApplyPromo={(code) => {
 									// Simulate applying a promo code
-									cart.applyDiscount(code, 5.00);
+									cart.applyDiscount(code, 5.0);
 								}}
 							/>
 						)}
 					</div>
 
-					<div style={{ marginTop: '2rem', padding: '1rem', background: '#f5f5f5', borderRadius: '0.5rem' }}>
+					<div
+						style={{
+							marginTop: '2rem',
+							padding: '1rem',
+							background: '#f5f5f5',
+							borderRadius: '0.5rem',
+						}}
+					>
 						<h3>Cart State (for debugging):</h3>
-						<pre style={{ fontSize: '0.875rem', overflow: 'auto' }}>
-							{JSON.stringify({
-								items: cart.items,
-								totalItems: cart.totalItems,
-								totalPrice: cart.totalPrice,
-								subtotal: cart.subtotal,
-								total: cart.total,
-								itemCount: cart.itemCount,
-								isEmpty: cart.isEmpty
-							}, null, 2)}
+						<pre
+							style={{
+								fontSize: '0.875rem',
+								overflow: 'auto',
+							}}
+						>
+							{JSON.stringify(
+								{
+									items: cart.items,
+									totalItems: cart.totalItems,
+									totalPrice: cart.totalPrice,
+									subtotal: cart.subtotal,
+									total: cart.total,
+									itemCount: cart.itemCount,
+									isEmpty: cart.isEmpty,
+								},
+								null,
+								2
+							)}
 						</pre>
 					</div>
 				</div>

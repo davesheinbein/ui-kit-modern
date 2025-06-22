@@ -53,30 +53,32 @@ export interface AnalyticsConfiguration {
 }
 
 // Dashboard analytics configurations
-export const performanceDashboard: AnalyticsConfiguration = {
-	kind: 'dashboard',
-	variant: 'dashboard',
-	type: 'performance',
-	layout: 'grid',
-	timeRange: 'day',
-	autoRefresh: true,
-	refreshInterval: 30000,
-	exportable: true,
-	interactive: true,
-	drilldown: true,
-};
+export const performanceDashboard: AnalyticsConfiguration =
+	{
+		kind: 'dashboard',
+		variant: 'dashboard',
+		type: 'performance',
+		layout: 'grid',
+		timeRange: 'day',
+		autoRefresh: true,
+		refreshInterval: 30000,
+		exportable: true,
+		interactive: true,
+		drilldown: true,
+	};
 
-export const userBehaviorDashboard: AnalyticsConfiguration = {
-	kind: 'dashboard',
-	variant: 'dashboard',
-	type: 'user-behavior',
-	layout: 'grid',
-	timeRange: 'week',
-	autoRefresh: false,
-	exportable: true,
-	interactive: true,
-	drilldown: true,
-};
+export const userBehaviorDashboard: AnalyticsConfiguration =
+	{
+		kind: 'dashboard',
+		variant: 'dashboard',
+		type: 'user-behavior',
+		layout: 'grid',
+		timeRange: 'week',
+		autoRefresh: false,
+		exportable: true,
+		interactive: true,
+		drilldown: true,
+	};
 
 export const conversionDashboard: AnalyticsConfiguration = {
 	kind: 'dashboard',
@@ -281,7 +283,10 @@ export const realtimeTraffic: AnalyticsConfiguration = {
 };
 
 // Configuration mappings
-export const analyticsConfigurations: Record<string, AnalyticsConfiguration> = {
+export const analyticsConfigurations: Record<
+	string,
+	AnalyticsConfiguration
+> = {
 	'performance-dashboard': performanceDashboard,
 	'user-behavior-dashboard': userBehaviorDashboard,
 	'conversion-dashboard': conversionDashboard,
@@ -304,10 +309,13 @@ export const analyticsConfigurations: Record<string, AnalyticsConfiguration> = {
 
 // Type exports
 export type AnalyticsKind = AnalyticsConfiguration['kind'];
-export type AnalyticsVariant = AnalyticsConfiguration['variant'];
+export type AnalyticsVariant =
+	AnalyticsConfiguration['variant'];
 export type AnalyticsType = AnalyticsConfiguration['type'];
-export type AnalyticsLayout = AnalyticsConfiguration['layout'];
-export type AnalyticsTimeRange = AnalyticsConfiguration['timeRange'];
+export type AnalyticsLayout =
+	AnalyticsConfiguration['layout'];
+export type AnalyticsTimeRange =
+	AnalyticsConfiguration['timeRange'];
 
 // Data interfaces
 export interface AnalyticsDataPoint {
@@ -326,13 +334,23 @@ export interface AnalyticsMetric {
 	change?: number;
 	changePercent?: number;
 	trend?: 'up' | 'down' | 'stable';
-	format?: 'number' | 'currency' | 'percentage' | 'duration';
+	format?:
+		| 'number'
+		| 'currency'
+		| 'percentage'
+		| 'duration';
 	unit?: string;
 }
 
 export interface AnalyticsFilter {
 	field: string;
-	operator: 'equals' | 'contains' | 'greater' | 'less' | 'between' | 'in';
+	operator:
+		| 'equals'
+		| 'contains'
+		| 'greater'
+		| 'less'
+		| 'between'
+		| 'in';
 	value: any;
 	label?: string;
 }
@@ -345,7 +363,12 @@ export interface AnalyticsQuery {
 		start: Date;
 		end: Date;
 	};
-	granularity?: 'minute' | 'hour' | 'day' | 'week' | 'month';
+	granularity?:
+		| 'minute'
+		| 'hour'
+		| 'day'
+		| 'week'
+		| 'month';
 	limit?: number;
 	sort?: {
 		field: string;

@@ -2,28 +2,28 @@ import React, { forwardRef } from 'react';
 import styles from './Analytics.module.scss';
 
 export interface AnalyticsProps {
-	children: React.ReactNode;
-	className?: string;
-	variant?:
+	'children': React.ReactNode;
+	'className'?: string;
+	'variant'?:
 		| 'dashboard'
 		| 'realtime'
 		| 'reports'
 		| 'metrics'
 		| 'performance';
-	type?:
+	'type'?:
 		| 'chart'
 		| 'table'
 		| 'card'
 		| 'gauge'
 		| 'counter'
 		| 'graph';
-	size?: 'sm' | 'md' | 'lg';
-	loading?: boolean;
-	error?: string;
-	refreshable?: boolean;
-	exportable?: boolean;
-	onRefresh?: () => void;
-	onExport?: (format: 'csv' | 'json' | 'pdf') => void;
+	'size'?: 'sm' | 'md' | 'lg';
+	'loading'?: boolean;
+	'error'?: string;
+	'refreshable'?: boolean;
+	'exportable'?: boolean;
+	'onRefresh'?: () => void;
+	'onExport'?: (format: 'csv' | 'json' | 'pdf') => void;
 	'aria-label'?: string;
 }
 
@@ -32,7 +32,10 @@ export interface AnalyticsProps {
  * Use this as the foundation for all analytics types
  * Similar to the Modal and FormField base components
  */
-const Analytics = forwardRef<HTMLDivElement, AnalyticsProps>(
+const Analytics = forwardRef<
+	HTMLDivElement,
+	AnalyticsProps
+>(
 	(
 		{
 			children,
@@ -75,7 +78,9 @@ const Analytics = forwardRef<HTMLDivElement, AnalyticsProps>(
 				>
 					<div className={styles.loadingContainer}>
 						<div className={styles.loadingSpinner}></div>
-						<span className={styles.loadingText}>Loading analytics...</span>
+						<span className={styles.loadingText}>
+							Loading analytics...
+						</span>
 					</div>
 				</div>
 			);
@@ -87,7 +92,7 @@ const Analytics = forwardRef<HTMLDivElement, AnalyticsProps>(
 					ref={ref}
 					className={analyticsClasses}
 					aria-label={ariaLabel || 'Analytics error'}
-					role="alert"
+					role='alert'
 					{...props}
 				>
 					<div className={styles.errorContainer}>

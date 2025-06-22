@@ -46,11 +46,17 @@ export interface UseCartReduxReturn {
 	discount: { code?: string; amount?: number };
 	tax?: number;
 	shipping?: number;
-	
+
 	// Actions
-	addItem: (item: Omit<CartItem, 'quantity'>, quantity?: number) => void;
+	addItem: (
+		item: Omit<CartItem, 'quantity'>,
+		quantity?: number
+	) => void;
 	removeItem: (itemId: string) => void;
-	updateQuantity: (itemId: string, quantity: number) => void;
+	updateQuantity: (
+		itemId: string,
+		quantity: number
+	) => void;
 	clearCart: () => void;
 	toggleCart: () => void;
 	setCartOpen: (open: boolean) => void;
@@ -59,7 +65,7 @@ export interface UseCartReduxReturn {
 	setTax: (tax: number) => void;
 	setShipping: (shipping: number) => void;
 	checkout: () => Promise<void>;
-	
+
 	// Computed values
 	subtotal: number;
 	total: number;
@@ -69,7 +75,7 @@ export interface UseCartReduxReturn {
 
 export const useCartRedux = (): UseCartReduxReturn => {
 	const dispatch = useAppDispatch();
-	
+
 	// Selectors
 	const items = useAppSelector(selectCartItems);
 	const totalItems = useAppSelector(selectCartTotalItems);
@@ -101,7 +107,9 @@ export const useCartRedux = (): UseCartReduxReturn => {
 
 	const updateQuantity = useCallback(
 		(itemId: string, quantity: number) => {
-			dispatch(updateQuantityAction({ id: itemId, quantity }));
+			dispatch(
+				updateQuantityAction({ id: itemId, quantity })
+			);
 		},
 		[dispatch]
 	);
@@ -151,10 +159,15 @@ export const useCartRedux = (): UseCartReduxReturn => {
 
 		try {
 			// Simulate checkout process
-			await new Promise((resolve) => setTimeout(resolve, 2000));
+			await new Promise((resolve) =>
+				setTimeout(resolve, 2000)
+			);
 			dispatch(checkoutSuccess());
 		} catch (err) {
-			const errorMessage = err instanceof Error ? err.message : 'Checkout failed';
+			const errorMessage =
+				err instanceof Error ?
+					err.message
+				:	'Checkout failed';
 			dispatch(checkoutFailure(errorMessage));
 			throw err;
 		}
@@ -171,7 +184,7 @@ export const useCartRedux = (): UseCartReduxReturn => {
 		discount,
 		tax,
 		shipping,
-		
+
 		// Actions
 		addItem,
 		removeItem,
@@ -184,7 +197,7 @@ export const useCartRedux = (): UseCartReduxReturn => {
 		setTax,
 		setShipping,
 		checkout,
-		
+
 		// Computed values
 		subtotal,
 		total,

@@ -46,7 +46,14 @@ import {
 
 export interface UseAdvertisementContainerReturn {
 	// Container state
-	currentAds: Array<{ id: string; kind: string; content: any; weight?: number; props?: any; provider?: AdProviderType }>;
+	currentAds: Array<{
+		id: string;
+		kind: string;
+		content: any;
+		weight?: number;
+		props?: any;
+		provider?: AdProviderType;
+	}>;
 	currentIndex: number;
 	hasError: boolean;
 	screenSize: 'mobile' | 'tablet' | 'desktop';
@@ -55,17 +62,34 @@ export interface UseAdvertisementContainerReturn {
 	providerHealth: any;
 	isAutoRotating: boolean;
 	rotationInterval?: number;
-	
+
 	// Container actions
-	updateAds: (ads: Array<{ id: string; kind: string; content: any; weight?: number; props?: any; provider?: AdProviderType }>) => void;
+	updateAds: (
+		ads: Array<{
+			id: string;
+			kind: string;
+			content: any;
+			weight?: number;
+			props?: any;
+			provider?: AdProviderType;
+		}>
+	) => void;
 	rotateToNext: () => void;
-	setAutoRotation: (isAutoRotating: boolean, rotationInterval?: number) => void;
+	setAutoRotation: (
+		isAutoRotating: boolean,
+		rotationInterval?: number
+	) => void;
 	setCurrentIndex: (index: number) => void;
 	setError: (hasError: boolean) => void;
-	updateScreen: (screenSize: 'mobile' | 'tablet' | 'desktop') => void;
+	updateScreen: (
+		screenSize: 'mobile' | 'tablet' | 'desktop'
+	) => void;
 	changeProvider: (provider: AdProviderType) => void;
 	recordFailure: (provider: AdProviderType) => void;
-	updateHealth: (provider: AdProviderType, health: any) => void;
+	updateHealth: (
+		provider: AdProviderType,
+		health: any
+	) => void;
 	cleanup: () => void;
 }
 
@@ -77,7 +101,7 @@ export interface UseAdvertisementComponentReturn {
 	loadTime: number;
 	impressionTracked: boolean;
 	clickTracked: boolean;
-	
+
 	// Component actions
 	setState: (state: AdState) => void;
 	setVisible: (visible: boolean) => void;
@@ -95,11 +119,14 @@ export interface UseAdvertisementGlobalReturn {
 	providers: any;
 	enabledProviders: AdProviderType[];
 	trackingEnabled: boolean;
-	
+
 	// Global actions
 	setGlobalEnabled: (enabled: boolean) => void;
 	setDefaultProvider: (provider: AdProviderType) => void;
-	updateProviderConfig: (provider: AdProviderType, config: Record<string, any>) => void;
+	updateProviderConfig: (
+		provider: AdProviderType,
+		config: Record<string, any>
+	) => void;
 	toggleProvider: (provider: AdProviderType) => void;
 	setTrackingEnabled: (enabled: boolean) => void;
 	setUserId: (userId: string) => void;
@@ -107,14 +134,20 @@ export interface UseAdvertisementGlobalReturn {
 	resetMetrics: () => void;
 }
 
-export const useAdvertisementContainer = (containerId: string): UseAdvertisementContainerReturn => {
+export const useAdvertisementContainer = (
+	containerId: string
+): UseAdvertisementContainerReturn => {
 	const dispatch = useAppDispatch();
-	const container = useAppSelector((state) => selectContainer(state, containerId));
+	const container = useAppSelector((state) =>
+		selectContainer(state, containerId)
+	);
 
 	// Initialize container if it doesn't exist
 	const initializeIfNeeded = useCallback(() => {
 		if (!container) {
-			dispatch(initializeContainer({ containerId, config: {} }));
+			dispatch(
+				initializeContainer({ containerId, config: {} })
+			);
 		}
 	}, [dispatch, containerId, container]);
 
@@ -124,7 +157,16 @@ export const useAdvertisementContainer = (containerId: string): UseAdvertisement
 	}
 
 	const updateAds = useCallback(
-		(ads: Array<{ id: string; kind: string; content: any; weight?: number; props?: any; provider?: AdProviderType }>) => {
+		(
+			ads: Array<{
+				id: string;
+				kind: string;
+				content: any;
+				weight?: number;
+				props?: any;
+				provider?: AdProviderType;
+			}>
+		) => {
 			dispatch(updateContainerAds({ containerId, ads }));
 		},
 		[dispatch, containerId]
@@ -136,14 +178,18 @@ export const useAdvertisementContainer = (containerId: string): UseAdvertisement
 
 	const setError = useCallback(
 		(hasError: boolean) => {
-			dispatch(setContainerError({ containerId, hasError }));
+			dispatch(
+				setContainerError({ containerId, hasError })
+			);
 		},
 		[dispatch, containerId]
 	);
 
 	const updateScreen = useCallback(
 		(screenSize: 'mobile' | 'tablet' | 'desktop') => {
-			dispatch(updateScreenSize({ containerId, screenSize }));
+			dispatch(
+				updateScreenSize({ containerId, screenSize })
+			);
 		},
 		[dispatch, containerId]
 	);
@@ -157,21 +203,38 @@ export const useAdvertisementContainer = (containerId: string): UseAdvertisement
 
 	const recordFailure = useCallback(
 		(provider: AdProviderType) => {
-			dispatch(recordProviderFailure({ containerId, provider }));
+			dispatch(
+				recordProviderFailure({ containerId, provider })
+			);
 		},
 		[dispatch, containerId]
 	);
 
 	const updateHealth = useCallback(
 		(provider: AdProviderType, health: any) => {
-			dispatch(updateProviderHealth({ containerId, provider, health }));
+			dispatch(
+				updateProviderHealth({
+					containerId,
+					provider,
+					health,
+				})
+			);
 		},
 		[dispatch, containerId]
 	);
 
 	const setAutoRotationAction = useCallback(
-		(isAutoRotating: boolean, rotationInterval?: number) => {
-			dispatch(setAutoRotation({ containerId, isAutoRotating, rotationInterval }));
+		(
+			isAutoRotating: boolean,
+			rotationInterval?: number
+		) => {
+			dispatch(
+				setAutoRotation({
+					containerId,
+					isAutoRotating,
+					rotationInterval,
+				})
+			);
 		},
 		[dispatch, containerId]
 	);
@@ -198,7 +261,7 @@ export const useAdvertisementContainer = (containerId: string): UseAdvertisement
 		providerHealth: container?.providerHealth || {},
 		isAutoRotating: container?.isAutoRotating || false,
 		rotationInterval: container?.rotationInterval,
-		
+
 		// Actions
 		updateAds,
 		rotateToNext,
@@ -213,14 +276,20 @@ export const useAdvertisementContainer = (containerId: string): UseAdvertisement
 	};
 };
 
-export const useAdvertisementComponent = (componentId: string): UseAdvertisementComponentReturn => {
+export const useAdvertisementComponent = (
+	componentId: string
+): UseAdvertisementComponentReturn => {
 	const dispatch = useAppDispatch();
-	const component = useAppSelector((state) => selectComponent(state, componentId));
+	const component = useAppSelector((state) =>
+		selectComponent(state, componentId)
+	);
 
 	// Initialize component if it doesn't exist
 	const initializeIfNeeded = useCallback(() => {
 		if (!component) {
-			dispatch(initializeComponent({ componentId, config: {} }));
+			dispatch(
+				initializeComponent({ componentId, config: {} })
+			);
 		}
 	}, [dispatch, componentId, component]);
 
@@ -238,7 +307,9 @@ export const useAdvertisementComponent = (componentId: string): UseAdvertisement
 
 	const setVisible = useCallback(
 		(isVisible: boolean) => {
-			dispatch(setComponentVisibility({ componentId, isVisible }));
+			dispatch(
+				setComponentVisibility({ componentId, isVisible })
+			);
 		},
 		[dispatch, componentId]
 	);
@@ -274,9 +345,10 @@ export const useAdvertisementComponent = (componentId: string): UseAdvertisement
 		isVisible: component?.isVisible || true,
 		error: component?.error || null,
 		loadTime: component?.loadTime || 0,
-		impressionTracked: component?.impressionTracked || false,
+		impressionTracked:
+			component?.impressionTracked || false,
 		clickTracked: component?.clickTracked || false,
-		
+
 		// Actions
 		setState,
 		setVisible,
@@ -287,91 +359,107 @@ export const useAdvertisementComponent = (componentId: string): UseAdvertisement
 	};
 };
 
-export const useAdvertisementGlobal = (): UseAdvertisementGlobalReturn => {
-	const dispatch = useAppDispatch();
-	
-	// Selectors
-	const globalEnabled = useAppSelector(selectIsGlobalEnabled);
-	const globalMetrics = useAppSelector(selectGlobalMetrics);
-	const providers = useAppSelector(selectProviders);
-	const enabledProviders = useAppSelector(selectEnabledProviders);
-	const trackingEnabled = useAppSelector(selectTrackingEnabled);
-	const defaultProvider = useAppSelector((state) => state.advertisement.defaultProvider);
+export const useAdvertisementGlobal =
+	(): UseAdvertisementGlobalReturn => {
+		const dispatch = useAppDispatch();
 
-	// Actions
-	const setGlobalEnabledAction = useCallback(
-		(enabled: boolean) => {
-			dispatch(setGlobalEnabled(enabled));
-		},
-		[dispatch]
-	);
+		// Selectors
+		const globalEnabled = useAppSelector(
+			selectIsGlobalEnabled
+		);
+		const globalMetrics = useAppSelector(
+			selectGlobalMetrics
+		);
+		const providers = useAppSelector(selectProviders);
+		const enabledProviders = useAppSelector(
+			selectEnabledProviders
+		);
+		const trackingEnabled = useAppSelector(
+			selectTrackingEnabled
+		);
+		const defaultProvider = useAppSelector(
+			(state) => state.advertisement.defaultProvider
+		);
 
-	const setDefaultProviderAction = useCallback(
-		(provider: AdProviderType) => {
-			dispatch(setDefaultProvider(provider));
-		},
-		[dispatch]
-	);
-
-	const updateProviderConfigAction = useCallback(
-		(provider: AdProviderType, config: Record<string, any>) => {
-			dispatch(updateProviderConfig({ provider, config }));
-		},
-		[dispatch]
-	);
-
-	const toggleProviderAction = useCallback(
-		(provider: AdProviderType) => {
-			dispatch(toggleProvider(provider));
-		},
-		[dispatch]
-	);
-
-	const setTrackingEnabledAction = useCallback(
-		(enabled: boolean) => {
-			dispatch(setTrackingEnabled(enabled));
-		},
-		[dispatch]
-	);
-
-	const setUserIdAction = useCallback(
-		(userId: string) => {
-			dispatch(setUserId(userId));
-		},
-		[dispatch]
-	);
-
-	const updateRevenueAction = useCallback(
-		(amount: number) => {
-			dispatch(updateRevenue(amount));
-		},
-		[dispatch]
-	);
-
-	const resetMetricsAction = useCallback(() => {
-		dispatch(resetMetrics());
-	}, [dispatch]);
-
-	return {
-		// State
-		globalEnabled,
-		defaultProvider,
-		globalMetrics,
-		providers,
-		enabledProviders,
-		trackingEnabled,
-		
 		// Actions
-		setGlobalEnabled: setGlobalEnabledAction,
-		setDefaultProvider: setDefaultProviderAction,
-		updateProviderConfig: updateProviderConfigAction,
-		toggleProvider: toggleProviderAction,
-		setTrackingEnabled: setTrackingEnabledAction,
-		setUserId: setUserIdAction,
-		updateRevenue: updateRevenueAction,
-		resetMetrics: resetMetricsAction,
+		const setGlobalEnabledAction = useCallback(
+			(enabled: boolean) => {
+				dispatch(setGlobalEnabled(enabled));
+			},
+			[dispatch]
+		);
+
+		const setDefaultProviderAction = useCallback(
+			(provider: AdProviderType) => {
+				dispatch(setDefaultProvider(provider));
+			},
+			[dispatch]
+		);
+
+		const updateProviderConfigAction = useCallback(
+			(
+				provider: AdProviderType,
+				config: Record<string, any>
+			) => {
+				dispatch(
+					updateProviderConfig({ provider, config })
+				);
+			},
+			[dispatch]
+		);
+
+		const toggleProviderAction = useCallback(
+			(provider: AdProviderType) => {
+				dispatch(toggleProvider(provider));
+			},
+			[dispatch]
+		);
+
+		const setTrackingEnabledAction = useCallback(
+			(enabled: boolean) => {
+				dispatch(setTrackingEnabled(enabled));
+			},
+			[dispatch]
+		);
+
+		const setUserIdAction = useCallback(
+			(userId: string) => {
+				dispatch(setUserId(userId));
+			},
+			[dispatch]
+		);
+
+		const updateRevenueAction = useCallback(
+			(amount: number) => {
+				dispatch(updateRevenue(amount));
+			},
+			[dispatch]
+		);
+
+		const resetMetricsAction = useCallback(() => {
+			dispatch(resetMetrics());
+		}, [dispatch]);
+
+		return {
+			// State
+			globalEnabled,
+			defaultProvider,
+			globalMetrics,
+			providers,
+			enabledProviders,
+			trackingEnabled,
+
+			// Actions
+			setGlobalEnabled: setGlobalEnabledAction,
+			setDefaultProvider: setDefaultProviderAction,
+			updateProviderConfig: updateProviderConfigAction,
+			toggleProvider: toggleProviderAction,
+			setTrackingEnabled: setTrackingEnabledAction,
+			setUserId: setUserIdAction,
+			updateRevenue: updateRevenueAction,
+			resetMetrics: resetMetricsAction,
+		};
 	};
-};
 
 export default {
 	useAdvertisementContainer,

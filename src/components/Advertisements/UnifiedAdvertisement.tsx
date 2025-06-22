@@ -18,9 +18,7 @@ import {
 	AdProvider,
 	AdProviderType,
 } from './configurations';
-import {
-	useAdvertisementRedux,
-} from '../../store';
+import { useAdvertisementRedux } from '../../store';
 import styles from './Advertisements.module.scss';
 
 // Base advertisement props interface
@@ -301,19 +299,22 @@ const UnifiedAdvertisement = forwardRef<
 		]);
 
 		// Generate unique component ID
-		const componentId = useMemo(() => 
-			`ad-${kind}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+		const componentId = useMemo(
+			() =>
+				`ad-${kind}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
 			[kind]
 		);
 
 		// Redux state management
-		const { useAdvertisementComponent } = useAdvertisementRedux;
-		const adComponent = useAdvertisementComponent(componentId);
+		const { useAdvertisementComponent } =
+			useAdvertisementRedux;
+		const adComponent =
+			useAdvertisementComponent(componentId);
 
 		// Derived state
 		const adState = adComponent.adState;
 		const isAdVisible = isVisible && adComponent.isVisible;
-		
+
 		// Initialize component state when component mounts
 		useEffect(() => {
 			adComponent.setState('loading');

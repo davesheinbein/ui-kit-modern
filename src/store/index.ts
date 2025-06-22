@@ -146,7 +146,10 @@ export {
 	selectIsGlobalEnabled,
 	selectTrackingEnabled,
 } from './slices/advertisementSlice';
-export type { AdProviderType, AdState } from './slices/advertisementSlice';
+export type {
+	AdProviderType,
+	AdState,
+} from './slices/advertisementSlice';
 export { default as useAdvertisementRedux } from './hooks/useAdvertisementRedux';
 
 export default store;

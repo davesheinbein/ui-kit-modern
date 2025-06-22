@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
  * Monetization Component System
- * 
+ *
  * CART STATE MANAGEMENT MIGRATION:
  * ================================
  * The cart functionality has been migrated from custom React hooks to Redux for better:
@@ -10,24 +10,24 @@ import React from 'react';
  * - Persistence across component re-renders
  * - Integration with the broader application state
  * - Better testing and debugging capabilities
- * 
+ *
  * OLD PATTERN (removed):
  * - useCart() custom hook with local state
  * - CartProvider/useCartContext for context-based state
- * 
+ *
  * NEW PATTERN (current):
  * - useCartRedux() hook that uses Redux store
  * - Redux cart slice with actions and selectors
  * - Centralized cart state in the main Redux store
- * 
+ *
  * USAGE:
  * ------
  * import { useCartRedux, CartItem, addItem, clearCart } from './components/Monetization';
- * 
+ *
  * // In component:
  * const cart = useCartRedux();
  * cart.addItem(product, quantity);
- * 
+ *
  * // Or use direct actions:
  * import { useAppDispatch } from './store';
  * import { addItem } from './components/Monetization';

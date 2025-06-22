@@ -1,18 +1,18 @@
-import React, { 
-	forwardRef, 
-	useMemo, 
-	useState, 
-	useEffect, 
+import React, {
+	forwardRef,
+	useMemo,
+	useState,
+	useEffect,
 	useCallback,
-	useRef 
+	useRef,
 } from 'react';
-import { 
-	AnalyticsConfiguration, 
-	AnalyticsDataPoint, 
-	AnalyticsMetric, 
+import {
+	AnalyticsConfiguration,
+	AnalyticsDataPoint,
+	AnalyticsMetric,
 	AnalyticsQuery,
 	AnalyticsFilter,
-	analyticsConfigurations 
+	analyticsConfigurations,
 } from './configurations';
 import styles from './Analytics.module.scss';
 
@@ -21,8 +21,9 @@ export interface BaseAnalyticsProps {
 	style?: React.CSSProperties;
 }
 
-export interface UnifiedAnalyticsProps extends BaseAnalyticsProps {
-	kind: 
+export interface UnifiedAnalyticsProps
+	extends BaseAnalyticsProps {
+	kind:
 		| 'dashboard'
 		| 'chart'
 		| 'metric'
@@ -42,11 +43,25 @@ export interface UnifiedAnalyticsProps extends BaseAnalyticsProps {
 
 	// Configuration
 	config?: Partial<AnalyticsConfiguration>;
-	timeRange?: 'realtime' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | 'custom';
-	layout?: 'grid' | 'list' | 'single' | 'split' | 'sidebar' | 'fullscreen';
+	timeRange?:
+		| 'realtime'
+		| 'hour'
+		| 'day'
+		| 'week'
+		| 'month'
+		| 'quarter'
+		| 'year'
+		| 'custom';
+	layout?:
+		| 'grid'
+		| 'list'
+		| 'single'
+		| 'split'
+		| 'sidebar'
+		| 'fullscreen';
 	autoRefresh?: boolean;
 	refreshInterval?: number;
-	
+
 	// Interactivity
 	interactive?: boolean;
 	drilldown?: boolean;
@@ -79,20 +94,34 @@ export interface UnifiedAnalyticsProps extends BaseAnalyticsProps {
 	showControls?: boolean;
 
 	// Analytics-specific props
-	chartType?: 'line' | 'bar' | 'pie' | 'area' | 'scatter' | 'heatmap';
+	chartType?:
+		| 'line'
+		| 'bar'
+		| 'pie'
+		| 'area'
+		| 'scatter'
+		| 'heatmap';
 	aggregation?: 'sum' | 'avg' | 'count' | 'min' | 'max';
-	granularity?: 'minute' | 'hour' | 'day' | 'week' | 'month';
-	
+	granularity?:
+		| 'minute'
+		| 'hour'
+		| 'day'
+		| 'week'
+		| 'month';
+
 	// Real-time
 	realtime?: boolean;
 	realtimeEndpoint?: string;
-	
+
 	// Advanced
 	customRenderer?: (data: any) => React.ReactNode;
 	plugins?: any[];
 }
 
-const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
+const UnifiedAnalytics = forwardRef<
+	HTMLDivElement,
+	UnifiedAnalyticsProps
+>(
 	(
 		{
 			kind,
@@ -123,7 +152,13 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 			error = null,
 			empty = false,
 			emptyMessage = 'No data available',
-			colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
+			colors = [
+				'#3b82f6',
+				'#10b981',
+				'#f59e0b',
+				'#ef4444',
+				'#8b5cf6',
+			],
 			theme = 'auto',
 			height = 300,
 			showHeader = true,
@@ -144,16 +179,22 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 	) => {
 		// Get configuration for the kind
 		const configuration = useMemo(() => {
-			const baseConfig = analyticsConfigurations[`${kind}-default`] || analyticsConfigurations[kind] || {};
+			const baseConfig =
+				analyticsConfigurations[`${kind}-default`] ||
+				analyticsConfigurations[kind] ||
+				{};
 			return { ...baseConfig, ...config };
 		}, [kind, config]);
 
 		// State management
 		const [currentData, setCurrentData] = useState(data);
-		const [currentFilters, setCurrentFilters] = useState(filters);
+		const [currentFilters, setCurrentFilters] =
+			useState(filters);
 		const [isRefreshing, setIsRefreshing] = useState(false);
-		const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-		const refreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
+		const [lastUpdated, setLastUpdated] =
+			useState<Date | null>(null);
+		const refreshIntervalRef =
+			useRef<NodeJS.Timeout | null>(null);
 
 		// Auto-refresh logic
 		useEffect(() => {
@@ -186,18 +227,27 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 			}, 1000);
 		}, [onRefresh]);
 
-		const handleFilter = useCallback((newFilters: AnalyticsFilter[]) => {
-			setCurrentFilters(newFilters);
-			onFilter?.(newFilters);
-		}, [onFilter]);
+		const handleFilter = useCallback(
+			(newFilters: AnalyticsFilter[]) => {
+				setCurrentFilters(newFilters);
+				onFilter?.(newFilters);
+			},
+			[onFilter]
+		);
 
-		const handleExport = useCallback((format: 'csv' | 'pdf' | 'png') => {
-			onExport?.(format);
-		}, [onExport]);
+		const handleExport = useCallback(
+			(format: 'csv' | 'pdf' | 'png') => {
+				onExport?.(format);
+			},
+			[onExport]
+		);
 
-		const handleTimeRangeChange = useCallback((newTimeRange: string) => {
-			onTimeRangeChange?.(newTimeRange);
-		}, [onTimeRangeChange]);
+		const handleTimeRangeChange = useCallback(
+			(newTimeRange: string) => {
+				onTimeRangeChange?.(newTimeRange);
+			},
+			[onTimeRangeChange]
+		);
 
 		// Render methods
 		const renderHeader = () => {
@@ -207,12 +257,18 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 				<div className={styles.analytics__header}>
 					<div>
 						{title && (
-							<h3 className={styles.analytics__header_title}>
+							<h3
+								className={styles.analytics__header_title}
+							>
 								{title}
 							</h3>
 						)}
 						{subtitle && (
-							<p className={styles.analytics__header_subtitle}>
+							<p
+								className={
+									styles.analytics__header_subtitle
+								}
+							>
 								{subtitle}
 							</p>
 						)}
@@ -221,16 +277,20 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 						{exportable && (
 							<div className={styles.analytics__actions}>
 								<button
-									className={styles.analytics__actions_button}
+									className={
+										styles.analytics__actions_button
+									}
 									onClick={() => handleExport('csv')}
-									title="Export as CSV"
+									title='Export as CSV'
 								>
 									CSV
 								</button>
 								<button
-									className={styles.analytics__actions_button}
+									className={
+										styles.analytics__actions_button
+									}
 									onClick={() => handleExport('pdf')}
-									title="Export as PDF"
+									title='Export as PDF'
 								>
 									PDF
 								</button>
@@ -239,11 +299,13 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 						{autoRefresh && (
 							<button
 								className={`${styles.analytics__actions_button} ${
-									isRefreshing ? styles.analytics__actions_button__loading : ''
+									isRefreshing ?
+										styles.analytics__actions_button__loading
+									:	''
 								}`}
 								onClick={handleRefresh}
 								disabled={isRefreshing}
-								title="Refresh data"
+								title='Refresh data'
 							>
 								{isRefreshing ? '⟳' : '↻'}
 							</button>
@@ -259,30 +321,40 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 			return (
 				<div className={styles.analytics__controls}>
 					<div className={styles.analytics__controls_group}>
-						<label className={styles.analytics__controls_label}>
+						<label
+							className={styles.analytics__controls_label}
+						>
 							Time Range:
 						</label>
 						<select
 							value={timeRange}
-							onChange={(e) => handleTimeRangeChange(e.target.value)}
+							onChange={(e) =>
+								handleTimeRangeChange(e.target.value)
+							}
 						>
-							<option value="hour">Last Hour</option>
-							<option value="day">Last Day</option>
-							<option value="week">Last Week</option>
-							<option value="month">Last Month</option>
-							<option value="quarter">Last Quarter</option>
-							<option value="year">Last Year</option>
-							<option value="custom">Custom</option>
+							<option value='hour'>Last Hour</option>
+							<option value='day'>Last Day</option>
+							<option value='week'>Last Week</option>
+							<option value='month'>Last Month</option>
+							<option value='quarter'>Last Quarter</option>
+							<option value='year'>Last Year</option>
+							<option value='custom'>Custom</option>
 						</select>
 					</div>
 					{filterable && (
-						<div className={styles.analytics__controls_group}>
-							<label className={styles.analytics__controls_label}>
+						<div
+							className={styles.analytics__controls_group}
+						>
+							<label
+								className={styles.analytics__controls_label}
+							>
 								Filters:
 							</label>
 							<button
 								className={styles.analytics__actions_button}
-								onClick={() => {/* Open filter modal */}}
+								onClick={() => {
+									/* Open filter modal */
+								}}
 							>
 								Add Filter ({currentFilters.length})
 							</button>
@@ -296,8 +368,12 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 			if (loading) {
 				return (
 					<div className={styles.analytics__loading}>
-						<div className={styles.analytics__loading_spinner} />
-						<span className={styles.analytics__loading_text}>
+						<div
+							className={styles.analytics__loading_spinner}
+						/>
+						<span
+							className={styles.analytics__loading_text}
+						>
 							Loading analytics...
 						</span>
 					</div>
@@ -307,13 +383,19 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 			if (error) {
 				return (
 					<div className={styles.analytics__error}>
-						<div className={styles.analytics__error_message}>
+						<div
+							className={styles.analytics__error_message}
+						>
 							Error loading analytics
 						</div>
-						<div className={styles.analytics__error_details}>
+						<div
+							className={styles.analytics__error_details}
+						>
 							{error}
 						</div>
-						<div className={styles.analytics__error_actions}>
+						<div
+							className={styles.analytics__error_actions}
+						>
 							<button
 								className={styles.analytics__actions_button}
 								onClick={handleRefresh}
@@ -325,10 +407,15 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 				);
 			}
 
-			if (empty || (!currentData.length && !metrics.length)) {
+			if (
+				empty ||
+				(!currentData.length && !metrics.length)
+			) {
 				return (
 					<div className={styles.analytics__error}>
-						<div className={styles.analytics__error_message}>
+						<div
+							className={styles.analytics__error_message}
+						>
 							{emptyMessage}
 						</div>
 					</div>
@@ -366,21 +453,44 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 		const renderDashboard = () => (
 			<div className={styles.analytics__dashboard_grid}>
 				{metrics.map((metric, index) => (
-					<div key={metric.id || index} className={styles.analytics__metric_container}>
+					<div
+						key={metric.id || index}
+						className={styles.analytics__metric_container}
+					>
 						<div className={styles.analytics__metric_value}>
-							{formatMetricValue(metric.value, metric.format)}
+							{formatMetricValue(
+								metric.value,
+								metric.format
+							)}
 						</div>
 						<div className={styles.analytics__metric_label}>
 							{metric.name}
 						</div>
 						{metric.change !== undefined && (
-							<div className={`${styles.analytics__metric_change} ${
-								metric.change > 0 ? styles['analytics__metric_change--positive'] :
-								metric.change < 0 ? styles['analytics__metric_change--negative'] :
-								styles['analytics__metric_change--neutral']
-							}`}>
-								{metric.change > 0 ? '↗' : metric.change < 0 ? '↘' : '→'}
-								{Math.abs(metric.changePercent || metric.change)}%
+							<div
+								className={`${styles.analytics__metric_change} ${
+									metric.change > 0 ?
+										styles[
+											'analytics__metric_change--positive'
+										]
+									: metric.change < 0 ?
+										styles[
+											'analytics__metric_change--negative'
+										]
+									:	styles[
+											'analytics__metric_change--neutral'
+										]
+								}`}
+							>
+								{metric.change > 0 ?
+									'↗'
+								: metric.change < 0 ?
+									'↘'
+								:	'→'}
+								{Math.abs(
+									metric.changePercent || metric.change
+								)}
+								%
 							</div>
 						)}
 					</div>
@@ -389,17 +499,24 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 		);
 
 		const renderChart = () => (
-			<div className={styles.analytics__chart_container} style={{ height }}>
+			<div
+				className={styles.analytics__chart_container}
+				style={{ height }}
+			>
 				{/* Chart implementation would go here - using placeholder */}
 				<div className={styles.analytics__chart_loading}>
-					Chart visualization ({chartType}) - {currentData.length} data points
+					Chart visualization ({chartType}) -{' '}
+					{currentData.length} data points
 				</div>
 				{showLegend && renderLegend()}
 			</div>
 		);
 
 		const renderMetric = () => {
-			const metric = metrics[0] || { name: 'Metric', value: 0 };
+			const metric = metrics[0] || {
+				name: 'Metric',
+				value: 0,
+			};
 			return (
 				<div className={styles.analytics__metric_container}>
 					<div className={styles.analytics__metric_value}>
@@ -409,13 +526,28 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 						{metric.name}
 					</div>
 					{metric.change !== undefined && (
-						<div className={`${styles.analytics__metric_change} ${
-							metric.change > 0 ? styles['analytics__metric_change--positive'] :
-							metric.change < 0 ? styles['analytics__metric_change--negative'] :
-							styles['analytics__metric_change--neutral']
-						}`}>
-							{metric.change > 0 ? '↗' : metric.change < 0 ? '↘' : '→'}
-							{Math.abs(metric.changePercent || metric.change)}%
+						<div
+							className={`${styles.analytics__metric_change} ${
+								metric.change > 0 ?
+									styles[
+										'analytics__metric_change--positive'
+									]
+								: metric.change < 0 ?
+									styles[
+										'analytics__metric_change--negative'
+									]
+								:	styles['analytics__metric_change--neutral']
+							}`}
+						>
+							{metric.change > 0 ?
+								'↗'
+							: metric.change < 0 ?
+								'↘'
+							:	'→'}
+							{Math.abs(
+								metric.changePercent || metric.change
+							)}
+							%
 						</div>
 					)}
 				</div>
@@ -423,10 +555,14 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 		};
 
 		const renderHeatmap = () => (
-			<div className={styles.analytics__heatmap_container} style={{ height }}>
+			<div
+				className={styles.analytics__heatmap_container}
+				style={{ height }}
+			>
 				{/* Heatmap implementation would go here */}
 				<div className={styles.analytics__chart_loading}>
-					Heatmap visualization - {currentData.length} data points
+					Heatmap visualization - {currentData.length} data
+					points
 				</div>
 			</div>
 		);
@@ -434,16 +570,35 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 		const renderFunnel = () => (
 			<div className={styles.analytics__funnel_container}>
 				{currentData.map((step, index) => (
-					<div key={index} className={styles.analytics__funnel_step}>
-						<div className={styles.analytics__funnel_step_content}>
-							<div className={styles.analytics__funnel_step_label}>
+					<div
+						key={index}
+						className={styles.analytics__funnel_step}
+					>
+						<div
+							className={
+								styles.analytics__funnel_step_content
+							}
+						>
+							<div
+								className={
+									styles.analytics__funnel_step_label
+								}
+							>
 								{step.label || `Step ${index + 1}`}
 							</div>
-							<div className={styles.analytics__funnel_step_value}>
+							<div
+								className={
+									styles.analytics__funnel_step_value
+								}
+							>
 								{formatMetricValue(step.value, 'number')}
 							</div>
 							{step.rate && (
-								<div className={styles.analytics__funnel_step_rate}>
+								<div
+									className={
+										styles.analytics__funnel_step_rate
+									}
+								>
 									{(step.rate * 100).toFixed(1)}%
 								</div>
 							)}
@@ -454,7 +609,10 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 		);
 
 		const renderCohort = () => (
-			<div className={styles.analytics__chart_container} style={{ height }}>
+			<div
+				className={styles.analytics__chart_container}
+				style={{ height }}
+			>
 				{/* Cohort table implementation would go here */}
 				<div className={styles.analytics__chart_loading}>
 					Cohort analysis - {currentData.length} cohorts
@@ -475,9 +633,15 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 			<div className={styles.analytics__dashboard_grid}>
 				{/* Real-time metrics grid */}
 				{metrics.map((metric, index) => (
-					<div key={metric.id || index} className={styles.analytics__metric_container}>
+					<div
+						key={metric.id || index}
+						className={styles.analytics__metric_container}
+					>
 						<div className={styles.analytics__metric_value}>
-							{formatMetricValue(metric.value, metric.format)}
+							{formatMetricValue(
+								metric.value,
+								metric.format
+							)}
 						</div>
 						<div className={styles.analytics__metric_label}>
 							{metric.name} (Live)
@@ -490,9 +654,14 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 		const renderLegend = () => (
 			<div className={styles.analytics__chart_legend}>
 				{colors.map((color, index) => (
-					<div key={index} className={styles.analytics__chart_legend_item}>
-						<div 
-							className={styles.analytics__chart_legend_item_color}
+					<div
+						key={index}
+						className={styles.analytics__chart_legend_item}
+					>
+						<div
+							className={
+								styles.analytics__chart_legend_item_color
+							}
 							style={{ backgroundColor: color }}
 						/>
 						<span>Series {index + 1}</span>
@@ -508,18 +677,22 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 				<div className={styles.analytics__footer}>
 					<div>
 						{lastUpdated && (
-							<span>Last updated: {lastUpdated.toLocaleTimeString()}</span>
+							<span>
+								Last updated:{' '}
+								{lastUpdated.toLocaleTimeString()}
+							</span>
 						)}
 					</div>
-					<div>
-						{currentData.length} data points
-					</div>
+					<div>{currentData.length} data points</div>
 				</div>
 			);
 		};
 
 		// Helper functions
-		const formatMetricValue = (value: number, format?: string) => {
+		const formatMetricValue = (
+			value: number,
+			format?: string
+		) => {
 			switch (format) {
 				case 'currency':
 					return new Intl.NumberFormat('en-US', {
@@ -541,7 +714,9 @@ const UnifiedAnalytics = forwardRef<HTMLDivElement, UnifiedAnalyticsProps>(
 			layout && styles[`analytics__${layout}`],
 			theme && styles[`analytics__theme_${theme}`],
 			className,
-		].filter(Boolean).join(' ');
+		]
+			.filter(Boolean)
+			.join(' ');
 
 		return (
 			<div
