@@ -1128,18 +1128,20 @@ export const WithAutoRotation: Story = {
 					description: 'First rotating advertisement',
 					ctaText: 'Click Me',
 					actionUrl: '#',
-					imageUrl: 'https://via.placeholder.com/728x90/007bff/ffffff?text=Banner+1',
+					imageUrl:
+						'https://via.placeholder.com/728x90/007bff/ffffff?text=Banner+1',
 				},
 				weight: 1,
 			},
 			{
 				kind: 'banner-ad',
 				content: {
-					title: 'Rotating Banner 2', 
+					title: 'Rotating Banner 2',
 					description: 'Second rotating advertisement',
 					ctaText: 'Click Me',
 					actionUrl: '#',
-					imageUrl: 'https://via.placeholder.com/728x90/28a745/ffffff?text=Banner+2',
+					imageUrl:
+						'https://via.placeholder.com/728x90/28a745/ffffff?text=Banner+2',
 				},
 				weight: 1,
 			},
@@ -1150,7 +1152,8 @@ export const WithAutoRotation: Story = {
 					description: 'Native card in rotation',
 					ctaText: 'Learn More',
 					actionUrl: '#',
-					imageUrl: 'https://via.placeholder.com/300x200/6f42c1/ffffff?text=Native',
+					imageUrl:
+						'https://via.placeholder.com/300x200/6f42c1/ffffff?text=Native',
 				},
 				weight: 1,
 			},
@@ -1169,7 +1172,8 @@ export const WithAutoRotation: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Ad container that automatically rotates through advertisements every 3 seconds.',
+				story:
+					'Ad container that automatically rotates through advertisements every 3 seconds.',
 			},
 		},
 	},
@@ -1185,7 +1189,8 @@ export const WithEventHandlers: Story = {
 					description: 'Click to see event handling',
 					ctaText: 'Click Me',
 					actionUrl: 'https://example.com',
-					imageUrl: 'https://via.placeholder.com/728x90/007bff/ffffff?text=Interactive+Banner',
+					imageUrl:
+						'https://via.placeholder.com/728x90/007bff/ffffff?text=Interactive+Banner',
 				},
 				weight: 1,
 			},
@@ -1196,7 +1201,8 @@ export const WithEventHandlers: Story = {
 					description: 'Watch console for events',
 					ctaText: 'Interact',
 					actionUrl: 'https://example.com',
-					imageUrl: 'https://via.placeholder.com/300x200/28a745/ffffff?text=Interactive+Card',
+					imageUrl:
+						'https://via.placeholder.com/300x200/28a745/ffffff?text=Interactive+Card',
 				},
 				weight: 1,
 			},
@@ -1225,7 +1231,8 @@ export const WithEventHandlers: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Click on advertisements to see event handling in action. Check the browser console for impression logs.',
+				story:
+					'Click on advertisements to see event handling in action. Check the browser console for impression logs.',
 			},
 		},
 	},
@@ -1241,14 +1248,16 @@ export const WithFallbackContent: Story = {
 			maxAds={3}
 			adPool={args.adPool}
 			fallbackContent={
-				<div style={{
-					padding: '40px',
-					textAlign: 'center',
-					border: '2px dashed #ccc',
-					borderRadius: '8px',
-					color: '#666',
-					background: '#f9f9f9',
-				}}>
+				<div
+					style={{
+						padding: '40px',
+						textAlign: 'center',
+						border: '2px dashed #ccc',
+						borderRadius: '8px',
+						color: '#666',
+						background: '#f9f9f9',
+					}}
+				>
 					<h3>No Advertisements Available</h3>
 					<p>Please check back later for new content.</p>
 				</div>
@@ -1259,7 +1268,8 @@ export const WithFallbackContent: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Shows fallback content when no advertisements are available in the pool.',
+				story:
+					'Shows fallback content when no advertisements are available in the pool.',
 			},
 		},
 	},
@@ -1285,7 +1295,8 @@ export const FilteredAdTypes: Story = {
 					description: 'Only native cards are allowed',
 					ctaText: 'Learn More',
 					actionUrl: '#',
-					imageUrl: 'https://via.placeholder.com/300x200/6f42c1/ffffff?text=Native+Card',
+					imageUrl:
+						'https://via.placeholder.com/300x200/6f42c1/ffffff?text=Native+Card',
 				},
 				weight: 1,
 			},
@@ -1296,7 +1307,8 @@ export const FilteredAdTypes: Story = {
 					description: 'This will also be shown',
 					ctaText: 'Discover',
 					actionUrl: '#',
-					imageUrl: 'https://via.placeholder.com/300x200/dc3545/ffffff?text=Native+Card+2',
+					imageUrl:
+						'https://via.placeholder.com/300x200/dc3545/ffffff?text=Native+Card+2',
 				},
 				weight: 1,
 			},
@@ -1314,7 +1326,8 @@ export const FilteredAdTypes: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'This container only shows native card advertisements, filtering out other types from the ad pool.',
+				story:
+					'This container only shows native card advertisements, filtering out other types from the ad pool.',
 			},
 		},
 	},
@@ -1327,10 +1340,12 @@ export const WeightedSelection: Story = {
 				kind: 'banner-ad',
 				content: {
 					title: 'High Priority Ad (Weight: 5)',
-					description: 'This ad has higher weight and should appear more often.',
+					description:
+						'This ad has higher weight and should appear more often.',
 					ctaText: 'Click Me',
 					actionUrl: '#',
-					imageUrl: 'https://via.placeholder.com/728x90/dc3545/ffffff?text=High+Priority',
+					imageUrl:
+						'https://via.placeholder.com/728x90/dc3545/ffffff?text=High+Priority',
 				},
 				weight: 5, // Higher weight
 			},
@@ -1338,10 +1353,12 @@ export const WeightedSelection: Story = {
 				kind: 'banner-ad',
 				content: {
 					title: 'Low Priority Ad (Weight: 1)',
-					description: 'This ad has lower weight and should appear less often.',
+					description:
+						'This ad has lower weight and should appear less often.',
 					ctaText: 'Click Me',
 					actionUrl: '#',
-					imageUrl: 'https://via.placeholder.com/728x90/28a745/ffffff?text=Low+Priority',
+					imageUrl:
+						'https://via.placeholder.com/728x90/28a745/ffffff?text=Low+Priority',
 				},
 				weight: 1, // Lower weight
 			},
@@ -1359,7 +1376,8 @@ export const WeightedSelection: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'The red "High Priority" ad should appear more frequently due to its higher weight (5 vs 1).',
+				story:
+					'The red "High Priority" ad should appear more frequently due to its higher weight (5 vs 1).',
 			},
 		},
 	},
@@ -1379,16 +1397,28 @@ export const CompleteIntegrationDemo: Story = {
 
 		const analyticsHooks = {
 			onImpression: (event: AdAnalyticsEvent) => {
-				setMetrics(prev => ({ ...prev, impressions: prev.impressions + 1 }));
+				setMetrics((prev) => ({
+					...prev,
+					impressions: prev.impressions + 1,
+				}));
 			},
 			onClick: (event: AdAnalyticsEvent) => {
-				setMetrics(prev => ({ ...prev, clicks: prev.clicks + 1 }));
+				setMetrics((prev) => ({
+					...prev,
+					clicks: prev.clicks + 1,
+				}));
 			},
 			onError: (event: AdAnalyticsEvent) => {
-				setMetrics(prev => ({ ...prev, errors: prev.errors + 1 }));
+				setMetrics((prev) => ({
+					...prev,
+					errors: prev.errors + 1,
+				}));
 			},
 			onConversion: (event: AdAnalyticsEvent) => {
-				setMetrics(prev => ({ ...prev, conversions: prev.conversions + 1 }));
+				setMetrics((prev) => ({
+					...prev,
+					conversions: prev.conversions + 1,
+				}));
 			},
 		};
 
@@ -1398,7 +1428,9 @@ export const CompleteIntegrationDemo: Story = {
 				name: 'Premium Sponsor',
 				revShare: 70,
 				loadAdFunction: async (adSlot: HTMLElement) => {
-					await new Promise(resolve => setTimeout(resolve, 500));
+					await new Promise((resolve) =>
+						setTimeout(resolve, 500)
+					);
 					return {
 						id: 'premium-' + Date.now(),
 						title: 'Premium Advertisement',
@@ -1411,27 +1443,45 @@ export const CompleteIntegrationDemo: Story = {
 		return (
 			<div style={{ padding: '20px' }}>
 				<h2>Complete Integration Demo</h2>
-				<p>Real-world example with analytics, providers, and performance tracking.</p>
+				<p>
+					Real-world example with analytics, providers, and
+					performance tracking.
+				</p>
 
 				{/* Metrics Dashboard */}
-				<div style={{
-					display: 'grid',
-					gridTemplateColumns: 'repeat(4, 1fr)',
-					gap: '10px',
-					marginBottom: '20px',
-				}}>
+				<div
+					style={{
+						display: 'grid',
+						gridTemplateColumns: 'repeat(4, 1fr)',
+						gap: '10px',
+						marginBottom: '20px',
+					}}
+				>
 					{Object.entries(metrics).map(([key, value]) => (
-						<div key={key} style={{
-							background: '#007bff',
-							color: 'white',
-							padding: '15px',
-							borderRadius: '8px',
-							textAlign: 'center',
-						}}>
-							<div style={{ fontSize: '24px', fontWeight: 'bold' }}>
+						<div
+							key={key}
+							style={{
+								background: '#007bff',
+								color: 'white',
+								padding: '15px',
+								borderRadius: '8px',
+								textAlign: 'center',
+							}}
+						>
+							<div
+								style={{
+									fontSize: '24px',
+									fontWeight: 'bold',
+								}}
+							>
 								{value}
 							</div>
-							<div style={{ fontSize: '12px', textTransform: 'capitalize' }}>
+							<div
+								style={{
+									fontSize: '12px',
+									textTransform: 'capitalize',
+								}}
+							>
 								{key}
 							</div>
 						</div>
@@ -1445,10 +1495,12 @@ export const CompleteIntegrationDemo: Story = {
 						kind='banner-ad'
 						content={{
 							title: 'Special Offer - 50% Off!',
-							description: 'Limited time offer on all products',
+							description:
+								'Limited time offer on all products',
 							ctaText: 'Shop Now',
 							actionUrl: 'https://example.com/sale',
-							imageUrl: 'https://via.placeholder.com/728x90/007bff/ffffff?text=Header+Banner',
+							imageUrl:
+								'https://via.placeholder.com/728x90/007bff/ffffff?text=Header+Banner',
 						}}
 						providers={providers}
 						analyticsHooks={analyticsHooks}
@@ -1457,24 +1509,32 @@ export const CompleteIntegrationDemo: Story = {
 				</div>
 
 				{/* Content Area with Native Ads */}
-				<div style={{
-					display: 'grid',
-					gridTemplateColumns: '2fr 1fr',
-					gap: '20px',
-				}}>
+				<div
+					style={{
+						display: 'grid',
+						gridTemplateColumns: '2fr 1fr',
+						gap: '20px',
+					}}
+				>
 					<div>
 						<h3>Main Content</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur
+							adipiscing elit. Sed do eiusmod tempor
+							incididunt ut labore et dolore magna aliqua.
+						</p>
 
 						{/* Native Ad in content */}
 						<UnifiedAdvertisement
 							kind='native-ad-card'
 							content={{
 								title: 'Sponsored: Learn Web Development',
-								description: 'Master modern web development with our comprehensive course',
+								description:
+									'Master modern web development with our comprehensive course',
 								ctaText: 'Start Learning',
 								actionUrl: 'https://example.com/course',
-								imageUrl: 'https://via.placeholder.com/300x200/28a745/ffffff?text=Course+Ad',
+								imageUrl:
+									'https://via.placeholder.com/300x200/28a745/ffffff?text=Course+Ad',
 								sponsored: true,
 							}}
 							providers={providers}
@@ -1482,7 +1542,11 @@ export const CompleteIntegrationDemo: Story = {
 							trackingEnabled={true}
 						/>
 
-						<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						<p>
+							Ut enim ad minim veniam, quis nostrud
+							exercitation ullamco laboris nisi ut aliquip
+							ex ea commodo consequat.
+						</p>
 					</div>
 
 					<div>
@@ -1504,9 +1568,11 @@ export const CompleteIntegrationDemo: Story = {
 									kind: 'native-ad-card',
 									content: {
 										title: 'Featured Product',
-										description: 'Amazing new product just launched',
+										description:
+											'Amazing new product just launched',
 										ctaText: 'Buy Now',
-										actionUrl: 'https://example.com/product',
+										actionUrl:
+											'https://example.com/product',
 									},
 									weight: 1,
 								},
@@ -1546,7 +1612,8 @@ export const CompleteIntegrationDemo: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Complete real-world example showing a website layout with header banner, sidebar ads, native content ads, and floating widgets with comprehensive analytics tracking.',
+				story:
+					'Complete real-world example showing a website layout with header banner, sidebar ads, native content ads, and floating widgets with comprehensive analytics tracking.',
 			},
 		},
 	},
@@ -1559,13 +1626,15 @@ export const ProviderConfigurationGuide: Story = {
 
 			<div style={{ marginBottom: '30px' }}>
 				<h3>1. Google AdSense Setup</h3>
-				<pre style={{
-					background: '#f5f5f5',
-					padding: '15px',
-					borderRadius: '8px',
-					overflow: 'auto',
-				}}>
-{`import { createAdSenseProvider } from './advertisements';
+				<pre
+					style={{
+						background: '#f5f5f5',
+						padding: '15px',
+						borderRadius: '8px',
+						overflow: 'auto',
+					}}
+				>
+					{`import { createAdSenseProvider } from './advertisements';
 
 const adsenseProvider = createAdSenseProvider({
   type: 'adsense',
@@ -1584,13 +1653,15 @@ const adsenseProvider = createAdSenseProvider({
 
 			<div style={{ marginBottom: '30px' }}>
 				<h3>2. Custom Provider Implementation</h3>
-				<pre style={{
-					background: '#f5f5f5',
-					padding: '15px',
-					borderRadius: '8px',
-					overflow: 'auto',
-				}}>
-{`import { createCustomProvider } from './advertisements';
+				<pre
+					style={{
+						background: '#f5f5f5',
+						padding: '15px',
+						borderRadius: '8px',
+						overflow: 'auto',
+					}}
+				>
+					{`import { createCustomProvider } from './advertisements';
 
 const customProvider = createCustomProvider({
   type: 'custom',
@@ -1620,13 +1691,15 @@ const customProvider = createCustomProvider({
 
 			<div style={{ marginBottom: '30px' }}>
 				<h3>3. Analytics Integration</h3>
-				<pre style={{
-					background: '#f5f5f5',
-					padding: '15px',
-					borderRadius: '8px',
-					overflow: 'auto',
-				}}>
-{`const analyticsHooks = {
+				<pre
+					style={{
+						background: '#f5f5f5',
+						padding: '15px',
+						borderRadius: '8px',
+						overflow: 'auto',
+					}}
+				>
+					{`const analyticsHooks = {
   onImpression: (event) => {
     // Track to Google Analytics
     gtag('event', 'ad_impression', {
@@ -1665,22 +1738,42 @@ const customProvider = createCustomProvider({
 				</pre>
 			</div>
 
-			<div style={{
-				background: '#e8f5e8',
-				padding: '15px',
-				borderRadius: '8px',
-				border: '1px solid #28a745',
-			}}>
-				<h3 style={{ color: '#155724', margin: '0 0 10px 0' }}>
+			<div
+				style={{
+					background: '#e8f5e8',
+					padding: '15px',
+					borderRadius: '8px',
+					border: '1px solid #28a745',
+				}}
+			>
+				<h3
+					style={{ color: '#155724', margin: '0 0 10px 0' }}
+				>
 					Best Practices
 				</h3>
 				<ul style={{ color: '#155724', margin: 0 }}>
-					<li>Always provide fallback providers for reliability</li>
-					<li>Implement proper error handling and retry mechanisms</li>
-					<li>Use analytics to monitor provider performance</li>
-					<li>Test provider rotation in different network conditions</li>
-					<li>Respect user privacy and implement GDPR compliance</li>
-					<li>Monitor revenue and fill rates across providers</li>
+					<li>
+						Always provide fallback providers for
+						reliability
+					</li>
+					<li>
+						Implement proper error handling and retry
+						mechanisms
+					</li>
+					<li>
+						Use analytics to monitor provider performance
+					</li>
+					<li>
+						Test provider rotation in different network
+						conditions
+					</li>
+					<li>
+						Respect user privacy and implement GDPR
+						compliance
+					</li>
+					<li>
+						Monitor revenue and fill rates across providers
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -1688,7 +1781,8 @@ const customProvider = createCustomProvider({
 	parameters: {
 		docs: {
 			description: {
-				story: 'Comprehensive guide showing how to configure different ad providers, implement custom providers, integrate analytics, and follow best practices.',
+				story:
+					'Comprehensive guide showing how to configure different ad providers, implement custom providers, integrate analytics, and follow best practices.',
 			},
 		},
 	},

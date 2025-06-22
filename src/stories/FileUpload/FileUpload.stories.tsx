@@ -7,7 +7,7 @@ import {
 import { reduxDecorator } from '../config/decorators';
 
 const meta: Meta<typeof FileUpload> = {
-	title: 'Components/FileUpload',
+	title: 'Files/FileUpload',
 	component: FileUpload,
 	decorators: [reduxDecorator],
 	parameters: {

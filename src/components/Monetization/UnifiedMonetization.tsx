@@ -102,6 +102,36 @@ export interface UnifiedMonetizationProps
 	benefits?: string[];
 	currentPlan?: string;
 	recommendedPlan?: PricingPlan;
+
+	// Cart-related props
+	cartItems?: Array<{
+		id: string;
+		name: string;
+		price: number;
+		quantity: number;
+		currency: string;
+		image?: string;
+		description?: string;
+		variant?: string;
+	}>;
+	cartTotal?: number;
+	cartSubtotal?: number;
+	cartItemCount?: number;
+	onUpdateQuantity?: (
+		itemId: string,
+		quantity: number
+	) => void;
+	onRemoveItem?: (itemId: string) => void;
+	onClearCart?: () => void;
+	onCheckout?: () => void;
+	onAddToCart?: (product: any, quantity: number) => void;
+	inCart?: boolean;
+	quantity?: number;
+	promoCode?: string;
+	onApplyPromo?: (code: string) => void;
+	editable?: boolean;
+	showImage?: boolean;
+	showDescription?: boolean;
 }
 
 // =============================================================================
@@ -238,6 +268,14 @@ const UnifiedMonetization = forwardRef<
 					return renderPurchaseButton();
 				case 'discount-banner':
 					return renderDiscountBanner();
+				case 'shopping-cart':
+					return renderShoppingCart();
+				case 'cart-summary':
+					return renderCartSummary();
+				case 'cart-item':
+					return renderCartItem();
+				case 'add-to-cart-button':
+					return renderAddToCartButton();
 				default:
 					return (
 						<div>Unknown monetization type: {kind}</div>
@@ -884,6 +922,339 @@ const UnifiedMonetization = forwardRef<
 						</button>
 					)}
 				</div>
+			);
+		};
+
+		// =============================================================================
+		// CART COMPONENT RENDERERS
+		// =============================================================================
+
+		const renderShoppingCart = () => {
+			const {
+				cartItems = [],
+				cartTotal = 0,
+				cartSubtotal = 0,
+				currency = 'USD',
+				onUpdateQuantity,
+				onRemoveItem,
+				onClearCart,
+				onCheckout,
+			} = props;
+
+			if (cartItems.length === 0) {
+				return (
+					<div className={styles.emptyCart}>
+						<div className={styles.emptyCartIcon}>🛒</div>
+						<h3>Your cart is empty</h3>
+						<p>Add some items to get started</p>
+					</div>
+				);
+			}
+
+			return (
+				<div className={styles.shoppingCart}>
+					<div className={styles.cartHeader}>
+						<h3>
+							Shopping Cart ({cartItems.length} items)
+						</h3>
+						{onClearCart && (
+							<button
+								onClick={onClearCart}
+								className={styles.clearCartButton}
+							>
+								Clear Cart
+							</button>
+						)}
+					</div>
+
+					<div className={styles.cartItems}>
+						{cartItems.map((item) => (
+							<div
+								key={item.id}
+								className={styles.cartItem}
+							>
+								{item.image && (
+									<img
+										src={item.image}
+										alt={item.name}
+										className={styles.cartItemImage}
+									/>
+								)}
+								<div className={styles.cartItemDetails}>
+									<h4>{item.name}</h4>
+									{item.description && (
+										<p>{item.description}</p>
+									)}
+									{item.variant && (
+										<span className={styles.variant}>
+											{item.variant}
+										</span>
+									)}
+								</div>
+								<div className={styles.cartItemQuantity}>
+									{onUpdateQuantity && (
+										<>
+											<button
+												onClick={() =>
+													onUpdateQuantity(
+														item.id,
+														item.quantity - 1
+													)
+												}
+												disabled={item.quantity <= 1}
+											>
+												-
+											</button>
+											<span>{item.quantity}</span>
+											<button
+												onClick={() =>
+													onUpdateQuantity(
+														item.id,
+														item.quantity + 1
+													)
+												}
+											>
+												+
+											</button>
+										</>
+									)}
+								</div>
+								<div className={styles.cartItemPrice}>
+									{formatPrice(
+										item.price * item.quantity,
+										item.currency
+									)}
+								</div>
+								{onRemoveItem && (
+									<button
+										onClick={() => onRemoveItem(item.id)}
+										className={styles.removeItemButton}
+									>
+										×
+									</button>
+								)}
+							</div>
+						))}
+					</div>
+
+					<div className={styles.cartSummary}>
+						<div className={styles.cartTotal}>
+							<strong>
+								Total: {formatPrice(cartTotal, currency)}
+							</strong>
+						</div>
+						{onCheckout && (
+							<button
+								onClick={onCheckout}
+								className={styles.checkoutButton}
+							>
+								Proceed to Checkout
+							</button>
+						)}
+					</div>
+				</div>
+			);
+		};
+
+		const renderCartSummary = () => {
+			const {
+				cartSubtotal = 0,
+				tax = 0,
+				cartTotal = 0,
+				currency = 'USD',
+				cartItemCount = 0,
+				onCheckout,
+				promoCode,
+				onApplyPromo,
+				discount,
+			} = props;
+
+			// Handle discount value extraction
+			const discountValue =
+				typeof discount === 'object' ?
+					discount.value
+				:	discount || 0;
+
+			return (
+				<div className={styles.cartSummary}>
+					<h3>Order Summary</h3>
+
+					<div className={styles.summaryLine}>
+						<span>Subtotal ({cartItemCount} items)</span>
+						<span>
+							{formatPrice(cartSubtotal, currency)}
+						</span>
+					</div>
+
+					{tax > 0 && (
+						<div className={styles.summaryLine}>
+							<span>Tax</span>
+							<span>{formatPrice(tax, currency)}</span>
+						</div>
+					)}
+
+					{discountValue > 0 && (
+						<div
+							className={styles.summaryLine}
+							style={{ color: 'var(--color-success-500)' }}
+						>
+							<span>Discount</span>
+							<span>
+								-{formatPrice(discountValue, currency)}
+							</span>
+						</div>
+					)}
+
+					{onApplyPromo && (
+						<div className={styles.promoCode}>
+							<input
+								type='text'
+								placeholder='Promo code'
+								defaultValue={promoCode}
+							/>
+							<button
+								onClick={() => onApplyPromo('SAVE10')}
+							>
+								Apply
+							</button>
+						</div>
+					)}
+
+					<div className={styles.summaryTotal}>
+						<span>Total</span>
+						<span>{formatPrice(cartTotal, currency)}</span>
+					</div>
+
+					{onCheckout && (
+						<button
+							onClick={onCheckout}
+							className={styles.checkoutButton}
+						>
+							Checkout
+						</button>
+					)}
+				</div>
+			);
+		};
+
+		const renderCartItem = () => {
+			const {
+				cartItems = [],
+				onUpdateQuantity,
+				onRemoveItem,
+				editable = true,
+				showImage = true,
+				showDescription = true,
+			} = props;
+
+			if (cartItems.length === 0) {
+				return <div>No cart item provided</div>;
+			}
+
+			const item = cartItems[0]; // Render first item for single item component
+
+			return (
+				<div className={styles.cartItem}>
+					{showImage && item.image && (
+						<img
+							src={item.image}
+							alt={item.name}
+							className={styles.cartItemImage}
+						/>
+					)}
+					<div className={styles.cartItemDetails}>
+						<h4>{item.name}</h4>
+						{showDescription && item.description && (
+							<p>{item.description}</p>
+						)}
+						{item.variant && (
+							<span className={styles.variant}>
+								{item.variant}
+							</span>
+						)}
+						<div className={styles.cartItemPrice}>
+							{formatPrice(item.price, item.currency)}
+						</div>
+					</div>
+					{editable && (
+						<>
+							<div className={styles.cartItemQuantity}>
+								{onUpdateQuantity && (
+									<>
+										<button
+											onClick={() =>
+												onUpdateQuantity(
+													item.id,
+													item.quantity - 1
+												)
+											}
+											disabled={item.quantity <= 1}
+										>
+											-
+										</button>
+										<span>{item.quantity}</span>
+										<button
+											onClick={() =>
+												onUpdateQuantity(
+													item.id,
+													item.quantity + 1
+												)
+											}
+										>
+											+
+										</button>
+									</>
+								)}
+							</div>
+							{onRemoveItem && (
+								<button
+									onClick={() => onRemoveItem(item.id)}
+									className={styles.removeItemButton}
+								>
+									Remove
+								</button>
+							)}
+						</>
+					)}
+				</div>
+			);
+		};
+
+		const renderAddToCartButton = () => {
+			const {
+				product,
+				quantity = 1,
+				onAddToCart,
+				inCart = false,
+			} = props;
+
+			if (!product) {
+				return <div>No product provided</div>;
+			}
+
+			const handleAddToCart = () => {
+				if (onAddToCart && !loading) {
+					onAddToCart(product, quantity);
+				}
+			};
+
+			return (
+				<button
+					onClick={handleAddToCart}
+					disabled={loading || disabled}
+					className={clsx(
+						styles.addToCartButton,
+						inCart && styles.inCart,
+						loading && styles.loading
+					)}
+				>
+					{loading ?
+						'Adding...'
+					: inCart ?
+						'Added to Cart'
+					:	`Add to Cart - ${formatPrice(product.price, product.currency)}`
+					}
+				</button>
 			);
 		};
 

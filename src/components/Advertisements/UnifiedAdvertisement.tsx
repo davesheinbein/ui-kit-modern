@@ -1,8 +1,8 @@
 import React, {
 	forwardRef,
 	useEffect,
-	useState,
 	useCallback,
+	useMemo,
 	useRef,
 } from 'react';
 import {
@@ -18,6 +18,9 @@ import {
 	AdProvider,
 	AdProviderType,
 } from './configurations';
+import {
+	useAdvertisementRedux,
+} from '../../store';
 import styles from './Advertisements.module.scss';
 
 // Base advertisement props interface
@@ -297,18 +300,25 @@ const UnifiedAdvertisement = forwardRef<
 			createAnalyticsEvent,
 		]);
 
-		// State management
-		const [adState, setAdState] =
-			useState<AdState>('loading');
-		const [isAdVisible, setIsAdVisible] =
-			useState(isVisible);
-		const [metrics, setMetrics] = useState<AdMetrics>({
-			impressions: 0,
-			clicks: 0,
-			conversions: 0,
-			ctr: 0,
-			conversionRate: 0,
-		});
+		// Generate unique component ID
+		const componentId = useMemo(() => 
+			`ad-${kind}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+			[kind]
+		);
+
+		// Redux state management
+		const { useAdvertisementComponent } = useAdvertisementRedux;
+		const adComponent = useAdvertisementComponent(componentId);
+
+		// Derived state
+		const adState = adComponent.adState;
+		const isAdVisible = isVisible && adComponent.isVisible;
+		
+		// Initialize component state when component mounts
+		useEffect(() => {
+			adComponent.setState('loading');
+			adComponent.setVisible(isVisible);
+		}, [adComponent, isVisible]);
 
 		// Load ad from providers when component mounts
 		useEffect(() => {
