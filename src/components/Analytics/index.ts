@@ -1,6 +1,10 @@
-// DRY Analytics System exports
+// Consolidated Analytics System exports
+export { default as Analytics } from './Analytics';
+export type { AnalyticsProps } from './Analytics';
+
+// Factory system for backward compatibility
 export {
-	default as AnalyticsFactory,
+	AnalyticsFactory,
 	AnalyticsFactoryClass,
 	Ana,
 	AnalyticsPresets,
@@ -11,18 +15,15 @@ export type {
 	AnalyticsBodyFactoryProps,
 } from './factory';
 
+// Configuration system
 export * from './configurations';
 
-export { default as UnifiedAnalytics } from './UnifiedAnalytics';
-export type { UnifiedAnalyticsProps } from './UnifiedAnalytics';
-
-export { default as Analytics } from './Analytics';
-export type { AnalyticsProps } from './Analytics';
-
 // Legacy component compatibility (for gradual migration)
-// These will be removed in a future version
-export { default as Dashboard } from './UnifiedAnalytics';
-export { default as MetricsDashboard } from './UnifiedAnalytics';
-export { default as RealtimeAnalytics } from './UnifiedAnalytics';
-export { default as PerformanceMetrics } from './UnifiedAnalytics';
-export { default as AnalyticsReports } from './UnifiedAnalytics';
+// These now point to the consolidated Analytics component
+export { default as UnifiedAnalytics } from './Analytics';
+export type { AnalyticsProps as UnifiedAnalyticsProps } from './Analytics';
+export { default as Dashboard } from './Analytics';
+export { default as MetricsDashboard } from './Analytics';
+export { default as RealtimeAnalytics } from './Analytics';
+export { default as PerformanceMetrics } from './Analytics';
+export { default as AnalyticsReports } from './Analytics';

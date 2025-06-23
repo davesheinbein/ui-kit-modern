@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { AnalyticsFactory } from '../../components/Analytics';
+import { Analytics } from '../../components/Analytics';
 
-const meta: Meta<typeof AnalyticsFactory> = {
+const meta: Meta<typeof Analytics> = {
 	title: 'Analytics/Analytics',
-	component: AnalyticsFactory,
+	component: Analytics,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -18,12 +18,15 @@ const meta: Meta<typeof AnalyticsFactory> = {
 			control: 'select',
 			options: [
 				'dashboard',
+				'chart',
+				'metric',
+				'heatmap',
+				'funnel',
+				'cohort',
+				'report',
 				'realtime',
-				'reports',
-				'metrics',
-				'performance',
 			],
-			description: 'Analytics kind/configuration to use',
+			description: 'Analytics kind/type to use',
 		},
 		title: {
 			control: 'text',
@@ -32,10 +35,11 @@ const meta: Meta<typeof AnalyticsFactory> = {
 		variant: {
 			control: 'select',
 			options: [
-				'default',
-				'minimal',
-				'detailed',
-				'compact',
+				'dashboard',
+				'realtime',
+				'reports',
+				'metrics',
+				'performance',
 			],
 			description: 'Analytics variant/style',
 		},
@@ -46,7 +50,16 @@ const meta: Meta<typeof AnalyticsFactory> = {
 		},
 		timeRange: {
 			control: 'select',
-			options: ['1h', '24h', '7d', '30d', '90d', '1y'],
+			options: [
+				'realtime',
+				'hour',
+				'day',
+				'week',
+				'month',
+				'quarter',
+				'year',
+				'custom',
+			],
 			description: 'Time range for data',
 		},
 		loading: {
@@ -72,12 +85,15 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Sample data for stories
-const sampleMetric = {
-	value: 1234,
-	label: 'Total Users',
-	change: 12.5,
-	trend: 'up' as const,
-};
+const sampleMetrics = [
+	{
+		id: '1',
+		name: 'Total Users',
+		value: 1234,
+		change: 12.5,
+		trend: 'up' as const,
+	},
+];
 
 const sampleData = [
 	{ date: '2024-01-01', value: 100 },
@@ -91,7 +107,7 @@ export const Default: Story = {
 	args: {
 		kind: 'dashboard',
 		title: 'Analytics Dashboard',
-		metric: sampleMetric,
+		metrics: sampleMetrics,
 		data: sampleData,
 	},
 };
@@ -100,9 +116,9 @@ export const Dashboard: Story = {
 	args: {
 		kind: 'dashboard',
 		title: 'Main Dashboard',
-		metric: sampleMetric,
+		metrics: sampleMetrics,
 		data: sampleData,
-		variant: 'default',
+		variant: 'dashboard',
 		size: 'lg',
 	},
 };
@@ -111,53 +127,63 @@ export const Realtime: Story = {
 	args: {
 		kind: 'realtime',
 		title: 'Real-time Metrics',
-		metric: {
-			value: 42,
-			label: 'Active Users',
-			trend: 'up',
-		},
+		metrics: [
+			{
+				id: '1',
+				name: 'Active Users',
+				value: 42,
+				trend: 'up',
+			},
+		],
 		data: sampleData,
-		variant: 'default',
+		variant: 'realtime',
 		size: 'md',
 	},
 };
 
 export const Reports: Story = {
 	args: {
-		kind: 'reports',
+		kind: 'report',
 		title: 'Monthly Reports',
 		data: sampleData,
-		timeRange: '30d',
-		variant: 'detailed',
+		timeRange: 'month',
+		variant: 'reports',
 		size: 'lg',
 	},
 };
 
 export const Metrics: Story = {
 	args: {
-		kind: 'metrics',
+		kind: 'metric',
 		title: 'Key Metrics',
-		metric: {
-			value: '98.5%',
-			label: 'Uptime',
-			change: 0.2,
-			trend: 'up',
-		},
-		variant: 'compact',
+		metrics: [
+			{
+				id: '1',
+				name: 'Uptime',
+				value: 98.5,
+				change: 0.2,
+				trend: 'up',
+				format: 'percentage',
+			},
+		],
+		variant: 'metrics',
 		size: 'md',
 	},
 };
 
 export const Performance: Story = {
 	args: {
-		kind: 'performance',
+		kind: 'dashboard',
 		title: 'Performance Metrics',
-		metric: {
-			value: 85,
-			label: 'Performance Score',
-			trend: 'up',
-		},
-		variant: 'default',
+		metrics: [
+			{
+				id: '1',
+				name: 'Performance Score',
+				value: 85,
+				trend: 'up',
+			},
+		],
+		variant: 'performance',
 		size: 'md',
 	},
 };
@@ -167,7 +193,7 @@ export const Loading: Story = {
 		kind: 'dashboard',
 		title: 'Loading Dashboard',
 		loading: true,
-		variant: 'default',
+		variant: 'dashboard',
 		size: 'md',
 	},
 };
@@ -178,17 +204,17 @@ export const Error: Story = {
 		title: 'Error Dashboard',
 		error:
 			'Failed to load analytics data. Please try again.',
-		variant: 'default',
+		variant: 'dashboard',
 		size: 'md',
 	},
 };
 
 export const Small: Story = {
 	args: {
-		kind: 'metrics',
+		kind: 'metric',
 		title: 'Small Metrics',
-		metric: sampleMetric,
-		variant: 'compact',
+		metrics: sampleMetrics,
+		variant: 'metrics',
 		size: 'sm',
 	},
 };
@@ -197,19 +223,19 @@ export const Large: Story = {
 	args: {
 		kind: 'dashboard',
 		title: 'Large Dashboard',
-		metric: sampleMetric,
+		metrics: sampleMetrics,
 		data: sampleData,
-		variant: 'detailed',
+		variant: 'dashboard',
 		size: 'lg',
 	},
 };
 
 export const Minimal: Story = {
 	args: {
-		kind: 'metrics',
+		kind: 'metric',
 		title: 'Minimal View',
-		metric: sampleMetric,
-		variant: 'minimal',
+		metrics: sampleMetrics,
+		variant: 'metrics',
 		size: 'md',
 	},
 };
@@ -218,11 +244,11 @@ export const Detailed: Story = {
 	args: {
 		kind: 'dashboard',
 		title: 'Detailed Analytics',
-		metric: sampleMetric,
+		metrics: sampleMetrics,
 		data: sampleData,
-		variant: 'detailed',
+		variant: 'dashboard',
 		size: 'lg',
-		timeRange: '7d',
+		timeRange: 'week',
 	},
 };
 
@@ -231,9 +257,9 @@ export const Interactive: Story = {
 	args: {
 		kind: 'dashboard',
 		title: 'Interactive Dashboard',
-		metric: sampleMetric,
+		metrics: sampleMetrics,
 		data: sampleData,
-		variant: 'default',
+		variant: 'dashboard',
 		size: 'lg',
 	},
 	play: async ({ canvasElement }) => {
@@ -246,16 +272,16 @@ export const Playground: Story = {
 	args: {
 		kind: 'dashboard',
 		title: 'Analytics Playground',
-		metric: sampleMetric,
+		metrics: sampleMetrics,
 		data: sampleData,
-		variant: 'default',
+		variant: 'dashboard',
 		size: 'md',
-		timeRange: '24h',
+		timeRange: 'day',
 	},
 	argTypes: {
-		metric: {
+		metrics: {
 			control: 'object',
-			description: 'Metric data object',
+			description: 'Metrics data array',
 		},
 		data: {
 			control: 'object',

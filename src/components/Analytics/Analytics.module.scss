@@ -397,6 +397,88 @@
 		}
 	}
 
+	// Variant modifiers
+	&--dashboard {
+		min-height: 400px;
+	}
+
+	&--metrics {
+		.analytics__metric_container {
+			text-align: center;
+			padding: 2rem;
+		}
+	}
+
+	&--performance {
+		.analytics__metric_container {
+			background: linear-gradient(
+				135deg,
+				var(--color-primary-50, #eff6ff) 0%,
+				var(--color-primary-100, #dbeafe) 100%
+			);
+		}
+	}
+
+	&--realtime {
+		.analytics__metric_container {
+			border-left: 3px solid var(--color-success, #10b981);
+		}
+	}
+
+	&--reports {
+		.analytics__content {
+			padding: 0;
+		}
+	}
+
+	// Size modifiers
+	&--sm {
+		.analytics__metric_value {
+			font-size: 1.5rem;
+		}
+		.analytics__content {
+			padding: 1rem;
+		}
+	}
+
+	&--md {
+		// Default medium size - inherits base styles
+		.analytics__metric_value {
+			font-size: 2.5rem;
+		}
+	}
+
+	&--lg {
+		.analytics__metric_value {
+			font-size: 3rem;
+		}
+		.analytics__content {
+			padding: 2rem;
+		}
+	}
+
+	// Loading and error states
+	&--loading {
+		opacity: 0.7;
+		pointer-events: none;
+	}
+
+	&--error {
+		border-color: var(--color-error, #ef4444);
+	}
+
+	&--refreshable {
+		.analytics__header_actions {
+			opacity: 1;
+		}
+	}
+
+	&--exportable {
+		.analytics__actions {
+			opacity: 1;
+		}
+	}
+
 	// Responsive adjustments
 	@media (max-width: 768px) {
 		&__header {
