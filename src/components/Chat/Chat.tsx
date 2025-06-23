@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import styles from './Chat.module.scss';
+import { Button } from '../Button';
 
 export interface ChatProps {
 	children: React.ReactNode;
@@ -59,14 +60,7 @@ const Chat = forwardRef<HTMLDivElement, ChatProps>(
 								</div>
 							)}
 							{showCloseButton && onClose && (
-								<button
-									className={styles.chatCloseBtn}
-									onClick={onClose}
-									type='button'
-									aria-label='Close chat'
-								>
-									×
-								</button>
+								<Button kind='close' onClick={onClose} />
 							)}
 						</div>
 					)}

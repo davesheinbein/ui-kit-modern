@@ -3,7 +3,7 @@ import { RadioFactory } from '../../components/Radios';
 import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof RadioFactory> = {
-	title: 'Radio',
+	title: 'Radios/Radio',
 	component: RadioFactory,
 	decorators: commonDecorators,
 	parameters: {

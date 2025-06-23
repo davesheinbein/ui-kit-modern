@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import Analytics from './Analytics';
+import { Button } from '../Button';
 import styles from './Analytics.module.scss';
 import {
 	analyticsConfigurations,
@@ -77,21 +78,23 @@ export const AnalyticsBodyFactory = forwardRef<
 							<h2 className={styles.title}>{title}</h2>
 							<div className={styles.controls}>
 								{onRefresh && (
-									<button
+									<Button
+										kind='ghost'
 										onClick={onRefresh}
 										className={styles.refreshButton}
 										disabled={loading}
 									>
 										{loading ? '⟳' : '↻'}
-									</button>
+									</Button>
 								)}
 								{onExport && (
-									<button
+									<Button
+										kind='secondary'
 										onClick={() => onExport('csv')}
 										className={styles.exportButton}
 									>
 										Export
-									</button>
+									</Button>
 								)}
 							</div>
 						</div>

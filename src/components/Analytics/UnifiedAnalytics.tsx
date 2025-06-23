@@ -14,6 +14,7 @@ import {
 	AnalyticsFilter,
 	analyticsConfigurations,
 } from './configurations';
+import { Button } from '../Button';
 import styles from './Analytics.module.scss';
 
 export interface BaseAnalyticsProps {
@@ -276,7 +277,8 @@ const UnifiedAnalytics = forwardRef<
 					<div className={styles.analytics__header_actions}>
 						{exportable && (
 							<div className={styles.analytics__actions}>
-								<button
+								<Button
+									kind='secondary'
 									className={
 										styles.analytics__actions_button
 									}
@@ -284,8 +286,9 @@ const UnifiedAnalytics = forwardRef<
 									title='Export as CSV'
 								>
 									CSV
-								</button>
-								<button
+								</Button>
+								<Button
+									kind='secondary'
 									className={
 										styles.analytics__actions_button
 									}
@@ -293,11 +296,12 @@ const UnifiedAnalytics = forwardRef<
 									title='Export as PDF'
 								>
 									PDF
-								</button>
+								</Button>
 							</div>
 						)}
 						{autoRefresh && (
-							<button
+							<Button
+								kind='ghost'
 								className={`${styles.analytics__actions_button} ${
 									isRefreshing ?
 										styles.analytics__actions_button__loading
@@ -308,7 +312,7 @@ const UnifiedAnalytics = forwardRef<
 								title='Refresh data'
 							>
 								{isRefreshing ? '⟳' : '↻'}
-							</button>
+							</Button>
 						)}
 					</div>
 				</div>
@@ -350,14 +354,15 @@ const UnifiedAnalytics = forwardRef<
 							>
 								Filters:
 							</label>
-							<button
+							<Button
+								kind='secondary'
 								className={styles.analytics__actions_button}
 								onClick={() => {
 									/* Open filter modal */
 								}}
 							>
 								Add Filter ({currentFilters.length})
-							</button>
+							</Button>
 						</div>
 					)}
 				</div>
@@ -396,12 +401,13 @@ const UnifiedAnalytics = forwardRef<
 						<div
 							className={styles.analytics__error_actions}
 						>
-							<button
+							<Button
+								kind='primary'
 								className={styles.analytics__actions_button}
 								onClick={handleRefresh}
 							>
 								Retry
-							</button>
+							</Button>
 						</div>
 					</div>
 				);

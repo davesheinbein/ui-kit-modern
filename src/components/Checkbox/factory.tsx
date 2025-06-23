@@ -4,14 +4,14 @@
  */
 
 import React, { forwardRef } from 'react';
-import UnifiedCheckbox, {
-	UnifiedCheckboxProps,
+import Checkbox, {
+	CheckboxProps,
 	CheckboxKind,
-} from './UnifiedCheckbox';
+} from './Checkbox';
 import { CHECKBOX_CONFIGURATIONS } from './configurations';
 
 export interface CheckboxFactoryProps
-	extends Omit<UnifiedCheckboxProps, 'kind'> {
+	extends Omit<CheckboxProps, 'kind'> {
 	kind: CheckboxKind;
 }
 
@@ -24,31 +24,29 @@ export class CheckboxFactory {
 	 */
 	static create(
 		kind: CheckboxKind,
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) {
-		return <UnifiedCheckbox kind={kind} {...props} />;
+		return <Checkbox kind={kind} {...props} />;
 	}
 
 	/**
 	 * Create a basic checkbox
 	 */
-	static checkbox(
-		props: Partial<UnifiedCheckboxProps> = {}
-	) {
+	static checkbox(props: Partial<CheckboxProps> = {}) {
 		return this.create('checkbox', props);
 	}
 
 	/**
 	 * Create a toggle checkbox
 	 */
-	static toggle(props: Partial<UnifiedCheckboxProps> = {}) {
+	static toggle(props: Partial<CheckboxProps> = {}) {
 		return this.create('toggle', props);
 	}
 
 	/**
 	 * Create a switch checkbox
 	 */
-	static switch(props: Partial<UnifiedCheckboxProps> = {}) {
+	static switch(props: Partial<CheckboxProps> = {}) {
 		return this.create('switch', props);
 	}
 
@@ -56,7 +54,7 @@ export class CheckboxFactory {
 	 * Create a dark mode toggle
 	 */
 	static darkModeToggle(
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) {
 		return this.create('dark-mode-toggle', {
 			darkModeContext: true,
@@ -72,9 +70,7 @@ const CheckboxFactoryComponent = forwardRef<
 	HTMLInputElement,
 	CheckboxFactoryProps
 >(({ kind, ...props }, ref) => {
-	return (
-		<UnifiedCheckbox ref={ref} kind={kind} {...props} />
-	);
+	return <Checkbox ref={ref} kind={kind} {...props} />;
 });
 
 CheckboxFactoryComponent.displayName = 'CheckboxFactory';
@@ -91,12 +87,12 @@ export const CheckboxPresets = {
 	// Basic presets
 	basic: (
 		label: string,
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) => CheckboxFactory.checkbox({ label, ...props }),
 
 	required: (
 		label: string,
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) =>
 		CheckboxFactory.checkbox({
 			label: `${label} *`,
@@ -106,7 +102,7 @@ export const CheckboxPresets = {
 	// Toggle presets
 	toggleSuccess: (
 		label: string,
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) =>
 		CheckboxFactory.toggle({
 			label,
@@ -116,7 +112,7 @@ export const CheckboxPresets = {
 
 	toggleWarning: (
 		label: string,
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) =>
 		CheckboxFactory.toggle({
 			label,
@@ -126,7 +122,7 @@ export const CheckboxPresets = {
 
 	toggleDanger: (
 		label: string,
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) =>
 		CheckboxFactory.toggle({
 			label,
@@ -137,7 +133,7 @@ export const CheckboxPresets = {
 	// Switch presets
 	switchLarge: (
 		label: string,
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) =>
 		CheckboxFactory.switch({
 			label,
@@ -147,7 +143,7 @@ export const CheckboxPresets = {
 
 	switchSmall: (
 		label: string,
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) =>
 		CheckboxFactory.switch({
 			label,
@@ -156,18 +152,18 @@ export const CheckboxPresets = {
 		}),
 
 	// Special presets
-	darkMode: (props: Partial<UnifiedCheckboxProps> = {}) =>
+	darkMode: (props: Partial<CheckboxProps> = {}) =>
 		CheckboxFactory.darkModeToggle(props),
 
 	termsAndConditions: (
-		props: Partial<UnifiedCheckboxProps> = {}
+		props: Partial<CheckboxProps> = {}
 	) =>
 		CheckboxFactory.checkbox({
 			label: 'I agree to the Terms and Conditions',
 			...props,
 		}),
 
-	newsletter: (props: Partial<UnifiedCheckboxProps> = {}) =>
+	newsletter: (props: Partial<CheckboxProps> = {}) =>
 		CheckboxFactory.checkbox({
 			label: 'Subscribe to newsletter',
 			...props,

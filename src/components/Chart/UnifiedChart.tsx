@@ -1,5 +1,6 @@
 import React, { forwardRef, memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '../Button';
 import {
 	ChartKind,
 	ChartConfiguration,
@@ -298,14 +299,15 @@ const UnifiedChart = forwardRef<
 				)}
 
 				{config.showSelectAll && (
-					<button
+					<Button
+						kind='secondary'
 						onClick={handleSelectAll}
 						className={styles.filter__select_all}
 					>
 						{dataSeries.every((s) => s.visible) ?
 							'Deselect All'
 						:	'Select All'}
-					</button>
+					</Button>
 				)}
 
 				<div className={styles.filter__items}>
@@ -361,15 +363,24 @@ const UnifiedChart = forwardRef<
 			<div className={styles.controls}>
 				{config.kind.includes('zoom') && (
 					<>
-						<button className={styles.controls__button}>
+						<Button
+							kind='secondary'
+							className={styles.controls__button}
+						>
 							+
-						</button>
-						<button className={styles.controls__button}>
+						</Button>
+						<Button
+							kind='secondary'
+							className={styles.controls__button}
+						>
 							-
-						</button>
-						<button className={styles.controls__button}>
+						</Button>
+						<Button
+							kind='secondary'
+							className={styles.controls__button}
+						>
 							Reset
-						</button>
+						</Button>
 					</>
 				)}
 				{config.kind.includes('time-range') && (

@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { Button } from '../Button';
 import styles from './Settings.module.scss';
 
 export interface SettingsProps {
@@ -55,13 +56,14 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 					<div className={styles.settingsHeader}>
 						<h2>{title}</h2>
 						{onClose && (
-							<button
+							<Button
+								kind='close'
 								className={styles.settingsCloseButton}
 								onClick={onClose}
 								aria-label='Close settings'
 							>
 								×
-							</button>
+							</Button>
 						)}
 					</div>
 				)}

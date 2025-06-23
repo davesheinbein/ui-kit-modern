@@ -7,6 +7,7 @@
 
 import React from 'react';
 import UnifiedFooter from './UnifiedFooter';
+import { Button } from '../Button';
 import type { UnifiedFooterProps } from './UnifiedFooter';
 import type {
 	FooterKind,
@@ -66,19 +67,21 @@ const StandardFooterBody: React.FC<any> = (props) => {
 			<div className={styles.footerRight}>
 				{links.length > 0 && (
 					<nav className={styles.footerNav}>
+						{' '}
 						{links.map(
 							(link: FooterLink, index: number) => (
 								<React.Fragment
 									key={link.href || link.label || index}
 								>
 									{link.onClick ?
-										<button
+										<Button
 											onClick={link.onClick}
 											className={styles.footerLink}
 											type='button'
+											kind='ghost'
 										>
 											{link.label}
-										</button>
+										</Button>
 									: link.href ?
 										<a
 											href={link.href}
@@ -257,19 +260,21 @@ const AppFooterBody: React.FC<any> = (props) => {
 			<div className={styles.footerRight}>
 				{links.length > 0 && (
 					<nav className={styles.footerNav}>
+						{' '}
 						{links.map(
 							(link: FooterLink, index: number) => (
 								<React.Fragment
 									key={link.href || link.label || index}
 								>
 									{link.onClick ?
-										<button
+										<Button
 											onClick={link.onClick}
 											className={styles.footerLink}
 											type='button'
+											kind='ghost'
 										>
 											{link.label}
-										</button>
+										</Button>
 									:	<a
 											href={link.href}
 											className={styles.footerLink}

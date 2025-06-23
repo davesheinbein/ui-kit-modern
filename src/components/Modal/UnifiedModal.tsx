@@ -15,8 +15,8 @@ import {
 	selectModalSuccess,
 } from '../../store/slices/modalSlice';
 import Modal, { ModalProps } from '../Modal/Modal';
-import UnifiedButton from '../Button/UnifiedButton';
-import styles from './UnifiedModal.module.scss';
+import Button from '../Button/Button';
+import styles from './Modal.module.scss';
 import {
 	ExtendedModalKind,
 	ModalConfiguration,
@@ -30,7 +30,7 @@ import {
 // Re-export for backward compatibility
 export type ModalKind = ExtendedModalKind;
 
-export interface UnifiedModalProps
+export interface ModalProps
 	extends Omit<ModalProps, 'children'> {
 	kind: ExtendedModalKind;
 	modalId?: string; // For identifying this modal instance in Redux
@@ -89,7 +89,7 @@ export interface UnifiedModalProps
 	configOverrides?: Partial<ModalConfiguration>;
 }
 
-const UnifiedModal: React.FC<UnifiedModalProps> = ({
+const Modal: React.FC<ModalProps> = ({
 	kind,
 	modalId,
 	title,
@@ -211,7 +211,7 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 
 	// Build modal classes
 	const modalClasses = [
-		styles.unifiedModal,
+		styles.Modal,
 		styles[`modal-${config.size}`],
 		styles[`modal-${config.position}`],
 		styles[`modal-${config.animation}`],
@@ -235,7 +235,7 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 					</h2>
 				)}
 				{config.showCloseButton && (
-					<UnifiedButton kind='close' onClick={onClose} />
+					<Button kind='close' onClick={onClose} />
 				)}
 			</div>
 		);
@@ -416,24 +416,27 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 								<p>Searching for opponent...</p>
 							</div>
 						:	<div className={styles.modeOptions}>
-								<button
+								<Button
+									kind='secondary'
 									onClick={() => onSelect?.('room')}
 									className={styles.modeButton}
 								>
 									Private Room
-								</button>
-								<button
+								</Button>
+								<Button
+									kind='secondary'
 									onClick={() => onSelect?.('matchmaking')}
 									className={styles.modeButton}
 								>
 									Quick Match
-								</button>
-								<button
+								</Button>
+								<Button
+									kind='secondary'
 									onClick={() => onSelect?.('bot')}
 									className={styles.modeButton}
 								>
 									VS Bot
-								</button>
+								</Button>
 							</div>
 						}
 						{children}
@@ -497,7 +500,7 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 			case 'confirmation':
 				return (
 					<>
-						<UnifiedButton
+						<Button
 							kind={
 								(config.secondaryButtonKind ||
 									'secondary') as any
@@ -505,8 +508,8 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 							onClick={onCancel || onClose}
 						>
 							{finalCancelText}
-						</UnifiedButton>
-						<UnifiedButton
+						</Button>
+						<Button
 							kind={
 								(config.primaryButtonKind ||
 									'primary') as any
@@ -514,26 +517,26 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 							onClick={onConfirm}
 						>
 							{finalConfirmText}
-						</UnifiedButton>
+						</Button>
 					</>
 				);
 
 			case 'alert':
 				return (
-					<UnifiedButton
+					<Button
 						kind={
 							(config.primaryButtonKind || 'primary') as any
 						}
 						onClick={onClose}
 					>
 						OK
-					</UnifiedButton>
+					</Button>
 				);
 
 			case 'form':
 				return (
 					<>
-						<UnifiedButton
+						<Button
 							kind={
 								(config.secondaryButtonKind ||
 									'secondary') as any
@@ -541,8 +544,8 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 							onClick={onClose}
 						>
 							{finalCancelText}
-						</UnifiedButton>
-						<UnifiedButton
+						</Button>
+						<Button
 							kind={
 								(config.primaryButtonKind ||
 									'primary') as any
@@ -550,55 +553,46 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 							onClick={onSubmit}
 						>
 							{finalSubmitText}
-						</UnifiedButton>
+						</Button>
 					</>
 				);
 
 			case 'pre-game':
 				return (
 					<>
-						<UnifiedButton
-							kind='secondary'
-							onClick={onCancel}
-						>
+						<Button kind='secondary' onClick={onCancel}>
 							{finalCancelText}
-						</UnifiedButton>
-						<UnifiedButton
-							kind='primary'
-							onClick={onConfirm}
-						>
+						</Button>
+						<Button kind='primary' onClick={onConfirm}>
 							{finalConfirmText}
-						</UnifiedButton>
+						</Button>
 					</>
 				);
 
 			case 'end-game':
 				return (
-					<UnifiedButton kind='primary' onClick={onConfirm}>
+					<Button kind='primary' onClick={onConfirm}>
 						Share
-					</UnifiedButton>
+					</Button>
 				);
 
 			case 'sign-in':
 				return (
-					<UnifiedButton
+					<Button
 						kind='primary'
 						onClick={signIn || onConfirm}
 					>
 						{finalConfirmText}
-					</UnifiedButton>
+					</Button>
 				);
 
 			case 'purchase':
 				return (
 					<>
-						<UnifiedButton
-							kind='secondary'
-							onClick={onClose}
-						>
+						<Button kind='secondary' onClick={onClose}>
 							Cancel
-						</UnifiedButton>
-						<UnifiedButton
+						</Button>
+						<Button
 							kind='primary'
 							onClick={handlePurchase}
 							disabled={loading || success}
@@ -608,43 +602,34 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 							: success ?
 								'Success!'
 							:	finalConfirmText}
-						</UnifiedButton>
+						</Button>
 					</>
 				);
 
 			case 'vs-room':
 				return (
 					<>
-						<UnifiedButton
+						<Button
 							kind='secondary'
 							onClick={handleCreateRoom}
 						>
 							Create Room
-						</UnifiedButton>
-						<UnifiedButton
-							kind='primary'
-							onClick={handleJoinRoom}
-						>
+						</Button>
+						<Button kind='primary' onClick={handleJoinRoom}>
 							Join Room
-						</UnifiedButton>
+						</Button>
 					</>
 				);
 
 			case 'custom-puzzle':
 				return (
 					<>
-						<UnifiedButton
-							kind='secondary'
-							onClick={onClose}
-						>
+						<Button kind='secondary' onClick={onClose}>
 							{finalCancelText}
-						</UnifiedButton>
-						<UnifiedButton
-							kind='primary'
-							onClick={onConfirm}
-						>
+						</Button>
+						<Button kind='primary' onClick={onConfirm}>
 							{finalConfirmText}
-						</UnifiedButton>
+						</Button>
 					</>
 				);
 
@@ -758,4 +743,4 @@ const UnifiedModal: React.FC<UnifiedModalProps> = ({
 	);
 };
 
-export default UnifiedModal;
+export default Modal;

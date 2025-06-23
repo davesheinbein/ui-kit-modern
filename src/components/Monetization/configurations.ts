@@ -3,12 +3,6 @@
  * Defines all possible monetization component types and their properties
  */
 
-// Import CartItem from Redux store to avoid duplication
-import type { CartItem } from '../../store/slices/cartSlice';
-
-// Re-export CartItem for convenience
-export type { CartItem };
-
 // =============================================================================
 // TYPES & INTERFACES
 // =============================================================================
@@ -23,11 +17,7 @@ export type MonetizationKind =
 	| 'usage-meter'
 	| 'credit-display'
 	| 'purchase-button'
-	| 'discount-banner'
-	| 'shopping-cart'
-	| 'cart-summary'
-	| 'cart-item'
-	| 'add-to-cart-button';
+	| 'discount-banner';
 
 export type MonetizationVariant =
 	| 'default'
@@ -257,75 +247,6 @@ export interface DiscountBannerConfig
 }
 
 // =============================================================================
-// CART INTERFACES
-// =============================================================================
-
-// CartItem is imported from Redux store above to avoid duplication
-
-export interface ShoppingCartConfig
-	extends MonetizationConfiguration {
-	kind: 'shopping-cart';
-	items: CartItem[];
-	total: number;
-	currency: string;
-	onUpdateQuantity?: (
-		itemId: string,
-		quantity: number
-	) => void;
-	onRemoveItem?: (itemId: string) => void;
-	onCheckout?: () => void;
-	onClearCart?: () => void;
-	discountCode?: string;
-	discountAmount?: number;
-	tax?: number;
-	shipping?: number;
-}
-
-export interface CartSummaryConfig
-	extends MonetizationConfiguration {
-	kind: 'cart-summary';
-	subtotal: number;
-	tax?: number;
-	shipping?: number;
-	discount?: number;
-	total: number;
-	currency: string;
-	itemCount: number;
-	onCheckout?: () => void;
-	promoCode?: string;
-	onApplyPromo?: (code: string) => void;
-}
-
-export interface CartItemConfig
-	extends MonetizationConfiguration {
-	kind: 'cart-item';
-	item: CartItem;
-	onUpdateQuantity?: (quantity: number) => void;
-	onRemove?: () => void;
-	editable?: boolean;
-	showImage?: boolean;
-	showDescription?: boolean;
-}
-
-export interface AddToCartButtonConfig
-	extends MonetizationConfiguration {
-	kind: 'add-to-cart-button';
-	product: {
-		id: string;
-		name: string;
-		price: number;
-		currency: string;
-		image?: string;
-		variant?: string;
-	};
-	quantity?: number;
-	onAddToCart?: (product: any, quantity: number) => void;
-	inCart?: boolean;
-	disabled?: boolean;
-	loading?: boolean;
-}
-
-// =============================================================================
 // PREDEFINED CONFIGURATIONS
 // =============================================================================
 
@@ -475,63 +396,6 @@ export const MONETIZATION_CONFIGURATIONS: Record<
 			interactive: true,
 		},
 	},
-	'shopping-cart': {
-		kind: 'shopping-cart',
-		variant: 'default',
-		size: 'large',
-		styling: {
-			theme: 'light',
-			borderRadius: 'medium',
-			shadow: 'medium',
-		},
-		behavior: {
-			interactive: true,
-		},
-	},
-	'cart-summary': {
-		kind: 'cart-summary',
-		variant: 'default',
-		size: 'medium',
-		styling: {
-			theme: 'light',
-			borderRadius: 'medium',
-			shadow: 'small',
-		},
-		behavior: {
-			interactive: true,
-		},
-	},
-	'cart-item': {
-		kind: 'cart-item',
-		variant: 'default',
-		size: 'medium',
-		styling: {
-			theme: 'light',
-			borderRadius: 'small',
-			shadow: 'none',
-		},
-		behavior: {
-			interactive: true,
-			hoverable: true,
-		},
-	},
-	'add-to-cart-button': {
-		kind: 'add-to-cart-button',
-		variant: 'premium',
-		size: 'medium',
-		styling: {
-			theme: 'gradient',
-			color: 'primary',
-			borderRadius: 'medium',
-			shadow: 'medium',
-			animation: 'subtle',
-		},
-		behavior: {
-			interactive: true,
-			clickable: true,
-			hoverable: true,
-		},
-	},
 };
 
 // =============================================================================
@@ -556,12 +420,6 @@ export const MONETIZATION_GROUPS = {
 	tracking: [
 		'usage-meter',
 		'credit-display',
-	] as MonetizationKind[],
-	commerce: [
-		'shopping-cart',
-		'cart-summary',
-		'cart-item',
-		'add-to-cart-button',
 	] as MonetizationKind[],
 };
 

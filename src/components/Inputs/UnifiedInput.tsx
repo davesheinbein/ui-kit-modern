@@ -32,6 +32,7 @@ import {
 	selectIsFocused,
 	selectIsValid,
 } from '../../store/slices/inputSlice';
+import { Button } from '../Button';
 import styles from './Input.module.scss';
 
 // Extended props interface for UnifiedInput
@@ -447,25 +448,27 @@ const UnifiedInput = forwardRef<
 
 					{mergedConfig.showPasswordToggle &&
 						mergedConfig.variant === 'password' && (
-							<button
+							<Button
+								kind='ghost'
 								type='button'
 								className={styles.passwordToggle}
 								onClick={handlePasswordToggle}
 								tabIndex={-1}
 							>
 								{showPassword ? '👁️' : '👁️‍🗨️'}
-							</button>
+							</Button>
 						)}
 
 					{mergedConfig.clearable && inputValue && (
-						<button
+						<Button
+							kind='ghost'
 							type='button'
 							className={styles.clearButton}
 							onClick={handleClear}
 							tabIndex={-1}
 						>
 							✕
-						</button>
+						</Button>
 					)}
 				</div>
 

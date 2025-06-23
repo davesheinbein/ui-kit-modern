@@ -5,6 +5,7 @@ import React, {
 	useMemo,
 	useId,
 } from 'react';
+import { Button } from '../Button';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import {
@@ -459,8 +460,9 @@ export const UnifiedSelect = forwardRef<
 							{configuration.clearable &&
 								currentValue &&
 								!disabled && (
-									<button
+									<Button
 										type='button'
+										kind='close'
 										className={styles.clearIndicator}
 										onClick={(e) => {
 											e.stopPropagation();
@@ -468,7 +470,7 @@ export const UnifiedSelect = forwardRef<
 										}}
 									>
 										×
-									</button>
+									</Button>
 								)}
 							<div className={styles.dropdownIndicator}>
 								<svg

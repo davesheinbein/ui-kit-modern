@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Pages.module.scss';
+import { Button } from '../Button';
 import {
 	PageConfiguration,
 	ExtendedPageKind,
@@ -44,7 +45,7 @@ export interface BasePageProps
 // Use the extended page kinds from configurations
 export type PageKind = ExtendedPageKind;
 
-export interface UnifiedPageProps
+export interface PageProps
 	extends Omit<BasePageProps, 'variant' | 'children'> {
 	kind: PageKind;
 	configuration?: Partial<PageConfiguration>;
@@ -71,12 +72,12 @@ export interface UnifiedPageProps
 }
 
 /**
- * UnifiedPage - Core page component that handles all page types
+ * Page - Core page component that handles all page types
  *
- * This component provides a unified interface for creating different types of pages
- * using configuration-driven approach, similar to UnifiedButton.
+ * This component provides a  interface for creating different types of pages
+ * using configuration-driven approach, similar to Button.
  */
-const UnifiedPage: React.FC<UnifiedPageProps> = ({
+const Page: React.FC<PageProps> = ({
 	kind,
 	configuration = {},
 	children,
@@ -155,36 +156,40 @@ const UnifiedPage: React.FC<UnifiedPageProps> = ({
 						)}
 						<div className={styles.startupActions}>
 							{onStartDaily && (
-								<button
+								<Button
+									kind='primary'
 									className={styles.startupButton}
 									onClick={onStartDaily}
 								>
 									Start Daily
-								</button>
+								</Button>
 							)}
 							{onStartCustom && (
-								<button
+								<Button
+									kind='secondary'
 									className={styles.startupButton}
 									onClick={onStartCustom}
 								>
 									Start Custom
-								</button>
+								</Button>
 							)}
 							{onBrowseCustom && (
-								<button
+								<Button
+									kind='secondary'
 									className={styles.startupButton}
 									onClick={onBrowseCustom}
 								>
 									Browse Custom
-								</button>
+								</Button>
 							)}
 							{onShare && (
-								<button
+								<Button
+									kind='secondary'
 									className={styles.startupButton}
 									onClick={onShare}
 								>
 									Share
-								</button>
+								</Button>
 							)}
 						</div>
 						{children}
@@ -219,12 +224,13 @@ const UnifiedPage: React.FC<UnifiedPageProps> = ({
 					{headerContent || (
 						<div className={styles.defaultHeader}>
 							{onBack && (
-								<button
+								<Button
+									kind='go-back'
 									className={styles.backButton}
 									onClick={onBack}
 								>
 									← Back
-								</button>
+								</Button>
 							)}
 							{title && (
 								<h1 className={styles.headerTitle}>
@@ -255,28 +261,31 @@ const UnifiedPage: React.FC<UnifiedPageProps> = ({
 					{footerContent || (
 						<div className={styles.defaultFooter}>
 							{onCancel && (
-								<button
+								<Button
+									kind='secondary'
 									className={styles.footerButton}
 									onClick={onCancel}
 								>
 									Cancel
-								</button>
+								</Button>
 							)}
 							{onSave && (
-								<button
+								<Button
+									kind='primary'
 									className={styles.footerButtonPrimary}
 									onClick={onSave}
 								>
 									Save
-								</button>
+								</Button>
 							)}
 							{onNext && (
-								<button
+								<Button
+									kind='primary'
 									className={styles.footerButtonPrimary}
 									onClick={onNext}
 								>
 									Next
-								</button>
+								</Button>
 							)}
 						</div>
 					)}
@@ -286,6 +295,6 @@ const UnifiedPage: React.FC<UnifiedPageProps> = ({
 	);
 };
 
-UnifiedPage.displayName = 'UnifiedPage';
+Page.displayName = 'Page';
 
-export default UnifiedPage;
+export default Page;

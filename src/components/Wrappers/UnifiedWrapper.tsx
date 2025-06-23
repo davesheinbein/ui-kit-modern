@@ -1,4 +1,5 @@
 import React, { forwardRef, memo } from 'react';
+import { Button } from '../Button';
 import {
 	WrapperKind,
 	WrapperConfiguration,
@@ -125,13 +126,14 @@ const UnifiedWrapper = forwardRef<any, UnifiedWrapperProps>(
 				{config.deprecationWarning &&
 					typeof window !== 'undefined' && (
 						<div className={styles.migrationHelper}>
-							<button
+							<Button
+								kind='secondary'
 								onClick={onMigrationHelp}
 								className={styles.migrationButton}
 								title={`Migration help for ${config.targetComponent}`}
 							>
 								📖 Migration Guide
-							</button>
+							</Button>
 						</div>
 					)}
 
@@ -162,8 +164,8 @@ function renderTargetComponent(
 	// For now, we'll use a placeholder approach that can be enhanced
 
 	switch (config.unifiedComponent) {
-		case 'UnifiedButton':
-			return renderUnifiedButton(config, props, children);
+		case 'Button':
+			return renderButton(config, props, children);
 		case 'UnifiedHeader':
 			return renderUnifiedHeader(config, props, children);
 		case 'UnifiedModal':
@@ -180,8 +182,8 @@ function renderTargetComponent(
 			return renderUnifiedSettings(config, props, children);
 		case 'UnifiedTheme':
 			return renderUnifiedTheme(config, props, children);
-		case 'UnifiedAdmin':
-			return renderUnifiedAdmin(config, props, children);
+		case 'Admin':
+			return renderAdmin(config, props, children);
 		case 'UnifiedCard':
 			return renderUnifiedCard(config, props, children);
 		case 'UnifiedBanner':
@@ -207,25 +209,25 @@ function renderTargetComponent(
 }
 
 // ========================================
-// Unified Component Renderers
+// Component Renderers
 // ========================================
 
-function renderUnifiedButton(
+function renderButton(
 	config: WrapperConfiguration,
 	props: any,
 	children: React.ReactNode
 ) {
-	// Import and render UnifiedButton with appropriate kind mapping
+	// Import and render Button with appropriate kind mapping
 	const kind = mapToButtonKind(config.kind);
 	return (
 		<div
 			data-wrapper='button'
 			data-original-kind={config.kind}
 		>
-			{/* Placeholder - would import UnifiedButton dynamically */}
-			<button {...props} data-unified-kind={kind}>
+			{/* Placeholder - would import Button dynamically */}
+			<Button {...props} data-unified-kind={kind}>
 				{children}
-			</button>
+			</Button>
 		</div>
 	);
 }
@@ -382,7 +384,7 @@ function renderUnifiedTheme(
 	);
 }
 
-function renderUnifiedAdmin(
+function renderAdmin(
 	config: WrapperConfiguration,
 	props: any,
 	children: React.ReactNode
@@ -393,7 +395,7 @@ function renderUnifiedAdmin(
 			data-wrapper='admin'
 			data-original-kind={config.kind}
 		>
-			{/* Placeholder - would import UnifiedAdmin dynamically */}
+			{/* Placeholder - would import Admin dynamically */}
 			<div {...props} data-unified-kind={kind}>
 				{children}
 			</div>

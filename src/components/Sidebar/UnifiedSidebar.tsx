@@ -11,6 +11,7 @@ import {
 	createSidebarConfig,
 } from './configurations';
 import styles from './Sidebar.module.scss';
+import { Button } from '../Button';
 
 // Base sidebar variant types
 export type SidebarVariant =
@@ -362,16 +363,12 @@ const UnifiedSidebar = forwardRef<
 						</h2>
 					)}
 					{finalConfig.showCloseButton && (
-						<button
-							type='button'
-							className={closeButtonClasses}
+						<Button
+							kind='close'
 							onClick={handleCloseClick}
+							className={closeButtonClasses}
 							aria-label={`Close ${finalConfig.ariaLabel || 'sidebar'}`}
-						>
-							{closeButtonIcon ||
-								finalConfig.closeButtonText ||
-								'Close'}
-						</button>
+						/>
 					)}
 				</div>
 			);

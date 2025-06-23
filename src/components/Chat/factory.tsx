@@ -1,5 +1,6 @@
 import React, { forwardRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Button } from '../Button';
 import ChatWindow from './Chat';
 import styles from './Chat.module.scss';
 import {
@@ -162,13 +163,14 @@ export const ChatBodyFactory = forwardRef<
 									placeholder={placeholder}
 									className={styles.chatInputField}
 								/>
-								<button
+								<Button
+									kind='primary'
 									onClick={handleSend}
 									disabled={!inputValue.trim()}
 									className={styles.chatSendBtn}
 								>
 									Send
-								</button>
+								</Button>
 							</div>
 						)}
 					</div>
@@ -190,13 +192,14 @@ export const ChatBodyFactory = forwardRef<
 									placeholder={placeholder}
 									className={styles.chatInputField}
 								/>
-								<button
+								<Button
+									kind='primary'
 									onClick={handleSend}
 									disabled={!inputValue.trim()}
 									className={styles.chatSendBtn}
 								>
 									Send
-								</button>
+								</Button>
 							</div>
 						)}
 					</div>
@@ -218,13 +221,14 @@ export const ChatBodyFactory = forwardRef<
 									placeholder={placeholder}
 									className={styles.chatInputField}
 								/>
-								<button
+								<Button
+									kind='primary'
 									onClick={handleSend}
 									disabled={!inputValue.trim()}
 									className={styles.chatSendBtn}
 								>
 									Send
-								</button>
+								</Button>
 							</div>
 						)}
 					</div>
@@ -247,13 +251,14 @@ export const ChatBodyFactory = forwardRef<
 									placeholder={placeholder}
 									className={styles.chatInputField}
 								/>
-								<button
+								<Button
+									kind='primary'
 									onClick={handleSend}
 									disabled={!inputValue.trim()}
 									className={styles.chatSendBtn}
 								>
 									Send
-								</button>
+								</Button>
 							</div>
 						)}
 					</div>
@@ -272,13 +277,14 @@ export const ChatBodyFactory = forwardRef<
 									'GG',
 								]
 							).map((opt: string) => (
-								<button
+								<Button
 									key={opt}
+									kind='vs-quick-chat'
 									className={styles.vsQuickChatButton}
 									onClick={() => onSend?.(opt)}
 								>
 									{opt}
-								</button>
+								</Button>
 							))}
 						</div>
 					</div>

@@ -5,6 +5,7 @@ import {
 	EmptyStateAction,
 	getEmptyStateConfig,
 } from './configurations';
+import { Button } from '../Button';
 import styles from './EmptyState.module.scss';
 
 export interface UnifiedEmptyStateProps {
@@ -153,8 +154,14 @@ const UnifiedEmptyState = forwardRef<
 		action: EmptyStateAction,
 		isPrimary = false
 	) => (
-		<button
+		<Button
 			key={action.label}
+			kind={
+				action.variant === 'text' ?
+					'link'
+				:	action.variant ||
+					(isPrimary ? 'primary' : 'secondary')
+			}
 			onClick={action.onClick}
 			className={`${styles.empty_state__action} ${
 				styles[
@@ -168,7 +175,7 @@ const UnifiedEmptyState = forwardRef<
 				</span>
 			)}
 			{action.label}
-		</button>
+		</Button>
 	);
 
 	const renderActions = () => {

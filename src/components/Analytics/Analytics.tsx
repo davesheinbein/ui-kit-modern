@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { Button } from '../Button';
 import styles from './Analytics.module.scss';
 
 export interface AnalyticsProps {
@@ -103,12 +104,13 @@ const Analytics = forwardRef<
 							{error}
 						</div>
 						{refreshable && onRefresh && (
-							<button
+							<Button
+								kind='secondary'
 								onClick={onRefresh}
 								className={styles.retryButton}
 							>
 								Retry
-							</button>
+							</Button>
 						)}
 					</div>
 				</div>

@@ -29,8 +29,6 @@ import adminSlice from './slices/adminSlice';
 import tableSlice from './slices/tableSlice';
 import navigationSlice from './slices/navigationSlice';
 import inputSlice from './slices/inputSlice';
-import cartSlice from './slices/cartSlice';
-import advertisementSlice from './slices/advertisementSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -72,12 +70,6 @@ export const store = configureStore({
 
 		// Input domain - input values, states, validation, focus
 		input: inputSlice,
-
-		// Cart domain - shopping cart items, pricing, checkout state
-		cart: cartSlice,
-
-		// Advertisement domain - ad display, providers, analytics
-		advertisement: advertisementSlice,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
@@ -102,54 +94,5 @@ export const useAppDispatch = () =>
 	useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> =
 	useSelector;
-
-// Export cart functionality
-export * from './slices/cartSlice';
-export { default as useCartRedux } from './hooks/useCartRedux';
-
-// Export advertisement functionality
-export {
-	initializeContainer,
-	updateContainerAds,
-	rotateAds,
-	setAutoRotation,
-	setCurrentIndex,
-	setContainerError,
-	updateScreenSize,
-	switchProvider,
-	recordProviderFailure,
-	updateProviderHealth,
-	initializeComponent,
-	setComponentState,
-	setComponentVisibility,
-	setComponentError,
-	trackImpression,
-	trackClick,
-	updateRevenue,
-	setGlobalEnabled,
-	setDefaultProvider,
-	updateProviderConfig,
-	toggleProvider,
-	setTrackingEnabled,
-	setUserId,
-	removeContainer,
-	removeComponent,
-	resetMetrics,
-	setLoading as setAdLoading,
-	setError as setAdError,
-	selectAdvertisement,
-	selectContainer,
-	selectComponent,
-	selectGlobalMetrics,
-	selectProviders,
-	selectEnabledProviders,
-	selectIsGlobalEnabled,
-	selectTrackingEnabled,
-} from './slices/advertisementSlice';
-export type {
-	AdProviderType,
-	AdState,
-} from './slices/advertisementSlice';
-export { default as useAdvertisementRedux } from './hooks/useAdvertisementRedux';
 
 export default store;

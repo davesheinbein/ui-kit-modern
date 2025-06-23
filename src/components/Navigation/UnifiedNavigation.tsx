@@ -23,6 +23,7 @@ import {
 	NAVIGATION_CONFIGURATIONS,
 } from './configurations';
 import styles from './Navigation.module.scss';
+import { Button } from '../Button';
 
 export interface UnifiedNavigationProps {
 	kind: NavigationKind;
@@ -393,7 +394,8 @@ function renderNavbar(
 			<ul className={styles.navbarItems}>
 				{items.map((item) => (
 					<li key={item.id} className={styles.navbarItem}>
-						<button
+						<Button
+							kind='secondary'
 							className={[
 								styles.navbarLink,
 								item.active || item.path === currentPath ?
@@ -426,7 +428,7 @@ function renderNavbar(
 										{item.badge}
 									</span>
 								)}
-						</button>
+						</Button>
 					</li>
 				))}
 			</ul>
@@ -446,8 +448,9 @@ function renderMobileNav(
 	return (
 		<div className={styles.mobileNavContainer}>
 			{items.map((item) => (
-				<button
+				<Button
 					key={item.id}
+					kind='secondary'
 					className={[
 						styles.mobileNavItem,
 						item.active || item.path === currentPath ?
@@ -477,7 +480,7 @@ function renderMobileNav(
 								{item.badge}
 							</span>
 						)}
-				</button>
+				</Button>
 			))}
 		</div>
 	);
@@ -494,13 +497,14 @@ function renderBreadcrumbs(
 				<li key={item.id} className={styles.breadcrumbItem}>
 					{index < items.length - 1 ?
 						<>
-							<button
+							<Button
+								kind='link'
 								className={styles.breadcrumbLink}
 								onClick={() => onNavigate?.(item)}
 								disabled={item.disabled}
 							>
 								{item.label}
-							</button>
+							</Button>
 							<span className={styles.breadcrumbSeparator}>
 								/
 							</span>
@@ -581,7 +585,8 @@ function renderPagination(
 						key={item.id}
 						className={styles.paginationItem}
 					>
-						<button
+						<Button
+							kind='secondary'
 							className={[
 								styles.paginationButton,
 								item.active ? styles.active : '',
@@ -596,7 +601,7 @@ function renderPagination(
 							}
 						>
 							{item.label}
-						</button>
+						</Button>
 					</li>
 				))}
 			</ul>
@@ -621,7 +626,8 @@ function renderTabs(
 						className={styles.tabItem}
 						role='presentation'
 					>
-						<button
+						<Button
+							kind='secondary'
 							className={[
 								styles.tabButton,
 								item.active || item.id === activeTab ?
@@ -651,7 +657,7 @@ function renderTabs(
 									{item.label}
 								</span>
 							)}
-						</button>
+						</Button>
 					</li>
 				))}
 			</ul>
@@ -669,8 +675,9 @@ function renderSegmentedControls(
 		<div className={styles.segmentedContainer}>
 			<div className={styles.segmentedGroup} role='group'>
 				{items.map((item) => (
-					<button
+					<Button
 						key={item.id}
+						kind='secondary'
 						className={[
 							styles.segmentedButton,
 							item.active || item.id === activeTab ?
@@ -687,7 +694,7 @@ function renderSegmentedControls(
 						}
 					>
 						{item.label}
-					</button>
+					</Button>
 				))}
 			</div>
 		</div>
@@ -710,7 +717,8 @@ function renderHamburgerMenu(
 						key={item.id}
 						className={styles.hamburgerItem}
 					>
-						<button
+						<Button
+							kind='secondary'
 							className={[
 								styles.hamburgerLink,
 								item.active || item.path === currentPath ?
@@ -734,7 +742,7 @@ function renderHamburgerMenu(
 									{item.label}
 								</span>
 							)}
-						</button>
+						</Button>
 					</li>
 				))}
 			</ul>
@@ -758,7 +766,8 @@ function renderSideDrawer(
 						key={item.id}
 						className={styles.sideDrawerItem}
 					>
-						<button
+						<Button
+							kind='secondary'
 							className={[
 								styles.sideDrawerLink,
 								item.active || item.path === currentPath ?
@@ -782,7 +791,7 @@ function renderSideDrawer(
 									{item.label}
 								</span>
 							)}
-						</button>
+						</Button>
 
 						{/* Render nested items if present */}
 						{item.children && item.children.length > 0 && (
@@ -792,7 +801,8 @@ function renderSideDrawer(
 										key={child.id}
 										className={styles.sideDrawerSubItem}
 									>
-										<button
+										<Button
+											kind='link'
 											className={[
 												styles.sideDrawerSubLink,
 												(
@@ -811,7 +821,7 @@ function renderSideDrawer(
 											disabled={child.disabled}
 										>
 											{child.label}
-										</button>
+										</Button>
 									</li>
 								))}
 							</ul>
@@ -840,7 +850,8 @@ function renderGenericNavigation(
 							key={item.id}
 							className={styles.genericItem}
 						>
-							<button
+							<Button
+								kind='secondary'
 								className={[
 									styles.genericLink,
 									item.active ? styles.active : '',
@@ -862,7 +873,7 @@ function renderGenericNavigation(
 										{item.label}
 									</span>
 								)}
-							</button>
+							</Button>
 						</li>
 					))}
 				</ul>

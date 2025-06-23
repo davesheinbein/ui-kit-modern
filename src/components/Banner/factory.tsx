@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import Banner from './Banner';
+import { Button } from '../Button';
 import styles from './Banner.module.scss';
 import {
 	BANNER_CONFIGURATIONS,
@@ -181,14 +182,14 @@ export const BannerBodyFactory = forwardRef<
 
 						{/* Emote button */}
 						{onEmoteClick && (
-							<button
+							<Button
+								kind='vs-status-emote'
 								className={styles.vsStatusEmoteBtn}
 								onClick={onEmoteClick}
-								type='button'
 								aria-label='Send emote'
 							>
 								😀
-							</button>
+							</Button>
 						)}
 					</div>
 				);

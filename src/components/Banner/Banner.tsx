@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { Button } from '../Button';
 import styles from './Banner.module.scss';
 
 export interface BannerProps {
@@ -79,14 +80,14 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 			>
 				{children}
 				{onClose && (
-					<button
+					<Button
+						kind='close'
 						className={styles.bannerCloseButton}
 						onClick={onClose}
-						type='button'
 						aria-label='Close banner'
 					>
 						×
-					</button>
+					</Button>
 				)}
 			</div>
 		);

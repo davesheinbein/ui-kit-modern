@@ -1,14 +1,22 @@
-export { default as UnifiedAdvertisement } from './UnifiedAdvertisement';
+// Main consolidated components and types
+export {
+	Advertisements,
+	AdContainer,
+} from './Advertisements';
+
+// Backward compatibility alias
+export { Advertisements as Advertisement } from './Advertisements';
+
 export type {
 	AdKind,
-	UnifiedAdvertisementProps,
-} from './UnifiedAdvertisement';
+	AdvertisementProps,
+	AdContainerProps,
+} from './Advertisements';
 
-export { default as AdContainer } from './AdContainer';
-export type { AdContainerProps } from './AdContainer';
-
+// Configuration exports
 export * from './configurations';
 
+// Factory exports
 export {
 	default as AdvertisementFactory,
 	A,

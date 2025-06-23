@@ -6,6 +6,7 @@ import React, {
 	useId,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Button } from '../Button';
 import {
 	MapKind,
 	MapConfiguration,
@@ -257,7 +258,8 @@ const UnifiedMap = forwardRef<
 
 			return (
 				<div className={styles.map__zoom_controls}>
-					<button
+					<Button
+						kind='secondary'
 						className={styles.map__zoom_button}
 						onClick={handleZoomIn}
 						disabled={
@@ -266,8 +268,9 @@ const UnifiedMap = forwardRef<
 						aria-label='Zoom in'
 					>
 						+
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='secondary'
 						className={styles.map__zoom_button}
 						onClick={handleZoomOut}
 						disabled={
@@ -276,7 +279,7 @@ const UnifiedMap = forwardRef<
 						aria-label='Zoom out'
 					>
 						−
-					</button>
+					</Button>
 				</div>
 			);
 		};

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useCallback } from 'react';
-import UnifiedAdvertisement from '../../components/Advertisements/UnifiedAdvertisement';
-import AdContainer from '../../components/Advertisements/AdContainer';
+import { Button } from '../../components/Button';
+import { Advertisements } from '../../components/Advertisements/Advertisements';
 import {
 	AdvertisementFactory,
 	A,
-} from '../../components/Advertisements/factory';
+} from '../../components/Advertisements';
 import {
 	AdContent,
 	AdAnalyticsEvent,
@@ -16,10 +16,10 @@ import {
 	createAdSenseProvider,
 	createAdsterraProvider,
 	createCustomProvider,
-} from '../../components/Advertisements/configurations';
+} from '../../components/Advertisements';
 
 const meta: Meta = {
-	title: 'Advertisements',
+	title: 'Advertisements/Advertisements',
 	parameters: {
 		layout: 'fullscreen',
 		docs: {
@@ -69,8 +69,8 @@ const nativeAd = A.create('native-card', {
 The system is built with several key components:
 
 ### Core Components
-- **UnifiedAdvertisement**: The main component that renders all ad types
-- **AdContainer**: A container for managing multiple ads with rotation and layout options
+- **Advertisement**: The main component that renders all ad types
+- **Advertisement**: A container for managing multiple ads with rotation and layout options
 - **AdvertisementFactory**: Factory class for creating ads with minimal configuration
 
 ### Analytics & Providers
@@ -682,7 +682,7 @@ export const BannerAd: Story = {
 	render: () => (
 		<div style={{ padding: '20px' }}>
 			<h2>Banner Advertisement</h2>
-			<UnifiedAdvertisement
+			<Advertisements
 				kind='banner-ad'
 				content={sampleBannerContent}
 				animationEnabled={true}
@@ -699,7 +699,8 @@ export const InterstitialAd: Story = {
 		return (
 			<div style={{ padding: '20px' }}>
 				<h2>Interstitial Advertisement</h2>
-				<button
+				<Button
+					kind='primary'
 					onClick={() => setIsVisible(true)}
 					style={{
 						padding: '10px 20px',
@@ -712,9 +713,9 @@ export const InterstitialAd: Story = {
 					}}
 				>
 					Show Interstitial
-				</button>
+				</Button>
 
-				<UnifiedAdvertisement
+				<Advertisements
 					kind='interstitial-ad'
 					content={{
 						id: 'interstitial-1',
@@ -749,7 +750,8 @@ export const RewardedModal: Story = {
 				<p>
 					Current coins: <strong>{coins}</strong>
 				</p>
-				<button
+				<Button
+					kind='primary'
 					onClick={() => setIsVisible(true)}
 					style={{
 						padding: '10px 20px',
@@ -762,9 +764,9 @@ export const RewardedModal: Story = {
 					}}
 				>
 					Watch Rewarded Ad
-				</button>
+				</Button>
 
-				<UnifiedAdvertisement
+				<Advertisements
 					kind='rewarded-ad-modal'
 					content={sampleRewardContent}
 					isVisible={isVisible}
@@ -791,7 +793,7 @@ export const NativeCard: Story = {
 		<div style={{ padding: '20px' }}>
 			<h2>Native Card Advertisement</h2>
 			<p>This native ad blends seamlessly with content:</p>
-			<UnifiedAdvertisement
+			<Advertisements
 				kind='native-ad-card'
 				content={sampleNativeContent}
 				animationEnabled={true}
@@ -825,7 +827,7 @@ export const StickyBar: Story = {
 				</p>
 			</div>
 
-			<UnifiedAdvertisement
+			<Advertisements
 				kind='sticky-ad-bar'
 				content={{
 					id: 'sticky-1',
@@ -858,7 +860,7 @@ export const FloatingWidget: Story = {
 				auto-hide functionality.
 			</p>
 
-			<UnifiedAdvertisement
+			<Advertisements
 				kind='floating-ad-widget'
 				content={{
 					id: 'floating-1',
@@ -894,7 +896,7 @@ export const ToastNotification: Story = {
 				auto-dismiss.
 			</p>
 
-			<UnifiedAdvertisement
+			<Advertisements
 				kind='toast-ad-notification'
 				content={{
 					id: 'toast-1',
@@ -1046,7 +1048,8 @@ export const StackLayout: Story = {
 	render: () => (
 		<div style={{ padding: '20px' }}>
 			<h2>Ad Container - Stack Layout</h2>
-			<AdContainer
+			<Advertisements
+				count='many'
 				layout='stack'
 				maxAds={3}
 				adPool={sampleAdPool}
@@ -1061,7 +1064,8 @@ export const CarouselLayout: Story = {
 	render: () => (
 		<div style={{ padding: '20px' }}>
 			<h2>Ad Container - Carousel Layout</h2>
-			<AdContainer
+			<Advertisements
+				count='many'
 				layout='carousel'
 				maxAds={3}
 				adPool={sampleAdPool}
@@ -1078,7 +1082,8 @@ export const GridLayout: Story = {
 	render: () => (
 		<div style={{ padding: '20px' }}>
 			<h2>Ad Container - Grid Layout</h2>
-			<AdContainer
+			<Advertisements
+				count='many'
 				layout='grid'
 				maxAds={4}
 				adPool={sampleAdPool}
@@ -1092,13 +1097,14 @@ export const GridLayout: Story = {
 export const ResponsiveContainer: Story = {
 	render: () => (
 		<div style={{ padding: '20px' }}>
-			<h2>Responsive Ad Container</h2>
+			<h2>Responsive Ad Container</h2>{' '}
 			<p>
 				This container adapts its layout and number of ads
 				based on screen size. Try resizing the viewport to
 				see the changes.
 			</p>
-			<AdContainer
+			<Advertisements
+				count='many'
 				layout='stack'
 				maxAds={3}
 				adPool={sampleAdPool}
@@ -1116,7 +1122,7 @@ export const ResponsiveContainer: Story = {
 };
 
 // ===== AD CONTAINER SPECIFIC STORIES =====
-// These stories were moved from AdContainer.stories.tsx
+// These stories were moved from Advertisement.stories.tsx
 
 export const WithAutoRotation: Story = {
 	args: {
@@ -1160,7 +1166,8 @@ export const WithAutoRotation: Story = {
 		],
 	},
 	render: (args) => (
-		<AdContainer
+		<Advertisements
+			count='many'
 			layout='carousel'
 			maxAds={3}
 			adPool={args.adPool}
@@ -1209,7 +1216,7 @@ export const WithEventHandlers: Story = {
 		],
 	},
 	render: (args) => (
-		<AdContainer
+		<Advertisements
 			layout='stack'
 			maxAds={2}
 			adPool={args.adPool}
@@ -1243,7 +1250,7 @@ export const WithFallbackContent: Story = {
 		adPool: [], // Empty pool to trigger fallback
 	},
 	render: (args) => (
-		<AdContainer
+		<Advertisements
 			layout='stack'
 			maxAds={3}
 			adPool={args.adPool}
@@ -1315,7 +1322,7 @@ export const FilteredAdTypes: Story = {
 		],
 	},
 	render: (args) => (
-		<AdContainer
+		<Advertisements
 			layout='stack'
 			maxAds={5}
 			adPool={args.adPool}
@@ -1365,7 +1372,7 @@ export const WeightedSelection: Story = {
 		],
 	},
 	render: (args) => (
-		<AdContainer
+		<Advertisements
 			layout='single'
 			maxAds={1}
 			adPool={args.adPool}
@@ -1491,7 +1498,7 @@ export const CompleteIntegrationDemo: Story = {
 				{/* Website Header Ad */}
 				<div style={{ marginBottom: '20px' }}>
 					<h3>Header Banner</h3>
-					<UnifiedAdvertisement
+					<Advertisements
 						kind='banner-ad'
 						content={{
 							title: 'Special Offer - 50% Off!',
@@ -1525,7 +1532,7 @@ export const CompleteIntegrationDemo: Story = {
 						</p>
 
 						{/* Native Ad in content */}
-						<UnifiedAdvertisement
+						<Advertisements
 							kind='native-ad-card'
 							content={{
 								title: 'Sponsored: Learn Web Development',
@@ -1553,7 +1560,7 @@ export const CompleteIntegrationDemo: Story = {
 						<h3>Sidebar</h3>
 
 						{/* Sidebar Ad Container */}
-						<AdContainer
+						<Advertisements
 							adPool={[
 								{
 									kind: 'banner-ad',
@@ -1587,7 +1594,7 @@ export const CompleteIntegrationDemo: Story = {
 				</div>
 
 				{/* Floating Widget */}
-				<UnifiedAdvertisement
+				<Advertisements
 					kind='floating-ad-widget'
 					content={{
 						title: 'Newsletter',
@@ -1643,7 +1650,7 @@ const adsenseProvider = createAdSenseProvider({
   refreshRate: 30000,
 });
 
-<UnifiedAdvertisement
+<Advertisements
   kind="banner-ad"
   providers={[adsenseProvider]}
   primaryProvider="adsense"
@@ -1731,7 +1738,7 @@ const customProvider = createCustomProvider({
   },
 };
 
-<AdContainer
+<Advertisements
   analyticsHooks={analyticsHooks}
   trackingEnabled={true}
 />`}

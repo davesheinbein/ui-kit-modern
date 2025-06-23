@@ -18,6 +18,7 @@ import {
 	useAppDispatch,
 	useAppSelector,
 } from '../../store';
+import { Button } from '../Button';
 import {
 	setTheme,
 	selectCurrentTheme,
@@ -556,8 +557,10 @@ const UnifiedTheme: React.FC<UnifiedThemeProps> = ({
 			{/* Footer */}
 			{config.allowCustom && (
 				<div className={styles.themeFooter}>
+					{' '}
 					<div className={styles.themeActions}>
-						<button
+						<Button
+							kind='primary'
 							onClick={() => {
 								const customTheme: ThemeDefinition = {
 									name: 'custom',
@@ -574,7 +577,7 @@ const UnifiedTheme: React.FC<UnifiedThemeProps> = ({
 							}}
 						>
 							Create Custom Theme
-						</button>
+						</Button>
 					</div>
 				</div>
 			)}

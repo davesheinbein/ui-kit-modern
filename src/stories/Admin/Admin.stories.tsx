@@ -1,15 +1,24 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
+import { Button } from '../../components/Button';
 import {
 	AdminFactory,
 	AdminPresets,
 } from '../../components/Admin';
-import { reduxDecorator } from '../config/decorators';
+
+// Redux Provider decorator for all Admin stories
+const withReduxProvider = (Story: React.ComponentType) => (
+	<Provider store={store}>
+		<Story />
+	</Provider>
+);
 
 const meta: Meta<typeof AdminFactory> = {
 	title: 'Admin/Admin',
 	component: AdminFactory,
-	decorators: [reduxDecorator],
+	decorators: [withReduxProvider],
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -164,11 +173,12 @@ export const CustomContent: Story = {
 				<p style={{ margin: '0 0 8px 0' }}>
 					This is a custom admin component.
 				</p>
-				<button
+				<Button
+					kind='secondary'
 					style={{ padding: '4px 8px', fontSize: '10px' }}
 				>
 					Action Button
-				</button>
+				</Button>
 			</div>
 		</AdminFactory>
 	),

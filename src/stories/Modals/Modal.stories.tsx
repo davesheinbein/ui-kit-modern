@@ -1,16 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '../../components/Button';
 import { ModalFactory } from '../../components/Modal';
-import { reduxDecorator } from '../config/decorators';
-import {
-	useAppDispatch,
-	useAppSelector,
-} from '../../store';
-import {
-	openModal,
-	closeModal,
-	selectIsModalOpen,
-} from '../../store/slices/modalSlice';
 
 // Types for different modal configurations
 interface UserStats {
@@ -32,7 +23,6 @@ interface PurchaseItem {
 const meta: Meta<typeof ModalFactory> = {
 	title: 'Modals/Modal',
 	component: ModalFactory,
-	decorators: [reduxDecorator],
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -128,7 +118,9 @@ type Story = StoryObj<typeof ModalFactory>;
 // ===== OVERVIEW STORY =====
 export const AllModalTypesOverview: Story = {
 	render: () => {
-		const dispatch = useAppDispatch();
+		const [activeModal, setActiveModal] = useState<
+			string | null
+		>(null);
 
 		return (
 			<div style={{ padding: '2rem' }}>
@@ -144,10 +136,9 @@ export const AllModalTypesOverview: Story = {
 						marginTop: '2rem',
 					}}
 				>
-					<button
-						onClick={() =>
-							dispatch(openModal({ id: 'pre-game' }))
-						}
+					<Button
+						kind='secondary'
+						onClick={() => setActiveModal('pre-game')}
 						style={{
 							padding: '1rem',
 							borderRadius: '8px',
@@ -155,11 +146,10 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						Pre-Game Modal
-					</button>
-					<button
-						onClick={() =>
-							dispatch(openModal({ id: 'end-game' }))
-						}
+					</Button>
+					<Button
+						kind='secondary'
+						onClick={() => setActiveModal('end-game')}
 						style={{
 							padding: '1rem',
 							borderRadius: '8px',
@@ -167,11 +157,10 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						End Game Modal
-					</button>
-					<button
-						onClick={() =>
-							dispatch(openModal({ id: 'rules' }))
-						}
+					</Button>
+					<Button
+						kind='secondary'
+						onClick={() => setActiveModal('rules')}
 						style={{
 							padding: '1rem',
 							borderRadius: '8px',
@@ -179,8 +168,9 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						Rules Modal
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='secondary'
 						onClick={() => setActiveModal('statistics')}
 						style={{
 							padding: '1rem',
@@ -189,8 +179,9 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						Statistics Modal
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='secondary'
 						onClick={() => setActiveModal('vs-mode')}
 						style={{
 							padding: '1rem',
@@ -199,8 +190,9 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						VS Mode Modal
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='secondary'
 						onClick={() => setActiveModal('vs-room')}
 						style={{
 							padding: '1rem',
@@ -209,8 +201,9 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						VS Room Modal
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='secondary'
 						onClick={() => setActiveModal('purchase')}
 						style={{
 							padding: '1rem',
@@ -219,8 +212,9 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						Purchase Modal
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='secondary'
 						onClick={() => setActiveModal('sign-in')}
 						style={{
 							padding: '1rem',
@@ -229,8 +223,9 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						Sign In Modal
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='secondary'
 						onClick={() => setActiveModal('share-content')}
 						style={{
 							padding: '1rem',
@@ -239,8 +234,9 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						Share Content Modal
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='secondary'
 						onClick={() => setActiveModal('custom-puzzle')}
 						style={{
 							padding: '1rem',
@@ -249,7 +245,7 @@ export const AllModalTypesOverview: Story = {
 						}}
 					>
 						Custom Puzzle Modal
-					</button>
+					</Button>
 				</div>
 
 				{/* Pre-Game Modal */}
@@ -478,7 +474,8 @@ export const AllModalTypesOverview: Story = {
 								gap: '1rem',
 							}}
 						>
-							<button
+							<Button
+								kind='primary'
 								style={{
 									padding: '1rem',
 									backgroundColor: '#007bff',
@@ -506,7 +503,7 @@ export const AllModalTypesOverview: Story = {
 								>
 									Jump into a game with random opponents
 								</div>
-							</button>
+							</Button>
 						</div>
 					</div>
 				</ModalFactory>
@@ -656,7 +653,8 @@ export const AllModalTypesOverview: Story = {
 								justifyContent: 'center',
 							}}
 						>
-							<button
+							<Button
+								kind='primary'
 								style={{
 									padding: '0.5rem 1rem',
 									backgroundColor: '#1da1f2',
@@ -667,8 +665,9 @@ export const AllModalTypesOverview: Story = {
 								}}
 							>
 								Twitter
-							</button>
-							<button
+							</Button>
+							<Button
+								kind='primary'
 								style={{
 									padding: '0.5rem 1rem',
 									backgroundColor: '#4267b2',
@@ -679,8 +678,9 @@ export const AllModalTypesOverview: Story = {
 								}}
 							>
 								Facebook
-							</button>
-							<button
+							</Button>
+							<Button
+								kind='primary'
 								style={{
 									padding: '0.5rem 1rem',
 									backgroundColor: '#6772e5',
@@ -691,7 +691,7 @@ export const AllModalTypesOverview: Story = {
 								}}
 							>
 								Copy Link
-							</button>
+							</Button>
 						</div>
 					</div>
 				</ModalFactory>
@@ -1097,7 +1097,8 @@ export const StatisticsModalGuest: Story = {
 							Sign in to track your statistics and compete
 							with friends!
 						</p>
-						<button
+						<Button
+							kind='primary'
 							style={{
 								padding: '0.5rem 1rem',
 								backgroundColor: '#007bff',
@@ -1108,7 +1109,7 @@ export const StatisticsModalGuest: Story = {
 							}}
 						>
 							Sign In
-						</button>
+						</Button>
 					</div>
 				</div>
 			</div>
@@ -1131,7 +1132,8 @@ export const VSModeModal: Story = {
 						gap: '1rem',
 					}}
 				>
-					<button
+					<Button
+						kind='primary'
 						style={{
 							padding: '1rem',
 							backgroundColor: '#007bff',
@@ -1156,8 +1158,9 @@ export const VSModeModal: Story = {
 						>
 							Jump into a game with random opponents
 						</div>
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='primary'
 						style={{
 							padding: '1rem',
 							backgroundColor: '#28a745',
@@ -1182,8 +1185,9 @@ export const VSModeModal: Story = {
 						>
 							Create a private room for friends
 						</div>
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='primary'
 						style={{
 							padding: '1rem',
 							backgroundColor: '#ffc107',
@@ -1208,7 +1212,7 @@ export const VSModeModal: Story = {
 						>
 							Enter a room code to join friends
 						</div>
-					</button>
+					</Button>
 				</div>
 			</div>
 		),
@@ -1489,7 +1493,8 @@ export const ShareContentModal: Story = {
 						justifyContent: 'center',
 					}}
 				>
-					<button
+					<Button
+						kind='primary'
 						style={{
 							padding: '0.5rem 1rem',
 							backgroundColor: '#1da1f2',
@@ -1500,8 +1505,9 @@ export const ShareContentModal: Story = {
 						}}
 					>
 						Twitter
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='primary'
 						style={{
 							padding: '0.5rem 1rem',
 							backgroundColor: '#4267b2',
@@ -1512,8 +1518,9 @@ export const ShareContentModal: Story = {
 						}}
 					>
 						Facebook
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='primary'
 						style={{
 							padding: '0.5rem 1rem',
 							backgroundColor: '#6772e5',
@@ -1524,7 +1531,7 @@ export const ShareContentModal: Story = {
 						}}
 					>
 						Copy Link
-					</button>
+					</Button>
 				</div>
 			</div>
 		),
@@ -1659,7 +1666,8 @@ export const ModalSystemDemo: Story = {
 						flexWrap: 'wrap',
 					}}
 				>
-					<button
+					<Button
+						kind='primary'
 						onClick={() => setActiveModal('pre-game')}
 						style={{
 							padding: '0.75rem 1.5rem',
@@ -1671,8 +1679,9 @@ export const ModalSystemDemo: Story = {
 						}}
 					>
 						Start Game Flow
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='primary'
 						onClick={() => setActiveModal('vs-mode')}
 						style={{
 							padding: '0.75rem 1.5rem',
@@ -1684,8 +1693,9 @@ export const ModalSystemDemo: Story = {
 						}}
 					>
 						VS Mode Flow
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='primary'
 						onClick={() => setActiveModal('purchase')}
 						style={{
 							padding: '0.75rem 1.5rem',
@@ -1697,8 +1707,9 @@ export const ModalSystemDemo: Story = {
 						}}
 					>
 						Purchase Flow
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='primary'
 						onClick={() => setActiveModal('custom-puzzle')}
 						style={{
 							padding: '0.75rem 1.5rem',
@@ -1710,7 +1721,7 @@ export const ModalSystemDemo: Story = {
 						}}
 					>
 						Custom Puzzle
-					</button>
+					</Button>
 				</div>
 
 				{/* All modal implementations using the same ModalFactory */}
@@ -1803,7 +1814,8 @@ export const ModalSystemDemo: Story = {
 								justifyContent: 'center',
 							}}
 						>
-							<button
+							<Button
+								kind='primary'
 								style={{
 									padding: '0.5rem 1rem',
 									backgroundColor: '#1da1f2',
@@ -1813,8 +1825,9 @@ export const ModalSystemDemo: Story = {
 								}}
 							>
 								Twitter
-							</button>
-							<button
+							</Button>
+							<Button
+								kind='primary'
 								style={{
 									padding: '0.5rem 1rem',
 									backgroundColor: '#4267b2',
@@ -1824,7 +1837,7 @@ export const ModalSystemDemo: Story = {
 								}}
 							>
 								Facebook
-							</button>
+							</Button>
 						</div>
 					</div>
 				</ModalFactory>
@@ -1843,7 +1856,8 @@ export const ModalSystemDemo: Story = {
 								gap: '1rem',
 							}}
 						>
-							<button
+							<Button
+								kind='primary'
 								onClick={() => setActiveModal('vs-room')}
 								style={{
 									padding: '1rem',
@@ -1872,7 +1886,7 @@ export const ModalSystemDemo: Story = {
 								>
 									Enter a room code to join friends
 								</div>
-							</button>
+							</Button>
 						</div>
 					</div>
 				</ModalFactory>

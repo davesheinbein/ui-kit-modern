@@ -1,17 +1,16 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '../../components/Button';
 import {
 	UnifiedInput,
 	InputFactory,
 	INPUT_CONFIGURATIONS,
 	INPUT_GROUPS,
 } from '../../components/Inputs';
-import { reduxDecorator } from '../config/decorators';
 
 const meta: Meta<typeof UnifiedInput> = {
 	title: 'Inputs/Input',
 	component: UnifiedInput,
-	decorators: [reduxDecorator],
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -479,7 +478,8 @@ export const FormExample: Story = {
 			{InputFactory.confirmationPassword({
 				required: true,
 			})}
-			<button
+			<Button
+				kind='primary'
 				type='submit'
 				style={{
 					padding: '12px',
@@ -491,7 +491,7 @@ export const FormExample: Story = {
 				}}
 			>
 				Create Account
-			</button>
+			</Button>
 		</form>
 	),
 };

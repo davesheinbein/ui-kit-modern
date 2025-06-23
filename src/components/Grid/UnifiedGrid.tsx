@@ -4,7 +4,7 @@ import {
 	ExtendedGridKind,
 	GRID_CONFIGURATIONS,
 } from './configurations';
-import { UnifiedButton } from '../Button';
+import { Button } from '../Button';
 import styles from './Grid.module.scss';
 
 // Re-export types for convenience
@@ -55,8 +55,8 @@ export interface PregameGridProps extends BaseGridProps {
 	gridWords: string[];
 }
 
-// Main UnifiedGrid props interface
-export interface UnifiedGridProps extends VSGridProps {
+// Main Grid props interface
+export interface GridProps extends VSGridProps {
 	kind: GridKind;
 	configuration?: Partial<GridConfiguration>;
 
@@ -82,15 +82,12 @@ export interface UnifiedGridProps extends VSGridProps {
 }
 
 /**
- * UnifiedGrid - The main grid component that handles all grid types
+ * Grid - The main grid component that handles all grid types
  *
  * This component uses configuration-driven rendering to support multiple
  * grid types while maintaining a consistent API.
  */
-const UnifiedGrid = React.forwardRef<
-	HTMLDivElement,
-	UnifiedGridProps
->(
+const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 	(
 		{
 			kind,
@@ -151,7 +148,7 @@ const UnifiedGrid = React.forwardRef<
 
 		// Build CSS classes
 		const gridClasses = [
-			styles.unifiedGrid,
+			styles.Grid,
 			styles[`grid-${config.variant}`],
 			config.className ? styles[config.className] : '',
 			vsModeClass,
@@ -245,7 +242,7 @@ const UnifiedGrid = React.forwardRef<
 							key={word}
 							style={{ position: 'relative' }}
 						>
-							<UnifiedButton
+							<Button
 								kind='word'
 								word={word}
 								isSelected={isSelected}
@@ -530,6 +527,6 @@ const renderVSOverlays = (
 	return overlays;
 };
 
-UnifiedGrid.displayName = 'UnifiedGrid';
+Grid.displayName = 'Grid';
 
-export default UnifiedGrid;
+export default Grid;

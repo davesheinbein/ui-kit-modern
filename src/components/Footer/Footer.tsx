@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '../Button';
 import styles from './Footer.module.scss';
 
 export interface FooterProps {
@@ -38,13 +39,14 @@ const Footer: React.FC<FooterProps> = ({
 						key={link.href || link.label || index}
 					>
 						{link.onClick ?
-							<button
+							<Button
+								kind='ghost'
 								onClick={link.onClick}
 								className={styles.footerLink}
 								type='button'
 							>
 								{link.label}
-							</button>
+							</Button>
 						: link.href ?
 							<a
 								href={link.href}

@@ -5,7 +5,7 @@ import UnifiedGrid, {
 
 /**
  * Grid - Basic wrapper around UnifiedGrid for simple use cases
- * Similar to the Button component's relationship with UnifiedButton
+ * Similar to the Button component's relationship with Button
  *
  * @example
  * <Grid words={words} onSelect={handleSelect} />

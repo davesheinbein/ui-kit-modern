@@ -1,13 +1,14 @@
 import React from 'react';
-import UnifiedAdvertisement, {
-	UnifiedAdvertisementProps,
-	AdKind,
-} from './UnifiedAdvertisement';
 import {
+	Advertisements,
+	AdKind,
+	AdvertisementProps,
+} from './Advertisements';
+import {
+	AdContent,
 	ADVERTISEMENT_CONFIGURATIONS,
 	ADVERTISEMENT_GROUPS,
 	AdvertisementConfiguration,
-	AdContent,
 } from './configurations';
 
 /**
@@ -21,9 +22,9 @@ export class AdvertisementFactory {
 	static create(
 		kind: AdKind,
 		content: AdContent,
-		props: Partial<UnifiedAdvertisementProps> = {}
-	): React.ReactElement<UnifiedAdvertisementProps> {
-		return React.createElement(UnifiedAdvertisement, {
+		props: Partial<AdvertisementProps> = {}
+	): React.ReactElement<AdvertisementProps> {
+		return React.createElement(Advertisements, {
 			kind,
 			content: {
 				id:
@@ -44,13 +45,13 @@ export class AdvertisementFactory {
 			{
 				kind: AdKind;
 				content: AdContent;
-				props?: Partial<UnifiedAdvertisementProps>;
+				props?: Partial<AdvertisementProps>;
 			}
 		>,
-		sharedProps: Partial<UnifiedAdvertisementProps> = {}
+		sharedProps: Partial<AdvertisementProps> = {}
 	): Record<
 		string,
-		React.ReactElement<UnifiedAdvertisementProps>
+		React.ReactElement<AdvertisementProps>
 	> {
 		return Object.fromEntries(
 			Object.entries(groupConfig).map(
@@ -70,7 +71,7 @@ export class AdvertisementFactory {
 	 */
 	static createBanner(
 		content: AdContent,
-		props: Partial<UnifiedAdvertisementProps> = {}
+		props: Partial<AdvertisementProps> = {}
 	) {
 		return this.create('banner', content, {
 			position: 'relative',
@@ -83,7 +84,7 @@ export class AdvertisementFactory {
 	 */
 	static createInterstitial(
 		content: AdContent,
-		props: Partial<UnifiedAdvertisementProps> = {}
+		props: Partial<AdvertisementProps> = {}
 	) {
 		return this.create('interstitial', content, {
 			showBackdrop: true,
@@ -103,7 +104,7 @@ export class AdvertisementFactory {
 				description: string;
 			};
 		},
-		props: Partial<UnifiedAdvertisementProps> = {}
+		props: Partial<AdvertisementProps> = {}
 	) {
 		return this.create('rewarded-modal', content, {
 			showBackdrop: true,
@@ -117,7 +118,7 @@ export class AdvertisementFactory {
 	 */
 	static createNativeCard(
 		content: AdContent,
-		props: Partial<UnifiedAdvertisementProps> = {}
+		props: Partial<AdvertisementProps> = {}
 	) {
 		return this.create('native-card', content, {
 			animationEnabled: true,
@@ -131,7 +132,7 @@ export class AdvertisementFactory {
 	static createStickyBar(
 		content: AdContent,
 		position: 'top' | 'bottom' = 'bottom',
-		props: Partial<UnifiedAdvertisementProps> = {}
+		props: Partial<AdvertisementProps> = {}
 	) {
 		return this.create('sticky-bar', content, {
 			position: 'fixed',
@@ -156,7 +157,7 @@ export class AdvertisementFactory {
 			left?: number;
 			right?: number;
 		} = { bottom: 20, right: 20 },
-		props: Partial<UnifiedAdvertisementProps> = {}
+		props: Partial<AdvertisementProps> = {}
 	) {
 		return this.create('floating-widget', content, {
 			position: 'fixed',
@@ -173,7 +174,7 @@ export class AdvertisementFactory {
 	static createToastNotification(
 		content: AdContent,
 		position: 'top' | 'bottom' = 'top',
-		props: Partial<UnifiedAdvertisementProps> = {}
+		props: Partial<AdvertisementProps> = {}
 	) {
 		return this.create('toast-notification', content, {
 			position: 'fixed',
@@ -193,7 +194,7 @@ export class AdvertisementFactory {
 	 */
 	static createExitIntentModal(
 		content: AdContent,
-		props: Partial<UnifiedAdvertisementProps> = {}
+		props: Partial<AdvertisementProps> = {}
 	) {
 		return this.create('exit-intent-modal', content, {
 			showBackdrop: true,
@@ -208,7 +209,7 @@ export class AdvertisementFactory {
 	 */
 	static createInGameBillboard(
 		content: AdContent,
-		props: Partial<UnifiedAdvertisementProps> = {}
+		props: Partial<AdvertisementProps> = {}
 	) {
 		return this.create('ingame-billboard', content, {
 			animationEnabled: true,
@@ -223,7 +224,7 @@ export class AdvertisementFactory {
 		bannerContent: AdContent;
 		floatingContent?: AdContent;
 		exitIntentContent?: AdContent;
-		sharedProps?: Partial<UnifiedAdvertisementProps>;
+		sharedProps?: Partial<AdvertisementProps>;
 	}) {
 		const {
 			bannerContent,
@@ -234,7 +235,7 @@ export class AdvertisementFactory {
 
 		const ads: Record<
 			string,
-			React.ReactElement<UnifiedAdvertisementProps>
+			React.ReactElement<AdvertisementProps>
 		> = {
 			banner: this.createBanner(bannerContent, sharedProps),
 		};
@@ -264,7 +265,7 @@ export class AdvertisementFactory {
 		bannerContent: AdContent;
 		interstitialContent?: AdContent;
 		rewardedContent?: AdContent & { rewardData: any };
-		sharedProps?: Partial<UnifiedAdvertisementProps>;
+		sharedProps?: Partial<AdvertisementProps>;
 	}) {
 		const {
 			bannerContent,
@@ -275,7 +276,7 @@ export class AdvertisementFactory {
 
 		const ads: Record<
 			string,
-			React.ReactElement<UnifiedAdvertisementProps>
+			React.ReactElement<AdvertisementProps>
 		> = {
 			banner: this.createBanner(bannerContent, {
 				position: 'relative',
@@ -308,7 +309,7 @@ export class AdvertisementFactory {
 		billboardContent: AdContent;
 		rewardedContent?: AdContent & { rewardData: any };
 		interstitialContent?: AdContent;
-		sharedProps?: Partial<UnifiedAdvertisementProps>;
+		sharedProps?: Partial<AdvertisementProps>;
 	}) {
 		const {
 			billboardContent,
@@ -319,7 +320,7 @@ export class AdvertisementFactory {
 
 		const ads: Record<
 			string,
-			React.ReactElement<UnifiedAdvertisementProps>
+			React.ReactElement<AdvertisementProps>
 		> = {
 			billboard: this.createInGameBillboard(
 				billboardContent,
@@ -378,12 +379,12 @@ export class AdvertisementFactory {
 	static createFromGroup(
 		groupName: keyof typeof ADVERTISEMENT_GROUPS,
 		contentMap: Record<string, AdContent>,
-		sharedProps: Partial<UnifiedAdvertisementProps> = {}
+		sharedProps: Partial<AdvertisementProps> = {}
 	) {
 		const group = ADVERTISEMENT_GROUPS[groupName];
 		const ads: Record<
 			string,
-			React.ReactElement<UnifiedAdvertisementProps>
+			React.ReactElement<AdvertisementProps>
 		> = {};
 
 		group.forEach((kind, index) => {

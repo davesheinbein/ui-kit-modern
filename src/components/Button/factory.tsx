@@ -1,8 +1,8 @@
 import React from 'react';
-import UnifiedButton, {
-	UnifiedButtonProps,
+import Button, {
+	ButtonProps,
 	ButtonKind,
-} from './UnifiedButton';
+} from './Button';
 import {
 	BUTTON_CONFIGURATIONS,
 	BUTTON_GROUPS,
@@ -20,9 +20,9 @@ export class ButtonFactory {
 	 */
 	static create(
 		kind: ButtonKind,
-		props: Partial<UnifiedButtonProps> = {}
-	): React.ReactElement<UnifiedButtonProps> {
-		return React.createElement(UnifiedButton, {
+		props: Partial<ButtonProps> = {}
+	): React.ReactElement<ButtonProps> {
+		return React.createElement(Button, {
 			kind,
 			...props,
 		});
@@ -36,13 +36,13 @@ export class ButtonFactory {
 			string,
 			{
 				kind: ButtonKind;
-				props?: Partial<UnifiedButtonProps>;
+				props?: Partial<ButtonProps>;
 			}
 		>,
-		sharedProps: Partial<UnifiedButtonProps> = {}
+		sharedProps: Partial<ButtonProps> = {}
 	): Record<
 		string,
-		React.ReactElement<UnifiedButtonProps>
+		React.ReactElement<ButtonProps>
 	> {
 		return Object.fromEntries(
 			Object.entries(groupConfig).map(

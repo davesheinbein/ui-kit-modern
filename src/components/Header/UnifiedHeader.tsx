@@ -7,7 +7,7 @@ import {
 	ActionConfiguration,
 	createHeaderConfig,
 } from './configurations';
-import { UnifiedButton } from '../Button';
+import { Button } from '../Button';
 import styles from './Header.module.scss';
 
 // Base header variant types
@@ -36,7 +36,7 @@ export interface BaseHeaderProps
 // Use the extended header kinds from configurations
 export type HeaderKind = ExtendedHeaderKind;
 
-export interface UnifiedHeaderProps
+export interface HeaderProps
 	extends Omit<BaseHeaderProps, 'variant' | 'children'> {
 	kind: HeaderKind;
 
@@ -80,10 +80,7 @@ export interface UnifiedHeaderProps
 	role?: string;
 }
 
-const UnifiedHeader = forwardRef<
-	HTMLDivElement,
-	UnifiedHeaderProps
->(
+const Header = forwardRef<HTMLDivElement, HeaderProps>(
 	(
 		{
 			kind,
@@ -196,7 +193,7 @@ const UnifiedHeader = forwardRef<
 						}
 
 						return (
-							<UnifiedButton
+							<Button
 								key={index}
 								kind={buttonKind as any}
 								onClick={action.handler}
@@ -207,7 +204,7 @@ const UnifiedHeader = forwardRef<
 								{action.label && action.type === 'custom' ?
 									action.label
 								:	undefined}
-							</UnifiedButton>
+							</Button>
 						);
 					})}
 				</div>
@@ -224,8 +221,9 @@ const UnifiedHeader = forwardRef<
 					className={`${styles.tabs} ${styles[`tabs-${config.tabsPosition}`]} ${styles[`tabs-align-${config.tabsAlign}`]}`}
 				>
 					{tabs.map((tab) => (
-						<button
+						<Button
 							key={tab.value}
+							kind='ghost'
 							onClick={() => onTabChange?.(tab.value)}
 							className={`${styles.tab} ${currentTab === tab.value ? styles.tabActive : ''}`}
 							disabled={tab.disabled}
@@ -245,7 +243,7 @@ const UnifiedHeader = forwardRef<
 									{tab.badge}
 								</span>
 							)}
-						</button>
+						</Button>
 					))}
 				</div>
 			);
@@ -274,7 +272,7 @@ const UnifiedHeader = forwardRef<
 						)}
 					</div>
 					{collapsible && (
-						<UnifiedButton
+						<Button
 							kind='icon'
 							onClick={onToggleCollapse}
 							className={styles.collapseButton}
@@ -410,6 +408,6 @@ const UnifiedHeader = forwardRef<
 	}
 );
 
-UnifiedHeader.displayName = 'UnifiedHeader';
+Header.displayName = 'Header';
 
-export default UnifiedHeader;
+export default Header;

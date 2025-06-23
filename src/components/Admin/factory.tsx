@@ -6,8 +6,8 @@
  */
 
 import React, { useEffect } from 'react';
-import UnifiedAdmin from './UnifiedAdmin';
-import type { UnifiedAdminProps } from './UnifiedAdmin';
+import Admin from './Admin';
+import type { AdminProps } from './Admin';
 import type {
 	AdminKind,
 	AdminConfiguration,
@@ -295,11 +295,34 @@ export const AdminBodyFactory: React.FC<
 };
 
 // Factory function for creating admin components
-export const AdminFactory: React.FC<UnifiedAdminProps> = ({
-	kind,
-	...props
-}) => {
-	return <UnifiedAdmin kind={kind} {...props} />;
+export const AdminFactory: React.FC<
+	AdminProps & { [key: string]: any }
+> = ({ kind, children, ...props }) => {
+	// Separate admin props from body factory props
+	const {
+		enabled,
+		position,
+		className,
+		style,
+		zIndex,
+		...bodyProps
+	} = props;
+	const adminProps = {
+		kind,
+		enabled,
+		position,
+		className,
+		style,
+		zIndex,
+	};
+
+	return (
+		<Admin {...adminProps}>
+			{children || (
+				<AdminBodyFactory kind={kind} {...bodyProps} />
+			)}
+		</Admin>
+	);
 };
 
 AdminFactory.displayName = 'AdminFactory';

@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import clsx from 'clsx';
+import { Button } from '../Button';
 import Settings from './Settings';
 import styles from './Settings.module.scss';
 import {
@@ -153,12 +154,13 @@ const UnifiedSettings = forwardRef<
 			};
 
 			return (
-				<button
+				<Button
 					key={item.id}
 					onClick={handleClick}
 					className={itemClasses}
 					aria-label={`${ariaLabelPrefix} ${item.name}`}
 					disabled={isLocked && !onLockedClick}
+					kind='ghost'
 				>
 					{/* Render preview based on type */}
 					{isTheme && (
@@ -250,7 +252,7 @@ const UnifiedSettings = forwardRef<
 							{item.price} {item.currency}
 						</span>
 					)}
-				</button>
+				</Button>
 			);
 		};
 

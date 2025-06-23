@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '../../components/Button';
 import {
 	UnifiedSidebar,
 	SidebarFactory,
@@ -177,12 +178,13 @@ const InteractiveTemplate = (args: any) => {
 		<div
 			style={{ minHeight: '400px', position: 'relative' }}
 		>
-			<button
+			<Button
+				kind='secondary'
 				onClick={() => setIsOpen(true)}
 				style={{ margin: '20px' }}
 			>
 				Open {args.kind} Sidebar
-			</button>
+			</Button>
 
 			<UnifiedSidebar
 				{...args}
@@ -406,20 +408,30 @@ export const FactoryExamples: Story = {
 						marginBottom: '20px',
 					}}
 				>
-					<button
+					<Button
+						kind='secondary'
 						onClick={() => toggleSidebar('ultra-dry')}
 					>
 						Ultra-DRY: S('friends')
-					</button>
-					<button onClick={() => toggleSidebar('factory')}>
+					</Button>
+					<Button
+						kind='secondary'
+						onClick={() => toggleSidebar('factory')}
+					>
 						Factory: SidebarFactory.create()
-					</button>
-					<button onClick={() => toggleSidebar('preset')}>
+					</Button>
+					<Button
+						kind='secondary'
+						onClick={() => toggleSidebar('preset')}
+					>
 						Preset: SidebarPresets.Friends()
-					</button>
-					<button onClick={() => toggleSidebar('legacy')}>
+					</Button>
+					<Button
+						kind='secondary'
+						onClick={() => toggleSidebar('legacy')}
+					>
 						Legacy: FriendsSidebar
-					</button>
+					</Button>
 				</div>
 
 				{/* Ultra-DRY example */}
@@ -520,7 +532,8 @@ export const WithCustomContent: Story = {
 					borderTop: '1px solid #e2e8f0',
 				}}
 			>
-				<button
+				<Button
+					kind='primary'
 					style={{
 						width: '100%',
 						padding: '8px',
@@ -531,7 +544,7 @@ export const WithCustomContent: Story = {
 					}}
 				>
 					Custom Footer Button
-				</button>
+				</Button>
 			</div>
 		),
 		children: (
@@ -624,12 +637,13 @@ export const LegacyFriendsSidebar: Story = {
 			<div
 				style={{ minHeight: '400px', position: 'relative' }}
 			>
-				<button
+				<Button
+					kind='secondary'
 					onClick={() => setIsOpen(true)}
 					style={{ margin: '20px' }}
 				>
 					Open Legacy FriendsSidebar
-				</button>
+				</Button>
 
 				<FriendsSidebar
 					open={isOpen}
@@ -721,15 +735,24 @@ export const LegacyVsDRYSystemComparison: Story = {
 						marginBottom: '20px',
 					}}
 				>
-					<button onClick={() => setLegacyOpen(true)}>
+					<Button
+						kind='secondary'
+						onClick={() => setLegacyOpen(true)}
+					>
 						Legacy FriendsSidebar
-					</button>
-					<button onClick={() => setDryOpen(true)}>
+					</Button>
+					<Button
+						kind='secondary'
+						onClick={() => setDryOpen(true)}
+					>
 						UnifiedSidebar (DRY)
-					</button>
-					<button onClick={() => setUltraDryOpen(true)}>
+					</Button>
+					<Button
+						kind='secondary'
+						onClick={() => setUltraDryOpen(true)}
+					>
 						S() Ultra-DRY
-					</button>
+					</Button>
 				</div>
 
 				{/* Legacy FriendsSidebar */}

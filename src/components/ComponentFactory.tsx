@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import UnifiedButton from './Button/UnifiedButton';
+import { Button } from './Button';
 import { ExtendedButtonKind } from './Button/configurations';
 import FormFieldFactory from './FormField/factory';
 import { ExtendedFormFieldKind } from './FormField/configurations';
@@ -140,13 +140,13 @@ export const ComponentFactory = forwardRef<
 	switch (config.type) {
 		case 'button': {
 			return (
-				<UnifiedButton
+				<Button
 					ref={ref}
 					kind={config.component as ExtendedButtonKind}
 					{...props}
 				>
 					{children}
-				</UnifiedButton>
+				</Button>
 			);
 		}
 

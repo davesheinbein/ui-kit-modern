@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '../../components/Button';
 import {
 	UnifiedWrapper,
 	WrapperFactory,
@@ -604,7 +605,9 @@ export const WithComplexContent: Story = {
 					<li>List item 2</li>
 					<li>List item 3</li>
 				</ul>
-				<button>A button inside the wrapper</button>
+				<Button kind='primary'>
+					A button inside the wrapper
+				</Button>
 			</div>
 		),
 	},

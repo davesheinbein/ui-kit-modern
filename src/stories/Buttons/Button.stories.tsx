@@ -1,15 +1,15 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
-	UnifiedButton,
+	Button,
 	ButtonFactory,
 	B,
 } from '../../components/Button';
-import type { UnifiedButtonProps } from '../../components/Button';
+import type { ButtonProps } from '../../components/Button';
 
-const meta: Meta<typeof UnifiedButton> = {
+const meta: Meta<typeof Button> = {
 	title: 'Buttons/Button',
-	component: UnifiedButton,
+	component: Button,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -123,7 +123,7 @@ const meta: Meta<typeof UnifiedButton> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedButton>;
+type Story = StoryObj<typeof Button>;
 
 // Basic button variants
 export const Primary: Story = {
@@ -311,28 +311,12 @@ export const IconButtonVariations: Story = {
 				flexWrap: 'wrap',
 			}}
 		>
-			<UnifiedButton
-				kind='icon'
-				icon='⚙️'
-				label='Settings'
-			/>
-			<UnifiedButton
-				kind='icon'
-				icon='🔔'
-				label='Notifications'
-			/>
-			<UnifiedButton
-				kind='icon'
-				icon='👤'
-				label='Profile'
-			/>
-			<UnifiedButton kind='icon' icon='🏠' label='Home' />
-			<UnifiedButton
-				kind='icon'
-				icon='❤️'
-				label='Favorites'
-			/>
-			<UnifiedButton kind='icon' icon='🔍' label='Search' />
+			<Button kind='icon' icon='⚙️' label='Settings' />
+			<Button kind='icon' icon='🔔' label='Notifications' />
+			<Button kind='icon' icon='👤' label='Profile' />
+			<Button kind='icon' icon='🏠' label='Home' />
+			<Button kind='icon' icon='❤️' label='Favorites' />
+			<Button kind='icon' icon='🔍' label='Search' />
 		</div>
 	),
 	parameters: {
@@ -433,28 +417,28 @@ export const WordButtonAllStates: Story = {
 				maxWidth: '600px',
 			}}
 		>
-			<UnifiedButton
+			<Button
 				kind='word'
 				text='Default'
 				isSelected={false}
 				isLocked={false}
 				onClick={() => {}}
 			/>
-			<UnifiedButton
+			<Button
 				kind='word'
 				text='Selected'
 				isSelected={true}
 				isLocked={false}
 				onClick={() => {}}
 			/>
-			<UnifiedButton
+			<Button
 				kind='word'
 				text='Locked'
 				isSelected={false}
 				isLocked={true}
 				onClick={() => {}}
 			/>
-			<UnifiedButton
+			<Button
 				kind='word'
 				text='Suspect'
 				isSelected={false}
@@ -462,7 +446,7 @@ export const WordButtonAllStates: Story = {
 				burnSuspect={true}
 				onClick={() => {}}
 			/>
-			<UnifiedButton
+			<Button
 				kind='word'
 				text='Burned'
 				isSelected={false}
@@ -470,7 +454,7 @@ export const WordButtonAllStates: Story = {
 				isBurned={true}
 				onClick={() => {}}
 			/>
-			<UnifiedButton
+			<Button
 				kind='word'
 				text='Sel+Susp'
 				isSelected={true}
@@ -554,21 +538,9 @@ export const ButtonSizes: Story = {
 				alignItems: 'center',
 			}}
 		>
-			<UnifiedButton
-				kind='primary'
-				text='Small'
-				size='small'
-			/>
-			<UnifiedButton
-				kind='primary'
-				text='Medium'
-				size='medium'
-			/>
-			<UnifiedButton
-				kind='primary'
-				text='Large'
-				size='large'
-			/>
+			<Button kind='primary' text='Small' size='small' />
+			<Button kind='primary' text='Medium' size='medium' />
+			<Button kind='primary' text='Large' size='large' />
 		</div>
 	),
 	parameters: {
@@ -590,18 +562,18 @@ export const ButtonStates: Story = {
 				flexWrap: 'wrap',
 			}}
 		>
-			<UnifiedButton kind='primary' text='Normal' />
-			<UnifiedButton
+			<Button kind='primary' text='Normal' />
+			<Button
 				kind='primary'
 				text='Loading'
 				loading={true}
 			/>
-			<UnifiedButton
+			<Button
 				kind='primary'
 				text='Disabled'
 				disabled={true}
 			/>
-			<UnifiedButton
+			<Button
 				kind='primary'
 				text='Full Width'
 				fullWidth={true}
@@ -758,7 +730,7 @@ export const AllButtonKinds: Story = {
 				}}
 			>
 				{buttonKinds.map((kind) => (
-					<UnifiedButton
+					<Button
 						key={kind}
 						kind={kind as any}
 						text={kind.replace('-', ' ')}
@@ -780,7 +752,7 @@ export const AllButtonKinds: Story = {
 		docs: {
 			description: {
 				story:
-					'Showcase of all available button kinds in the UnifiedButton system.',
+					'Showcase of all available button kinds in the Button system.',
 			},
 		},
 	},

@@ -123,7 +123,6 @@ export type {
 
 // Enhanced Button System - All button types via single component
 export {
-	UnifiedButton,
 	Button,
 	ButtonFactory,
 	B,
@@ -134,7 +133,6 @@ export {
 } from './components/Button';
 export type {
 	ButtonKind,
-	UnifiedButtonProps,
 	ButtonProps,
 	ExtendedButtonKind,
 	ButtonConfiguration,
@@ -347,7 +345,6 @@ export {
 	A,
 	AdminPresets,
 	createAdmin,
-	UnifiedAdmin,
 	Admin,
 	AdminBodyFactory,
 	ADMIN_CONFIGURATIONS,
@@ -356,7 +353,6 @@ export type {
 	AdminKind,
 	AdminConfiguration,
 	AdminProps,
-	UnifiedAdminProps,
 	AdminBodyFactoryProps,
 } from './components/Admin';
 

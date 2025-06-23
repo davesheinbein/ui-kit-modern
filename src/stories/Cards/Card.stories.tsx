@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '../../components/Button';
 import {
 	UnifiedCard,
 	CardFactory,
@@ -509,7 +510,8 @@ export const GameCard: Story = {
 					marginTop: '1rem',
 				}}
 			>
-				<button
+				<Button
+					kind='primary'
 					style={{
 						padding: '0.5rem 1rem',
 						backgroundColor: '#007bff',
@@ -521,8 +523,9 @@ export const GameCard: Story = {
 					}}
 				>
 					Start Challenge
-				</button>
-				<button
+				</Button>
+				<Button
+					kind='secondary'
 					style={{
 						padding: '0.5rem 1rem',
 						backgroundColor: 'transparent',
@@ -533,7 +536,7 @@ export const GameCard: Story = {
 					}}
 				>
 					View Rules
-				</button>
+				</Button>
 			</div>
 		),
 	},
@@ -723,7 +726,8 @@ export const MatchSummaryCard: Story = {
 					marginTop: '1rem',
 				}}
 			>
-				<button
+				<Button
+					kind='primary'
 					style={{
 						padding: '0.5rem 1rem',
 						backgroundColor: '#007bff',
@@ -735,8 +739,9 @@ export const MatchSummaryCard: Story = {
 					}}
 				>
 					Play Again
-				</button>
-				<button
+				</Button>
+				<Button
+					kind='primary'
 					style={{
 						padding: '0.5rem 1rem',
 						backgroundColor: '#28a745',
@@ -747,7 +752,7 @@ export const MatchSummaryCard: Story = {
 					}}
 				>
 					Share
-				</button>
+				</Button>
 			</div>
 		),
 	},
@@ -822,7 +827,8 @@ export const RoomInfoCard: Story = {
 					marginTop: '1rem',
 				}}
 			>
-				<button
+				<Button
+					kind='primary'
 					style={{
 						padding: '0.5rem 1rem',
 						backgroundColor: '#28a745',
@@ -835,8 +841,9 @@ export const RoomInfoCard: Story = {
 					}}
 				>
 					Ready Up
-				</button>
-				<button
+				</Button>
+				<Button
+					kind='danger'
 					style={{
 						padding: '0.5rem 1rem',
 						backgroundColor: '#dc3545',
@@ -847,7 +854,7 @@ export const RoomInfoCard: Story = {
 					}}
 				>
 					Leave
-				</button>
+				</Button>
 			</div>
 		),
 	},
@@ -910,7 +917,8 @@ export const ChatPreviewCard: Story = {
 		),
 		actions: (
 			<div style={{ display: 'flex', gap: '0.5rem' }}>
-				<button
+				<Button
+					kind='primary'
 					style={{
 						padding: '0.375rem 0.75rem',
 						backgroundColor: '#007bff',
@@ -923,8 +931,9 @@ export const ChatPreviewCard: Story = {
 					}}
 				>
 					Open Chat
-				</button>
-				<button
+				</Button>
+				<Button
+					kind='secondary'
 					style={{
 						padding: '0.375rem 0.75rem',
 						backgroundColor: 'transparent',
@@ -936,7 +945,7 @@ export const ChatPreviewCard: Story = {
 					}}
 				>
 					Mute
-				</button>
+				</Button>
 			</div>
 		),
 	},
@@ -989,7 +998,8 @@ export const ActionCard: Story = {
 					justifyContent: 'flex-end',
 				}}
 			>
-				<button
+				<Button
+					kind='secondary'
 					style={{
 						padding: '0.5rem 1rem',
 						backgroundColor: 'transparent',
@@ -1000,8 +1010,9 @@ export const ActionCard: Story = {
 					}}
 				>
 					Cancel
-				</button>
-				<button
+				</Button>
+				<Button
+					kind='primary'
 					style={{
 						padding: '0.5rem 1rem',
 						backgroundColor: '#007bff',
@@ -1012,7 +1023,7 @@ export const ActionCard: Story = {
 					}}
 				>
 					Confirm
-				</button>
+				</Button>
 			</div>
 		),
 	},

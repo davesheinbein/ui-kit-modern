@@ -20,6 +20,7 @@ import {
 	selectMediaState,
 } from '../../store/slices/uiSlice';
 import type { RootState } from '../../store';
+import { Button } from '../Button';
 import styles from './Media.module.scss';
 
 export interface UnifiedMediaProps {
@@ -343,7 +344,8 @@ const UnifiedMedia = forwardRef<
 				{finalConfig.showOverlay &&
 					!finalConfig.controls && (
 						<div className={styles.media__overlay}>
-							<button
+							<Button
+								kind='icon'
 								className={styles.media__play_button}
 								onClick={() => {
 									const video =
@@ -357,9 +359,8 @@ const UnifiedMedia = forwardRef<
 									}
 								}}
 								aria-label='Play/Pause video'
-							>
-								▶️
-							</button>
+								icon='▶️'
+							/>
 						</div>
 					)}
 			</div>
@@ -501,8 +502,9 @@ const UnifiedMedia = forwardRef<
 			return (
 				<div className={styles.media__actions}>
 					{finalConfig.actions.map((action) => (
-						<button
+						<Button
 							key={action.id}
+							kind={action.variant || 'secondary'}
 							onClick={action.onClick}
 							disabled={action.disabled}
 							className={[
@@ -512,16 +514,12 @@ const UnifiedMedia = forwardRef<
 								],
 							].join(' ')}
 							aria-label={action.label}
+							icon={action.icon}
 						>
-							{action.icon && (
-								<span className={styles.media__action_icon}>
-									{action.icon}
-								</span>
-							)}
 							<span className={styles.media__action_label}>
 								{action.label}
 							</span>
-						</button>
+						</Button>
 					))}
 				</div>
 			);

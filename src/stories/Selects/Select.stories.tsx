@@ -3,7 +3,7 @@ import { SelectFactory } from '../../components/Selects';
 import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof SelectFactory> = {
-	title: 'Select',
+	title: 'Selects/Select',
 	component: SelectFactory,
 	decorators: commonDecorators,
 	parameters: {

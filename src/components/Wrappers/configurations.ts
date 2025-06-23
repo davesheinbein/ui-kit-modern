@@ -223,7 +223,7 @@ const buttonWrapper: WrapperConfiguration = {
 	variant: 'backward-compatibility',
 	layout: 'passthrough',
 	targetComponent: 'Button',
-	unifiedComponent: 'UnifiedButton',
+	unifiedComponent: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
@@ -231,7 +231,7 @@ const buttonWrapper: WrapperConfiguration = {
 	description:
 		'Backward compatibility wrapper for Button component',
 	migrationPath:
-		'Use UnifiedButton directly or ButtonFactory for new code',
+		'Use Button directly or ButtonFactory for new code',
 };
 
 const headerWrapper: WrapperConfiguration = {
@@ -359,14 +359,14 @@ const adminWrapper: WrapperConfiguration = {
 	variant: 'backward-compatibility',
 	layout: 'passthrough',
 	targetComponent: 'Admin',
-	unifiedComponent: 'UnifiedAdmin',
+	unifiedComponent: 'Admin',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Backward compatibility wrapper for Admin component',
 	migrationPath:
-		'Use UnifiedAdmin or AdminFactory for new features',
+		'Use Admin or AdminFactory for new features',
 };
 
 const cardWrapper: WrapperConfiguration = {
@@ -493,13 +493,13 @@ const primaryButtonWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'PrimaryButton',
-	unifiedComponent: 'UnifiedButton',
+	unifiedComponent: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for PrimaryButton component',
 	migrationPath:
-		'Use UnifiedButton with kind="primary" or ButtonFactory.primary()',
+		'Use Button with kind="primary" or ButtonFactory.primary()',
 };
 
 const secondaryButtonWrapper: WrapperConfiguration = {
@@ -507,14 +507,14 @@ const secondaryButtonWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'SecondaryButton',
-	unifiedComponent: 'UnifiedButton',
+	unifiedComponent: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description:
 		'Legacy wrapper for SecondaryButton component',
 	migrationPath:
-		'Use UnifiedButton with kind="secondary" or ButtonFactory.secondary()',
+		'Use Button with kind="secondary" or ButtonFactory.secondary()',
 };
 
 const closeButtonWrapper: WrapperConfiguration = {
@@ -522,13 +522,13 @@ const closeButtonWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'CloseButton',
-	unifiedComponent: 'UnifiedButton',
+	unifiedComponent: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for CloseButton component',
 	migrationPath:
-		'Use UnifiedButton with kind="close" or ButtonFactory.close()',
+		'Use Button with kind="close" or ButtonFactory.close()',
 };
 
 const iconButtonWrapper: WrapperConfiguration = {
@@ -536,13 +536,13 @@ const iconButtonWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'IconButton',
-	unifiedComponent: 'UnifiedButton',
+	unifiedComponent: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for IconButton component',
 	migrationPath:
-		'Use UnifiedButton with kind="icon" or ButtonFactory.icon()',
+		'Use Button with kind="icon" or ButtonFactory.icon()',
 };
 
 const browseHeaderWrapper: WrapperConfiguration = {
@@ -668,14 +668,14 @@ const sessionDebuggerWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'SessionDebugger',
-	unifiedComponent: 'UnifiedAdmin',
+	unifiedComponent: 'Admin',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description:
 		'Backward Compatibility Wrapper for SessionDebugger',
 	migrationPath:
-		'Use UnifiedAdmin with kind="session-debugger" or AdminFactory.sessionDebugger()',
+		'Use Admin with kind="session-debugger" or AdminFactory.sessionDebugger()',
 };
 
 const darkModeToggleWrapper: WrapperConfiguration = {
@@ -683,14 +683,14 @@ const darkModeToggleWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'DarkModeToggle',
-	unifiedComponent: 'UnifiedButton',
+	unifiedComponent: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description:
 		'Legacy component wrapper for dark mode toggle functionality',
 	migrationPath:
-		'Use UnifiedButton with kind="dark-mode-toggle" or ButtonFactory.darkModeToggle()',
+		'Use Button with kind="dark-mode-toggle" or ButtonFactory.darkModeToggle()',
 };
 
 // Generic Wrappers

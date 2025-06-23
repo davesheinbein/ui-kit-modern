@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '../../components/Button';
 import {
 	UnifiedProvider,
 	ProviderFactory,
@@ -74,15 +75,17 @@ const SocketDemo: React.FC = () => {
 					gap: '0.5rem',
 				}}
 			>
-				<button
+				<Button
+					kind='primary'
 					onClick={() =>
 						emit('test-event', { message: 'Hello' })
 					}
 					disabled={!isConnected}
 				>
 					Send Test Event
-				</button>
-				<button
+				</Button>
+				<Button
+					kind='secondary'
 					onClick={() =>
 						on('test-response', (data: any) =>
 							console.log('Received:', data)
@@ -91,7 +94,7 @@ const SocketDemo: React.FC = () => {
 					disabled={!isConnected}
 				>
 					Listen for Response
-				</button>
+				</Button>
 			</div>
 		</div>
 	);
@@ -216,23 +219,16 @@ const ThemePaletteDemo: React.FC = () => {
 			<p>Current Theme: {currentTheme}</p>
 			<p>Palette Colors: {Object.keys(palette).length}</p>
 			<div style={{ marginTop: '1rem' }}>
-				<button
+				<Button
+					kind='primary'
 					onClick={() =>
 						setTheme(
 							currentTheme === 'light' ? 'dark' : 'light'
 						)
 					}
-					style={{
-						backgroundColor: '#007bff',
-						color: '#fff',
-						border: 'none',
-						padding: '0.5rem 1rem',
-						borderRadius: '4px',
-						cursor: 'pointer',
-					}}
 				>
 					Switch Theme
-				</button>
+				</Button>
 			</div>
 		</div>
 	);

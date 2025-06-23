@@ -33,6 +33,7 @@ import {
 	selectTableEditingCell,
 } from '../../store/slices/tableSlice';
 import type { RootState } from '../../store';
+import { Button } from '../Button';
 import styles from './Table.module.scss';
 
 export interface UnifiedTableProps {
@@ -724,7 +725,8 @@ const UnifiedTable = forwardRef<
 				)}
 				{config.expandable && (
 					<td className={styles.table__cell}>
-						<button
+						<Button
+							kind='ghost'
 							className={styles.table__expand_button}
 							onClick={(e) => {
 								e.stopPropagation();
@@ -732,7 +734,7 @@ const UnifiedTable = forwardRef<
 							}}
 						>
 							{isExpanded ? '−' : '+'}
-						</button>
+						</Button>
 					</td>
 				)}
 				{columns.map((column) => {

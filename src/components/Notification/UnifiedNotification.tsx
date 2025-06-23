@@ -5,6 +5,7 @@ import React, {
 	useId,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Button } from '../Button';
 import {
 	NotificationKind,
 	NotificationConfiguration,
@@ -358,13 +359,12 @@ const UnifiedNotification = forwardRef<
 			return null;
 
 		return (
-			<button
+			<Button
+				kind='close'
 				className={styles.notification__close}
 				onClick={handleHide}
 				aria-label='Close notification'
-			>
-				×
-			</button>
+			/>
 		);
 	};
 
@@ -373,18 +373,20 @@ const UnifiedNotification = forwardRef<
 		if (config.kind.includes('confirm')) {
 			return (
 				<div className={styles.notification__actions}>
-					<button
+					<Button
+						kind='secondary'
 						className={`${styles.notification__action} ${styles['notification__action--cancel']}`}
 						onClick={handleCancel}
 					>
 						{config.cancelText}
-					</button>
-					<button
+					</Button>
+					<Button
+						kind='primary'
 						className={`${styles.notification__action} ${styles['notification__action--confirm']}`}
 						onClick={handleConfirm}
 					>
 						{config.confirmText}
-					</button>
+					</Button>
 				</div>
 			);
 		}
@@ -395,8 +397,13 @@ const UnifiedNotification = forwardRef<
 		return (
 			<div className={styles.notification__actions}>
 				{config.actions.map((action, index) => (
-					<button
+					<Button
 						key={index}
+						kind={
+							action.variant === 'primary' ?
+								'primary'
+							:	'secondary'
+						}
 						className={`${styles.notification__action} ${
 							action.variant ?
 								styles[
@@ -408,7 +415,7 @@ const UnifiedNotification = forwardRef<
 						disabled={action.disabled}
 					>
 						{action.label}
-					</button>
+					</Button>
 				))}
 			</div>
 		);

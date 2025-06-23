@@ -18,6 +18,7 @@ import {
 	selectComponentState,
 } from '../../store/slices/uiSlice';
 import type { RootState } from '../../store';
+import { Button } from '../Button';
 import styles from './Utility.module.scss';
 
 export interface UnifiedUtilityProps {
@@ -308,13 +309,14 @@ const UnifiedUtility = forwardRef<
 					{finalConfig.label || children}
 				</span>
 				{finalConfig.dismissible && (
-					<button
+					<Button
+						kind='danger'
 						className={styles.utility__dismiss}
 						onClick={handleDismiss}
 						aria-label='Dismiss'
 					>
 						×
-					</button>
+					</Button>
 				)}
 			</>
 		);
@@ -324,8 +326,9 @@ const UnifiedUtility = forwardRef<
 			const stars = [];
 			for (let i = 1; i <= maxValue; i++) {
 				stars.push(
-					<button
+					<Button
 						key={i}
+						kind='ghost'
 						className={[
 							styles.utility__star,
 							i <= value && styles['utility__star--filled'],
@@ -341,7 +344,7 @@ const UnifiedUtility = forwardRef<
 						: kind === 'thumbs-rating' ?
 							'👍'
 						:	'★'}
-					</button>
+					</Button>
 				);
 			}
 			return stars;

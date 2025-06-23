@@ -6,6 +6,7 @@ import {
 	CardConfiguration,
 	createCardConfig,
 } from './configurations';
+import { Button } from '../Button';
 import styles from './Card.module.scss';
 import cardStyles from './Card.module.scss';
 import {
@@ -197,22 +198,29 @@ const UnifiedCard = forwardRef<
 					</div>
 					<div className={styles.friendCardActions}>
 						{onChallenge && (
-							<button
+							<Button
+								kind='primary'
 								onClick={() => onChallenge(friend.id)}
 							>
 								Challenge
-							</button>
+							</Button>
 						)}
 						{onMessage && (
-							<button onClick={() => onMessage(friend.id)}>
+							<Button
+								kind='secondary'
+								onClick={() => onMessage(friend.id)}
+							>
 								Message
 								{unreadCount > 0 ? ` (${unreadCount})` : ''}
-							</button>
+							</Button>
 						)}
 						{onRemove && (
-							<button onClick={() => onRemove(friend.id)}>
+							<Button
+								kind='danger'
+								onClick={() => onRemove(friend.id)}
+							>
 								Remove
-							</button>
+							</Button>
 						)}
 					</div>
 				</>

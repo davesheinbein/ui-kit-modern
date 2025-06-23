@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '../../components/Button';
 import { Footer } from '../../components/Footer';
 import type { FooterProps } from '../../components/Footer/Footer';
 
@@ -129,7 +130,8 @@ export const CustomContent: Story = {
 		),
 		centerContent: (
 			<div style={{ display: 'flex', gap: '1rem' }}>
-				<button
+				<Button
+					kind='ghost'
 					style={{
 						background: 'none',
 						border: 'none',
@@ -138,8 +140,9 @@ export const CustomContent: Story = {
 					}}
 				>
 					🌙
-				</button>
-				<button
+				</Button>
+				<Button
+					kind='ghost'
 					style={{
 						background: 'none',
 						border: 'none',
@@ -148,7 +151,7 @@ export const CustomContent: Story = {
 					}}
 				>
 					⚙️
-				</button>
+				</Button>
 			</div>
 		),
 		rightContent: (
