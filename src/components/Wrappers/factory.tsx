@@ -1,7 +1,5 @@
 import React from 'react';
-import UnifiedWrapper, {
-	UnifiedWrapperProps,
-} from './UnifiedWrapper';
+import Wrapper, { WrapperProps } from './Wrapper';
 import {
 	WrapperKind,
 	WrapperConfiguration,
@@ -11,7 +9,7 @@ import {
 } from './configurations';
 
 export interface WrapperFactoryProps
-	extends Omit<UnifiedWrapperProps, 'kind'> {
+	extends Omit<WrapperProps, 'kind'> {
 	kind: WrapperKind;
 	configuration?: Partial<WrapperConfiguration>;
 }
@@ -30,7 +28,7 @@ class WrapperFactory {
 	 * Create a wrapper with full configuration control
 	 */
 	static create(props: WrapperFactoryProps): JSX.Element {
-		return <UnifiedWrapper {...props} />;
+		return <Wrapper {...props} />;
 	}
 
 	// ========================================
@@ -43,9 +41,7 @@ class WrapperFactory {
 	static button(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='button-wrapper' {...props} />
-		);
+		return <Wrapper kind='button-wrapper' {...props} />;
 	}
 
 	/**
@@ -54,9 +50,7 @@ class WrapperFactory {
 	static header(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='header-wrapper' {...props} />
-		);
+		return <Wrapper kind='header-wrapper' {...props} />;
 	}
 
 	/**
@@ -65,9 +59,7 @@ class WrapperFactory {
 	static modal(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='modal-wrapper' {...props} />
-		);
+		return <Wrapper kind='modal-wrapper' {...props} />;
 	}
 
 	/**
@@ -76,9 +68,7 @@ class WrapperFactory {
 	static grid(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='grid-wrapper' {...props} />
-		);
+		return <Wrapper kind='grid-wrapper' {...props} />;
 	}
 
 	/**
@@ -87,9 +77,7 @@ class WrapperFactory {
 	static page(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='page-wrapper' {...props} />
-		);
+		return <Wrapper kind='page-wrapper' {...props} />;
 	}
 
 	/**
@@ -98,9 +86,7 @@ class WrapperFactory {
 	static graph(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='graph-wrapper' {...props} />
-		);
+		return <Wrapper kind='graph-wrapper' {...props} />;
 	}
 
 	/**
@@ -109,9 +95,7 @@ class WrapperFactory {
 	static sidebar(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='sidebar-wrapper' {...props} />
-		);
+		return <Wrapper kind='sidebar-wrapper' {...props} />;
 	}
 
 	/**
@@ -120,9 +104,7 @@ class WrapperFactory {
 	static settings(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='settings-wrapper' {...props} />
-		);
+		return <Wrapper kind='settings-wrapper' {...props} />;
 	}
 
 	/**
@@ -131,9 +113,7 @@ class WrapperFactory {
 	static theme(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='theme-wrapper' {...props} />
-		);
+		return <Wrapper kind='theme-wrapper' {...props} />;
 	}
 
 	/**
@@ -142,9 +122,7 @@ class WrapperFactory {
 	static admin(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='admin-wrapper' {...props} />
-		);
+		return <Wrapper kind='admin-wrapper' {...props} />;
 	}
 
 	/**
@@ -153,9 +131,7 @@ class WrapperFactory {
 	static card(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='card-wrapper' {...props} />
-		);
+		return <Wrapper kind='card-wrapper' {...props} />;
 	}
 
 	/**
@@ -164,9 +140,7 @@ class WrapperFactory {
 	static banner(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='banner-wrapper' {...props} />
-		);
+		return <Wrapper kind='banner-wrapper' {...props} />;
 	}
 
 	/**
@@ -175,9 +149,7 @@ class WrapperFactory {
 	static chat(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='chat-wrapper' {...props} />
-		);
+		return <Wrapper kind='chat-wrapper' {...props} />;
 	}
 
 	/**
@@ -186,9 +158,7 @@ class WrapperFactory {
 	static form(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='form-wrapper' {...props} />
-		);
+		return <Wrapper kind='form-wrapper' {...props} />;
 	}
 
 	// ========================================
@@ -202,10 +172,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='socket-provider-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='socket-provider-wrapper' {...props} />
 		);
 	}
 
@@ -216,7 +183,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
+			<Wrapper
 				kind='user-settings-provider-wrapper'
 				{...props}
 			/>
@@ -230,7 +197,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
+			<Wrapper
 				kind='theme-palette-provider-wrapper'
 				{...props}
 			/>
@@ -244,7 +211,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
+			<Wrapper
 				kind='achievement-socket-listener-wrapper'
 				{...props}
 			/>
@@ -262,10 +229,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='primary-button-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='primary-button-wrapper' {...props} />
 		);
 	}
 
@@ -276,10 +240,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='secondary-button-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='secondary-button-wrapper' {...props} />
 		);
 	}
 
@@ -290,10 +251,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='close-button-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='close-button-wrapper' {...props} />
 		);
 	}
 
@@ -304,10 +262,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='icon-button-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='icon-button-wrapper' {...props} />
 		);
 	}
 
@@ -318,10 +273,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='browse-header-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='browse-header-wrapper' {...props} />
 		);
 	}
 
@@ -332,10 +284,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='modal-header-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='modal-header-wrapper' {...props} />
 		);
 	}
 
@@ -345,9 +294,7 @@ class WrapperFactory {
 	static vsGrid(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='vs-grid-wrapper' {...props} />
-		);
+		return <Wrapper kind='vs-grid-wrapper' {...props} />;
 	}
 
 	/**
@@ -357,10 +304,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='startup-page-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='startup-page-wrapper' {...props} />
 		);
 	}
 
@@ -371,7 +315,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
+			<Wrapper
 				kind='customization-category-wrapper'
 				{...props}
 			/>
@@ -385,10 +329,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='settings-panel-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='settings-panel-wrapper' {...props} />
 		);
 	}
 
@@ -399,10 +340,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='theme-selector-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='theme-selector-wrapper' {...props} />
 		);
 	}
 
@@ -413,10 +351,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='friends-sidebar-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='friends-sidebar-wrapper' {...props} />
 		);
 	}
 
@@ -427,10 +362,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='session-debugger-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='session-debugger-wrapper' {...props} />
 		);
 	}
 
@@ -441,10 +373,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
-				kind='dark-mode-toggle-wrapper'
-				{...props}
-			/>
+			<Wrapper kind='dark-mode-toggle-wrapper' {...props} />
 		);
 	}
 
@@ -458,7 +387,7 @@ class WrapperFactory {
 	static component(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return <UnifiedWrapper kind='component' {...props} />;
+		return <Wrapper kind='component' {...props} />;
 	}
 
 	/**
@@ -467,7 +396,7 @@ class WrapperFactory {
 	static provider(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return <UnifiedWrapper kind='provider' {...props} />;
+		return <Wrapper kind='provider' {...props} />;
 	}
 
 	// ========================================
@@ -480,9 +409,7 @@ class WrapperFactory {
 	static flexContainer(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='flex-container' {...props} />
-		);
+		return <Wrapper kind='flex-container' {...props} />;
 	}
 
 	/**
@@ -491,9 +418,7 @@ class WrapperFactory {
 	static gridContainer(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='grid-container' {...props} />
-		);
+		return <Wrapper kind='grid-container' {...props} />;
 	}
 
 	/**
@@ -502,9 +427,7 @@ class WrapperFactory {
 	static centerContainer(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='center-container' {...props} />
-		);
+		return <Wrapper kind='center-container' {...props} />;
 	}
 
 	/**
@@ -513,9 +436,7 @@ class WrapperFactory {
 	static stackContainer(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='stack-container' {...props} />
-		);
+		return <Wrapper kind='stack-container' {...props} />;
 	}
 
 	/**
@@ -525,7 +446,7 @@ class WrapperFactory {
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
 		return (
-			<UnifiedWrapper
+			<Wrapper
 				kind='backward-compatibility-wrapper'
 				{...props}
 			/>
@@ -538,9 +459,7 @@ class WrapperFactory {
 	static legacy(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='legacy-wrapper' {...props} />
-		);
+		return <Wrapper kind='legacy-wrapper' {...props} />;
 	}
 
 	/**
@@ -549,9 +468,7 @@ class WrapperFactory {
 	static simple(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='simple-wrapper' {...props} />
-		);
+		return <Wrapper kind='simple-wrapper' {...props} />;
 	}
 
 	/**
@@ -560,9 +477,7 @@ class WrapperFactory {
 	static enhanced(
 		props: Omit<WrapperFactoryProps, 'kind'>
 	): JSX.Element {
-		return (
-			<UnifiedWrapper kind='enhanced-wrapper' {...props} />
-		);
+		return <Wrapper kind='enhanced-wrapper' {...props} />;
 	}
 
 	// ========================================
@@ -589,7 +504,7 @@ class WrapperFactory {
 				'kind' | 'configuration'
 			>
 		) => (
-			<UnifiedWrapper
+			<Wrapper
 				kind={kind}
 				configuration={config}
 				{...props}
@@ -688,7 +603,7 @@ class WrapperBuilder {
 				'kind' | 'configuration'
 			>
 		) => (
-			<UnifiedWrapper
+			<Wrapper
 				kind={this.kind}
 				configuration={this.config}
 				{...props}
@@ -857,7 +772,7 @@ export function createWrapper(
 	kind: WrapperKind,
 	props: Omit<WrapperFactoryProps, 'kind'> = {}
 ): JSX.Element {
-	return <UnifiedWrapper kind={kind} {...props} />;
+	return <Wrapper kind={kind} {...props} />;
 }
 
 /**
@@ -872,7 +787,7 @@ export function createWrapperWithConfig(
 	> = {}
 ): JSX.Element {
 	return (
-		<UnifiedWrapper
+		<Wrapper
 			kind={kind}
 			configuration={config}
 			{...props}

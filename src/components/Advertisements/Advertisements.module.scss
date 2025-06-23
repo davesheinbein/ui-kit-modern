@@ -1,6 +1,10 @@
 /* Advertisements.module.scss - Modern Advertisement Components */
 
+@import '../../styles/mixins.scss';
+
 .advertisement {
+	@include container-base;
+	@include surface-base;
 	position: relative;
 	box-sizing: border-box;
 	font-family: var(
@@ -11,7 +15,9 @@
 		'Roboto',
 		sans-serif
 	);
-	transition: all 0.3s ease;
+	@include smooth-transition(all);
+	overflow: hidden; // Prevent content overflow
+	contain: layout style paint; // CSS containment for performance
 
 	&--animated {
 		animation-duration: 0.3s;
@@ -25,124 +31,130 @@
 	&--loading {
 		opacity: 0.7;
 		pointer-events: none;
+		@include loading-state;
 	}
 
 	&--error {
-		background-color: #fee;
-		border: 1px solid #fcc;
-		color: #c33;
+		@include error-state;
+		background-color: var(--color-danger-light, #fee);
+		border: 1px solid var(--color-danger, #fcc);
+		color: var(--color-danger, #c33);
 	}
 
 	// ===== Advertisement Types =====
 
 	&--banner {
-		display: flex;
-		align-items: center;
-		padding: 12px 16px;
+		@include flex-row(var(--spacing-4), center);
+		@include spacing-padding(lg);
+		@include surface-elevated;
 		background: linear-gradient(
 			135deg,
-			#f8f9fa 0%,
-			#e9ecef 100%
+			var(--color-surface, #f8f9fa) 0%,
+			var(--color-surface-alt, #e9ecef) 100%
 		);
-		border: 1px solid #dee2e6;
-		border-radius: 8px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		border: 1px solid var(--color-border, #dee2e6);
+		border-radius: var(--radius-lg, 8px);
+		box-shadow: var(--shadow-md);
+		padding: var(--spacing-5) var(--spacing-6);
+		min-height: 80px;
+		gap: var(--spacing-4);
 	}
 
 	&--interstitial {
+		@include modal-overlay;
+		@include flex-center;
 		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100vw;
 		height: 100vh;
 		z-index: 9999;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		padding: var(--spacing-6);
 	}
 
 	&--rewarded-modal {
+		@include modal-overlay;
+		@include flex-center;
 		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100vw;
 		height: 100vh;
 		z-index: 9999;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		padding: var(--spacing-6);
 	}
 
 	&--native-card {
-		background: #fff;
-		border: 1px solid #e1e5e9;
-		border-radius: 12px;
-		padding: 16px;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-		transition: box-shadow 0.2s ease;
-
-		&:hover {
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		}
+		@include card(var(--spacing-5));
+		@include surface-elevated-hover;
+		background: var(--color-surface, #fff);
+		border: 1px solid var(--color-border, #e1e5e9);
+		border-radius: var(--radius-xl, 12px);
+		@include smooth-transition(box-shadow);
+		padding: var(--spacing-5);
+		margin: var(--spacing-3) 0;
+		gap: var(--spacing-3);
 	}
 
 	&--sticky-bar {
+		@include flex-between;
+		@include spacing-padding(md);
 		position: fixed;
 		left: 0;
 		right: 0;
-		background: #343a40;
-		color: white;
-		padding: 12px 16px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+		background: var(--color-gray-800, #343a40);
+		color: var(--color-white, white);
+		box-shadow: var(--shadow-lg);
 		z-index: 1000;
+		padding: var(--spacing-3) var(--spacing-4);
+		gap: var(--spacing-3);
 	}
-
 	&--floating-widget {
+		@include surface-elevated;
 		position: fixed;
-		background: #fff;
-		border-radius: 12px;
-		padding: 12px;
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+		background: var(--color-surface, #fff);
+		border-radius: var(--radius-xl, 12px);
+		padding: var(--spacing-4) var(--spacing-5);
+		box-shadow: var(--shadow-xl);
 		z-index: 1000;
-		max-width: 250px;
+		@include contained-width(100%, 280px);
+		gap: var(--spacing-3);
 	}
 
 	&--toast-notification {
+		@include flex-between;
+		@include spacing-padding(md);
 		position: fixed;
-		background: #28a745;
-		color: white;
-		padding: 12px 16px;
-		border-radius: 8px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		min-width: 300px;
+		background: var(--color-success, #28a745);
+		color: var(--color-white, white);
+		border-radius: var(--radius-lg, 8px);
+		box-shadow: var(--shadow-lg);
+		padding: var(--spacing-3) var(--spacing-4);
+		min-width: 280px;
+		max-width: 400px;
+		gap: var(--spacing-3);
+		@include contained-width(300px);
 		z-index: 1000;
 	}
 
 	&--exit-intent-modal {
+		@include modal-overlay;
+		@include flex-center;
 		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100vw;
 		height: 100vh;
 		z-index: 9999;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 	}
 
 	&--ingame-billboard {
 		position: relative;
-		background: #000;
-		border-radius: 8px;
+		background: var(--color-black, #000);
+		border-radius: var(--radius-lg, 8px);
 		overflow: hidden;
 		cursor: pointer;
-		transition: transform 0.2s ease;
+		@include smooth-transition(transform);
 
 		&:hover {
 			transform: scale(1.02);
@@ -152,18 +164,24 @@
 	// ===== Sizes =====
 
 	&--small {
-		font-size: 14px;
-		padding: 8px 12px;
+		font-size: var(--text-sm, 14px);
+		padding: var(--spacing-3) var(--spacing-4);
+		gap: var(--spacing-2);
+		min-height: 60px;
 	}
 
 	&--medium {
-		font-size: 16px;
-		padding: 12px 16px;
+		font-size: var(--text-base, 16px);
+		padding: var(--spacing-4) var(--spacing-5);
+		gap: var(--spacing-3);
+		min-height: 80px;
 	}
 
 	&--large {
-		font-size: 18px;
-		padding: 16px 24px;
+		font-size: var(--text-lg, 18px);
+		padding: var(--spacing-5) var(--spacing-6);
+		gap: var(--spacing-4);
+		min-height: 100px;
 	}
 
 	&--banner {
@@ -171,42 +189,39 @@
 	}
 
 	&--leaderboard {
-		width: 728px;
-		height: 90px;
+		@include contained-size(728px, 90px);
 	}
 
 	&--rectangle {
-		width: 300px;
-		height: 250px;
+		@include contained-size(300px, 250px);
 	}
 
 	&--fullscreen {
-		width: 100vw;
-		height: 100vh;
+		@include full-viewport;
 	}
 
 	// ===== Variants =====
 
 	&--standard {
-		background: #f8f9fa;
-		border: 1px solid #dee2e6;
-		color: #495057;
+		background: var(--color-surface-alt, #f8f9fa);
+		border: 1px solid var(--color-border, #dee2e6);
+		color: var(--color-text-primary, #495057);
 	}
 
 	&--premium {
 		background: linear-gradient(
 			135deg,
-			#667eea 0%,
-			#764ba2 100%
+			var(--color-primary, #667eea) 0%,
+			var(--color-accent, #764ba2) 100%
 		);
-		color: white;
+		color: var(--color-white, white);
 		border: none;
 	}
 
 	&--sponsored {
-		background: #fff3cd;
-		border: 1px solid #ffeaa7;
-		color: #856404;
+		background: var(--color-warning-light, #fff3cd);
+		border: 1px solid var(--color-warning, #ffeaa7);
+		color: var(--color-warning-text, #856404);
 	}
 
 	&--native {
@@ -215,36 +230,40 @@
 	}
 
 	&--video {
-		background: #000;
-		color: white;
+		background: var(--color-black, #000);
+		color: var(--color-white, white);
 	}
 
 	&--interactive {
 		background: linear-gradient(
 			135deg,
-			#74b9ff 0%,
-			#0984e3 100%
+			var(--color-info, #74b9ff) 0%,
+			var(--color-primary, #0984e3) 100%
 		);
-		color: white;
+		color: var(--color-white, white);
 	}
 
 	&--minimal {
 		background: transparent;
-		border: 1px solid #e9ecef;
-		color: #6c757d;
+		border: 1px solid var(--color-border-subtle, #e9ecef);
+		color: var(--color-text-muted, #6c757d);
 	}
 
 	&--branded {
-		background: var(--brand-primary, #007bff);
-		color: white;
+		background: var(
+			--brand-primary,
+			var(--color-primary, #007bff)
+		);
+		color: var(--color-white, white);
 	}
 }
 
 // ===== Ad Slot (for provider content) =====
 
 .advertisement__slot {
-	width: 100%;
+	@include full-width;
 	min-height: 1px; // Ensures the slot is always present
+	@include container-contained; // Prevent overflow
 
 	// Hide when no content is loaded
 	&:empty {
@@ -273,46 +292,44 @@
 // ===== Advertisement Elements =====
 
 .advertisement__loading {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 20px;
-	color: #6c757d;
-	font-size: 14px;
+	@include flex-center;
+	@include spacing-padding(lg);
+	color: var(--color-text-muted, #6c757d);
+	font-size: var(--text-sm, 14px);
 }
 
 .advertisement__modal {
+	@include modal-overlay;
+	@include flex-center;
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
 	z-index: 9999;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 
 .advertisement__backdrop {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.8);
+	@include full-viewport;
+	background: rgba(0, 0, 0, var(--backdrop-opacity, 0.8));
 	backdrop-filter: blur(4px);
 }
 
 .advertisement__modal_content {
+	@include modal-content;
 	position: relative;
-	background: white;
-	border-radius: 12px;
-	padding: 24px;
-	max-width: 500px;
+	background: var(--color-surface, white);
+	border-radius: var(--radius-xl, 12px);
+	padding: var(--spacing-8) var(--spacing-6);
+	@include contained-size(100%, 500px);
 	max-height: 80vh;
-	overflow-y: auto;
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+	@include overflow-auto;
+	box-shadow: var(--shadow-xl);
 	animation: modalAppear 0.3s ease;
+	margin: var(--spacing-6);
 }
 
 @keyframes modalAppear {
@@ -327,76 +344,73 @@
 }
 
 .advertisement__close {
+	@include interactive-element;
 	position: absolute;
-	top: 12px;
-	right: 12px;
+	top: var(--spacing-4);
+	right: var(--spacing-4);
 	background: rgba(0, 0, 0, 0.5);
-	color: white;
+	color: var(--color-white, white);
 	border: none;
 	border-radius: 50%;
-	width: 32px;
-	height: 32px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include contained-size(36px);
+	@include flex-center;
 	cursor: pointer;
 	font-size: 18px;
 	line-height: 1;
-	transition: background-color 0.2s ease;
+	@include smooth-transition(background-color);
 
 	&:hover {
 		background: rgba(0, 0, 0, 0.7);
+		transform: scale(1.05);
 	}
 }
 
 .advertisement__close_button {
-	background: #6c757d;
-	color: white;
+	@include interactive-element;
+	background: var(--color-gray-600, #6c757d);
+	color: var(--color-white, white);
 	border: none;
-	border-radius: 6px;
-	padding: 10px 20px;
-	font-size: 14px;
+	border-radius: var(--radius-md, 6px);
+	padding: var(--spacing-3) var(--spacing-5);
+	font-size: var(--text-sm, 14px);
+	font-weight: 500;
 	cursor: pointer;
-	transition: background-color 0.2s ease;
+	@include smooth-transition(background-color);
+	margin-top: var(--spacing-4);
 
 	&:hover {
-		background: #5a6268;
+		background: var(--color-gray-700, #5a6268);
 	}
 }
 
 .advertisement__banner {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-	width: 100%;
+	@include flex-row(var(--spacing-4), center);
+	@include full-width;
 }
 
 .advertisement__native {
 	position: relative;
+	@include container-contained;
 }
 
 .advertisement__sticky {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 100%;
+	@include flex-between;
+	@include full-width;
 }
 
 .advertisement__floating {
 	position: relative;
+	@include container-contained;
 }
 
 .advertisement__toast {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
+	@include flex-between;
+	gap: var(--spacing-3, 12px);
 }
 
 .advertisement__billboard {
 	position: relative;
-	width: 100%;
-	height: 100%;
+	@include full-viewport;
 }
 
 .advertisement__billboard_overlay {
@@ -408,59 +422,64 @@
 		transparent,
 		rgba(0, 0, 0, 0.8)
 	);
-	color: white;
-	padding: 16px;
+	color: var(--color-white, white);
+	padding: var(--spacing-4, 16px);
 }
 
 .advertisement__default {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
+	@include flex-column(var(--spacing-4));
+	padding: var(--spacing-5);
 }
 
 .advertisement__image {
-	max-width: 100%;
+	@include full-width;
 	height: auto;
-	border-radius: 6px;
+	border-radius: var(--radius-md, 6px);
 	object-fit: cover;
+	@include container-contained;
+	margin-bottom: var(--spacing-3);
 }
 
 .advertisement__content {
+	@include flex-column(var(--spacing-3));
 	flex: 1;
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+	padding: var(--spacing-1) 0;
 }
 
 .advertisement__title {
-	margin: 0;
+	margin: 0 0 var(--spacing-2) 0;
 	font-weight: 600;
-	font-size: 1.1em;
+	font-size: 1.125em;
 	line-height: 1.3;
+	color: var(--color-text-primary);
 }
 
 .advertisement__description {
-	margin: 0;
+	margin: 0 0 var(--spacing-3) 0;
 	font-size: 0.9em;
-	line-height: 1.4;
+	line-height: 1.5;
 	opacity: 0.9;
+	color: var(--color-text-secondary);
 }
 
 .advertisement__cta {
-	background: #007bff;
-	color: white;
+	@include interactive-element;
+	background: var(--color-primary, #007bff);
+	color: var(--color-white, white);
 	border: none;
-	border-radius: 6px;
-	padding: 10px 16px;
-	font-size: 14px;
+	border-radius: var(--radius-md, 6px);
+	padding: var(--spacing-3) var(--spacing-5);
+	font-size: var(--text-sm, 14px);
 	font-weight: 500;
 	cursor: pointer;
-	transition: all 0.2s ease;
+	@include smooth-transition(all);
 	align-self: flex-start;
+	margin-top: var(--spacing-2);
 
 	&:hover {
-		background: #0056b3;
+		background: var(--color-primary-hover, #0056b3);
 		transform: translateY(-1px);
+		box-shadow: var(--shadow-md);
 	}
 
 	&:active {
@@ -470,51 +489,54 @@
 
 .advertisement__sponsored {
 	position: absolute;
-	top: 8px;
-	left: 8px;
+	top: var(--spacing-3);
+	left: var(--spacing-3);
 	background: rgba(0, 0, 0, 0.7);
-	color: white;
-	font-size: 10px;
-	padding: 2px 6px;
-	border-radius: 3px;
+	color: var(--color-white, white);
+	font-size: var(--text-xs, 10px);
+	padding: var(--spacing-1) var(--spacing-2);
+	border-radius: var(--radius-sm, 3px);
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
+	font-weight: 600;
 }
 
 .advertisement__reward_info {
 	text-align: center;
-	margin-bottom: 16px;
-	padding: 16px;
-	background: #e8f5e8;
-	border-radius: 8px;
-	border: 1px solid #28a745;
+	margin-bottom: var(--spacing-5);
+	padding: var(--spacing-5) var(--spacing-4);
+	background: var(--color-success-light, #e8f5e8);
+	border-radius: var(--radius-lg, 8px);
+	border: 1px solid var(--color-success, #28a745);
 
 	h2 {
-		margin: 0 0 8px;
-		color: #155724;
-		font-size: 1.2em;
+		margin: 0 0 var(--spacing-3) 0;
+		color: var(--color-success-text, #155724);
+		font-size: 1.25em;
+		font-weight: 700;
 	}
 
 	p {
 		margin: 0;
-		color: #155724;
-		font-size: 0.9em;
+		color: var(--color-success-text, #155724);
+		font-size: 0.95em;
+		line-height: 1.4;
 	}
 }
 
 .advertisement__reward_actions {
-	display: flex;
-	gap: 12px;
-	justify-content: center;
-	margin-top: 16px;
+	@include flex-center;
+	gap: var(--spacing-4);
+	margin-top: var(--spacing-5);
+	padding-top: var(--spacing-3);
 }
 
 .advertisement__exit_intent {
 	text-align: center;
 
 	h2 {
-		margin: 0 0 16px;
-		color: #dc3545;
+		margin: 0 0 var(--spacing-4, 16px);
+		color: var(--color-danger, #dc3545);
 		font-size: 1.3em;
 	}
 }
@@ -607,59 +629,104 @@
 
 // ===== Responsive Design =====
 
-@media (max-width: 768px) {
+@include tablet-up {
 	.advertisement {
 		&--leaderboard {
-			width: 320px;
-			height: 50px;
+			@include contained-size(320px, 50px);
 		}
 
 		&--rectangle {
-			width: 280px;
-			height: 200px;
+			@include contained-size(280px, 200px);
+		}
+
+		&--banner {
+			padding: var(--spacing-4) var(--spacing-6);
+			min-height: 70px;
+		}
+
+		&--native-card {
+			padding: var(--spacing-4) var(--spacing-5);
 		}
 	}
 
 	.advertisement__modal_content {
-		margin: 20px;
-		max-width: calc(100vw - 40px);
-		padding: 20px;
+		margin: var(--spacing-6);
+		max-width: calc(100vw - 48px);
+		padding: var(--spacing-6) var(--spacing-8);
 	}
 
 	.advertisement__floating {
-		max-width: 200px;
+		@include contained-width(100%, 220px);
+		padding: var(--spacing-3) var(--spacing-4);
 	}
 
 	.advertisement__toast {
-		min-width: 250px;
-		font-size: 14px;
+		@include contained-width(280px);
+		font-size: var(--text-sm, 14px);
+		padding: var(--spacing-3) var(--spacing-4);
 	}
 }
 
-@media (max-width: 480px) {
+@include mobile {
 	.advertisement {
 		&--banner {
 			height: auto;
+			min-height: 60px;
+			padding: var(--spacing-3) var(--spacing-4);
+		}
+
+		&--small {
+			padding: var(--spacing-2) var(--spacing-3);
 			min-height: 50px;
+		}
+
+		&--medium {
+			padding: var(--spacing-3) var(--spacing-4);
+			min-height: 60px;
+		}
+
+		&--large {
+			padding: var(--spacing-4) var(--spacing-5);
+			min-height: 80px;
 		}
 	}
 
 	.advertisement__banner {
-		flex-direction: column;
+		@include flex-column(var(--spacing-3));
 		text-align: center;
-		gap: 12px;
+		padding: var(--spacing-3);
 	}
 
 	.advertisement__sticky {
-		flex-direction: column;
-		gap: 8px;
-		padding: 8px 12px;
+		@include flex-column(var(--spacing-2));
+		padding: var(--spacing-2) var(--spacing-3);
 	}
 
 	.advertisement__modal_content {
-		margin: 10px;
-		max-width: calc(100vw - 20px);
-		padding: 16px;
+		margin: var(--spacing-3);
+		max-width: calc(100vw - 24px);
+		padding: var(--spacing-5) var(--spacing-4);
+	}
+
+	.advertisement__floating {
+		@include contained-width(100%, 200px);
+		padding: var(--spacing-3);
+	}
+
+	.advertisement__toast {
+		@include contained-width(calc(100vw - 32px));
+		max-width: 300px;
+		font-size: var(--text-sm, 14px);
+		padding: var(--spacing-2) var(--spacing-3);
+	}
+
+	.advertisement__content {
+		@include flex-column(var(--spacing-2));
+	}
+
+	.advertisement__cta {
+		padding: var(--spacing-2) var(--spacing-4);
+		font-size: var(--text-sm, 14px);
 	}
 }
 
@@ -668,7 +735,7 @@
 @media (prefers-reduced-motion: reduce) {
 	.advertisement {
 		animation: none !important;
-		transition: none !important;
+		@include smooth-transition(none);
 	}
 
 	.advertisement__modal_content {
@@ -679,25 +746,25 @@
 @media (prefers-color-scheme: dark) {
 	.advertisement {
 		&--standard {
-			background: #343a40;
-			border-color: #495057;
-			color: #f8f9fa;
+			background: var(--color-gray-800, #343a40);
+			border-color: var(--color-gray-700, #495057);
+			color: var(--color-gray-100, #f8f9fa);
 		}
 
 		&--native {
-			background: #212529;
-			color: #f8f9fa;
+			background: var(--color-gray-900, #212529);
+			color: var(--color-gray-100, #f8f9fa);
 		}
 	}
 
 	.advertisement__modal_content {
-		background: #343a40;
-		color: #f8f9fa;
+		background: var(--color-gray-800, #343a40);
+		color: var(--color-gray-100, #f8f9fa);
 	}
 
 	.advertisement__native {
-		background: #343a40;
-		border-color: #495057;
+		background: var(--color-gray-800, #343a40);
+		border-color: var(--color-gray-700, #495057);
 	}
 }
 

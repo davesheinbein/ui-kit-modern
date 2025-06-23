@@ -2,10 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useCallback } from 'react';
 import { Button } from '../../components/Button';
 import { Advertisements } from '../../components/Advertisements/Advertisements';
-import {
-	AdvertisementFactory,
-	A,
-} from '../../components/Advertisements';
+import { AdvertisementFactory } from '../../components/Advertisements';
 import {
 	AdContent,
 	AdAnalyticsEvent,
@@ -55,7 +52,7 @@ const banner = AdvertisementFactory.createBanner({
 });
 
 // Using shorthand
-const nativeAd = A.create('native-card', {
+const nativeAd = AdvertisementFactory.create('native-card', {
   id: 'my-native',
   title: 'Sponsored Content',
   description: 'Discover new possibilities...',
@@ -958,12 +955,19 @@ export const ShorthandFactoryUsage: Story = {
 		>
 			<h2>Shorthand Factory Usage</h2>
 			<p>
-				Using the shorthand <code>A.create()</code> class
-				for quicker ad creation:
+				Using the shorthand{' '}
+				<code>AdvertisementFactory.create()</code> class for
+				quicker ad creation:
 			</p>
 
-			{A.create('banner-ad', sampleBannerContent)}
-			{A.create('native-ad-card', sampleNativeContent)}
+			{AdvertisementFactory.create(
+				'banner-ad',
+				sampleBannerContent
+			)}
+			{AdvertisementFactory.create(
+				'native-ad-card',
+				sampleNativeContent
+			)}
 		</div>
 	),
 };
@@ -1020,7 +1024,7 @@ export const SpecializedFactoryMethods: Story = {
 						ctaText: 'Contact',
 						actionUrl: 'https://example.com/contact',
 					},
-					{ bottom: 100, right: 20 }
+					{ position: 'fixed' }
 				)}
 			</div>
 
@@ -1035,7 +1039,7 @@ export const SpecializedFactoryMethods: Story = {
 						ctaText: 'Subscribe',
 						actionUrl: 'https://example.com/subscribe',
 					},
-					'top'
+					{ position: 'fixed' }
 				)}
 			</div>
 		</div>

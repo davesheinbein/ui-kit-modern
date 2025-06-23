@@ -1,3 +1,99 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global Advertisement System Styles */
+:root {
+	/* Advertisement specific variables */
+	--ad-backdrop-opacity: 0.8;
+	--ad-border-radius: 8px;
+	--ad-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	--ad-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+	--ad-transition: all 0.3s ease;
+	--ad-z-index-modal: 9999;
+	--ad-z-index-sticky: 1000;
+
+	/* Advertisement content spacing - enhanced for better UX */
+	--ad-padding-xs: 4px 8px;
+	--ad-padding-sm: 8px 12px;
+	--ad-padding-md: 12px 16px;
+	--ad-padding-lg: 16px 24px;
+	--ad-padding-xl: 24px 32px;
+
+	/* Advertisement gap spacing */
+	--ad-gap-xs: 4px;
+	--ad-gap-sm: 8px;
+	--ad-gap-md: 12px;
+	--ad-gap-lg: 16px;
+	--ad-gap-xl: 24px;
+
+	/* Advertisement sizing presets */
+	--ad-banner-height: 60px;
+	--ad-banner-height-large: 80px;
+	--ad-leaderboard-width: 728px;
+	--ad-leaderboard-height: 90px;
+	--ad-rectangle-width: 300px;
+	--ad-rectangle-height: 250px;
+
+	/* Advertisement minimum touch targets for accessibility */
+	--ad-min-touch-target: 44px;
+	--ad-close-button-size: 36px;
+
+	/* Advertisement responsive breakpoints */
+	--ad-mobile-max-width: calc(100vw - 32px);
+	--ad-tablet-max-width: calc(100vw - 48px);
+	--ad-desktop-max-width: 1200px;
+}
+
+/* Global Advertisement animations */
+@keyframes adFadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes adSlideIn {
+	from {
+		opacity: 0;
+		transform: translateX(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes adModalAppear {
+	from {
+		opacity: 0;
+		transform: scale(0.9) translateY(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+/* Advertisement print hiding */
+@media print {
+	[class*='advertisement'] {
+		display: none !important;
+	}
+
+	.advertisement {
+		display: none !important;
+	}
+}
+
+/* Advertisement accessibility */
+@media (prefers-reduced-motion: reduce) {
+	[class*='advertisement'] {
+		animation: none !important;
+		transition: none !important;
+	}
+}

@@ -16,9 +16,14 @@ export type {
 // Configuration exports
 export * from './configurations';
 
-// Factory exports
+// Factory exports - new DRY system
 export {
-	default as AdvertisementFactory,
-	A,
-	AdvertisementPresets,
+	AdvertisementFactory,
+	AdUtils,
+	AdPresets,
+	type AdCreationConfig,
 } from './factory';
+
+// Legacy support
+export { AdvertisementFactory as A } from './factory';
+export { AdPresets as AdvertisementPresets } from './factory';
