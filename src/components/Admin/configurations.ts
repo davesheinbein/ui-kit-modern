@@ -1,10 +1,3 @@
-/**
- * Admin Component Configurations
- *
- * This file defines all the configuration objects for admin-related components
- * following the DRY pattern used throughout the system.
- */
-
 export type AdminKind =
 	| 'session-debugger'
 	| 'performance-monitor'

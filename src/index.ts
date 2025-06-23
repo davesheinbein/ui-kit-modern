@@ -165,7 +165,6 @@ export type {
 
 // Enhanced Card System - All card types via single component (DRY System)
 export {
-	UnifiedCard,
 	Card,
 	CardFactory,
 	CardPresets,
@@ -180,7 +179,6 @@ export {
 export { C as CardC } from './components/Card'; // Card factory alias
 export type {
 	CardKind,
-	UnifiedCardProps,
 	CardProps,
 	ExtendedCardKind,
 	CardConfiguration,
@@ -346,14 +344,12 @@ export {
 	AdminPresets,
 	createAdmin,
 	Admin,
-	AdminBodyFactory,
 	ADMIN_CONFIGURATIONS,
 } from './components/Admin';
 export type {
 	AdminKind,
 	AdminConfiguration,
 	AdminProps,
-	AdminBodyFactoryProps,
 } from './components/Admin';
 
 // Legacy compatibility

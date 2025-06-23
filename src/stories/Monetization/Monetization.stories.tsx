@@ -17,7 +17,7 @@ import {
 // =============================================================================
 
 const meta: Meta<typeof UnifiedMonetization> = {
-	title: 'Components/Monetization',
+	title: 'Monetization/Monetization',
 	component: UnifiedMonetization,
 	parameters: {
 		layout: 'centered',

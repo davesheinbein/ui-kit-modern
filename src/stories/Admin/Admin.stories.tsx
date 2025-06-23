@@ -106,10 +106,20 @@ export const SessionDebuggerWithMockSession: Story = {
 };
 
 export const PerformanceMonitor: Story = {
+	name: 'Performance Monitor',
 	args: {
 		kind: 'performance-monitor',
 		enabled: true,
 		position: 'top-right',
+		componentId: 'stable-perf-monitor', // Fixed componentId to prevent re-initialization
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Performance monitor with a stable componentId to ensure predictable behavior.',
+			},
+		},
 	},
 };
 

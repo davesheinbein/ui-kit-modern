@@ -1,11 +1,8 @@
-/**
- * AdminFactory - DRY admin factory system
- *
- * This factory provides a simplified API for creating admin components using the configuration system,
- * similar to ButtonFactory but for admin tools.
- */
-
-import React, { useEffect } from 'react';
+import React, {
+	useEffect,
+	useCallback,
+	useMemo,
+} from 'react';
 import Admin from './Admin';
 import type { AdminProps } from './Admin';
 import type {
@@ -34,279 +31,383 @@ export interface AdminBodyFactoryProps {
 	[key: string]: any;
 }
 
-/**
- * SessionDebugger content component
- */
-const SessionDebuggerBody: React.FC<any> = (props) => {
+// Generic hook for admin component initialization and state management
+const useAdminComponent = (
+	componentId: string,
+	kind: AdminKind,
+	config: AdminBodyConfig
+) => {
 	const dispatch = useAppDispatch();
-	const componentId =
-		props.componentId || 'session-debugger-default';
-	const clientTime = useAppSelector((state) =>
-		selectClientTime(state, componentId)
-	);
 
+	// Initialize component state - only once per componentId
 	useEffect(() => {
-		// Initialize component state in Redux
 		dispatch(initializeComponentState({ componentId }));
-
-		const updateTime = () => {
-			const time = new Date().toLocaleTimeString();
-			dispatch(setClientTime({ componentId, time }));
-		};
-
-		updateTime();
-		const interval = setInterval(updateTime, 1000);
-
-		return () => clearInterval(interval);
 	}, [dispatch, componentId]);
 
-	// You must provide your own session context or hook in your app
-	const session: any = props.session || undefined;
-	const status = props.status || 'unknown';
+	// Memoized update function to prevent infinite loops
+	const updateFunction = useCallback(() => {
+		if (!config.actionCreator || !config.dataKey) return;
 
-	return (
-		<div className={styles.sessionDebugger}>
-			<div className={styles.debugRow}>
-				<strong>Session Status:</strong> {status}
-			</div>
-			<div className={styles.debugRow}>
-				<strong>User ID:</strong>{' '}
-				{session?.user ? (session.user as any).id : 'None'}
-			</div>
-			<div className={styles.debugRow}>
-				<strong>Email:</strong>{' '}
-				{session?.user?.email || 'None'}
-			</div>
-			<div className={styles.debugRow}>
-				<strong>Session Exists:</strong>{' '}
-				{session ? 'Yes' : 'No'}
-			</div>
-			<div className={styles.debugRow}>
-				<strong>Timestamp:</strong> {clientTime || '...'}
-			</div>
-		</div>
-	);
-};
-
-/**
- * PerformanceMonitor content component
- */
-const PerformanceMonitorBody: React.FC<any> = (props) => {
-	const dispatch = useAppDispatch();
-	const componentId =
-		props.componentId || 'performance-monitor-default';
-	const performance = useAppSelector((state) =>
-		selectPerformanceMetrics(state, componentId)
-	);
-
-	useEffect(() => {
-		// Initialize component state in Redux
-		dispatch(initializeComponentState({ componentId }));
-
-		const updatePerformance = () => {
-			const memoryInfo = (window.performance as any)
-				?.memory;
-			const metrics = {
-				memory:
-					memoryInfo ?
-						Math.round(
-							memoryInfo.usedJSHeapSize / 1024 / 1024
-						)
-					:	0,
-				fps: Math.round(Math.random() * 60 + 30), // Mock FPS
-				loadTime: Math.round(window.performance.now()),
+		try {
+			const generatedData =
+				dataGenerators[config.dataKey]();
+			// Ultra-simplified dispatching with ternary operators and dynamic payload
+			const payload = {
+				componentId,
+				[config.dataKey === 'time' ? 'time'
+				: config.dataKey === 'performance' ? 'metrics'
+				: 'errors']: generatedData,
 			};
-			dispatch(
-				setPerformanceMetrics({ componentId, metrics })
+			dispatch(config.actionCreator(payload));
+		} catch (error) {
+			console.warn(
+				`Admin component ${kind} data generation failed:`,
+				error
 			);
-		};
+		}
+	}, [
+		dispatch,
+		componentId,
+		config.actionCreator,
+		config.dataKey,
+		kind,
+	]);
 
-		updatePerformance();
-		const interval = setInterval(updatePerformance, 2000);
-
-		return () => clearInterval(interval);
-	}, [dispatch, componentId]);
-
-	return (
-		<div className={styles.performanceMonitor}>
-			<div className={styles.metricRow}>
-				<span className={styles.metricLabel}>Memory:</span>{' '}
-				<span className={styles.metricValue}>
-					{performance.memory} MB
-				</span>
-			</div>
-			<div className={styles.metricRow}>
-				<span className={styles.metricLabel}>FPS:</span>{' '}
-				<span className={styles.metricValue}>
-					{performance.fps}
-				</span>
-			</div>
-			<div className={styles.metricRow}>
-				<span className={styles.metricLabel}>
-					Load Time:
-				</span>{' '}
-				<span className={styles.metricValue}>
-					{performance.loadTime} ms
-				</span>
-			</div>
-		</div>
-	);
-};
-
-/**
- * ErrorLogger content component
- */
-const ErrorLoggerBody: React.FC<any> = (props) => {
-	const dispatch = useAppDispatch();
-	const componentId =
-		props.componentId || 'error-logger-default';
-	const errors = useAppSelector((state) =>
-		selectErrors(state, componentId)
-	);
-
+	// Set up interval for updates with additional safeguards
 	useEffect(() => {
-		// Initialize component state in Redux
-		dispatch(initializeComponentState({ componentId }));
+		if (
+			!config.actionCreator ||
+			!config.updateInterval ||
+			config.updateInterval < 100
+		) {
+			return; // Prevent intervals shorter than 100ms to avoid performance issues
+		}
 
-		const mockErrors = [
-			{
-				time: new Date().toLocaleTimeString(),
-				message: 'Network timeout',
-			},
-			{
-				time: new Date().toLocaleTimeString(),
-				message: 'Invalid API response',
-			},
-		];
-		dispatch(
-			setErrors({ componentId, errors: mockErrors })
+		updateFunction(); // Run immediately
+		const interval = setInterval(
+			updateFunction,
+			config.updateInterval
 		);
-	}, [dispatch, componentId]);
+		return () => clearInterval(interval);
+	}, [
+		updateFunction,
+		config.actionCreator,
+		config.updateInterval,
+	]);
 
-	return (
-		<div className={styles.errorLogger}>
-			<div
-				style={{ marginBottom: '8px', fontWeight: 'bold' }}
-			>
-				Error Log
-			</div>
-			{errors.map((error, index) => (
-				<div key={index} className={styles.errorEntry}>
-					<div className={styles.errorTime}>
-						{error.time}
+	return { dispatch };
+};
+
+// Data generators for mock/real data
+const dataGenerators = {
+	time: () => new Date().toLocaleTimeString(),
+
+	performance: () => {
+		const memoryInfo = (window.performance as any)?.memory;
+		return {
+			memory:
+				memoryInfo ?
+					Math.round(
+						memoryInfo.usedJSHeapSize / 1024 / 1024
+					)
+				:	0,
+			fps: Math.round(Math.random() * 60 + 30), // Mock FPS
+			loadTime: Math.round(window.performance.now()),
+		};
+	},
+
+	errors: () => [
+		{
+			time: new Date().toLocaleTimeString(),
+			message: 'Network timeout',
+		},
+		{
+			time: new Date().toLocaleTimeString(),
+			message: 'Invalid API response',
+		},
+	],
+
+	environment: () => ({
+		nodeEnv:
+			typeof window !== 'undefined' ? 'browser' : (
+				'development'
+			),
+		userAgent:
+			typeof navigator !== 'undefined' ?
+				`${navigator.userAgent.substring(0, 50)}...`
+			:	'N/A',
+		componentsRendered: Math.floor(Math.random() * 100),
+		activeListeners: Math.floor(Math.random() * 20),
+	}),
+};
+
+// Generic row renderer for debug information with better props handling
+const DebugRow: React.FC<{
+	label: string;
+	value: string | number;
+	className?: string;
+}> = ({ label, value, className }) => (
+	<div className={className || styles.debugRow}>
+		<strong>{label}:</strong> {value}
+	</div>
+);
+
+// Generic metric row renderer with enhanced props
+const MetricRow: React.FC<{
+	label: string;
+	value: string | number;
+	unit?: string;
+	className?: string;
+	labelClassName?: string;
+	valueClassName?: string;
+}> = ({
+	label,
+	value,
+	unit = '',
+	className,
+	labelClassName,
+	valueClassName,
+}) => (
+	<div className={className || styles.metricRow}>
+		<span className={labelClassName || styles.metricLabel}>
+			{label}:
+		</span>
+		<span className={valueClassName || styles.metricValue}>
+			{value}
+			{unit ? ` ${unit}` : ''}
+		</span>
+	</div>
+);
+
+// Configuration-driven body components for ultimate DRY approach
+interface AdminBodyConfig {
+	className: string;
+	title?: string;
+	updateInterval?: number;
+	dataKey: keyof typeof dataGenerators;
+	selector?: (state: any, componentId: string) => any;
+	actionCreator?: any;
+	dataProcessor: (stateData: any, props: any) => any; // New: process data before rendering
+	renderer: (
+		data: any,
+		styles: any,
+		props?: any
+	) => React.ReactNode;
+}
+
+const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
+	{
+		'session-debugger': {
+			className: 'sessionDebugger',
+			updateInterval: 1000,
+			dataKey: 'time',
+			selector: selectClientTime,
+			actionCreator: setClientTime,
+			dataProcessor: (stateData, props) => ({
+				debugData: [
+					{
+						label: 'Session Status',
+						value: props.status || 'unknown',
+					},
+					{
+						label: 'User ID',
+						value: props.session?.user?.id || 'None',
+					},
+					{
+						label: 'Email',
+						value: props.session?.user?.email || 'None',
+					},
+					{
+						label: 'Session Exists',
+						value: props.session ? 'Yes' : 'No',
+					},
+					{ label: 'Timestamp', value: stateData || '...' },
+				],
+			}),
+			renderer: (data, styles, props) => (
+				<div className={styles.sessionDebugger}>
+					{data.debugData?.map(
+						(item: any, index: number) => (
+							<DebugRow
+								key={index}
+								label={item.label}
+								value={item.value}
+								className={props?.rowClassName}
+							/>
+						)
+					) || <div>No debug data available</div>}
+				</div>
+			),
+		},
+		'performance-monitor': {
+			className: 'performanceMonitor',
+			updateInterval: 2000,
+			dataKey: 'performance',
+			selector: selectPerformanceMetrics,
+			actionCreator: setPerformanceMetrics,
+			dataProcessor: (stateData) => ({
+				metricsData: [
+					{
+						label: 'Memory',
+						value: stateData?.memory ?? 0,
+						unit: 'MB',
+					},
+					{
+						label: 'FPS',
+						value: stateData?.fps ?? 0,
+						unit: '',
+					},
+					{
+						label: 'Load Time',
+						value: stateData?.loadTime ?? 0,
+						unit: 'ms',
+					},
+				],
+			}),
+			renderer: (data, styles, props) => (
+				<div className={styles.performanceMonitor}>
+					{data.metricsData?.map(
+						(metric: any, index: number) => (
+							<MetricRow
+								key={index}
+								label={metric.label}
+								value={metric.value}
+								unit={metric.unit}
+								className={props?.metricClassName}
+								labelClassName={props?.metricLabelClassName}
+								valueClassName={props?.metricValueClassName}
+							/>
+						)
+					) || <div>No performance data available</div>}
+				</div>
+			),
+		},
+		'error-logger': {
+			className: 'errorLogger',
+			dataKey: 'errors',
+			selector: selectErrors,
+			actionCreator: setErrors,
+			dataProcessor: (stateData) => ({
+				errors: stateData || [],
+			}),
+			renderer: (data, styles, props) => (
+				<div className={styles.errorLogger}>
+					<div
+						style={{
+							marginBottom: '8px',
+							fontWeight: 'bold',
+						}}
+					>
+						{props?.title || 'Error Log'}
 					</div>
-					<div className={styles.errorMessage}>
-						{error.message}
+					{data.errors?.length ?
+						data.errors.map((error: any, index: number) => (
+							<div
+								key={index}
+								className={styles.errorEntry}
+							>
+								<div className={styles.errorTime}>
+									{error.time}
+								</div>
+								<div className={styles.errorMessage}>
+									{error.message}
+								</div>
+							</div>
+						))
+					:	<div>No errors logged</div>}
+				</div>
+			),
+		},
+		'debug-panel': {
+			className: 'debugPanel',
+			dataKey: 'environment',
+			dataProcessor: () => dataGenerators.environment(),
+			renderer: (data, styles, props) => (
+				<div className={styles.debugPanel}>
+					<div className={styles.panelHeader}>
+						<h3>{props?.title || 'Debug Panel'}</h3>
+					</div>
+					<div className={styles.panelSection}>
+						<div className={styles.sectionTitle}>
+							{props?.environmentTitle || 'Environment'}
+						</div>
+						<div>
+							Node Env: {data?.nodeEnv || 'Unknown'}
+						</div>
+						<div>
+							User Agent: {data?.userAgent || 'N/A'}
+						</div>
+					</div>
+					<div className={styles.panelSection}>
+						<div className={styles.sectionTitle}>
+							{props?.appStateTitle || 'Application State'}
+						</div>
+						<div>
+							Components Rendered:{' '}
+							{data?.componentsRendered || 0}
+						</div>
+						<div>
+							Active Listeners: {data?.activeListeners || 0}
+						</div>
 					</div>
 				</div>
-			))}
-		</div>
+			),
+		},
+		'custom': {
+			className: 'custom',
+			dataKey: 'environment',
+			dataProcessor: () => ({}),
+			renderer: (data, styles, props) =>
+				props?.children || (
+					<div>Custom admin component</div>
+				),
+		},
+	};
+
+// Simplified generic admin body component
+const GenericAdminBody: React.FC<{
+	kind: AdminKind;
+	[key: string]: any;
+}> = ({ kind, ...props }) => {
+	const config = adminBodyConfigs[kind];
+	if (!config)
+		return <div>Unknown admin component: {kind}</div>;
+
+	const componentId =
+		props.componentId || `${kind}-default`;
+	const stateData =
+		config.selector ?
+			useAppSelector((state) =>
+				config.selector!(state, componentId)
+			)
+		:	null;
+
+	// Use the simplified hook that handles updates internally
+	useAdminComponent(componentId, kind, config);
+
+	// Use the config's data processor - much cleaner!
+	const renderData = useMemo(
+		() => config.dataProcessor(stateData, props),
+		[config, stateData, props.session, props.status]
 	);
+
+	return config.renderer(renderData, styles, props);
 };
 
-/**
- * DebugPanel content component
- */
-const DebugPanelBody: React.FC<any> = (props) => {
-	return (
-		<div className={styles.debugPanel}>
-			<div className={styles.panelHeader}>
-				<h3>Debug Panel</h3>
-			</div>
-			<div className={styles.panelSection}>
-				<div className={styles.sectionTitle}>
-					Environment
-				</div>
-				<div>
-					Node Env:{' '}
-					{typeof window !== 'undefined' ?
-						'browser'
-					:	'development'}
-				</div>
-				<div>
-					User Agent:{' '}
-					{typeof navigator !== 'undefined' ?
-						navigator.userAgent.substring(0, 50) + '...'
-					:	'N/A'}
-				</div>
-			</div>
-			<div className={styles.panelSection}>
-				<div className={styles.sectionTitle}>
-					Application State
-				</div>
-				<div>
-					Components Rendered:{' '}
-					{Math.floor(Math.random() * 100)}
-				</div>
-				<div>
-					Active Listeners: {Math.floor(Math.random() * 20)}
-				</div>
-			</div>
-		</div>
-	);
-};
-
-/**
- * Factory component that renders the appropriate admin body based on kind
- */
-export const AdminBodyFactory: React.FC<
-	AdminBodyFactoryProps
-> = ({ kind, componentId, ...props }) => {
-	// Generate a default componentId if none provided
-	const finalComponentId =
-		componentId || `${kind}-${Date.now()}`;
-
-	switch (kind) {
-		case 'session-debugger':
-			return (
-				<SessionDebuggerBody
-					componentId={finalComponentId}
-					{...props}
-				/>
-			);
-		case 'performance-monitor':
-			return (
-				<PerformanceMonitorBody
-					componentId={finalComponentId}
-					{...props}
-				/>
-			);
-		case 'error-logger':
-			return (
-				<ErrorLoggerBody
-					componentId={finalComponentId}
-					{...props}
-				/>
-			);
-		case 'debug-panel':
-			return (
-				<DebugPanelBody
-					componentId={finalComponentId}
-					{...props}
-				/>
-			);
-		case 'custom':
-			return (
-				props.children || <div>Custom admin component</div>
-			);
-		default:
-			return <div>Unknown admin component: {kind}</div>;
-	}
-};
-
-// Factory function for creating admin components
+// Consolidated factory function - merged AdminBodyFactory into AdminFactory
 export const AdminFactory: React.FC<
 	AdminProps & { [key: string]: any }
-> = ({ kind, children, ...props }) => {
-	// Separate admin props from body factory props
+> = ({ kind, children, componentId, ...props }) => {
+	// Separate admin props from body props using destructuring with defaults
 	const {
-		enabled,
-		position,
-		className,
+		enabled = false,
+		position = 'top-left',
+		className = '',
 		style,
-		zIndex,
+		zIndex = 9999,
 		...bodyProps
 	} = props;
+
 	const adminProps = {
 		kind,
 		enabled,
@@ -315,12 +416,21 @@ export const AdminFactory: React.FC<
 		style,
 		zIndex,
 	};
+	const finalComponentId =
+		componentId || `${kind}-${Date.now()}`;
 
 	return (
 		<Admin {...adminProps}>
-			{children || (
-				<AdminBodyFactory kind={kind} {...bodyProps} />
-			)}
+			{children ||
+				(kind === 'custom' ?
+					bodyProps.children || (
+						<div>Custom admin component</div>
+					)
+				:	<GenericAdminBody
+						kind={kind}
+						componentId={finalComponentId}
+						{...bodyProps}
+					/>)}
 		</Admin>
 	);
 };
@@ -333,77 +443,173 @@ AdminFactory.displayName = 'AdminFactory';
 export const A = AdminFactory; // Ultra-short alias
 
 /**
- * Admin presets with common patterns
+ * Simplified admin utilities with consolidated helper functions and enhanced ternary operators
+ */
+export const AdminUtils = {
+	// Create any admin type with minimal config
+	create: (kind: AdminKind, props: any = {}) => (
+		<AdminFactory kind={kind} enabled={true} {...props} />
+	),
+
+	// Batch create multiple admin components with enhanced filtering
+	createMultiple: (
+		configs: Array<{
+			kind: AdminKind;
+			props?: any;
+			enabled?: boolean;
+		}>
+	) => (
+		<>
+			{configs
+				.filter((config) => config.enabled !== false)
+				.map((config, index) => (
+					<AdminFactory
+						key={
+							config.props?.key || `${config.kind}-${index}`
+						}
+						kind={config.kind}
+						enabled={config.enabled ?? true}
+						{...config.props}
+					/>
+				))}
+		</>
+	),
+
+	// Consolidated utility functions with enhanced ternary operators
+	getConfig: (kind: AdminKind) =>
+		adminBodyConfigs[kind] || null,
+	generators: dataGenerators,
+	DebugRow,
+	MetricRow,
+	GenericAdminBody,
+	isValidKind: (kind: string): kind is AdminKind =>
+		Object.keys(adminBodyConfigs).includes(kind),
+	getDefaultPosition: (kind: AdminKind) =>
+		({
+			'session-debugger': 'top-left',
+			'performance-monitor': 'top-right',
+			'error-logger': 'bottom-left',
+			'debug-panel': 'center',
+			'custom': 'top-left',
+		})[kind] || 'top-left',
+	shouldAutoEnable: (kind: AdminKind, isDev = false) =>
+		isDev || kind === 'error-logger',
+};
+
+// Ultra-consolidated preset creation helper
+const createPreset =
+	(kind: AdminKind) =>
+	(props: Partial<AdminConfiguration> = {}) =>
+		AdminUtils.create(kind, {
+			position:
+				props.position ||
+				AdminUtils.getDefaultPosition(kind),
+			...props,
+		});
+
+/**
+ * Simplified admin presets using ultra-consolidated helpers
  */
 export const AdminPresets = {
-	/**
-	 * Session debugger in top-left corner
-	 */
-	SESSION_DEBUGGER: (
-		props: Partial<AdminConfiguration> = {}
-	) => (
-		<AdminFactory
-			kind='session-debugger'
-			enabled={true}
-			position='top-left'
-			{...props}
-		/>
-	),
+	SESSION_DEBUGGER: createPreset('session-debugger'),
+	PERFORMANCE_MONITOR: createPreset('performance-monitor'),
+	ERROR_LOGGER: createPreset('error-logger'),
+	DEBUG_PANEL: createPreset('debug-panel'),
 
-	/**
-	 * Performance monitor in top-right corner
-	 */
-	PERFORMANCE_MONITOR: (
-		props: Partial<AdminConfiguration> = {}
-	) => (
-		<AdminFactory
-			kind='performance-monitor'
-			enabled={true}
-			position='top-right'
-			{...props}
-		/>
-	),
+	// Multi-component presets with consolidated logic using object mapping
+	ALL: (
+		props: Partial<AdminConfiguration> & {
+			includePerfMonitor?: boolean;
+			includeErrorLogger?: boolean;
+			includeSessionDebugger?: boolean;
+		} = {}
+	) => {
+		const {
+			includePerfMonitor = true,
+			includeErrorLogger = true,
+			includeSessionDebugger = true,
+			...baseProps
+		} = props;
 
-	/**
-	 * Error logger in bottom-left corner
-	 */
-	ERROR_LOGGER: (
-		props: Partial<AdminConfiguration> = {}
-	) => (
-		<AdminFactory
-			kind='error-logger'
-			enabled={true}
-			position='bottom-left'
-			{...props}
-		/>
-	),
+		const componentMap = {
+			'session-debugger': includeSessionDebugger,
+			'performance-monitor': includePerfMonitor,
+			'error-logger': includeErrorLogger,
+		};
 
-	/**
-	 * Full debug panel in center
-	 */
-	DEBUG_PANEL: (
-		props: Partial<AdminConfiguration> = {}
-	) => (
-		<AdminFactory
-			kind='debug-panel'
-			enabled={true}
-			position='center'
-			{...props}
-		/>
-	),
+		const components = Object.entries(componentMap)
+			.filter(([_, include]) => include)
+			.map(([kind]) => ({
+				kind: kind as AdminKind,
+				props: {
+					position: AdminUtils.getDefaultPosition(
+						kind as AdminKind
+					),
+					...baseProps,
+				},
+			}));
+
+		return AdminUtils.createMultiple(components);
+	},
+
+	DEV_SUITE: (
+		props: Partial<AdminConfiguration> & {
+			includeDebugPanel?: boolean;
+			development?: boolean;
+		} = {}
+	) => {
+		const {
+			includeDebugPanel = true,
+			development = process.env.NODE_ENV === 'development',
+			...baseProps
+		} = props;
+
+		if (!development) return null;
+
+		const componentMap = {
+			'session-debugger': true,
+			'performance-monitor': true,
+			'error-logger': true,
+			'debug-panel': includeDebugPanel,
+		};
+
+		const components = Object.entries(componentMap)
+			.filter(([_, include]) => include)
+			.map(([kind]) => ({
+				kind: kind as AdminKind,
+				props: {
+					position: AdminUtils.getDefaultPosition(
+						kind as AdminKind
+					),
+					...baseProps,
+				},
+			}));
+
+		return AdminUtils.createMultiple(components);
+	},
+
+	MINIMAL: (props: Partial<AdminConfiguration> = {}) =>
+		AdminUtils.createMultiple([
+			{
+				kind: 'performance-monitor',
+				props: { position: 'top-right', ...props },
+			},
+			{
+				kind: 'error-logger',
+				props: { position: 'bottom-left', ...props },
+			},
+		]),
 };
 
 /**
- * Convenience function for creating admin components
+ * Convenience function for creating admin components with enhanced prop handling
  */
 export const createAdmin = (
 	kind: AdminKind,
 	config: Partial<AdminConfiguration> = {}
-) => {
-	return <AdminFactory kind={kind} {...config} />;
-};
+) => AdminUtils.create(kind, config);
 
-// Legacy SessionDebugger interface for backward compatibility
+// Enhanced legacy SessionDebugger interface for backward compatibility
 export interface SessionDebuggerProps {
 	enabled?: boolean;
 	position?:
@@ -414,10 +620,14 @@ export interface SessionDebuggerProps {
 		| 'center';
 	session?: any;
 	status?: string;
+	className?: string;
+	style?: React.CSSProperties;
+	rowClassName?: string;
+	title?: string;
 }
 
 /**
- * SessionDebugger - Legacy component wrapper
+ * SessionDebugger - Legacy component wrapper with enhanced props
  * @deprecated Use AdminFactory with kind="session-debugger" instead
  */
 export const SessionDebugger: React.FC<
@@ -426,15 +636,23 @@ export const SessionDebugger: React.FC<
 	enabled = false,
 	position = 'top-left',
 	...props
-}) => {
-	return (
-		<AdminFactory
-			kind='session-debugger'
-			enabled={enabled}
-			position={position}
-			{...props}
-		/>
-	);
+}) => (
+	<AdminFactory
+		kind='session-debugger'
+		enabled={enabled}
+		position={position}
+		{...props}
+	/>
+);
+
+// Export the generic body and utilities for advanced use cases
+export {
+	GenericAdminBody,
+	adminBodyConfigs,
+	dataGenerators,
+	DebugRow,
+	MetricRow,
+	useAdminComponent,
 };
 
 export default AdminFactory;

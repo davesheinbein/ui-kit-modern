@@ -4,17 +4,66 @@
 	@include flex-center;
 	@include contained-width(100%, 420px, 260px);
 	@include smooth-transition(all);
-	padding: var(--spacing-3) var(--spacing-6);
-	border-radius: var(--radius-lg);
+	padding: var(--spacing-4) var(--spacing-6);
+	border-radius: var(--radius-xl);
 	@include text-base;
 	font-weight: 600;
-	color: var(--text-primary);
+	color: var(--color-text-primary);
 	position: relative;
 	margin: 0 auto;
-	overflow: hidden; // Prevent content overflow
+	overflow: hidden;
+	backdrop-filter: blur(8px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
 
-	// Default animation
-	animation: bannerSlideIn 0.3s ease-out;
+	// Modern glass effect
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 1px;
+		background: linear-gradient(
+			90deg,
+			transparent 0%,
+			rgba(255, 255, 255, 0.4) 50%,
+			transparent 100%
+		);
+		z-index: 1;
+	}
+
+	// Subtle inner shadow for depth
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		padding: 1px;
+		background: linear-gradient(
+			135deg,
+			rgba(255, 255, 255, 0.2) 0%,
+			transparent 50%,
+			rgba(0, 0, 0, 0.1) 100%
+		);
+		mask:
+			linear-gradient(#fff 0 0) content-box,
+			linear-gradient(#fff 0 0);
+		mask-composite: xor;
+		-webkit-mask-composite: xor;
+		pointer-events: none;
+	}
+
+	// Enhanced animation with bounce
+	animation: bannerSlideIn 0.4s
+		cubic-bezier(0.34, 1.56, 0.64, 1);
+
+	// Interactive hover state
+	@include smooth-transition(transform, box-shadow);
+	cursor: default;
+
+	&:hover {
+		transform: translateY(-2px);
+	}
 }
 
 // Position variants - some extend beyond parent bounds intentionally
@@ -52,34 +101,70 @@
 	@include contained-width(100%, 420px);
 	margin: var(--spacing-5) auto 0 auto;
 	text-align: center;
-	background: var(--bg-surface-alpha);
-	color: var(--text-primary);
+	background: linear-gradient(
+		135deg,
+		rgba(255, 255, 255, 0.9) 0%,
+		rgba(249, 250, 251, 0.95) 100%
+	);
+	color: var(--color-text-primary);
 	@include text-base;
-	border-radius: var(--radius-md);
-	box-shadow: var(--shadow-sm);
-	padding: var(--spacing-4) var(--spacing-5);
+	border-radius: var(--radius-xl);
+	box-shadow:
+		0 8px 32px rgba(0, 0, 0, 0.08),
+		0 4px 16px rgba(0, 0, 0, 0.04),
+		inset 0 1px 0 rgba(255, 255, 255, 0.8);
+	padding: var(--spacing-5) var(--spacing-6);
 	@include flex-center;
-	backdrop-filter: blur(8px);
+	backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+
+	&::before {
+		background: linear-gradient(
+			90deg,
+			transparent 0%,
+			rgba(59, 130, 246, 0.3) 50%,
+			transparent 100%
+		);
+	}
 }
 
 .banner--notification {
-	box-shadow: var(--shadow-sm);
+	box-shadow:
+		0 12px 24px rgba(0, 0, 0, 0.12),
+		0 6px 12px rgba(0, 0, 0, 0.08);
 	z-index: var(--z-modal);
+	backdrop-filter: blur(10px);
 }
 
 .banner--toast {
-	box-shadow: var(--shadow-md);
-	border: 1px solid var(--border-alpha);
-	backdrop-filter: blur(10px);
+	box-shadow:
+		0 16px 32px rgba(0, 0, 0, 0.15),
+		0 8px 16px rgba(0, 0, 0, 0.1),
+		inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(12px);
+
+	// Add subtle pulse animation for toasts
+	&::before {
+		animation: toastPulse 2s ease-in-out infinite;
+	}
 }
 
 .banner--status {
 	@include flex-row(var(--spacing-4), center, nowrap);
 	justify-content: space-between;
 	margin-bottom: var(--spacing-4);
-	padding: var(--spacing-2) 0;
-	background: transparent;
-	border-radius: 0;
+	padding: var(--spacing-3) var(--spacing-4);
+	background: linear-gradient(
+		135deg,
+		rgba(255, 255, 255, 0.9) 0%,
+		rgba(249, 250, 251, 0.95) 100%
+	);
+	border-radius: var(--radius-lg);
+	border: 1px solid rgba(229, 231, 235, 0.6);
+	box-shadow:
+		0 4px 16px rgba(0, 0, 0, 0.05),
+		0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .banner--global {
@@ -87,107 +172,238 @@
 	top: var(--spacing-5);
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: var(--z-maximum);
-	// Intentional overflow: Global banners need maximum visibility
+	z-index: 9999; // Ensure maximum visibility
+	box-shadow:
+		0 20px 40px rgba(0, 0, 0, 0.15),
+		0 10px 20px rgba(0, 0, 0, 0.1),
+		inset 0 1px 0 rgba(255, 255, 255, 0.3);
+	backdrop-filter: blur(16px);
+
+	// Add subtle glow effect
+	&::before {
+		box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+	}
 }
 
 // Type variants using design system colors
 .banner--burn {
 	background: linear-gradient(
 		135deg,
-		var(--semantic-warning-500),
-		var(--semantic-error-500)
+		var(--color-warning) 0%,
+		var(--color-danger) 100%
 	);
-	color: var(--text-primary-inverse);
+	color: var(--color-white);
+	border: 1px solid rgba(239, 68, 68, 0.3);
+	box-shadow:
+		0 4px 12px rgba(239, 68, 68, 0.2),
+		0 2px 6px rgba(239, 68, 68, 0.1);
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow:
+			0 6px 16px rgba(239, 68, 68, 0.25),
+			0 3px 8px rgba(239, 68, 68, 0.15);
+	}
 }
 
 .banner--achievement {
 	background: linear-gradient(
 		135deg,
-		var(--accent-yellow-400),
-		var(--accent-yellow-500)
+		#fbbf24 0%,
+		#f59e0b 50%,
+		#d97706 100%
 	);
-	color: var(--text-primary);
+	color: var(--color-gray-900);
+	border: 1px solid rgba(251, 191, 36, 0.4);
+	box-shadow:
+		0 4px 12px rgba(251, 191, 36, 0.3),
+		0 2px 6px rgba(251, 191, 36, 0.2);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+	// Add subtle shimmer effect for achievements
+	position: relative;
+	overflow: hidden;
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(
+			90deg,
+			transparent 0%,
+			rgba(255, 255, 255, 0.3) 50%,
+			transparent 100%
+		);
+		animation: shimmer 2s ease-in-out infinite;
+		pointer-events: none;
+	}
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow:
+			0 6px 16px rgba(251, 191, 36, 0.35),
+			0 3px 8px rgba(251, 191, 36, 0.25);
+	}
 }
 
 .banner--system {
 	background: linear-gradient(
 		135deg,
-		var(--accent-blue-500),
-		var(--accent-blue-600)
+		var(--color-info) 0%,
+		var(--color-info-hover) 100%
 	);
-	color: var(--text-primary-inverse);
+	color: var(--color-white);
+	border: 1px solid rgba(59, 130, 246, 0.3);
+	box-shadow:
+		0 4px 12px rgba(59, 130, 246, 0.2),
+		0 2px 6px rgba(59, 130, 246, 0.1);
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow:
+			0 6px 16px rgba(59, 130, 246, 0.25),
+			0 3px 8px rgba(59, 130, 246, 0.15);
+	}
 }
 
 .banner--taunt {
 	background: linear-gradient(
 		135deg,
-		var(--accent-purple-500),
-		var(--accent-purple-600)
+		var(--color-accent) 0%,
+		var(--color-accent-hover) 100%
 	);
-	color: var(--text-primary-inverse);
+	color: var(--color-white);
+	border: 1px solid rgba(167, 139, 250, 0.3);
+	box-shadow:
+		0 4px 12px rgba(167, 139, 250, 0.2),
+		0 2px 6px rgba(167, 139, 250, 0.1);
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow:
+			0 6px 16px rgba(167, 139, 250, 0.25),
+			0 3px 8px rgba(167, 139, 250, 0.15);
+	}
 }
 
 .banner--success {
 	background: linear-gradient(
 		135deg,
-		var(--semantic-success-500),
-		var(--semantic-success-600)
+		var(--color-success) 0%,
+		var(--color-success-hover) 100%
 	);
-	color: var(--text-primary-inverse);
+	color: var(--color-white);
+	border: 1px solid rgba(34, 197, 94, 0.3);
+	box-shadow:
+		0 4px 12px rgba(34, 197, 94, 0.2),
+		0 2px 6px rgba(34, 197, 94, 0.1);
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow:
+			0 6px 16px rgba(34, 197, 94, 0.25),
+			0 3px 8px rgba(34, 197, 94, 0.15);
+	}
 }
 
 .banner--error {
 	background: linear-gradient(
 		135deg,
-		var(--semantic-error-500),
-		var(--semantic-error-600)
+		var(--color-danger) 0%,
+		var(--color-danger-hover) 100%
 	);
-	color: var(--text-primary-inverse);
+	color: var(--color-white);
+	border: 1px solid rgba(239, 68, 68, 0.3);
+	box-shadow:
+		0 4px 12px rgba(239, 68, 68, 0.2),
+		0 2px 6px rgba(239, 68, 68, 0.1);
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow:
+			0 6px 16px rgba(239, 68, 68, 0.25),
+			0 3px 8px rgba(239, 68, 68, 0.15);
+	}
 }
 
 .banner--info {
 	background: linear-gradient(
 		135deg,
-		var(--accent-blue-500),
-		var(--accent-blue-600)
+		var(--color-info) 0%,
+		var(--color-info-hover) 100%
 	);
-	color: var(--text-primary-inverse);
+	color: var(--color-white);
+	border: 1px solid rgba(59, 130, 246, 0.3);
+	box-shadow:
+		0 4px 12px rgba(59, 130, 246, 0.2),
+		0 2px 6px rgba(59, 130, 246, 0.1);
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow:
+			0 6px 16px rgba(59, 130, 246, 0.25),
+			0 3px 8px rgba(59, 130, 246, 0.15);
+	}
 }
 
 .banner--warning {
 	background: linear-gradient(
 		135deg,
-		var(--semantic-warning-500),
-		var(--semantic-warning-600)
+		var(--color-warning) 0%,
+		var(--color-warning-hover) 100%
 	);
-	color: var(--text-primary-inverse);
+	color: var(--color-gray-900);
+	border: 1px solid rgba(251, 191, 36, 0.4);
+	box-shadow:
+		0 4px 12px rgba(251, 191, 36, 0.2),
+		0 2px 6px rgba(251, 191, 36, 0.1);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow:
+			0 6px 16px rgba(251, 191, 36, 0.25),
+			0 3px 8px rgba(251, 191, 36, 0.15);
+	}
 }
 
 // Close button
 .bannerCloseButton {
 	@include absolute-position(
-		var(--spacing-2),
-		var(--spacing-2)
+		var(--spacing-3),
+		var(--spacing-3)
 	);
 	@include interactive-element;
-	background: none;
+	background: rgba(0, 0, 0, 0.1);
 	border: none;
 	@include text-lg;
 	line-height: 1;
 	color: inherit;
 	cursor: pointer;
-	padding: var(--spacing-1);
-	border-radius: var(--radius-sm);
+	padding: var(--spacing-2);
+	border-radius: var(--radius-full);
 	opacity: 0.7;
+	@include smooth-transition(all);
+	backdrop-filter: blur(4px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
 
 	&:hover {
 		opacity: 1;
-		background: rgba(255, 255, 255, 0.1);
+		background: rgba(0, 0, 0, 0.2);
+		transform: scale(1.1);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	}
 
 	&:focus {
 		@include focus-ring;
+		outline-offset: 2px;
+	}
+
+	&:active {
+		transform: scale(0.95);
 	}
 }
 
@@ -240,11 +456,30 @@
 @keyframes bannerSlideIn {
 	from {
 		opacity: 0;
-		transform: translateY(-20px);
+		transform: translateY(-30px) scale(0.95);
 	}
 	to {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes toastPulse {
+	0%,
+	100% {
+		opacity: 0.6;
+	}
+	50% {
+		opacity: 0.8;
+	}
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
 	}
 }
 
@@ -257,8 +492,16 @@
 			200px
 		);
 		margin-inline: var(--spacing-2);
-		padding: var(--spacing-2) var(--spacing-4);
+		padding: var(--spacing-3) var(--spacing-4);
 		@include text-sm;
+		border-radius: var(--radius-lg);
+
+		// Reduce effects on mobile for performance
+		backdrop-filter: blur(6px);
+
+		&::after {
+			display: none; // Remove complex gradients on mobile
+		}
 	}
 
 	.banner--feedback {
@@ -267,5 +510,94 @@
 			calc(100vw - var(--spacing-4))
 		);
 		margin-inline: var(--spacing-2);
+		padding: var(--spacing-4) var(--spacing-4);
+		backdrop-filter: blur(8px);
+	}
+
+	.bannerCloseButton {
+		padding: var(--spacing-1);
+		@include text-base;
+	}
+}
+
+// Dark theme support
+@media (prefers-color-scheme: dark) {
+	.banner {
+		border-color: rgba(255, 255, 255, 0.1);
+
+		&::before {
+			background: linear-gradient(
+				90deg,
+				transparent 0%,
+				rgba(255, 255, 255, 0.2) 50%,
+				transparent 100%
+			);
+		}
+	}
+
+	.banner--feedback {
+		background: linear-gradient(
+			135deg,
+			rgba(31, 41, 55, 0.9) 0%,
+			rgba(17, 24, 39, 0.95) 100%
+		);
+		color: var(--color-white);
+		border-color: rgba(75, 85, 99, 0.3);
+	}
+
+	.banner--status {
+		background: linear-gradient(
+			135deg,
+			rgba(31, 41, 55, 0.9) 0%,
+			rgba(17, 24, 39, 0.95) 100%
+		);
+		border-color: rgba(75, 85, 99, 0.3);
+		color: var(--color-white);
+	}
+
+	.bannerCloseButton {
+		background: rgba(255, 255, 255, 0.1);
+		border-color: rgba(255, 255, 255, 0.2);
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.2);
+		}
+	}
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+	.banner {
+		border-width: 2px;
+
+		&--success,
+		&--error,
+		&--warning,
+		&--info {
+			filter: contrast(1.2) saturate(1.3);
+		}
+	}
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+	.banner {
+		animation: none;
+
+		&::before {
+			animation: none;
+		}
+
+		&:hover {
+			transform: none;
+		}
+	}
+
+	.banner--achievement::after {
+		animation: none;
+	}
+
+	.bannerCloseButton:hover {
+		transform: none;
 	}
 }

@@ -8,10 +8,6 @@ export interface AdminProps extends AdminConfiguration {
 	style?: React.CSSProperties;
 }
 
-/**
- * Base Admin component - provides consistent styling and positioning
- * Use this as the foundation for all admin debugging components
- */
 const Admin: React.FC<AdminProps> = ({
 	children,
 	position = 'top-left',

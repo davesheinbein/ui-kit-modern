@@ -2,15 +2,15 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import {
-	UnifiedCard,
+	Card,
 	CardFactory,
 	CardPresets,
 	QuickCards,
 } from '../../components/Card';
 
-const meta: Meta<typeof UnifiedCard> = {
+const meta: Meta<typeof Card> = {
 	title: 'Cards/Card',
-	component: UnifiedCard,
+	component: Card,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -134,15 +134,11 @@ const meta: Meta<typeof UnifiedCard> = {
 			description:
 				'Action buttons/elements for the card footer',
 		},
-		overrideConfig: {
-			control: 'object',
-			description: 'Override configuration object',
-		},
 	},
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedCard>;
+type Story = StoryObj<typeof Card>;
 
 // ===== LAYOUT CARDS =====
 // Basic foundational cards for general content display
@@ -1235,7 +1231,7 @@ export const AllCardKinds: Story = {
 				}}
 			>
 				{cardKinds.map((kind) => (
-					<UnifiedCard
+					<Card
 						key={kind}
 						kind={kind as any}
 						title={kind
@@ -1270,7 +1266,7 @@ export const AllCardKinds: Story = {
 		docs: {
 			description: {
 				story:
-					'Showcase of all available card kinds in the UnifiedCard system.',
+					'Showcase of all available card kinds in the Card system.',
 			},
 		},
 	},
@@ -1291,22 +1287,22 @@ export const CardGroupShowcase: Story = {
 							'repeat(auto-fit, minmax(250px, 1fr))',
 					}}
 				>
-					<UnifiedCard
+					<Card
 						kind='default'
 						title='Default'
 						content='Basic card styling'
 					/>
-					<UnifiedCard
+					<Card
 						kind='elevated'
 						title='Elevated'
 						content='Card with shadow'
 					/>
-					<UnifiedCard
+					<Card
 						kind='outlined'
 						title='Outlined'
 						content='Card with border'
 					/>
-					<UnifiedCard
+					<Card
 						kind='filled'
 						title='Filled'
 						content='Card with background'
@@ -1326,7 +1322,7 @@ export const CardGroupShowcase: Story = {
 							'repeat(auto-fit, minmax(300px, 1fr))',
 					}}
 				>
-					<UnifiedCard
+					<Card
 						kind='friend'
 						friend={{
 							id: '1',
@@ -1338,13 +1334,13 @@ export const CardGroupShowcase: Story = {
 						onMessage={() => {}}
 						onChallenge={() => {}}
 					/>
-					<UnifiedCard
+					<Card
 						kind='notification'
 						notificationType='success'
 						title='Success!'
 						content='Operation completed successfully'
 					/>
-					<UnifiedCard
+					<Card
 						kind='stats'
 						title='Performance'
 						statValue='92%'
@@ -1363,17 +1359,17 @@ export const CardGroupShowcase: Story = {
 							'repeat(auto-fit, minmax(300px, 1fr))',
 					}}
 				>
-					<UnifiedCard
+					<Card
 						kind='game'
 						title='Daily Challenge'
 						content="Complete today's puzzle"
 					/>
-					<UnifiedCard
+					<Card
 						kind='achievement'
 						title='🏆 Champion'
 						content='Win 10 matches in a row'
 					/>
-					<UnifiedCard
+					<Card
 						kind='puzzle'
 						title='Puzzle #42'
 						content='Medium difficulty challenge'

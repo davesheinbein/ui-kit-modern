@@ -6,9 +6,7 @@
  */
 
 import React from 'react';
-import UnifiedCard, {
-	UnifiedCardProps,
-} from './UnifiedCard';
+import Card, { CardProps } from './Card';
 import {
 	CARD_CONFIGURATIONS,
 	createCardConfig,
@@ -16,11 +14,11 @@ import {
 } from './configurations';
 
 // Factory function for creating cards
-export const CardFactory: React.FC<UnifiedCardProps> = ({
+export const CardFactory: React.FC<CardProps> = ({
 	kind,
 	...props
 }) => {
-	return <UnifiedCard kind={kind} {...props} />;
+	return <Card kind={kind} {...props} />;
 };
 
 CardFactory.displayName = 'CardFactory';
@@ -31,45 +29,45 @@ export const C = CardFactory;
 // Preset card components for common use cases
 export const CardPresets = {
 	// User interface presets
-	FriendCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	FriendCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory kind='friend' {...props} />
 	),
 
-	ProfileCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	ProfileCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory kind='profile' {...props} />
 	),
 
-	NotificationCard: (
-		props: Omit<UnifiedCardProps, 'kind'>
-	) => <CardFactory kind='notification' {...props} />,
+	NotificationCard: (props: Omit<CardProps, 'kind'>) => (
+		<CardFactory kind='notification' {...props} />
+	),
 
-	StatsCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	StatsCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory kind='stats' {...props} />
 	),
 
 	// Game interface presets
-	GameCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	GameCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory kind='game' {...props} />
 	),
 
-	PuzzleCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	PuzzleCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory kind='puzzle' {...props} />
 	),
 
-	RoomCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	RoomCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory kind='room-info' {...props} />
 	),
 
-	MatchCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	MatchCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory kind='match-summary' {...props} />
 	),
 
 	// Layout presets
-	InfoCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	InfoCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory kind='default' hover {...props} />
 	),
 
-	ActionCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	ActionCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory
 			kind='elevated'
 			clickable
@@ -78,7 +76,7 @@ export const CardPresets = {
 		/>
 	),
 
-	ContentCard: (props: Omit<UnifiedCardProps, 'kind'>) => (
+	ContentCard: (props: Omit<CardProps, 'kind'>) => (
 		<CardFactory kind='outlined' {...props} />
 	),
 };
@@ -92,7 +90,7 @@ export class CardFactoryClass {
 	 */
 	static create(
 		kind: ExtendedCardKind,
-		props: Omit<UnifiedCardProps, 'kind'> = {}
+		props: Omit<CardProps, 'kind'> = {}
 	): React.ReactElement {
 		return <CardFactory kind={kind} {...props} />;
 	}
@@ -105,35 +103,27 @@ export class CardFactoryClass {
 		configOverride: Partial<
 			(typeof CARD_CONFIGURATIONS)[ExtendedCardKind]
 		>,
-		props: Omit<UnifiedCardProps, 'kind'> = {}
+		props: Omit<CardProps, 'kind'> = {}
 	): React.ReactElement {
-		return (
-			<CardFactory
-				kind={kind}
-				overrideConfig={configOverride}
-				{...props}
-			/>
-		);
+		return <CardFactory kind={kind} {...props} />;
 	}
 
 	/**
 	 * Quick card creators
 	 */
-	static friend = (props: Omit<UnifiedCardProps, 'kind'>) =>
+	static friend = (props: Omit<CardProps, 'kind'>) =>
 		CardFactoryClass.create('friend', props);
 
-	static game = (props: Omit<UnifiedCardProps, 'kind'>) =>
+	static game = (props: Omit<CardProps, 'kind'>) =>
 		CardFactoryClass.create('game', props);
 
-	static profile = (
-		props: Omit<UnifiedCardProps, 'kind'>
-	) => CardFactoryClass.create('profile', props);
+	static profile = (props: Omit<CardProps, 'kind'>) =>
+		CardFactoryClass.create('profile', props);
 
-	static notification = (
-		props: Omit<UnifiedCardProps, 'kind'>
-	) => CardFactoryClass.create('notification', props);
+	static notification = (props: Omit<CardProps, 'kind'>) =>
+		CardFactoryClass.create('notification', props);
 
-	static stats = (props: Omit<UnifiedCardProps, 'kind'>) =>
+	static stats = (props: Omit<CardProps, 'kind'>) =>
 		CardFactoryClass.create('stats', props);
 }
 
@@ -149,20 +139,20 @@ export const QuickCards = {
 	s: CardFactoryClass.stats,
 
 	// Common patterns
-	info: (props: Omit<UnifiedCardProps, 'kind'>) =>
+	info: (props: Omit<CardProps, 'kind'>) =>
 		CardFactoryClass.create('default', {
 			hover: true,
 			...props,
 		}),
 
-	action: (props: Omit<UnifiedCardProps, 'kind'>) =>
+	action: (props: Omit<CardProps, 'kind'>) =>
 		CardFactoryClass.create('elevated', {
 			clickable: true,
 			hover: true,
 			...props,
 		}),
 
-	display: (props: Omit<UnifiedCardProps, 'kind'>) =>
+	display: (props: Omit<CardProps, 'kind'>) =>
 		CardFactoryClass.create('outlined', props),
 };
 
