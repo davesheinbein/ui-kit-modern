@@ -1,12 +1,12 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import {
 	Button,
-	ButtonFactory,
-	B,
+	createButton,
+	createButtonGroup,
+	ButtonKind,
+	ButtonProps,
 } from '../../components/Button';
-import { Wrapper } from '../../components/Wrappers';
-import type { ButtonProps } from '../../components/Button';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Button> = {
 	title: 'Buttons/Button',
@@ -16,7 +16,7 @@ const meta: Meta<typeof Button> = {
 		docs: {
 			description: {
 				component:
-					'The ultimate DRY button component. Single component handles ALL button types through the "kind" prop. Supports 30+ button kinds with configuration-driven approach.',
+					'The ultimate DRY button component. Single component handles all button types through the "kind" prop and props. Use controls to explore all variants and states.',
 			},
 		},
 	},
@@ -32,47 +32,25 @@ const meta: Meta<typeof Button> = {
 				'ghost',
 				'link',
 				'icon',
-				'close',
 				'word',
 				'copy-link',
 				'go-back',
 				'friends-toggle',
-				'dark-mode-toggle',
-				'notification-close',
-				'toast-action',
-				'feedback-action',
-				'customization-item',
-				'vs-quick-chat',
-				'vs-status-emote',
-				'pregame-ready',
-				'purchase-buy',
-				'purchase-gift',
-				'modal-confirm',
-				'modal-cancel',
-				'form-submit',
-				'form-reset',
-				'nav-back',
-				'nav-forward',
-				'custom',
 			],
 			description:
 				'Button kind - determines styling and behavior',
 		},
-		text: {
+		children: {
 			control: 'text',
 			description: 'Button text content',
 		},
-		word: {
-			control: 'text',
-			description: 'Word content (for word buttons)',
-		},
 		icon: {
 			control: 'text',
-			description: 'Icon to display (emoji or text)',
+			description: 'Icon (emoji or text)',
 		},
 		label: {
 			control: 'text',
-			description: 'Accessibility label for icon buttons',
+			description: 'Accessibility label',
 		},
 		size: {
 			control: 'select',
@@ -85,28 +63,35 @@ const meta: Meta<typeof Button> = {
 		},
 		fullWidth: {
 			control: 'boolean',
-			description: 'Take full width of container',
+			description: 'Full width',
 		},
 		disabled: {
 			control: 'boolean',
-			description: 'Disable button interactions',
+			description: 'Disable button',
 		},
 		isSelected: {
 			control: 'boolean',
-			description:
-				'Selected state (for word/toggle buttons)',
+			description: 'Selected (word/toggle)',
 		},
 		isActive: {
 			control: 'boolean',
-			description: 'Active state (for toggle buttons)',
+			description: 'Active (toggle)',
 		},
 		isLocked: {
 			control: 'boolean',
-			description: 'Locked/disabled state',
+			description: 'Locked/disabled (word)',
 		},
 		burnSuspect: {
 			control: 'boolean',
-			description: 'Burn suspect state (for word buttons)',
+			description: 'Burn suspect (word)',
+		},
+		isBurned: {
+			control: 'boolean',
+			description: 'Burned (word)',
+		},
+		word: {
+			control: 'text',
+			description: 'Word content (for word buttons)',
 		},
 		href: {
 			control: 'text',
@@ -114,593 +99,300 @@ const meta: Meta<typeof Button> = {
 		},
 		copyText: {
 			control: 'text',
-			description: 'Text to copy (for copy-link buttons)',
+			description: 'Text to copy (for copy-link)',
+		},
+		imageUrl: {
+			control: 'text',
+			description: 'Image URL (friends toggle)',
+		},
+		userName: {
+			control: 'text',
+			description: 'User name (friends toggle)',
+		},
+		isAuthenticated: {
+			control: 'boolean',
+			description: 'Authenticated (friends toggle)',
 		},
 		onClick: {
 			action: 'clicked',
-			description: 'Function called when button is clicked',
+			description: 'Click handler',
 		},
 	},
 };
-
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-// Basic button variants
-export const Primary: Story = {
-	args: {
-		kind: 'primary',
-		text: 'Primary Button',
-	},
-};
+// --- Consolidated Stories ---
 
-export const PrimaryWithIcon: Story = {
+export const Playground: Story = {
 	args: {
 		kind: 'primary',
-		text: 'Primary with Icon',
-		icon: '✓',
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Primary button with an icon.',
-			},
-		},
-	},
-};
-
-export const PrimaryLongText: Story = {
-	args: {
-		kind: 'primary',
-		text: 'This is a very long button text to test wrapping and overflow behavior',
+		children: 'Button',
+		icon: '',
+		loading: false,
+		fullWidth: false,
+		disabled: false,
+		size: 'medium',
 	},
 	parameters: {
 		docs: {
 			description: {
 				story:
-					'Primary button with long text to test text handling.',
+					'Use controls to explore all button variants, icons, sizes, and states.',
 			},
 		},
 	},
 };
 
-export const Secondary: Story = {
-	args: {
-		kind: 'secondary',
-		text: 'Secondary Button',
-	},
-};
-
-export const SecondaryWithIcon: Story = {
-	args: {
-		kind: 'secondary',
-		text: 'Secondary with Icon',
-		icon: '📝',
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Secondary button with an icon.',
-			},
-		},
-	},
-};
-
-export const Danger: Story = {
-	args: {
-		kind: 'danger',
-		text: 'Danger Button',
-	},
-};
-
-export const Success: Story = {
-	args: {
-		kind: 'success',
-		text: 'Success Button',
-	},
-};
-
-export const Warning: Story = {
-	args: {
-		kind: 'warning',
-		text: 'Warning Button',
-	},
-};
-
-export const Ghost: Story = {
-	args: {
-		kind: 'ghost',
-		text: 'Ghost Button',
-	},
-};
-
-// Specialized UI buttons
-export const IconButton: Story = {
-	args: {
-		kind: 'icon',
-		icon: '⚙️',
-		label: 'Settings',
-	},
-};
-
-export const CloseButton: Story = {
-	args: {
-		kind: 'close',
-	},
-};
-
-export const CloseButtonIconOnly: Story = {
-	args: {
-		kind: 'close-icon-only',
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Close button with icon only (no text).',
-			},
-		},
-	},
-};
-
-export const CopyLinkButton: Story = {
-	args: {
-		kind: 'copy-link',
-		copyText: 'https://example.com',
-		text: 'Copy Link',
-	},
-};
-
-export const CopyLinkButtonLongUrl: Story = {
-	args: {
-		kind: 'copy-link',
-		copyText:
-			'https://example.com/very/long/url/path/that/might/overflow',
-		text: 'Copy Very Long URL',
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Copy link button with a very long URL to test text handling.',
-			},
-		},
-	},
-};
-
-export const GoBackButton: Story = {
-	args: {
-		kind: 'go-back',
-	},
-};
-
-export const GoBackButtonWithLabel: Story = {
-	args: {
-		kind: 'go-back',
-		label: 'Return to previous page',
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Go back button with custom accessibility label.',
-			},
-		},
-	},
-};
-
-export const IconButtonCustom: Story = {
-	args: {
-		kind: 'icon',
-		icon: '🎮',
-		label: 'Gaming Settings',
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Icon button with custom icon and label.',
-			},
-		},
-	},
-};
-
-export const IconButtonVariations: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				gap: '1rem',
-				flexWrap: 'wrap',
-			}}
+export const Variants: Story = {
+	render: (args) => (
+		<div
+			style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
 		>
-			<Button kind='icon' icon='⚙️' label='Settings' />
-			<Button kind='icon' icon='🔔' label='Notifications' />
-			<Button kind='icon' icon='👤' label='Profile' />
-			<Button kind='icon' icon='🏠' label='Home' />
-			<Button kind='icon' icon='❤️' label='Favorites' />
-			<Button kind='icon' icon='🔍' label='Search' />
-		</Wrapper>
+			<Button kind='primary'>Primary</Button>
+			<Button kind='secondary'>Secondary</Button>
+			<Button kind='danger'>Danger</Button>
+			<Button kind='success'>Success</Button>
+			<Button kind='warning'>Warning</Button>
+			<Button kind='ghost'>Ghost</Button>
+			<Button kind='link' href='https://example.com'>
+				Link
+			</Button>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: { story: 'All main button variants.' },
+		},
+	},
+};
+
+export const WithIcon: Story = {
+	render: (args) => (
+		<div
+			style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
+		>
+			<Button
+				kind='primary'
+				contentType='textIcon'
+				icon='check'
+			>
+				Check
+			</Button>
+			<Button
+				kind='secondary'
+				contentType='textIcon'
+				icon='close'
+			>
+				Close
+			</Button>
+			<Button
+				kind='danger'
+				contentType='textIcon'
+				icon='warning'
+			>
+				Warning
+			</Button>
+			<Button
+				kind='success'
+				contentType='textIcon'
+				icon='success'
+			>
+				Success
+			</Button>
+			<Button
+				kind='warning'
+				contentType='textIcon'
+				icon='star'
+			>
+				Star
+			</Button>
+			<Button
+				kind='primary'
+				contentType='icon'
+				icon='settings'
+				label='Settings'
+			/>
+			<Button
+				kind='secondary'
+				contentType='icon'
+				icon='user'
+				label='User'
+			/>
+			<Button
+				kind='danger'
+				contentType='icon'
+				icon='search'
+				label='Search'
+			/>
+			<Button
+				kind='success'
+				contentType='icon'
+				icon='heart'
+				label='Heart'
+			/>
+			<Button
+				kind='warning'
+				contentType='icon'
+				icon='bell'
+				label='Bell'
+			/>
+			<Button
+				kind='ghost'
+				contentType='icon'
+				icon='arrow-left'
+				label='Arrow Left'
+			/>
+			<Button
+				kind='ghost'
+				contentType='icon'
+				icon='arrow-right'
+				label='Arrow Right'
+			/>
+			<Button
+				kind='ghost'
+				contentType='icon'
+				icon='copy'
+				label='Copy'
+			/>
+		</div>
 	),
 	parameters: {
 		docs: {
 			description: {
 				story:
-					'Various icon button examples with different icons.',
+					'Buttons with Font Awesome icons (icon-only and icon+text) using the Icons component.',
 			},
 		},
 	},
 };
 
-// Social/Toggle buttons
-export const FriendsToggleDefault: Story = {
-	args: {
-		kind: 'friends-toggle',
-		isAuthenticated: false,
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Friends toggle button in unauthenticated state.',
-			},
-		},
-	},
-};
-
-export const FriendsToggleAuthenticated: Story = {
-	args: {
-		kind: 'friends-toggle',
-		isAuthenticated: true,
-		imageUrl:
-			'https://via.placeholder.com/36x36/2563eb/ffffff?text=JD',
-		userName: 'John Doe',
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Friends toggle button with authenticated user profile image.',
-			},
-		},
-	},
-};
-
-// Game-specific buttons
-export const WordButton: Story = {
-	args: {
-		kind: 'word',
-		text: 'HELLO',
-		isSelected: false,
-	},
-};
-
-export const WordButtonSelected: Story = {
-	args: {
-		kind: 'word',
-		text: 'WORLD',
-		isSelected: true,
-	},
-};
-
-export const WordButtonLocked: Story = {
-	args: {
-		kind: 'word',
-		text: 'LOCKED',
-		isSelected: false,
-		isLocked: true,
-	},
-};
-
-export const WordButtonBurnSuspect: Story = {
-	args: {
-		kind: 'word',
-		text: 'SUSPECT',
-		isSelected: false,
-		burnSuspect: true,
-	},
-};
-
-export const WordButtonBurned: Story = {
-	args: {
-		kind: 'word',
-		text: 'BURNED',
-		isSelected: false,
-		isBurned: true,
-	},
-};
-
-export const WordButtonAllStates: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'grid',
-				gridTemplateColumns: 'repeat(3, 1fr)',
-				gap: '1rem',
-				maxWidth: '600px',
-			}}
-		>
-			<Button
-				kind='word'
-				text='Default'
-				isSelected={false}
-				isLocked={false}
-				onClick={() => {}}
-			/>
-			<Button
-				kind='word'
-				text='Selected'
-				isSelected={true}
-				isLocked={false}
-				onClick={() => {}}
-			/>
-			<Button
-				kind='word'
-				text='Locked'
-				isSelected={false}
-				isLocked={true}
-				onClick={() => {}}
-			/>
-			<Button
-				kind='word'
-				text='Suspect'
-				isSelected={false}
-				isLocked={false}
-				burnSuspect={true}
-				onClick={() => {}}
-			/>
-			<Button
-				kind='word'
-				text='Burned'
-				isSelected={false}
-				isLocked={false}
-				isBurned={true}
-				onClick={() => {}}
-			/>
-			<Button
-				kind='word'
-				text='Sel+Susp'
-				isSelected={true}
-				isLocked={false}
-				burnSuspect={true}
-				onClick={() => {}}
-			/>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'All word button states in a grid layout for comparison.',
-			},
-		},
-	},
-};
-
-export const VSQuickChat: Story = {
-	args: {
-		kind: 'vs-quick-chat',
-		text: 'Good luck!',
-	},
-};
-
-export const PregameReady: Story = {
-	args: {
-		kind: 'pregame-ready',
-	},
-};
-
-// Commerce buttons
-export const PurchaseBuy: Story = {
-	args: {
-		kind: 'purchase-buy',
-		text: 'Buy $9.99',
-	},
-};
-
-export const PurchaseGift: Story = {
-	args: {
-		kind: 'purchase-gift',
-		text: 'Buy as Gift',
-	},
-};
-
-// Modal buttons
-export const ModalConfirm: Story = {
-	args: {
-		kind: 'modal-confirm',
-	},
-};
-
-export const ModalCancel: Story = {
-	args: {
-		kind: 'modal-cancel',
-	},
-};
-
-// Form buttons
-export const FormSubmit: Story = {
-	args: {
-		kind: 'form-submit',
-	},
-};
-
-export const FormReset: Story = {
-	args: {
-		kind: 'form-reset',
-	},
-};
-
-// Button Size Variations
-export const ButtonSizes: Story = {
-	render: () => (
-		<Wrapper
+export const Sizes: Story = {
+	render: (args) => (
+		<div
 			style={{
 				display: 'flex',
-				gap: '1rem',
+				gap: 16,
 				alignItems: 'center',
 			}}
 		>
-			<Button kind='primary' text='Small' size='small' />
-			<Button kind='primary' text='Medium' size='medium' />
-			<Button kind='primary' text='Large' size='large' />
-		</Wrapper>
+			<Button kind='primary' size='small'>
+				Small
+			</Button>
+			<Button kind='primary' size='medium'>
+				Medium
+			</Button>
+			<Button kind='primary' size='large'>
+				Large
+			</Button>
+		</div>
 	),
 	parameters: {
 		docs: {
 			description: {
-				story: 'Primary buttons in different sizes.',
+				story: 'Primary button in all sizes.',
 			},
 		},
 	},
 };
 
-// Button States
-export const ButtonStates: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				gap: '1rem',
-				flexWrap: 'wrap',
-			}}
+export const States: Story = {
+	render: (args) => (
+		<div
+			style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
 		>
-			<Button kind='primary' text='Normal' />
-			<Button
-				kind='primary'
-				text='Loading'
-				loading={true}
-			/>
-			<Button
-				kind='primary'
-				text='Disabled'
-				disabled={true}
-			/>
-			<Button
-				kind='primary'
-				text='Full Width'
-				fullWidth={true}
-			/>
-		</Wrapper>
+			<Button kind='primary'>Normal</Button>
+			<Button kind='primary' loading>
+				Loading
+			</Button>
+			<Button kind='primary' disabled>
+				Disabled
+			</Button>
+			<Button kind='primary' fullWidth>
+				Full Width
+			</Button>
+		</div>
 	),
 	parameters: {
 		docs: {
 			description: {
-				story: 'Primary buttons in different states.',
+				story: 'Primary button in different states.',
 			},
 		},
 	},
 };
 
-// Link Button Variations
-export const LinkButton: Story = {
-	args: {
-		kind: 'link',
-		text: 'Link Button',
-		href: 'https://example.com',
+export const WordButton: Story = {
+	render: (args) => (
+		<div
+			style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
+		>
+			<Button kind='word' text='Default' />
+			<Button kind='word' text='Selected' isSelected />
+			<Button kind='word' text='Locked' isLocked />
+			<Button kind='word' text='Suspect' burnSuspect />
+			<Button kind='word' text='Burned' isBurned />
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: { story: 'Word button states.' },
+		},
 	},
 };
 
-export const LinkButtonExternal: Story = {
+export const CopyLink: Story = {
 	args: {
-		kind: 'link',
-		text: 'External Link',
-		href: 'https://github.com',
+		kind: 'copy-link',
+		children: 'Copy Link',
+		copyText: 'https://example.com',
 	},
 	parameters: {
 		docs: {
-			description: {
-				story: 'Link button that opens external URL.',
-			},
+			description: { story: 'Copy link button.' },
 		},
 	},
 };
 
-// Demonstrate button factory usage
-export const FactoryExample: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				gap: '1rem',
-				flexWrap: 'wrap',
-			}}
-		>
-			{ButtonFactory.create('primary', {
-				text: 'Factory Primary',
-			})}
-			{ButtonFactory.create('icon', {
-				icon: '🔥',
-				label: 'Fire',
-			})}
-			{B.save(() => console.log('Saved!'))}
-			{B.delete(() => console.log('Deleted!'))}
-			{B.copy('https://example.com', 'Copy URL')}
-		</Wrapper>
+export const GoBack: Story = {
+	args: {
+		kind: 'go-back',
+		label: 'Go Back',
+	},
+	parameters: {
+		docs: {
+			description: { story: 'Go back button.' },
+		},
+	},
+};
+
+export const FriendsToggle: Story = {
+	render: (args) => (
+		<div style={{ display: 'flex', gap: 16 }}>
+			<Button
+				kind='friends-toggle'
+				isAuthenticated={false}
+			/>
+			<Button
+				kind='friends-toggle'
+				isAuthenticated={true}
+				imageUrl='https://via.placeholder.com/36x36/2563eb/ffffff?text=JD'
+				userName='John Doe'
+			/>
+		</div>
 	),
 	parameters: {
 		docs: {
 			description: {
 				story:
-					'Examples using ButtonFactory and ultra-DRY shortcuts (B.*).',
+					'Friends toggle button (unauthenticated and authenticated).',
 			},
 		},
 	},
 };
 
-// Demonstrate button groups
-export const ButtonGroups: Story = {
-	render: () => {
-		const modalActions = ButtonFactory.createModalActions({
-			onConfirm: () => console.log('Confirmed!'),
-			onCancel: () => console.log('Cancelled!'),
-			confirmText: 'Delete Account',
-			cancelText: 'Keep Account',
-		});
-
-		const formActions = ButtonFactory.createFormActions({
-			onSubmit: () => console.log('Submitted!'),
-			onReset: () => console.log('Reset!'),
-			onCancel: () => console.log('Cancelled!'),
-		});
-
-		return (
-			<Wrapper
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					gap: '2rem',
-				}}
-			>
-				<Wrapper>
-					<h4>Modal Actions Group</h4>
-					<Wrapper kind='flex-container' gap='1rem'>
-						{modalActions.confirm}
-						{modalActions.cancel}
-					</Wrapper>
-				</Wrapper>
-				<Wrapper>
-					<h4>Form Actions Group</h4>
-					<Wrapper kind='flex-container' gap='1rem'>
-						{formActions.submit}
-						{formActions.reset}
-						{formActions.cancel}
-					</Wrapper>
-				</Wrapper>
-			</Wrapper>
-		);
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Pre-configured button groups for common UI patterns.',
-			},
-		},
-	},
-};
-
-// Show all available button kinds
-export const AllButtonKinds: Story = {
-	render: () => {
+export const AllKindsShowcase: Story = {
+	render: (args) => {
 		const buttonKinds = [
 			'primary',
 			'secondary',
@@ -708,52 +400,51 @@ export const AllButtonKinds: Story = {
 			'success',
 			'warning',
 			'ghost',
-			'icon',
-			'close',
+			'word',
 			'copy-link',
 			'go-back',
 			'friends-toggle',
-			'word',
-			'vs-quick-chat',
-			'pregame-ready',
-			'purchase-buy',
-			'modal-confirm',
-			'form-submit',
 		];
-
 		return (
-			<Wrapper
+			<div
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
 						'repeat(auto-fit, minmax(150px, 1fr))',
-					gap: '1rem',
+					gap: 16,
 				}}
 			>
 				{buttonKinds.map((kind) => (
 					<Button
 						key={kind}
 						kind={kind as any}
-						text={kind.replace('-', ' ')}
-						onClick={() => console.log(`${kind} clicked!`)}
-						{...(kind === 'icon' && {
-							icon: '⭐',
-							label: 'Star',
-						})}
-						{...(kind === 'copy-link' && {
-							copyText: 'https://example.com',
-						})}
-						{...(kind === 'word' && { text: 'WORD' })}
+						children={kind.replace('-', ' ')}
+						icon={kind === 'primary' ? 'check' : undefined}
+						contentType={
+							kind === 'primary' ? 'textIcon' : 'text'
+						}
+						copyText={
+							kind === 'copy-link' ?
+								'https://example.com'
+							:	undefined
+						}
+						text={kind === 'word' ? 'WORD' : undefined}
 					/>
 				))}
-			</Wrapper>
+				{/* Icon-only showcase */}
+				<Button
+					kind='ghost'
+					contentType='icon'
+					icon='star'
+					label='Star'
+				/>
+			</div>
 		);
 	},
 	parameters: {
 		docs: {
 			description: {
-				story:
-					'Showcase of all available button kinds in the Button system.',
+				story: 'Showcase of all available button kinds.',
 			},
 		},
 	},

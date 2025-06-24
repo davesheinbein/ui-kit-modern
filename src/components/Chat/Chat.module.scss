@@ -40,21 +40,10 @@
 	@include contained-width(340px, 95vw);
 }
 
-.chat--in-match {
-	@include card-base;
-	background: var(--bg-surface);
-	padding: var(--spacing-4);
-}
-
-.chat--match {
-	@include card-base;
-	background: var(--bg-surface);
-	padding: var(--spacing-4);
-}
-
-.chat--general {
+.chat--quick-chat {
 	background: var(--bg-surface-alpha);
 	backdrop-filter: blur(8px);
+	// You can add more specific quick-chat styles here if needed
 }
 
 .chatHeader {

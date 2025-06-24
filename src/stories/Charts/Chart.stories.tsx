@@ -1,5 +1,28 @@
 import React from 'react';
-import { Chart, ChartProps } from '../../components/Chart';
+import {
+	Chart,
+	ChartProps,
+	LegendChart,
+	LegendHorizontal,
+	LegendVertical,
+	LegendGrid,
+	LegendMinimal,
+	TooltipChart,
+	TooltipSimple,
+	TooltipDetailed,
+	TooltipCustom,
+	FilterControls,
+	FilterCheckboxes,
+	FilterButtons,
+	FilterDropdown,
+	FilterMultiSelect,
+	ChartControls,
+	ZoomControls,
+	TimeRangeSelector,
+	DataSeriesToggle,
+	DashboardLegend,
+	GameStatsFilter,
+} from '../../components/Chart';
 import { Meta, StoryObj } from '@storybook/react';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
@@ -57,33 +80,40 @@ export const Default: Story = {
 };
 
 export const VerticalLegend: Story = {
-	args: {
-		kind: 'legend-vertical',
-		chartId: 'vertical-legend',
-		size: 'large',
-	},
+	render: (args) => (
+		<LegendVertical
+			{...args}
+			chartId='vertical-legend'
+			size='large'
+		/>
+	),
+	args: {},
 };
 
 export const WithFilterControls: Story = {
-	args: {
-		kind: 'filter-checkboxes',
-		chartId: 'filter-controls',
-		showSelectAll: true,
-		searchable: true,
-	},
+	render: (args) => (
+		<FilterCheckboxes
+			{...args}
+			chartId='filter-controls'
+			showSelectAll
+			searchable
+		/>
+	),
+	args: {},
 };
 
 export const Tooltip: Story = {
-	args: {
-		kind: 'chart-tooltip',
-		chartId: 'tooltip-demo',
-		children: 'This is a tooltip for a chart data point.',
-	},
+	render: (args) => (
+		<TooltipChart {...args} chartId='tooltip-demo'>
+			This is a tooltip for a chart data point.
+		</TooltipChart>
+	),
+	args: {},
 };
 
-export const ChartControls: Story = {
-	args: {
-		kind: 'chart-controls',
-		chartId: 'controls-demo',
-	},
+export const ChartControlsStory: Story = {
+	render: (args) => (
+		<ChartControls {...args} chartId='controls-demo' />
+	),
+	args: {},
 };

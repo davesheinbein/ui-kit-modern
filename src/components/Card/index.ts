@@ -8,9 +8,19 @@ export type { ExtendedCardKind as CardKind } from './configurations';
 // Export all configuration utilities
 export * from './configurations';
 
-// Export factory system
+// Export named helpers for DRY card creation
 export {
-	default as CardFactory,
-	CardPresets,
-	CardFactoryClass,
-} from './factory';
+	createCard,
+	createCardWithConfig,
+	FriendCard,
+	ProfileCard,
+	NotificationCard,
+	StatsCard,
+	GameCard,
+	PuzzleCard,
+	RoomCard,
+	MatchCard,
+	InfoCard,
+	ActionCard,
+	ContentCard,
+} from './Card';

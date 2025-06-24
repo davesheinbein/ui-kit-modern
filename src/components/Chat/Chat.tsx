@@ -1,13 +1,13 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Wrapper } from '../Wrappers';
 import styles from './Chat.module.scss';
 import { Button } from '../Button';
-import ChatFactory from './factory';
-import { ChatKind } from './configurations';
+import {
+	ChatKind,
+	CHAT_CONFIGURATIONS,
+} from './configurations';
 
-// Unified ChatProps interface
 export interface ChatProps {
-	// High-level (factory-driven) chat props
 	kind?: ChatKind;
 	messages?: Array<{
 		id: string;
@@ -18,96 +18,223 @@ export interface ChatProps {
 	}>;
 	currentUser?: string;
 	onSend?: (message: string) => void;
-	// Presentational chat window props
+
 	children?: React.ReactNode;
-	variant?: 'friend' | 'in-match' | 'match' | 'general';
 	position?: 'fixed' | 'relative' | 'absolute';
 	title?: string;
 	showCloseButton?: boolean;
 	showHeader?: boolean;
 	avatar?: React.ReactNode;
-	// Shared props
+
 	onClose?: () => void;
 	className?: string;
+	showInput?: boolean;
 	[key: string]: any;
 }
 
-/**
- * Unified Chat component - DRY, configuration-driven, and presentational
- * If 'kind' is provided, renders the high-level chat factory; otherwise, renders a styled chat window.
- */
 const Chat = forwardRef<HTMLDivElement, ChatProps>(
 	(props, ref) => {
 		const {
-			// Factory-driven props
-			kind,
+			kind = 'general',
 			messages = [],
 			currentUser = '',
 			onSend,
-			// Presentational props
 			children,
-			variant = 'general',
-			position = 'relative',
+			position,
 			title,
-			showCloseButton = false,
-			showHeader = true,
+			showCloseButton,
+			showHeader,
 			avatar,
-			// Shared
 			onClose,
 			className = '',
+			showInput,
 			...rest
 		} = props;
 
-		if (kind) {
-			// Only pass valid props to ChatFactory
-			return (
-				<ChatFactory
-					ref={ref}
-					kind={kind}
-					messages={messages}
-					currentUser={currentUser}
-					onSend={onSend}
-					onClose={onClose}
-					className={className}
-					{...rest}
-				/>
-			);
-		}
+		const config =
+			CHAT_CONFIGURATIONS[
+				kind as keyof typeof CHAT_CONFIGURATIONS
+			] ?? CHAT_CONFIGURATIONS['general'];
 
-		// Presentational chat window
+		const mergedPosition =
+			position ?? config.position ?? 'relative';
+		const mergedTitle = title ?? config.title;
+		const mergedShowCloseButton =
+			showCloseButton ?? config.showCloseButton ?? false;
+		const mergedShowHeader =
+			showHeader ?? config.showHeader ?? true;
+		const mergedAvatar = avatar ?? config.avatar;
+		const mergedShowInput =
+			showInput ?? config.showInput ?? true;
+
+		const [input, setInput] = useState('');
+		const [localMessages, setLocalMessages] =
+			useState(messages);
+
 		const chatClasses = [
 			styles.chat,
 			'wrapper',
-			styles[`chat--${variant}`],
-			styles[`chat--${position}`],
+			styles[`chat--${kind}`],
+			styles[`chat--${mergedPosition}`],
 			className,
 		]
 			.filter(Boolean)
 			.join(' ');
 
+		const handleSend = (msg?: string) => {
+			const messageToSend = msg ?? input.trim();
+			if (messageToSend && onSend) {
+				onSend(messageToSend);
+				setInput('');
+			}
+			if (messageToSend) {
+				setLocalMessages([
+					...localMessages,
+					{
+						id: `${Date.now()}`,
+						text: messageToSend,
+						sender: currentUser || 'You',
+						time: new Date().toLocaleTimeString([], {
+							hour: '2-digit',
+							minute: '2-digit',
+						}),
+						type: 'self',
+					},
+				]);
+			}
+		};
+
+		const handleInputKeyDown = (
+			e: React.KeyboardEvent<HTMLInputElement>
+		) => {
+			if (e.key === 'Enter') {
+				handleSend();
+			}
+		};
+
+		// Quick chat options (emojis in pills)
+		const quickOptions =
+			kind === 'quick-chat' && config.quickOptions ?
+				config.quickOptions
+			:	[];
+
 		return (
 			<Wrapper ref={ref} className={chatClasses} {...rest}>
-				{showHeader &&
-					(title || showCloseButton || avatar) && (
+				{mergedShowHeader &&
+					(mergedTitle ||
+						mergedShowCloseButton ||
+						mergedAvatar) && (
 						<Wrapper className={styles.chatHeader}>
-							{avatar && (
+							{mergedAvatar && (
 								<Wrapper className={styles.chatAvatar}>
-									{avatar}
+									{mergedAvatar}
 								</Wrapper>
 							)}
-							{title && (
+							{mergedTitle && (
 								<Wrapper className={styles.chatTitle}>
-									{title}
+									{mergedTitle}
 								</Wrapper>
 							)}
-							{showCloseButton && onClose && (
+							{mergedShowCloseButton && onClose && (
 								<Button kind='close' onClick={onClose} />
 							)}
 						</Wrapper>
 					)}
 				<Wrapper className={styles.chatContent}>
+					{/* Render messages */}
+					{localMessages.length > 0 ?
+						<Wrapper className={styles.chatMessages}>
+							{localMessages.map(
+								(msg: {
+									id: string;
+									text: string;
+									sender: string;
+									time: string;
+									type?: 'self' | 'friend' | 'system';
+								}) => {
+									const isSelf =
+										msg.sender === currentUser ||
+										msg.type === 'self';
+									const isSystem = msg.type === 'system';
+									const msgClass =
+										isSystem ? styles.chatMessageSystem
+										: isSelf ? styles.chatMessageSelf
+										: styles.chatMessageFriend;
+									return (
+										<Wrapper
+											key={msg.id}
+											className={`${styles.chatMessage} ${msgClass}`}
+										>
+											<span
+												className={styles.chatMessageText}
+											>
+												{msg.text}
+											</span>
+											<span
+												className={styles.chatMessageTime}
+											>
+												{msg.time}
+											</span>
+										</Wrapper>
+									);
+								}
+							)}
+						</Wrapper>
+					:	<Wrapper
+							style={{
+								color: '#888',
+								textAlign: 'center',
+								marginTop: '2rem',
+							}}
+						>
+							No messages yet.
+						</Wrapper>
+					}
 					{children}
 				</Wrapper>
+				{/* Quick chat pills - moved above input, use primary button */}
+				{kind === 'quick-chat' &&
+					quickOptions.length > 0 && (
+						<Wrapper
+							className={styles.vsQuickChatBar}
+							style={{ marginBottom: 0, marginTop: 8 }}
+						>
+							{quickOptions.map((option, idx) => (
+								<Button
+									key={option}
+									kind='primary'
+									className={styles.vsQuickChatButton}
+									onClick={() => handleSend(option)}
+									type='button'
+								>
+									{option}
+								</Button>
+							))}
+						</Wrapper>
+					)}
+				{mergedShowInput !== false && (
+					<Wrapper
+						className={styles.chatInput}
+						style={{ display: 'flex', gap: 8, padding: 12 }}
+					>
+						<input
+							type='text'
+							className={styles.chatInputField}
+							placeholder='Type a message...'
+							value={input}
+							onChange={(e) => setInput(e.target.value)}
+							onKeyDown={handleInputKeyDown}
+							style={{ flex: 1 }}
+						/>
+						<Button
+							kind='primary'
+							className={styles.chatSendBtn}
+							onClick={() => handleSend()}
+						>
+							Send
+						</Button>
+					</Wrapper>
+				)}
 			</Wrapper>
 		);
 	}

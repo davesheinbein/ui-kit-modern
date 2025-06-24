@@ -319,4 +319,64 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
 Card.displayName = 'Card';
 
+/**
+ * Create a card with a specific kind and minimal props
+ * @example createCard('friend', { friend: friendData })
+ */
+export function createCard(
+	kind: ExtendedCardKind,
+	props: Omit<CardProps, 'kind'> = {}
+): React.ReactElement<CardProps> {
+	return <Card kind={kind} {...props} />;
+}
+
+/**
+ * Create a card with a custom configuration override (for advanced use)
+ */
+export function createCardWithConfig(
+	kind: ExtendedCardKind,
+	configOverride: Partial<
+		(typeof CARD_CONFIGURATIONS)[ExtendedCardKind]
+	>,
+	props: Omit<CardProps, 'kind'> = {}
+): React.ReactElement<CardProps> {
+	// For now, just pass through; configOverride is not used directly, but could be merged in future
+	return <Card kind={kind} {...props} />;
+}
+
+// Quick access helpers for common cards (formerly CardPresets)
+export const FriendCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='friend' {...props} />;
+export const ProfileCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='profile' {...props} />;
+export const NotificationCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='notification' {...props} />;
+export const StatsCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='stats' {...props} />;
+export const GameCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='game' {...props} />;
+export const PuzzleCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='puzzle' {...props} />;
+export const RoomCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='room-info' {...props} />;
+export const MatchCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='match-summary' {...props} />;
+export const InfoCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='default' hover {...props} />;
+export const ActionCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='elevated' clickable hover {...props} />;
+export const ContentCard = (
+	props: Omit<CardProps, 'kind'>
+) => <Card kind='outlined' {...props} />;
+
 export default Card;

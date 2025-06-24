@@ -5,21 +5,22 @@ import {
 	ButtonConfiguration,
 } from './configurations';
 import styles from './Button.module.scss';
+import { Icons } from '../Icons';
 
 /**
  * Button - Single entry point for all button types in the UI kit
  * Use the 'kind' prop to specify which button variant you want
- * 
+ *
  * @example
  * // Basic buttons
  * <Button>Click me</Button>                    // defaults to 'primary'
  * <Button kind="secondary">Secondary</Button>
  * <Button kind="danger">Delete</Button>
- * 
+ *
  * // Icon buttons
  * <Button kind="icon" icon="🔥" label="Fire" />
  * <Button kind="close" onClick={onClose} />
- * 
+ *
  * // Specialized buttons
  * <Button kind="word" text="HELLO" isSelected={true} />
  * <Button kind="copy-link" copyText="https://example.com" />
@@ -28,10 +29,11 @@ import styles from './Button.module.scss';
 
 export type ButtonKind = ExtendedButtonKind;
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	/** Button kind - determines styling and behavior (defaults to 'primary') */
 	kind?: ButtonKind;
-	
+
 	// Content props
 	icon?: React.ReactNode;
 	word?: string; // For word buttons
@@ -57,12 +59,20 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 	size?: 'small' | 'medium' | 'large';
 	loading?: boolean;
 	fullWidth?: boolean;
+
+	/**
+	 * Button content type: 'text' (default), 'icon' (icon only), 'textIcon' (icon + text)
+	 * Controls layout, independent of kind (style)
+	 */
+	contentType?: 'text' | 'icon' | 'textIcon';
+	iconPosition?: 'left' | 'right' | 'top' | 'bottom'; // 'only' is now contentType='icon'
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	(
 		{
 			kind = 'primary',
+			contentType = 'text',
 			icon,
 			word,
 			text,
@@ -83,16 +93,56 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			fullWidth = false,
 			className = '',
 			onClick,
+			iconPosition: iconPositionProp,
 			...props
 		},
 		ref
 	) => {
-		// Get configuration for this button kind
-		const config: ButtonConfiguration = BUTTON_CONFIGURATIONS[kind];
+		const config: ButtonConfiguration =
+			BUTTON_CONFIGURATIONS[kind];
+
+		// Determine icon position: prop > config > default ('left')
+		const iconPosition =
+			iconPositionProp || config.iconPosition || 'left';
 
 		// Determine content with priority: explicit props > config defaults
-		const displayIcon = icon || config.icon;
-		const displayText = text || word || children || config.defaultText;
+		let displayIcon = icon || config.icon;
+		if (typeof displayIcon === 'string') {
+			const validIconNames = [
+				'check',
+				'close',
+				'settings',
+				'user',
+				'home',
+				'star',
+				'search',
+				'heart',
+				'bell',
+				'arrow-left',
+				'arrow-right',
+				'copy',
+				'warning',
+				'success',
+				'danger',
+			];
+			if (validIconNames.includes(displayIcon)) {
+				displayIcon = (
+					<Icons
+						name={
+							displayIcon as import('../Icons').IconName
+						}
+						size={
+							size === 'small' ? 16
+							: size === 'large' ?
+								28
+							:	20
+						}
+					/>
+				);
+			}
+		}
+		const displayText =
+			text || word || children || config.defaultText;
 
 		// Handle friends toggle button special rendering
 		let friendsToggleContent = null;
@@ -134,8 +184,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 		}
 
 		// Build aria-label
-		const ariaLabel = label || config.ariaLabel || 
-			(typeof displayText === 'string' ? displayText : 'Button');
+		const ariaLabel =
+			label ||
+			config.ariaLabel ||
+			(typeof displayText === 'string' ? displayText : (
+				'Button'
+			));
 
 		// Build comprehensive className
 		const combinedClassName = [
@@ -156,11 +210,15 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			.join(' ');
 
 		// Handle specialized behaviors
-		const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		const handleClick = (
+			event: React.MouseEvent<HTMLButtonElement>
+		) => {
 			switch (config.behavior) {
 				case 'copy':
 					if (copyText) {
-						navigator.clipboard.writeText(copyText).catch(console.error);
+						navigator.clipboard
+							.writeText(copyText)
+							.catch(console.error);
 					}
 					break;
 				case 'close':
@@ -186,6 +244,54 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			onClick?.(event);
 		};
 
+		// Content layout based on contentType
+		const renderContent = () => {
+			if (contentType === 'icon') {
+				return displayIcon;
+			}
+			if (contentType === 'textIcon') {
+				if (
+					(iconPosition === 'top' ||
+						iconPosition === 'bottom') &&
+					displayIcon
+				) {
+					return (
+						<span
+							style={{
+								display: 'flex',
+								flexDirection:
+									iconPosition === 'top' ? 'column' : (
+										'column-reverse'
+									),
+								alignItems: 'center',
+								justifyContent: 'center',
+							}}
+						>
+							<span>{displayIcon}</span>
+							{displayText && <span>{displayText}</span>}
+						</span>
+					);
+				}
+				return (
+					<>
+						{iconPosition === 'left' && displayIcon && (
+							<span className={styles.leftIcon}>
+								{displayIcon}
+							</span>
+						)}
+						{displayText && <span>{displayText}</span>}
+						{iconPosition === 'right' && displayIcon && (
+							<span className={styles.rightIcon}>
+								{displayIcon}
+							</span>
+						)}
+					</>
+				);
+			}
+			// contentType === 'text' (default)
+			return displayText;
+		};
+
 		// Handle link buttons with href
 		if (config.behavior === 'link' && href) {
 			return (
@@ -196,21 +302,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 					aria-label={ariaLabel}
 					{...(props as any)}
 				>
-					{displayIcon && config.iconPosition !== 'right' && (
-						<span className={styles.leftIcon}>{displayIcon}</span>
-					)}
-					{config.iconPosition !== 'only' && displayText && (
-						<span>{displayText}</span>
-					)}
-					{displayIcon && config.iconPosition === 'right' && (
-						<span className={styles.rightIcon}>{displayIcon}</span>
-					)}
+					{renderContent()}
 				</a>
 			);
 		}
 
 		// Handle icon-only buttons
-		if (config.iconPosition === 'only') {
+		if (contentType === 'icon') {
 			return (
 				<button
 					ref={ref}
@@ -220,12 +318,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 					disabled={isLocked || loading}
 					{...props}
 				>
-					{kind === 'friends-toggle' ? friendsToggleContent : displayIcon}
+					{kind === 'friends-toggle' ?
+						friendsToggleContent
+					:	displayIcon}
 				</button>
 			);
 		}
 
-		// Handle standard buttons with text and optional icons
+		// Standard button
 		return (
 			<button
 				ref={ref}
@@ -235,18 +335,124 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				disabled={isLocked || loading}
 				{...props}
 			>
-				{config.iconPosition === 'left' && displayIcon && (
-					<span className={styles.leftIcon}>{displayIcon}</span>
-				)}
-				{displayText && <span>{displayText}</span>}
-				{config.iconPosition === 'right' && displayIcon && (
-					<span className={styles.rightIcon}>{displayIcon}</span>
-				)}
+				{kind === 'friends-toggle' ?
+					friendsToggleContent
+				:	renderContent()}
 			</button>
 		);
 	}
 );
 
 Button.displayName = 'Button';
+
+// --- Named helpers for DRY button creation (formerly ButtonFactory/ButtonPresets) ---
+
+/**
+ * Create a button with a specific kind and minimal props
+ * @example createButton('primary', { text: 'Save', onClick })
+ */
+export function createButton(
+	kind: ButtonKind,
+	props: Partial<ButtonProps> = {}
+): React.ReactElement<ButtonProps> {
+	return React.createElement(Button, {
+		kind,
+		...props,
+	});
+}
+
+/**
+ * Create multiple buttons from a group configuration
+ */
+export function createButtonGroup(
+	groupConfig: Record<
+		string,
+		{ kind: ButtonKind; props?: Partial<ButtonProps> }
+	>,
+	sharedProps: Partial<ButtonProps> = {}
+): Record<string, React.ReactElement<ButtonProps>> {
+	return Object.fromEntries(
+		Object.entries(groupConfig).map(
+			([key, { kind, props = {} }]) => [
+				key,
+				createButton(kind, { ...sharedProps, ...props }),
+			]
+		)
+	);
+}
+
+// Quick access helpers for common buttons
+export const saveButton = (
+	onClick?: () => void,
+	text = 'Save'
+) => createButton('primary', { onClick, text });
+export const cancelButton = (
+	onClick?: () => void,
+	text = 'Cancel'
+) => createButton('secondary', { onClick, text });
+export const deleteButton = (
+	onClick?: () => void,
+	text = 'Delete'
+) => createButton('danger', { onClick, text });
+export const editButton = (
+	onClick?: () => void,
+	text = 'Edit'
+) => createButton('ghost', { onClick, text, icon: '✏️' });
+export const addButton = (
+	onClick?: () => void,
+	text = 'Add'
+) => createButton('success', { onClick, text, icon: '+' });
+export const closeButton = (onClick?: () => void) =>
+	createButton('close', { onClick });
+export const backButton = (
+	onClick?: () => void,
+	text = 'Back'
+) => createButton('go-back', { onClick, text });
+export const copyButton = (
+	copyText: string,
+	text = 'Copy'
+) => createButton('copy-link', { copyText, text });
+export const iconButton = (
+	icon: React.ReactNode,
+	onClick?: () => void,
+	ariaLabel?: string
+) =>
+	createButton('icon', { icon, onClick, label: ariaLabel });
+
+// Preset groups for dialogs and forms
+export const confirmDialogButtons = (
+	onConfirm: () => void,
+	onCancel: () => void
+) => ({
+	confirm: createButton('danger', {
+		onClick: onConfirm,
+		text: 'Confirm',
+	}),
+	cancel: createButton('secondary', {
+		onClick: onCancel,
+		text: 'Cancel',
+	}),
+});
+export const deleteConfirmationButtons = (
+	onDelete: () => void,
+	onCancel: () => void,
+	itemName?: string
+) => ({
+	delete: createButton('danger', {
+		onClick: onDelete,
+		text: itemName ? `Delete ${itemName}` : 'Delete',
+	}),
+	cancel: createButton('secondary', {
+		onClick: onCancel,
+		text: 'Cancel',
+	}),
+});
+export const saveFormButtons = (
+	onSave: () => void,
+	onCancel: () => void
+) => ({
+	save: saveButton(onSave),
+	cancel: cancelButton(onCancel),
+});
 
 export default Button;
