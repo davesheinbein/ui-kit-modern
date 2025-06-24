@@ -5,8 +5,8 @@ import {
 	getMediaConfig,
 	MediaKind,
 } from './configurations';
-import { UnifiedMediaProps } from './UnifiedMedia';
-import UnifiedMedia from './UnifiedMedia';
+import { MediaProps } from './Media';
+import Media from './Media';
 
 /**
  * Factory Media Factory
@@ -14,13 +14,13 @@ import UnifiedMedia from './UnifiedMedia';
  */
 export class MediaFactory {
 	static create(
-		config: MediaConfiguration & Partial<UnifiedMediaProps>
+		config: MediaConfiguration & Partial<MediaProps>
 	) {
 		return React.forwardRef<
 			HTMLDivElement,
-			Partial<UnifiedMediaProps>
+			Partial<MediaProps>
 		>((props, ref) =>
-			React.createElement(UnifiedMedia, {
+			React.createElement(Media, {
 				ref,
 				...config,
 				...props,

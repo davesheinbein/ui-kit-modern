@@ -6,9 +6,7 @@
  */
 
 import React from 'react';
-import UnifiedNavigation, {
-	UnifiedNavigationProps,
-} from './UnifiedNavigation';
+import Navigation, { NavigationProps } from './Navigation';
 import {
 	NavigationKind,
 	getNavigationConfig,
@@ -32,12 +30,9 @@ export const NavigationFactory = (
 	const finalConfig =
 		typeof config === 'string' ? { kind: config } : config;
 
-	return (props: Partial<UnifiedNavigationProps> = {}) => {
+	return (props: Partial<NavigationProps> = {}) => {
 		const mergedProps = { ...finalConfig, ...props };
-		return React.createElement(
-			UnifiedNavigation,
-			mergedProps
-		);
+		return React.createElement(Navigation, mergedProps);
 	};
 };
 

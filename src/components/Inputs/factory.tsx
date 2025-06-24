@@ -4,16 +4,15 @@
  */
 
 import React from 'react';
-import UnifiedInput, {
-	UnifiedInputProps,
-} from './UnifiedInput';
+import { Wrapper } from '../Wrappers';
+import Input, { InputProps } from './Input';
 import {
 	InputKind,
 	INPUT_CONFIGURATIONS,
 } from './configurations';
 
 export interface InputFactoryProps
-	extends Omit<UnifiedInputProps, 'kind'> {
+	extends Omit<InputProps, 'kind'> {
 	[key: string]: any;
 }
 
@@ -26,74 +25,64 @@ export class InputFactory {
 	 */
 	static create(
 		kind: InputKind,
-		overrides: Partial<UnifiedInputProps> = {}
+		overrides: Partial<InputProps> = {}
 	): React.ReactElement {
 		const config = INPUT_CONFIGURATIONS[kind];
 
-		return (
-			<UnifiedInput
-				kind={kind}
-				{...config}
-				{...overrides}
-			/>
-		);
+		return <Input kind={kind} {...config} {...overrides} />;
 	}
 
 	// === BASIC INPUTS ===
-	static text(props: Partial<UnifiedInputProps> = {}) {
+	static text(props: Partial<InputProps> = {}) {
 		return this.create('text', props);
 	}
 
-	static email(props: Partial<UnifiedInputProps> = {}) {
+	static email(props: Partial<InputProps> = {}) {
 		return this.create('email', props);
 	}
 
-	static password(props: Partial<UnifiedInputProps> = {}) {
+	static password(props: Partial<InputProps> = {}) {
 		return this.create('password', props);
 	}
 
-	static number(props: Partial<UnifiedInputProps> = {}) {
+	static number(props: Partial<InputProps> = {}) {
 		return this.create('number', props);
 	}
 
 	// === SPECIALIZED INPUTS ===
-	static search(props: Partial<UnifiedInputProps> = {}) {
+	static search(props: Partial<InputProps> = {}) {
 		return this.create('search', props);
 	}
 
-	static url(props: Partial<UnifiedInputProps> = {}) {
+	static url(props: Partial<InputProps> = {}) {
 		return this.create('url', props);
 	}
 
-	static tel(props: Partial<UnifiedInputProps> = {}) {
+	static tel(props: Partial<InputProps> = {}) {
 		return this.create('tel', props);
 	}
 
 	// === AUTHENTICATION INPUTS ===
-	static username(props: Partial<UnifiedInputProps> = {}) {
+	static username(props: Partial<InputProps> = {}) {
 		return this.create('username', props);
 	}
 
-	static loginEmail(
-		props: Partial<UnifiedInputProps> = {}
-	) {
+	static loginEmail(props: Partial<InputProps> = {}) {
 		return this.create('login-email', props);
 	}
 
 	static confirmationPassword(
-		props: Partial<UnifiedInputProps> = {}
+		props: Partial<InputProps> = {}
 	) {
 		return this.create('confirmation-password', props);
 	}
 
 	// === UTILITY INPUTS ===
-	static searchFilter(
-		props: Partial<UnifiedInputProps> = {}
-	) {
+	static searchFilter(props: Partial<InputProps> = {}) {
 		return this.create('search-filter', props);
 	}
 
-	static custom(props: Partial<UnifiedInputProps> = {}) {
+	static custom(props: Partial<InputProps> = {}) {
 		return this.create('custom', props);
 	}
 }
@@ -102,15 +91,15 @@ export class InputFactory {
  * Functional factory for creating inputs
  */
 export const InputFactoryFunction = (
-	kind: InputKind | Partial<UnifiedInputProps>,
-	overrides: Partial<UnifiedInputProps> = {}
+	kind: InputKind | Partial<InputProps>,
+	overrides: Partial<InputProps> = {}
 ): React.ReactElement => {
 	if (typeof kind === 'string') {
 		return InputFactory.create(kind, overrides);
 	}
 
 	// If first parameter is props object, treat it as such
-	const props = kind as Partial<UnifiedInputProps>;
+	const props = kind as Partial<InputProps>;
 	const inputKind = props.kind || 'text';
 	return InputFactory.create(inputKind, props);
 };

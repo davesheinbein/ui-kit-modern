@@ -1,5 +1,4 @@
 export { default as Select } from './Select';
-export { default as UnifiedSelect } from './UnifiedSelect';
 export { default as SelectFactory } from './factory';
 export type {
 	SelectKind,

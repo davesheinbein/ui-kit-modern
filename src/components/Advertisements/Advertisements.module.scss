@@ -1,6 +1,6 @@
 /* Advertisements.module.scss - Modern Advertisement Components */
 
-@import '../../styles/mixins.scss';
+@use '../../styles/mixins.scss' as *;
 
 .advertisement {
 	@include container-base;

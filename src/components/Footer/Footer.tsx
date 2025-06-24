@@ -1,8 +1,17 @@
 import React from 'react';
+import { Wrapper } from '../Wrappers';
 import { Button } from '../Button';
 import styles from './Footer.module.scss';
+import { FooterBodyFactory } from './factory';
+import { FOOTER_CONFIGURATIONS } from './configurations';
+import type {
+	FooterKind,
+	FooterConfiguration,
+} from './configurations';
 
-export interface FooterProps {
+export type { FooterKind } from './configurations';
+
+export interface FooterProps extends FooterConfiguration {
 	leftContent?: React.ReactNode;
 	rightContent?: React.ReactNode;
 	centerContent?: React.ReactNode;
@@ -18,92 +27,50 @@ export interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({
-	leftContent,
-	rightContent,
-	centerContent,
-	className = '',
-	copyright,
-	links = [],
-	showDivider = true,
+	kind = 'standard',
 	children,
+	...props
 }) => {
-	const defaultLeftContent =
-		copyright ||
-		`© ${new Date().getFullYear()} UI Kit Modern`;
+	// Get base configuration for this footer kind
+	const baseConfig = FOOTER_CONFIGURATIONS[kind] || {};
 
-	const defaultRightContent =
-		links.length > 0 ?
-			<nav className={styles.footerNav}>
-				{links.map((link, index) => (
-					<React.Fragment
-						key={link.href || link.label || index}
-					>
-						{link.onClick ?
-							<Button
-								kind='ghost'
-								onClick={link.onClick}
-								className={styles.footerLink}
-								type='button'
-							>
-								{link.label}
-							</Button>
-						: link.href ?
-							<a
-								href={link.href}
-								className={styles.footerLink}
-								target={
-									link.href.startsWith('http') ?
-										'_blank'
-									:	undefined
-								}
-								rel={
-									link.href.startsWith('http') ?
-										'noopener noreferrer'
-									:	undefined
-								}
-							>
-								{link.label}
-							</a>
-						:	<span className={styles.footerLink}>
-								{link.label}
-							</span>
-						}
-						{index < links.length - 1 && (
-							<span className={styles.footerDivider}>
-								•
-							</span>
-						)}
-					</React.Fragment>
-				))}
-			</nav>
-		:	null;
+	// Merge base config with props (props take precedence)
+	const finalConfig = {
+		...baseConfig,
+		...props,
+		kind,
+	};
+
+	const {
+		theme = 'light',
+		size = 'medium',
+		sticky = false,
+		className = '',
+		kind: _kind, // Extract kind to avoid passing it twice
+		...footerProps
+	} = finalConfig;
+
+	// Build CSS classes
+	const kindClass = `footer-${kind}`;
+	const themeClass = `footer-theme-${theme}`;
+	const sizeClass = `footer-size-${size}`;
+	const stickyClass = sticky ? 'footer-sticky' : '';
+	const combinedClassName = [
+		styles.footer,
+		styles[kindClass],
+		styles[themeClass],
+		styles[sizeClass],
+		stickyClass && styles[stickyClass],
+		className,
+	]
+		.filter(Boolean)
+		.join(' ');
 
 	return (
-		<footer
-			className={`${styles.footer} ${className}`.trim()}
-		>
+		<footer className={combinedClassName}>
 			{children ?
 				children
-			:	<>
-					<div className={styles.footerLeft}>
-						{leftContent !== undefined ?
-							leftContent
-						:	defaultLeftContent}
-					</div>
-
-					{centerContent && (
-						<div className={styles.footerCenter}>
-							{centerContent}
-						</div>
-					)}
-
-					<div className={styles.footerRight}>
-						{rightContent !== undefined ?
-							rightContent
-						:	defaultRightContent}
-					</div>
-				</>
-			}
+			:	<FooterBodyFactory kind={kind} {...footerProps} />}
 		</footer>
 	);
 };

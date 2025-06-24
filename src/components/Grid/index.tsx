@@ -1,19 +1,16 @@
 import React from 'react';
-import UnifiedGrid from './UnifiedGrid';
-
-export { default as UnifiedGrid } from './UnifiedGrid';
+import { Wrapper } from '../Wrappers';
+import Grid from './Grid';
 export type {
 	GridKind,
-	UnifiedGridProps,
+	GridProps,
 	BaseGridProps,
 	VSGridProps,
 	SolvedGroupsProps,
 	PregameGridProps,
-} from './UnifiedGrid';
+} from './Grid';
 
-// Keep the original Grid component for backward compatibility
 export { default as Grid } from './Grid';
-export type { GridProps } from './Grid';
 
 export * from './configurations';
 
@@ -48,15 +45,15 @@ export interface VSGridPropsLegacy {
 
 /**
  * VSGrid - Legacy component wrapper
- * @deprecated Use UnifiedGrid with kind="vs-grid" instead
+ * @deprecated Use Grid with kind="vs-grid" instead
  */
 export const VSGrid: React.FC<VSGridPropsLegacy> = (
 	props
 ) => {
 	console.warn(
-		'VSGrid is deprecated. Use UnifiedGrid with kind="vs-grid" instead. ' +
+		'VSGrid is deprecated. Use Grid with kind="vs-grid" instead. ' +
 			'See migration guide in component documentation.'
 	);
 
-	return <UnifiedGrid kind='vs-grid' {...props} />;
+	return <Grid kind='vs-grid' {...props} />;
 };

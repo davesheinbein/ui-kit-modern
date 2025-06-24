@@ -1,5 +1,4 @@
 export { Range } from './Range';
-export { UnifiedRange } from './UnifiedRange';
 export {
 	RangeFactory,
 	default as default,

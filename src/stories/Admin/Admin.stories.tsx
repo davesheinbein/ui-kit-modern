@@ -1,4 +1,5 @@
 import React from 'react';
+import { Wrapper } from '../../components/Wrappers';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
@@ -24,7 +25,7 @@ const meta: Meta<typeof AdminFactory> = {
 		docs: {
 			description: {
 				component:
-					'Unified admin component system for debugging and development tools. Built using the DRY factory pattern for maximum flexibility and reusability.',
+					'Admin component system for debugging and development tools. Built using the DRY factory pattern for maximum flexibility and reusability.',
 			},
 		},
 	},
@@ -174,7 +175,7 @@ export const CustomContent: Story = {
 	},
 	render: (args) => (
 		<AdminFactory {...args}>
-			<div>
+			<Wrapper>
 				<h3
 					style={{ margin: '0 0 10px 0', color: '#4ade80' }}
 				>
@@ -189,7 +190,7 @@ export const CustomContent: Story = {
 				>
 					Action Button
 				</Button>
-			</div>
+			</Wrapper>
 		</AdminFactory>
 	),
 };
@@ -197,10 +198,10 @@ export const CustomContent: Story = {
 // DRY System Examples using factory patterns
 export const UsingPresets: Story = {
 	render: () => (
-		<div>
+		<Wrapper>
 			{/* Using AdminPresets for quick setup */}
 			{AdminPresets.SESSION_DEBUGGER()}
-		</div>
+		</Wrapper>
 	),
 };
 

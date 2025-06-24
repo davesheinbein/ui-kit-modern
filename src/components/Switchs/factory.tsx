@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import UnifiedSwitch from './UnifiedSwitch';
+import Switch from './Switch';
 import {
 	SWITCH_CONFIGURATIONS,
 	ExtendedSwitchKind,
@@ -51,7 +51,7 @@ export const SwitchFactory = forwardRef<
 		}
 
 		return (
-			<UnifiedSwitch
+			<Switch
 				ref={ref}
 				checked={checked}
 				defaultChecked={defaultChecked}

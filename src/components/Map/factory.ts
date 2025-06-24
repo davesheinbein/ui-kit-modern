@@ -5,8 +5,8 @@ import {
 	getMapConfig,
 	MapKind,
 } from './configurations';
-import { UnifiedMapProps } from './UnifiedMap';
-import UnifiedMap from './UnifiedMap';
+import { MapProps } from './Map';
+import Map from './Map';
 
 /**
  * Factory Map Factory
@@ -14,13 +14,13 @@ import UnifiedMap from './UnifiedMap';
  */
 export class MapFactory {
 	static create(
-		config: MapConfiguration & Partial<UnifiedMapProps>
+		config: MapConfiguration & Partial<MapProps>
 	) {
 		return React.forwardRef<
 			HTMLDivElement,
-			Partial<UnifiedMapProps>
+			Partial<MapProps>
 		>((props, ref) =>
-			React.createElement(UnifiedMap, {
+			React.createElement(Map, {
 				ref,
 				...config,
 				...props,

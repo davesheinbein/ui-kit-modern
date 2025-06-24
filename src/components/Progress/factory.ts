@@ -5,8 +5,7 @@ import {
 	getProgressConfig,
 	ProgressKind,
 } from './configurations';
-import { UnifiedProgressProps } from './UnifiedProgress';
-import UnifiedProgress from './UnifiedProgress';
+import Progress, { dProgressProps } from './Progress';
 
 /**
  * Factory Progress Factory
@@ -14,14 +13,13 @@ import UnifiedProgress from './UnifiedProgress';
  */
 export class ProgressFactory {
 	static create(
-		config: ProgressConfiguration &
-			Partial<UnifiedProgressProps>
+		config: ProgressConfiguration & Partial<dProgressProps>
 	) {
 		return React.forwardRef<
 			HTMLDivElement,
-			Partial<UnifiedProgressProps>
+			Partial<dProgressProps>
 		>((props, ref) =>
-			React.createElement(UnifiedProgress, {
+			React.createElement(Progress, {
 				ref,
 				...config,
 				...props,

@@ -1,20 +1,17 @@
 import React from 'react';
-import UnifiedHeader from './UnifiedHeader';
+import { Wrapper } from '../Wrappers';
+import Header from './Header';
 import {
 	TabConfiguration,
 	ActionConfiguration,
 } from './configurations';
 
-export { default as UnifiedHeader } from './UnifiedHeader';
+export { default as Header } from './Header';
 export type {
 	HeaderKind,
-	UnifiedHeaderProps,
+	HeaderProps,
 	HeaderVariant,
-} from './UnifiedHeader';
-
-// Keep the original Header component for backward compatibility
-export { default as Header } from './Header';
-export type { HeaderProps } from './Header';
+} from './Header';
 
 export * from './configurations';
 
@@ -39,7 +36,7 @@ export interface BrowseHeaderProps {
 
 /**
  * BrowseHeader - Legacy component using the new DRY Header system
- * @deprecated Use Header or UnifiedHeader with kind="browse-tabbed" instead
+ * @deprecated Use Header or Header with kind="browse-tabbed" instead
  */
 export const BrowseHeader: React.FC<BrowseHeaderProps> = ({
 	title,
@@ -65,7 +62,7 @@ export const BrowseHeader: React.FC<BrowseHeaderProps> = ({
 	];
 
 	return (
-		<UnifiedHeader
+		<Header
 			kind='browse-tabbed'
 			title={title}
 			tabs={convertedTabs}

@@ -3,7 +3,7 @@
 
 // ===== BASE CHECKBOX STYLES =====
 
-.unifiedCheckbox {
+.Checkbox {
 	@include form-control;
 	@include interactive-element;
 
@@ -271,7 +271,7 @@
 .fullWidth {
 	@include full-width;
 
-	.unifiedCheckbox {
+	.Checkbox {
 		inline-size: 100%;
 	}
 }
@@ -341,7 +341,7 @@
 // ===== RESPONSIVE STYLES =====
 
 @media (max-width: 768px) {
-	.unifiedCheckbox {
+	.Checkbox {
 		gap: var(--spacing-xs);
 	}
 

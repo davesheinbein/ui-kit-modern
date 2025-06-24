@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { RangeFactory } from '../../components/Ranges';
+import { Wrapper } from '../../components/Wrappers';
 import { commonDecorators } from '../config/decorators';
 import { commonArgTypes } from '../config/argTypes';
 
@@ -239,7 +240,7 @@ export const LargeSize: Story = {
 
 export const AllRangeTypes: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -291,13 +292,13 @@ export const AllRangeTypes: Story = {
 				min={0}
 				max={100}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const InteractivePlayground: Story = {
 	render: (args) => (
-		<div
+		<Wrapper
 			style={{
 				width: '100%',
 				maxWidth: '500px',
@@ -305,7 +306,7 @@ export const InteractivePlayground: Story = {
 			}}
 		>
 			<RangeFactory {...args} />
-			<div
+			<Wrapper
 				style={{
 					marginTop: '2rem',
 					padding: '1rem',
@@ -317,8 +318,8 @@ export const InteractivePlayground: Story = {
 				<pre style={{ fontSize: '12px', margin: 0 }}>
 					{JSON.stringify(args, null, 2)}
 				</pre>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	args: {
 		kind: 'slider',

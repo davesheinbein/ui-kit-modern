@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
-import UnifiedSettings from './UnifiedSettings';
+import Settings from './Settings';
 import { UserSettingsContext } from '../Providers';
 import {
 	SettingsItem,
 	SettingsSection,
 } from './configurations';
 
-export { default as UnifiedSettings } from './UnifiedSettings';
 export type {
 	SettingsKind,
-	UnifiedSettingsProps,
-} from './UnifiedSettings';
+	SettingsProps,
+} from './Settings';
 
 // Inline backward compatibility wrappers
 export interface CustomizationCategoryProps {
@@ -28,7 +27,7 @@ export interface CustomizationCategoryProps {
 
 /**
  * CustomizationCategory - Backward compatibility wrapper
- * For new development, use UnifiedSettings with kind="customization-category"
+ * For new development, use Settings with kind="customization-category"
  */
 export const CustomizationCategory: React.FC<
 	CustomizationCategoryProps
@@ -42,7 +41,7 @@ export const CustomizationCategory: React.FC<
 	onShopItemClick,
 }) => {
 	return (
-		<UnifiedSettings
+		<Settings
 			kind='customization-category'
 			title={title}
 			items={items}
@@ -57,7 +56,7 @@ export const CustomizationCategory: React.FC<
 
 /**
  * SettingsPanel - Backward compatibility wrapper
- * For new development, use UnifiedSettings with kind="settings-panel"
+ * For new development, use Settings with kind="settings-panel"
  */
 export const SettingsPanel: React.FC = () => {
 	const userSettingsContext = useContext(
@@ -109,7 +108,7 @@ export const SettingsPanel: React.FC = () => {
 	];
 
 	return (
-		<UnifiedSettings
+		<Settings
 			kind='settings-panel'
 			title='User Settings'
 			sections={userSettingsSections}
@@ -131,8 +130,3 @@ export type { SettingsFactoryProps } from './factory';
 // Export base components
 export { default as Settings } from './Settings';
 export type { SettingsProps } from './Settings';
-
-// SettingsBodyFactory functionality is now integrated into UnifiedSettings
-
-// Default export for backward compatibility
-export { default } from './UnifiedSettings';

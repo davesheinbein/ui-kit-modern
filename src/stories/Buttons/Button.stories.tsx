@@ -5,6 +5,7 @@ import {
 	ButtonFactory,
 	B,
 } from '../../components/Button';
+import { Wrapper } from '../../components/Wrappers';
 import type { ButtonProps } from '../../components/Button';
 
 const meta: Meta<typeof Button> = {
@@ -304,7 +305,7 @@ export const IconButtonCustom: Story = {
 
 export const IconButtonVariations: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				gap: '1rem',
@@ -317,7 +318,7 @@ export const IconButtonVariations: Story = {
 			<Button kind='icon' icon='🏠' label='Home' />
 			<Button kind='icon' icon='❤️' label='Favorites' />
 			<Button kind='icon' icon='🔍' label='Search' />
-		</div>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -409,7 +410,7 @@ export const WordButtonBurned: Story = {
 
 export const WordButtonAllStates: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gridTemplateColumns: 'repeat(3, 1fr)',
@@ -462,7 +463,7 @@ export const WordButtonAllStates: Story = {
 				burnSuspect={true}
 				onClick={() => {}}
 			/>
-		</div>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -531,7 +532,7 @@ export const FormReset: Story = {
 // Button Size Variations
 export const ButtonSizes: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				gap: '1rem',
@@ -541,7 +542,7 @@ export const ButtonSizes: Story = {
 			<Button kind='primary' text='Small' size='small' />
 			<Button kind='primary' text='Medium' size='medium' />
 			<Button kind='primary' text='Large' size='large' />
-		</div>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -555,7 +556,7 @@ export const ButtonSizes: Story = {
 // Button States
 export const ButtonStates: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				gap: '1rem',
@@ -578,7 +579,7 @@ export const ButtonStates: Story = {
 				text='Full Width'
 				fullWidth={true}
 			/>
-		</div>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -616,7 +617,7 @@ export const LinkButtonExternal: Story = {
 // Demonstrate button factory usage
 export const FactoryExample: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				gap: '1rem',
@@ -633,7 +634,7 @@ export const FactoryExample: Story = {
 			{B.save(() => console.log('Saved!'))}
 			{B.delete(() => console.log('Deleted!'))}
 			{B.copy('https://example.com', 'Copy URL')}
-		</div>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -662,29 +663,29 @@ export const ButtonGroups: Story = {
 		});
 
 		return (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
 					gap: '2rem',
 				}}
 			>
-				<div>
+				<Wrapper>
 					<h4>Modal Actions Group</h4>
-					<div style={{ display: 'flex', gap: '1rem' }}>
+					<Wrapper kind='flex-container' gap='1rem'>
 						{modalActions.confirm}
 						{modalActions.cancel}
-					</div>
-				</div>
-				<div>
+					</Wrapper>
+				</Wrapper>
+				<Wrapper>
 					<h4>Form Actions Group</h4>
-					<div style={{ display: 'flex', gap: '1rem' }}>
+					<Wrapper kind='flex-container' gap='1rem'>
 						{formActions.submit}
 						{formActions.reset}
 						{formActions.cancel}
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -721,7 +722,7 @@ export const AllButtonKinds: Story = {
 		];
 
 		return (
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
@@ -745,7 +746,7 @@ export const AllButtonKinds: Story = {
 						{...(kind === 'word' && { text: 'WORD' })}
 					/>
 				))}
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {

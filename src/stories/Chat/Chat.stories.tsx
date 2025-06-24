@@ -1,17 +1,23 @@
 import React from 'react';
+import { Wrapper } from '../../components/Wrappers';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ChatFactory } from '../../components/Chat';
+import { Chat } from '../../components/Chat';
 
-const meta: Meta<typeof ChatFactory> = {
+const meta: Meta<typeof Chat> = {
 	title: 'Chat/Chat',
-	component: ChatFactory,
+	component: Chat,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component:
-					'The ultimate DRY chat component. Single component handles ALL chat types through the "kind" prop. ' +
-					'Supports friend chat, in-match chat, match chat, general chat, and VS quick chat with configuration-driven approach.',
+					'Unified <Chat> component: Render any chat variant (friend, in-match, match, general, vs-quick-chat) by passing the appropriate kind prop.\n\n' +
+					'Example usage:' +
+					'\n\n' +
+					'<Chat kind="friend" messages={friendMessages} currentUser="user123" />\n' +
+					'<Chat kind="in-match" messages={gameMessages} currentUser="alice" />\n' +
+					'<Chat kind="vs-quick-chat" onSend={handleQuickSend} />\n\n' +
+					'All configuration and UI is handled automatically based on the kind you provide.',
 			},
 		},
 	},
@@ -113,7 +119,7 @@ const meta: Meta<typeof ChatFactory> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof ChatFactory>;
+type Story = StoryObj<typeof Chat>;
 
 // Sample message data
 const sampleMessages = [
@@ -168,20 +174,32 @@ const gameMessages = [
 	{
 		id: '2',
 		sender: 'bob',
-		text: 'Hi Alice!',
+		text: 'Oh Naur',
 		time: '10:01',
 	},
 	{
 		id: '3',
 		sender: 'alice',
-		text: 'Ready to play?',
+		text: "Oh, no, no, no, no, no, no, no, no, Cleo, no, please, Cleo, no, no, no, no. Well, I just thought I\'\d let you know. Go. Bye, Louis. No, no",
 		time: '10:02',
 	},
 	{
 		id: '4',
 		sender: 'bob',
-		text: "Let's do this!",
+		text: "Let's doo this!",
 		time: '10:03',
+	},
+	{
+		id: '5',
+		sender: 'bob',
+		text: "Do this!",
+		time: '10:04',
+	},
+	{
+		id: '6',
+		sender: 'alice',
+		text: "Let's do this!",
+		time: '10:05',
 	},
 ];
 
@@ -212,23 +230,34 @@ const matchMessages = [
 	},
 ];
 
+// Modernized grid wrapper for all chat stories
+const StoryGrid: React.FC<{
+	children: React.ReactNode;
+}> = ({ children }) => (
+	<div
+		className='wrapper wrapper--elevated'
+		style={{
+			background:
+				'linear-gradient(135deg, var(--bg-surface) 60%, var(--accent-blue-50) 100%)',
+			padding: '2rem',
+			minHeight: '100vh',
+			display: 'grid',
+			gap: '2rem',
+			gridTemplateColumns:
+				'repeat(auto-fit, minmax(340px, 1fr))',
+			alignItems: 'start',
+		}}
+	>
+		{children}
+	</div>
+);
+
 // Basic Chat Types
 export const AllChatTypes: Story = {
 	render: () => (
-		<div
-			style={{
-				display: 'grid',
-				gap: '2rem',
-				gridTemplateColumns:
-					'repeat(auto-fit, minmax(300px, 1fr))',
-				padding: '1rem',
-			}}
-		>
-			<div>
-				<h3 style={{ marginBottom: '1rem' }}>
-					Friend Chat
-				</h3>
-				<ChatFactory
+		<StoryGrid>
+			<div className='wrapper wrapper--elevated'>
+				<Chat
 					kind='friend'
 					messages={friendMessages}
 					currentUser='user123'
@@ -237,35 +266,28 @@ export const AllChatTypes: Story = {
 					onClose={() => console.log('Friend chat closed')}
 				/>
 			</div>
-			<div>
-				<h3 style={{ marginBottom: '1rem' }}>
-					In-Match Chat
-				</h3>
-				<ChatFactory
+			<div className='wrapper wrapper--elevated'>
+				<Chat
 					kind='in-match'
 					messages={gameMessages}
 					currentUser='alice'
 				/>
 			</div>
-			<div>
-				<h3 style={{ marginBottom: '1rem' }}>Match Chat</h3>
-				<ChatFactory
+			<div className='wrapper wrapper--elevated'>
+				<Chat
 					kind='match'
 					messages={matchMessages}
 					currentUser='player1'
 				/>
 			</div>
-			<div>
-				<h3 style={{ marginBottom: '1rem' }}>
-					General Chat
-				</h3>
-				<ChatFactory
+			<div className='wrapper wrapper--elevated'>
+				<Chat
 					kind='general'
 					messages={sampleMessages}
 					currentUser='user1'
 				/>
 			</div>
-		</div>
+		</StoryGrid>
 	),
 };
 
@@ -479,20 +501,9 @@ export const VSQuickChat: Story = {
 // Chat Variants and Interactive Demos
 export const ChatVariantsShowcase: Story = {
 	render: () => (
-		<div
-			style={{
-				display: 'grid',
-				gap: '1.5rem',
-				gridTemplateColumns:
-					'repeat(auto-fit, minmax(320px, 1fr))',
-				padding: '1rem',
-			}}
-		>
-			<div>
-				<h4 style={{ marginBottom: '0.5rem' }}>
-					Friend Chat - Online
-				</h4>
-				<ChatFactory
+		<StoryGrid>
+			<div className='wrapper wrapper--elevated'>
+				<Chat
 					kind='friend'
 					messages={friendMessages.slice(0, 2)}
 					currentUser='user123'
@@ -500,11 +511,8 @@ export const ChatVariantsShowcase: Story = {
 					avatar='🟢'
 				/>
 			</div>
-			<div>
-				<h4 style={{ marginBottom: '0.5rem' }}>
-					In-Match - Active Game
-				</h4>
-				<ChatFactory
+			<div className='wrapper wrapper--elevated'>
+				<Chat
 					kind='in-match'
 					messages={[
 						...gameMessages.slice(0, 2),
@@ -519,11 +527,8 @@ export const ChatVariantsShowcase: Story = {
 					currentUser='alice'
 				/>
 			</div>
-			<div>
-				<h4 style={{ marginBottom: '0.5rem' }}>
-					Match Chat - Completed
-				</h4>
-				<ChatFactory
+			<div className='wrapper wrapper--elevated'>
+				<Chat
 					kind='match'
 					messages={[
 						...matchMessages.slice(0, 2),
@@ -538,36 +543,95 @@ export const ChatVariantsShowcase: Story = {
 					currentUser='player1'
 				/>
 			</div>
-			<div>
-				<h4 style={{ marginBottom: '0.5rem' }}>
-					General - Community Chat
-				</h4>
-				<ChatFactory
-					kind='general'
-					messages={[
-						{
-							id: '97',
-							text: 'Welcome to the community!',
-							sender: 'moderator',
-							time: '4:00 PM',
-						},
-						{
-							id: '96',
-							text: 'Thanks! Happy to be here.',
-							sender: 'user1',
-							time: '4:01 PM',
-						},
-					]}
-					currentUser='user1'
-				/>
-			</div>
-		</div>
+		</StoryGrid>
 	),
 	parameters: {
 		docs: {
 			description: {
 				story:
 					'Showcase of different chat variants and their typical use cases.',
+			},
+		},
+	},
+};
+
+// Add a dynamic story to demonstrate switching chat kinds
+export const DynamicChatKind: Story = {
+	render: (args) => {
+		const [kind, setKind] =
+			React.useState<keyof typeof messagesMap>('friend');
+		const kinds = [
+			{ label: 'Friend', value: 'friend' },
+			{ label: 'In-Match', value: 'in-match' },
+			{ label: 'Match', value: 'match' },
+			{ label: 'General', value: 'general' },
+			{ label: 'VS Quick Chat', value: 'vs-quick-chat' },
+		];
+		const messagesMap = {
+			'friend': friendMessages,
+			'in-match': gameMessages,
+			'match': matchMessages,
+			'general': sampleMessages,
+			'vs-quick-chat': [],
+		};
+		return (
+			<div style={{ maxWidth: 400 }}>
+				<div style={{ marginBottom: 16 }}>
+					{kinds.map((k) => (
+						<button
+							key={k.value}
+							onClick={() =>
+								setKind(k.value as keyof typeof messagesMap)
+							}
+							style={{
+								marginRight: 8,
+								padding: '6px 12px',
+								borderRadius: 6,
+								border:
+									kind === k.value ?
+										'2px solid #2563eb'
+									:	'1px solid #ccc',
+								background:
+									kind === k.value ? '#e0e7ff' : '#fff',
+								cursor: 'pointer',
+							}}
+						>
+							{k.label}
+						</button>
+					))}
+				</div>
+				<Chat
+					{...args}
+					kind={kind}
+					messages={messagesMap[kind]}
+					currentUser={
+						kind === 'friend' ? 'user123'
+						: kind === 'in-match' ?
+							'alice'
+						: kind === 'match' ?
+							'player1'
+						:	'user1'
+					}
+					title={
+						kind === 'friend' ? 'Friend Chat'
+						: kind === 'in-match' ?
+							'In-Match Chat'
+						: kind === 'match' ?
+							'Match Chat'
+						: kind === 'general' ?
+							'General Chat'
+						:	'VS Quick Chat'
+					}
+					avatar={kind === 'friend' ? '👤' : undefined}
+				/>
+			</div>
+		);
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Switch between any chat kind using the same <Chat> component. This demonstrates the unified, configuration-driven API.',
 			},
 		},
 	},

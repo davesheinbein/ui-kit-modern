@@ -5,8 +5,8 @@ import {
 	getFileUploadConfig,
 	FileUploadKind,
 } from './configurations';
-import { UnifiedFileUploadProps } from './UnifiedFileUpload';
-import UnifiedFileUpload from './UnifiedFileUpload';
+import { FileUploadProps } from './FileUpload';
+import FileUpload from './FileUpload';
 
 /**
  * FileUpload Factory
@@ -15,13 +15,13 @@ import UnifiedFileUpload from './UnifiedFileUpload';
 export class FileUploadFactory {
 	static create(
 		config: FileUploadConfiguration &
-			Partial<UnifiedFileUploadProps>
+			Partial<FileUploadProps>
 	) {
 		return React.forwardRef<
 			HTMLDivElement,
-			Partial<UnifiedFileUploadProps>
+			Partial<FileUploadProps>
 		>((props, ref) =>
-			React.createElement(UnifiedFileUpload, {
+			React.createElement(FileUpload, {
 				ref,
 				...config,
 				...props,

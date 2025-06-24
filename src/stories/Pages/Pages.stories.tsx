@@ -1,37 +1,38 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
-	UnifiedPage,
+	Page,
 	PageFactory,
 	P,
 	PagePresets,
 } from '../../components/Pages';
-import type { UnifiedPageProps } from '../../components/Pages';
+import { Wrapper } from '../../components/Wrappers';
+import type { PageProps } from '../../components/Pages';
 
 // Meta configuration for the DRY Page system
-const meta: Meta<typeof UnifiedPage> = {
+const meta: Meta<typeof Page> = {
 	title: 'Pages/Page',
-	component: UnifiedPage,
+	component: Page,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component: `### Page (DRY System)
 
-The new unified Page system provides a single component that can render any page type through configuration:
+The new  Page system provides a single component that can render any page type through configuration:
 
-- **UnifiedPage**: Main component with kind prop
+- **Page**: Main component with kind prop
 - **PageFactory**: Factory function for programmatic creation  
 - **P**: Ultra-short alias for rapid development
 - **PagePresets**: Pre-configured page patterns
 
 ### Usage Examples:
 
-Using UnifiedPage with kind prop:
+Using Page with kind prop:
 \`\`\`tsx
-<UnifiedPage kind="startup" title="Welcome" />
-<UnifiedPage kind="dashboard" layout="grid" />
-<UnifiedPage kind="landing" />
+<Page kind="startup" title="Welcome" />
+<Page kind="dashboard" layout="grid" />
+<Page kind="landing" />
 \`\`\`
 
 Using PageFactory:
@@ -140,7 +141,7 @@ Available Page Kinds: startup, landing, dashboard, settings, profile, game, brow
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedPage>;
+type Story = StoryObj<typeof Page>;
 
 // ===== BASIC PAGE VARIANTS =====
 
@@ -287,7 +288,7 @@ export const FullSize: Story = {
 export const FactoryPattern: Story = {
 	name: '🏭 Factory Pattern Example',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -295,9 +296,9 @@ export const FactoryPattern: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>PageFactory Examples:</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -314,9 +315,9 @@ export const FactoryPattern: Story = {
 						title: 'Factory Dashboard',
 						layout: 'grid',
 					})}
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -331,7 +332,7 @@ export const FactoryPattern: Story = {
 export const UltraDRYAlias: Story = {
 	name: '⚡ Ultra-DRY Alias (P)',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -339,9 +340,9 @@ export const UltraDRYAlias: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>Ultra-short "P" alias:</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -358,9 +359,9 @@ export const UltraDRYAlias: Story = {
 						title: 'Ultra-DRY Settings',
 						layout: 'sidebar',
 					})}
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -375,7 +376,7 @@ export const UltraDRYAlias: Story = {
 export const PresetPatterns: Story = {
 	name: '🎯 Preset Patterns',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -383,9 +384,9 @@ export const PresetPatterns: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>PagePresets Examples:</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -397,9 +398,9 @@ export const PresetPatterns: Story = {
 					{PagePresets.Dashboard({
 						title: 'Preset Dashboard',
 					})}
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -416,7 +417,7 @@ export const PresetPatterns: Story = {
 export const AllVariantsShowcase: Story = {
 	name: '🎯 Complete DRY System Showcase',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -424,10 +425,10 @@ export const AllVariantsShowcase: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
-				<h2>🎯 UnifiedPage with Kind Prop</h2>
+			<Wrapper>
+				<h2>🎯 Page with Kind Prop</h2>
 				<p>Single component, different kinds:</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -435,26 +436,20 @@ export const AllVariantsShowcase: Story = {
 							'repeat(auto-fit, minmax(300px, 1fr))',
 					}}
 				>
-					<UnifiedPage
-						kind='startup'
-						title='DRY System Startup'
-					/>
-					<UnifiedPage
+					<Page kind='startup' title='DRY System Startup' />
+					<Page
 						kind='dashboard'
 						title='DRY System Dashboard'
 						layout='grid'
 					/>
-					<UnifiedPage
-						kind='landing'
-						title='DRY System Landing'
-					/>
-				</div>
-			</div>
+					<Page kind='landing' title='DRY System Landing' />
+				</Wrapper>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h2>🏭 Factory Pattern</h2>
 				<p>Programmatic page creation:</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -471,13 +466,13 @@ export const AllVariantsShowcase: Story = {
 						title: 'Factory Profile',
 						layout: 'centered',
 					})}
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h2>⚡ Ultra-DRY Alias</h2>
 				<p>Maximum convenience with "P":</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -491,15 +486,15 @@ export const AllVariantsShowcase: Story = {
 						title: 'Ultra-DRY Browse',
 						layout: 'grid',
 					})}
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h2>🎯 Preset Patterns</h2>
 				<p>
 					Pre-configured page patterns for common use cases:
 				</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -511,16 +506,16 @@ export const AllVariantsShowcase: Story = {
 					{PagePresets.Dashboard({
 						title: 'Preset Dashboard',
 					})}
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
 			description: {
 				story: `Complete showcase of the DRY Page system demonstrating all patterns:
 
-1. **UnifiedPage**: Single component with kind prop
+1. **Page**: Single component with kind prop
 2. **PageFactory**: Factory function pattern  
 3. **Ultra-DRY Aliases**: P for maximum convenience
 4. **Preset Patterns**: Pre-configured common patterns
@@ -644,7 +639,7 @@ export const StartupCustomStyling: Story = {
 export const StartupDRYFactoryExample: Story = {
 	name: '🚀 Startup Factory Pattern',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -652,7 +647,7 @@ export const StartupDRYFactoryExample: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>PageFactory Startup:</h3>
 				{PageFactory({
 					kind: 'startup',
@@ -663,8 +658,8 @@ export const StartupDRYFactoryExample: Story = {
 					onBrowseCustom: () => console.log('Browse'),
 					onShare: () => console.log('Share'),
 				})}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -679,7 +674,7 @@ export const StartupDRYFactoryExample: Story = {
 export const StartupUltraDRYExample: Story = {
 	name: '🚀 Startup Ultra-DRY (P)',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -687,7 +682,7 @@ export const StartupUltraDRYExample: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>Ultra-short "P" alias:</h3>
 				{P({
 					kind: 'startup',
@@ -697,8 +692,8 @@ export const StartupUltraDRYExample: Story = {
 					onStartCustom: () => console.log('Custom mode'),
 					onBrowseCustom: () => console.log('Browse'),
 				})}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -713,7 +708,7 @@ export const StartupUltraDRYExample: Story = {
 export const StartupPresetExample: Story = {
 	name: '🚀 Startup Preset Pattern',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -721,7 +716,7 @@ export const StartupPresetExample: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>PagePresets.Startup:</h3>
 				{PagePresets.Startup({
 					title: 'Preset Startup Page',
@@ -731,8 +726,8 @@ export const StartupPresetExample: Story = {
 					onBrowseCustom: () => console.log('Browse'),
 					onShare: () => console.log('Share'),
 				})}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {

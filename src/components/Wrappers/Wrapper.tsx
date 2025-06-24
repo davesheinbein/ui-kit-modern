@@ -1,4 +1,10 @@
-import React, { forwardRef, memo } from 'react';
+import React, {
+	forwardRef,
+	memo,
+	useMemo,
+	useEffect,
+	createElement,
+} from 'react';
 import { Button } from '../Button';
 import {
 	WrapperKind,
@@ -11,20 +17,18 @@ import styles from './Wrapper.module.scss';
 // Universal Component Renderer
 // ========================================
 
-/**
- * Universal renderer - handles ALL component types with cross-compatible logic
- */
 function renderTargetComponent(
 	config: WrapperConfiguration,
 	props: any,
-	children: React.ReactNode
+	children: React.ReactNode,
+	mergedClassName: string
 ) {
 	const isLayoutContainer =
 		config.variant === 'layout-container';
-	const isButton = config.unifiedComponent === 'Button';
-	const isForm = config.unifiedComponent === 'UnifiedForm';
+	const isButton = config.Component === 'Button';
+	const isForm = config.Component === 'Form';
 
-	// Get unified data attributes and styles
+	// Get  data attributes and styles
 	const renderData = getRenderData(
 		config,
 		props,
@@ -37,30 +41,25 @@ function renderTargetComponent(
 			{
 				...renderData.containerStyles.otherProps,
 				style: renderData.containerStyles.style,
+				className: mergedClassName,
 			}
 		:	{
 				...props,
-				'data-unified-kind': renderData.mappedKind,
+				'className': mergedClassName,
+				'data--kind': renderData.mappedKind,
 			};
 
 	// Universal element wrapper with conditional rendering
-	return (
-		<div
-			data-wrapper={renderData.wrapperType}
-			data-original-kind={config.kind}
-			{...(isLayoutContainer ? elementProps : {})}
-		>
-			{isLayoutContainer ?
-				children
-			: isButton ?
-				<Button {...elementProps}>{children}</Button>
-			:	React.createElement(
-					isForm ? 'form' : 'div',
-					elementProps,
-					children
-				)
-			}
-		</div>
+	if (isButton) {
+		return <Button {...elementProps}>{children}</Button>;
+	}
+	if (isForm) {
+		return createElement('form', elementProps, children);
+	}
+	return createElement(
+		isLayoutContainer ? 'div' : 'div',
+		elementProps,
+		children
 	);
 }
 
@@ -80,7 +79,7 @@ function getRenderData(
 	const wrapperType =
 		isLayoutContainer ?
 			getContainerType(config.kind)
-		:	getComponentType(config.unifiedComponent);
+		:	getComponentType(config.Component);
 
 	const containerStyles =
 		isLayoutContainer ?
@@ -97,27 +96,25 @@ function getRenderData(
 /**
  * Universal component type mapper
  */
-function getComponentType(
-	unifiedComponent: string
-): string {
+function getComponentType(Component: string): string {
 	const typeMap: Record<string, string> = {
 		Button: 'button',
-		UnifiedHeader: 'header',
-		UnifiedModal: 'modal',
-		UnifiedGrid: 'grid',
-		UnifiedPage: 'page',
-		UnifiedGraph: 'graph',
-		UnifiedSidebar: 'sidebar',
-		UnifiedSettings: 'settings',
-		UnifiedTheme: 'theme',
+		Header: 'header',
+		Modal: 'modal',
+		Grid: 'grid',
+		Page: 'page',
+		Graph: 'graph',
+		Sidebar: 'sidebar',
+		Settings: 'settings',
+		Theme: 'theme',
 		Admin: 'admin',
-		UnifiedCard: 'card',
-		UnifiedBanner: 'banner',
-		UnifiedChat: 'chat',
-		UnifiedForm: 'form',
-		UnifiedProvider: 'provider',
+		Card: 'card',
+		Banner: 'banner',
+		Chat: 'chat',
+		Form: 'form',
+		Provider: 'provider',
 	};
-	return typeMap[unifiedComponent] || 'generic';
+	return typeMap[Component] || 'generic';
 }
 
 /**
@@ -420,7 +417,7 @@ export interface WrapperProps {
 // ========================================
 
 /**
- * Wrapper - Ultra-DRY main wrapper component for the unified wrapper system
+ * Wrapper - Ultra-DRY main wrapper component for the  wrapper system
  *
  * This component provides a completely consolidated interface for all wrapper types
  * with maximum code reuse and cross-compatible ternary-based logic.
@@ -438,45 +435,42 @@ const Wrapper = forwardRef<any, WrapperProps>(
 		},
 		ref
 	) => {
-		// Get and merge configurations using ternary logic
 		const baseConfig = getWrapperConfig(kind);
 		const config =
 			configOverrides ?
 				{ ...baseConfig, ...configOverrides }
 			:	baseConfig;
 
-		// Consolidated prop processing with cross-compatible logic
-		const processedProps = React.useMemo(() => {
-			// Remove wrapper-specific props and prepare target props
+		if (!config) {
+			console.warn(
+				`Wrapper: Unknown wrapper kind "${kind}"`
+			);
+			return <div className={className}>{children}</div>;
+		}
+
+		const processedProps = useMemo(() => {
 			const {
 				suppressDeprecationWarning: _,
 				onMigrationHelp: __,
 				configuration: ___,
 				...targetProps
 			} = props;
-
-			// Add wrapper-managed props using ternary operators
 			const managedProps = {
 				...targetProps,
-				...(config.forwardRef && { ref }),
-				...(config.preserveOriginalStyles && {
-					className: [config.className, props.className]
-						.filter(Boolean)
-						.join(' '),
-				}),
+				...(config?.forwardRef && { ref }),
 			};
-
 			return managedProps;
 		}, [props, config, ref]);
 
-		// Build wrapper classes using ternary-based logic
-		const wrapperClasses = React.useMemo(
+		const mergedClassName = useMemo(
 			() =>
 				[
-					styles.unifiedWrapper,
-					styles[`wrapper--${config.variant}`],
-					styles[`wrapper--${config.layout}`],
-					config.wrapperClassName,
+					styles.Wrapper,
+					styles[
+						`wrapper--${config?.variant || 'default'}`
+					],
+					styles[`wrapper--${config?.layout || 'default'}`],
+					config?.wrapperClassName,
 					className,
 				]
 					.filter(Boolean)
@@ -484,10 +478,9 @@ const Wrapper = forwardRef<any, WrapperProps>(
 			[config, className]
 		);
 
-		// Consolidated deprecation warning effect
-		React.useEffect(() => {
+		useEffect(() => {
 			const shouldWarn =
-				config.deprecationWarning &&
+				config?.deprecationWarning &&
 				!suppressDeprecationWarning &&
 				typeof window !== 'undefined';
 
@@ -495,16 +488,15 @@ const Wrapper = forwardRef<any, WrapperProps>(
 				console.warn(
 					`🚨 Deprecation Warning: ${config.targetComponent} is deprecated.\n` +
 						`📖 Migration Path: ${config.migrationPath}\n` +
-						`🔗 Component: ${config.unifiedComponent}\n` +
+						`🔗 Component: ${config.Component}\n` +
 						`📝 Description: ${config.description}`
 				);
 			}
 		}, [config, suppressDeprecationWarning]);
 
-		// Universal render helper with ternary-based logic
 		const renderMigrationHelper = () =>
 			(
-				config.deprecationWarning &&
+				config?.deprecationWarning &&
 				typeof window !== 'undefined'
 			) ?
 				<div className={styles.migrationHelper}>
@@ -512,26 +504,23 @@ const Wrapper = forwardRef<any, WrapperProps>(
 						kind='secondary'
 						onClick={onMigrationHelp}
 						className={styles.migrationButton}
-						title={`Migration help for ${config.targetComponent}`}
+						title={`Migration help for ${config?.targetComponent}`}
 					>
 						📖 Migration Guide
 					</Button>
 				</div>
 			:	null;
 
-		// Main render with cross-compatible component rendering
 		return (
-			<div
-				className={wrapperClasses}
-				data-wrapper-kind={kind}
-			>
+			<>
 				{renderMigrationHelper()}
 				{renderTargetComponent(
 					config,
 					processedProps,
-					children
+					children,
+					mergedClassName
 				)}
-			</div>
+			</>
 		);
 	}
 );

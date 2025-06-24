@@ -1,42 +1,83 @@
 import React, { forwardRef } from 'react';
+import { Wrapper } from '../Wrappers';
 import styles from './Chat.module.scss';
 import { Button } from '../Button';
+import ChatFactory from './factory';
+import { ChatKind } from './configurations';
 
+// Unified ChatProps interface
 export interface ChatProps {
-	children: React.ReactNode;
-	className?: string;
+	// High-level (factory-driven) chat props
+	kind?: ChatKind;
+	messages?: Array<{
+		id: string;
+		text: string;
+		sender: string;
+		time: string;
+		type?: 'self' | 'friend' | 'system';
+	}>;
+	currentUser?: string;
+	onSend?: (message: string) => void;
+	// Presentational chat window props
+	children?: React.ReactNode;
 	variant?: 'friend' | 'in-match' | 'match' | 'general';
 	position?: 'fixed' | 'relative' | 'absolute';
 	title?: string;
-	onClose?: () => void;
 	showCloseButton?: boolean;
 	showHeader?: boolean;
 	avatar?: React.ReactNode;
+	// Shared props
+	onClose?: () => void;
+	className?: string;
+	[key: string]: any;
 }
 
 /**
- * Base Chat component - provides consistent styling and layout
- * Use this as the foundation for all chat window types
- * Similar to the Modal and Button base components
+ * Unified Chat component - DRY, configuration-driven, and presentational
+ * If 'kind' is provided, renders the high-level chat factory; otherwise, renders a styled chat window.
  */
 const Chat = forwardRef<HTMLDivElement, ChatProps>(
-	(
-		{
+	(props, ref) => {
+		const {
+			// Factory-driven props
+			kind,
+			messages = [],
+			currentUser = '',
+			onSend,
+			// Presentational props
 			children,
-			className = '',
 			variant = 'general',
 			position = 'relative',
 			title,
-			onClose,
 			showCloseButton = false,
 			showHeader = true,
 			avatar,
-			...props
-		},
-		ref
-	) => {
+			// Shared
+			onClose,
+			className = '',
+			...rest
+		} = props;
+
+		if (kind) {
+			// Only pass valid props to ChatFactory
+			return (
+				<ChatFactory
+					ref={ref}
+					kind={kind}
+					messages={messages}
+					currentUser={currentUser}
+					onSend={onSend}
+					onClose={onClose}
+					className={className}
+					{...rest}
+				/>
+			);
+		}
+
+		// Presentational chat window
 		const chatClasses = [
 			styles.chat,
+			'wrapper',
 			styles[`chat--${variant}`],
 			styles[`chat--${position}`],
 			className,
@@ -45,27 +86,29 @@ const Chat = forwardRef<HTMLDivElement, ChatProps>(
 			.join(' ');
 
 		return (
-			<div ref={ref} className={chatClasses} {...props}>
+			<Wrapper ref={ref} className={chatClasses} {...rest}>
 				{showHeader &&
 					(title || showCloseButton || avatar) && (
-						<div className={styles.chatHeader}>
+						<Wrapper className={styles.chatHeader}>
 							{avatar && (
-								<div className={styles.chatAvatar}>
+								<Wrapper className={styles.chatAvatar}>
 									{avatar}
-								</div>
+								</Wrapper>
 							)}
 							{title && (
-								<div className={styles.chatTitle}>
+								<Wrapper className={styles.chatTitle}>
 									{title}
-								</div>
+								</Wrapper>
 							)}
 							{showCloseButton && onClose && (
 								<Button kind='close' onClick={onClose} />
 							)}
-						</div>
+						</Wrapper>
 					)}
-				<div className={styles.chatContent}>{children}</div>
-			</div>
+				<Wrapper className={styles.chatContent}>
+					{children}
+				</Wrapper>
+			</Wrapper>
 		);
 	}
 );

@@ -1,5 +1,5 @@
 export { default as Radio } from './Radio';
-export { default as UnifiedRadio } from './UnifiedRadio';
+export type { RadioProps } from './Radio';
 export { default as RadioFactory } from './factory';
 export type {
 	RadioKind,

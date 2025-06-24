@@ -1,18 +1,14 @@
 import React, { forwardRef } from 'react';
-import UnifiedInput, {
-	UnifiedInputProps,
-} from './UnifiedInput';
+import Input, { InputProps } from './Input';
 
 export interface InputProps
-	extends Omit<UnifiedInputProps, 'kind'> {
-	kind?: UnifiedInputProps['kind'];
+	extends Omit<InputProps, 'kind'> {
+	kind?: InputProps['kind'];
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
 	({ kind = 'text', ...props }, ref) => {
-		return (
-			<UnifiedInput ref={ref} kind={kind} {...props} />
-		);
+		return <Input ref={ref} kind={kind} {...props} />;
 	}
 );
 

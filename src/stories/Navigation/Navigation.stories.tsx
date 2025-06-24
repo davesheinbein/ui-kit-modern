@@ -1,14 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { UnifiedNavigation } from '../../components/Navigation';
+import { Navigation } from '../../components/Navigation';
+import { Wrapper } from '../../components/Wrappers';
 import {
 	NavigationFactory,
 	N,
 	NavigationPresets,
 } from '../../components/Navigation';
 
-const meta: Meta<typeof UnifiedNavigation> = {
-	title: 'Navigation/UnifiedNavigation',
-	component: UnifiedNavigation,
+const meta: Meta<typeof Navigation> = {
+	title: 'Navigation/Navigation',
+	component: Navigation,
 	parameters: {
 		layout: 'fullscreen',
 	},
@@ -342,46 +343,46 @@ export const FactoryWizard: Story = {
 
 export const AllVariants: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '2rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>Default Navbar</h3>
-				<UnifiedNavigation
+				<Navigation
 					kind='navbar'
 					items={sampleItems}
 					variant='default'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Minimal Navbar</h3>
-				<UnifiedNavigation
+				<Navigation
 					kind='navbar'
 					items={sampleItems}
 					variant='minimal'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Filled Navbar</h3>
-				<UnifiedNavigation
+				<Navigation
 					kind='navbar'
 					items={sampleItems}
 					variant='filled'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Outlined Navbar</h3>
-				<UnifiedNavigation
+				<Navigation
 					kind='navbar'
 					items={sampleItems}
 					variant='outlined'
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 

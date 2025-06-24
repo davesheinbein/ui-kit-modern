@@ -1,19 +1,29 @@
 @use '../../styles/mixins' as *;
 
-// Base chat component with proper containment
 .chat {
 	@include chat-window;
 	@include flex-column;
 	gap: 0;
-	overflow: hidden; // Prevent content overflow
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	height: 400px;
+	max-height: 90vh;
+	background: var(--bg-surface-alpha);
+	box-shadow: var(--shadow-lg);
+	border-radius: var(--radius-xl);
+	border: 1.5px solid var(--border-default);
+	transition:
+		box-shadow 0.2s,
+		background 0.2s,
+		border 0.2s;
+	backdrop-filter: blur(12px) saturate(1.1);
 }
 
-// Position variants - some extend beyond bounds intentionally
 .chat--fixed {
 	position: fixed;
 	z-index: var(--z-modal);
 	animation: fadeIn 0.18s;
-	// Intentional overflow: Fixed chat windows need to float over content
 }
 
 .chat--relative {
@@ -24,7 +34,6 @@
 	position: absolute;
 }
 
-// Chat variants with proper containment
 .chat--friend {
 	bottom: var(--spacing-8);
 	right: 380px;
@@ -48,80 +57,93 @@
 	backdrop-filter: blur(8px);
 }
 
-// Chat header with containment
 .chatHeader {
 	@include chat-header;
-	overflow: hidden; // Prevent header content overflow
-}
-
-.chatAvatar {
-	@include flex-center;
-	@include contained-size(38px);
-	position: relative;
+	overflow: hidden;
+	border-bottom: 2px solid var(--accent-blue-200);
+	background: var(--bg-surface);
+	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.03);
+	border-top-left-radius: var(--radius-xl);
+	border-top-right-radius: var(--radius-xl);
+	min-height: 48px;
+	display: flex;
+	align-items: center;
+	padding: var(--spacing-2) var(--spacing-4);
 }
 
 .chatTitle {
 	@include text-lg;
 	@include text-truncate;
 	font-weight: 700;
-	color: var(--accent-blue-500);
+	color: var(--accent-blue-700);
 	flex: 1;
-	min-width: 0; // Allow text truncation
+	min-width: 0;
+	letter-spacing: 0.01em;
 }
 
-.chatCloseBtn {
-	@include interactive-element;
-	background: none;
-	border: none;
-	@include text-xl;
-	color: var(--text-tertiary);
-	border-radius: var(--radius-sm);
-	padding: var(--spacing-1) var(--spacing-3);
-	cursor: pointer;
-
-	&:hover {
-		background: var(--semantic-warning-100);
-		color: var(--semantic-error-500);
-	}
-
-	&:focus {
-		@include focus-ring;
-	}
-}
-
-// Chat content with proper scrolling
 .chatContent {
-	flex: 1;
+	flex: 1 1 0%;
 	@include flex-column(0);
-	overflow: hidden; // Prevent content overflow
+	min-height: p;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	max-height: none;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
-// Chat messages container with contained scrolling
 .chatMessages {
 	@include chat-messages;
 	@include flex-column(var(--spacing-2));
-	overflow-y: auto; // Allow scrolling within bounds
-	overflow-x: hidden; // Prevent horizontal overflow
-	max-height: 300px; // Limit message area height
+	flex: 1 1 auto;
+	min-height: 320px;
+	margin-bottom: 0;
 }
 
-// Message variants with text containment
 .chatMessage {
 	@include chat-message;
-	word-wrap: break-word; // Prevent text overflow
+	word-wrap: break-word;
 	overflow-wrap: break-word;
+	z-index: 1;
 }
 
 .chatMessageSelf {
 	@include chat-message-self;
 	text-align: right;
 	@include text-truncate-multiline(3);
+
+	background: linear-gradient(
+		90deg,
+		var(--accent-blue-100) 60%,
+		var(--accent-blue-200) 100%
+	);
+	color: var(--text-primary);
+	border-radius: var(--radius-lg) var(--radius-full)
+		var(--radius-full) var(--radius-lg);
+	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+	margin-left: 40px;
+	margin-bottom: var(--spacing-2);
+	padding: var(--spacing-2) var(--spacing-4);
 }
 
 .chatMessageFriend {
 	@include chat-message-friend;
 	text-align: left;
 	@include text-truncate-multiline(3);
+
+	background: linear-gradient(
+		90deg,
+		var(--bg-surface) 60%,
+		var(--accent-blue-50) 100%
+	);
+	color: var(--text-primary);
+	border-radius: var(--radius-full) var(--radius-lg)
+		var(--radius-lg) var(--radius-full);
+	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.03);
+	margin-right: 40px;
+	margin-bottom: var(--spacing-2);
+	padding: var(--spacing-2) var(--spacing-4);
 }
 
 .chatMessageSystem {
@@ -133,9 +155,13 @@
 	text-align: center;
 	@include contained-width(90%);
 	@include text-truncate-multiline(2);
+
+	border-radius: var(--radius-md);
+	margin: var(--spacing-2) auto;
+	padding: var(--spacing-2) var(--spacing-4);
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.02);
 }
 
-// Message content with overflow handling
 .chatMessageText {
 	display: inline;
 	word-wrap: break-word;
@@ -148,19 +174,29 @@
 	margin-left: var(--spacing-2);
 }
 
-// Chat input area with contained layout
 .chatInput {
 	@include flex-row(var(--spacing-2), center);
 	padding: var(--spacing-3) var(--spacing-5);
 	border-top: 1px solid var(--border-default);
 	background: var(--bg-surface-alpha);
-	overflow: hidden; // Prevent input overflow
+	background-color: white;
+	overflow: hidden;
+	border-bottom-left-radius: var(--radius-xl);
+	border-bottom-right-radius: var(--radius-xl);
+	box-shadow: 0 -2px 8px 0 rgba(0, 0, 0, 0.03);
+	flex-shrink: 0;
+	position: relative;
+	bottom: auto;
+	z-index: 1;
+	position: sticky;
+	bottom: 0;
+	z-index: 4;
 }
 
 .chatInputField {
 	@include input-base;
 	flex: 1;
-	min-width: 0; // Allow input to shrink
+	min-width: 0;
 	padding: var(--spacing-2) var(--spacing-3);
 	border-radius: var(--radius-full);
 	@include text-sm;
@@ -182,30 +218,37 @@
 	@include text-sm;
 	cursor: pointer;
 	flex-shrink: 0;
+	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+	transition:
+		background 0.15s,
+		box-shadow 0.15s,
+		color 0.15s;
 
 	&:hover {
 		background: var(--accent-blue-600);
+		box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
 	}
 
 	&:disabled {
 		background: var(--bg-disabled);
 		color: var(--text-disabled);
 		cursor: not-allowed;
+		box-shadow: none;
 	}
 
 	&:focus {
 		@include focus-ring;
+		outline: none;
 	}
 }
 
-// VSQuickChatBar styles with containment
 .vsQuickChatBar {
 	@include flex-row(var(--spacing-2), center, wrap);
 	padding: var(--spacing-3);
 	background: var(--bg-surface-alpha);
 	border-radius: var(--radius-md);
 	backdrop-filter: blur(10px);
-	overflow: hidden; // Prevent button overflow
+	overflow: hidden;
 }
 
 .vsQuickChatButton {
@@ -235,7 +278,26 @@
 	}
 }
 
-// Animation keyframes
+.wrapper {
+	@include card-base;
+	border-radius: var(--radius-lg);
+	background: var(--bg-surface);
+	box-shadow: var(--shadow-md);
+	transition:
+		box-shadow 0.2s,
+		background 0.2s;
+	min-width: 0;
+	outline: none;
+	&:focus-visible {
+		box-shadow: 0 0 0 2px var(--accent-blue-300);
+	}
+}
+
+.wrapper--elevated {
+	box-shadow: var(--shadow-lg);
+	z-index: var(--z-modal);
+}
+
 @keyframes fadeIn {
 	from {
 		opacity: 0;

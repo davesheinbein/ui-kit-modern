@@ -1,0 +1,176 @@
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.fieldWrapper {
+	@include form-field;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+	margin-block-end: var(--spacing-md);
+}
+
+.fullWidth {
+	@include full-width;
+}
+
+.hasError {
+	.fieldContainer input,
+	.fieldContainer textarea,
+	.fieldContainer select {
+		border-color: var(--error-500);
+
+		&:focus {
+			@include focus-ring;
+			border-color: var(--error-500);
+		}
+	}
+}
+
+.label {
+	@include typography-body-sm;
+	font-weight: var(--font-weight-medium);
+	color: var(--text-secondary);
+	margin-block-end: var(--spacing-1);
+	display: block;
+}
+
+.required {
+	color: var(--error-500);
+	margin-inline-start: var(--spacing-1);
+}
+
+.fieldContainer {
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	input,
+	textarea,
+	select {
+		@include form-input;
+		@include full-width;
+		padding: var(--spacing-3) var(--spacing-4);
+
+		&:focus {
+			@include focus-ring;
+			border-color: var(--primary-500);
+		}
+
+		&:disabled {
+			background-color: var(--gray-100);
+			color: var(--text-disabled);
+			cursor: not-allowed;
+		}
+
+		&::placeholder {
+			color: var(--text-placeholder);
+		}
+	}
+
+	textarea {
+		resize: vertical;
+		min-block-size: 80px;
+		overflow: auto; // Prevent overflow
+	}
+
+	select {
+		@include select-input;
+		cursor: pointer;
+		padding-inline-end: var(
+			--spacing-10
+		); // Space for arrow
+	}
+}
+
+.errorText {
+	@include error-text;
+	color: var(--error-500);
+	margin-block-start: var(--spacing-1);
+}
+
+.helperText {
+	@include helper-text;
+	color: var(--text-tertiary);
+	margin-block-start: var(--spacing-1);
+}
+
+// Checkbox and radio specific styles
+.fieldContainer {
+	.checkboxContainer,
+	.radioContainer {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2);
+
+		input[type='checkbox'],
+		input[type='radio'] {
+			inline-size: auto;
+			block-size: auto;
+			padding: 0;
+			margin: 0;
+		}
+	}
+}
+
+// Switch specific styles
+.fieldContainer {
+	.switchContainer {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2);
+
+		input[type='checkbox'] {
+			inline-size: auto;
+			block-size: auto;
+			padding: 0;
+			margin: 0;
+		}
+	}
+}
+
+// Range specific styles
+.fieldContainer {
+	input[type='range'] {
+		padding: 0;
+		background: transparent;
+		border: none;
+		outline: none;
+
+		&:focus {
+			outline: none;
+			border: none;
+		}
+
+		&::-webkit-slider-track {
+			background: var(--bg-muted);
+			height: 4px;
+			border-radius: var(--radius-sm);
+		}
+
+		&::-webkit-slider-thumb {
+			appearance: none;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: var(--accent-blue-500);
+			cursor: pointer;
+			margin-top: -8px;
+		}
+
+		&::-moz-range-track {
+			background: var(--bg-muted);
+			height: 4px;
+			border-radius: var(--radius-sm);
+			border: none;
+		}
+
+		&::-moz-range-thumb {
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: var(--accent-blue-500);
+			cursor: pointer;
+			border: none;
+		}
+	}
+}

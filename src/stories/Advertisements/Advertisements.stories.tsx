@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react';
 import { Button } from '../../components/Button';
 import { Advertisements } from '../../components/Advertisements/Advertisements';
 import { AdvertisementFactory } from '../../components/Advertisements';
+import { Wrapper } from '../../components/Wrappers';
 import {
 	AdContent,
 	AdAnalyticsEvent,
@@ -340,7 +341,7 @@ const enhancedAdPool = [
 
 export const SystemOverview: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				padding: '40px',
 				maxWidth: '1200px',
@@ -381,7 +382,7 @@ export const SystemOverview: Story = {
 				</p>
 			</header>
 
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
@@ -390,7 +391,7 @@ export const SystemOverview: Story = {
 					marginBottom: '60px',
 				}}
 			>
-				<div
+				<Wrapper
 					style={{
 						background: 'white',
 						padding: '30px',
@@ -423,9 +424,9 @@ export const SystemOverview: Story = {
 						<li>Floating Widgets</li>
 						<li>Game Billboards</li>
 					</ul>
-				</div>
+				</Wrapper>
 
-				<div
+				<Wrapper
 					style={{
 						background: 'white',
 						padding: '30px',
@@ -457,9 +458,9 @@ export const SystemOverview: Story = {
 						<li>Preset configurations</li>
 						<li>Group creation</li>
 					</ul>
-				</div>
+				</Wrapper>
 
-				<div
+				<Wrapper
 					style={{
 						background: 'white',
 						padding: '30px',
@@ -491,9 +492,9 @@ export const SystemOverview: Story = {
 						<li>Conversion metrics</li>
 						<li>Error monitoring</li>
 					</ul>
-				</div>
+				</Wrapper>
 
-				<div
+				<Wrapper
 					style={{
 						background: 'white',
 						padding: '30px',
@@ -525,9 +526,9 @@ export const SystemOverview: Story = {
 						<li>Custom providers</li>
 						<li>Automatic failover</li>
 					</ul>
-				</div>
+				</Wrapper>
 
-				<div
+				<Wrapper
 					style={{
 						background: 'white',
 						padding: '30px',
@@ -559,9 +560,9 @@ export const SystemOverview: Story = {
 						<li>Breakpoint configuration</li>
 						<li>Container adaptation</li>
 					</ul>
-				</div>
+				</Wrapper>
 
-				<div
+				<Wrapper
 					style={{
 						background: 'white',
 						padding: '30px',
@@ -593,8 +594,8 @@ export const SystemOverview: Story = {
 						<li>TypeScript support</li>
 						<li>Accessibility features</li>
 					</ul>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
 			<section
 				style={{
@@ -619,7 +620,7 @@ export const SystemOverview: Story = {
 					Browse our comprehensive examples and
 					documentation to see the system in action.
 				</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						gap: '15px',
@@ -627,7 +628,7 @@ export const SystemOverview: Story = {
 						flexWrap: 'wrap',
 					}}
 				>
-					<div
+					<Wrapper
 						style={{
 							padding: '8px 16px',
 							background: 'rgba(255,255,255,0.2)',
@@ -636,8 +637,8 @@ export const SystemOverview: Story = {
 						}}
 					>
 						Individual Components
-					</div>
-					<div
+					</Wrapper>
+					<Wrapper
 						style={{
 							padding: '8px 16px',
 							background: 'rgba(255,255,255,0.2)',
@@ -646,8 +647,8 @@ export const SystemOverview: Story = {
 						}}
 					>
 						Factory Patterns
-					</div>
-					<div
+					</Wrapper>
+					<Wrapper
 						style={{
 							padding: '8px 16px',
 							background: 'rgba(255,255,255,0.2)',
@@ -656,8 +657,8 @@ export const SystemOverview: Story = {
 						}}
 					>
 						Analytics & Providers
-					</div>
-					<div
+					</Wrapper>
+					<Wrapper
 						style={{
 							padding: '8px 16px',
 							background: 'rgba(255,255,255,0.2)',
@@ -666,18 +667,18 @@ export const SystemOverview: Story = {
 						}}
 					>
 						Complete Examples
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 			</section>
-		</div>
+		</Wrapper>
 	),
 };
 
-// ===== UNIFIED ADVERTISEMENT COMPONENTS =====
+// ===== ADVERTISEMENT COMPONENTS =====
 
 export const BannerAd: Story = {
 	render: () => (
-		<div style={{ padding: '20px' }}>
+		<Wrapper style={{ padding: '20px' }}>
 			<h2>Banner Advertisement</h2>
 			<Advertisements
 				kind='banner-ad'
@@ -685,7 +686,7 @@ export const BannerAd: Story = {
 				animationEnabled={true}
 				trackingEnabled={true}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
@@ -694,7 +695,7 @@ export const InterstitialAd: Story = {
 		const [isVisible, setIsVisible] = useState(true);
 
 		return (
-			<div style={{ padding: '20px' }}>
+			<Wrapper style={{ padding: '20px' }}>
 				<h2>Interstitial Advertisement</h2>
 				<Button
 					kind='primary'
@@ -731,7 +732,7 @@ export const InterstitialAd: Story = {
 					animationEnabled={true}
 					onAdClose={() => setIsVisible(false)}
 				/>
-			</div>
+			</Wrapper>
 		);
 	},
 };
@@ -742,7 +743,7 @@ export const RewardedModal: Story = {
 		const [coins, setCoins] = useState(250);
 
 		return (
-			<div style={{ padding: '20px' }}>
+			<Wrapper style={{ padding: '20px' }}>
 				<h2>Rewarded Modal Advertisement</h2>
 				<p>
 					Current coins: <strong>{coins}</strong>
@@ -780,14 +781,14 @@ export const RewardedModal: Story = {
 						);
 					}}
 				/>
-			</div>
+			</Wrapper>
 		);
 	},
 };
 
 export const NativeCard: Story = {
 	render: () => (
-		<div style={{ padding: '20px' }}>
+		<Wrapper style={{ padding: '20px' }}>
 			<h2>Native Card Advertisement</h2>
 			<p>This native ad blends seamlessly with content:</p>
 			<Advertisements
@@ -796,18 +797,20 @@ export const NativeCard: Story = {
 				animationEnabled={true}
 				trackingEnabled={true}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const StickyBar: Story = {
 	render: () => (
-		<div style={{ padding: '20px', minHeight: '100vh' }}>
+		<Wrapper
+			style={{ padding: '20px', minHeight: '100vh' }}
+		>
 			<h2>Sticky Bar Advertisement</h2>
 			<p>
 				The sticky bar appears at the bottom of the page.
 			</p>
-			<div
+			<Wrapper
 				style={{
 					height: '1000px',
 					background: '#f8f9fa',
@@ -822,7 +825,7 @@ export const StickyBar: Story = {
 					Lorem ipsum dolor sit amet, consectetur adipiscing
 					elit...
 				</p>
-			</div>
+			</Wrapper>
 
 			<Advertisements
 				kind='sticky-ad-bar'
@@ -838,13 +841,13 @@ export const StickyBar: Story = {
 				style={{ bottom: 0, left: 0, right: 0 }}
 				animationEnabled={true}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const FloatingWidget: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				padding: '20px',
 				minHeight: '100vh',
@@ -874,13 +877,13 @@ export const FloatingWidget: Story = {
 				hideDelay={10000}
 				animationEnabled={true}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const ToastNotification: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				padding: '20px',
 				minHeight: '100vh',
@@ -909,7 +912,7 @@ export const ToastNotification: Story = {
 				hideDelay={5000}
 				animationEnabled={true}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
@@ -917,7 +920,7 @@ export const ToastNotification: Story = {
 
 export const BasicFactoryUsage: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				padding: '20px',
 				display: 'flex',
@@ -939,13 +942,13 @@ export const BasicFactoryUsage: Story = {
 				'native-ad-card',
 				sampleNativeContent
 			)}
-		</div>
+		</Wrapper>
 	),
 };
 
 export const ShorthandFactoryUsage: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				padding: '20px',
 				display: 'flex',
@@ -968,13 +971,13 @@ export const ShorthandFactoryUsage: Story = {
 				'native-ad-card',
 				sampleNativeContent
 			)}
-		</div>
+		</Wrapper>
 	),
 };
 
 export const SpecializedFactoryMethods: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				padding: '20px',
 				display: 'flex',
@@ -984,7 +987,7 @@ export const SpecializedFactoryMethods: Story = {
 		>
 			<h2>Specialized Factory Methods</h2>
 
-			<div>
+			<Wrapper>
 				<h3>createBanner()</h3>
 				{AdvertisementFactory.createBanner({
 					id: 'factory-banner',
@@ -996,9 +999,9 @@ export const SpecializedFactoryMethods: Story = {
 					ctaText: 'Learn More',
 					actionUrl: 'https://example.com/factory',
 				})}
-			</div>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h3>createNativeCard()</h3>
 				{AdvertisementFactory.createNativeCard({
 					id: 'factory-native',
@@ -1011,9 +1014,9 @@ export const SpecializedFactoryMethods: Story = {
 					actionUrl: 'https://example.com/native',
 					sponsored: true,
 				})}
-			</div>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h3>createFloatingWidget()</h3>
 				{AdvertisementFactory.createFloatingWidget(
 					{
@@ -1026,9 +1029,9 @@ export const SpecializedFactoryMethods: Story = {
 					},
 					{ position: 'fixed' }
 				)}
-			</div>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h3>createStickyBar()</h3>
 				{AdvertisementFactory.createStickyBar(
 					{
@@ -1041,8 +1044,8 @@ export const SpecializedFactoryMethods: Story = {
 					},
 					{ position: 'fixed' }
 				)}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 
@@ -1050,7 +1053,7 @@ export const SpecializedFactoryMethods: Story = {
 
 export const StackLayout: Story = {
 	render: () => (
-		<div style={{ padding: '20px' }}>
+		<Wrapper style={{ padding: '20px' }}>
 			<h2>Ad Container - Stack Layout</h2>
 			<Advertisements
 				count='many'
@@ -1060,13 +1063,13 @@ export const StackLayout: Story = {
 				spacing={16}
 				allowedAdTypes={['banner-ad', 'native-ad-card']}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const CarouselLayout: Story = {
 	render: () => (
-		<div style={{ padding: '20px' }}>
+		<Wrapper style={{ padding: '20px' }}>
 			<h2>Ad Container - Carousel Layout</h2>
 			<Advertisements
 				count='many'
@@ -1078,13 +1081,13 @@ export const CarouselLayout: Story = {
 				allowedAdTypes={['banner-ad', 'native-ad-card']}
 				spacing={16}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const GridLayout: Story = {
 	render: () => (
-		<div style={{ padding: '20px' }}>
+		<Wrapper style={{ padding: '20px' }}>
 			<h2>Ad Container - Grid Layout</h2>
 			<Advertisements
 				count='many'
@@ -1094,13 +1097,13 @@ export const GridLayout: Story = {
 				spacing={20}
 				allowedAdTypes={['native-ad-card']}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const ResponsiveContainer: Story = {
 	render: () => (
-		<div style={{ padding: '20px' }}>
+		<Wrapper style={{ padding: '20px' }}>
 			<h2>Responsive Ad Container</h2>{' '}
 			<p>
 				This container adapts its layout and number of ads
@@ -1121,7 +1124,7 @@ export const ResponsiveContainer: Story = {
 				spacing={16}
 				allowedAdTypes={['banner-ad', 'native-ad-card']}
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
@@ -1259,7 +1262,7 @@ export const WithFallbackContent: Story = {
 			maxAds={3}
 			adPool={args.adPool}
 			fallbackContent={
-				<div
+				<Wrapper
 					style={{
 						padding: '40px',
 						textAlign: 'center',
@@ -1271,7 +1274,7 @@ export const WithFallbackContent: Story = {
 				>
 					<h3>No Advertisements Available</h3>
 					<p>Please check back later for new content.</p>
-				</div>
+				</Wrapper>
 			}
 			showFallbackOnError={true}
 		/>
@@ -1452,7 +1455,7 @@ export const CompleteIntegrationDemo: Story = {
 		];
 
 		return (
-			<div style={{ padding: '20px' }}>
+			<Wrapper style={{ padding: '20px' }}>
 				<h2>Complete Integration Demo</h2>
 				<p>
 					Real-world example with analytics, providers, and
@@ -1460,7 +1463,7 @@ export const CompleteIntegrationDemo: Story = {
 				</p>
 
 				{/* Metrics Dashboard */}
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gridTemplateColumns: 'repeat(4, 1fr)',
@@ -1469,7 +1472,7 @@ export const CompleteIntegrationDemo: Story = {
 					}}
 				>
 					{Object.entries(metrics).map(([key, value]) => (
-						<div
+						<Wrapper
 							key={key}
 							style={{
 								background: '#007bff',
@@ -1479,28 +1482,28 @@ export const CompleteIntegrationDemo: Story = {
 								textAlign: 'center',
 							}}
 						>
-							<div
+							<Wrapper
 								style={{
 									fontSize: '24px',
 									fontWeight: 'bold',
 								}}
 							>
 								{value}
-							</div>
-							<div
+							</Wrapper>
+							<Wrapper
 								style={{
 									fontSize: '12px',
 									textTransform: 'capitalize',
 								}}
 							>
 								{key}
-							</div>
-						</div>
+							</Wrapper>
+						</Wrapper>
 					))}
-				</div>
+				</Wrapper>
 
 				{/* Website Header Ad */}
-				<div style={{ marginBottom: '20px' }}>
+				<Wrapper style={{ marginBottom: '20px' }}>
 					<h3>Header Banner</h3>
 					<Advertisements
 						kind='banner-ad'
@@ -1517,17 +1520,17 @@ export const CompleteIntegrationDemo: Story = {
 						analyticsHooks={analyticsHooks}
 						trackingEnabled={true}
 					/>
-				</div>
+				</Wrapper>
 
 				{/* Content Area with Native Ads */}
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gridTemplateColumns: '2fr 1fr',
 						gap: '20px',
 					}}
 				>
-					<div>
+					<Wrapper>
 						<h3>Main Content</h3>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur
@@ -1558,9 +1561,9 @@ export const CompleteIntegrationDemo: Story = {
 							exercitation ullamco laboris nisi ut aliquip
 							ex ea commodo consequat.
 						</p>
-					</div>
+					</Wrapper>
 
-					<div>
+					<Wrapper>
 						<h3>Sidebar</h3>
 
 						{/* Sidebar Ad Container */}
@@ -1594,8 +1597,8 @@ export const CompleteIntegrationDemo: Story = {
 							analyticsHooks={analyticsHooks}
 							trackingEnabled={true}
 						/>
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 
 				{/* Floating Widget */}
 				<Advertisements
@@ -1617,7 +1620,7 @@ export const CompleteIntegrationDemo: Story = {
 					autoHide={true}
 					hideDelay={15000}
 				/>
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -1632,10 +1635,10 @@ export const CompleteIntegrationDemo: Story = {
 
 export const ProviderConfigurationGuide: Story = {
 	render: () => (
-		<div style={{ padding: '20px', maxWidth: '800px' }}>
+		<Wrapper style={{ padding: '20px', maxWidth: '800px' }}>
 			<h2>Provider Configuration Guide</h2>
 
-			<div style={{ marginBottom: '30px' }}>
+			<Wrapper style={{ marginBottom: '30px' }}>
 				<h3>1. Google AdSense Setup</h3>
 				<pre
 					style={{
@@ -1660,9 +1663,9 @@ const adsenseProvider = createAdSenseProvider({
   primaryProvider="adsense"
 />`}
 				</pre>
-			</div>
+			</Wrapper>
 
-			<div style={{ marginBottom: '30px' }}>
+			<Wrapper style={{ marginBottom: '30px' }}>
 				<h3>2. Custom Provider Implementation</h3>
 				<pre
 					style={{
@@ -1698,9 +1701,9 @@ const customProvider = createCustomProvider({
   },
 });`}
 				</pre>
-			</div>
+			</Wrapper>
 
-			<div style={{ marginBottom: '30px' }}>
+			<Wrapper style={{ marginBottom: '30px' }}>
 				<h3>3. Analytics Integration</h3>
 				<pre
 					style={{
@@ -1747,9 +1750,9 @@ const customProvider = createCustomProvider({
   trackingEnabled={true}
 />`}
 				</pre>
-			</div>
+			</Wrapper>
 
-			<div
+			<Wrapper
 				style={{
 					background: '#e8f5e8',
 					padding: '15px',
@@ -1786,8 +1789,8 @@ const customProvider = createCustomProvider({
 						Monitor revenue and fill rates across providers
 					</li>
 				</ul>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {

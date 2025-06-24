@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
+import { Wrapper } from '../../components/Wrappers';
 import {
 	Card,
 	CardFactory,
@@ -312,9 +313,9 @@ export const ProfileCard: Story = {
 		title: 'John Doe',
 		subtitle: 'Diamond Tier - Level 42',
 		content: (
-			<div style={{ textAlign: 'center' }}>
-				<div style={{ marginBottom: '1rem' }}>
-					<div
+			<Wrapper style={{ textAlign: 'center' }}>
+				<Wrapper style={{ marginBottom: '1rem' }}>
+					<Wrapper
 						style={{
 							width: '80px',
 							height: '80px',
@@ -330,13 +331,15 @@ export const ProfileCard: Story = {
 						}}
 					>
 						JD
-					</div>
-				</div>
-				<div style={{ fontSize: '0.9rem', color: '#666' }}>
-					<div>🏆 453 wins • 87% win rate</div>
-					<div>🔥 12 day streak</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+				<Wrapper
+					style={{ fontSize: '0.9rem', color: '#666' }}
+				>
+					<Wrapper>🏆 453 wins • 87% win rate</Wrapper>
+					<Wrapper>🔥 12 day streak</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 	parameters: {
@@ -427,14 +430,14 @@ export const UserStatusOnline: Story = {
 		title: 'Currently Online',
 		subtitle: 'Available for challenges',
 		content: (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					alignItems: 'center',
 					gap: '0.75rem',
 				}}
 			>
-				<div
+				<Wrapper
 					style={{
 						width: '12px',
 						height: '12px',
@@ -443,7 +446,7 @@ export const UserStatusOnline: Story = {
 					}}
 				/>
 				<span>Ready to play</span>
-			</div>
+			</Wrapper>
 		),
 	},
 	parameters: {
@@ -465,7 +468,7 @@ export const GameCard: Story = {
 		title: 'Daily Challenge',
 		subtitle: 'Word Connections Pro',
 		content: (
-			<div>
+			<Wrapper>
 				<p
 					style={{
 						margin: '0.5rem 0',
@@ -496,10 +499,10 @@ export const GameCard: Story = {
 				>
 					🏆 <span>Reward: 250 XP</span>
 				</p>
-			</div>
+			</Wrapper>
 		),
 		actions: (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					gap: '0.5rem',
@@ -533,7 +536,7 @@ export const GameCard: Story = {
 				>
 					View Rules
 				</Button>
-			</div>
+			</Wrapper>
 		),
 	},
 	parameters: {
@@ -552,8 +555,8 @@ export const PuzzleCard: Story = {
 		title: 'Puzzle #247',
 		subtitle: 'Science & Nature Theme',
 		content: (
-			<div>
-				<div
+			<Wrapper>
+				<Wrapper
 					style={{
 						display: 'flex',
 						justifyContent: 'space-between',
@@ -564,8 +567,8 @@ export const PuzzleCard: Story = {
 						<strong>Difficulty:</strong>
 					</span>
 					<span>⭐⭐⭐⭐⭐</span>
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						display: 'flex',
 						justifyContent: 'space-between',
@@ -576,8 +579,8 @@ export const PuzzleCard: Story = {
 						<strong>Solved by:</strong>
 					</span>
 					<span>1,247 players</span>
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						display: 'flex',
 						justifyContent: 'space-between',
@@ -588,8 +591,8 @@ export const PuzzleCard: Story = {
 						<strong>Average time:</strong>
 					</span>
 					<span>3:24</span>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 	parameters: {
@@ -608,8 +611,8 @@ export const AchievementCard: Story = {
 		title: '🏆 Speed Demon',
 		subtitle: 'Complete 10 puzzles under 1 minute',
 		content: (
-			<div>
-				<div
+			<Wrapper>
+				<Wrapper
 					style={{
 						background:
 							'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -620,27 +623,27 @@ export const AchievementCard: Story = {
 						marginBottom: '1rem',
 					}}
 				>
-					<div
+					<Wrapper
 						style={{
 							fontSize: '1.2rem',
 							fontWeight: 'bold',
 						}}
 					>
 						Progress: 7/10
-					</div>
-					<div style={{ fontSize: '0.9rem' }}>
+					</Wrapper>
+					<Wrapper style={{ fontSize: '0.9rem' }}>
 						3 more to unlock!
-					</div>
-				</div>
-				<div style={{ marginBottom: '1rem' }}>
-					<div
+					</Wrapper>
+				</Wrapper>
+				<Wrapper style={{ marginBottom: '1rem' }}>
+					<Wrapper
 						style={{
 							background: '#e9ecef',
 							borderRadius: '1rem',
 							height: '8px',
 						}}
 					>
-						<div
+						<Wrapper
 							style={{
 								background:
 									'linear-gradient(90deg, #667eea, #764ba2)',
@@ -649,9 +652,9 @@ export const AchievementCard: Story = {
 								width: '70%',
 							}}
 						/>
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 	parameters: {
@@ -669,8 +672,8 @@ export const MatchSummaryCard: Story = {
 		title: 'Match Complete!',
 		subtitle: 'Victory - 3rd Place 🥉',
 		content: (
-			<div>
-				<div
+			<Wrapper>
+				<Wrapper
 					style={{
 						background:
 							'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
@@ -680,42 +683,42 @@ export const MatchSummaryCard: Story = {
 						textAlign: 'center',
 					}}
 				>
-					<div
+					<Wrapper
 						style={{
 							fontSize: '1.1rem',
 							fontWeight: 'bold',
 						}}
 					>
 						+847 XP
-					</div>
-					<div style={{ fontSize: '0.9rem' }}>
+					</Wrapper>
+					<Wrapper style={{ fontSize: '0.9rem' }}>
 						+125 bonus points
-					</div>
-				</div>
-				<div
+					</Wrapper>
+				</Wrapper>
+				<Wrapper
 					style={{
 						display: 'grid',
 						gridTemplateColumns: '1fr 1fr',
 						gap: '0.5rem',
 					}}
 				>
-					<div>
+					<Wrapper>
 						<strong>Duration:</strong> 4:23
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						<strong>Accuracy:</strong> 94%
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						<strong>Words found:</strong> 47/50
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						<strong>Rank:</strong> 3rd
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 		actions: (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					gap: '0.5rem',
@@ -749,7 +752,7 @@ export const MatchSummaryCard: Story = {
 				>
 					Share
 				</Button>
-			</div>
+			</Wrapper>
 		),
 	},
 	parameters: {
@@ -768,8 +771,8 @@ export const RoomInfoCard: Story = {
 		title: 'Game Room: ALPHA-7',
 		subtitle: 'Competitive Multiplayer',
 		content: (
-			<div>
-				<div
+			<Wrapper>
+				<Wrapper
 					style={{
 						background: '#f8f9fa',
 						padding: '1rem',
@@ -777,7 +780,7 @@ export const RoomInfoCard: Story = {
 						marginBottom: '1rem',
 					}}
 				>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							justifyContent: 'space-between',
@@ -788,8 +791,8 @@ export const RoomInfoCard: Story = {
 							<strong>Players:</strong>
 						</span>
 						<span>3/4</span>
-					</div>
-					<div
+					</Wrapper>
+					<Wrapper
 						style={{
 							display: 'flex',
 							justifyContent: 'space-between',
@@ -800,8 +803,8 @@ export const RoomInfoCard: Story = {
 							<strong>Difficulty:</strong>
 						</span>
 						<span>Expert</span>
-					</div>
-					<div
+					</Wrapper>
+					<Wrapper
 						style={{
 							display: 'flex',
 							justifyContent: 'space-between',
@@ -811,12 +814,12 @@ export const RoomInfoCard: Story = {
 							<strong>Time limit:</strong>
 						</span>
 						<span>3 minutes</span>
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 		actions: (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					gap: '0.5rem',
@@ -851,7 +854,7 @@ export const RoomInfoCard: Story = {
 				>
 					Leave
 				</Button>
-			</div>
+			</Wrapper>
 		),
 	},
 	parameters: {
@@ -873,9 +876,9 @@ export const ChatPreviewCard: Story = {
 		title: 'Team Chat',
 		subtitle: '3 new messages',
 		content: (
-			<div>
-				<div style={{ marginBottom: '0.75rem' }}>
-					<div
+			<Wrapper>
+				<Wrapper style={{ marginBottom: '0.75rem' }}>
+					<Wrapper
 						style={{
 							fontSize: '0.85rem',
 							marginBottom: '0.25rem',
@@ -883,22 +886,22 @@ export const ChatPreviewCard: Story = {
 					>
 						<strong>Sarah:</strong> Anyone ready for the
 						next challenge?
-					</div>
-					<div
+					</Wrapper>
+					<Wrapper
 						style={{
 							fontSize: '0.85rem',
 							marginBottom: '0.25rem',
 						}}
 					>
 						<strong>Mike:</strong> Let's do this! 🔥
-					</div>
-					<div
+					</Wrapper>
+					<Wrapper
 						style={{ fontSize: '0.85rem', color: '#666' }}
 					>
 						<strong>Alex:</strong> I'm in!
-					</div>
-				</div>
-				<div
+					</Wrapper>
+				</Wrapper>
+				<Wrapper
 					style={{
 						fontSize: '0.75rem',
 						color: '#666',
@@ -908,11 +911,11 @@ export const ChatPreviewCard: Story = {
 					}}
 				>
 					Last message: 2 minutes ago
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		),
 		actions: (
-			<div style={{ display: 'flex', gap: '0.5rem' }}>
+			<Wrapper kind='flex-container' gap='0.5rem'>
 				<Button
 					kind='primary'
 					style={{
@@ -942,7 +945,7 @@ export const ChatPreviewCard: Story = {
 				>
 					Mute
 				</Button>
-			</div>
+			</Wrapper>
 		),
 	},
 	parameters: {
@@ -987,7 +990,7 @@ export const ActionCard: Story = {
 		content:
 			'This card includes action buttons in the footer area for user interactions.',
 		actions: (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					gap: '0.5rem',
@@ -1020,7 +1023,7 @@ export const ActionCard: Story = {
 				>
 					Confirm
 				</Button>
-			</div>
+			</Wrapper>
 		),
 	},
 	parameters: {
@@ -1077,7 +1080,7 @@ export const LargeCard: Story = {
 
 export const FactoryExample: Story = {
 	render: () => (
-		<div style={{ padding: '1rem' }}>
+		<Wrapper style={{ padding: '1rem' }}>
 			<h3 style={{ marginBottom: '1.5rem' }}>
 				CardFactory System
 			</h3>
@@ -1086,7 +1089,7 @@ export const FactoryExample: Story = {
 				for rapid development.
 			</p>
 
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gap: '1rem',
@@ -1119,8 +1122,8 @@ export const FactoryExample: Story = {
 					statValue='95%'
 					statLabel='Success rate'
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -1134,7 +1137,7 @@ export const FactoryExample: Story = {
 
 export const CardPresetsDemo: Story = {
 	render: () => (
-		<div style={{ padding: '1rem' }}>
+		<Wrapper style={{ padding: '1rem' }}>
 			<h3 style={{ marginBottom: '1.5rem' }}>
 				CardPresets - Pre-configured Cards
 			</h3>
@@ -1142,7 +1145,7 @@ export const CardPresetsDemo: Story = {
 				Ready-to-use card components for common use cases.
 			</p>
 
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gap: '1rem',
@@ -1150,7 +1153,7 @@ export const CardPresetsDemo: Story = {
 						'repeat(auto-fit, minmax(300px, 1fr))',
 				}}
 			>
-				<div>
+				<Wrapper>
 					<CardPresets.FriendCard
 						friend={{
 							id: '1',
@@ -1162,32 +1165,32 @@ export const CardPresetsDemo: Story = {
 						onMessage={() => {}}
 						onChallenge={() => {}}
 					/>
-				</div>
+				</Wrapper>
 
-				<div>
+				<Wrapper>
 					<CardPresets.GameCard
 						title='Preset Game Card'
 						content='Pre-configured game card with optimal settings'
 					/>
-				</div>
+				</Wrapper>
 
-				<div>
+				<Wrapper>
 					<CardPresets.StatsCard
 						title='Performance'
 						statValue='87%'
 						statLabel='Win rate'
 					/>
-				</div>
+				</Wrapper>
 
-				<div>
+				<Wrapper>
 					<CardPresets.NotificationCard
 						title='System Update'
 						content='New features are available'
 						notificationType='info'
 					/>
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -1221,7 +1224,7 @@ export const AllCardKinds: Story = {
 		];
 
 		return (
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
@@ -1238,7 +1241,7 @@ export const AllCardKinds: Story = {
 							.replace('-', ' ')
 							.replace(/\b\w/g, (l) => l.toUpperCase())}
 						subtitle={`${kind} card example`}
-						content={`This is a ${kind} card showing the unified system.`}
+						content={`This is a ${kind} card showing the system.`}
 						{...(kind === 'friend' && {
 							friend: {
 								id: '1',
@@ -1259,7 +1262,7 @@ export const AllCardKinds: Story = {
 						})}
 					/>
 				))}
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -1274,12 +1277,12 @@ export const AllCardKinds: Story = {
 
 export const CardGroupShowcase: Story = {
 	render: () => (
-		<div style={{ padding: '1rem' }}>
-			<div style={{ marginBottom: '2rem' }}>
+		<Wrapper style={{ padding: '1rem' }}>
+			<Wrapper style={{ marginBottom: '2rem' }}>
 				<h3 style={{ marginBottom: '1rem' }}>
 					Layout Cards
 				</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -1307,14 +1310,14 @@ export const CardGroupShowcase: Story = {
 						title='Filled'
 						content='Card with background'
 					/>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
-			<div style={{ marginBottom: '2rem' }}>
+			<Wrapper style={{ marginBottom: '2rem' }}>
 				<h3 style={{ marginBottom: '1rem' }}>
 					User Interface Cards
 				</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -1346,12 +1349,12 @@ export const CardGroupShowcase: Story = {
 						statValue='92%'
 						statLabel='Accuracy'
 					/>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h3 style={{ marginBottom: '1rem' }}>Game Cards</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '1rem',
@@ -1374,9 +1377,9 @@ export const CardGroupShowcase: Story = {
 						title='Puzzle #42'
 						content='Medium difficulty challenge'
 					/>
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {

@@ -8,8 +8,7 @@ export type {
 	UtilityConfiguration,
 } from './configurations';
 
-export type { UnifiedUtilityProps } from './UnifiedUtility';
-export { default as UnifiedUtility } from './UnifiedUtility';
+export type { UtilityProps } from './Utility';
 export { default as Utility } from './Utility';
 export {
 	UtilityFactory,

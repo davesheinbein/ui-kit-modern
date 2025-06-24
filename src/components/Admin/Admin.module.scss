@@ -409,3 +409,24 @@
 	background: rgba(0, 0, 0, 0.98);
 	backdrop-filter: none;
 }
+
+/* =============================================================================
+   Z-INDEX UTILITY CLASSES (for Admin component)
+   ============================================================================= */
+
+.adminZ9999 {
+	z-index: 9999 !important;
+}
+.adminZ9998 {
+	z-index: 9998 !important;
+}
+.adminZ9997 {
+	z-index: 9997 !important;
+}
+.adminZ9996 {
+	z-index: 9996 !important;
+}
+.adminZ9995 {
+	z-index: 9995 !important;
+}
+// Add more as needed

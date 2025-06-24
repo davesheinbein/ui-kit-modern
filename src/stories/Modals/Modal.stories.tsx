@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Wrapper } from '../../components/Wrappers';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import { ModalFactory } from '../../components/Modal';
@@ -30,7 +31,7 @@ const meta: Meta<typeof ModalFactory> = {
 				component: `
 # Modal System
 
-The unified modal system provides both basic modal components and factory-based modal creation for complex use cases.
+The modal system provides both basic modal components and factory-based modal creation for complex use cases.
 
 ## Key Benefits
 
@@ -123,18 +124,19 @@ export const AllModalTypesOverview: Story = {
 		>(null);
 
 		return (
-			<div style={{ padding: '2rem' }}>
+			<Wrapper
+				kind='flex-container'
+				direction='column'
+				style={{ padding: '2rem' }}
+			>
 				<h2>Modal System Overview</h2>
 				<p>Click any button to see the modal in action:</p>
 
-				<div
-					style={{
-						display: 'grid',
-						gridTemplateColumns:
-							'repeat(auto-fit, minmax(200px, 1fr))',
-						gap: '1rem',
-						marginTop: '2rem',
-					}}
+				<Wrapper
+					kind='grid-container'
+					columns='repeat(auto-fit, minmax(200px, 1fr))'
+					gap='1rem'
+					style={{ marginTop: '2rem' }}
 				>
 					<Button
 						kind='secondary'
@@ -246,7 +248,7 @@ export const AllModalTypesOverview: Story = {
 					>
 						Custom Puzzle Modal
 					</Button>
-				</div>
+				</Wrapper>
 
 				{/* Pre-Game Modal */}
 				<ModalFactory
@@ -259,7 +261,7 @@ export const AllModalTypesOverview: Story = {
 					confirmText='Ready!'
 					cancelText='Go Home'
 				>
-					<div
+					<Wrapper
 						style={{
 							textAlign: 'center',
 							padding: '1rem 0',
@@ -269,7 +271,7 @@ export const AllModalTypesOverview: Story = {
 							Get ready for an exciting game! Click "Ready!"
 							when you're prepared to start.
 						</p>
-					</div>
+					</Wrapper>
 				</ModalFactory>
 
 				{/* End Game Modal */}
@@ -281,7 +283,7 @@ export const AllModalTypesOverview: Story = {
 					onConfirm={() => setActiveModal(null)}
 					confirmText='Share'
 				>
-					<div
+					<Wrapper
 						style={{
 							textAlign: 'center',
 							padding: '1rem 0',
@@ -295,7 +297,7 @@ export const AllModalTypesOverview: Story = {
 						>
 							Congratulations! You solved the puzzle!
 						</p>
-						<div
+						<Wrapper
 							style={{
 								display: 'grid',
 								gridTemplateColumns: '1fr 1fr',
@@ -303,20 +305,20 @@ export const AllModalTypesOverview: Story = {
 								marginBottom: '1rem',
 							}}
 						>
-							<div>
+							<Wrapper>
 								<strong>Score:</strong> 1200
-							</div>
-							<div>
+							</Wrapper>
+							<Wrapper>
 								<strong>Attempts Left:</strong> 3
-							</div>
-							<div>
+							</Wrapper>
+							<Wrapper>
 								<strong>Burn Bonus:</strong> 100
-							</div>
-							<div>
+							</Wrapper>
+							<Wrapper>
 								<strong>Time:</strong> 2:35
-							</div>
-						</div>
-					</div>
+							</Wrapper>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				{/* Rules Modal */}
@@ -326,10 +328,10 @@ export const AllModalTypesOverview: Story = {
 					title='How to Play'
 					onClose={() => setActiveModal(null)}
 				>
-					<div
+					<Wrapper
 						style={{ padding: '1rem 0', textAlign: 'left' }}
 					>
-						<div style={{ marginBottom: '1.5rem' }}>
+						<Wrapper style={{ marginBottom: '1.5rem' }}>
 							<h4
 								style={{
 									margin: '0 0 0.5rem 0',
@@ -342,8 +344,8 @@ export const AllModalTypesOverview: Story = {
 								Find groups of 4 words that share something
 								in common.
 							</p>
-						</div>
-						<div style={{ marginBottom: '1.5rem' }}>
+						</Wrapper>
+						<Wrapper style={{ marginBottom: '1.5rem' }}>
 							<h4
 								style={{
 									margin: '0 0 0.5rem 0',
@@ -364,8 +366,8 @@ export const AllModalTypesOverview: Story = {
 								<li>Click "Submit" to check your guess</li>
 								<li>Find all groups to win!</li>
 							</ul>
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				{/* Statistics Modal */}
@@ -375,88 +377,88 @@ export const AllModalTypesOverview: Story = {
 					title='Statistics'
 					onClose={() => setActiveModal(null)}
 				>
-					<div style={{ padding: '1rem 0' }}>
-						<div
+					<Wrapper style={{ padding: '1rem 0' }}>
+						<Wrapper
 							style={{
 								display: 'grid',
 								gridTemplateColumns: '1fr 1fr',
 								gap: '1rem',
 							}}
 						>
-							<div>
-								<div
+							<Wrapper>
+								<Wrapper
 									style={{
 										color: '#666',
 										fontSize: '0.9rem',
 									}}
 								>
 									Games Played
-								</div>
-								<div
+								</Wrapper>
+								<Wrapper
 									style={{
 										fontSize: '1.5rem',
 										fontWeight: 'bold',
 									}}
 								>
 									47
-								</div>
-							</div>
-							<div>
-								<div
+								</Wrapper>
+							</Wrapper>
+							<Wrapper>
+								<Wrapper
 									style={{
 										color: '#666',
 										fontSize: '0.9rem',
 									}}
 								>
 									Games Won
-								</div>
-								<div
+								</Wrapper>
+								<Wrapper
 									style={{
 										fontSize: '1.5rem',
 										fontWeight: 'bold',
 									}}
 								>
 									34
-								</div>
-							</div>
-							<div>
-								<div
+								</Wrapper>
+							</Wrapper>
+							<Wrapper>
+								<Wrapper
 									style={{
 										color: '#666',
 										fontSize: '0.9rem',
 									}}
 								>
 									Current Streak
-								</div>
-								<div
+								</Wrapper>
+								<Wrapper
 									style={{
 										fontSize: '1.5rem',
 										fontWeight: 'bold',
 									}}
 								>
 									5
-								</div>
-							</div>
-							<div>
-								<div
+								</Wrapper>
+							</Wrapper>
+							<Wrapper>
+								<Wrapper
 									style={{
 										color: '#666',
 										fontSize: '0.9rem',
 									}}
 								>
 									Best Streak
-								</div>
-								<div
+								</Wrapper>
+								<Wrapper
 									style={{
 										fontSize: '1.5rem',
 										fontWeight: 'bold',
 									}}
 								>
 									12
-								</div>
-							</div>
-						</div>
-					</div>
+								</Wrapper>
+							</Wrapper>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				{/* VS Mode Modal */}
@@ -466,8 +468,8 @@ export const AllModalTypesOverview: Story = {
 					title='Choose VS Mode'
 					onClose={() => setActiveModal(null)}
 				>
-					<div style={{ padding: '1rem 0' }}>
-						<div
+					<Wrapper style={{ padding: '1rem 0' }}>
+						<Wrapper
 							style={{
 								display: 'flex',
 								flexDirection: 'column',
@@ -487,25 +489,25 @@ export const AllModalTypesOverview: Story = {
 									textAlign: 'left',
 								}}
 							>
-								<div
+								<Wrapper
 									style={{
 										fontWeight: 'bold',
 										marginBottom: '0.25rem',
 									}}
 								>
 									Quick Play
-								</div>
-								<div
+								</Wrapper>
+								<Wrapper
 									style={{
 										fontSize: '0.9rem',
 										opacity: 0.9,
 									}}
 								>
 									Jump into a game with random opponents
-								</div>
+								</Wrapper>
 							</Button>
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				{/* VS Room Modal */}
@@ -519,8 +521,8 @@ export const AllModalTypesOverview: Story = {
 					confirmText='Join'
 					cancelText='Cancel'
 				>
-					<div style={{ padding: '1rem 0' }}>
-						<div style={{ marginBottom: '1.5rem' }}>
+					<Wrapper style={{ padding: '1rem 0' }}>
+						<Wrapper style={{ marginBottom: '1.5rem' }}>
 							<label
 								style={{
 									display: 'block',
@@ -543,8 +545,8 @@ export const AllModalTypesOverview: Story = {
 								}}
 								maxLength={6}
 							/>
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							style={{
 								fontSize: '0.9rem',
 								color: '#666',
@@ -553,8 +555,8 @@ export const AllModalTypesOverview: Story = {
 						>
 							Ask your friend for their room code to join
 							their game.
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				{/* Purchase Modal */}
@@ -568,8 +570,8 @@ export const AllModalTypesOverview: Story = {
 					confirmText='Purchase for $5.99'
 					cancelText='Cancel'
 				>
-					<div style={{ padding: '1rem 0' }}>
-						<div style={{ marginBottom: '1rem' }}>
+					<Wrapper style={{ padding: '1rem 0' }}>
+						<Wrapper style={{ marginBottom: '1rem' }}>
 							<h3
 								style={{
 									margin: '0 0 0.5rem 0',
@@ -587,7 +589,7 @@ export const AllModalTypesOverview: Story = {
 								A beautiful dark theme with gradient accents
 								and modern styling.
 							</p>
-							<div
+							<Wrapper
 								style={{
 									fontSize: '1.5rem',
 									fontWeight: 'bold',
@@ -595,9 +597,9 @@ export const AllModalTypesOverview: Story = {
 								}}
 							>
 								$5.99
-							</div>
-						</div>
-					</div>
+							</Wrapper>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				{/* Sign In Modal */}
@@ -611,7 +613,7 @@ export const AllModalTypesOverview: Story = {
 					confirmText='Sign In with Google'
 					cancelText='Maybe Later'
 				>
-					<div
+					<Wrapper
 						style={{
 							padding: '1rem 0',
 							textAlign: 'center',
@@ -626,7 +628,7 @@ export const AllModalTypesOverview: Story = {
 							Sign in to save your progress, compete with
 							friends, and unlock exclusive features!
 						</p>
-					</div>
+					</Wrapper>
 				</ModalFactory>
 
 				{/* Share Content Modal */}
@@ -636,7 +638,7 @@ export const AllModalTypesOverview: Story = {
 					title='Share Your Results'
 					onClose={() => setActiveModal(null)}
 				>
-					<div
+					<Wrapper
 						style={{
 							padding: '1rem 0',
 							textAlign: 'center',
@@ -645,7 +647,7 @@ export const AllModalTypesOverview: Story = {
 						<p style={{ marginBottom: '1.5rem' }}>
 							Check out my amazing game results!
 						</p>
-						<div
+						<Wrapper
 							style={{
 								display: 'flex',
 								gap: '0.5rem',
@@ -692,8 +694,8 @@ export const AllModalTypesOverview: Story = {
 							>
 								Copy Link
 							</Button>
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				{/* Custom Puzzle Modal */}
@@ -707,13 +709,13 @@ export const AllModalTypesOverview: Story = {
 					confirmText='Create Puzzle'
 					cancelText='Cancel'
 				>
-					<div
+					<Wrapper
 						style={{
 							padding: '1rem 0',
 							textAlign: 'center',
 						}}
 					>
-						<div style={{ marginBottom: '1rem' }}>
+						<Wrapper style={{ marginBottom: '1rem' }}>
 							<label
 								style={{
 									display: 'block',
@@ -733,8 +735,8 @@ export const AllModalTypesOverview: Story = {
 								<option value='5x5'>5x5</option>
 								<option value='6x6'>6x6</option>
 							</select>
-						</div>
-						<div style={{ marginBottom: '1rem' }}>
+						</Wrapper>
+						<Wrapper style={{ marginBottom: '1rem' }}>
 							<label
 								style={{
 									display: 'block',
@@ -754,10 +756,10 @@ export const AllModalTypesOverview: Story = {
 								<option value='medium'>Medium</option>
 								<option value='hard'>Hard</option>
 							</select>
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -779,14 +781,14 @@ export const PreGameModal: Story = {
 		confirmText: 'Ready!',
 		cancelText: 'Go Home',
 		children: (
-			<div
+			<Wrapper
 				style={{ textAlign: 'center', padding: '1rem 0' }}
 			>
 				<p>
 					Get ready for an exciting game! Click "Ready!"
 					when you're prepared to start.
 				</p>
-			</div>
+			</Wrapper>
 		),
 	},
 };
@@ -798,7 +800,7 @@ export const EndGameModalVictory: Story = {
 		title: 'Congratulations!',
 		confirmText: 'Share',
 		children: (
-			<div
+			<Wrapper
 				style={{ textAlign: 'center', padding: '1rem 0' }}
 			>
 				<p
@@ -809,7 +811,7 @@ export const EndGameModalVictory: Story = {
 				>
 					Congratulations! You solved the puzzle!
 				</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gridTemplateColumns: '1fr 1fr',
@@ -817,20 +819,20 @@ export const EndGameModalVictory: Story = {
 						marginBottom: '1rem',
 					}}
 				>
-					<div>
+					<Wrapper>
 						<strong>Score:</strong> 1200
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						<strong>Attempts Left:</strong> 3
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						<strong>Burn Bonus:</strong> 100
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						<strong>Time:</strong> 2:35
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -842,7 +844,7 @@ export const EndGameModalDefeat: Story = {
 		title: 'Game Over',
 		confirmText: 'Share',
 		children: (
-			<div
+			<Wrapper
 				style={{ textAlign: 'center', padding: '1rem 0' }}
 			>
 				<p
@@ -853,7 +855,7 @@ export const EndGameModalDefeat: Story = {
 				>
 					Better luck next time!
 				</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gridTemplateColumns: '1fr 1fr',
@@ -861,20 +863,20 @@ export const EndGameModalDefeat: Story = {
 						marginBottom: '1rem',
 					}}
 				>
-					<div>
+					<Wrapper>
 						<strong>Score:</strong> 650
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						<strong>Attempts Left:</strong> 0
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						<strong>Burn Bonus:</strong> 0
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						<strong>Time:</strong> 5:00
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -885,8 +887,10 @@ export const RulesModal: Story = {
 		open: true,
 		title: 'How to Play',
 		children: (
-			<div style={{ padding: '1rem 0', textAlign: 'left' }}>
-				<div style={{ marginBottom: '1.5rem' }}>
+			<Wrapper
+				style={{ padding: '1rem 0', textAlign: 'left' }}
+			>
+				<Wrapper style={{ marginBottom: '1.5rem' }}>
 					<h4
 						style={{
 							margin: '0 0 0.5rem 0',
@@ -899,8 +903,8 @@ export const RulesModal: Story = {
 						Find groups of 4 words that share something in
 						common.
 					</p>
-				</div>
-				<div style={{ marginBottom: '1.5rem' }}>
+				</Wrapper>
+				<Wrapper style={{ marginBottom: '1.5rem' }}>
 					<h4
 						style={{
 							margin: '0 0 0.5rem 0',
@@ -918,8 +922,8 @@ export const RulesModal: Story = {
 						<li>Click "Submit" to check your guess</li>
 						<li>Find all groups to win!</li>
 					</ul>
-				</div>
-				<div style={{ marginBottom: '1.5rem' }}>
+				</Wrapper>
+				<Wrapper style={{ marginBottom: '1.5rem' }}>
 					<h4
 						style={{
 							margin: '0 0 0.5rem 0',
@@ -945,8 +949,8 @@ export const RulesModal: Story = {
 							requires specific knowledge
 						</li>
 					</ul>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -957,8 +961,8 @@ export const StatisticsModalWithUser: Story = {
 		open: true,
 		title: 'Statistics',
 		children: (
-			<div style={{ padding: '1rem 0' }}>
-				<div
+			<Wrapper style={{ padding: '1rem 0' }}>
+				<Wrapper
 					style={{
 						display: 'flex',
 						alignItems: 'center',
@@ -968,7 +972,7 @@ export const StatisticsModalWithUser: Story = {
 						borderBottom: '1px solid #eee',
 					}}
 				>
-					<div
+					<Wrapper
 						style={{
 							width: '48px',
 							height: '48px',
@@ -982,92 +986,92 @@ export const StatisticsModalWithUser: Story = {
 						}}
 					>
 						J
-					</div>
-					<div>
-						<div
+					</Wrapper>
+					<Wrapper>
+						<Wrapper
 							style={{
 								fontWeight: '600',
 								marginBottom: '0.25rem',
 							}}
 						>
 							John Doe
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							style={{ color: '#666', fontSize: '0.9rem' }}
 						>
 							john.doe@example.com
-						</div>
-					</div>
-				</div>
-				<div
+						</Wrapper>
+					</Wrapper>
+				</Wrapper>
+				<Wrapper
 					style={{
 						display: 'grid',
 						gridTemplateColumns: '1fr 1fr',
 						gap: '1rem',
 					}}
 				>
-					<div>
-						<div
+					<Wrapper>
+						<Wrapper
 							style={{ color: '#666', fontSize: '0.9rem' }}
 						>
 							Games Played
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							style={{
 								fontSize: '1.5rem',
 								fontWeight: 'bold',
 							}}
 						>
 							47
-						</div>
-					</div>
-					<div>
-						<div
+						</Wrapper>
+					</Wrapper>
+					<Wrapper>
+						<Wrapper
 							style={{ color: '#666', fontSize: '0.9rem' }}
 						>
 							Games Won
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							style={{
 								fontSize: '1.5rem',
 								fontWeight: 'bold',
 							}}
 						>
 							34
-						</div>
-					</div>
-					<div>
-						<div
+						</Wrapper>
+					</Wrapper>
+					<Wrapper>
+						<Wrapper
 							style={{ color: '#666', fontSize: '0.9rem' }}
 						>
 							Current Streak
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							style={{
 								fontSize: '1.5rem',
 								fontWeight: 'bold',
 							}}
 						>
 							5
-						</div>
-					</div>
-					<div>
-						<div
+						</Wrapper>
+					</Wrapper>
+					<Wrapper>
+						<Wrapper
 							style={{ color: '#666', fontSize: '0.9rem' }}
 						>
 							Best Streak
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							style={{
 								fontSize: '1.5rem',
 								fontWeight: 'bold',
 							}}
 						>
 							12
-						</div>
-					</div>
-				</div>
-			</div>
+						</Wrapper>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1078,9 +1082,9 @@ export const StatisticsModalGuest: Story = {
 		open: true,
 		title: 'Statistics',
 		children: (
-			<div style={{ padding: '1rem 0' }}>
-				<div style={{ textAlign: 'center' }}>
-					<div
+			<Wrapper style={{ padding: '1rem 0' }}>
+				<Wrapper style={{ textAlign: 'center' }}>
+					<Wrapper
 						style={{
 							padding: '2rem 1rem',
 							backgroundColor: '#f8f9fa',
@@ -1110,9 +1114,9 @@ export const StatisticsModalGuest: Story = {
 						>
 							Sign In
 						</Button>
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1124,8 +1128,8 @@ export const VSModeModal: Story = {
 		open: true,
 		title: 'Choose VS Mode',
 		children: (
-			<div style={{ padding: '1rem 0' }}>
-				<div
+			<Wrapper style={{ padding: '1rem 0' }}>
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -1145,19 +1149,19 @@ export const VSModeModal: Story = {
 							textAlign: 'left',
 						}}
 					>
-						<div
+						<Wrapper
 							style={{
 								fontWeight: 'bold',
 								marginBottom: '0.25rem',
 							}}
 						>
 							Quick Play
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							style={{ fontSize: '0.9rem', opacity: 0.9 }}
 						>
 							Jump into a game with random opponents
-						</div>
+						</Wrapper>
 					</Button>
 					<Button
 						kind='primary'
@@ -1172,19 +1176,19 @@ export const VSModeModal: Story = {
 							textAlign: 'left',
 						}}
 					>
-						<div
+						<Wrapper
 							style={{
 								fontWeight: 'bold',
 								marginBottom: '0.25rem',
 							}}
 						>
 							Create Room
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							style={{ fontSize: '0.9rem', opacity: 0.9 }}
 						>
 							Create a private room for friends
-						</div>
+						</Wrapper>
 					</Button>
 					<Button
 						kind='primary'
@@ -1199,22 +1203,22 @@ export const VSModeModal: Story = {
 							textAlign: 'left',
 						}}
 					>
-						<div
+						<Wrapper
 							style={{
 								fontWeight: 'bold',
 								marginBottom: '0.25rem',
 							}}
 						>
 							Join Room
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							style={{ fontSize: '0.9rem', opacity: 0.8 }}
 						>
 							Enter a room code to join friends
-						</div>
+						</Wrapper>
 					</Button>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1227,8 +1231,8 @@ export const VSRoomModal: Story = {
 		confirmText: 'Join',
 		cancelText: 'Cancel',
 		children: (
-			<div style={{ padding: '1rem 0' }}>
-				<div style={{ marginBottom: '1.5rem' }}>
+			<Wrapper style={{ padding: '1rem 0' }}>
+				<Wrapper style={{ marginBottom: '1.5rem' }}>
 					<label
 						style={{
 							display: 'block',
@@ -1253,8 +1257,8 @@ export const VSRoomModal: Story = {
 						}}
 						maxLength={6}
 					/>
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						fontSize: '0.9rem',
 						color: '#666',
@@ -1263,8 +1267,8 @@ export const VSRoomModal: Story = {
 				>
 					Ask your friend for their room code to join their
 					game.
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1278,8 +1282,8 @@ export const PurchaseModal: Story = {
 		confirmText: 'Purchase for $5.99',
 		cancelText: 'Cancel',
 		children: (
-			<div style={{ padding: '1rem 0' }}>
-				<div style={{ marginBottom: '1rem' }}>
+			<Wrapper style={{ padding: '1rem 0' }}>
+				<Wrapper style={{ marginBottom: '1rem' }}>
 					<h3
 						style={{
 							margin: '0 0 0.5rem 0',
@@ -1297,7 +1301,7 @@ export const PurchaseModal: Story = {
 						A beautiful dark theme with gradient accents and
 						modern styling.
 					</p>
-					<div
+					<Wrapper
 						style={{
 							fontSize: '1.5rem',
 							fontWeight: 'bold',
@@ -1305,9 +1309,9 @@ export const PurchaseModal: Story = {
 						}}
 					>
 						$5.99
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1320,8 +1324,8 @@ export const PurchaseModalLoading: Story = {
 		confirmText: 'Processing...',
 		cancelText: 'Cancel',
 		children: (
-			<div style={{ padding: '1rem 0' }}>
-				<div style={{ marginBottom: '1rem' }}>
+			<Wrapper style={{ padding: '1rem 0' }}>
+				<Wrapper style={{ marginBottom: '1rem' }}>
 					<h3
 						style={{
 							margin: '0 0 0.5rem 0',
@@ -1339,7 +1343,7 @@ export const PurchaseModalLoading: Story = {
 						A beautiful dark theme with gradient accents and
 						modern styling.
 					</p>
-					<div
+					<Wrapper
 						style={{
 							fontSize: '1.5rem',
 							fontWeight: 'bold',
@@ -1347,12 +1351,14 @@ export const PurchaseModalLoading: Story = {
 						}}
 					>
 						$5.99
-					</div>
-				</div>
-				<div style={{ textAlign: 'center', color: '#666' }}>
+					</Wrapper>
+				</Wrapper>
+				<Wrapper
+					style={{ textAlign: 'center', color: '#666' }}
+				>
 					Processing your purchase...
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1365,8 +1371,8 @@ export const PurchaseModalError: Story = {
 		confirmText: 'Purchase for $5.99',
 		cancelText: 'Cancel',
 		children: (
-			<div style={{ padding: '1rem 0' }}>
-				<div style={{ marginBottom: '1rem' }}>
+			<Wrapper style={{ padding: '1rem 0' }}>
+				<Wrapper style={{ marginBottom: '1rem' }}>
 					<h3
 						style={{
 							margin: '0 0 0.5rem 0',
@@ -1384,7 +1390,7 @@ export const PurchaseModalError: Story = {
 						A beautiful dark theme with gradient accents and
 						modern styling.
 					</p>
-					<div
+					<Wrapper
 						style={{
 							fontSize: '1.5rem',
 							fontWeight: 'bold',
@@ -1392,9 +1398,9 @@ export const PurchaseModalError: Story = {
 						}}
 					>
 						$5.99
-					</div>
-				</div>
-				<div
+					</Wrapper>
+				</Wrapper>
+				<Wrapper
 					style={{
 						padding: '0.75rem',
 						backgroundColor: '#f8d7da',
@@ -1405,8 +1411,8 @@ export const PurchaseModalError: Story = {
 				>
 					Insufficient funds. Please add more coins to your
 					account.
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1419,7 +1425,7 @@ export const SignInModal: Story = {
 		confirmText: 'Sign In with Google',
 		cancelText: 'Maybe Later',
 		children: (
-			<div
+			<Wrapper
 				style={{ padding: '1rem 0', textAlign: 'center' }}
 			>
 				<p
@@ -1428,7 +1434,7 @@ export const SignInModal: Story = {
 					Sign in to save your progress, compete with
 					friends, and unlock exclusive features!
 				</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -1436,7 +1442,7 @@ export const SignInModal: Story = {
 						alignItems: 'center',
 					}}
 				>
-					<div
+					<Wrapper
 						style={{
 							padding: '1rem',
 							backgroundColor: '#f8f9fa',
@@ -1465,9 +1471,9 @@ export const SignInModal: Story = {
 							<li>Compete on leaderboards</li>
 							<li>Unlock achievements</li>
 						</ul>
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1479,13 +1485,13 @@ export const ShareContentModal: Story = {
 		open: true,
 		title: 'Share Your Results',
 		children: (
-			<div
+			<Wrapper
 				style={{ padding: '1rem 0', textAlign: 'center' }}
 			>
 				<p style={{ marginBottom: '1.5rem' }}>
 					Check out my amazing game results!
 				</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						gap: '0.5rem',
@@ -1532,8 +1538,8 @@ export const ShareContentModal: Story = {
 					>
 						Copy Link
 					</Button>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1546,13 +1552,13 @@ export const CustomPuzzleModal: Story = {
 		confirmText: 'Create Puzzle',
 		cancelText: 'Cancel',
 		children: (
-			<div
+			<Wrapper
 				style={{ padding: '1rem 0', textAlign: 'center' }}
 			>
 				<p style={{ marginBottom: '1rem' }}>
 					Configure your custom puzzle settings below.
 				</p>
-				<div style={{ marginBottom: '1rem' }}>
+				<Wrapper style={{ marginBottom: '1rem' }}>
 					<label
 						style={{
 							display: 'block',
@@ -1572,8 +1578,8 @@ export const CustomPuzzleModal: Story = {
 						<option value='5x5'>5x5</option>
 						<option value='6x6'>6x6</option>
 					</select>
-				</div>
-				<div style={{ marginBottom: '1rem' }}>
+				</Wrapper>
+				<Wrapper style={{ marginBottom: '1rem' }}>
 					<label
 						style={{
 							display: 'block',
@@ -1593,8 +1599,8 @@ export const CustomPuzzleModal: Story = {
 						<option value='medium'>Medium</option>
 						<option value='hard'>Hard</option>
 					</select>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -1607,9 +1613,9 @@ export const CustomPuzzleModalWithForm: Story = {
 		confirmText: 'Save Puzzle',
 		cancelText: 'Cancel',
 		children: (
-			<div style={{ padding: '2rem' }}>
+			<Wrapper style={{ padding: '2rem' }}>
 				<form>
-					<div style={{ marginBottom: '1rem' }}>
+					<Wrapper style={{ marginBottom: '1rem' }}>
 						<label htmlFor='title'>Puzzle Title:</label>
 						<input
 							id='title'
@@ -1620,8 +1626,8 @@ export const CustomPuzzleModalWithForm: Story = {
 								marginTop: '0.25rem',
 							}}
 						/>
-					</div>
-					<div style={{ marginBottom: '1rem' }}>
+					</Wrapper>
+					<Wrapper style={{ marginBottom: '1rem' }}>
 						<label htmlFor='description'>
 							Description:
 						</label>
@@ -1634,9 +1640,9 @@ export const CustomPuzzleModalWithForm: Story = {
 								marginTop: '0.25rem',
 							}}
 						/>
-					</div>
+					</Wrapper>
 				</form>
-			</div>
+			</Wrapper>
 		),
 	},
 };
@@ -1654,11 +1660,11 @@ export const ModalSystemDemo: Story = {
 		});
 
 		return (
-			<div style={{ padding: '2rem' }}>
+			<Wrapper style={{ padding: '2rem' }}>
 				<h2>Interactive Modal System Demo</h2>
 				<p>Experience the complete modal workflow:</p>
 
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						gap: '1rem',
@@ -1722,7 +1728,7 @@ export const ModalSystemDemo: Story = {
 					>
 						Custom Puzzle
 					</Button>
-				</div>
+				</Wrapper>
 
 				{/* All modal implementations using the same ModalFactory */}
 				<ModalFactory
@@ -1735,7 +1741,7 @@ export const ModalSystemDemo: Story = {
 					confirmText='Ready!'
 					cancelText='Go Home'
 				>
-					<div
+					<Wrapper
 						style={{
 							textAlign: 'center',
 							padding: '1rem 0',
@@ -1745,7 +1751,7 @@ export const ModalSystemDemo: Story = {
 							Get ready for an exciting game! Click "Ready!"
 							to start and see the end game modal.
 						</p>
-					</div>
+					</Wrapper>
 				</ModalFactory>
 
 				<ModalFactory
@@ -1758,7 +1764,7 @@ export const ModalSystemDemo: Story = {
 					onConfirm={() => setActiveModal('share-content')}
 					confirmText='Share Results'
 				>
-					<div
+					<Wrapper
 						style={{
 							textAlign: 'center',
 							padding: '1rem 0',
@@ -1774,21 +1780,21 @@ export const ModalSystemDemo: Story = {
 								'Amazing! You solved the puzzle!'
 							:	'Better luck next time!'}
 						</p>
-						<div
+						<Wrapper
 							style={{
 								display: 'grid',
 								gridTemplateColumns: '1fr 1fr',
 								gap: '1rem',
 							}}
 						>
-							<div>
+							<Wrapper>
 								<strong>Score:</strong> {gameState.score}
-							</div>
-							<div>
+							</Wrapper>
+							<Wrapper>
 								<strong>Time:</strong> {gameState.time}
-							</div>
-						</div>
-					</div>
+							</Wrapper>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				<ModalFactory
@@ -1797,7 +1803,7 @@ export const ModalSystemDemo: Story = {
 					title='Share Your Victory!'
 					onClose={() => setActiveModal(null)}
 				>
-					<div
+					<Wrapper
 						style={{
 							padding: '1rem 0',
 							textAlign: 'center',
@@ -1807,7 +1813,7 @@ export const ModalSystemDemo: Story = {
 							I just solved today's puzzle in record time!
 							🎉
 						</p>
-						<div
+						<Wrapper
 							style={{
 								display: 'flex',
 								gap: '0.5rem',
@@ -1838,8 +1844,8 @@ export const ModalSystemDemo: Story = {
 							>
 								Facebook
 							</Button>
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				<ModalFactory
@@ -1848,8 +1854,8 @@ export const ModalSystemDemo: Story = {
 					title='Choose VS Mode'
 					onClose={() => setActiveModal(null)}
 				>
-					<div style={{ padding: '1rem 0' }}>
-						<div
+					<Wrapper style={{ padding: '1rem 0' }}>
+						<Wrapper
 							style={{
 								display: 'flex',
 								flexDirection: 'column',
@@ -1870,25 +1876,25 @@ export const ModalSystemDemo: Story = {
 									textAlign: 'left',
 								}}
 							>
-								<div
+								<Wrapper
 									style={{
 										fontWeight: 'bold',
 										marginBottom: '0.25rem',
 									}}
 								>
 									Join Room
-								</div>
-								<div
+								</Wrapper>
+								<Wrapper
 									style={{
 										fontSize: '0.9rem',
 										opacity: 0.9,
 									}}
 								>
 									Enter a room code to join friends
-								</div>
+								</Wrapper>
 							</Button>
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				<ModalFactory
@@ -1900,8 +1906,8 @@ export const ModalSystemDemo: Story = {
 					confirmText='Join'
 					cancelText='Cancel'
 				>
-					<div style={{ padding: '1rem 0' }}>
-						<div style={{ marginBottom: '1.5rem' }}>
+					<Wrapper style={{ padding: '1rem 0' }}>
+						<Wrapper style={{ marginBottom: '1.5rem' }}>
 							<label
 								style={{
 									display: 'block',
@@ -1923,8 +1929,8 @@ export const ModalSystemDemo: Story = {
 									textAlign: 'center',
 								}}
 							/>
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				<ModalFactory
@@ -1936,8 +1942,8 @@ export const ModalSystemDemo: Story = {
 					confirmText='Purchase for $5.99'
 					cancelText='Cancel'
 				>
-					<div style={{ padding: '1rem 0' }}>
-						<div style={{ marginBottom: '1rem' }}>
+					<Wrapper style={{ padding: '1rem 0' }}>
+						<Wrapper style={{ marginBottom: '1rem' }}>
 							<h3
 								style={{
 									margin: '0 0 0.5rem 0',
@@ -1954,7 +1960,7 @@ export const ModalSystemDemo: Story = {
 							>
 								A beautiful dark theme with modern styling.
 							</p>
-							<div
+							<Wrapper
 								style={{
 									fontSize: '1.5rem',
 									fontWeight: 'bold',
@@ -1962,9 +1968,9 @@ export const ModalSystemDemo: Story = {
 								}}
 							>
 								$5.99
-							</div>
-						</div>
-					</div>
+							</Wrapper>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
 
 				<ModalFactory
@@ -1976,7 +1982,7 @@ export const ModalSystemDemo: Story = {
 					confirmText='Sign In with Google'
 					cancelText='Cancel Purchase'
 				>
-					<div
+					<Wrapper
 						style={{
 							padding: '1rem 0',
 							textAlign: 'center',
@@ -1991,7 +1997,7 @@ export const ModalSystemDemo: Story = {
 							Please sign in to complete your purchase and
 							save your items to your account.
 						</p>
-					</div>
+					</Wrapper>
 				</ModalFactory>
 
 				<ModalFactory
@@ -2003,8 +2009,8 @@ export const ModalSystemDemo: Story = {
 					confirmText='Create Puzzle'
 					cancelText='Cancel'
 				>
-					<div style={{ padding: '1rem 0' }}>
-						<div
+					<Wrapper style={{ padding: '1rem 0' }}>
+						<Wrapper
 							style={{
 								display: 'grid',
 								gridTemplateColumns: '1fr 1fr',
@@ -2012,7 +2018,7 @@ export const ModalSystemDemo: Story = {
 								marginBottom: '1rem',
 							}}
 						>
-							<div>
+							<Wrapper>
 								<label
 									style={{
 										display: 'block',
@@ -2033,8 +2039,8 @@ export const ModalSystemDemo: Story = {
 									<option value='5x5'>5x5</option>
 									<option value='6x6'>6x6</option>
 								</select>
-							</div>
-							<div>
+							</Wrapper>
+							<Wrapper>
 								<label
 									style={{
 										display: 'block',
@@ -2055,11 +2061,11 @@ export const ModalSystemDemo: Story = {
 									<option value='medium'>Medium</option>
 									<option value='hard'>Hard</option>
 								</select>
-							</div>
-						</div>
-					</div>
+							</Wrapper>
+						</Wrapper>
+					</Wrapper>
 				</ModalFactory>
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {

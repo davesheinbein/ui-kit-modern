@@ -6,6 +6,7 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
+import { Wrapper } from '../Wrappers';
 import {
 	ADVERTISEMENT_CONFIGURATIONS,
 	ExtendedAdKind,
@@ -726,167 +727,237 @@ const Advertisements = forwardRef<
 		// Render loading state
 		if (isLoading || adState === 'loading') {
 			return (
-				<div
+				<Wrapper
 					ref={ref}
 					className={combinedClassName}
 					style={combinedStyle}
 					{...props}
 				>
-					<div className={styles.advertisement__loading}>
+					<Wrapper
+						className={styles.advertisement__loading}
+					>
 						Loading advertisement...
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 			);
 		}
 
 		// Render error state
 		if (isError || adState === 'error') {
 			return fallbackContent ?
-					<div
+					<Wrapper
 						className={combinedClassName}
 						style={combinedStyle}
 					>
 						{fallbackContent}
-					</div>
+					</Wrapper>
 				:	null;
 		}
+
+		// --- Reusable Ad Subcomponents ---
+		const AdImage = ({
+			imageUrl,
+			altText,
+			className,
+		}: {
+			imageUrl?: string;
+			altText?: string;
+			className?: string;
+		}) =>
+			imageUrl ?
+				<img
+					src={imageUrl}
+					alt={altText || 'Advertisement'}
+					className={className}
+				/>
+			:	null;
+
+		const AdTitle = ({
+			title,
+			className,
+			as = 'h3',
+		}: {
+			title?: string;
+			className?: string;
+			as?: keyof JSX.IntrinsicElements;
+		}) =>
+			title ?
+				React.createElement(as, { className }, title)
+			:	null;
+
+		const AdDescription = ({
+			description,
+			className,
+		}: {
+			description?: string;
+			className?: string;
+		}) =>
+			description ?
+				<p className={className}>{description}</p>
+			:	null;
+
+		const AdCTAButton = ({
+			ctaText,
+			onClick,
+			className,
+		}: {
+			ctaText?: string;
+			onClick?: () => void;
+			className?: string;
+		}) =>
+			ctaText ?
+				<Button
+					kind='primary'
+					className={className}
+					onClick={onClick}
+				>
+					{ctaText}
+				</Button>
+			:	null;
+
+		const AdCloseButton = ({
+			onClick,
+			className,
+			ariaLabel = 'Close advertisement',
+		}: {
+			onClick?: () => void;
+			className?: string;
+			ariaLabel?: string;
+		}) => (
+			<Button
+				kind='ghost'
+				className={className}
+				onClick={onClick}
+				aria-label={ariaLabel}
+			>
+				×
+			</Button>
+		);
+
+		const AdContentBlock = ({
+			title,
+			description,
+			ctaText,
+			onCTAClick,
+			titleClass,
+			descClass,
+			ctaClass,
+			titleAs = 'h3',
+		}: {
+			title?: string;
+			description?: string;
+			ctaText?: string;
+			onCTAClick?: () => void;
+			titleClass?: string;
+			descClass?: string;
+			ctaClass?: string;
+			titleAs?: keyof JSX.IntrinsicElements;
+		}) => (
+			<Wrapper className={styles.advertisement__content}>
+				<AdTitle
+					title={title}
+					className={titleClass}
+					as={titleAs}
+				/>
+				<AdDescription
+					description={description}
+					className={descClass}
+				/>
+				<AdCTAButton
+					ctaText={ctaText}
+					onClick={onCTAClick}
+					className={ctaClass}
+				/>
+			</Wrapper>
+		);
 
 		// Render different ad types
 		const renderAdContent = () => {
 			switch (kind) {
 				case 'banner':
 					return (
-						<div className={styles.advertisement__banner}>
-							{content.imageUrl && (
-								<img
-									src={content.imageUrl}
-									alt={content.altText || 'Advertisement'}
-									className={styles.advertisement__image}
-								/>
-							)}
-							<div
-								className={styles.advertisement__content}
-							>
-								{content.title && (
-									<h3
-										className={styles.advertisement__title}
-									>
-										{content.title}
-									</h3>
-								)}
-								{content.description && (
-									<p
-										className={
-											styles.advertisement__description
-										}
-									>
-										{content.description}
-									</p>
-								)}
-								{content.ctaText && (
-									<Button
-										kind='primary'
-										className={styles.advertisement__cta}
-										onClick={handleAdClick}
-									>
-										{content.ctaText}
-									</Button>
-								)}
-							</div>
-						</div>
+						<Wrapper
+							className={styles.advertisement__banner}
+						>
+							<AdImage
+								imageUrl={content.imageUrl}
+								altText={content.altText}
+								className={styles.advertisement__image}
+							/>
+							<AdContentBlock
+								title={content.title}
+								description={content.description}
+								ctaText={content.ctaText}
+								onCTAClick={handleAdClick}
+								titleClass={styles.advertisement__title}
+								descClass={
+									styles.advertisement__description
+								}
+								ctaClass={styles.advertisement__cta}
+							/>
+						</Wrapper>
 					);
-
 				case 'interstitial':
 					return isAdVisible ?
-							<div className={styles.advertisement__modal}>
+							<Wrapper
+								className={styles.advertisement__modal}
+							>
 								{showBackdrop && (
-									<div
+									<Wrapper
 										className={
 											styles.advertisement__backdrop
 										}
 										style={{ opacity: backdropOpacity }}
 									/>
 								)}
-								<div
+								<Wrapper
 									className={
 										styles.advertisement__modal_content
 									}
 								>
-									<Button
-										kind='close'
-										className={styles.advertisement__close}
+									<AdCloseButton
 										onClick={handleAdClose}
-										aria-label='Close advertisement'
-									>
-										×
-									</Button>
-									{content.imageUrl && (
-										<img
-											src={content.imageUrl}
-											alt={
-												content.altText || 'Advertisement'
-											}
-											className={
-												styles.advertisement__image
-											}
-										/>
-									)}
-									<div
-										className={
-											styles.advertisement__content
+										className={styles.advertisement__close}
+									/>
+									<AdImage
+										imageUrl={content.imageUrl}
+										altText={content.altText}
+										className={styles.advertisement__image}
+									/>
+									<AdContentBlock
+										title={content.title}
+										description={content.description}
+										ctaText={content.ctaText}
+										onCTAClick={handleAdClick}
+										titleClass={styles.advertisement__title}
+										descClass={
+											styles.advertisement__description
 										}
-									>
-										{content.title && (
-											<h2
-												className={
-													styles.advertisement__title
-												}
-											>
-												{content.title}
-											</h2>
-										)}
-										{content.description && (
-											<p
-												className={
-													styles.advertisement__description
-												}
-											>
-												{content.description}
-											</p>
-										)}
-										{content.ctaText && (
-											<Button
-												kind='primary'
-												className={
-													styles.advertisement__cta
-												}
-												onClick={handleAdClick}
-											>
-												{content.ctaText}
-											</Button>
-										)}
-									</div>
-								</div>
-							</div>
+										ctaClass={styles.advertisement__cta}
+										titleAs='h2'
+									/>
+								</Wrapper>
+							</Wrapper>
 						:	null;
-
 				case 'rewarded-modal':
 					return isAdVisible ?
-							<div className={styles.advertisement__modal}>
+							<Wrapper
+								className={styles.advertisement__modal}
+							>
 								{showBackdrop && (
-									<div
+									<Wrapper
 										className={
 											styles.advertisement__backdrop
 										}
 										style={{ opacity: backdropOpacity }}
 									/>
 								)}
-								<div
+								<Wrapper
 									className={
 										styles.advertisement__modal_content
 									}
 								>
-									<div
+									<Wrapper
 										className={
 											styles.advertisement__reward_info
 										}
@@ -896,293 +967,186 @@ const Advertisements = forwardRef<
 											Complete this advertisement to earn:{' '}
 											{content.rewardData?.description}
 										</p>
-									</div>
-									{content.imageUrl && (
-										<img
-											src={content.imageUrl}
-											alt={
-												content.altText || 'Advertisement'
-											}
-											className={
-												styles.advertisement__image
-											}
-										/>
-									)}
-									<div
+									</Wrapper>
+									<AdImage
+										imageUrl={content.imageUrl}
+										altText={content.altText}
+										className={styles.advertisement__image}
+									/>
+									<Wrapper
 										className={
 											styles.advertisement__content
 										}
 									>
-										{content.title && (
-											<h3
-												className={
-													styles.advertisement__title
-												}
-											>
-												{content.title}
-											</h3>
-										)}
-										{content.description && (
-											<p
-												className={
-													styles.advertisement__description
-												}
-											>
-												{content.description}
-											</p>
-										)}
-										<div
+										<AdTitle
+											title={content.title}
+											className={
+												styles.advertisement__title
+											}
+											as='h3'
+										/>
+										<AdDescription
+											description={content.description}
+											className={
+												styles.advertisement__description
+											}
+										/>
+										<Wrapper
 											className={
 												styles.advertisement__reward_actions
 											}
 										>
-											<Button
-												kind='primary'
-												className={
-													styles.advertisement__cta
+											<AdCTAButton
+												ctaText={
+													content.ctaText || 'Claim Reward'
 												}
 												onClick={() => {
 													handleAdClick();
 													handleRewardEarned();
 												}}
-											>
-												{content.ctaText || 'Claim Reward'}
-											</Button>
-											<Button
-												kind='ghost'
+												className={
+													styles.advertisement__cta
+												}
+											/>
+											<AdCloseButton
+												onClick={handleAdClose}
 												className={
 													styles.advertisement__close_button
 												}
-												onClick={handleAdClose}
-											>
-												Skip
-											</Button>
-										</div>
-									</div>
-								</div>
-							</div>
+												ariaLabel='Skip'
+											/>
+										</Wrapper>
+									</Wrapper>
+								</Wrapper>
+							</Wrapper>
 						:	null;
-
 				case 'native-card':
 					return (
-						<div className={styles.advertisement__native}>
+						<Wrapper
+							className={styles.advertisement__native}
+						>
 							<span
 								className={styles.advertisement__sponsored}
 							>
 								Sponsored
 							</span>
-							{content.imageUrl && (
-								<img
-									src={content.imageUrl}
-									alt={content.altText || 'Advertisement'}
-									className={styles.advertisement__image}
-								/>
-							)}
-							<div
-								className={styles.advertisement__content}
-							>
-								{content.title && (
-									<h4
-										className={styles.advertisement__title}
-									>
-										{content.title}
-									</h4>
-								)}
-								{content.description && (
-									<p
-										className={
-											styles.advertisement__description
-										}
-									>
-										{content.description}
-									</p>
-								)}
-								{content.ctaText && (
-									<Button
-										kind='primary'
-										className={styles.advertisement__cta}
-										onClick={handleAdClick}
-									>
-										{content.ctaText}
-									</Button>
-								)}
-							</div>
-						</div>
+							<AdImage
+								imageUrl={content.imageUrl}
+								altText={content.altText}
+								className={styles.advertisement__image}
+							/>
+							<AdContentBlock
+								title={content.title}
+								description={content.description}
+								ctaText={content.ctaText}
+								onCTAClick={handleAdClick}
+								titleClass={styles.advertisement__title}
+								descClass={
+									styles.advertisement__description
+								}
+								ctaClass={styles.advertisement__cta}
+								titleAs='h4'
+							/>
+						</Wrapper>
 					);
-
 				case 'sticky-bar':
 					return (
-						<div className={styles.advertisement__sticky}>
-							<div
-								className={styles.advertisement__content}
-							>
-								{content.title && (
-									<span
-										className={styles.advertisement__title}
-									>
-										{content.title}
-									</span>
-								)}
-								{content.description && (
-									<span
-										className={
-											styles.advertisement__description
-										}
-									>
-										{content.description}
-									</span>
-								)}
-								{content.ctaText && (
-									<Button
-										kind='primary'
-										className={styles.advertisement__cta}
-										onClick={handleAdClick}
-									>
-										{content.ctaText}
-									</Button>
-								)}
-							</div>
-							<Button
-								kind='ghost'
-								className={styles.advertisement__close}
+						<Wrapper
+							className={styles.advertisement__sticky}
+						>
+							<AdContentBlock
+								title={content.title}
+								description={content.description}
+								ctaText={content.ctaText}
+								onCTAClick={handleAdClick}
+								titleClass={styles.advertisement__title}
+								descClass={
+									styles.advertisement__description
+								}
+								ctaClass={styles.advertisement__cta}
+								titleAs='span'
+							/>
+							<AdCloseButton
 								onClick={handleAdClose}
-								aria-label='Close advertisement'
-							>
-								×
-							</Button>
-						</div>
+								className={styles.advertisement__close}
+							/>
+						</Wrapper>
 					);
-
 				case 'floating-widget':
 					return (
-						<div className={styles.advertisement__floating}>
-							<Button
-								kind='ghost'
-								className={styles.advertisement__close}
+						<Wrapper
+							className={styles.advertisement__floating}
+						>
+							<AdCloseButton
 								onClick={handleAdClose}
-								aria-label='Close advertisement'
-							>
-								×
-							</Button>
-							{content.imageUrl && (
-								<img
-									src={content.imageUrl}
-									alt={content.altText || 'Advertisement'}
-									className={styles.advertisement__image}
-								/>
-							)}
-							<div
-								className={styles.advertisement__content}
-							>
-								{content.title && (
-									<h5
-										className={styles.advertisement__title}
-									>
-										{content.title}
-									</h5>
-								)}
-								{content.ctaText && (
-									<Button
-										kind='primary'
-										className={styles.advertisement__cta}
-										onClick={handleAdClick}
-									>
-										{content.ctaText}
-									</Button>
-								)}
-							</div>
-						</div>
+								className={styles.advertisement__close}
+							/>
+							<AdImage
+								imageUrl={content.imageUrl}
+								altText={content.altText}
+								className={styles.advertisement__image}
+							/>
+							<AdContentBlock
+								title={content.title}
+								ctaText={content.ctaText}
+								onCTAClick={handleAdClick}
+								titleClass={styles.advertisement__title}
+								ctaClass={styles.advertisement__cta}
+								titleAs='h5'
+							/>
+						</Wrapper>
 					);
-
 				case 'toast-notification':
 					return (
-						<div className={styles.advertisement__toast}>
-							<div
-								className={styles.advertisement__content}
-							>
-								{content.title && (
-									<strong
-										className={styles.advertisement__title}
-									>
-										{content.title}
-									</strong>
-								)}
-								{content.description && (
-									<p
-										className={
-											styles.advertisement__description
-										}
-									>
-										{content.description}
-									</p>
-								)}
-								{content.ctaText && (
-									<Button
-										kind='primary'
-										className={styles.advertisement__cta}
-										onClick={handleAdClick}
-									>
-										{content.ctaText}
-									</Button>
-								)}
-							</div>
-							<Button
-								kind='ghost'
-								className={styles.advertisement__close}
+						<Wrapper
+							className={styles.advertisement__toast}
+						>
+							<AdContentBlock
+								title={content.title}
+								description={content.description}
+								ctaText={content.ctaText}
+								onCTAClick={handleAdClick}
+								titleClass={styles.advertisement__title}
+								descClass={
+									styles.advertisement__description
+								}
+								ctaClass={styles.advertisement__cta}
+								titleAs='strong'
+							/>
+							<AdCloseButton
 								onClick={handleAdClose}
-								aria-label='Close advertisement'
-							>
-								×
-							</Button>
-						</div>
+								className={styles.advertisement__close}
+							/>
+						</Wrapper>
 					);
-
 				default:
 					return (
-						<div className={styles.advertisement__default}>
-							{content.imageUrl && (
-								<img
-									src={content.imageUrl}
-									alt={content.altText || 'Advertisement'}
-									className={styles.advertisement__image}
-								/>
-							)}
-							<div
-								className={styles.advertisement__content}
-							>
-								{content.title && (
-									<h3
-										className={styles.advertisement__title}
-									>
-										{content.title}
-									</h3>
-								)}
-								{content.description && (
-									<p
-										className={
-											styles.advertisement__description
-										}
-									>
-										{content.description}
-									</p>
-								)}
-								{content.ctaText && (
-									<Button
-										kind='primary'
-										className={styles.advertisement__cta}
-										onClick={handleAdClick}
-									>
-										{content.ctaText}
-									</Button>
-								)}
-							</div>
-						</div>
+						<Wrapper
+							className={styles.advertisement__default}
+						>
+							<AdImage
+								imageUrl={content.imageUrl}
+								altText={content.altText}
+								className={styles.advertisement__image}
+							/>
+							<AdContentBlock
+								title={content.title}
+								description={content.description}
+								ctaText={content.ctaText}
+								onCTAClick={handleAdClick}
+								titleClass={styles.advertisement__title}
+								descClass={
+									styles.advertisement__description
+								}
+								ctaClass={styles.advertisement__cta}
+							/>
+						</Wrapper>
 					);
 			}
 		};
 
 		return (
-			<div
+			<Wrapper
 				ref={ref}
 				className={combinedClassName}
 				style={combinedStyle}
@@ -1190,13 +1154,13 @@ const Advertisements = forwardRef<
 				data-ad-kind={kind}
 				{...props}
 			>
-				<div
+				<Wrapper
 					ref={adSlotRef}
 					className={styles.advertisement__slot}
 				>
 					{renderAdContent()}
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		);
 	}
 );
@@ -1469,12 +1433,12 @@ const AdContainerImplementation = forwardRef<
 			Object.keys(adErrors).length === currentAds.length
 		) {
 			return showFallbackOnError && fallbackContent ?
-					<div
+					<Wrapper
 						className={containerClassName}
 						style={containerStyle}
 					>
 						{fallbackContent}
-					</div>
+					</Wrapper>
 				:	null;
 		}
 
@@ -1530,7 +1494,10 @@ const AdContainerImplementation = forwardRef<
 
 				case 'grid':
 					return (
-						<div className={styles.adContainer__grid}>
+						<Wrapper
+							kind='grid-container'
+							className={styles.adContainer__grid}
+						>
 							{currentAds.map((ad: any) => (
 								<Advertisements
 									key={ad.content.id}
@@ -1549,7 +1516,7 @@ const AdContainerImplementation = forwardRef<
 									{...ad.props}
 								/>
 							))}
-						</div>
+						</Wrapper>
 					);
 
 				case 'stack':
@@ -1576,17 +1543,17 @@ const AdContainerImplementation = forwardRef<
 		};
 
 		return (
-			<div
+			<Wrapper
 				className={containerClassName}
 				style={containerStyle}
 				data-container-id={containerId}
 				data-layout={responsiveLayout}
 			>
 				{responsiveLayout === 'carousel' && (
-					<div className={styles.adContainer__carousel}>
+					<Wrapper className={styles.adContainer__carousel}>
 						{renderAds()}
 						{currentAds.length > 1 && (
-							<div
+							<Wrapper
 								className={
 									styles.adContainer__carousel_indicators
 								}
@@ -1608,12 +1575,12 @@ const AdContainerImplementation = forwardRef<
 										aria-label={`Show ad ${index + 1}`}
 									/>
 								))}
-							</div>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				)}
 				{responsiveLayout !== 'carousel' && renderAds()}
-			</div>
+			</Wrapper>
 		);
 	}
 );

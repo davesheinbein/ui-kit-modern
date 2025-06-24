@@ -1,29 +1,18 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
-	UnifiedSettings,
+	Settings,
 	SettingsFactory,
 	SettingsPresets,
 	QuickSettings,
 	defaultThemes,
 } from '../../components/Settings';
-import {
-	UnifiedTheme,
-	ThemeFactory,
-	ThemeSelector,
-	ThemeSwatches,
-	ThemeDropdown,
-	ThemeCards,
-	CompactThemes,
-	MobileThemes,
-	DesktopThemes,
-	ModalThemes,
-} from '../../components/Themes';
-import type { UnifiedSettingsProps } from '../../components/Settings/UnifiedSettings';
+import { Wrapper } from '../../components/Wrappers';
+import type { SettingsProps } from '../../components/Settings/Settings';
 
-const meta: Meta<typeof UnifiedSettings> = {
+const meta: Meta<typeof Settings> = {
 	title: 'Settings/Settings',
-	component: UnifiedSettings,
+	component: Settings,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -31,10 +20,10 @@ const meta: Meta<typeof UnifiedSettings> = {
 				component: `
 # Settings DRY System
 
-The Settings DRY system provides a unified, configuration-driven approach to creating various settings interfaces:
+The Settings DRY system provides a configuration-driven approach to creating various settings interfaces:
 
 ## Components:
-- **UnifiedSettings**: Main component that handles all settings types
+- **Settings**: Main component that handles all settings types
 - **SettingsFactory**: Configuration-driven factory for rapid settings creation
 - **SettingsPresets**: Pre-configured settings for common use cases
 - **QuickSettings**: Optimized shortcuts for frequent patterns
@@ -50,7 +39,7 @@ The Settings DRY system provides a unified, configuration-driven approach to cre
 ## Usage Patterns:
 \`\`\`tsx
 // Direct usage
-<UnifiedSettings kind="settings-panel" sections={sections} />
+<Settings kind="settings-panel" sections={sections} />
 
 // Factory pattern
 <SettingsFactory kind="customization-category" items={themes} />
@@ -119,7 +108,7 @@ The Settings DRY system provides a unified, configuration-driven approach to cre
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedSettings>;
+type Story = StoryObj<typeof Settings>;
 
 // Mock data
 const mockUserSections = [
@@ -307,8 +296,8 @@ const mockAccessibilitySections = [
 ];
 
 // Core DRY Stories
-export const UnifiedSettingsShowcase: Story = {
-	name: '🎯 UnifiedSettings - All Types',
+export const SettingsShowcase: Story = {
+	name: '🎯 Settings - All Types',
 	args: {
 		kind: 'settings-panel',
 		title: 'User Settings',
@@ -320,7 +309,7 @@ export const UnifiedSettingsShowcase: Story = {
 		docs: {
 			description: {
 				story:
-					'Demonstrates UnifiedSettings component handling different settings types through the kind prop.',
+					'Demonstrates Settings component handling different settings types through the kind prop.',
 			},
 		},
 	},
@@ -329,17 +318,17 @@ export const UnifiedSettingsShowcase: Story = {
 export const FactoryPattern: Story = {
 	name: '🏭 SettingsFactory Pattern',
 	render: (args) => (
-		<div className='space-y-4'>
+		<Wrapper className='space-y-4'>
 			<h3>Factory Pattern Examples</h3>
-			<div className='grid gap-4'>
+			<Wrapper className='grid gap-4'>
 				<SettingsFactory
 					kind='settings-panel'
 					title='User Preferences'
 					sections={mockUserSections}
 					{...args}
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	args: {
 		showHeader: true,
@@ -357,9 +346,9 @@ export const FactoryPattern: Story = {
 export const UltraShortAlias: Story = {
 	name: '⚡ SettingsFactory Rapid',
 	render: (args) => (
-		<div className='space-y-4'>
+		<Wrapper className='space-y-4'>
 			<h3>SettingsFactory Examples</h3>
-			<div className='grid gap-4'>
+			<Wrapper className='grid gap-4'>
 				<SettingsFactory
 					kind='customization-category'
 					title='Themes'
@@ -371,8 +360,8 @@ export const UltraShortAlias: Story = {
 					sections={mockUserSections}
 					{...args}
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -387,9 +376,9 @@ export const UltraShortAlias: Story = {
 export const PresetsShowcase: Story = {
 	name: '🎨 SettingsPresets',
 	render: (args) => (
-		<div className='space-y-4'>
+		<Wrapper className='space-y-4'>
 			<h3>Settings Presets Examples</h3>
-			<div className='grid gap-4'>
+			<Wrapper className='grid gap-4'>
 				{SettingsPresets.USER_PREFERENCES()}
 				{SettingsPresets.THEME_CUSTOMIZATION(
 					mockThemeItems
@@ -397,8 +386,8 @@ export const PresetsShowcase: Story = {
 				{SettingsPresets.ACCESSIBILITY(
 					mockAccessibilitySections
 				)}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -413,13 +402,13 @@ export const PresetsShowcase: Story = {
 export const QuickSettingsPatterns: Story = {
 	name: '🚀 QuickSettings',
 	render: (args) => (
-		<div className='space-y-4'>
+		<Wrapper className='space-y-4'>
 			<h3>Quick Settings Patterns</h3>
-			<div className='grid gap-4'>
+			<Wrapper className='grid gap-4'>
 				{QuickSettings.themes(mockThemeItems)}
 				{QuickSettings.customization(mockEmoteItems)}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -1511,8 +1500,8 @@ export const AllSettingsShowcase: Story = {
 		};
 
 		return (
-			<div className='space-y-8 p-6'>
-				<div className='text-center'>
+			<Wrapper className='space-y-8 p-6'>
+				<Wrapper className='text-center'>
 					<h2 className='text-2xl font-bold mb-2'>
 						Settings DRY System Showcase
 					</h2>
@@ -1520,18 +1509,18 @@ export const AllSettingsShowcase: Story = {
 						Comprehensive demonstration of all settings
 						types and configurations
 					</p>
-					<div className='bg-blue-50 p-4 rounded-lg'>
+					<Wrapper className='bg-blue-50 p-4 rounded-lg'>
 						<h3 className='font-semibold mb-2'>
 							Current Settings:
 						</h3>
 						<pre className='text-sm text-left'>
 							{JSON.stringify(currentSettings, null, 2)}
 						</pre>
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 
-				<div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-					<div>
+				<Wrapper className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+					<Wrapper>
 						<h3 className='text-lg font-semibold mb-4'>
 							Theme Settings
 						</h3>
@@ -1544,9 +1533,9 @@ export const AllSettingsShowcase: Story = {
 								handleSettingChange('theme', themeId)
 							}
 						/>
-					</div>
+					</Wrapper>
 
-					<div>
+					<Wrapper>
 						<h3 className='text-lg font-semibold mb-4'>
 							User Preferences
 						</h3>
@@ -1587,9 +1576,9 @@ export const AllSettingsShowcase: Story = {
 							}}
 							onSettingChange={handleSettingChange}
 						/>
-					</div>
+					</Wrapper>
 
-					<div>
+					<Wrapper>
 						<h3 className='text-lg font-semibold mb-4'>
 							Theme Customization
 						</h3>
@@ -1601,9 +1590,9 @@ export const AllSettingsShowcase: Story = {
 								handleSettingChange('theme', themeId)
 							}
 						/>
-					</div>
+					</Wrapper>
 
-					<div>
+					<Wrapper>
 						<h3 className='text-lg font-semibold mb-4'>
 							Privacy Settings
 						</h3>
@@ -1641,9 +1630,9 @@ export const AllSettingsShowcase: Story = {
 							}}
 							onSettingChange={handleSettingChange}
 						/>
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		);
 	},
 	parameters: {

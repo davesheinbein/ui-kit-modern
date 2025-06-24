@@ -6,6 +6,7 @@ import React, {
 	useCallback,
 	useRef,
 } from 'react';
+import { Wrapper } from '../Wrappers';
 import { Button } from '../Button';
 import styles from './Analytics.module.scss';
 import {
@@ -151,7 +152,7 @@ const DEFAULT_COLORS = [
 const DEFAULT_PLUGINS: any[] = [];
 
 /**
- * Unified Analytics component - provides comprehensive analytics functionality
+ * Analytics component - provides comprehensive analytics functionality
  * Consolidates all analytics types and features into a single component
  * Supports dashboards, charts, metrics, heatmaps, funnels, cohorts, reports, and real-time analytics
  */
@@ -345,8 +346,8 @@ const Analytics = forwardRef<
 			if (!showHeader) return null;
 
 			return (
-				<div className={styles.analytics__header}>
-					<div>
+				<Wrapper className={styles.analytics__header}>
+					<Wrapper>
 						{title && (
 							<h3
 								className={styles.analytics__header_title}
@@ -363,8 +364,10 @@ const Analytics = forwardRef<
 								{subtitle}
 							</p>
 						)}
-					</div>
-					<div className={styles.analytics__header_actions}>
+					</Wrapper>
+					<Wrapper
+						className={styles.analytics__header_actions}
+					>
 						{refreshable && onRefresh && (
 							<Button
 								kind='ghost'
@@ -376,7 +379,9 @@ const Analytics = forwardRef<
 							</Button>
 						)}
 						{exportable && (
-							<div className={styles.analytics__actions}>
+							<Wrapper
+								className={styles.analytics__actions}
+							>
 								<Button
 									kind='secondary'
 									className={
@@ -397,10 +402,10 @@ const Analytics = forwardRef<
 								>
 									PDF
 								</Button>
-							</div>
+							</Wrapper>
 						)}
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 			);
 		};
 
@@ -408,8 +413,10 @@ const Analytics = forwardRef<
 			if (!showControls) return null;
 
 			return (
-				<div className={styles.analytics__controls}>
-					<div className={styles.analytics__controls_group}>
+				<Wrapper className={styles.analytics__controls}>
+					<Wrapper
+						className={styles.analytics__controls_group}
+					>
 						<label
 							className={styles.analytics__controls_label}
 						>
@@ -429,9 +436,9 @@ const Analytics = forwardRef<
 							<option value='quarter'>Last Quarter</option>
 							<option value='year'>Last Year</option>
 						</select>
-					</div>
+					</Wrapper>
 					{filterable && (
-						<div
+						<Wrapper
 							className={styles.analytics__controls_group}
 						>
 							<label
@@ -440,17 +447,17 @@ const Analytics = forwardRef<
 								Filters:
 							</label>
 							{/* Filter controls would go here */}
-						</div>
+						</Wrapper>
 					)}
-				</div>
+				</Wrapper>
 			);
 		};
 
 		const renderContent = () => {
 			if (loading) {
 				return (
-					<div className={styles.analytics__loading}>
-						<div
+					<Wrapper className={styles.analytics__loading}>
+						<Wrapper
 							className={styles.analytics__loading_spinner}
 						/>
 						<span
@@ -458,25 +465,27 @@ const Analytics = forwardRef<
 						>
 							Loading analytics...
 						</span>
-					</div>
+					</Wrapper>
 				);
 			}
 
 			if (error) {
 				return (
-					<div className={styles.analytics__error}>
-						<div className={styles.analytics__error_icon}>
+					<Wrapper className={styles.analytics__error}>
+						<Wrapper
+							className={styles.analytics__error_icon}
+						>
 							⚠️
-						</div>
-						<div
+						</Wrapper>
+						<Wrapper
 							className={styles.analytics__error_message}
 						>
 							<strong>Error loading analytics:</strong>
 							<br />
 							{error}
-						</div>
+						</Wrapper>
 						{refreshable && onRefresh && (
-							<div
+							<Wrapper
 								className={styles.analytics__error_actions}
 							>
 								<Button
@@ -486,9 +495,9 @@ const Analytics = forwardRef<
 								>
 									Retry
 								</Button>
-							</div>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				);
 			}
 
@@ -497,13 +506,13 @@ const Analytics = forwardRef<
 				(!currentData.length && !metrics.length)
 			) {
 				return (
-					<div className={styles.analytics__error}>
-						<div
+					<Wrapper className={styles.analytics__error}>
+						<Wrapper
 							className={styles.analytics__error_message}
 						>
 							{emptyMessage}
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				);
 			}
 
@@ -541,24 +550,31 @@ const Analytics = forwardRef<
 		};
 
 		const renderDashboard = () => (
-			<div className={styles.analytics__dashboard_grid}>
+			<Wrapper
+				kind='grid-container'
+				className={styles.analytics__dashboard_grid}
+			>
 				{metrics.map((metric, index) => (
-					<div
+					<Wrapper
 						key={metric.id || index}
 						className={styles.analytics__metric_container}
 						onClick={() => onMetricClick?.(metric)}
 					>
-						<div className={styles.analytics__metric_value}>
+						<Wrapper
+							className={styles.analytics__metric_value}
+						>
 							{formatMetricValue(
 								metric.value,
 								metric.format
 							)}
-						</div>
-						<div className={styles.analytics__metric_label}>
+						</Wrapper>
+						<Wrapper
+							className={styles.analytics__metric_label}
+						>
 							{metric.name}
-						</div>
+						</Wrapper>
 						{metric.change !== undefined && (
-							<div
+							<Wrapper
 								className={`${styles.analytics__metric_change} ${
 									metric.trend ?
 										styles[
@@ -569,25 +585,27 @@ const Analytics = forwardRef<
 							>
 								{metric.change > 0 ? '+' : ''}
 								{metric.change}%
-							</div>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				))}
-			</div>
+			</Wrapper>
 		);
 
 		const renderChart = () => (
-			<div
+			<Wrapper
 				className={styles.analytics__chart_container}
 				style={{ height }}
 			>
 				{/* Chart implementation would go here - using placeholder */}
-				<div className={styles.analytics__chart_loading}>
+				<Wrapper
+					className={styles.analytics__chart_loading}
+				>
 					📊 Chart visualization ({chartType}) -{' '}
 					{currentData.length} data points
-				</div>
+				</Wrapper>
 				{showLegend && renderLegend()}
-			</div>
+			</Wrapper>
 		);
 
 		const renderMetric = () => {
@@ -596,15 +614,21 @@ const Analytics = forwardRef<
 				value: 0,
 			};
 			return (
-				<div className={styles.analytics__metric_container}>
-					<div className={styles.analytics__metric_value}>
+				<Wrapper
+					className={styles.analytics__metric_container}
+				>
+					<Wrapper
+						className={styles.analytics__metric_value}
+					>
 						{formatMetricValue(metric.value, metric.format)}
-					</div>
-					<div className={styles.analytics__metric_label}>
+					</Wrapper>
+					<Wrapper
+						className={styles.analytics__metric_label}
+					>
 						{metric.name}
-					</div>
+					</Wrapper>
 					{metric.change !== undefined && (
-						<div
+						<Wrapper
 							className={`${styles.analytics__metric_change} ${
 								metric.trend ?
 									styles[
@@ -615,33 +639,37 @@ const Analytics = forwardRef<
 						>
 							{metric.change > 0 ? '+' : ''}
 							{metric.change}%
-						</div>
+						</Wrapper>
 					)}
-				</div>
+				</Wrapper>
 			);
 		};
 
 		const renderHeatmap = () => (
-			<div
+			<Wrapper
 				className={styles.analytics__heatmap_container}
 				style={{ height }}
 			>
 				{/* Heatmap implementation would go here */}
-				<div className={styles.analytics__chart_loading}>
+				<Wrapper
+					className={styles.analytics__chart_loading}
+				>
 					🔥 Heatmap visualization - {currentData.length}{' '}
 					data points
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		);
 
 		const renderFunnel = () => (
-			<div className={styles.analytics__funnel_container}>
+			<Wrapper
+				className={styles.analytics__funnel_container}
+			>
 				{currentData.map((step, index) => (
-					<div
+					<Wrapper
 						key={index}
 						className={styles.analytics__funnel_step}
 					>
-						<div
+						<Wrapper
 							className={
 								styles.analytics__funnel_step_content
 							}
@@ -660,90 +688,103 @@ const Analytics = forwardRef<
 							>
 								{step.value || 0}
 							</span>
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				))}
-			</div>
+			</Wrapper>
 		);
 
 		const renderCohort = () => (
-			<div
+			<Wrapper
 				className={styles.analytics__chart_container}
 				style={{ height }}
 			>
 				{/* Cohort table implementation would go here */}
-				<div className={styles.analytics__chart_loading}>
+				<Wrapper
+					className={styles.analytics__chart_loading}
+				>
 					📋 Cohort analysis - {metrics.length} cohorts
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		);
 
 		const renderReport = () => (
-			<div className={styles.analytics__chart_container}>
+			<Wrapper
+				className={styles.analytics__chart_container}
+			>
 				{/* Report table implementation would go here */}
-				<div className={styles.analytics__chart_loading}>
+				<Wrapper
+					className={styles.analytics__chart_loading}
+				>
 					📊 Report view - {currentData.length} rows
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		);
 
 		const renderRealtime = () => (
-			<div className={styles.analytics__dashboard_grid}>
+			<Wrapper
+				kind='grid-container'
+				className={styles.analytics__dashboard_grid}
+			>
 				{/* Real-time metrics grid */}
 				{realtime && (
-					<div
+					<Wrapper
 						className={styles.analytics__realtime_indicator}
 					>
 						<span
 							className={styles.analytics__live_dot}
 						></span>
 						LIVE
-					</div>
+					</Wrapper>
 				)}
 				{metrics.map((metric, index) => (
-					<div
+					<Wrapper
 						key={metric.id || index}
 						className={styles.analytics__metric_container}
 					>
-						<div className={styles.analytics__metric_value}>
+						<Wrapper
+							className={styles.analytics__metric_value}
+						>
 							{formatMetricValue(
 								metric.value,
 								metric.format
 							)}
-						</div>
-						<div className={styles.analytics__metric_label}>
+						</Wrapper>
+						<Wrapper
+							className={styles.analytics__metric_label}
+						>
 							{metric.name}
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				))}
-			</div>
+			</Wrapper>
 		);
 
 		const renderLegend = () => (
-			<div className={styles.analytics__chart_legend}>
+			<Wrapper className={styles.analytics__chart_legend}>
 				{colors.map((color, index) => (
-					<div
+					<Wrapper
 						key={index}
 						className={styles.analytics__chart_legend_item}
 					>
-						<div
+						<Wrapper
 							className={
 								styles.analytics__chart_legend_item_color
 							}
 							style={{ backgroundColor: color }}
 						/>
 						<span>Series {index + 1}</span>
-					</div>
+					</Wrapper>
 				))}
-			</div>
+			</Wrapper>
 		);
 
 		const renderFooter = () => {
 			if (!showFooter) return null;
 
 			return (
-				<div className={styles.analytics__footer}>
-					<div>
+				<Wrapper className={styles.analytics__footer}>
+					<Wrapper>
 						{lastUpdated && (
 							<span
 								className={styles.analytics__last_updated}
@@ -752,8 +793,8 @@ const Analytics = forwardRef<
 								{lastUpdated.toLocaleTimeString()}
 							</span>
 						)}
-					</div>
-					<div>
+					</Wrapper>
+					<Wrapper>
 						{autoRefresh && (
 							<span
 								className={styles.analytics__auto_refresh}
@@ -761,8 +802,8 @@ const Analytics = forwardRef<
 								Auto-refresh: {refreshInterval / 1000}s
 							</span>
 						)}
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 			);
 		};
 
@@ -781,7 +822,7 @@ const Analytics = forwardRef<
 			.join(' ');
 
 		return (
-			<div
+			<Wrapper
 				ref={ref}
 				className={analyticsClasses}
 				style={style}
@@ -792,11 +833,11 @@ const Analytics = forwardRef<
 			>
 				{renderHeader()}
 				{renderControls()}
-				<div className={styles.analytics__content}>
+				<Wrapper className={styles.analytics__content}>
 					{renderContent()}
-				</div>
+				</Wrapper>
 				{renderFooter()}
-			</div>
+			</Wrapper>
 		);
 	}
 );

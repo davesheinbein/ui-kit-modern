@@ -1,8 +1,9 @@
 import React, { forwardRef } from 'react';
+import { Wrapper } from './Wrappers';
 import { Button } from './Button';
 import { ExtendedButtonKind } from './Button/configurations';
-import FormFieldFactory from './FormField/factory';
-import { ExtendedFormFieldKind } from './FormField/configurations';
+import FormsFactory from './Forms/factory';
+import { ExtendedFormsKind } from './Forms/configurations';
 
 // Component types supported by the factory
 export type ComponentType =
@@ -14,7 +15,7 @@ export type ComponentType =
 // Component kind unions
 export type ComponentKind =
 	| ExtendedButtonKind
-	| ExtendedFormFieldKind
+	| ExtendedFormsKind
 	| 'modal'
 	| 'layout-container'
 	| 'layout-grid'
@@ -130,9 +131,9 @@ export const ComponentFactory = forwardRef<
 			`ComponentFactory: Unknown component kind "${kind}"`
 		);
 		return (
-			<div ref={ref} {...props}>
+			<Wrapper ref={ref} {...props}>
 				{children}
-			</div>
+			</Wrapper>
 		);
 	}
 
@@ -152,9 +153,9 @@ export const ComponentFactory = forwardRef<
 
 		case 'form-field': {
 			return (
-				<FormFieldFactory
+				<FormsFactory
 					ref={ref}
-					kind={config.component as ExtendedFormFieldKind}
+					kind={config.component as ExtendedFormsKind}
 					{...props}
 				/>
 			);
@@ -180,21 +181,21 @@ export const ComponentFactory = forwardRef<
 
 		case 'modal': {
 			return (
-				<div
+				<Wrapper
 					ref={ref}
 					className={`modal ${config.className || ''} ${props.className || ''}`.trim()}
 					{...props}
 				>
 					{children}
-				</div>
+				</Wrapper>
 			);
 		}
 
 		default: {
 			return (
-				<div ref={ref} {...props}>
+				<Wrapper ref={ref} {...props}>
 					{children}
-				</div>
+				</Wrapper>
 			);
 		}
 	}

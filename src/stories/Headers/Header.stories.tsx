@@ -1,25 +1,24 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import {
-	HeaderFactory,
-	H,
-	HeaderPresets,
-	UnifiedHeader,
 	Header,
-	type HeaderKind,
-	type UnifiedHeaderProps,
+	HeaderKind,
+	HeaderFactory,
+	HeaderPresets,
+	H,
 } from '../../components/Header';
+import { Wrapper } from '../../components/Wrappers';
+import type { Meta, StoryObj } from '@storybook/react';
 
 // Meta configuration for the DRY Header system
-const meta: Meta<typeof UnifiedHeader> = {
+const meta: Meta<typeof Header> = {
 	title: 'Headers/Header',
-	component: UnifiedHeader,
+	component: Header,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component: `
-**DRY Header System** - A unified, configuration-driven header component that can create any type of header.
+**DRY Header System** - A configuration-driven header component that can create any type of header.
 
 This system replaces all individual header components with a single, flexible component that uses configuration objects to define behavior and styling.
 
@@ -116,7 +115,7 @@ This system replaces all individual header components with a single, flexible co
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedHeader>;
+type Story = StoryObj<typeof Header>;
 
 // Sample data for stories
 const sampleTabs = [
@@ -363,49 +362,37 @@ export const SidebarHeader: Story = {
 export const FactoryExamples: Story = {
 	name: 'Factory Usage Examples',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '2rem',
 			}}
 		>
-			<div>
-				<h3>HeaderFactory.modal()</h3>
-				{HeaderFactory.modal('Modal Header', () =>
-					console.log('Close')
+			<Wrapper>
+				{HeaderFactory.modal('Modal Title', () =>
+					alert('Closed!')
 				)}
-			</div>
+			</Wrapper>
 
-			<div>
-				<h3>HeaderFactory.browse()</h3>
-				{HeaderFactory.browse('Browse Items', () =>
-					console.log('Back')
+			<Wrapper>
+				{HeaderFactory.browse('Browse Title', () =>
+					alert('Back!')
 				)}
-			</div>
+			</Wrapper>
 
-			<div>
-				<h3>HeaderFactory.browseWithTabs()</h3>
-				{HeaderFactory.browseWithTabs(
-					'Browse with Tabs',
-					sampleTabs,
-					'featured',
-					(tab: string) => console.log('Tab:', tab),
-					() => console.log('Back')
-				)}
-			</div>
+			<Wrapper>{HeaderFactory.page('Page Title')}</Wrapper>
 
-			<div>
-				<h3>HeaderFactory.dashboard()</h3>
-				{HeaderFactory.dashboard('Dashboard', [
+			<Wrapper>
+				{HeaderFactory.dashboard('Dashboard Title', [
 					{
-						type: 'menu' as const,
-						handler: () => console.log('Menu'),
-						label: 'Settings',
+						type: 'menu',
+						handler: () => alert('Menu!'),
+						label: 'Menu',
 					},
 				])}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 
@@ -414,38 +401,34 @@ export const FactoryExamples: Story = {
 export const PresetExamples: Story = {
 	name: 'Preset Usage Examples',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '2rem',
 			}}
 		>
-			<div>
-				<h3>HeaderPresets.MODAL_WITH_CLOSE</h3>
-				{HeaderPresets.MODAL_WITH_CLOSE('Settings', () =>
-					console.log('Close')
+			<Wrapper>
+				{HeaderPresets.MODAL_WITH_CLOSE(
+					'Preset Modal',
+					() => alert('Closed!')
 				)}
-			</div>
+			</Wrapper>
 
-			<div>
-				<h3>HeaderPresets.BROWSE_WITH_TABS</h3>
-				{HeaderPresets.BROWSE_WITH_TABS(
-					'Browse Categories',
-					sampleTabs,
-					'all',
-					(tab: string) => console.log('Tab:', tab),
-					() => console.log('Back')
+			<Wrapper>
+				{HeaderPresets.BROWSE_SIMPLE('Preset Browse', () =>
+					alert('Back!')
 				)}
-			</div>
+			</Wrapper>
 
-			<div>
-				<h3>HeaderPresets.PAGE_WITH_BACK</h3>
-				{HeaderPresets.PAGE_WITH_BACK('Page Title', () =>
-					console.log('Back')
-				)}
-			</div>
-		</div>
+			<Wrapper>
+				{HeaderPresets.PAGE_TITLE('Preset Page')}
+			</Wrapper>
+
+			<Wrapper>
+				{HeaderPresets.DASHBOARD_BASIC('Preset Dashboard')}
+			</Wrapper>
+		</Wrapper>
 	),
 };
 
@@ -454,41 +437,33 @@ export const PresetExamples: Story = {
 export const UltraDRYExamples: Story = {
 	name: 'Ultra-DRY Usage (H alias)',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '2rem',
 			}}
 		>
-			<div>
-				<h3>H.modal()</h3>
-				{H.modal('Quick Modal', () => console.log('Close'))}
-			</div>
+			<Wrapper>
+				{H.modal('Ultra Modal', () => alert('Closed!'))}
+			</Wrapper>
 
-			<div>
-				<h3>H.browse()</h3>
-				{H.browse('Quick Browse', () =>
-					console.log('Back')
-				)}
-			</div>
+			<Wrapper>
+				{H.browse('Ultra Browse', () => alert('Back!'))}
+			</Wrapper>
 
-			<div>
-				<h3>H.page()</h3>
-				{H.page('Quick Page')}
-			</div>
+			<Wrapper>{H.page('Ultra Page')}</Wrapper>
 
-			<div>
-				<h3>H.dashboard()</h3>
-				{H.dashboard('Quick Dashboard', [
+			<Wrapper>
+				{H.dashboard('Ultra Dashboard', [
 					{
-						type: 'menu' as const,
-						handler: () => console.log('Menu'),
+						type: 'menu',
+						handler: () => alert('Menu!'),
 						label: 'Menu',
 					},
 				])}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 
@@ -501,7 +476,7 @@ export const LegacyBrowseHeader: Story = {
 			React.useState('featured');
 
 		return (
-			<div>
+			<Wrapper>
 				<p
 					style={{
 						marginBottom: '1rem',
@@ -514,7 +489,7 @@ export const LegacyBrowseHeader: Story = {
 					how the old BrowseHeader API still works with the
 					new DRY system underneath.
 				</p>
-				<UnifiedHeader
+				<Header
 					kind='browse-tabbed'
 					title='Browse Puzzles (Legacy API)'
 					tabs={sampleTabs}
@@ -527,7 +502,7 @@ export const LegacyBrowseHeader: Story = {
 						},
 					]}
 				/>
-			</div>
+			</Wrapper>
 		);
 	},
 };
@@ -546,8 +521,8 @@ export const InteractiveDemo: Story = {
 		);
 
 		return (
-			<div>
-				<div
+			<Wrapper>
+				<Wrapper
 					style={{
 						marginBottom: '2rem',
 						padding: '1rem',
@@ -556,7 +531,7 @@ export const InteractiveDemo: Story = {
 					}}
 				>
 					<h3>Header Configuration</h3>
-					<div
+					<Wrapper
 						style={{
 							display: 'grid',
 							gridTemplateColumns:
@@ -606,10 +581,10 @@ export const InteractiveDemo: Story = {
 								}}
 							/>
 						</label>
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 
-				<UnifiedHeader
+				<Header
 					kind={headerKind}
 					title={title}
 					tabs={
@@ -657,7 +632,7 @@ export const InteractiveDemo: Story = {
 						headerKind
 					)}
 				/>
-			</div>
+			</Wrapper>
 		);
 	},
 };

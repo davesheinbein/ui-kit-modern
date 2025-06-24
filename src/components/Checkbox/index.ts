@@ -1,12 +1,8 @@
 // Main Checkbox component (the core component)
-export {
-	default as Checkbox,
-	UnifiedCheckbox,
-} from './Checkbox';
+export { Checkbox } from './Checkbox';
 export type {
 	CheckboxKind,
 	CheckboxProps,
-	UnifiedCheckboxProps,
 	BaseCheckboxProps,
 } from './Checkbox';
 
@@ -22,7 +18,7 @@ export {
 } from './factory';
 export type { CheckboxFactoryProps } from './factory';
 
-// Legacy exports for specific checkbox types (these now use the unified system)
+// Legacy exports for specific checkbox types (these now use the  system)
 import React, { forwardRef } from 'react';
 import Checkbox, { CheckboxProps } from './Checkbox';
 

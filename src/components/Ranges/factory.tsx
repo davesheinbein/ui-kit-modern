@@ -5,7 +5,7 @@ import {
 	RangeConfiguration,
 	RangeFactoryProps,
 } from './configurations';
-import { UnifiedRange } from './UnifiedRange';
+import { Range } from './Range';
 
 export const RangeFactory = forwardRef<
 	HTMLInputElement,
@@ -48,7 +48,7 @@ export const RangeFactory = forwardRef<
 		};
 
 		return (
-			<UnifiedRange
+			<Range
 				ref={ref}
 				value={value}
 				defaultValue={defaultValue}

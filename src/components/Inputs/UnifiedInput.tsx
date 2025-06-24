@@ -3,6 +3,7 @@ import React, {
 	useCallback,
 	useEffect,
 } from 'react';
+import { Wrapper } from '../Wrappers';
 import {
 	InputKind,
 	InputVariant,
@@ -35,8 +36,8 @@ import {
 import { Button } from '../Button';
 import styles from './Input.module.scss';
 
-// Extended props interface for UnifiedInput
-export interface UnifiedInputProps
+// Extended props interface for Input
+export interface InputProps
 	extends Partial<
 			Omit<InputConfiguration, 'autoComplete' | 'style'>
 		>,
@@ -56,11 +57,8 @@ export interface UnifiedInputProps
 	debounced?: boolean;
 }
 
-// Main UnifiedInput Component
-const UnifiedInput = forwardRef<
-	HTMLInputElement,
-	UnifiedInputProps
->(
+// Main Input Component
+const Input = forwardRef<HTMLInputElement, InputProps>(
 	(
 		{
 			kind,
@@ -395,7 +393,7 @@ const UnifiedInput = forwardRef<
 			:	mergedConfig.helperText;
 
 		return (
-			<div className={containerClasses}>
+			<Wrapper className={containerClasses}>
 				{mergedConfig.label && (
 					<label
 						className={`${styles.label} ${labelClassName}`}
@@ -407,7 +405,7 @@ const UnifiedInput = forwardRef<
 					</label>
 				)}
 
-				<div className={styles.inputWrapper}>
+				<Wrapper className={styles.inputWrapper}>
 					{mergedConfig.icon && (
 						<span
 							className={`${styles.icon} ${iconClassName}`}
@@ -470,20 +468,20 @@ const UnifiedInput = forwardRef<
 							✕
 						</Button>
 					)}
-				</div>
+				</Wrapper>
 
 				{displayHelperText && (
-					<div
+					<Wrapper
 						className={`${styles.helperText} ${helperClassName}`}
 					>
 						{displayHelperText}
-					</div>
+					</Wrapper>
 				)}
-			</div>
+			</Wrapper>
 		);
 	}
 );
 
-UnifiedInput.displayName = 'UnifiedInput';
+Input.displayName = 'Input';
 
-export default UnifiedInput;
+export default Input;

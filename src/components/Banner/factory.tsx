@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { Wrapper } from '../Wrappers';
 import Banner from './Banner';
 import { Button } from '../Button';
 import styles from './Banner.module.scss';
@@ -69,7 +70,7 @@ export const BannerBodyFactory = forwardRef<
 		switch (kind) {
 			case 'feedback':
 				return (
-					<div
+					<Wrapper
 						ref={ref}
 						style={{
 							width: '100%',
@@ -81,19 +82,19 @@ export const BannerBodyFactory = forwardRef<
 						{...props}
 					>
 						{message}
-					</div>
+					</Wrapper>
 				);
 
 			case 'notification':
 				return (
-					<div ref={ref} {...props}>
+					<Wrapper ref={ref} {...props}>
 						{message}
-					</div>
+					</Wrapper>
 				);
 
 			case 'toast':
 				return (
-					<div
+					<Wrapper
 						ref={ref}
 						style={{
 							display: 'flex',
@@ -104,18 +105,18 @@ export const BannerBodyFactory = forwardRef<
 					>
 						{icon && <span>{icon}</span>}
 						<span>{message}</span>
-					</div>
+					</Wrapper>
 				);
 
 			case 'status':
 				return (
-					<div
+					<Wrapper
 						ref={ref}
 						className={styles.vsStatusBar}
 						{...props}
 					>
 						{/* Left: Player info */}
-						<div
+						<Wrapper
 							style={{
 								display: 'flex',
 								alignItems: 'center',
@@ -141,18 +142,18 @@ export const BannerBodyFactory = forwardRef<
 									{player?.mistakes || 0} mistakes
 								</span>
 							)}
-						</div>
+						</Wrapper>
 
 						{/* Center: Timer */}
 						{showTimer && timer && (
-							<div className={styles.vsStatusTimer}>
+							<Wrapper className={styles.vsStatusTimer}>
 								{timer}
-							</div>
+							</Wrapper>
 						)}
 
 						{/* Right: Opponent info */}
 						{opponent && (
-							<div
+							<Wrapper
 								style={{
 									display: 'flex',
 									alignItems: 'center',
@@ -177,7 +178,7 @@ export const BannerBodyFactory = forwardRef<
 										className={styles.vsStatusAvatar}
 									/>
 								)}
-							</div>
+							</Wrapper>
 						)}
 
 						{/* Emote button */}
@@ -191,16 +192,16 @@ export const BannerBodyFactory = forwardRef<
 								😀
 							</Button>
 						)}
-					</div>
+					</Wrapper>
 				);
 
 			case 'global':
 				// This would render multiple toast banners from a global state
 				return (
-					<div ref={ref} {...props}>
+					<Wrapper ref={ref} {...props}>
 						{/* This should be connected to your global notification state */}
 						{message && (
-							<div
+							<Wrapper
 								style={{
 									display: 'flex',
 									alignItems: 'center',
@@ -209,16 +210,16 @@ export const BannerBodyFactory = forwardRef<
 							>
 								{icon && <span>{icon}</span>}
 								<span>{message}</span>
-							</div>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				);
 
 			default:
 				return (
-					<div ref={ref} {...props}>
+					<Wrapper ref={ref} {...props}>
 						{message || 'Banner content'}
-					</div>
+					</Wrapper>
 				);
 		}
 	}

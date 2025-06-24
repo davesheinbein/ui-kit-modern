@@ -1,11 +1,3 @@
-/**
- * WrapperConfigurations.ts - DRY Wrapper Configuration System
- *
- * This file provides a comprehensive configuration system for all wrapper types
- * used throughout the application. Wrappers provide backward compatibility
- * and simplified interfaces to unified components.
- */
-
 // ========================================
 // Core Types and Interfaces
 // ========================================
@@ -92,7 +84,7 @@ export interface WrapperConfiguration {
 
 	// Target Component
 	targetComponent: string;
-	unifiedComponent: string;
+	Component: string;
 
 	// Wrapper Properties
 	maintainAPI?: boolean;
@@ -127,12 +119,12 @@ const component: WrapperConfiguration = {
 	variant: 'component-wrapper',
 	layout: 'passthrough',
 	targetComponent: 'Component',
-	unifiedComponent: 'UnifiedComponent',
+	Component: 'Component',
 	maintainAPI: true,
 	preserveEvents: true,
 	description: 'Generic component wrapper',
 	migrationPath:
-		'Use the specific unified component or factory method',
+		'Use the specific  component or factory method',
 };
 
 const provider: WrapperConfiguration = {
@@ -140,12 +132,12 @@ const provider: WrapperConfiguration = {
 	variant: 'provider-wrapper',
 	layout: 'passthrough',
 	targetComponent: 'Provider',
-	unifiedComponent: 'UnifiedProvider',
+	Component: 'Provider',
 	maintainAPI: true,
 	preserveEvents: true,
 	description: 'Generic provider wrapper',
 	migrationPath:
-		'Use the specific unified provider or factory method',
+		'Use the specific  provider or factory method',
 };
 
 const legacy: WrapperConfiguration = {
@@ -153,13 +145,12 @@ const legacy: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'LegacyComponent',
-	unifiedComponent: 'UnifiedComponent',
+	Component: 'Component',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Generic legacy wrapper',
-	migrationPath:
-		'Migrate to the corresponding unified component',
+	migrationPath: 'Migrate to the corresponding  component',
 };
 
 // Layout Wrapper Configurations
@@ -168,13 +159,13 @@ const flexContainer: WrapperConfiguration = {
 	variant: 'layout-container',
 	layout: 'enhanced',
 	targetComponent: 'FlexContainer',
-	unifiedComponent: 'FlexContainer',
+	Component: 'FlexContainer',
 	maintainAPI: true,
 	preserveEvents: true,
 	description:
 		'Flexbox container wrapper with positioning control',
 	migrationPath:
-		'Use CSS flexbox directly or UnifiedWrapper with flex kind',
+		'Use CSS flexbox directly or Wrapper with flex kind',
 };
 
 const gridContainer: WrapperConfiguration = {
@@ -182,13 +173,13 @@ const gridContainer: WrapperConfiguration = {
 	variant: 'layout-container',
 	layout: 'enhanced',
 	targetComponent: 'GridContainer',
-	unifiedComponent: 'GridContainer',
+	Component: 'GridContainer',
 	maintainAPI: true,
 	preserveEvents: true,
 	description:
 		'CSS Grid container wrapper with positioning control',
 	migrationPath:
-		'Use CSS grid directly or UnifiedWrapper with grid kind',
+		'Use CSS grid directly or Wrapper with grid kind',
 };
 
 const centerContainer: WrapperConfiguration = {
@@ -196,13 +187,13 @@ const centerContainer: WrapperConfiguration = {
 	variant: 'layout-container',
 	layout: 'enhanced',
 	targetComponent: 'CenterContainer',
-	unifiedComponent: 'CenterContainer',
+	Component: 'CenterContainer',
 	maintainAPI: true,
 	preserveEvents: true,
 	description:
 		'Container that centers content both horizontally and vertically',
 	migrationPath:
-		'Use CSS centering techniques or UnifiedWrapper with center kind',
+		'Use CSS centering techniques or Wrapper with center kind',
 };
 
 const stackContainer: WrapperConfiguration = {
@@ -210,12 +201,12 @@ const stackContainer: WrapperConfiguration = {
 	variant: 'layout-container',
 	layout: 'enhanced',
 	targetComponent: 'StackContainer',
-	unifiedComponent: 'StackContainer',
+	Component: 'StackContainer',
 	maintainAPI: true,
 	preserveEvents: true,
 	description: 'Vertical stack container with gap control',
 	migrationPath:
-		'Use CSS flexbox column or UnifiedWrapper with stack kind',
+		'Use CSS flexbox column or Wrapper with stack kind',
 };
 
 const buttonWrapper: WrapperConfiguration = {
@@ -223,7 +214,7 @@ const buttonWrapper: WrapperConfiguration = {
 	variant: 'backward-compatibility',
 	layout: 'passthrough',
 	targetComponent: 'Button',
-	unifiedComponent: 'Button',
+	Component: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
@@ -239,14 +230,14 @@ const headerWrapper: WrapperConfiguration = {
 	variant: 'simplified-interface',
 	layout: 'passthrough',
 	targetComponent: 'Header',
-	unifiedComponent: 'UnifiedHeader',
+	Component: 'Header',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Simplified interface wrapper for Header component',
 	migrationPath:
-		'Use UnifiedHeader or HeaderFactory for advanced features',
+		'Use Header or HeaderFactory for advanced features',
 };
 
 const modalWrapper: WrapperConfiguration = {
@@ -254,14 +245,14 @@ const modalWrapper: WrapperConfiguration = {
 	variant: 'backward-compatibility',
 	layout: 'passthrough',
 	targetComponent: 'Modal',
-	unifiedComponent: 'UnifiedModal',
+	Component: 'Modal',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Backward compatibility wrapper for Modal component',
 	migrationPath:
-		'Use UnifiedModal or ModalFactory for new features',
+		'Use Modal or ModalFactory for new features',
 };
 
 const gridWrapper: WrapperConfiguration = {
@@ -269,14 +260,14 @@ const gridWrapper: WrapperConfiguration = {
 	variant: 'simplified-interface',
 	layout: 'passthrough',
 	targetComponent: 'Grid',
-	unifiedComponent: 'UnifiedGrid',
+	Component: 'Grid',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
-		'Basic wrapper around UnifiedGrid for simple use cases',
+		'Basic wrapper around Grid for simple use cases',
 	migrationPath:
-		'Use UnifiedGrid or GridFactory for advanced layouts',
+		'Use Grid or GridFactory for advanced layouts',
 };
 
 const pageWrapper: WrapperConfiguration = {
@@ -284,14 +275,14 @@ const pageWrapper: WrapperConfiguration = {
 	variant: 'simplified-interface',
 	layout: 'passthrough',
 	targetComponent: 'Page',
-	unifiedComponent: 'UnifiedPage',
+	Component: 'Page',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
-		'Wrapper around UnifiedPage for the most common use case',
+		'Wrapper around Page for the most common use case',
 	migrationPath:
-		'Use UnifiedPage or PageFactory for advanced features',
+		'Use Page or PageFactory for advanced features',
 };
 
 const graphWrapper: WrapperConfiguration = {
@@ -299,14 +290,14 @@ const graphWrapper: WrapperConfiguration = {
 	variant: 'simplified-interface',
 	layout: 'passthrough',
 	targetComponent: 'Graphs',
-	unifiedComponent: 'UnifiedGraph',
+	Component: 'Graph',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
-		'Wrapper around UnifiedGraph for the most common use case',
+		'Wrapper around Graph for the most common use case',
 	migrationPath:
-		'Use UnifiedGraph or GraphFactory for advanced charts',
+		'Use Graph or GraphFactory for advanced charts',
 };
 
 const sidebarWrapper: WrapperConfiguration = {
@@ -314,14 +305,14 @@ const sidebarWrapper: WrapperConfiguration = {
 	variant: 'backward-compatibility',
 	layout: 'passthrough',
 	targetComponent: 'Sidebar',
-	unifiedComponent: 'UnifiedSidebar',
+	Component: 'Sidebar',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Backward compatibility wrapper for Sidebar component',
 	migrationPath:
-		'Use UnifiedSidebar or SidebarFactory for new features',
+		'Use Sidebar or SidebarFactory for new features',
 };
 
 const settingsWrapper: WrapperConfiguration = {
@@ -329,14 +320,14 @@ const settingsWrapper: WrapperConfiguration = {
 	variant: 'backward-compatibility',
 	layout: 'passthrough',
 	targetComponent: 'Settings',
-	unifiedComponent: 'UnifiedSettings',
+	Component: 'Settings',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Backward compatibility wrapper for Settings component',
 	migrationPath:
-		'Use UnifiedSettings or SettingsFactory for new features',
+		'Use Settings or SettingsFactory for new features',
 };
 
 const themeWrapper: WrapperConfiguration = {
@@ -344,14 +335,14 @@ const themeWrapper: WrapperConfiguration = {
 	variant: 'backward-compatibility',
 	layout: 'passthrough',
 	targetComponent: 'Theme',
-	unifiedComponent: 'UnifiedTheme',
+	Component: 'Theme',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Backward compatibility wrapper for Theme component',
 	migrationPath:
-		'Use UnifiedTheme or ThemeFactory for new features',
+		'Use Theme or ThemeFactory for new features',
 };
 
 const adminWrapper: WrapperConfiguration = {
@@ -359,7 +350,7 @@ const adminWrapper: WrapperConfiguration = {
 	variant: 'backward-compatibility',
 	layout: 'passthrough',
 	targetComponent: 'Admin',
-	unifiedComponent: 'Admin',
+	Component: 'Admin',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
@@ -374,14 +365,14 @@ const cardWrapper: WrapperConfiguration = {
 	variant: 'simplified-interface',
 	layout: 'passthrough',
 	targetComponent: 'Card',
-	unifiedComponent: 'UnifiedCard',
+	Component: 'Card',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Simplified interface wrapper for Card component',
 	migrationPath:
-		'Use UnifiedCard or CardFactory for advanced features',
+		'Use Card or CardFactory for advanced features',
 };
 
 const bannerWrapper: WrapperConfiguration = {
@@ -389,14 +380,14 @@ const bannerWrapper: WrapperConfiguration = {
 	variant: 'simplified-interface',
 	layout: 'passthrough',
 	targetComponent: 'Banner',
-	unifiedComponent: 'UnifiedBanner',
+	Component: 'Banner',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Simplified interface wrapper for Banner component',
 	migrationPath:
-		'Use UnifiedBanner or BannerFactory for advanced features',
+		'Use Banner or BannerFactory for advanced features',
 };
 
 const chatWrapper: WrapperConfiguration = {
@@ -404,14 +395,14 @@ const chatWrapper: WrapperConfiguration = {
 	variant: 'simplified-interface',
 	layout: 'passthrough',
 	targetComponent: 'Chat',
-	unifiedComponent: 'UnifiedChat',
+	Component: 'Chat',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Simplified interface wrapper for Chat component',
 	migrationPath:
-		'Use UnifiedChat or ChatFactory for advanced features',
+		'Use Chat or ChatFactory for advanced features',
 };
 
 const formWrapper: WrapperConfiguration = {
@@ -419,14 +410,14 @@ const formWrapper: WrapperConfiguration = {
 	variant: 'simplified-interface',
 	layout: 'passthrough',
 	targetComponent: 'Form',
-	unifiedComponent: 'UnifiedForm',
+	Component: 'Form',
 	maintainAPI: true,
 	preserveEvents: true,
 	forwardRef: true,
 	description:
 		'Simplified interface wrapper for Form component',
 	migrationPath:
-		'Use UnifiedForm or FormFactory for advanced features',
+		'Use Form or FormFactory for advanced features',
 };
 
 // Provider Wrappers
@@ -435,13 +426,12 @@ const socketProviderWrapper: WrapperConfiguration = {
 	variant: 'provider-wrapper',
 	layout: 'passthrough',
 	targetComponent: 'SocketProvider',
-	unifiedComponent: 'UnifiedProvider',
+	Component: 'Provider',
 	maintainAPI: true,
 	preserveEvents: true,
 	description:
 		'Backward compatibility wrapper for SocketProvider',
-	migrationPath:
-		'Use UnifiedProvider with kind="socket-provider"',
+	migrationPath: 'Use Provider with kind="socket-provider"',
 };
 
 const userSettingsProviderWrapper: WrapperConfiguration = {
@@ -449,13 +439,13 @@ const userSettingsProviderWrapper: WrapperConfiguration = {
 	variant: 'provider-wrapper',
 	layout: 'passthrough',
 	targetComponent: 'UserSettingsProvider',
-	unifiedComponent: 'UnifiedProvider',
+	Component: 'Provider',
 	maintainAPI: true,
 	preserveEvents: true,
 	description:
 		'Backward compatibility wrapper for UserSettingsProvider',
 	migrationPath:
-		'Use UnifiedProvider with kind="user-settings-provider"',
+		'Use Provider with kind="user-settings-provider"',
 };
 
 const themePaletteProviderWrapper: WrapperConfiguration = {
@@ -463,13 +453,13 @@ const themePaletteProviderWrapper: WrapperConfiguration = {
 	variant: 'provider-wrapper',
 	layout: 'passthrough',
 	targetComponent: 'ThemePaletteProvider',
-	unifiedComponent: 'UnifiedProvider',
+	Component: 'Provider',
 	maintainAPI: true,
 	preserveEvents: true,
 	description:
 		'Backward compatibility wrapper for ThemePaletteProvider',
 	migrationPath:
-		'Use UnifiedProvider with kind="theme-palette-provider"',
+		'Use Provider with kind="theme-palette-provider"',
 };
 
 const achievementSocketListenerWrapper: WrapperConfiguration =
@@ -478,13 +468,13 @@ const achievementSocketListenerWrapper: WrapperConfiguration =
 		variant: 'provider-wrapper',
 		layout: 'passthrough',
 		targetComponent: 'AchievementSocketListener',
-		unifiedComponent: 'UnifiedProvider',
+		Component: 'Provider',
 		maintainAPI: true,
 		preserveEvents: true,
 		description:
 			'Backward compatibility wrapper for AchievementSocketListener',
 		migrationPath:
-			'Use UnifiedProvider with kind="achievement-socket-listener"',
+			'Use Provider with kind="achievement-socket-listener"',
 	};
 
 // Legacy Component Wrappers
@@ -493,7 +483,7 @@ const primaryButtonWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'PrimaryButton',
-	unifiedComponent: 'Button',
+	Component: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
@@ -507,7 +497,7 @@ const secondaryButtonWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'SecondaryButton',
-	unifiedComponent: 'Button',
+	Component: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
@@ -522,7 +512,7 @@ const closeButtonWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'CloseButton',
-	unifiedComponent: 'Button',
+	Component: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
@@ -536,7 +526,7 @@ const iconButtonWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'IconButton',
-	unifiedComponent: 'Button',
+	Component: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
@@ -550,13 +540,13 @@ const browseHeaderWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'BrowseHeader',
-	unifiedComponent: 'UnifiedHeader',
+	Component: 'Header',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for BrowseHeader component',
 	migrationPath:
-		'Use UnifiedHeader with kind="browse-tabbed" or HeaderFactory.browseWithTabs()',
+		'Use Header with kind="browse-tabbed" or HeaderFactory.browseWithTabs()',
 };
 
 const modalHeaderWrapper: WrapperConfiguration = {
@@ -564,13 +554,13 @@ const modalHeaderWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'ModalHeader',
-	unifiedComponent: 'UnifiedHeader',
+	Component: 'Header',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Legacy wrapper for ModalHeader component',
 	migrationPath:
-		'Use UnifiedHeader with kind="modal" or HeaderFactory.modal()',
+		'Use Header with kind="modal" or HeaderFactory.modal()',
 };
 
 const vsGridWrapper: WrapperConfiguration = {
@@ -578,14 +568,14 @@ const vsGridWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'VSGrid',
-	unifiedComponent: 'UnifiedGrid',
+	Component: 'Grid',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description:
-		'Legacy VSGrid component - wrapper around UnifiedGrid',
+		'Legacy VSGrid component - wrapper around Grid',
 	migrationPath:
-		'Use UnifiedGrid with kind="vs-grid" or GridFactory.vsGrid()',
+		'Use Grid with kind="vs-grid" or GridFactory.vsGrid()',
 };
 
 const startupPageWrapper: WrapperConfiguration = {
@@ -593,14 +583,13 @@ const startupPageWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'StartupPage',
-	unifiedComponent: 'UnifiedPage',
+	Component: 'Page',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description:
-		'Legacy wrapper using the unified page system',
+	description: 'Legacy wrapper using the  page system',
 	migrationPath:
-		'Use UnifiedPage with kind="startup" or PageFactory.startup()',
+		'Use Page with kind="startup" or PageFactory.startup()',
 };
 
 const customizationCategoryWrapper: WrapperConfiguration = {
@@ -608,14 +597,14 @@ const customizationCategoryWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'CustomizationCategory',
-	unifiedComponent: 'UnifiedSettings',
+	Component: 'Settings',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description:
 		'Backward compatibility wrapper for CustomizationCategory',
 	migrationPath:
-		'Use UnifiedSettings with kind="customization-category" or SettingsFactory',
+		'Use Settings with kind="customization-category" or SettingsFactory',
 };
 
 const settingsPanelWrapper: WrapperConfiguration = {
@@ -623,14 +612,14 @@ const settingsPanelWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'SettingsPanel',
-	unifiedComponent: 'UnifiedSettings',
+	Component: 'Settings',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description:
 		'Backward compatibility wrapper for SettingsPanel',
 	migrationPath:
-		'Use UnifiedSettings with kind="settings-panel" or SettingsFactory',
+		'Use Settings with kind="settings-panel" or SettingsFactory',
 };
 
 const themeSelectorWrapper: WrapperConfiguration = {
@@ -638,14 +627,13 @@ const themeSelectorWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'ThemeSelector',
-	unifiedComponent: 'UnifiedTheme',
+	Component: 'Theme',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
-	description:
-		'Legacy wrapper using the unified theme system',
+	description: 'Legacy wrapper using the  theme system',
 	migrationPath:
-		'Use UnifiedTheme with kind="selector" or ThemeFactory.selector()',
+		'Use Theme with kind="selector" or ThemeFactory.selector()',
 };
 
 const friendsSidebarWrapper: WrapperConfiguration = {
@@ -653,14 +641,14 @@ const friendsSidebarWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'FriendsSidebar',
-	unifiedComponent: 'UnifiedSidebar',
+	Component: 'Sidebar',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description:
 		'Legacy FriendsSidebar - Backward compatibility wrapper',
 	migrationPath:
-		'Use UnifiedSidebar with kind="friends" or SidebarFactory.friends()',
+		'Use Sidebar with kind="friends" or SidebarFactory.friends()',
 };
 
 const sessionDebuggerWrapper: WrapperConfiguration = {
@@ -668,7 +656,7 @@ const sessionDebuggerWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'SessionDebugger',
-	unifiedComponent: 'Admin',
+	Component: 'Admin',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
@@ -683,7 +671,7 @@ const darkModeToggleWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'DarkModeToggle',
-	unifiedComponent: 'Button',
+	Component: 'Button',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
@@ -699,12 +687,11 @@ const backwardCompatibilityWrapper: WrapperConfiguration = {
 	variant: 'backward-compatibility',
 	layout: 'passthrough',
 	targetComponent: 'LegacyComponent',
-	unifiedComponent: 'UnifiedComponent',
+	Component: 'Component',
 	maintainAPI: true,
 	preserveEvents: true,
 	description: 'Generic backward compatibility wrapper',
-	migrationPath:
-		'Migrate to the corresponding unified component',
+	migrationPath: 'Migrate to the corresponding  component',
 };
 
 const legacyWrapper: WrapperConfiguration = {
@@ -712,13 +699,13 @@ const legacyWrapper: WrapperConfiguration = {
 	variant: 'legacy-support',
 	layout: 'passthrough',
 	targetComponent: 'LegacyComponent',
-	unifiedComponent: 'UnifiedComponent',
+	Component: 'Component',
 	maintainAPI: true,
 	preserveEvents: true,
 	deprecationWarning: true,
 	description: 'Generic legacy component wrapper',
 	migrationPath:
-		'Use the corresponding unified component or factory',
+		'Use the corresponding  component or factory',
 };
 
 const simpleWrapper: WrapperConfiguration = {
@@ -726,13 +713,12 @@ const simpleWrapper: WrapperConfiguration = {
 	variant: 'simplified-interface',
 	layout: 'simplified',
 	targetComponent: 'Component',
-	unifiedComponent: 'UnifiedComponent',
+	Component: 'Component',
 	maintainAPI: false,
 	simplifyProps: true,
 	preserveEvents: true,
 	description: 'Simple wrapper with reduced API surface',
-	migrationPath:
-		'Use unified component for advanced features',
+	migrationPath: 'Use  component for advanced features',
 };
 
 const enhancedWrapper: WrapperConfiguration = {
@@ -740,14 +726,13 @@ const enhancedWrapper: WrapperConfiguration = {
 	variant: 'enhanced-functionality',
 	layout: 'enhanced',
 	targetComponent: 'Component',
-	unifiedComponent: 'UnifiedComponent',
+	Component: 'Component',
 	maintainAPI: true,
 	addEnhancements: true,
 	preserveEvents: true,
 	description:
 		'Enhanced wrapper with additional functionality',
-	migrationPath:
-		'Use unified component directly for full control',
+	migrationPath: 'Use  component directly for full control',
 };
 
 // ========================================
@@ -828,7 +813,7 @@ export const WRAPPER_CONFIGURATIONS: Record<
  */
 export function getWrapperConfig(
 	kind: WrapperKind
-): WrapperConfiguration {
+): WrapperConfiguration | undefined {
 	return WRAPPER_CONFIGURATIONS[kind];
 }
 
@@ -875,7 +860,9 @@ export function createWrapperConfig(
 		// Merge className if both exist
 		className:
 			overrides.className ?
-				`${baseConfig.className || ''} ${overrides.className}`.trim()
+				`${baseConfig.className || ''} ${
+					overrides.className
+				}`.trim()
 			:	baseConfig.className,
 	};
 }

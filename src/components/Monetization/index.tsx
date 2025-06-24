@@ -1,14 +1,11 @@
 import React from 'react';
+import { Wrapper } from '../Wrappers';
 
-export { default as UnifiedMonetization } from './UnifiedMonetization';
-export type {
-	UnifiedMonetizationProps,
-	BaseMonetizationProps,
-} from './UnifiedMonetization';
-
-// Keep the original Monetization component for backward compatibility
 export { default as Monetization } from './Monetization';
-export type { MonetizationProps } from './Monetization';
+export type {
+	MonetizationProps,
+	BaseMonetizationProps,
+} from './Monetization';
 
 export * from './configurations';
 

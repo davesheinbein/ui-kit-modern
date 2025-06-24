@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import {
-	UnifiedProgress,
+	Progress,
 	ProgressComponents,
 } from '../../components/Progress';
+import { Wrapper } from '../../components/Wrappers';
 
-const meta: Meta<typeof UnifiedProgress> = {
+const meta: Meta<typeof Progress> = {
 	title: 'Progress/Progress',
-	component: UnifiedProgress,
+	component: Progress,
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -126,7 +127,7 @@ const meta: Meta<typeof UnifiedProgress> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedProgress>;
+type Story = StoryObj<typeof Progress>;
 
 export const LoadingSpinner: Story = {
 	args: {
@@ -188,7 +189,7 @@ export const LevelProgress: Story = {
 
 export const FactoryComponents: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -196,9 +197,9 @@ export const FactoryComponents: Story = {
 				padding: '2rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>Loading Indicators</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						gap: '1rem',
@@ -208,12 +209,12 @@ export const FactoryComponents: Story = {
 					<ProgressComponents.LoadingSpinner />
 					<ProgressComponents.DotsLoader />
 					<ProgressComponents.PulseLoader />
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h3>Progress Bars</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -224,12 +225,12 @@ export const FactoryComponents: Story = {
 					<ProgressComponents.LinearProgress value={65} />
 					<ProgressComponents.UploadProgress value={45} />
 					<ProgressComponents.DownloadProgress value={75} />
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h3>Game Progress</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -249,8 +250,8 @@ export const FactoryComponents: Story = {
 						value={68}
 						max={100}
 					/>
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 };

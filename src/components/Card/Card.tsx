@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { Wrapper } from '../Wrappers';
 import styles from './Card.module.scss';
 import {
 	ExtendedCardKind,
@@ -61,7 +62,7 @@ export interface CardProps
 /**
  * Base Card component - provides consistent styling and layout
  * Now supports kind-based configuration for specialized card types
- * Simplified from the previous UnifiedCard approach
+ * Simplified from the previous Card approach
  */
 const Card = forwardRef<HTMLDivElement, CardProps>(
 	(
@@ -157,15 +158,15 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
 			return (
 				<>
-					<div className={styles.friendCardHeader}>
+					<Wrapper className={styles.friendCardHeader}>
 						<span
 							className={`${styles.friendStatusDot} ${styles[statusClass]}`}
 						/>
 						<span className={styles.friendUsername}>
 							{friend.username}
 						</span>
-					</div>
-					<div className={styles.friendCardActions}>
+					</Wrapper>
+					<Wrapper className={styles.friendCardActions}>
 						{onChallenge && (
 							<button
 								onClick={() => onChallenge(friend.id)}
@@ -184,7 +185,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 								Remove
 							</button>
 						)}
-					</div>
+					</Wrapper>
 				</>
 			);
 		};
@@ -196,7 +197,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 			return (
 				<>
 					{statValue && (
-						<div
+						<Wrapper
 							className='stat-value'
 							style={{
 								fontSize: '2rem',
@@ -204,15 +205,15 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 							}}
 						>
 							{statValue}
-						</div>
+						</Wrapper>
 					)}
 					{statLabel && (
-						<div
+						<Wrapper
 							className='stat-label'
 							style={{ fontSize: '0.875rem', opacity: 0.8 }}
 						>
 							{statLabel}
-						</div>
+						</Wrapper>
 					)}
 				</>
 			);
@@ -238,7 +239,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
 			return (
 				<>
-					<div
+					<Wrapper
 						className={`${styles.notificationHeader} notification-${notificationType}`}
 					>
 						<span className={styles.notificationIcon}>
@@ -247,16 +248,20 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 						{title && (
 							<h3 className='card-title'>{title}</h3>
 						)}
-					</div>
+					</Wrapper>
 					{subtitle && (
 						<p className='card-subtitle'>{subtitle}</p>
 					)}
 					{content && (
-						<div className='card-content'>{content}</div>
+						<Wrapper className='card-content'>
+							{content}
+						</Wrapper>
 					)}
 					{children}
 					{actions && (
-						<div className='card-actions'>{actions}</div>
+						<Wrapper className='card-actions'>
+							{actions}
+						</Wrapper>
 					)}
 				</>
 			);
@@ -284,18 +289,22 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 						<p className='card-subtitle'>{subtitle}</p>
 					)}
 					{content && (
-						<div className='card-content'>{content}</div>
+						<Wrapper className='card-content'>
+							{content}
+						</Wrapper>
 					)}
 					{children}
 					{actions && (
-						<div className='card-actions'>{actions}</div>
+						<Wrapper className='card-actions'>
+							{actions}
+						</Wrapper>
 					)}
 				</>
 			);
 		};
 
 		return (
-			<div
+			<Wrapper
 				ref={ref}
 				className={combinedClassName}
 				onClick={handleClick}
@@ -303,7 +312,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 				{...props}
 			>
 				{renderCardContent()}
-			</div>
+			</Wrapper>
 		);
 	}
 );

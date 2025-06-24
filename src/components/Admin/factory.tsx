@@ -3,6 +3,7 @@ import React, {
 	useCallback,
 	useMemo,
 } from 'react';
+import { Wrapper } from '../Wrappers';
 import Admin from './Admin';
 import type { AdminProps } from './Admin';
 import type {
@@ -147,9 +148,9 @@ const DebugRow: React.FC<{
 	value: string | number;
 	className?: string;
 }> = ({ label, value, className }) => (
-	<div className={className || styles.debugRow}>
+	<Wrapper className={className || styles.debugRow}>
 		<strong>{label}:</strong> {value}
-	</div>
+	</Wrapper>
 );
 
 // Generic metric row renderer with enhanced props
@@ -168,7 +169,7 @@ const MetricRow: React.FC<{
 	labelClassName,
 	valueClassName,
 }) => (
-	<div className={className || styles.metricRow}>
+	<Wrapper className={className || styles.metricRow}>
 		<span className={labelClassName || styles.metricLabel}>
 			{label}:
 		</span>
@@ -176,7 +177,7 @@ const MetricRow: React.FC<{
 			{value}
 			{unit ? ` ${unit}` : ''}
 		</span>
-	</div>
+	</Wrapper>
 );
 
 // Configuration-driven body components for ultimate DRY approach
@@ -225,7 +226,7 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 				],
 			}),
 			renderer: (data, styles, props) => (
-				<div className={styles.sessionDebugger}>
+				<Wrapper className={styles.sessionDebugger}>
 					{data.debugData?.map(
 						(item: any, index: number) => (
 							<DebugRow
@@ -235,8 +236,8 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 								className={props?.rowClassName}
 							/>
 						)
-					) || <div>No debug data available</div>}
-				</div>
+					) || <Wrapper>No debug data available</Wrapper>}
+				</Wrapper>
 			),
 		},
 		'performance-monitor': {
@@ -265,7 +266,7 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 				],
 			}),
 			renderer: (data, styles, props) => (
-				<div className={styles.performanceMonitor}>
+				<Wrapper className={styles.performanceMonitor}>
 					{data.metricsData?.map(
 						(metric: any, index: number) => (
 							<MetricRow
@@ -278,8 +279,10 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 								valueClassName={props?.metricValueClassName}
 							/>
 						)
-					) || <div>No performance data available</div>}
-				</div>
+					) || (
+						<Wrapper>No performance data available</Wrapper>
+					)}
+				</Wrapper>
 			),
 		},
 		'error-logger': {
@@ -291,31 +294,31 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 				errors: stateData || [],
 			}),
 			renderer: (data, styles, props) => (
-				<div className={styles.errorLogger}>
-					<div
+				<Wrapper className={styles.errorLogger}>
+					<Wrapper
 						style={{
 							marginBottom: '8px',
 							fontWeight: 'bold',
 						}}
 					>
 						{props?.title || 'Error Log'}
-					</div>
+					</Wrapper>
 					{data.errors?.length ?
 						data.errors.map((error: any, index: number) => (
-							<div
+							<Wrapper
 								key={index}
 								className={styles.errorEntry}
 							>
-								<div className={styles.errorTime}>
+								<Wrapper className={styles.errorTime}>
 									{error.time}
-								</div>
-								<div className={styles.errorMessage}>
+								</Wrapper>
+								<Wrapper className={styles.errorMessage}>
 									{error.message}
-								</div>
-							</div>
+								</Wrapper>
+							</Wrapper>
 						))
-					:	<div>No errors logged</div>}
-				</div>
+					:	<Wrapper>No errors logged</Wrapper>}
+				</Wrapper>
 			),
 		},
 		'debug-panel': {
@@ -323,34 +326,34 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 			dataKey: 'environment',
 			dataProcessor: () => dataGenerators.environment(),
 			renderer: (data, styles, props) => (
-				<div className={styles.debugPanel}>
-					<div className={styles.panelHeader}>
+				<Wrapper className={styles.debugPanel}>
+					<Wrapper className={styles.panelHeader}>
 						<h3>{props?.title || 'Debug Panel'}</h3>
-					</div>
-					<div className={styles.panelSection}>
-						<div className={styles.sectionTitle}>
+					</Wrapper>
+					<Wrapper className={styles.panelSection}>
+						<Wrapper className={styles.sectionTitle}>
 							{props?.environmentTitle || 'Environment'}
-						</div>
-						<div>
+						</Wrapper>
+						<Wrapper>
 							Node Env: {data?.nodeEnv || 'Unknown'}
-						</div>
-						<div>
+						</Wrapper>
+						<Wrapper>
 							User Agent: {data?.userAgent || 'N/A'}
-						</div>
-					</div>
-					<div className={styles.panelSection}>
-						<div className={styles.sectionTitle}>
+						</Wrapper>
+					</Wrapper>
+					<Wrapper className={styles.panelSection}>
+						<Wrapper className={styles.sectionTitle}>
 							{props?.appStateTitle || 'Application State'}
-						</div>
-						<div>
+						</Wrapper>
+						<Wrapper>
 							Components Rendered:{' '}
 							{data?.componentsRendered || 0}
-						</div>
-						<div>
+						</Wrapper>
+						<Wrapper>
 							Active Listeners: {data?.activeListeners || 0}
-						</div>
-					</div>
-				</div>
+						</Wrapper>
+					</Wrapper>
+				</Wrapper>
 			),
 		},
 		'custom': {
@@ -359,7 +362,7 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 			dataProcessor: () => ({}),
 			renderer: (data, styles, props) =>
 				props?.children || (
-					<div>Custom admin component</div>
+					<Wrapper>Custom admin component</Wrapper>
 				),
 		},
 	};
@@ -371,7 +374,9 @@ const GenericAdminBody: React.FC<{
 }> = ({ kind, ...props }) => {
 	const config = adminBodyConfigs[kind];
 	if (!config)
-		return <div>Unknown admin component: {kind}</div>;
+		return (
+			<Wrapper>Unknown admin component: {kind}</Wrapper>
+		);
 
 	const componentId =
 		props.componentId || `${kind}-default`;
@@ -424,7 +429,7 @@ export const AdminFactory: React.FC<
 			{children ||
 				(kind === 'custom' ?
 					bodyProps.children || (
-						<div>Custom admin component</div>
+						<Wrapper>Custom admin component</Wrapper>
 					)
 				:	<GenericAdminBody
 						kind={kind}

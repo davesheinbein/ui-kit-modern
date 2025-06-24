@@ -1,8 +1,6 @@
 import React from 'react';
-import UnifiedHeader, {
-	UnifiedHeaderProps,
-	HeaderKind,
-} from './UnifiedHeader';
+import { Wrapper } from '../Wrappers';
+import Header, { HeaderProps, HeaderKind } from './Header';
 import {
 	HEADER_CONFIGURATIONS,
 	HEADER_GROUPS,
@@ -22,9 +20,9 @@ export class HeaderFactory {
 	 */
 	static create(
 		kind: HeaderKind,
-		props: Partial<UnifiedHeaderProps> = {}
-	): React.ReactElement<UnifiedHeaderProps> {
-		return React.createElement(UnifiedHeader, {
+		props: Partial<HeaderProps> = {}
+	): React.ReactElement<HeaderProps> {
+		return React.createElement(Header, {
 			kind,
 			...props,
 		});
@@ -38,14 +36,11 @@ export class HeaderFactory {
 			string,
 			{
 				kind: HeaderKind;
-				props?: Partial<UnifiedHeaderProps>;
+				props?: Partial<HeaderProps>;
 			}
 		>,
-		sharedProps: Partial<UnifiedHeaderProps> = {}
-	): Record<
-		string,
-		React.ReactElement<UnifiedHeaderProps>
-	> {
+		sharedProps: Partial<HeaderProps> = {}
+	): Record<string, React.ReactElement<HeaderProps>> {
 		return Object.fromEntries(
 			Object.entries(groupConfig).map(
 				([key, { kind, props = {} }]) => [
@@ -72,8 +67,8 @@ export class HeaderFactory {
 	static createWithOverrides(
 		kind: HeaderKind,
 		overrides: Partial<HeaderConfiguration>,
-		props: Partial<UnifiedHeaderProps> = {}
-	): React.ReactElement<UnifiedHeaderProps> {
+		props: Partial<HeaderProps> = {}
+	): React.ReactElement<HeaderProps> {
 		return HeaderFactory.create(kind, {
 			...props,
 			overrideConfig: overrides,
@@ -86,7 +81,7 @@ export class HeaderFactory {
 	static modal(
 		title: string,
 		onClose: () => void,
-		props: Partial<UnifiedHeaderProps> = {}
+		props: Partial<HeaderProps> = {}
 	) {
 		return HeaderFactory.create('modal', {
 			title,
@@ -98,7 +93,7 @@ export class HeaderFactory {
 	static browse(
 		title: string,
 		onBack: () => void,
-		props: Partial<UnifiedHeaderProps> = {}
+		props: Partial<HeaderProps> = {}
 	) {
 		return HeaderFactory.create('browse', {
 			title,
@@ -113,7 +108,7 @@ export class HeaderFactory {
 		currentTab: string,
 		onTabChange: (tab: string) => void,
 		onBack: () => void,
-		props: Partial<UnifiedHeaderProps> = {}
+		props: Partial<HeaderProps> = {}
 	) {
 		return HeaderFactory.create('browse-tabbed', {
 			title,
@@ -127,7 +122,7 @@ export class HeaderFactory {
 
 	static page(
 		title: string,
-		props: Partial<UnifiedHeaderProps> = {}
+		props: Partial<HeaderProps> = {}
 	) {
 		return HeaderFactory.create('page', {
 			title,
@@ -138,7 +133,7 @@ export class HeaderFactory {
 	static dashboard(
 		title: string,
 		actions: ActionConfiguration[] = [],
-		props: Partial<UnifiedHeaderProps> = {}
+		props: Partial<HeaderProps> = {}
 	) {
 		return HeaderFactory.create('dashboard', {
 			title,

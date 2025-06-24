@@ -6,9 +6,10 @@
  */
 
 import React from 'react';
-import UnifiedFooter from './UnifiedFooter';
+import { Wrapper } from '../Wrappers';
+import Footer from './Footer';
 import { Button } from '../Button';
-import type { UnifiedFooterProps } from './UnifiedFooter';
+import type { FooterProps } from './Footer';
 import type {
 	FooterKind,
 	FooterConfiguration,
@@ -38,10 +39,10 @@ const SimpleFooterBody: React.FC<any> = (props) => {
 
 	return (
 		<>
-			<div className={styles.footerLeft}>
+			<Wrapper className={styles.footerLeft}>
 				{defaultCopyright}
-			</div>
-			<div className={styles.footerRight}></div>
+			</Wrapper>
+			<Wrapper className={styles.footerRight}></Wrapper>
 		</>
 	);
 };
@@ -61,10 +62,10 @@ const StandardFooterBody: React.FC<any> = (props) => {
 
 	return (
 		<>
-			<div className={styles.footerLeft}>
+			<Wrapper className={styles.footerLeft}>
 				{defaultCopyright}
-			</div>
-			<div className={styles.footerRight}>
+			</Wrapper>
+			<Wrapper className={styles.footerRight}>
 				{links.length > 0 && (
 					<nav className={styles.footerNav}>
 						{' '}
@@ -116,7 +117,7 @@ const StandardFooterBody: React.FC<any> = (props) => {
 						)}
 					</nav>
 				)}
-			</div>
+			</Wrapper>
 		</>
 	);
 };
@@ -131,11 +132,11 @@ const MinimalFooterBody: React.FC<any> = (props) => {
 
 	return (
 		<>
-			<div className={styles.footerLeft}></div>
-			<div className={styles.footerCenter}>
+			<Wrapper className={styles.footerLeft}></Wrapper>
+			<Wrapper className={styles.footerCenter}>
 				{defaultCopyright}
-			</div>
-			<div className={styles.footerRight}></div>
+			</Wrapper>
+			<Wrapper className={styles.footerRight}></Wrapper>
 		</>
 	);
 };
@@ -155,10 +156,10 @@ const SocialFooterBody: React.FC<any> = (props) => {
 
 	return (
 		<>
-			<div className={styles.footerLeft}>
+			<Wrapper className={styles.footerLeft}>
 				{defaultCopyright}
-			</div>
-			<div className={styles.footerRight}>
+			</Wrapper>
+			<Wrapper className={styles.footerRight}>
 				<span style={{ marginRight: '1rem' }}>
 					Follow us:
 				</span>
@@ -190,7 +191,7 @@ const SocialFooterBody: React.FC<any> = (props) => {
 						)}
 					</nav>
 				)}
-			</div>
+			</Wrapper>
 		</>
 	);
 };
@@ -210,10 +211,10 @@ const CorporateFooterBody: React.FC<any> = (props) => {
 
 	return (
 		<>
-			<div className={styles.footerLeft}>
+			<Wrapper className={styles.footerLeft}>
 				{defaultCopyright}
-			</div>
-			<div className={styles.footerRight}>
+			</Wrapper>
+			<Wrapper className={styles.footerRight}>
 				{links.length > 0 && (
 					<nav className={styles.footerNav}>
 						{links.map(
@@ -240,7 +241,7 @@ const CorporateFooterBody: React.FC<any> = (props) => {
 						)}
 					</nav>
 				)}
-			</div>
+			</Wrapper>
 		</>
 	);
 };
@@ -254,10 +255,10 @@ const AppFooterBody: React.FC<any> = (props) => {
 
 	return (
 		<>
-			<div className={styles.footerLeft}>
+			<Wrapper className={styles.footerLeft}>
 				{defaultCopyright}
-			</div>
-			<div className={styles.footerRight}>
+			</Wrapper>
+			<Wrapper className={styles.footerRight}>
 				{links.length > 0 && (
 					<nav className={styles.footerNav}>
 						{' '}
@@ -287,7 +288,7 @@ const AppFooterBody: React.FC<any> = (props) => {
 						)}
 					</nav>
 				)}
-			</div>
+			</Wrapper>
 		</>
 	);
 };
@@ -307,10 +308,10 @@ const LandingFooterBody: React.FC<any> = (props) => {
 
 	return (
 		<>
-			<div className={styles.footerLeft}>
+			<Wrapper className={styles.footerLeft}>
 				{defaultCopyright}
-			</div>
-			<div className={styles.footerCenter}>
+			</Wrapper>
+			<Wrapper className={styles.footerCenter}>
 				{links.length > 0 && (
 					<nav className={styles.footerNav}>
 						{links.map(
@@ -337,8 +338,8 @@ const LandingFooterBody: React.FC<any> = (props) => {
 						)}
 					</nav>
 				)}
-			</div>
-			<div className={styles.footerRight}></div>
+			</Wrapper>
+			<Wrapper className={styles.footerRight}></Wrapper>
 		</>
 	);
 };
@@ -363,21 +364,21 @@ export const FooterBodyFactory: React.FC<
 	) {
 		return (
 			<>
-				<div className={styles.footerLeft}>
+				<Wrapper className={styles.footerLeft}>
 					{leftContent !== undefined ?
 						leftContent
 					:	props.copyright ||
 						`© ${new Date().getFullYear()} UI Kit Modern`
 					}
-				</div>
+				</Wrapper>
 				{centerContent && (
-					<div className={styles.footerCenter}>
+					<Wrapper className={styles.footerCenter}>
 						{centerContent}
-					</div>
+					</Wrapper>
 				)}
-				<div className={styles.footerRight}>
+				<Wrapper className={styles.footerRight}>
 					{rightContent}
-				</div>
+				</Wrapper>
 			</>
 		);
 	}
@@ -408,10 +409,11 @@ export const FooterBodyFactory: React.FC<
 };
 
 // Factory function for creating footer components
-export const FooterFactory: React.FC<
-	UnifiedFooterProps
-> = ({ kind, ...props }) => {
-	return <UnifiedFooter kind={kind} {...props} />;
+export const FooterFactory: React.FC<FooterProps> = ({
+	kind,
+	...props
+}) => {
+	return <Footer kind={kind} {...props} />;
 };
 
 FooterFactory.displayName = 'FooterFactory';

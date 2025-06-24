@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Wrapper } from '../../components/Wrappers';
 import {
-	UnifiedMedia,
+	Media,
 	MediaComponents,
 } from '../../components/Media';
 
-const meta: Meta<typeof UnifiedMedia> = {
+const meta: Meta<typeof Media> = {
 	title: 'Media/Media',
-	component: UnifiedMedia,
+	component: Media,
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -159,7 +160,7 @@ const meta: Meta<typeof UnifiedMedia> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedMedia>;
+type Story = StoryObj<typeof Media>;
 
 export const UserAvatar: Story = {
 	args: {
@@ -218,7 +219,7 @@ export const AudioPlayer: Story = {
 
 export const AvatarSizes: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				gap: '1rem',
@@ -245,13 +246,13 @@ export const AvatarSizes: Story = {
 				size='xl'
 				src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const MediaGallery: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gridTemplateColumns: 'repeat(3, 1fr)',
@@ -295,6 +296,6 @@ export const MediaGallery: Story = {
 				}}
 				showMetadata={true}
 			/>
-		</div>
+		</Wrapper>
 	),
 };

@@ -1180,6 +1180,5 @@ export const SETTINGS_CONFIGURATIONS = {
 	),
 };
 
-export type ExtendedSettingsKind =
+export type SettingsKind =
 	keyof typeof SETTINGS_CONFIGURATIONS;
-export type SettingsKind = ExtendedSettingsKind;

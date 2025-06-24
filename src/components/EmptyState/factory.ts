@@ -5,8 +5,8 @@ import {
 	getEmptyStateConfig,
 	EmptyStateKind,
 } from './configurations';
-import { UnifiedEmptyStateProps } from './UnifiedEmptyState';
-import UnifiedEmptyState from './UnifiedEmptyState';
+import { EmptyStateProps } from './EmptyState';
+import EmptyState from './EmptyState';
 
 /**
  * Factory Empty State Factory
@@ -15,13 +15,13 @@ import UnifiedEmptyState from './UnifiedEmptyState';
 export class EmptyStateFactory {
 	static create(
 		config: EmptyStateConfiguration &
-			Partial<UnifiedEmptyStateProps>
+			Partial<EmptyStateProps>
 	) {
 		return React.forwardRef<
 			HTMLDivElement,
-			Partial<UnifiedEmptyStateProps>
+			Partial<EmptyStateProps>
 		>((props, ref) =>
-			React.createElement(UnifiedEmptyState, {
+			React.createElement(EmptyState, {
 				ref,
 				...config,
 				...props,

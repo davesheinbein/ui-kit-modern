@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect } from 'react';
+import { Wrapper } from '../Wrappers';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../Button';
 import ChatWindow from './Chat';
@@ -133,7 +134,7 @@ export const ChatBodyFactory = forwardRef<
 				:	styles.chatMessageFriend;
 
 			return (
-				<div key={msg.id} className={messageClass}>
+				<Wrapper key={msg.id} className={messageClass}>
 					<span className={styles.chatMessageText}>
 						{msg.text}
 					</span>
@@ -142,19 +143,19 @@ export const ChatBodyFactory = forwardRef<
 							{msg.time}
 						</span>
 					)}
-				</div>
+				</Wrapper>
 			);
 		};
 
 		switch (kind) {
 			case 'friend':
 				return (
-					<div ref={ref} {...props}>
-						<div className={styles.chatMessages}>
+					<Wrapper ref={ref} {...props}>
+						<Wrapper className={styles.chatMessages}>
 							{messages.map(renderMessage)}
-						</div>
+						</Wrapper>
 						{showInput && (
-							<div className={styles.chatInput}>
+							<Wrapper className={styles.chatInput}>
 								<input
 									type='text'
 									value={inputValue}
@@ -171,19 +172,19 @@ export const ChatBodyFactory = forwardRef<
 								>
 									Send
 								</Button>
-							</div>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				);
 
 			case 'in-match':
 				return (
-					<div ref={ref} {...props}>
-						<div className={styles.chatMessages}>
+					<Wrapper ref={ref} {...props}>
+						<Wrapper className={styles.chatMessages}>
 							{messages.map(renderMessage)}
-						</div>
+						</Wrapper>
 						{showInput && (
-							<div className={styles.chatInput}>
+							<Wrapper className={styles.chatInput}>
 								<input
 									type='text'
 									value={inputValue}
@@ -200,19 +201,19 @@ export const ChatBodyFactory = forwardRef<
 								>
 									Send
 								</Button>
-							</div>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				);
 
 			case 'match':
 				return (
-					<div ref={ref} {...props}>
-						<div className={styles.chatMessages}>
+					<Wrapper ref={ref} {...props}>
+						<Wrapper className={styles.chatMessages}>
 							{messages.map(renderMessage)}
-						</div>
+						</Wrapper>
 						{showInput && (
-							<div className={styles.chatInput}>
+							<Wrapper className={styles.chatInput}>
 								<input
 									type='text'
 									value={inputValue}
@@ -229,20 +230,20 @@ export const ChatBodyFactory = forwardRef<
 								>
 									Send
 								</Button>
-							</div>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				);
 
 			case 'general':
 			default:
 				return (
-					<div ref={ref} {...props}>
-						<div className={styles.chatMessages}>
+					<Wrapper ref={ref} {...props}>
+						<Wrapper className={styles.chatMessages}>
 							{messages.map(renderMessage)}
-						</div>
+						</Wrapper>
 						{showInput && (
-							<div className={styles.chatInput}>
+							<Wrapper className={styles.chatInput}>
 								<input
 									type='text'
 									value={inputValue}
@@ -259,15 +260,15 @@ export const ChatBodyFactory = forwardRef<
 								>
 									Send
 								</Button>
-							</div>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				);
 
 			case 'vs-quick-chat':
 				return (
-					<div ref={ref} {...props}>
-						<div className={styles.vsQuickChatBar}>
+					<Wrapper ref={ref} {...props}>
+						<Wrapper className={styles.vsQuickChatBar}>
 							{(
 								configuration?.quickOptions ||
 								quickOptions || [
@@ -286,8 +287,8 @@ export const ChatBodyFactory = forwardRef<
 									{opt}
 								</Button>
 							))}
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				);
 		}
 	}

@@ -6,20 +6,18 @@
  */
 
 import React, { useState } from 'react';
-import UnifiedModal, {
-	UnifiedModalProps,
-} from './UnifiedModal';
+import Modal, { ModalProps } from './Modal';
 import {
 	ExtendedModalKind,
 	getModalConfiguration,
 } from './configurations';
 
 // Factory function for creating modals
-export const ModalFactory: React.FC<UnifiedModalProps> = ({
+export const ModalFactory: React.FC<ModalProps> = ({
 	kind,
 	...props
 }) => {
-	return <UnifiedModal kind={kind} {...props} />;
+	return <Modal kind={kind} {...props} />;
 };
 
 ModalFactory.displayName = 'ModalFactory';
@@ -30,51 +28,51 @@ export const M = ModalFactory;
 // Preset modal components for common use cases
 export const ModalPresets = {
 	// Basic modals
-	Alert: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	Alert: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='alert' {...props} />
 	),
-	Confirm: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	Confirm: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='confirmation' {...props} />
 	),
-	Form: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	Form: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='form' {...props} />
 	),
 
 	// Game modals
-	PreGame: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	PreGame: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='pre-game' {...props} />
 	),
-	EndGame: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	EndGame: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='end-game' {...props} />
 	),
-	Rules: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	Rules: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='rules' {...props} />
 	),
-	Statistics: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	Statistics: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='statistics' {...props} />
 	),
 
 	// Commerce modals
-	Purchase: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	Purchase: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='purchase' {...props} />
 	),
-	SignIn: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	SignIn: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='sign-in' {...props} />
 	),
 
 	// VS Mode modals
-	VSMode: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	VSMode: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='vs-mode' {...props} />
 	),
-	VSRoom: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	VSRoom: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='vs-room' {...props} />
 	),
 
 	// Utility modals
-	Custom: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	Custom: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='custom' {...props} />
 	),
-	Fullscreen: (props: Omit<UnifiedModalProps, 'kind'>) => (
+	Fullscreen: (props: Omit<ModalProps, 'kind'>) => (
 		<M kind='fullscreen' {...props} />
 	),
 };
@@ -137,11 +135,11 @@ export class SimpleModalFactory {
 		open: boolean,
 		onClose: () => void,
 		overrides: Partial<
-			Omit<UnifiedModalProps, 'kind' | 'open' | 'onClose'>
+			Omit<ModalProps, 'kind' | 'open' | 'onClose'>
 		> = {}
 	): React.ReactElement {
 		return (
-			<UnifiedModal
+			<Modal
 				kind={kind}
 				open={open}
 				onClose={onClose}

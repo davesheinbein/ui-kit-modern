@@ -1,29 +1,34 @@
-// Shared Storybook configuration and decorators
+import { Wrapper } from '../../components/Wrappers';
 
 export const commonDecorators = [
 	(Story: any) => (
-		<div style={{ padding: '1rem', minHeight: '400px' }}>
+		<Wrapper
+			kind='flex-container'
+			direction='column'
+			style={{ padding: '1rem', minHeight: '400px' }}
+		>
 			<Story />
-		</div>
+		</Wrapper>
 	),
 ];
 
 export const centeredDecorator = (Story: any) => (
-	<div
+	<Wrapper
+		kind='center-container'
+		method='flex'
 		style={{
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
 			minHeight: '400px',
 			padding: '2rem',
 		}}
 	>
 		<Story />
-	</div>
+	</Wrapper>
 );
 
 export const darkBackgroundDecorator = (Story: any) => (
-	<div
+	<Wrapper
+		kind='flex-container'
+		direction='column'
 		style={{
 			backgroundColor: '#1a1a1a',
 			color: 'white',
@@ -32,11 +37,12 @@ export const darkBackgroundDecorator = (Story: any) => (
 		}}
 	>
 		<Story />
-	</div>
+	</Wrapper>
 );
 
 export const gameLayoutDecorator = (Story: any) => (
-	<div
+	<Wrapper
+		kind='center-container'
 		style={{
 			width: '100%',
 			maxWidth: '1200px',
@@ -47,17 +53,19 @@ export const gameLayoutDecorator = (Story: any) => (
 		}}
 	>
 		<Story />
-	</div>
+	</Wrapper>
 );
 
 export const modalDecorator = (Story: any) => (
-	<div style={{ position: 'relative', height: '600px' }}>
+	<Wrapper
+		style={{ position: 'relative', height: '600px' }}
+	>
 		<Story />
-	</div>
+	</Wrapper>
 );
 
 export const cardGridDecorator = (Story: any) => (
-	<div
+	<Wrapper
 		style={{
 			display: 'grid',
 			gridTemplateColumns:
@@ -67,5 +75,5 @@ export const cardGridDecorator = (Story: any) => (
 		}}
 	>
 		<Story />
-	</div>
+	</Wrapper>
 );

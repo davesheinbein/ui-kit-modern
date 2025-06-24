@@ -9,8 +9,7 @@ export type {
 	MapConfiguration,
 } from './configurations';
 
-export type { UnifiedMapProps } from './UnifiedMap';
-export { default as UnifiedMap } from './UnifiedMap';
+export type { MapProps } from './Map';
 export { default as Map } from './Map';
 export { MapFactory, MapComponents } from './factory';
 export { getMapConfig } from './configurations';

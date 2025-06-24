@@ -1,15 +1,12 @@
-export { default as UnifiedTheme } from './UnifiedTheme';
+export { default as ThemeSelector } from './ThemeSelector';
 export type {
+	ThemeSelectorProps,
 	ThemeKind,
-	UnifiedThemeProps,
 	ThemeVariant,
 	ThemeDisplay,
 	ThemeLayout,
 	ThemeDefinition,
-} from './UnifiedTheme';
-
-export { default as ThemeSelector } from './ThemeSelector';
-export type { ThemeSelectorProps } from './ThemeSelector';
+} from './ThemeSelector';
 
 export {
 	default as ThemeFactory,

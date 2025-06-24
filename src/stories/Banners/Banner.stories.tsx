@@ -5,6 +5,7 @@ import {
 	Ban,
 	BannerPresets,
 } from '../../components/Banner';
+import { Wrapper } from '../../components/Wrappers';
 
 // Simple action logger for Storybook 9
 const action = (label: string) => () =>
@@ -423,7 +424,7 @@ export const UsingBanShorthand: Story = {
 	name: '⚡ Using Ban Shorthand',
 	render: () => {
 		return (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -434,7 +435,7 @@ export const UsingBanShorthand: Story = {
 				{Ban.toast('Quick error message!', 'error')}
 				{Ban.feedback('Game completed!')}
 				{Ban.notification('System alert', 'achievement')}
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -456,7 +457,7 @@ export const UsingPresets: Story = {
 	name: '🎨 Using Presets',
 	render: () => {
 		return (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -475,7 +476,7 @@ export const UsingPresets: Story = {
 				{BannerPresets.success(
 					'Settings saved successfully'
 				)}
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -499,7 +500,7 @@ export const BaseBannerComponent: Story = {
 	name: '🏗️ Base Banner Component',
 	render: () => {
 		return (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -514,7 +515,7 @@ export const BaseBannerComponent: Story = {
 					type='success'
 					onClose={action('closed')}
 				>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							alignItems: 'center',
@@ -523,15 +524,15 @@ export const BaseBannerComponent: Story = {
 					>
 						<span>✅</span>
 						<span>Custom content with JSX</span>
-					</div>
+					</Wrapper>
 				</Banner>
 				<Banner variant='notification' type='warning'>
-					<div>
+					<Wrapper>
 						<strong>Warning:</strong> This banner has custom
 						JSX content
-					</div>
+					</Wrapper>
 				</Banner>
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -545,10 +546,10 @@ Examples using the base \`Banner\` component with custom JSX content:
 </Banner>
 
 <Banner variant="toast" type="success" onClose={handleClose}>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+  <Wrapper kind="flex-container" alignItems: 'center', gap: '8px' }}>
     <span>✅</span>
     <span>Custom content with JSX</span>
-  </div>
+  </Wrapper>
 </Banner>
 \`\`\`
 				`,
@@ -583,7 +584,7 @@ export const AllBannerTypes: Story = {
 	name: '🌈 All Banner Types',
 	render: () => {
 		return (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -653,7 +654,7 @@ export const AllBannerTypes: Story = {
 					kind='info-toast'
 					message='New features available'
 				/>
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {

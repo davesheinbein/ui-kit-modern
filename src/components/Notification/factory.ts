@@ -3,9 +3,9 @@
  */
 
 import React from 'react';
-import UnifiedNotification, {
-	UnifiedNotificationProps,
-} from './UnifiedNotification';
+import Notification, {
+	NotificationProps,
+} from './Notification';
 import {
 	NotificationKind,
 	getNotificationConfig,
@@ -22,14 +22,9 @@ export const NotificationFactory = (
 	const finalConfig =
 		typeof config === 'string' ? { kind: config } : config;
 
-	return (
-		props: Partial<UnifiedNotificationProps> = {}
-	) => {
+	return (props: Partial<NotificationProps> = {}) => {
 		const mergedProps = { ...finalConfig, ...props };
-		return React.createElement(
-			UnifiedNotification,
-			mergedProps
-		);
+		return React.createElement(Notification, mergedProps);
 	};
 };
 

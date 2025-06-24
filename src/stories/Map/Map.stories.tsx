@@ -169,18 +169,43 @@ export const InteractiveMap: Story = {
 		zoom: 12,
 		interactive: true,
 		showZoomControls: true,
+		showScale: true,
+		showCompass: true,
 		markers: [
 			{
 				id: '1',
 				position: { lat: 37.7749, lng: -122.4194 },
 				title: 'San Francisco',
 				description: 'Beautiful city by the bay',
+				icon: '🏙️',
+				color: '#1976d2',
+				clickable: true,
 			},
 			{
 				id: '2',
 				position: { lat: 37.7849, lng: -122.4094 },
 				title: 'Golden Gate Park',
 				description: 'Large urban park',
+				icon: '🌳',
+				color: '#388e3c',
+				clickable: true,
+			},
+		],
+		regions: [
+			{
+				id: 'sf-downtown',
+				title: 'Downtown',
+				coordinates: [
+					{ lat: 37.789, lng: -122.401 },
+					{ lat: 37.789, lng: -122.41 },
+					{ lat: 37.78, lng: -122.41 },
+					{ lat: 37.78, lng: -122.401 },
+				],
+				color: '#f44336',
+				fillColor: '#e57373',
+				fillOpacity: 0.3,
+				strokeWidth: 2,
+				clickable: true,
 			},
 		],
 	},
@@ -195,6 +220,7 @@ export const SatelliteMap: Story = {
 		zoom: 11,
 		interactive: true,
 		showZoomControls: true,
+		showScale: true,
 	},
 };
 
@@ -207,6 +233,7 @@ export const TerrainMap: Story = {
 		zoom: 10,
 		interactive: true,
 		showZoomControls: true,
+		showScale: true,
 	},
 };
 
@@ -218,18 +245,25 @@ export const CityMap: Story = {
 		zoom: 12,
 		interactive: true,
 		showZoomControls: true,
+		showScale: true,
 		markers: [
 			{
 				id: '1',
 				position: { lat: 48.8584, lng: 2.2945 },
 				title: 'Eiffel Tower',
 				description: 'Iconic iron lattice tower',
+				icon: '🗼',
+				color: '#b71c1c',
+				clickable: true,
 			},
 			{
 				id: '2',
 				position: { lat: 48.8606, lng: 2.3376 },
 				title: 'Louvre Museum',
 				description: "World's largest art museum",
+				icon: '🖼️',
+				color: '#1976d2',
+				clickable: true,
 			},
 		],
 	},
@@ -246,6 +280,17 @@ export const GameMap: Story = {
 		showZoomControls: true,
 		showGrid: true,
 		showCoordinates: true,
+		showMinimap: true,
+		markers: [
+			{
+				id: 'player',
+				position: { lat: 0, lng: 0 },
+				title: 'Player',
+				icon: '🧑‍🚀',
+				color: '#ffeb3b',
+				clickable: true,
+			},
+		],
 	},
 };
 
@@ -257,39 +302,111 @@ export const MiniMap: Story = {
 		zoom: 8,
 		interactive: false,
 		showZoomControls: false,
+		showMinimap: false,
 	},
 };
 
-export const SmallMap: Story = {
-	args: {
-		kind: 'world-map',
-		size: 'sm',
-		center: { lat: 59.3293, lng: 18.0686 }, // Stockholm
-		zoom: 10,
-		interactive: true,
-		showZoomControls: true,
+export const AllKindsShowcase: Story = {
+	render: () => {
+		const containerStyle: React.CSSProperties = {
+			display: 'flex',
+			flexWrap: 'wrap',
+			gap: 32,
+			alignItems: 'flex-start',
+		};
+		const mapBoxStyle: React.CSSProperties = {
+			minWidth: 340,
+			maxWidth: 420,
+			flex: '1 1 340px',
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+		};
+		return (
+			<div style={containerStyle}>
+				{/* Spherical/rotatable map */}
+				<div style={mapBoxStyle}>
+					<h3>Spherical (Rotatable) Map</h3>
+					<div style={{ width: '100%' }}>
+						<Map
+							kind='interactive-map'
+							rotatable
+							zoomable
+							pannable
+							showZoomControls
+							showCompass
+							showScale
+							showLayerControls
+							markers={[
+								{
+									id: 'rot',
+									position: { lat: 0, lng: 0 },
+									title: 'Equator',
+									icon: '🌐',
+									color: '#1976d2',
+									clickable: true,
+								},
+							]}
+						/>
+					</div>
+				</div>
+				{/* Rectangular/zoomable map */}
+				<div style={mapBoxStyle}>
+					<h3>Rectangular (Zoomable) Map</h3>
+					<div style={{ width: '100%' }}>
+						<Map
+							kind='world-map'
+							zoomable
+							pannable
+							showZoomControls
+							showLayerControls
+							showScale
+							markers={[
+								{
+									id: 'nyc',
+									position: { lat: 40.7128, lng: -74.006 },
+									title: 'NYC',
+									icon: '🗽',
+									color: '#388e3c',
+									clickable: true,
+								},
+							]}
+						/>
+					</div>
+				</div>
+				{/* Game board map with minimap */}
+				<div style={mapBoxStyle}>
+					<h3>Game Board Map (with Minimap)</h3>
+					<div style={{ width: '100%' }}>
+						<Map
+							kind='game-map'
+							showMinimap
+							showGrid
+							showCoordinates
+							zoomable
+							pannable
+							markers={[
+								{
+									id: 'player',
+									position: { lat: 0, lng: 0 },
+									title: 'Player',
+									icon: '🧑‍🚀',
+									color: '#ffeb3b',
+									clickable: true,
+								},
+							]}
+						/>
+					</div>
+				</div>
+			</div>
+		);
 	},
-};
-
-export const LargeMap: Story = {
-	args: {
-		kind: 'world-map',
-		size: 'lg',
-		center: { lat: 59.3293, lng: 18.0686 }, // Stockholm
-		zoom: 10,
-		interactive: true,
-		showZoomControls: true,
-	},
-};
-
-export const DarkThemeMap: Story = {
-	args: {
-		kind: 'interactive-map',
-		variant: 'dark',
-		size: 'lg',
-		center: { lat: 55.7558, lng: 37.6176 }, // Moscow
-		zoom: 10,
-		interactive: true,
-		showZoomControls: true,
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Showcase of all major map kinds: spherical/rotatable, rectangular/zoomable, and game board/minimap navigation.',
+			},
+		},
 	},
 };

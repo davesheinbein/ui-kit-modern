@@ -9,7 +9,7 @@
 
 // ===== BASE GRID STYLES =====
 
-.unifiedGrid {
+.Grid {
 	@include contained-element();
 	@include grid-container();
 	gap: var(--spacing-sm);
@@ -125,7 +125,7 @@
 	}
 }
 
-// Pregame lockout styling is now handled inline in UnifiedGrid
+// Pregame lockout styling is now handled inline in Grid
 
 .solved-groups-display {
 	@extend .grid-solved;
@@ -556,7 +556,7 @@
 // ===== RESPONSIVE STYLES =====
 
 @include media-tablet-down {
-	.unifiedGrid {
+	.Grid {
 		gap: var(--spacing-xs);
 		padding: var(--spacing-xs);
 		max-width: 100%;
@@ -579,7 +579,7 @@
 }
 
 @include media-mobile-down {
-	.unifiedGrid {
+	.Grid {
 		gap: var(--spacing-xs);
 		padding: var(--spacing-xs);
 	}

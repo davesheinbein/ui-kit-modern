@@ -544,12 +544,9 @@ class WrapperBuilder {
 	/**
 	 * Set target component
 	 */
-	target(
-		targetComponent: string,
-		unifiedComponent: string
-	) {
+	target(targetComponent: string, Component: string) {
 		this.config.targetComponent = targetComponent;
-		this.config.unifiedComponent = unifiedComponent;
+		this.config.Component = Component;
 		return this;
 	}
 

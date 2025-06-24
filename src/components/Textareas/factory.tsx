@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { Wrapper } from '../Wrappers';
 import {
 	TEXTAREA_CONFIGURATIONS,
 	ExtendedTextareaKind,
@@ -6,30 +7,33 @@ import {
 	TextareaFactoryProps,
 } from './configurations';
 
-// Create a simple UnifiedTextarea component
-const UnifiedTextarea = forwardRef<
-	HTMLTextAreaElement,
-	any
->(({ configuration, value, onChange, ...props }, ref) => {
-	return (
-		<div className='textarea-container'>
-			{props.label && <label>{props.label}</label>}
-			<textarea
-				ref={ref}
-				value={value}
-				onChange={(e) => onChange?.(e.target.value)}
-				rows={configuration.rows}
-				{...props}
-			/>
-			{props.helpText && (
-				<div className='help-text'>{props.helpText}</div>
-			)}
-			{props.error && (
-				<div className='error-text'>{props.error}</div>
-			)}
-		</div>
-	);
-});
+// Create a simple Textarea component
+const Textarea = forwardRef<HTMLTextAreaElement, any>(
+	({ configuration, value, onChange, ...props }, ref) => {
+		return (
+			<Wrapper className='textarea-container'>
+				{props.label && <label>{props.label}</label>}
+				<textarea
+					ref={ref}
+					value={value}
+					onChange={(e) => onChange?.(e.target.value)}
+					rows={configuration.rows}
+					{...props}
+				/>
+				{props.helpText && (
+					<Wrapper className='help-text'>
+						{props.helpText}
+					</Wrapper>
+				)}
+				{props.error && (
+					<Wrapper className='error-text'>
+						{props.error}
+					</Wrapper>
+				)}
+			</Wrapper>
+		);
+	}
+);
 
 export const TextareaFactory = forwardRef<
 	HTMLTextAreaElement,
@@ -65,7 +69,7 @@ export const TextareaFactory = forwardRef<
 		};
 
 		return (
-			<UnifiedTextarea
+			<Textarea
 				ref={ref}
 				value={value}
 				defaultValue={defaultValue}

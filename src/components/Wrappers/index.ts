@@ -1,4 +1,4 @@
-// Core Wrapper component (consolidates UnifiedWrapper functionality)
+// Core Wrapper component (consolidates Wrapper functionality)
 export { default as Wrapper } from './Wrapper';
 export type { WrapperProps } from './Wrapper';
 
@@ -14,7 +14,3 @@ export {
 	createWrapperWithConfig,
 	type WrapperFactoryProps,
 } from './factory';
-
-// Backward compatibility aliases
-export { default as UnifiedWrapper } from './Wrapper';
-export type { WrapperProps as UnifiedWrapperProps } from './Wrapper';

@@ -2,15 +2,15 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import {
-	UnifiedWrapper,
+	Wrapper,
 	WrapperFactory,
 	W,
 } from '../../components/Wrappers';
-import type { UnifiedWrapperProps } from '../../components/Wrappers';
+import type { WrapperProps } from '../../components/Wrappers';
 
-const meta: Meta<typeof UnifiedWrapper> = {
-	title: 'Wrappers/UnifiedWrapper',
-	component: UnifiedWrapper,
+const meta: Meta<typeof Wrapper> = {
+	title: 'Wrappers/Wrapper',
+	component: Wrapper,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -137,7 +137,7 @@ const meta: Meta<typeof UnifiedWrapper> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedWrapper>;
+type Story = StoryObj<typeof Wrapper>;
 
 // ========================================
 // Basic Wrapper Stories
@@ -211,7 +211,7 @@ export const FlexContainer: Story = {
 		gap: '1rem',
 		children: (
 			<>
-				<div
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#e3f2fd',
@@ -219,8 +219,8 @@ export const FlexContainer: Story = {
 					}}
 				>
 					Item 1
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#f3e5f5',
@@ -228,8 +228,8 @@ export const FlexContainer: Story = {
 					}}
 				>
 					Item 2
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#e8f5e8',
@@ -237,7 +237,7 @@ export const FlexContainer: Story = {
 					}}
 				>
 					Item 3
-				</div>
+				</Wrapper>
 			</>
 		),
 	},
@@ -250,7 +250,7 @@ export const GridContainer: Story = {
 		gap: '1rem',
 		children: (
 			<>
-				<div
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#ffecb3',
@@ -258,8 +258,8 @@ export const GridContainer: Story = {
 					}}
 				>
 					Grid Item 1
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#ffcdd2',
@@ -267,8 +267,8 @@ export const GridContainer: Story = {
 					}}
 				>
 					Grid Item 2
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#c8e6c9',
@@ -276,8 +276,8 @@ export const GridContainer: Story = {
 					}}
 				>
 					Grid Item 3
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#dcedc8',
@@ -285,7 +285,7 @@ export const GridContainer: Story = {
 					}}
 				>
 					Grid Item 4
-				</div>
+				</Wrapper>
 			</>
 		),
 	},
@@ -296,7 +296,7 @@ export const CenterContainer: Story = {
 		kind: 'center-container',
 		method: 'flex',
 		children: (
-			<div
+			<Wrapper
 				style={{
 					padding: '2rem',
 					background: '#f5f5f5',
@@ -310,7 +310,7 @@ export const CenterContainer: Story = {
 					This content is perfectly centered both
 					horizontally and vertically
 				</p>
-			</div>
+			</Wrapper>
 		),
 	},
 };
@@ -323,7 +323,7 @@ export const StackContainer: Story = {
 		align: 'stretch',
 		children: (
 			<>
-				<div
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#e1f5fe',
@@ -331,8 +331,8 @@ export const StackContainer: Story = {
 					}}
 				>
 					Stack Item 1
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#f3e5f5',
@@ -340,8 +340,8 @@ export const StackContainer: Story = {
 					}}
 				>
 					Stack Item 2
-				</div>
-				<div
+				</Wrapper>
+				<Wrapper
 					style={{
 						padding: '1rem',
 						background: '#fff3e0',
@@ -349,7 +349,7 @@ export const StackContainer: Story = {
 					}}
 				>
 					Stack Item 3
-				</div>
+				</Wrapper>
 			</>
 		),
 	},
@@ -361,18 +361,18 @@ export const StackContainer: Story = {
 
 export const FactoryComponent: Story = {
 	render: () => (
-		<div>
+		<Wrapper>
 			<h3>WrapperFactory Examples</h3>
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
 					gap: '2rem',
 				}}
 			>
-				<div>
+				<Wrapper>
 					<h4>Generic Wrappers</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -388,12 +388,12 @@ export const FactoryComponent: Story = {
 						{WrapperFactory.legacy({
 							children: 'Factory legacy wrapper',
 						})}
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 
-				<div>
+				<Wrapper>
 					<h4>Layout Containers</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -434,47 +434,47 @@ export const FactoryComponent: Story = {
 						{WrapperFactory.stackContainer({
 							children: (
 								<>
-									<div
+									<Wrapper
 										style={{
 											padding: '0.5rem',
 											background: '#ffecb3',
 										}}
 									>
 										Stack Item 1
-									</div>
-									<div
+									</Wrapper>
+									<Wrapper
 										style={{
 											padding: '0.5rem',
 											background: '#ffcdd2',
 										}}
 									>
 										Stack Item 2
-									</div>
+									</Wrapper>
 								</>
 							),
 							gap: '0.25rem',
 						})}
-					</div>
-				</div>
-			</div>
-		</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 
 export const UltraShortAliases: Story = {
 	render: () => (
-		<div>
+		<Wrapper>
 			<h3>Ultra-Short W Aliases</h3>
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
 					gap: '2rem',
 				}}
 			>
-				<div>
+				<Wrapper>
 					<h4>Generic W Aliases</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -486,12 +486,12 @@ export const UltraShortAliases: Story = {
 						})}
 						{W.provider({ children: 'W.provider wrapper' })}
 						{W.legacy({ children: 'W.legacy wrapper' })}
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 
-				<div>
+				<Wrapper>
 					<h4>Layout W Aliases</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -532,30 +532,30 @@ export const UltraShortAliases: Story = {
 						{W.stackContainer({
 							children: (
 								<>
-									<div
+									<Wrapper
 										style={{
 											padding: '0.5rem',
 											background: '#e1f5fe',
 										}}
 									>
 										W.stack Item 1
-									</div>
-									<div
+									</Wrapper>
+									<Wrapper
 										style={{
 											padding: '0.5rem',
 											background: '#fce4ec',
 										}}
 									>
 										W.stack Item 2
-									</div>
+									</Wrapper>
 								</>
 							),
 							gap: '0.25rem',
 						})}
-					</div>
-				</div>
-			</div>
-		</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 
@@ -597,7 +597,7 @@ export const WithComplexContent: Story = {
 	args: {
 		kind: 'component',
 		children: (
-			<div>
+			<Wrapper>
 				<h4>Complex Wrapped Content</h4>
 				<p>This wrapper contains multiple elements:</p>
 				<ul>
@@ -608,21 +608,21 @@ export const WithComplexContent: Story = {
 				<Button kind='primary'>
 					A button inside the wrapper
 				</Button>
-			</div>
+			</Wrapper>
 		),
 	},
 };
 
 export const NestedWrappers: Story = {
 	render: () => (
-		<UnifiedWrapper kind='component'>
+		<Wrapper kind='component'>
 			<h4>Outer Wrapper</h4>
-			<UnifiedWrapper kind='provider'>
+			<Wrapper kind='provider'>
 				<h5>Inner Provider Wrapper</h5>
-				<UnifiedWrapper kind='legacy'>
+				<Wrapper kind='legacy'>
 					<span>Deeply nested legacy wrapper content</span>
-				</UnifiedWrapper>
-			</UnifiedWrapper>
-		</UnifiedWrapper>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 };

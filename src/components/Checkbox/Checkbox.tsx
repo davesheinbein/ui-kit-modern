@@ -1,4 +1,5 @@
 import React, { useContext, forwardRef } from 'react';
+import { Wrapper } from '../Wrappers';
 import {
 	CheckboxConfiguration,
 	ExtendedCheckboxKind,
@@ -32,12 +33,6 @@ export interface CheckboxProps extends BaseCheckboxProps {
 	configuration?: Partial<CheckboxConfiguration>;
 	// Special props for specific checkbox types
 	darkModeContext?: boolean; // For dark-mode-toggle
-}
-
-// Legacy type alias for backward compatibility
-export interface UnifiedCheckboxProps
-	extends CheckboxProps {
-	kind: CheckboxKind; // Required in legacy interface
 }
 
 const Checkbox = forwardRef<
@@ -103,7 +98,7 @@ const Checkbox = forwardRef<
 
 		// Build container classes
 		const containerClasses = [
-			styles.unifiedCheckbox,
+			styles.Checkbox,
 			styles[config.className],
 			styles[`size-${effectiveSize}`],
 			effectiveVariant !== 'default' ?
@@ -157,12 +152,14 @@ const Checkbox = forwardRef<
 						{...props}
 					/>
 					{error && (
-						<div className={styles.errorText}>{error}</div>
+						<Wrapper className={styles.errorText}>
+							{error}
+						</Wrapper>
 					)}
 					{helperText && (
-						<div className={styles.helperText}>
+						<Wrapper className={styles.helperText}>
 							{helperText}
-						</div>
+						</Wrapper>
 					)}
 				</label>
 			);
@@ -179,7 +176,9 @@ const Checkbox = forwardRef<
 			:	null;
 
 		return (
-			<div className={fullWidth ? styles.fullWidth : ''}>
+			<Wrapper
+				className={fullWidth ? styles.fullWidth : ''}
+			>
 				<label className={containerClasses}>
 					{effectiveLabelPosition === 'left' &&
 						labelElement}
@@ -196,22 +195,21 @@ const Checkbox = forwardRef<
 						labelElement}
 				</label>
 				{error && (
-					<div className={styles.errorText}>{error}</div>
+					<Wrapper className={styles.errorText}>
+						{error}
+					</Wrapper>
 				)}
 				{helperText && (
-					<div className={styles.helperText}>
+					<Wrapper className={styles.helperText}>
 						{helperText}
-					</div>
+					</Wrapper>
 				)}
-			</div>
+			</Wrapper>
 		);
 	}
 );
 
 Checkbox.displayName = 'Checkbox';
 
-// Create UnifiedCheckbox alias for backward compatibility
-const UnifiedCheckbox = Checkbox;
-
-export { UnifiedCheckbox };
+export { Checkbox };
 export default Checkbox;

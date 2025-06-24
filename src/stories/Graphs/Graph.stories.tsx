@@ -1,15 +1,15 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
-	UnifiedGraph,
+	Graph,
 	GraphFactory,
 	G,
 	GraphPresets,
 	QuickGraphs,
 	GraphKind,
-	UnifiedGraphProps,
+	GraphProps,
 } from '../../components/Graphs';
-import Graphs from '../../components/Graphs'; // Legacy component
+import { Wrapper } from '../../components/Wrappers';
 import {
 	sampleChartData,
 	pieChartData,
@@ -18,9 +18,9 @@ import {
 	radarChartData,
 } from '../mocks';
 
-const meta: Meta<typeof UnifiedGraph> = {
+const meta: Meta<typeof Graph> = {
 	title: 'Graphs/Graphs',
-	component: UnifiedGraph,
+	component: Graph,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -28,10 +28,10 @@ const meta: Meta<typeof UnifiedGraph> = {
 				component: `
 ## Graph DRY System
 
-The new Graph system provides a unified, configuration-driven approach to creating charts with maximum reusability and minimal code duplication.
+The new Graph system provides a configuration-driven approach to creating charts with maximum reusability and minimal code duplication.
 
 ### Key Features:
-- **Unified Component**: One component handles all chart types
+- **Component**: One component handles all chart types
 - **Configuration-Driven**: Pre-configured chart types for common use cases  
 - **Factory Pattern**: Ultra-convenient creation methods
 - **Type Safety**: Full TypeScript support with intelligent autocomplete
@@ -43,7 +43,7 @@ The new Graph system provides a unified, configuration-driven approach to creati
 
 \`\`\`tsx
 // Basic usage
-<UnifiedGraph kind="bar" data={data} />
+<Graph kind="bar" data={data} />
 
 // Factory method
 {G.bar(data)}
@@ -166,7 +166,7 @@ The new Graph system provides a unified, configuration-driven approach to creati
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedGraph>;
+type Story = StoryObj<typeof Graph>;
 
 // === BASIC CHARTS ===
 
@@ -479,7 +479,7 @@ export const StatsCategoryBreakdown: Story = {
 
 export const FactoryExample: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gridTemplateColumns:
@@ -503,7 +503,7 @@ export const FactoryExample: Story = {
 				title: 'Factory Radar Chart',
 				height: 160,
 			})}
-		</div>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -517,7 +517,7 @@ export const FactoryExample: Story = {
 
 export const PresetsExample: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gridTemplateColumns:
@@ -529,7 +529,7 @@ export const PresetsExample: Story = {
 			{GraphPresets.COMPARISON(sampleChartData)}
 			{GraphPresets.DISTRIBUTION(pieChartData)}
 			{GraphPresets.PERFORMANCE(radarChartData)}
-		</div>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -543,7 +543,7 @@ export const PresetsExample: Story = {
 
 export const QuickGraphsExample: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gridTemplateColumns:
@@ -555,7 +555,7 @@ export const QuickGraphsExample: Story = {
 			{QuickGraphs.comparison(sampleChartData)}
 			{QuickGraphs.distribution(pieChartData)}
 			{QuickGraphs.kpi(sampleChartData)}
-		</div>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -571,14 +571,14 @@ export const QuickGraphsExample: Story = {
 
 export const ResponsiveCharts: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '20px',
 			}}
 		>
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
@@ -589,8 +589,8 @@ export const ResponsiveCharts: Story = {
 				{GraphPresets.MOBILE('bar', sampleChartData)}
 				{GraphPresets.MOBILE('line', sampleChartData)}
 				{GraphPresets.MOBILE('pie', pieChartData)}
-			</div>
-			<div
+			</Wrapper>
+			<Wrapper
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
@@ -610,14 +610,14 @@ export const ResponsiveCharts: Story = {
 					'analytics-trend',
 					sampleChartData
 				)}
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				{GraphPresets.FULL(
 					'composed-bar-line',
 					sampleChartData
 				)}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {

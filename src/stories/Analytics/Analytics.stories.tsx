@@ -9,7 +9,7 @@ const meta: Meta<typeof Analytics> = {
 		docs: {
 			description: {
 				component:
-					'Unified analytics system that can create any analytics type through configuration. Supports dashboards, real-time metrics, reports, performance monitoring, and data visualization.',
+					'Analytics system that can create any analytics type through configuration. Supports dashboards, real-time metrics, reports, performance monitoring, and data visualization.',
 			},
 		},
 	},

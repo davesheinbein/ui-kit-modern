@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Wrapper } from '../../components/Wrappers';
 import { Utility } from '../../components/Utility';
 import { UtilityKind } from '../../components/Utility/configurations';
 
@@ -378,11 +379,11 @@ export const Stack: Story = {
 		kind: 'stack',
 		size: 'md',
 		children: (
-			<div>
-				<div>Stack item 1</div>
-				<div>Stack item 2</div>
-				<div>Stack item 3</div>
-			</div>
+			<Wrapper>
+				<Wrapper>Stack item 1</Wrapper>
+				<Wrapper>Stack item 2</Wrapper>
+				<Wrapper>Stack item 3</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -392,11 +393,11 @@ export const InlineStack: Story = {
 		kind: 'inline-stack',
 		size: 'md',
 		children: (
-			<div>
+			<Wrapper>
 				<span>Inline item 1</span>
 				<span>Inline item 2</span>
 				<span>Inline item 3</span>
-			</div>
+			</Wrapper>
 		),
 	},
 };

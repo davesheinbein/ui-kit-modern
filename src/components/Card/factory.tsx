@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { Wrapper } from '../Wrappers';
 import Card, { CardProps } from './Card';
 import {
 	CARD_CONFIGURATIONS,

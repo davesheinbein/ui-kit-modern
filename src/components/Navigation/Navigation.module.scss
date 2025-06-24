@@ -6,7 +6,7 @@
 @use '../../styles/utilities.scss' as *;
 
 // Base navigation component
-.unifiedNavigation {
+.Navigation {
 	@include container-contained;
 	@include safe-area-padding;
 	position: relative;

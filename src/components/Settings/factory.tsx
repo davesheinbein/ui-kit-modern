@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import UnifiedSettings from './UnifiedSettings';
+import Settings from './Settings';
 import {
 	SETTINGS_CONFIGURATIONS,
 	SettingsKind,
@@ -90,7 +90,7 @@ const SettingsFactory = forwardRef<
 			showFooter ?? finalConfig.showFooter;
 
 		return (
-			<UnifiedSettings
+			<Settings
 				ref={ref}
 				kind={kind}
 				title={finalTitle}

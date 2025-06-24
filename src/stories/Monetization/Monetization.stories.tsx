@@ -1,9 +1,10 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
+import { Wrapper } from '../../components/Wrappers';
 import {
 	MonetizationFactory,
-	UnifiedMonetization,
+	Monetization,
 	MonetizationPresets,
 	QuickMonetization,
 	SimpleMonetizationFactory,
@@ -16,9 +17,9 @@ import {
 // STORYBOOK META
 // =============================================================================
 
-const meta: Meta<typeof UnifiedMonetization> = {
+const meta: Meta<typeof Monetization> = {
 	title: 'Monetization/Monetization',
-	component: UnifiedMonetization,
+	component: Monetization,
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -31,7 +32,7 @@ A comprehensive monetization component system that supports pricing cards, payme
 ## Features
 
 - **Multiple Types**: Pricing cards, subscription plans, payment forms, usage meters, credit displays, and more
-- **DRY Architecture**: Unified system with factory patterns for easy component creation
+- **DRY Architecture**:  system with factory patterns for easy component creation
 - **Customizable**: Full theming, sizing, and behavior configuration
 - **TypeScript**: Full type safety with comprehensive interfaces
 - **Responsive**: Mobile-friendly designs with responsive layouts
@@ -41,7 +42,7 @@ A comprehensive monetization component system that supports pricing cards, payme
 
 ### Basic Pricing Card
 \`\`\`tsx
-<UnifiedMonetization 
+<Monetization 
   kind="pricing-card" 
   plan={pricingPlan}
   onSelect={handlePlanSelect}
@@ -50,7 +51,7 @@ A comprehensive monetization component system that supports pricing cards, payme
 
 ### Usage Meter
 \`\`\`tsx
-<UnifiedMonetization 
+<Monetization 
   kind="usage-meter"
   usage={{ current: 750, limit: 1000, unit: 'API Calls' }}
   onUpgrade={handleUpgrade}
@@ -59,7 +60,7 @@ A comprehensive monetization component system that supports pricing cards, payme
 
 ### Payment Form
 \`\`\`tsx
-<UnifiedMonetization 
+<Monetization 
   kind="payment-form"
   paymentData={{ amount: 29.99, currency: 'USD' }}
   onSubmit={handlePayment}
@@ -333,7 +334,7 @@ export const SubscriptionPlans: Story = {
 
 export const PricingCardVariants: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gridTemplateColumns:
@@ -342,17 +343,17 @@ export const PricingCardVariants: Story = {
 				padding: '2rem',
 			}}
 		>
-			<div style={{ textAlign: 'center' }}>
+			<Wrapper style={{ textAlign: 'center' }}>
 				<h3>Default</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='pricing-card'
 					plan={samplePlans[0]}
 					config={{ variant: 'default' }}
 				/>
-			</div>
-			<div style={{ textAlign: 'center' }}>
+			</Wrapper>
+			<Wrapper style={{ textAlign: 'center' }}>
 				<h3>Premium</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='pricing-card'
 					plan={samplePlans[1]}
 					config={{
@@ -360,10 +361,10 @@ export const PricingCardVariants: Story = {
 						styling: { theme: 'gradient', highlight: true },
 					}}
 				/>
-			</div>
-			<div style={{ textAlign: 'center' }}>
+			</Wrapper>
+			<Wrapper style={{ textAlign: 'center' }}>
 				<h3>Featured</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='pricing-card'
 					plan={samplePlans[2]}
 					config={{
@@ -371,8 +372,8 @@ export const PricingCardVariants: Story = {
 						styling: { theme: 'dark', animation: 'subtle' },
 					}}
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		layout: 'fullscreen',
@@ -381,7 +382,7 @@ export const PricingCardVariants: Story = {
 
 export const UsageMeterStates: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gap: '2rem',
@@ -389,9 +390,9 @@ export const UsageMeterStates: Story = {
 				maxWidth: '600px',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>Low Usage (25%)</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='usage-meter'
 					usage={{
 						current: 250,
@@ -399,10 +400,10 @@ export const UsageMeterStates: Story = {
 						unit: 'API Calls',
 					}}
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Warning Level (85%)</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='usage-meter'
 					usage={{
 						current: 850,
@@ -411,10 +412,10 @@ export const UsageMeterStates: Story = {
 					}}
 					warningThreshold={80}
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Critical Level (98%)</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='usage-meter'
 					usage={{
 						current: 980,
@@ -425,8 +426,8 @@ export const UsageMeterStates: Story = {
 					criticalThreshold={95}
 					onUpgrade={() => console.log('Upgrade needed!')}
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 
@@ -436,14 +437,14 @@ export const UsageMeterStates: Story = {
 
 export const FactoryExamples: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gap: '2rem',
 				padding: '2rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>MonetizationFactory</h3>
 				<MonetizationFactory
 					kind='pricing-card'
@@ -455,31 +456,31 @@ export const FactoryExamples: Story = {
 						},
 					}}
 				/>
-			</div>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h3>MonetizationPresets.premiumPlan</h3>
 				{MonetizationPresets.premiumPlan(
 					samplePlans[1],
 					(plan) => console.log('Selected:', plan)
 				)}
-			</div>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h3>QuickMonetization.UsageBar</h3>
 				<QuickMonetization.UsageBar
 					usage={sampleUsage}
 					onUpgrade={() => console.log('Quick upgrade!')}
 				/>
-			</div>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h3>SimpleMonetizationFactory.creditDisplay</h3>
 				{SimpleMonetizationFactory.creditDisplay(2500, () =>
 					console.log('Buy credits')
 				)}
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		layout: 'fullscreen',
@@ -492,14 +493,14 @@ export const FactoryExamples: Story = {
 
 export const ResponsiveLayout: Story = {
 	render: () => (
-		<div style={{ padding: '1rem' }}>
+		<Wrapper style={{ padding: '1rem' }}>
 			<h2>Responsive Monetization Components</h2>
 			<p>
 				Resize the viewport to see how components adapt to
 				different screen sizes.
 			</p>
 
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
@@ -509,7 +510,7 @@ export const ResponsiveLayout: Story = {
 				}}
 			>
 				{samplePlans.map((plan) => (
-					<UnifiedMonetization
+					<Monetization
 						key={plan.id}
 						kind='pricing-card'
 						plan={plan}
@@ -522,19 +523,21 @@ export const ResponsiveLayout: Story = {
 						}}
 					/>
 				))}
-			</div>
+			</Wrapper>
 
-			<div style={{ marginTop: '3rem', maxWidth: '600px' }}>
+			<Wrapper
+				style={{ marginTop: '3rem', maxWidth: '600px' }}
+			>
 				<h3>Usage Tracking</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='usage-meter'
 					usage={sampleUsage}
 					onUpgrade={() =>
 						console.log('Upgrade from responsive view')
 					}
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		layout: 'fullscreen',
@@ -556,19 +559,19 @@ export const InteractiveDemo: Story = {
 		const [usage, setUsage] = React.useState(750);
 
 		return (
-			<div style={{ padding: '2rem' }}>
+			<Wrapper style={{ padding: '2rem' }}>
 				<h2>Interactive Monetization Demo</h2>
 
-				<div
+				<Wrapper
 					style={{
 						display: 'grid',
 						gap: '2rem',
 						marginTop: '2rem',
 					}}
 				>
-					<div>
+					<Wrapper>
 						<h3>Plan Selection</h3>
-						<div
+						<Wrapper
 							style={{
 								display: 'grid',
 								gridTemplateColumns:
@@ -577,7 +580,7 @@ export const InteractiveDemo: Story = {
 							}}
 						>
 							{samplePlans.map((plan) => (
-								<UnifiedMonetization
+								<Monetization
 									key={plan.id}
 									kind='pricing-card'
 									plan={plan}
@@ -595,22 +598,22 @@ export const InteractiveDemo: Story = {
 									}}
 								/>
 							))}
-						</div>
+						</Wrapper>
 						<p style={{ marginTop: '1rem', color: '#666' }}>
 							Selected Plan: <strong>{selectedPlan}</strong>
 						</p>
-					</div>
+					</Wrapper>
 
-					<div
+					<Wrapper
 						style={{
 							display: 'grid',
 							gridTemplateColumns: '1fr 1fr',
 							gap: '2rem',
 						}}
 					>
-						<div>
+						<Wrapper>
 							<h3>Credits Balance</h3>
-							<UnifiedMonetization
+							<Monetization
 								kind='credit-display'
 								credits={credits}
 								onPurchase={() =>
@@ -618,11 +621,11 @@ export const InteractiveDemo: Story = {
 								}
 								onEarn={() => setCredits(credits + 100)}
 							/>
-						</div>
+						</Wrapper>
 
-						<div>
+						<Wrapper>
 							<h3>API Usage</h3>
-							<UnifiedMonetization
+							<Monetization
 								kind='usage-meter'
 								usage={{
 									current: usage,
@@ -650,10 +653,10 @@ export const InteractiveDemo: Story = {
 							>
 								Use 50 API Calls
 							</Button>
-						</div>
-					</div>
-				</div>
-			</div>
+						</Wrapper>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -667,32 +670,32 @@ export const InteractiveDemo: Story = {
 
 export const LoadingStates: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gap: '2rem',
 				padding: '2rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>Loading Pricing Card</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='pricing-card'
 					plan={samplePlans[1]}
 					loading={true}
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Loading Payment Form</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='payment-form'
 					paymentData={samplePaymentData}
 					loading={true}
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Loading Purchase Button</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='purchase-button'
 					product={{
 						name: 'Premium Plan',
@@ -701,36 +704,36 @@ export const LoadingStates: Story = {
 					}}
 					loading={true}
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 
 export const DisabledStates: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gap: '2rem',
 				padding: '2rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>Disabled Pricing Card</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='pricing-card'
 					plan={samplePlans[1]}
 					disabled={true}
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Disabled Payment Form</h3>
-				<UnifiedMonetization
+				<Monetization
 					kind='payment-form'
 					paymentData={samplePaymentData}
 					disabled={true}
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 };

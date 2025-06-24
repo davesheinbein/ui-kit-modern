@@ -4,10 +4,32 @@
 // Base Wrapper Styles
 // ========================================
 
-.unifiedWrapper {
+.Wrapper {
 	position: relative;
-	display: contents; // Allows wrapper to be transparent in layout
-	overflow: hidden; // Prevent wrapper content overflow
+	display: block;
+	box-sizing: border-box;
+	overflow: hidden;
+	padding: var(--wrapper-padding, 1rem); // Default 16px
+	background: var(--wrapper-bg, var(--color-surface, #fff));
+	border-radius: var(
+		--wrapper-radius,
+		var(--radius-md, 12px)
+	);
+	min-width: 0;
+	box-shadow: var(
+		--wrapper-shadow,
+		0 1px 4px rgba(0, 0, 0, 0.04)
+	);
+	transition:
+		box-shadow 0.2s,
+		background 0.2s;
+
+	@media (max-width: 640px) {
+		padding: var(
+			--wrapper-padding-mobile,
+			0.5rem
+		); // Default 8px
+	}
 
 	&[data-wrapper-kind] {
 		// Debug styling in development only
@@ -29,6 +51,20 @@
 			opacity: 1;
 		}
 	}
+
+	&:focus-within {
+		outline: 2px solid var(--color-primary, #3b82f6);
+		outline-offset: 2px;
+		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+	}
+}
+
+// Utility: elevated wrapper
+.wrapper--elevated {
+	box-shadow:
+		0 4px 16px rgba(0, 0, 0, 0.1),
+		0 1.5px 4px rgba(0, 0, 0, 0.06);
+	background: var(--color-surface-elevated, #f9fafb);
 }
 
 // ========================================
@@ -82,6 +118,7 @@
 	// Styles for provider wrappers
 	// Usually invisible
 	display: contents;
+	padding: 0;
 }
 
 .wrapper--component-wrapper {
@@ -89,11 +126,34 @@
 	// Usually minimal styling to maintain component integrity
 	position: relative;
 	overflow: hidden; // Ensure component content doesn't overflow
+	box-sizing: border-box;
+	padding: var(
+		--wrapper-component-padding,
+		1rem
+	); // Default 16px
+
+	@media (max-width: 640px) {
+		padding: var(
+			--wrapper-component-padding-mobile,
+			0.5rem
+		); // Default 8px
+	}
 }
 
 .wrapper--layout-container {
 	// Base styles for layout containers
 	box-sizing: border-box;
+	padding: var(
+		--wrapper-layout-padding,
+		1.25rem
+	); // Default 20px
+
+	@media (max-width: 640px) {
+		padding: var(
+			--wrapper-layout-padding-mobile,
+			0.75rem
+		); // Default 12px
+	}
 
 	// Ensure containers take full available space
 	&[data-wrapper='flex-container'] {
@@ -174,7 +234,7 @@
 	transform: translateY(-10px);
 	transition: all 0.2s ease;
 
-	.unifiedWrapper:hover & {
+	.Wrapper:hover & {
 		opacity: 1;
 		transform: translateY(0);
 	}
@@ -217,36 +277,36 @@
 // ========================================
 
 // Button Wrappers
-.unifiedWrapper[data-wrapper-kind*='button'] {
+.Wrapper[data-wrapper-kind*='button'] {
 	display: inline-block;
 }
 
 // Header Wrappers
-.unifiedWrapper[data-wrapper-kind*='header'] {
+.Wrapper[data-wrapper-kind*='header'] {
 	display: block;
 	width: 100%;
 }
 
 // Modal Wrappers
-.unifiedWrapper[data-wrapper-kind*='modal'] {
+.Wrapper[data-wrapper-kind*='modal'] {
 	position: fixed;
 	inset: 0;
 	z-index: 1000;
 }
 
 // Grid Wrappers
-.unifiedWrapper[data-wrapper-kind*='grid'] {
+.Wrapper[data-wrapper-kind*='grid'] {
 	display: block;
 }
 
 // Page Wrappers
-.unifiedWrapper[data-wrapper-kind*='page'] {
+.Wrapper[data-wrapper-kind*='page'] {
 	display: block;
 	min-height: 100vh;
 }
 
 // Sidebar Wrappers
-.unifiedWrapper[data-wrapper-kind*='sidebar'] {
+.Wrapper[data-wrapper-kind*='sidebar'] {
 	position: fixed;
 	top: 0;
 	height: 100vh;
@@ -254,7 +314,7 @@
 }
 
 // Provider Wrappers
-.unifiedWrapper[data-wrapper-kind*='provider'] {
+.Wrapper[data-wrapper-kind*='provider'] {
 	display: contents;
 }
 
@@ -263,7 +323,7 @@
 // ========================================
 
 @media (max-width: 768px) {
-	.unifiedWrapper {
+	.Wrapper {
 		// Mobile-specific wrapper adjustments
 
 		&::before {
@@ -292,7 +352,7 @@
 // ========================================
 
 // Development-only styles (when debug mode is on)
-.unifiedWrapper[data-debug='true'] {
+.Wrapper[data-debug='true'] {
 	&::before {
 		opacity: 1;
 		background: #ff6b6b;
@@ -317,7 +377,7 @@
 }
 
 // Production styles (clean, minimal)
-.unifiedWrapper[data-production='true'] {
+.Wrapper[data-production='true'] {
 	&::before,
 	&::after {
 		display: none;
@@ -337,7 +397,7 @@
 // Accessibility Enhancements
 // ========================================
 
-.unifiedWrapper {
+.Wrapper {
 	// Ensure wrappers don't interfere with screen readers
 	&[aria-hidden='true'] {
 		display: none;
@@ -373,7 +433,7 @@
 
 // Reduced motion support
 @media (prefers-reduced-motion: reduce) {
-	.unifiedWrapper,
+	.Wrapper,
 	.migrationHelper,
 	.migrationButton {
 		transition: none;
@@ -390,7 +450,7 @@
 // ========================================
 
 @media print {
-	.unifiedWrapper {
+	.Wrapper {
 		&::before,
 		&::after {
 			display: none;

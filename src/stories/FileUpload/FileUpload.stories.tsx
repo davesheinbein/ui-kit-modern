@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import {
 	FileUpload,
-	UnifiedFileUpload,
 	FileUploadComponents,
 } from '../../components/FileUpload';
 
@@ -277,7 +276,7 @@ export const FactoryAvatarUploader: Story = {
 export const CustomConfiguration: Story = {
 	render: () => {
 		return (
-			<UnifiedFileUpload
+			<FileUpload
 				kind='dropzone'
 				variant='modern'
 				size='large'

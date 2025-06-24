@@ -1,14 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { UnifiedTable } from '../../components/Table';
+import { Wrapper } from '../../components/Wrappers';
+import { Table } from '../../components/Table';
 import {
 	TableFactory,
 	T,
 	TablePresets,
 } from '../../components/Table';
 
-const meta: Meta<typeof UnifiedTable> = {
-	title: 'Tables/UnifiedTable',
-	component: UnifiedTable,
+const meta: Meta<typeof Table> = {
+	title: 'Tables/Table',
+	component: Table,
 	parameters: {
 		layout: 'fullscreen',
 	},
@@ -81,57 +82,16 @@ const meta: Meta<typeof UnifiedTable> = {
 			description: 'Enable row expansion',
 		},
 		pagination: {
-			control: 'boolean',
-			description: 'Enable pagination',
-		},
-		pageSize: {
-			control: { type: 'range', min: 5, max: 100, step: 5 },
-			description: 'Items per page',
-		},
-		showHeader: {
-			control: 'boolean',
-			description: 'Show table header',
-		},
-		showFooter: {
-			control: 'boolean',
-			description: 'Show table footer',
-		},
-		showBorder: {
-			control: 'boolean',
-			description: 'Show table borders',
+			control: 'object',
+			description: 'Pagination configuration object',
 		},
 		stickyHeader: {
 			control: 'boolean',
 			description: 'Sticky table header',
 		},
-		stickyColumns: {
-			control: 'boolean',
-			description: 'Sticky first/last columns',
-		},
-		resizable: {
-			control: 'boolean',
-			description: 'Resizable columns',
-		},
 		loading: {
 			control: 'boolean',
 			description: 'Loading state',
-		},
-		empty: {
-			control: 'boolean',
-			description: 'Empty state',
-		},
-		density: {
-			control: 'select',
-			options: ['compact', 'standard', 'comfortable'],
-			description: 'Row density/spacing',
-		},
-		maxHeight: {
-			control: 'text',
-			description: 'Maximum table height (CSS value)',
-		},
-		virtualScrolling: {
-			control: 'boolean',
-			description: 'Enable virtual scrolling',
 		},
 	},
 };
@@ -518,59 +478,59 @@ export const StatsTable: Story = {
 
 export const AllVariants: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '2rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>Default</h3>
-				<UnifiedTable
+				<Table
 					kind='data-table'
 					columns={sampleColumns.slice(0, 3)}
 					data={sampleData.slice(0, 3)}
 					variant='default'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Minimal</h3>
-				<UnifiedTable
+				<Table
 					kind='data-table'
 					columns={sampleColumns.slice(0, 3)}
 					data={sampleData.slice(0, 3)}
 					variant='minimal'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Striped</h3>
-				<UnifiedTable
+				<Table
 					kind='data-table'
 					columns={sampleColumns.slice(0, 3)}
 					data={sampleData.slice(0, 3)}
 					variant='striped'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Bordered</h3>
-				<UnifiedTable
+				<Table
 					kind='data-table'
 					columns={sampleColumns.slice(0, 3)}
 					data={sampleData.slice(0, 3)}
 					variant='bordered'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Modern</h3>
-				<UnifiedTable
+				<Table
 					kind='data-table'
 					columns={sampleColumns.slice(0, 3)}
 					data={sampleData.slice(0, 3)}
 					variant='modern'
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 

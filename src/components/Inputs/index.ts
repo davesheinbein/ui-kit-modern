@@ -1,6 +1,3 @@
-export { default as UnifiedInput } from './UnifiedInput';
-export type { UnifiedInputProps } from './UnifiedInput';
-
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
 

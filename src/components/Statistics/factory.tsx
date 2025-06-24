@@ -1,8 +1,9 @@
 import React from 'react';
-import UnifiedStatistics, {
-	UnifiedStatisticsProps,
+import { Wrapper } from '../Wrappers';
+import Statistics, {
+	StatisticsProps,
 	StatisticsKind,
-} from './UnifiedStatistics';
+} from './Statistics';
 import {
 	STATISTICS_CONFIGURATIONS,
 	STATISTICS_GROUPS,
@@ -22,9 +23,9 @@ export class StatisticsFactory {
 	 */
 	static create(
 		kind: StatisticsKind,
-		props: Partial<UnifiedStatisticsProps> = {}
-	): React.ReactElement<UnifiedStatisticsProps> {
-		return React.createElement(UnifiedStatistics, {
+		props: Partial<StatisticsProps> = {}
+	): React.ReactElement<StatisticsProps> {
+		return React.createElement(Statistics, {
 			kind,
 			...props,
 		});
@@ -35,13 +36,13 @@ export class StatisticsFactory {
 	 */
 	static createGroup(
 		groupName: keyof typeof STATISTICS_GROUPS,
-		sharedProps: Partial<UnifiedStatisticsProps> = {}
-	): React.ReactElement<UnifiedStatisticsProps>[] {
+		sharedProps: Partial<StatisticsProps> = {}
+	): React.ReactElement<StatisticsProps>[] {
 		const group = STATISTICS_GROUPS[groupName];
 		if (!group) return [];
 
 		return group.map((kind, index) =>
-			React.createElement(UnifiedStatistics, {
+			React.createElement(Statistics, {
 				key: `${groupName}-${index}`,
 				kind,
 				...sharedProps,
@@ -54,8 +55,8 @@ export class StatisticsFactory {
 	 */
 	static createQuick(
 		quickName: keyof typeof QUICK_STATISTICS,
-		props: Partial<UnifiedStatisticsProps> = {}
-	): React.ReactElement<UnifiedStatisticsProps> {
+		props: Partial<StatisticsProps> = {}
+	): React.ReactElement<StatisticsProps> {
 		const quickConfig = QUICK_STATISTICS[quickName];
 		if (!quickConfig) {
 			throw new Error(
@@ -63,7 +64,7 @@ export class StatisticsFactory {
 			);
 		}
 
-		return React.createElement(UnifiedStatistics, {
+		return React.createElement(Statistics, {
 			kind: quickConfig,
 			...props,
 		});
@@ -77,93 +78,92 @@ export class StatisticsFactory {
 
 // Daily statistics shortcuts
 export const Daily = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('daily', props);
 
 export const DailyCard = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('daily-card', props);
 
 export const DailyGrid = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('daily-grid', props);
 
 export const DailyCompact = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('daily-compact', props);
 
 export const DailyDetailed = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('daily-detailed', props);
 
 // VS statistics shortcuts
-export const VS = (
-	props: Partial<UnifiedStatisticsProps> = {}
-) => StatisticsFactory.create('vs', props);
+export const VS = (props: Partial<StatisticsProps> = {}) =>
+	StatisticsFactory.create('vs', props);
 
 export const VSCard = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('vs-card', props);
 
 export const VSComparison = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('vs-comparison', props);
 
 export const VSDetailed = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('vs-detailed', props);
 
 // History statistics shortcuts
 export const History = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('history', props);
 
 export const HistoryCard = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('history-card', props);
 
 export const HistoryTrends = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('history-trends', props);
 
 export const HistoryDetailed = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('history-detailed', props);
 
 // Summary statistics shortcuts
 export const Summary = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('summary', props);
 
 export const SummaryCard = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('summary-card', props);
 
 export const SummaryGrid = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('summary-grid', props);
 
 // Specialized shortcuts
 export const Leaderboard = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('leaderboard', props);
 
 export const Achievements = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('achievements', props);
 
 export const Trends = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('trends', props);
 
 export const Comparison = (
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) => StatisticsFactory.create('comparison', props);
 
 // Layout shortcuts
 export const CompactStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		layout: 'compact',
@@ -172,7 +172,7 @@ export const CompactStats = (
 
 export const ExpandedStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		layout: 'expanded',
@@ -181,7 +181,7 @@ export const ExpandedStats = (
 
 export const MinimalStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		layout: 'minimal',
@@ -191,7 +191,7 @@ export const MinimalStats = (
 // Display shortcuts
 export const CardStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		display: 'card',
@@ -200,7 +200,7 @@ export const CardStats = (
 
 export const GridStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		display: 'grid',
@@ -209,7 +209,7 @@ export const GridStats = (
 
 export const ListStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		display: 'list',
@@ -218,7 +218,7 @@ export const ListStats = (
 
 export const TableStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		display: 'table',
@@ -228,7 +228,7 @@ export const TableStats = (
 // Color scheme shortcuts
 export const BlueStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		colorScheme: 'blue',
@@ -237,7 +237,7 @@ export const BlueStats = (
 
 export const GreenStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		colorScheme: 'green',
@@ -246,7 +246,7 @@ export const GreenStats = (
 
 export const RedStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		colorScheme: 'red',
@@ -255,7 +255,7 @@ export const RedStats = (
 
 export const PurpleStats = (
 	kind: StatisticsKind,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		colorScheme: 'purple',
@@ -269,7 +269,7 @@ export const PurpleStats = (
 // Dashboard presets
 export const DashboardDaily = (
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	Daily({
 		stats,
@@ -280,7 +280,7 @@ export const DashboardDaily = (
 
 export const DashboardVS = (
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	VS({
 		stats,
@@ -291,7 +291,7 @@ export const DashboardVS = (
 
 export const DashboardHistory = (
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	History({
 		stats,
@@ -303,7 +303,7 @@ export const DashboardHistory = (
 // Modal presets
 export const ModalDaily = (
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	Daily({
 		stats,
@@ -315,7 +315,7 @@ export const ModalDaily = (
 
 export const ModalVS = (
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	VS({
 		stats,
@@ -327,7 +327,7 @@ export const ModalVS = (
 
 export const ModalHistory = (
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	History({
 		stats,
@@ -340,7 +340,7 @@ export const ModalHistory = (
 // Mobile presets
 export const MobileDaily = (
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	Daily({
 		stats,
@@ -352,7 +352,7 @@ export const MobileDaily = (
 
 export const MobileVS = (
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	VS({
 		stats,
@@ -364,7 +364,7 @@ export const MobileVS = (
 
 export const MobileHistory = (
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	History({
 		stats,
@@ -382,7 +382,7 @@ export const MobileHistory = (
 export const AnimatedStats = (
 	kind: StatisticsKind,
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		stats,
@@ -395,7 +395,7 @@ export const AnimatedStats = (
 export const StaticStats = (
 	kind: StatisticsKind,
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		stats,
@@ -407,7 +407,7 @@ export const StaticStats = (
 export const HighlightedStats = (
 	kind: StatisticsKind,
 	stats: PlayerStats,
-	props: Partial<UnifiedStatisticsProps> = {}
+	props: Partial<StatisticsProps> = {}
 ) =>
 	StatisticsFactory.create(kind, {
 		stats,

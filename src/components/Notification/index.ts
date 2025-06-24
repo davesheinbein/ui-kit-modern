@@ -1,9 +1,7 @@
-export { default as UnifiedNotification } from './UnifiedNotification';
-export type { UnifiedNotificationProps } from './UnifiedNotification';
+export type { NotificationProps } from './Notification';
 
 // Keep the original Notification component for backward compatibility
 export { default as Notification } from './Notification';
-export type { NotificationProps } from './Notification';
 
 export * from './configurations';
 

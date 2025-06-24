@@ -1,16 +1,17 @@
 import React from 'react';
+import { Wrapper } from '../../components/Wrappers';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import {
-	UnifiedInput,
+	Input,
 	InputFactory,
 	INPUT_CONFIGURATIONS,
 	INPUT_GROUPS,
 } from '../../components/Inputs';
 
-const meta: Meta<typeof UnifiedInput> = {
+const meta: Meta<typeof Input> = {
 	title: 'Inputs/Input',
-	component: UnifiedInput,
+	component: Input,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -99,7 +100,7 @@ const meta: Meta<typeof UnifiedInput> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedInput>;
+type Story = StoryObj<typeof Input>;
 
 // ========================================
 // Basic Input Examples
@@ -152,32 +153,32 @@ export const Number: Story = {
 
 export const Sizes: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '1rem',
 			}}
 		>
-			<UnifiedInput
+			<Input
 				kind='text'
 				size='small'
 				placeholder='Small input'
 				label='Small'
 			/>
-			<UnifiedInput
+			<Input
 				kind='text'
 				size='medium'
 				placeholder='Medium input'
 				label='Medium'
 			/>
-			<UnifiedInput
+			<Input
 				kind='text'
 				size='large'
 				placeholder='Large input'
 				label='Large'
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
@@ -187,38 +188,38 @@ export const Sizes: Story = {
 
 export const Styles: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '1rem',
 			}}
 		>
-			<UnifiedInput
+			<Input
 				kind='text'
 				style='outlined'
 				placeholder='Outlined input'
 				label='Outlined'
 			/>
-			<UnifiedInput
+			<Input
 				kind='text'
 				style='filled'
 				placeholder='Filled input'
 				label='Filled'
 			/>
-			<UnifiedInput
+			<Input
 				kind='text'
 				style='underlined'
 				placeholder='Underlined input'
 				label='Underlined'
 			/>
-			<UnifiedInput
+			<Input
 				kind='text'
 				style='ghost'
 				placeholder='Ghost input'
 				label='Ghost'
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
@@ -228,35 +229,35 @@ export const Styles: Story = {
 
 export const States: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '1rem',
 			}}
 		>
-			<UnifiedInput
+			<Input
 				kind='text'
 				state='default'
 				placeholder='Default state'
 				label='Default'
 				helperText='This is helper text'
 			/>
-			<UnifiedInput
+			<Input
 				kind='text'
 				state='error'
 				placeholder='Error state'
 				label='Error'
 				errorText='This field has an error'
 			/>
-			<UnifiedInput
+			<Input
 				kind='text'
 				state='success'
 				placeholder='Success state'
 				label='Success'
 				successText='This field is valid'
 			/>
-			<UnifiedInput
+			<Input
 				kind='text'
 				state='disabled'
 				disabled
@@ -264,7 +265,7 @@ export const States: Story = {
 				label='Disabled'
 				value='Disabled input'
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
@@ -274,27 +275,24 @@ export const States: Story = {
 
 export const SpecializedInputs: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '1rem',
 			}}
 		>
-			<UnifiedInput kind='username' label='Username' />
-			<UnifiedInput
-				kind='login-email'
-				label='Login Email'
-			/>
-			<UnifiedInput
+			<Input kind='username' label='Username' />
+			<Input kind='login-email' label='Login Email' />
+			<Input
 				kind='confirmation-password'
 				label='Confirm Password'
 			/>
-			<UnifiedInput
+			<Input
 				kind='search-filter'
 				placeholder='Filter results...'
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
@@ -304,7 +302,7 @@ export const SpecializedInputs: Story = {
 
 export const FactoryExamples: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -327,7 +325,7 @@ export const FactoryExamples: Story = {
 			{InputFactory.search({
 				placeholder: 'Created with InputFactory.search()',
 			})}
-		</div>
+		</Wrapper>
 	),
 };
 
@@ -337,7 +335,7 @@ export const FactoryExamples: Story = {
 
 export const InputGroups: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -346,7 +344,7 @@ export const InputGroups: Story = {
 		>
 			{Object.entries(INPUT_GROUPS).map(
 				([groupName, inputTypes]) => (
-					<div key={groupName}>
+					<Wrapper key={groupName}>
 						<h3
 							style={{
 								marginBottom: '1rem',
@@ -355,7 +353,7 @@ export const InputGroups: Story = {
 						>
 							{groupName} Inputs
 						</h3>
-						<div
+						<Wrapper
 							style={{
 								display: 'flex',
 								flexDirection: 'column',
@@ -363,18 +361,18 @@ export const InputGroups: Story = {
 							}}
 						>
 							{inputTypes.map((inputType) => (
-								<UnifiedInput
+								<Input
 									key={inputType}
 									kind={inputType}
 									label={`${inputType.charAt(0).toUpperCase() + inputType.slice(1)} Input`}
 									placeholder={`Enter ${inputType}...`}
 								/>
 							))}
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				)
 			)}
-		</div>
+		</Wrapper>
 	),
 };
 
@@ -384,64 +382,64 @@ export const InputGroups: Story = {
 
 export const WithIcons: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '1rem',
 			}}
 		>
-			<UnifiedInput
+			<Input
 				kind='search'
 				icon='🔍'
 				placeholder='Search with icon...'
 				clearable
 			/>
-			<UnifiedInput
+			<Input
 				kind='email'
 				icon='📧'
 				placeholder='Email with icon...'
 				label='Email Address'
 			/>
-			<UnifiedInput
+			<Input
 				kind='url'
 				icon='🌐'
 				placeholder='Website URL...'
 				label='Website'
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const WithPrefixSuffix: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '1rem',
 			}}
 		>
-			<UnifiedInput
+			<Input
 				kind='url'
 				prefix='https://'
 				placeholder='example.com'
 				label='Website URL'
 			/>
-			<UnifiedInput
+			<Input
 				kind='text'
 				suffix='.com'
 				placeholder='domain'
 				label='Domain Name'
 			/>
-			<UnifiedInput
+			<Input
 				kind='number'
 				prefix='$'
 				suffix='USD'
 				placeholder='0.00'
 				label='Price'
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 

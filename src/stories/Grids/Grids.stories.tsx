@@ -1,4 +1,5 @@
 import React from 'react';
+import { Wrapper } from '../../components/Wrappers';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
 	GridFactory,
@@ -162,7 +163,7 @@ const sampleSolvedGroups = [
 // ===== COMPREHENSIVE GRID OVERVIEW =====
 export const AllGridTypesOverview: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -171,7 +172,7 @@ export const AllGridTypesOverview: Story = {
 			}}
 		>
 			<h2>Basic Grid Types</h2>
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
@@ -179,7 +180,7 @@ export const AllGridTypesOverview: Story = {
 					gap: '2rem',
 				}}
 			>
-				<div>
+				<Wrapper>
 					<h3>Basic Game Grid</h3>
 					<GridFactory
 						kind='game'
@@ -187,27 +188,27 @@ export const AllGridTypesOverview: Story = {
 						selected={['BOOK', 'READ']}
 						onSelect={() => {}}
 					/>
-				</div>
-				<div>
+				</Wrapper>
+				<Wrapper>
 					<h3>Preview Grid</h3>
 					<GridFactory
 						kind='preview'
 						words={sampleWords}
 						preview={true}
 					/>
-				</div>
-				<div>
+				</Wrapper>
+				<Wrapper>
 					<h3>Locked Grid</h3>
 					<GridFactory
 						kind='locked'
 						words={sampleWords}
 						isLocked={true}
 					/>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
 			<h2>VS Mode Grids</h2>
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
@@ -215,7 +216,7 @@ export const AllGridTypesOverview: Story = {
 					gap: '2rem',
 				}}
 			>
-				<div>
+				<Wrapper>
 					<h3>VS Grid</h3>
 					<GridFactory
 						kind='vs-grid'
@@ -226,8 +227,8 @@ export const AllGridTypesOverview: Story = {
 						opponentId='player2'
 						onSelect={() => {}}
 					/>
-				</div>
-				<div>
+				</Wrapper>
+				<Wrapper>
 					<h3>VS Bot Grid</h3>
 					<GridFactory
 						kind='vs-grid'
@@ -237,8 +238,8 @@ export const AllGridTypesOverview: Story = {
 						botDifficulty='medium'
 						onSelect={() => {}}
 					/>
-				</div>
-				<div>
+				</Wrapper>
+				<Wrapper>
 					<h3>VS Multiplayer Grid</h3>
 					<GridFactory
 						kind='vs-grid'
@@ -249,11 +250,11 @@ export const AllGridTypesOverview: Story = {
 						opponentId='player2'
 						onSelect={() => {}}
 					/>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
 			<h2>Special Grid Types</h2>
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gridTemplateColumns:
@@ -261,15 +262,15 @@ export const AllGridTypesOverview: Story = {
 					gap: '2rem',
 				}}
 			>
-				<div>
+				<Wrapper>
 					<h3>Pregame Lockout</h3>
 					<GridFactory
 						kind='pregame-lockout'
 						words={sampleWords}
 						gridSize={{ rows: 4, cols: 4 }}
 					/>
-				</div>
-				<div>
+				</Wrapper>
+				<Wrapper>
 					<h3>Solved Groups Display</h3>
 					<GridFactory
 						kind='solved-groups'
@@ -283,9 +284,9 @@ export const AllGridTypesOverview: Story = {
 							],
 						}}
 					/>
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -626,7 +627,7 @@ export const SolvedGroupsMultiplayer: Story = {
 // ===== COMPREHENSIVE SHOWCASE STORIES =====
 export const GridSizesComparison: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				gap: '20px',
@@ -634,15 +635,15 @@ export const GridSizesComparison: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3 style={{ margin: '0 0 10px 0' }}>2x2 Grid</h3>
 				<GridFactory
 					kind='pregame-lockout'
 					words={['WORD1', 'WORD2', 'WORD3', 'WORD4']}
 					gridSize={{ rows: 2, cols: 2 }}
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3 style={{ margin: '0 0 10px 0' }}>3x3 Grid</h3>
 				<GridFactory
 					kind='pregame-lockout'
@@ -651,8 +652,8 @@ export const GridSizesComparison: Story = {
 						.map((_, i) => `W${i + 1}`)}
 					gridSize={{ rows: 3, cols: 3 }}
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3 style={{ margin: '0 0 10px 0' }}>
 					4x4 Grid (Default)
 				</h3>
@@ -663,8 +664,8 @@ export const GridSizesComparison: Story = {
 						.map((_, i) => `WORD${i + 1}`)}
 					gridSize={{ rows: 4, cols: 4 }}
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -676,9 +677,9 @@ export const GridSizesComparison: Story = {
 	},
 };
 
-export const UnifiedVSDemo: Story = {
+export const VSDemo: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -686,7 +687,7 @@ export const UnifiedVSDemo: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>VS Bot - Medium Difficulty</h3>
 				<GridFactory
 					kind='vs-grid'
@@ -695,8 +696,8 @@ export const UnifiedVSDemo: Story = {
 					playerId='user1'
 					botDifficulty='medium'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>VS Multiplayer - Player vs Player</h3>
 				<GridFactory
 					kind='vs-grid'
@@ -706,8 +707,8 @@ export const UnifiedVSDemo: Story = {
 					playerId='player1'
 					opponentId='player2'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>Basic VS Grid</h3>
 				<GridFactory
 					kind='vs-grid'
@@ -715,14 +716,14 @@ export const UnifiedVSDemo: Story = {
 					selected={['BLUE', 'CYAN']}
 					playerId='player1'
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
 			description: {
 				story:
-					'Demonstration of the unified VS Grid system showing all three modes: bot game, multiplayer, and basic VS grid with their respective styling.',
+					'Demonstration of the  VS Grid system showing all three modes: bot game, multiplayer, and basic VS grid with their respective styling.',
 			},
 		},
 	},
@@ -730,7 +731,7 @@ export const UnifiedVSDemo: Story = {
 
 export const ProperGameFlow: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -738,7 +739,7 @@ export const ProperGameFlow: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3
 					style={{ margin: '0 0 10px 0', color: '#2563eb' }}
 				>
@@ -768,8 +769,8 @@ export const ProperGameFlow: Story = {
 						],
 					}}
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3
 					style={{ margin: '0 0 10px 0', color: '#2563eb' }}
 				>
@@ -790,8 +791,8 @@ export const ProperGameFlow: Story = {
 					selected={['RED', 'BLUE']}
 					playerId='user1'
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -806,7 +807,7 @@ export const ProperGameFlow: Story = {
 // ===== INTERACTIVE DEMOS =====
 export const GridVariantsShowcase: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'grid',
 				gap: '1.5rem',
@@ -815,7 +816,7 @@ export const GridVariantsShowcase: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h4 style={{ marginBottom: '0.5rem' }}>
 					Basic Game Grid
 				</h4>
@@ -825,8 +826,8 @@ export const GridVariantsShowcase: Story = {
 					selected={['BOOK', 'READ']}
 					onSelect={() => {}}
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h4 style={{ marginBottom: '0.5rem' }}>
 					VS Bot Grid
 				</h4>
@@ -837,8 +838,8 @@ export const GridVariantsShowcase: Story = {
 					playerId='player1'
 					botDifficulty='medium'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h4 style={{ marginBottom: '0.5rem' }}>
 					VS Multiplayer Grid
 				</h4>
@@ -850,8 +851,8 @@ export const GridVariantsShowcase: Story = {
 					playerId='player1'
 					opponentId='player2'
 				/>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h4 style={{ marginBottom: '0.5rem' }}>
 					Pregame Lockout
 				</h4>
@@ -862,8 +863,8 @@ export const GridVariantsShowcase: Story = {
 						.map((_, i) => `WORD${i + 1}`)}
 					gridSize={{ rows: 2, cols: 4 }}
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {

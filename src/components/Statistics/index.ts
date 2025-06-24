@@ -1,6 +1,6 @@
-export { default as StatisticsSummary } from './StatisticsSummary';
+export { default as Statistics } from './Statistics';
 export type {
-	StatisticsSummaryProps,
+	StatisticsProps,
 	PlayerStats,
-	StatisticsSummaryMode,
-} from './StatisticsSummary';
+	StatisticsMode,
+} from './Statistics';

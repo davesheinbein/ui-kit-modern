@@ -3,9 +3,7 @@
  */
 
 import React from 'react';
-import UnifiedChart, {
-	UnifiedChartProps,
-} from './UnifiedChart';
+import Chart, { ChartProps } from './Chart';
 import { ChartKind } from './configurations';
 
 export interface ChartFactoryConfig {
@@ -18,9 +16,9 @@ export const ChartFactory = (
 ) => {
 	const finalConfig =
 		typeof config === 'string' ? { kind: config } : config;
-	return (props: Partial<UnifiedChartProps> = {}) => {
+	return (props: Partial<ChartProps> = {}) => {
 		const mergedProps = { ...finalConfig, ...props };
-		return React.createElement(UnifiedChart, mergedProps);
+		return React.createElement(Chart, mergedProps);
 	};
 };
 

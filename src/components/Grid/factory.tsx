@@ -6,10 +6,8 @@
  */
 
 import React from 'react';
-import UnifiedGrid, {
-	GridKind,
-	UnifiedGridProps,
-} from './UnifiedGrid';
+import { Wrapper } from '../Wrappers';
+import Grid, { GridKind, GridProps } from './Grid';
 import {
 	GRID_CONFIGURATIONS,
 	GRID_PRESETS,
@@ -19,7 +17,7 @@ import {
 
 // Factory function props
 export interface GridFactoryProps
-	extends Omit<UnifiedGridProps, 'kind'> {
+	extends Omit<GridProps, 'kind'> {
 	kind: GridKind;
 	overrideConfig?: Partial<GridConfiguration>;
 }
@@ -42,11 +40,7 @@ export const GridFactory: React.FC<GridFactoryProps> = ({
 		:	GRID_CONFIGURATIONS[kind];
 
 	return (
-		<UnifiedGrid
-			kind={kind}
-			configuration={config}
-			{...props}
-		/>
+		<Grid kind={kind} configuration={config} {...props} />
 	);
 };
 
@@ -61,63 +55,57 @@ export class GridFactoryClass {
 	 */
 	static create(
 		kind: GridKind,
-		props: Omit<UnifiedGridProps, 'kind'>
+		props: Omit<GridProps, 'kind'>
 	) {
-		return <UnifiedGrid kind={kind} {...props} />;
+		return <Grid kind={kind} {...props} />;
 	}
 
 	/**
 	 * Create a game grid
 	 */
-	static game(props: Omit<UnifiedGridProps, 'kind'>) {
+	static game(props: Omit<GridProps, 'kind'>) {
 		return this.create('game', props);
 	}
 
 	/**
 	 * Create a VS grid (handles bot, multiplayer, and general VS scenarios)
 	 */
-	static vsGrid(props: Omit<UnifiedGridProps, 'kind'>) {
+	static vsGrid(props: Omit<GridProps, 'kind'>) {
 		return this.create('vs-grid', props);
 	}
 
 	/**
 	 * Create a VS bot grid (alias for backward compatibility)
 	 */
-	static vsBot(props: Omit<UnifiedGridProps, 'kind'>) {
+	static vsBot(props: Omit<GridProps, 'kind'>) {
 		return this.create('vs-grid', props);
 	}
 
 	/**
 	 * Create a VS multiplayer grid (alias for backward compatibility)
 	 */
-	static vsMultiplayer(
-		props: Omit<UnifiedGridProps, 'kind'>
-	) {
+	static vsMultiplayer(props: Omit<GridProps, 'kind'>) {
 		return this.create('vs-grid', props);
 	}
 
 	/**
 	 * Create a pregame lockout grid
 	 */
-	static pregameLockout(
-		props: Omit<UnifiedGridProps, 'kind'>
-	) {
+	static pregameLockout(props: Omit<GridProps, 'kind'>) {
 		return this.create('pregame-lockout', props);
 	}
 
 	/**
 	 * Create a solved groups display
 	 */
-	static solvedGroups(
-		props: Omit<UnifiedGridProps, 'kind'>
-	) {
+	static solvedGroups(props: Omit<GridProps, 'kind'>) {
 		return this.create('solved-groups', props);
 	}
 
 	/**
 	 * Create a preview grid
 	 */
-	static preview(props: Omit<UnifiedGridProps, 'kind'>) {
+	static preview(props: Omit<GridProps, 'kind'>) {
 		return this.create('preview', props);
 	}
 }
@@ -134,8 +122,8 @@ export const GridPresets = {
 	/**
 	 * Standard game grid
 	 */
-	GameGrid: (props: Omit<UnifiedGridProps, 'kind'>) => (
-		<UnifiedGrid
+	GameGrid: (props: Omit<GridProps, 'kind'>) => (
+		<Grid
 			{...GRID_PRESETS.STANDARD_GAME}
 			{...props}
 			kind='game'
@@ -145,8 +133,8 @@ export const GridPresets = {
 	/**
 	 * VS match grid
 	 */
-	VSGrid: (props: Omit<UnifiedGridProps, 'kind'>) => (
-		<UnifiedGrid
+	VSGrid: (props: Omit<GridProps, 'kind'>) => (
+		<Grid
 			{...GRID_PRESETS.VS_MATCH}
 			{...props}
 			kind='vs-grid'
@@ -156,8 +144,8 @@ export const GridPresets = {
 	/**
 	 * Preview grid
 	 */
-	PreviewGrid: (props: Omit<UnifiedGridProps, 'kind'>) => (
-		<UnifiedGrid
+	PreviewGrid: (props: Omit<GridProps, 'kind'>) => (
+		<Grid
 			{...GRID_PRESETS.PREVIEW_GRID}
 			{...props}
 			kind='preview'
@@ -167,11 +155,11 @@ export const GridPresets = {
 	/**
 	 * Locked pregame grid
 	 */
-	LockedGrid: (props: Omit<UnifiedGridProps, 'kind'>) => {
+	LockedGrid: (props: Omit<GridProps, 'kind'>) => {
 		const { locked, ...presetProps } =
 			GRID_PRESETS.LOCKED_PREGAME;
 		return (
-			<UnifiedGrid
+			<Grid
 				{...presetProps}
 				{...props}
 				kind='pregame-lockout'
@@ -193,7 +181,7 @@ export const QuickGrids = {
 		onSelect: (word: string) => void;
 		selected?: string[];
 	}) => (
-		<UnifiedGrid
+		<Grid
 			kind='game'
 			words={props.words}
 			onSelect={props.onSelect}
@@ -212,7 +200,7 @@ export const QuickGrids = {
 		playerId?: string;
 		opponentId?: string;
 	}) => (
-		<UnifiedGrid
+		<Grid
 			kind='vs-grid'
 			words={props.words}
 			selected={props.selected || []}
@@ -233,7 +221,7 @@ export const QuickGrids = {
 		botDifficulty?: string;
 		playerId?: string;
 	}) => (
-		<UnifiedGrid
+		<Grid
 			kind='vs-grid'
 			words={props.words}
 			selected={props.selected || []}
@@ -247,7 +235,7 @@ export const QuickGrids = {
 	 * Preview grid (non-interactive)
 	 */
 	Preview: (props: { words: string[] }) => (
-		<UnifiedGrid
+		<Grid
 			kind='preview'
 			words={props.words}
 			preview={true}
@@ -264,7 +252,7 @@ export const QuickGrids = {
 		}[];
 		activePuzzle?: { groupLabels?: string[] };
 	}) => (
-		<UnifiedGrid
+		<Grid
 			kind='solved-groups'
 			pendingSolvedGroups={props.pendingSolvedGroups}
 			activePuzzle={props.activePuzzle}
@@ -279,7 +267,7 @@ export const QuickGrids = {
 		gridCols: number;
 		gridRows: number;
 	}) => (
-		<UnifiedGrid
+		<Grid
 			kind='pregame-lockout'
 			words={props.gridWords}
 			gridSize={{

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { TextareaFactory } from '../../components/Textareas';
+import { Wrapper } from '../../components/Wrappers';
 import { commonDecorators } from '../config/decorators';
 import { commonArgTypes } from '../config/argTypes';
 
@@ -138,7 +139,7 @@ export const DescriptionStyle: Story = {
 
 export const AllKinds: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -167,6 +168,6 @@ export const AllKinds: Story = {
 				label='Note Textarea'
 				placeholder='Note styling...'
 			/>
-		</div>
+		</Wrapper>
 	),
 };

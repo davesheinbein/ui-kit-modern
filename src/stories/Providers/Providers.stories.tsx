@@ -1,8 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
+import { Wrapper } from '../../components/Wrappers';
 import {
-	UnifiedProvider,
+	Provider,
 	ProviderFactory,
 	P,
 	ProviderPresets,
@@ -10,13 +11,13 @@ import {
 	useUserSettings,
 	useThemePalette,
 } from '../../components/Providers';
-import type { UnifiedProviderProps } from '../../components/Providers';
+import type { ProviderProps } from '../../components/Providers';
 
 // Example component that uses the provider context
 const ProviderDemo: React.FC<{ providerType: string }> = ({
 	providerType,
 }) => (
-	<div
+	<Wrapper
 		style={{
 			padding: '2rem',
 			border: '1px solid #e5e7eb',
@@ -30,7 +31,7 @@ const ProviderDemo: React.FC<{ providerType: string }> = ({
 			This component would consume the context provided by
 			the {providerType}.
 		</p>
-		<div
+		<Wrapper
 			style={{
 				background: '#fff',
 				padding: '1rem',
@@ -41,8 +42,8 @@ const ProviderDemo: React.FC<{ providerType: string }> = ({
 		>
 			{providerType} context is active and available to
 			child components.
-		</div>
-	</div>
+		</Wrapper>
+	</Wrapper>
 );
 
 // Specific demo components for each provider type
@@ -50,13 +51,13 @@ const SocketDemo: React.FC = () => {
 	const socketContext = useSocket();
 
 	if (!socketContext) {
-		return <div>No socket context available</div>;
+		return <Wrapper>No socket context available</Wrapper>;
 	}
 
 	const { isConnected, socket, emit, on } = socketContext;
 
 	return (
-		<div
+		<Wrapper
 			style={{
 				padding: '1rem',
 				border: '1px solid #ddd',
@@ -68,7 +69,7 @@ const SocketDemo: React.FC = () => {
 			<p>
 				Socket: {socket ? 'Available' : 'Not available'}
 			</p>
-			<div
+			<Wrapper
 				style={{
 					marginTop: '1rem',
 					display: 'flex',
@@ -95,8 +96,8 @@ const SocketDemo: React.FC = () => {
 				>
 					Listen for Response
 				</Button>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	);
 };
 
@@ -104,13 +105,15 @@ const UserSettingsDemo: React.FC = () => {
 	const userSettingsContext = useUserSettings();
 
 	if (!userSettingsContext) {
-		return <div>No user settings context available</div>;
+		return (
+			<Wrapper>No user settings context available</Wrapper>
+		);
 	}
 
 	const { settings, setSettings } = userSettingsContext;
 
 	return (
-		<div
+		<Wrapper
 			style={{
 				padding: '1rem',
 				border: '1px solid #ddd',
@@ -118,7 +121,7 @@ const UserSettingsDemo: React.FC = () => {
 			}}
 		>
 			<h3>User Settings</h3>
-			<div style={{ marginBottom: '1rem' }}>
+			<Wrapper style={{ marginBottom: '1rem' }}>
 				<p>
 					Chat Enabled:{' '}
 					{settings?.chatEnabled ? 'Yes' : 'No'}
@@ -131,8 +134,8 @@ const UserSettingsDemo: React.FC = () => {
 					Notifications:{' '}
 					{settings?.notificationsEnabled ? 'Yes' : 'No'}
 				</p>
-			</div>
-			<div
+			</Wrapper>
+			<Wrapper
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -180,8 +183,8 @@ const UserSettingsDemo: React.FC = () => {
 					/>{' '}
 					Notifications Enabled
 				</label>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	);
 };
 
@@ -190,7 +193,7 @@ const ThemePaletteDemo: React.FC = () => {
 
 	if (!themePaletteContext) {
 		return (
-			<div
+			<Wrapper
 				style={{
 					padding: '1rem',
 					border: '1px solid #ddd',
@@ -198,7 +201,7 @@ const ThemePaletteDemo: React.FC = () => {
 				}}
 			>
 				<p>Theme Palette Provider not found</p>
-			</div>
+			</Wrapper>
 		);
 	}
 
@@ -206,7 +209,7 @@ const ThemePaletteDemo: React.FC = () => {
 		themePaletteContext;
 
 	return (
-		<div
+		<Wrapper
 			style={{
 				padding: '1rem',
 				border: '1px solid #ddd',
@@ -218,7 +221,7 @@ const ThemePaletteDemo: React.FC = () => {
 			<h3>Theme Palette Status</h3>
 			<p>Current Theme: {currentTheme}</p>
 			<p>Palette Colors: {Object.keys(palette).length}</p>
-			<div style={{ marginTop: '1rem' }}>
+			<Wrapper style={{ marginTop: '1rem' }}>
 				<Button
 					kind='primary'
 					onClick={() =>
@@ -229,13 +232,13 @@ const ThemePaletteDemo: React.FC = () => {
 				>
 					Switch Theme
 				</Button>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	);
 };
 
 const AchievementListenerDemo: React.FC = () => (
-	<div
+	<Wrapper
 		style={{
 			padding: '1rem',
 			border: '1px solid #ddd',
@@ -247,7 +250,7 @@ const AchievementListenerDemo: React.FC = () => (
 			Achievement listener is active (invisible component
 			that listens for socket events)
 		</p>
-		<div
+		<Wrapper
 			style={{
 				background: '#f0f8ff',
 				padding: '0.75rem',
@@ -256,34 +259,34 @@ const AchievementListenerDemo: React.FC = () => (
 			}}
 		>
 			🏆 Ready to receive achievement notifications
-		</div>
-	</div>
+		</Wrapper>
+	</Wrapper>
 );
 
 // Meta configuration for the DRY Provider system
-const meta: Meta<typeof UnifiedProvider> = {
+const meta: Meta<typeof Provider> = {
 	title: 'Providers/Provider',
-	component: UnifiedProvider,
+	component: Provider,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component: `### Provider (DRY System)
 
-The new unified Provider system provides a single component that can render any provider type through configuration:
+The new  Provider system provides a single component that can render any provider type through configuration:
 
-- **UnifiedProvider**: Main component with kind prop
+- **Provider**: Main component with kind prop
 - **ProviderFactory**: Factory function for programmatic creation  
 - **P**: Ultra-short alias for rapid development
 - **ProviderPresets**: Pre-configured provider patterns
 
 ### Usage Examples:
 
-Using UnifiedProvider with kind prop:
+Using Provider with kind prop:
 \`\`\`tsx
-<UnifiedProvider kind="socket-provider" autoConnect url="/api/socket" />
-<UnifiedProvider kind="user-settings-provider" initialSettings={settings} />
-<UnifiedProvider kind="achievement-socket-listener" />
+<Provider kind="socket-provider" autoConnect url="/api/socket" />
+<Provider kind="user-settings-provider" initialSettings={settings} />
+<Provider kind="achievement-socket-listener" />
 \`\`\`
 
 Using ProviderFactory:
@@ -343,7 +346,7 @@ Available Provider Kinds: socket-provider, user-settings-provider, achievement-s
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedProvider>;
+type Story = StoryObj<typeof Provider>;
 
 // ===== BASIC PROVIDER VARIANTS =====
 
@@ -423,7 +426,7 @@ export const UserSettingsWithDefaults: Story = {
 export const FactoryPattern: Story = {
 	name: '🏭 Factory Pattern Example',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -431,9 +434,9 @@ export const FactoryPattern: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>ProviderFactory Examples:</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -452,9 +455,9 @@ export const FactoryPattern: Story = {
 					>
 						<ProviderDemo providerType='Factory User Settings Provider' />
 					</ProviderFactory>
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -469,7 +472,7 @@ export const FactoryPattern: Story = {
 export const UltraDRYAlias: Story = {
 	name: '⚡ Ultra-DRY Alias (P)',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -477,9 +480,9 @@ export const UltraDRYAlias: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>Ultra-short "P" alias:</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -492,9 +495,9 @@ export const UltraDRYAlias: Story = {
 					<P kind='achievement-socket-listener'>
 						<ProviderDemo providerType='Ultra-DRY Achievement Listener' />
 					</P>
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -509,7 +512,7 @@ export const UltraDRYAlias: Story = {
 export const PresetPatterns: Story = {
 	name: '🎯 Preset Patterns',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -517,9 +520,9 @@ export const PresetPatterns: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>ProviderPresets Examples:</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -534,9 +537,9 @@ export const PresetPatterns: Story = {
 					{ProviderPresets.USER_SETTINGS({
 						theme: 'light',
 					})}
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -553,22 +556,22 @@ export const PresetPatterns: Story = {
 export const NestedProviders: Story = {
 	name: '🔗 Nested Providers',
 	render: () => (
-		<div style={{ padding: '1rem' }}>
+		<Wrapper style={{ padding: '1rem' }}>
 			<h3>Nested Provider Setup:</h3>
-			<UnifiedProvider kind='theme-palette-provider'>
-				<UnifiedProvider
+			<Provider kind='theme-palette-provider'>
+				<Provider
 					kind='user-settings-provider'
 					initialSettings={{
 						theme: 'dark',
 						notifications: true,
 					}}
 				>
-					<UnifiedProvider
+					<Provider
 						kind='socket-provider'
 						autoConnect={true}
 						url='/api/socket'
 					>
-						<div
+						<Wrapper
 							style={{
 								padding: '2rem',
 								border: '2px dashed #d1d5db',
@@ -587,11 +590,11 @@ export const NestedProviders: Story = {
 								<li>Socket Provider</li>
 							</ul>
 							<p>Perfect for a complete app setup!</p>
-						</div>
-					</UnifiedProvider>
-				</UnifiedProvider>
-			</UnifiedProvider>
-		</div>
+						</Wrapper>
+					</Provider>
+				</Provider>
+			</Provider>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -608,7 +611,7 @@ export const NestedProviders: Story = {
 export const AllVariantsShowcase: Story = {
 	name: '🎯 Complete DRY System Showcase',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -616,38 +619,35 @@ export const AllVariantsShowcase: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
-				<h2>🎯 UnifiedProvider with Kind Prop</h2>
+			<Wrapper>
+				<h2>🎯 Provider with Kind Prop</h2>
 				<p>Single component, different kinds:</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
 						gap: '1rem',
 					}}
 				>
-					<UnifiedProvider
-						kind='socket-provider'
-						autoConnect
-					>
+					<Provider kind='socket-provider' autoConnect>
 						<ProviderDemo providerType='DRY System Socket' />
-					</UnifiedProvider>
-					<UnifiedProvider
+					</Provider>
+					<Provider
 						kind='user-settings-provider'
 						initialSettings={{ theme: 'light' }}
 					>
 						<ProviderDemo providerType='DRY System Settings' />
-					</UnifiedProvider>
-					<UnifiedProvider kind='theme-palette-provider'>
+					</Provider>
+					<Provider kind='theme-palette-provider'>
 						<ProviderDemo providerType='DRY System Theme' />
-					</UnifiedProvider>
-				</div>
-			</div>
+					</Provider>
+				</Wrapper>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h2>🏭 Factory Pattern</h2>
 				<p>Programmatic provider creation:</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -657,13 +657,13 @@ export const AllVariantsShowcase: Story = {
 					<ProviderFactory kind='achievement-socket-listener'>
 						<ProviderDemo providerType='Factory Achievement Listener' />
 					</ProviderFactory>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h2>⚡ Ultra-DRY Alias</h2>
 				<p>Maximum convenience with "P":</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -673,16 +673,16 @@ export const AllVariantsShowcase: Story = {
 					<P kind='socket-provider' autoConnect={true}>
 						<ProviderDemo providerType='Ultra-DRY Socket' />
 					</P>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 
-			<div>
+			<Wrapper>
 				<h2>🎯 Preset Patterns</h2>
 				<p>
 					Pre-configured provider patterns for common use
 					cases:
 				</p>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -695,16 +695,16 @@ export const AllVariantsShowcase: Story = {
 						undefined
 					)}
 					{ProviderPresets.USER_SETTINGS({ theme: 'dark' })}
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
 			description: {
 				story: `Complete showcase of the DRY Provider system demonstrating all patterns:
 
-1. **UnifiedProvider**: Single component with kind prop
+1. **Provider**: Single component with kind prop
 2. **ProviderFactory**: Factory function pattern  
 3. **Ultra-DRY Aliases**: P for maximum convenience
 4. **Preset Patterns**: Pre-configured common patterns
@@ -849,7 +849,7 @@ export const AchievementListenerDetailed: Story = {
 export const SocketDRYExamples: Story = {
 	name: '🔌 Socket DRY Examples',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -857,7 +857,7 @@ export const SocketDRYExamples: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>🏭 ProviderFactory Socket:</h3>
 				<ProviderFactory
 					kind='socket-provider'
@@ -866,8 +866,8 @@ export const SocketDRYExamples: Story = {
 				>
 					<SocketDemo />
 				</ProviderFactory>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>⚡ Ultra-DRY (P) Socket:</h3>
 				<P
 					kind='socket-provider'
@@ -876,10 +876,10 @@ export const SocketDRYExamples: Story = {
 				>
 					<SocketDemo />
 				</P>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>🎯 Preset Socket:</h3>
-				<div
+				<Wrapper
 					style={{
 						border: '1px solid #e5e7eb',
 						borderRadius: '8px',
@@ -892,9 +892,9 @@ export const SocketDRYExamples: Story = {
 						'ws://localhost:3000'
 					)}
 					<SocketDemo />
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -909,7 +909,7 @@ export const SocketDRYExamples: Story = {
 export const UserSettingsDRYExamples: Story = {
 	name: '⚙️ User Settings DRY Examples',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -917,7 +917,7 @@ export const UserSettingsDRYExamples: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>🏭 ProviderFactory UserSettings:</h3>
 				<ProviderFactory
 					kind='user-settings-provider'
@@ -930,8 +930,8 @@ export const UserSettingsDRYExamples: Story = {
 				>
 					<UserSettingsDemo />
 				</ProviderFactory>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>⚡ Ultra-DRY (P) UserSettings:</h3>
 				<P
 					kind='user-settings-provider'
@@ -944,10 +944,10 @@ export const UserSettingsDRYExamples: Story = {
 				>
 					<UserSettingsDemo />
 				</P>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>🎯 Preset UserSettings:</h3>
-				<div
+				<Wrapper
 					style={{
 						border: '1px solid #e5e7eb',
 						borderRadius: '8px',
@@ -960,9 +960,9 @@ export const UserSettingsDRYExamples: Story = {
 						chatEnabled: true,
 					})}
 					<UserSettingsDemo />
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -977,7 +977,7 @@ export const UserSettingsDRYExamples: Story = {
 export const ThemePaletteDRYExamples: Story = {
 	name: '🎨 Theme Palette DRY Examples',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -985,21 +985,21 @@ export const ThemePaletteDRYExamples: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>🏭 ProviderFactory ThemePalette:</h3>
 				<ProviderFactory kind='theme-palette-provider'>
 					<ThemePaletteDemo />
 				</ProviderFactory>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>⚡ Ultra-DRY (P) ThemePalette:</h3>
 				<P kind='theme-palette-provider'>
 					<ThemePaletteDemo />
 				</P>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>🎯 Preset ThemePalette:</h3>
-				<div
+				<Wrapper
 					style={{
 						border: '1px solid #e5e7eb',
 						borderRadius: '8px',
@@ -1009,9 +1009,9 @@ export const ThemePaletteDRYExamples: Story = {
 					{ProviderPresets.THEME_PALETTE &&
 						ProviderPresets.THEME_PALETTE()}
 					<ThemePaletteDemo />
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -1026,7 +1026,7 @@ export const ThemePaletteDRYExamples: Story = {
 export const AchievementListenerDRYExamples: Story = {
 	name: '🏆 Achievement Listener DRY Examples',
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -1034,21 +1034,21 @@ export const AchievementListenerDRYExamples: Story = {
 				padding: '1rem',
 			}}
 		>
-			<div>
+			<Wrapper>
 				<h3>🏭 ProviderFactory AchievementListener:</h3>
 				<ProviderFactory kind='achievement-socket-listener'>
 					<AchievementListenerDemo />
 				</ProviderFactory>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>⚡ Ultra-DRY (P) AchievementListener:</h3>
 				<P kind='achievement-socket-listener'>
 					<AchievementListenerDemo />
 				</P>
-			</div>
-			<div>
+			</Wrapper>
+			<Wrapper>
 				<h3>🎯 Preset AchievementListener:</h3>
-				<div
+				<Wrapper
 					style={{
 						border: '1px solid #e5e7eb',
 						borderRadius: '8px',
@@ -1058,9 +1058,9 @@ export const AchievementListenerDRYExamples: Story = {
 					{ProviderPresets.ACHIEVEMENT_LISTENER &&
 						ProviderPresets.ACHIEVEMENT_LISTENER()}
 					<AchievementListenerDemo />
-				</div>
-			</div>
-		</div>
+				</Wrapper>
+			</Wrapper>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {

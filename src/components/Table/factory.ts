@@ -6,9 +6,7 @@
  */
 
 import React from 'react';
-import UnifiedTable, {
-	UnifiedTableProps,
-} from './UnifiedTable';
+import Table, { TableProps } from './Table';
 import {
 	TableKind,
 	getTableConfig,
@@ -32,9 +30,9 @@ export const TableFactory = (
 	const finalConfig =
 		typeof config === 'string' ? { kind: config } : config;
 
-	return (props: Partial<UnifiedTableProps> = {}) => {
+	return (props: Partial<TableProps> = {}) => {
 		const mergedProps = { ...finalConfig, ...props };
-		return React.createElement(UnifiedTable, mergedProps);
+		return React.createElement(Table, mergedProps);
 	};
 };
 

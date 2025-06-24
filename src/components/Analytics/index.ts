@@ -1,7 +1,3 @@
-// Consolidated Analytics System exports
-export { default as Analytics } from './Analytics';
-export type { AnalyticsProps } from './Analytics';
-
 // Factory system for backward compatibility
 export {
 	AnalyticsFactory,
@@ -20,8 +16,8 @@ export * from './configurations';
 
 // Legacy component compatibility (for gradual migration)
 // These now point to the consolidated Analytics component
-export { default as UnifiedAnalytics } from './Analytics';
-export type { AnalyticsProps as UnifiedAnalyticsProps } from './Analytics';
+export type { AnalyticsProps } from './Analytics';
+export { default as Analytics } from './Analytics';
 export { default as Dashboard } from './Analytics';
 export { default as MetricsDashboard } from './Analytics';
 export { default as RealtimeAnalytics } from './Analytics';

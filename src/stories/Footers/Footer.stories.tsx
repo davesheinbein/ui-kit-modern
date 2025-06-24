@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Wrapper } from '../../components/Wrappers';
 import { Button } from '../../components/Button';
 import { Footer } from '../../components/Footer';
 import type { FooterProps } from '../../components/Footer/Footer';
@@ -95,7 +96,7 @@ export const WithCenterContent: Story = {
 	args: {
 		copyright: '© 2024 UI Kit',
 		centerContent: (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					gap: '1rem',
@@ -105,7 +106,7 @@ export const WithCenterContent: Story = {
 				<span>🎮</span>
 				<span>Made with ❤️</span>
 				<span>⭐</span>
-			</div>
+			</Wrapper>
 		),
 		links: [
 			{ label: 'GitHub', href: 'https://github.com' },
@@ -117,7 +118,7 @@ export const WithCenterContent: Story = {
 export const CustomContent: Story = {
 	args: {
 		leftContent: (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					alignItems: 'center',
@@ -126,10 +127,10 @@ export const CustomContent: Story = {
 			>
 				<span style={{ fontSize: '1.2rem' }}>🎯</span>
 				<span>Puzzle Game v2.1.0</span>
-			</div>
+			</Wrapper>
 		),
 		centerContent: (
-			<div style={{ display: 'flex', gap: '1rem' }}>
+			<Wrapper kind='flex-container' gap='1rem'>
 				<Button
 					kind='ghost'
 					style={{
@@ -152,10 +153,10 @@ export const CustomContent: Story = {
 				>
 					⚙️
 				</Button>
-			</div>
+			</Wrapper>
 		),
 		rightContent: (
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					alignItems: 'center',
@@ -163,15 +164,15 @@ export const CustomContent: Story = {
 				}}
 			>
 				<span>Status: Online</span>
-				<div
+				<Wrapper
 					style={{
 						width: '8px',
 						height: '8px',
 						borderRadius: '50%',
 						background: '#22c55e',
 					}}
-				></div>
-			</div>
+				></Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -199,7 +200,7 @@ export const InPageLayout: Story = {
 	},
 	decorators: [
 		(Story) => (
-			<div
+			<Wrapper
 				style={{
 					minHeight: '100vh',
 					display: 'flex',
@@ -233,7 +234,7 @@ export const InPageLayout: Story = {
 					</p>
 				</main>
 				<Story />
-			</div>
+			</Wrapper>
 		),
 	],
 };

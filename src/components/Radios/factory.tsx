@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import UnifiedRadio from './UnifiedRadio';
+import Radio from './Radio';
 import {
 	RADIO_CONFIGURATIONS,
 	ExtendedRadioKind,
@@ -59,7 +59,7 @@ export const RadioFactory = forwardRef<
 		}
 
 		return (
-			<UnifiedRadio
+			<Radio
 				ref={ref}
 				name={name}
 				options={options}

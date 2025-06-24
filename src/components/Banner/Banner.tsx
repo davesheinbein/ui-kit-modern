@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { Wrapper } from '../Wrappers';
 import { Button } from '../Button';
 import styles from './Banner.module.scss';
 
@@ -35,7 +36,7 @@ export interface BannerProps {
 /**
  * Base Banner component - provides consistent styling and layout
  * Use this as the foundation for all banner types
- * Similar to the Modal and FormField base components
+ * Similar to the Modal and Forms base components
  */
 const Banner = forwardRef<HTMLDivElement, BannerProps>(
 	(
@@ -72,7 +73,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 			.join(' ');
 
 		return (
-			<div
+			<Wrapper
 				ref={ref}
 				className={bannerClasses}
 				aria-live={ariaLive}
@@ -89,7 +90,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 						×
 					</Button>
 				)}
-			</div>
+			</Wrapper>
 		);
 	}
 );

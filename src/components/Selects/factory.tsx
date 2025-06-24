@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import UnifiedSelect from './UnifiedSelect';
+import Select from './Select';
 import {
 	SELECT_CONFIGURATIONS,
 	ExtendedSelectKind,
@@ -62,8 +62,9 @@ export const SelectFactory = forwardRef<
 		}
 
 		return (
-			<UnifiedSelect
+			<Select
 				ref={ref}
+				kind={kind}
 				options={options}
 				value={value}
 				defaultValue={defaultValue}

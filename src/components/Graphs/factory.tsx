@@ -1,7 +1,6 @@
 import React from 'react';
-import UnifiedGraph, {
-	UnifiedGraphProps,
-} from './UnifiedGraph';
+import { Wrapper } from '../Wrappers';
+import Graph, { GraphProps } from './Graphs';
 import {
 	ExtendedGraphKind,
 	GRAPH_CONFIGURATIONS,
@@ -34,15 +33,9 @@ export class GraphFactory {
 	static create(
 		kind: ExtendedGraphKind,
 		data: any[],
-		overrides: Partial<UnifiedGraphProps> = {}
+		overrides: Partial<GraphProps> = {}
 	): React.ReactElement {
-		return (
-			<UnifiedGraph
-				kind={kind}
-				data={data}
-				{...overrides}
-			/>
-		);
+		return <Graph kind={kind} data={data} {...overrides} />;
 	}
 
 	/**
@@ -52,10 +45,10 @@ export class GraphFactory {
 		kind: ExtendedGraphKind,
 		data: any[],
 		configuration: any = {},
-		overrides: Partial<UnifiedGraphProps> = {}
+		overrides: Partial<GraphProps> = {}
 	): React.ReactElement {
 		return (
-			<UnifiedGraph
+			<Graph
 				kind={kind}
 				data={data}
 				configuration={configuration}
@@ -71,11 +64,11 @@ export class GraphFactory {
 		configs: Array<{
 			kind: ExtendedGraphKind;
 			data: any[];
-			props?: Partial<UnifiedGraphProps>;
+			props?: Partial<GraphProps>;
 		}>
 	): React.ReactElement[] {
 		return configs.map((config, index) => (
-			<UnifiedGraph
+			<Graph
 				key={index}
 				kind={config.kind}
 				data={config.data}
@@ -89,16 +82,13 @@ export class GraphFactory {
 	/**
 	 * Bar chart shortcuts
 	 */
-	static bar(
-		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
-	) {
+	static bar(data: any[], props: Partial<GraphProps> = {}) {
 		return GraphFactory.create('bar', data, props);
 	}
 
 	static horizontalBar(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'bar-horizontal',
@@ -109,7 +99,7 @@ export class GraphFactory {
 
 	static stackedBar(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create('bar-stacked', data, props);
 	}
@@ -119,21 +109,21 @@ export class GraphFactory {
 	 */
 	static line(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create('line', data, props);
 	}
 
 	static smoothLine(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create('line-smooth', data, props);
 	}
 
 	static multiLine(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create('line-multi', data, props);
 	}
@@ -143,14 +133,14 @@ export class GraphFactory {
 	 */
 	static area(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create('area', data, props);
 	}
 
 	static stackedArea(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create('area-stacked', data, props);
 	}
@@ -158,16 +148,13 @@ export class GraphFactory {
 	/**
 	 * Pie chart shortcuts
 	 */
-	static pie(
-		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
-	) {
+	static pie(data: any[], props: Partial<GraphProps> = {}) {
 		return GraphFactory.create('pie', data, props);
 	}
 
 	static doughnut(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create('doughnut', data, props);
 	}
@@ -177,21 +164,21 @@ export class GraphFactory {
 	 */
 	static radar(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create('radar', data, props);
 	}
 
 	static scatter(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create('scatter', data, props);
 	}
 
 	static composed(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'composed-bar-line',
@@ -207,7 +194,7 @@ export class GraphFactory {
 	 */
 	static analyticsTrend(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'analytics-trend',
@@ -218,7 +205,7 @@ export class GraphFactory {
 
 	static analyticsComparison(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'analytics-comparison',
@@ -229,7 +216,7 @@ export class GraphFactory {
 
 	static analyticsDistribution(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'analytics-distribution',
@@ -240,7 +227,7 @@ export class GraphFactory {
 
 	static analyticsPerformance(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'analytics-performance',
@@ -256,7 +243,7 @@ export class GraphFactory {
 	 */
 	static dashboardSummary(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'dashboard-summary',
@@ -267,7 +254,7 @@ export class GraphFactory {
 
 	static dashboardKpi(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'dashboard-kpi',
@@ -278,7 +265,7 @@ export class GraphFactory {
 
 	static dashboardTrend(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'dashboard-trend',
@@ -289,7 +276,7 @@ export class GraphFactory {
 
 	static dashboardMini(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'dashboard-mini',
@@ -305,7 +292,7 @@ export class GraphFactory {
 	 */
 	static statsScoreProgression(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'stats-score-progression',
@@ -316,7 +303,7 @@ export class GraphFactory {
 
 	static statsPerformanceRadar(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'stats-performance-radar',
@@ -327,7 +314,7 @@ export class GraphFactory {
 
 	static statsMatchHistory(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'stats-match-history',
@@ -338,7 +325,7 @@ export class GraphFactory {
 
 	static statsCategoryBreakdown(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'stats-category-breakdown',
@@ -349,7 +336,7 @@ export class GraphFactory {
 
 	static statsTimeSeries(
 		data: any[],
-		props: Partial<UnifiedGraphProps> = {}
+		props: Partial<GraphProps> = {}
 	) {
 		return GraphFactory.create(
 			'stats-time-series',

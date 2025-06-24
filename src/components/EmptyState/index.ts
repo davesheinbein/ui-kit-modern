@@ -6,8 +6,7 @@ export type {
 	EmptyStateConfiguration,
 } from './configurations';
 
-export type { UnifiedEmptyStateProps } from './UnifiedEmptyState';
-export { default as UnifiedEmptyState } from './UnifiedEmptyState';
+export type { EmptyStateProps } from './EmptyState';
 export { default as EmptyState } from './EmptyState';
 export {
 	EmptyStateFactory,

@@ -6,9 +6,8 @@
  */
 
 import React from 'react';
-import UnifiedPage, {
-	UnifiedPageProps,
-} from './UnifiedPage';
+import { Wrapper } from '../Wrappers';
+import Page, { PageProps } from './Page';
 import {
 	getPageConfiguration,
 	createPageConfig,
@@ -16,7 +15,7 @@ import {
 } from './configurations';
 
 // Factory function for creating pages
-export const PageFactory: React.FC<UnifiedPageProps> = ({
+export const PageFactory: React.FC<PageProps> = ({
 	kind,
 	configuration,
 	...props
@@ -27,7 +26,7 @@ export const PageFactory: React.FC<UnifiedPageProps> = ({
 		:	getPageConfiguration(kind);
 
 	return (
-		<UnifiedPage
+		<Page
 			kind={kind}
 			configuration={finalConfig}
 			{...props}
@@ -43,52 +42,52 @@ export const P = PageFactory;
 // Preset page components for common use cases
 export const PagePresets = {
 	// Startup page preset
-	Startup: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	Startup: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='startup' {...props} />
 	),
 
 	// Landing page preset
-	Landing: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	Landing: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='landing' {...props} />
 	),
 
 	// Dashboard page preset
-	Dashboard: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	Dashboard: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='dashboard' {...props} />
 	),
 
 	// Settings page preset
-	Settings: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	Settings: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='settings' {...props} />
 	),
 
 	// Profile page preset
-	Profile: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	Profile: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='profile' {...props} />
 	),
 
 	// Game page preset
-	Game: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	Game: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='game' {...props} />
 	),
 
 	// Browse page preset
-	Browse: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	Browse: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='browse' {...props} />
 	),
 
 	// Results page preset
-	Results: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	Results: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='results' {...props} />
 	),
 
 	// About page preset
-	About: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	About: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='about' {...props} />
 	),
 
 	// Help page preset
-	Help: (props: Omit<UnifiedPageProps, 'kind'>) => (
+	Help: (props: Omit<PageProps, 'kind'>) => (
 		<PageFactory kind='help' {...props} />
 	),
 };
@@ -96,7 +95,7 @@ export const PagePresets = {
 // Utility function to create page with custom configuration
 export const createPage = (
 	kind: ExtendedPageKind,
-	props?: Omit<UnifiedPageProps, 'kind'>,
+	props?: Omit<PageProps, 'kind'>,
 	configOverrides?: any
 ) => {
 	const config =

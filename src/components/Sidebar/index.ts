@@ -1,9 +1,7 @@
-export { default as UnifiedSidebar } from './UnifiedSidebar';
 export type {
 	SidebarKind,
-	UnifiedSidebarProps,
 	SidebarVariant,
-} from './UnifiedSidebar';
+} from './Sidebar';
 
 // Base Sidebar component
 export {
@@ -14,8 +12,6 @@ export type {
 	SidebarProps,
 	FriendsSidebarProps,
 } from './Sidebar';
-
-export * from './configurations';
 
 export {
 	default as SidebarFactory,

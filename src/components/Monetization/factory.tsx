@@ -6,9 +6,9 @@
  */
 
 import React, { forwardRef } from 'react';
-import UnifiedMonetization, {
-	UnifiedMonetizationProps,
-} from './UnifiedMonetization';
+import Monetization, {
+	MonetizationProps,
+} from './Monetization';
 import {
 	MonetizationKind,
 	PricingPlan,
@@ -19,7 +19,7 @@ import {
 
 // Factory function for creating monetization components
 export const MonetizationFactory: React.FC<
-	UnifiedMonetizationProps
+	MonetizationProps
 > = ({ kind, config, ...props }) => {
 	const finalConfig =
 		config ?
@@ -27,7 +27,7 @@ export const MonetizationFactory: React.FC<
 		:	createMonetizationConfig(kind);
 
 	return (
-		<UnifiedMonetization
+		<Monetization
 			kind={kind}
 			config={finalConfig}
 			{...props}
@@ -220,7 +220,7 @@ export const MonetizationPresets = {
 
 export const createMonetization = (
 	kind: MonetizationKind,
-	props: Omit<UnifiedMonetizationProps, 'kind'> = {}
+	props: Omit<MonetizationProps, 'kind'> = {}
 ): React.ReactElement => {
 	return <MonetizationFactory kind={kind} {...props} />;
 };
@@ -232,7 +232,7 @@ export const createMonetization = (
 export class SimpleMonetizationFactory {
 	static create(
 		kind: MonetizationKind,
-		props: Omit<UnifiedMonetizationProps, 'kind'> = {}
+		props: Omit<MonetizationProps, 'kind'> = {}
 	): React.ReactElement {
 		return <MonetizationFactory kind={kind} {...props} />;
 	}

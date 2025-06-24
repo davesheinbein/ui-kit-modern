@@ -1,7 +1,5 @@
 import React, { forwardRef } from 'react';
-import UnifiedProvider, {
-	UnifiedProviderProps,
-} from './UnifiedProvider';
+import Providers, { ProviderProps } from './Providers';
 import {
 	PROVIDER_CONFIGURATIONS,
 	ProviderKind,
@@ -67,9 +65,9 @@ const ProviderFactory = forwardRef<
 		const finalInitialSettings =
 			initialSettings ?? finalConfig.initialSettings;
 
-		// Use UnifiedProvider directly with all the props
+		// Use Provider directly with all the props
 		return (
-			<UnifiedProvider
+			<Providers
 				ref={ref}
 				kind={kind}
 				session={session}
@@ -80,7 +78,7 @@ const ProviderFactory = forwardRef<
 				{...props}
 			>
 				{children}
-			</UnifiedProvider>
+			</Providers>
 		);
 	}
 );
@@ -166,30 +164,26 @@ export class SimpleProviderFactory {
 	 */
 	static create(
 		kind: ProviderKind,
-		props: Partial<UnifiedProviderProps> = {}
+		props: Partial<ProviderProps> = {}
 	) {
-		return <UnifiedProvider kind={kind} {...props} />;
+		return <Providers kind={kind} {...props} />;
 	}
 
 	// Convenience methods for common providers
-	static socket(props: Partial<UnifiedProviderProps> = {}) {
+	static socket(props: Partial<ProviderProps> = {}) {
 		return this.create('socket-provider', props);
 	}
 
-	static userSettings(
-		props: Partial<UnifiedProviderProps> = {}
-	) {
+	static userSettings(props: Partial<ProviderProps> = {}) {
 		return this.create('user-settings-provider', props);
 	}
 
-	static themePalette(
-		props: Partial<UnifiedProviderProps> = {}
-	) {
+	static themePalette(props: Partial<ProviderProps> = {}) {
 		return this.create('theme-palette-provider', props);
 	}
 
 	static achievementListener(
-		props: Partial<UnifiedProviderProps> = {}
+		props: Partial<ProviderProps> = {}
 	) {
 		return this.create(
 			'achievement-socket-listener',

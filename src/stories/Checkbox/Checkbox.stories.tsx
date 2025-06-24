@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { CheckboxFactory } from '../../components/Checkbox';
+import { Wrapper } from '../../components/Wrappers';
 import { ThemePaletteProvider } from '../../components/Providers';
 
 const meta: Meta<typeof CheckboxFactory> = {
@@ -144,7 +145,7 @@ export const Default: Story = {
 
 export const AllVariants: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -212,13 +213,13 @@ export const AllVariants: Story = {
 				size='large'
 				checked
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const ToggleVariants: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -277,13 +278,13 @@ export const ToggleVariants: Story = {
 				size='large'
 				checked
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const SwitchVariants: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -342,13 +343,13 @@ export const SwitchVariants: Story = {
 				size='large'
 				checked
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const ErrorAndHelperText: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -375,13 +376,13 @@ export const ErrorAndHelperText: Story = {
 				label='Switch with helper text'
 				helperText='This controls a system setting'
 			/>
-		</div>
+		</Wrapper>
 	),
 };
 
 export const FormExample: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{
 				maxWidth: '400px',
 				padding: '2rem',
@@ -390,7 +391,7 @@ export const FormExample: Story = {
 			}}
 		>
 			<h3>Account Settings</h3>
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -418,8 +419,8 @@ export const FormExample: Story = {
 					variant='success'
 					helperText='Recommended for account security'
 				/>
-			</div>
-		</div>
+			</Wrapper>
+		</Wrapper>
 	),
 };
 
@@ -440,38 +441,38 @@ export const DarkModeToggle: Story = {
 export const DarkModeToggleSizes: Story = {
 	render: () => (
 		<ThemePaletteProvider>
-			<div
+			<Wrapper
 				style={{
 					display: 'flex',
 					alignItems: 'center',
 					gap: '2rem',
 				}}
 			>
-				<div style={{ textAlign: 'center' }}>
+				<Wrapper style={{ textAlign: 'center' }}>
 					<p>Small</p>
 					<CheckboxFactory
 						kind='dark-mode-toggle'
 						size='small'
 						darkModeContext={true}
 					/>
-				</div>
-				<div style={{ textAlign: 'center' }}>
+				</Wrapper>
+				<Wrapper style={{ textAlign: 'center' }}>
 					<p>Medium</p>
 					<CheckboxFactory
 						kind='dark-mode-toggle'
 						size='medium'
 						darkModeContext={true}
 					/>
-				</div>
-				<div style={{ textAlign: 'center' }}>
+				</Wrapper>
+				<Wrapper style={{ textAlign: 'center' }}>
 					<p>Large</p>
 					<CheckboxFactory
 						kind='dark-mode-toggle'
 						size='large'
 						darkModeContext={true}
 					/>
-				</div>
-			</div>
+				</Wrapper>
+			</Wrapper>
 		</ThemePaletteProvider>
 	),
 };
@@ -479,7 +480,7 @@ export const DarkModeToggleSizes: Story = {
 export const DarkModeToggleInContainer: Story = {
 	render: () => (
 		<ThemePaletteProvider>
-			<div
+			<Wrapper
 				style={{
 					padding: '2rem',
 					background: '#f5f5f5',
@@ -492,7 +493,7 @@ export const DarkModeToggleInContainer: Story = {
 					kind='dark-mode-toggle'
 					darkModeContext={true}
 				/>
-			</div>
+			</Wrapper>
 		</ThemePaletteProvider>
 	),
 };
@@ -500,7 +501,7 @@ export const DarkModeToggleInContainer: Story = {
 export const CheckboxSettingsPanel: Story = {
 	render: () => (
 		<ThemePaletteProvider>
-			<div
+			<Wrapper
 				style={{
 					maxWidth: '400px',
 					padding: '2rem',
@@ -510,21 +511,21 @@ export const CheckboxSettingsPanel: Story = {
 				}}
 			>
 				<h3>User Preferences</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
 						gap: '1.5rem',
 					}}
 				>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							justifyContent: 'space-between',
 							alignItems: 'center',
 						}}
 					>
-						<div>
+						<Wrapper>
 							<strong>Dark Mode</strong>
 							<p
 								style={{
@@ -535,12 +536,12 @@ export const CheckboxSettingsPanel: Story = {
 							>
 								Switch between light and dark themes
 							</p>
-						</div>
+						</Wrapper>
 						<CheckboxFactory
 							kind='dark-mode-toggle'
 							darkModeContext={true}
 						/>
-					</div>
+					</Wrapper>
 					<hr
 						style={{
 							margin: 0,
@@ -548,14 +549,14 @@ export const CheckboxSettingsPanel: Story = {
 							borderTop: '1px solid #e5e7eb',
 						}}
 					/>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							justifyContent: 'space-between',
 							alignItems: 'center',
 						}}
 					>
-						<div>
+						<Wrapper>
 							<strong>Notifications</strong>
 							<p
 								style={{
@@ -566,21 +567,21 @@ export const CheckboxSettingsPanel: Story = {
 							>
 								Receive updates and alerts
 							</p>
-						</div>
+						</Wrapper>
 						<CheckboxFactory
 							kind='switch'
 							size='medium'
 							checked
 						/>
-					</div>
-					<div
+					</Wrapper>
+					<Wrapper
 						style={{
 							display: 'flex',
 							justifyContent: 'space-between',
 							alignItems: 'center',
 						}}
 					>
-						<div>
+						<Wrapper>
 							<strong>Auto-save</strong>
 							<p
 								style={{
@@ -591,15 +592,15 @@ export const CheckboxSettingsPanel: Story = {
 							>
 								Automatically save your progress
 							</p>
-						</div>
+						</Wrapper>
 						<CheckboxFactory
 							kind='toggle'
 							variant='success'
 							checked
 						/>
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		</ThemePaletteProvider>
 	),
 };
@@ -607,7 +608,7 @@ export const CheckboxSettingsPanel: Story = {
 export const AllCheckboxTypes: Story = {
 	render: () => (
 		<ThemePaletteProvider>
-			<div
+			<Wrapper
 				style={{
 					display: 'grid',
 					gap: '2rem',
@@ -616,11 +617,11 @@ export const AllCheckboxTypes: Story = {
 					padding: '1rem',
 				}}
 			>
-				<div>
+				<Wrapper>
 					<h4 style={{ marginBottom: '1rem' }}>
 						Standard Checkbox
 					</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -643,14 +644,14 @@ export const AllCheckboxTypes: Story = {
 							variant='success'
 							checked
 						/>
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 
-				<div>
+				<Wrapper>
 					<h4 style={{ marginBottom: '1rem' }}>
 						Toggle Switch
 					</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -674,12 +675,12 @@ export const AllCheckboxTypes: Story = {
 							size='large'
 							checked
 						/>
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 
-				<div>
+				<Wrapper>
 					<h4 style={{ marginBottom: '1rem' }}>Switch</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -703,14 +704,14 @@ export const AllCheckboxTypes: Story = {
 							size='small'
 							checked
 						/>
-					</div>
-				</div>
+					</Wrapper>
+				</Wrapper>
 
-				<div>
+				<Wrapper>
 					<h4 style={{ marginBottom: '1rem' }}>
 						Dark Mode Toggle
 					</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -726,7 +727,7 @@ export const AllCheckboxTypes: Story = {
 							size='large'
 							darkModeContext={true}
 						/>
-						<div
+						<Wrapper
 							style={{
 								fontSize: '0.9rem',
 								color: '#666',
@@ -734,17 +735,17 @@ export const AllCheckboxTypes: Story = {
 							}}
 						>
 							Integrated with ThemePaletteProvider
-						</div>
-					</div>
-				</div>
-			</div>
+						</Wrapper>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		</ThemePaletteProvider>
 	),
 	parameters: {
 		docs: {
 			description: {
 				story:
-					'Comprehensive showcase of all checkbox types supported by the unified checkbox factory system.',
+					'Comprehensive showcase of all checkbox types supported by the checkbox factory system.',
 			},
 		},
 	},

@@ -12,8 +12,5 @@ export type {
 
 export * from './configurations';
 
-export { default as UnifiedChat } from './UnifiedChat';
-export type { UnifiedChatProps } from './UnifiedChat';
-
 export { default as Chat } from './Chat';
 export type { ChatProps } from './Chat';

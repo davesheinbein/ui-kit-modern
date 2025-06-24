@@ -1,8 +1,9 @@
 import React from 'react';
-import UnifiedTheme, {
-	UnifiedThemeProps,
+import { Wrapper } from '../Wrappers';
+import Theme, {
+	ThemeProps,
 	ThemeKind,
-} from './UnifiedTheme';
+} from './Theme';
 import {
 	THEME_CONFIGURATIONS,
 	THEME_GROUPS,
@@ -23,9 +24,9 @@ export class ThemeFactory {
 	 */
 	static create(
 		kind: ThemeKind,
-		props: Partial<UnifiedThemeProps> = {}
-	): React.ReactElement<UnifiedThemeProps> {
-		return React.createElement(UnifiedTheme, {
+		props: Partial<ThemeProps> = {}
+	): React.ReactElement<ThemeProps> {
+		return React.createElement(Theme, {
 			kind,
 			...props,
 		});
@@ -36,13 +37,13 @@ export class ThemeFactory {
 	 */
 	static createGroup(
 		groupName: keyof typeof THEME_GROUPS,
-		sharedProps: Partial<UnifiedThemeProps> = {}
-	): React.ReactElement<UnifiedThemeProps>[] {
+		sharedProps: Partial<ThemeProps> = {}
+	): React.ReactElement<ThemeProps>[] {
 		const group = THEME_GROUPS[groupName];
 		if (!group) return [];
 
 		return group.map((kind, index) =>
-			React.createElement(UnifiedTheme, {
+			React.createElement(Theme, {
 				key: `${groupName}-${index}`,
 				kind: kind as ExtendedThemeKind,
 				...sharedProps,
@@ -55,8 +56,8 @@ export class ThemeFactory {
 	 */
 	static createQuick(
 		quickName: keyof typeof QUICK_THEMES,
-		props: Partial<UnifiedThemeProps> = {}
-	): React.ReactElement<UnifiedThemeProps> {
+		props: Partial<ThemeProps> = {}
+	): React.ReactElement<ThemeProps> {
 		const quickConfig = QUICK_THEMES[quickName];
 		if (!quickConfig) {
 			throw new Error(
@@ -64,7 +65,7 @@ export class ThemeFactory {
 			);
 		}
 
-		return React.createElement(UnifiedTheme, {
+		return React.createElement(Theme, {
 			kind: quickConfig,
 			...props,
 		});
@@ -78,125 +79,125 @@ export class ThemeFactory {
 
 // Basic theme selectors
 export const ThemeSelector = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector', props);
 
 export const ThemeSwatches = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-swatches', props);
 
 export const ThemeDropdown = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-dropdown', props);
 
 export const ThemeCards = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-cards', props);
 
 export const ThemeGrid = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-grid', props);
 
 // Layout shortcuts
 export const HorizontalThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-horizontal', props);
 
 export const VerticalThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-vertical', props);
 
 export const CompactThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-compact', props);
 
 export const ExpandedThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-expanded', props);
 
 // Size shortcuts
 export const SmallThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-small', props);
 
 export const MediumThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-medium', props);
 
 export const LargeThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-large', props);
 
 // Feature shortcuts
 export const LabeledThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-with-labels', props);
 
 export const UnlabeledThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-no-labels', props);
 
 export const PreviewThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-with-preview', props);
 
 export const NoPreviewThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-no-preview', props);
 
 export const AnimatedThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-animated', props);
 
 export const StaticThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('selector-static', props);
 
 // Specialized shortcuts
 export const ThemePalette = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('palette-provider', props);
 
 export const ThemeSwitcher = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('theme-switcher', props);
 
 export const CustomThemeBuilder = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('custom-theme-builder', props);
 
 export const VSModeThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('vs-mode-selector', props);
 
 // Responsive shortcuts
 export const MobileThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('mobile-optimized', props);
 
 export const DesktopThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('desktop-optimized', props);
 
 export const TabletThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('tablet-optimized', props);
 
 // Context-specific shortcuts
 export const ModalThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('modal-theme-selector', props);
 
 export const SidebarThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('sidebar-theme-selector', props);
 
 export const HeaderThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('header-theme-selector', props);
 
 export const FooterThemes = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) => ThemeFactory.create('footer-theme-selector', props);
 
 /**
@@ -205,7 +206,7 @@ export const FooterThemes = (
 
 // Dashboard presets
 export const DashboardThemeSelector = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeSelector({
 		size: 'small',
@@ -217,7 +218,7 @@ export const DashboardThemeSelector = (
 
 // Modal presets
 export const ModalThemeSelector = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeCards({
 		size: 'large',
@@ -229,7 +230,7 @@ export const ModalThemeSelector = (
 
 // Sidebar presets
 export const SidebarThemeSelector = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeDropdown({
 		size: 'small',
@@ -239,7 +240,7 @@ export const SidebarThemeSelector = (
 
 // Header presets
 export const HeaderThemeSelector = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeDropdown({
 		size: 'small',
@@ -249,7 +250,7 @@ export const HeaderThemeSelector = (
 
 // Mobile presets
 export const MobileThemeSelector = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeDropdown({
 		size: 'small',
@@ -259,7 +260,7 @@ export const MobileThemeSelector = (
 
 // Desktop presets
 export const DesktopThemeSelector = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeSwatches({
 		size: 'large',
@@ -277,7 +278,7 @@ export const DesktopThemeSelector = (
 // Create theme selector with specific themes
 export const CustomThemeSelector = (
 	themes: ThemeDefinition[] | string[],
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeFactory.create('selector', {
 		themes,
@@ -286,7 +287,7 @@ export const CustomThemeSelector = (
 
 // Create theme selector with animation
 export const AnimatedThemeSelector = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeFactory.create('selector', {
 		animated: true,
@@ -297,7 +298,7 @@ export const AnimatedThemeSelector = (
 
 // Create theme selector without animation (for performance)
 export const StaticThemeSelector = (
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeFactory.create('selector', {
 		animated: false,
@@ -309,7 +310,7 @@ export const StaticThemeSelector = (
 // Create theme selector with custom styling
 export const StyledThemeSelector = (
 	className: string,
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeFactory.create('selector', {
 		className,
@@ -320,7 +321,7 @@ export const StyledThemeSelector = (
 export const ControlledThemeSelector = (
 	value: string,
 	onChange: (theme: string) => void,
-	props: Partial<UnifiedThemeProps> = {}
+	props: Partial<ThemeProps> = {}
 ) =>
 	ThemeFactory.create('selector', {
 		value,

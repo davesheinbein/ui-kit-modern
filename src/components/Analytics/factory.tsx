@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { Wrapper } from '../Wrappers';
 import Analytics from './Analytics';
 import { Button } from '../Button';
 import styles from './Analytics.module.scss';
@@ -69,14 +70,14 @@ export const AnalyticsBodyFactory = forwardRef<
 		switch (kind) {
 			case 'dashboard':
 				return (
-					<div
+					<Wrapper
 						ref={ref}
 						className={styles.dashboardContainer}
 						{...props}
 					>
-						<div className={styles.dashboardHeader}>
+						<Wrapper className={styles.dashboardHeader}>
 							<h2 className={styles.title}>{title}</h2>
-							<div className={styles.controls}>
+							<Wrapper className={styles.controls}>
 								{onRefresh && (
 									<Button
 										kind='ghost'
@@ -96,91 +97,95 @@ export const AnalyticsBodyFactory = forwardRef<
 										Export
 									</Button>
 								)}
-							</div>
-						</div>
-						<div className={styles.dashboardGrid}>
+							</Wrapper>
+						</Wrapper>
+						<Wrapper className={styles.dashboardGrid}>
 							{metric && (
-								<div className={styles.metricCard}>
-									<div className={styles.metricValue}>
+								<Wrapper className={styles.metricCard}>
+									<Wrapper className={styles.metricValue}>
 										{metric.value}
-									</div>
-									<div className={styles.metricLabel}>
+									</Wrapper>
+									<Wrapper className={styles.metricLabel}>
 										{metric.label}
-									</div>
+									</Wrapper>
 									{metric.change && (
-										<div
+										<Wrapper
 											className={`${styles.metricChange} ${
 												styles[metric.trend || 'neutral']
 											}`}
 										>
 											{metric.change > 0 ? '+' : ''}
 											{metric.change}%
-										</div>
+										</Wrapper>
 									)}
-								</div>
+								</Wrapper>
 							)}
 							{data.length > 0 && (
-								<div className={styles.chartContainer}>
-									<div className={styles.chartPlaceholder}>
+								<Wrapper className={styles.chartContainer}>
+									<Wrapper
+										className={styles.chartPlaceholder}
+									>
 										📊 Chart visualization would go here
-									</div>
-								</div>
+									</Wrapper>
+								</Wrapper>
 							)}
-						</div>
+						</Wrapper>
 						{error && (
-							<div className={styles.errorMessage}>
+							<Wrapper className={styles.errorMessage}>
 								Error: {error}
-							</div>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				);
 
 			case 'realtime':
 				return (
-					<div
+					<Wrapper
 						ref={ref}
 						className={styles.realtimeContainer}
 						{...props}
 					>
-						<div className={styles.realtimeHeader}>
+						<Wrapper className={styles.realtimeHeader}>
 							<h3 className={styles.title}>{title}</h3>
-							<div className={styles.liveIndicator}>
+							<Wrapper className={styles.liveIndicator}>
 								<span className={styles.liveDot}></span>
 								LIVE
-							</div>
-						</div>
-						<div className={styles.realtimeMetrics}>
+							</Wrapper>
+						</Wrapper>
+						<Wrapper className={styles.realtimeMetrics}>
 							{metric && (
-								<div className={styles.realtimeMetric}>
+								<Wrapper className={styles.realtimeMetric}>
 									<span className={styles.value}>
 										{metric.value}
 									</span>
 									<span className={styles.label}>
 										{metric.label}
 									</span>
-								</div>
+								</Wrapper>
 							)}
-						</div>
+						</Wrapper>
 						{data.length > 0 && (
-							<div className={styles.realtimeChart}>
-								<div className={styles.chartPlaceholder}>
+							<Wrapper className={styles.realtimeChart}>
+								<Wrapper
+									className={styles.chartPlaceholder}
+								>
 									📈 Real-time chart
-								</div>
-							</div>
+								</Wrapper>
+							</Wrapper>
 						)}
-					</div>
+					</Wrapper>
 				);
 
 			case 'reports':
 				return (
-					<div
+					<Wrapper
 						ref={ref}
 						className={styles.reportsContainer}
 						{...props}
 					>
-						<div className={styles.reportsHeader}>
+						<Wrapper className={styles.reportsHeader}>
 							<h3 className={styles.title}>{title}</h3>
-							<div className={styles.timeRangeSelector}>
+							<Wrapper className={styles.timeRangeSelector}>
 								<select
 									value={timeRange}
 									className={styles.timeRangeSelect}
@@ -192,90 +197,92 @@ export const AnalyticsBodyFactory = forwardRef<
 									<option value='90d'>Last 90 Days</option>
 									<option value='1y'>Last Year</option>
 								</select>
-							</div>
-						</div>
-						<div className={styles.reportsContent}>
+							</Wrapper>
+						</Wrapper>
+						<Wrapper className={styles.reportsContent}>
 							{data.length > 0 ?
-								<div className={styles.reportsTable}>
-									<div className={styles.tablePlaceholder}>
+								<Wrapper className={styles.reportsTable}>
+									<Wrapper
+										className={styles.tablePlaceholder}
+									>
 										📋 Reports table would go here
-									</div>
-								</div>
-							:	<div className={styles.noData}>
+									</Wrapper>
+								</Wrapper>
+							:	<Wrapper className={styles.noData}>
 									No data available for selected time range
-								</div>
+								</Wrapper>
 							}
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				);
 
 			case 'metrics':
 				return (
-					<div
+					<Wrapper
 						ref={ref}
 						className={styles.metricsContainer}
 						{...props}
 					>
-						<div className={styles.metricsHeader}>
+						<Wrapper className={styles.metricsHeader}>
 							<h3 className={styles.title}>{title}</h3>
-						</div>
-						<div className={styles.metricsGrid}>
+						</Wrapper>
+						<Wrapper className={styles.metricsGrid}>
 							{metric && (
-								<div className={styles.metricCard}>
-									<div className={styles.metricIcon}>
+								<Wrapper className={styles.metricCard}>
+									<Wrapper className={styles.metricIcon}>
 										📊
-									</div>
-									<div className={styles.metricContent}>
-										<div className={styles.metricValue}>
+									</Wrapper>
+									<Wrapper className={styles.metricContent}>
+										<Wrapper className={styles.metricValue}>
 											{metric.value}
-										</div>
-										<div className={styles.metricLabel}>
+										</Wrapper>
+										<Wrapper className={styles.metricLabel}>
 											{metric.label}
-										</div>
-									</div>
-								</div>
+										</Wrapper>
+									</Wrapper>
+								</Wrapper>
 							)}
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				);
 
 			case 'performance':
 				return (
-					<div
+					<Wrapper
 						ref={ref}
 						className={styles.performanceContainer}
 						{...props}
 					>
-						<div className={styles.performanceHeader}>
+						<Wrapper className={styles.performanceHeader}>
 							<h3 className={styles.title}>{title}</h3>
-							<div className={styles.performanceScore}>
+							<Wrapper className={styles.performanceScore}>
 								{metric?.value || 85}
-							</div>
-						</div>
-						<div className={styles.performanceMetrics}>
-							<div className={styles.performanceBar}>
-								<div
+							</Wrapper>
+						</Wrapper>
+						<Wrapper className={styles.performanceMetrics}>
+							<Wrapper className={styles.performanceBar}>
+								<Wrapper
 									className={styles.performanceFill}
 									style={{
 										width: `${metric?.value || 85}%`,
 									}}
-								></div>
-							</div>
-							<div className={styles.performanceLabel}>
+								></Wrapper>
+							</Wrapper>
+							<Wrapper className={styles.performanceLabel}>
 								{metric?.label || 'Overall Performance'}
-							</div>
-						</div>
-					</div>
+							</Wrapper>
+						</Wrapper>
+					</Wrapper>
 				);
 
 			default:
 				return (
-					<div ref={ref} {...props}>
-						<div className={styles.defaultAnalytics}>
+					<Wrapper ref={ref} {...props}>
+						<Wrapper className={styles.defaultAnalytics}>
 							<h3>{title}</h3>
 							<p>Default analytics view</p>
-						</div>
-					</div>
+						</Wrapper>
+					</Wrapper>
 				);
 		}
 	}
@@ -307,7 +314,7 @@ export interface AnalyticsFactoryProps {
 
 /**
  * AnalyticsFactory - Main factory component for creating analytics
- * This replaces all individual analytics components with a unified system
+ * This replaces all individual analytics components with a system
  */
 export const AnalyticsFactory = forwardRef<
 	HTMLDivElement,

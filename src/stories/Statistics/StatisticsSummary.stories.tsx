@@ -1,13 +1,14 @@
 import React from 'react';
+import { Wrapper } from '../../components/Wrappers';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
-	StatisticsSummary,
-	StatisticsSummaryProps,
+	Statistics,
+	StatisticsProps,
 } from '../../components/Statistics';
 
-const meta: Meta<typeof StatisticsSummary> = {
-	title: 'Statistics/StatisticsSummary',
-	component: StatisticsSummary,
+const meta: Meta<typeof Statistics> = {
+	title: 'Statistics/Statistics',
+	component: Statistics,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -48,10 +49,10 @@ const meta: Meta<typeof StatisticsSummary> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StatisticsSummary>;
+type Story = StoryObj<typeof Statistics>;
 
-const Template = (args: StatisticsSummaryProps) => (
-	<StatisticsSummary {...args} />
+const Template = (args: StatisticsProps) => (
+	<Statistics {...args} />
 );
 
 export const Default: Story = {

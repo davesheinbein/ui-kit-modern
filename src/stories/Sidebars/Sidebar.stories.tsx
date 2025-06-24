@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { Wrapper } from '../../components/Wrappers';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import {
-	UnifiedSidebar,
+	Sidebar,
 	SidebarFactory,
 	S,
 	SidebarPresets,
@@ -13,7 +14,7 @@ import {
 const SidebarDemo: React.FC<{ sidebarType: string }> = ({
 	sidebarType,
 }) => (
-	<div style={{ padding: '20px', lineHeight: '1.6' }}>
+	<Wrapper style={{ padding: '20px', lineHeight: '1.6' }}>
 		<h3>Welcome to {sidebarType}</h3>
 		<p>
 			This is demo content for the{' '}
@@ -28,13 +29,13 @@ const SidebarDemo: React.FC<{ sidebarType: string }> = ({
 			You can add any content here including forms, lists,
 			buttons, and more.
 		</p>
-	</div>
+	</Wrapper>
 );
 
 // Meta configuration for the DRY Sidebar system
-const meta: Meta<typeof UnifiedSidebar> = {
+const meta: Meta<typeof Sidebar> = {
 	title: 'Sidebars/Sidebar',
-	component: UnifiedSidebar,
+	component: Sidebar,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -46,7 +47,7 @@ This is the new DRY (Don't Repeat Yourself) sidebar system that replaces individ
 
 ## Features
 
-- **Unified API**: Single component for all sidebar types
+- ** API**: Single component for all sidebar types
 - **50+ Variants**: Comprehensive sidebar configurations
 - **Factory Pattern**: Create sidebars with minimal code
 - **Ultra-DRY**: Shortest possible syntax with \`S()\` function
@@ -67,7 +68,7 @@ This is the new DRY (Don't Repeat Yourself) sidebar system that replaces individ
 <>{SidebarPresets.Friends({ open: true })}</>
 
 // Direct component usage
-<UnifiedSidebar kind="friends" open={true} onClose={() => {}} />
+<Sidebar kind="friends" open={true} onClose={() => {}} />
 \`\`\`
 
 ## Available Sidebar Kinds
@@ -81,7 +82,7 @@ This is the new DRY (Don't Repeat Yourself) sidebar system that replaces individ
 
 ## Migration from Legacy Components
 
-Replace \`<FriendsSidebar>\` with \`<UnifiedSidebar kind="friends">\` or use the factory functions.
+Replace \`<FriendsSidebar>\` with \`<Sidebar kind="friends">\` or use the factory functions.
 				`,
 			},
 		},
@@ -168,14 +169,14 @@ Replace \`<FriendsSidebar>\` with \`<UnifiedSidebar kind="friends">\` or use the
 };
 
 export default meta;
-type Story = StoryObj<typeof UnifiedSidebar>;
+type Story = StoryObj<typeof Sidebar>;
 
 // Interactive demo with controls
 const InteractiveTemplate = (args: any) => {
 	const [isOpen, setIsOpen] = useState(args.open || false);
 
 	return (
-		<div
+		<Wrapper
 			style={{ minHeight: '400px', position: 'relative' }}
 		>
 			<Button
@@ -186,14 +187,14 @@ const InteractiveTemplate = (args: any) => {
 				Open {args.kind} Sidebar
 			</Button>
 
-			<UnifiedSidebar
+			<Sidebar
 				{...args}
 				open={isOpen}
 				onClose={() => setIsOpen(false)}
 			>
 				<SidebarDemo sidebarType={args.kind} />
-			</UnifiedSidebar>
-		</div>
+			</Sidebar>
+		</Wrapper>
 	);
 };
 
@@ -393,14 +394,14 @@ export const FactoryExamples: Story = {
 		};
 
 		return (
-			<div style={{ padding: '20px' }}>
+			<Wrapper style={{ padding: '20px' }}>
 				<h3>Factory Pattern Examples</h3>
 				<p>
 					These examples show different ways to create
 					sidebars using the factory system:
 				</p>
 
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						gap: '10px',
@@ -432,7 +433,7 @@ export const FactoryExamples: Story = {
 					>
 						Legacy: FriendsSidebar
 					</Button>
-				</div>
+				</Wrapper>
 
 				{/* Ultra-DRY example */}
 				{S('friends', {
@@ -469,15 +470,15 @@ export const FactoryExamples: Story = {
 					open={openSidebars['legacy'] || false}
 					onClose={() => closeSidebar('legacy')}
 				>
-					<div style={{ padding: '20px' }}>
+					<Wrapper style={{ padding: '20px' }}>
 						<h3>Legacy FriendsSidebar</h3>
 						<p>
 							This uses the backward-compatible
 							FriendsSidebar component.
 						</p>
-					</div>
+					</Wrapper>
 				</FriendsSidebar>
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -503,7 +504,7 @@ export const WithCustomContent: Story = {
 		kind: 'friends',
 		title: 'Friends List',
 		header: (
-			<div
+			<Wrapper
 				style={{
 					padding: '16px 20px',
 					background: '#f0f9ff',
@@ -522,10 +523,10 @@ export const WithCustomContent: Story = {
 				>
 					With custom styling
 				</p>
-			</div>
+			</Wrapper>
 		),
 		footer: (
-			<div
+			<Wrapper
 				style={{
 					padding: '16px 20px',
 					background: '#f8fafc',
@@ -545,11 +546,11 @@ export const WithCustomContent: Story = {
 				>
 					Custom Footer Button
 				</Button>
-			</div>
+			</Wrapper>
 		),
 		children: (
-			<div style={{ padding: '0' }}>
-				<div
+			<Wrapper style={{ padding: '0' }}>
+				<Wrapper
 					style={{
 						padding: '16px 20px',
 						borderBottom: '1px solid #f1f5f9',
@@ -560,7 +561,7 @@ export const WithCustomContent: Story = {
 					>
 						Online Friends
 					</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							alignItems: 'center',
@@ -568,17 +569,17 @@ export const WithCustomContent: Story = {
 							padding: '8px 0',
 						}}
 					>
-						<div
+						<Wrapper
 							style={{
 								width: '32px',
 								height: '32px',
 								background: '#10b981',
 								borderRadius: '50%',
 							}}
-						></div>
+						></Wrapper>
 						<span>John Doe</span>
-					</div>
-					<div
+					</Wrapper>
+					<Wrapper
 						style={{
 							display: 'flex',
 							alignItems: 'center',
@@ -586,24 +587,24 @@ export const WithCustomContent: Story = {
 							padding: '8px 0',
 						}}
 					>
-						<div
+						<Wrapper
 							style={{
 								width: '32px',
 								height: '32px',
 								background: '#f59e0b',
 								borderRadius: '50%',
 							}}
-						></div>
+						></Wrapper>
 						<span>Jane Smith</span>
-					</div>
-				</div>
-				<div style={{ padding: '16px 20px' }}>
+					</Wrapper>
+				</Wrapper>
+				<Wrapper style={{ padding: '16px 20px' }}>
 					<h4
 						style={{ margin: '0 0 8px', color: '#334155' }}
 					>
 						Offline Friends
 					</h4>
-					<div
+					<Wrapper
 						style={{
 							display: 'flex',
 							alignItems: 'center',
@@ -612,18 +613,18 @@ export const WithCustomContent: Story = {
 							opacity: 0.6,
 						}}
 					>
-						<div
+						<Wrapper
 							style={{
 								width: '32px',
 								height: '32px',
 								background: '#6b7280',
 								borderRadius: '50%',
 							}}
-						></div>
+						></Wrapper>
 						<span>Mike Johnson</span>
-					</div>
-				</div>
-			</div>
+					</Wrapper>
+				</Wrapper>
+			</Wrapper>
 		),
 	},
 };
@@ -634,7 +635,7 @@ export const LegacyFriendsSidebar: Story = {
 		const [isOpen, setIsOpen] = useState(false);
 
 		return (
-			<div
+			<Wrapper
 				style={{ minHeight: '400px', position: 'relative' }}
 			>
 				<Button
@@ -649,7 +650,7 @@ export const LegacyFriendsSidebar: Story = {
 					open={isOpen}
 					onClose={() => setIsOpen(false)}
 				>
-					<div style={{ padding: '20px' }}>
+					<Wrapper style={{ padding: '20px' }}>
 						<h3>Friends List</h3>
 						<p>
 							This is the legacy FriendsSidebar component
@@ -660,9 +661,9 @@ export const LegacyFriendsSidebar: Story = {
 							<li>Friend 2</li>
 							<li>Friend 3</li>
 						</ul>
-					</div>
+					</Wrapper>
 				</FriendsSidebar>
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -674,7 +675,7 @@ This story demonstrates the backward-compatible FriendsSidebar component that no
 ## Migration Notice
 
 For new development, consider using:
-- \`UnifiedSidebar\` with \`kind="friends"\`
+- \`Sidebar\` with \`kind="friends"\`
 - \`S('friends', props)\` for ultra-DRY syntax
 - \`SidebarPresets.Friends(props)\` for preset functions
 
@@ -689,11 +690,11 @@ This component maintains the same API as the original FriendsSidebar for backwar
 
 export const LegacyFriendsSidebarAlwaysOpen: Story = {
 	render: () => (
-		<div
+		<Wrapper
 			style={{ minHeight: '400px', position: 'relative' }}
 		>
 			<FriendsSidebar open={true} onClose={() => {}}>
-				<div style={{ padding: '20px' }}>
+				<Wrapper style={{ padding: '20px' }}>
 					<h3>Friends List</h3>
 					<p>
 						This sidebar is always open for demo purposes.
@@ -703,9 +704,9 @@ export const LegacyFriendsSidebarAlwaysOpen: Story = {
 						<li>Friend 2</li>
 						<li>Friend 3</li>
 					</ul>
-				</div>
+				</Wrapper>
 			</FriendsSidebar>
-		</div>
+		</Wrapper>
 	),
 	parameters: {
 		docs: {
@@ -726,9 +727,9 @@ export const LegacyVsDRYSystemComparison: Story = {
 		const [ultraDryOpen, setUltraDryOpen] = useState(false);
 
 		return (
-			<div style={{ padding: '20px' }}>
+			<Wrapper style={{ padding: '20px' }}>
 				<h3>Legacy vs DRY System Comparison</h3>
-				<div
+				<Wrapper
 					style={{
 						display: 'flex',
 						gap: '10px',
@@ -745,7 +746,7 @@ export const LegacyVsDRYSystemComparison: Story = {
 						kind='secondary'
 						onClick={() => setDryOpen(true)}
 					>
-						UnifiedSidebar (DRY)
+						Sidebar (DRY)
 					</Button>
 					<Button
 						kind='secondary'
@@ -753,34 +754,34 @@ export const LegacyVsDRYSystemComparison: Story = {
 					>
 						S() Ultra-DRY
 					</Button>
-				</div>
+				</Wrapper>
 
 				{/* Legacy FriendsSidebar */}
 				<FriendsSidebar
 					open={legacyOpen}
 					onClose={() => setLegacyOpen(false)}
 				>
-					<div style={{ padding: '20px' }}>
+					<Wrapper style={{ padding: '20px' }}>
 						<h3>Legacy FriendsSidebar</h3>
 						<p>
 							Uses the old API but new DRY system under the
 							hood.
 						</p>
-					</div>
+					</Wrapper>
 				</FriendsSidebar>
 
-				{/* DRY UnifiedSidebar */}
-				<UnifiedSidebar
+				{/* DRY Sidebar */}
+				<Sidebar
 					kind='friends'
 					open={dryOpen}
 					onClose={() => setDryOpen(false)}
 					title='DRY Sidebar'
 				>
-					<div style={{ padding: '20px' }}>
-						<h3>UnifiedSidebar</h3>
+					<Wrapper style={{ padding: '20px' }}>
+						<h3>Sidebar</h3>
 						<p>Modern DRY approach with kind="friends".</p>
-					</div>
-				</UnifiedSidebar>
+					</Wrapper>
+				</Sidebar>
 
 				{/* Ultra-DRY */}
 				{S('friends', {
@@ -788,16 +789,16 @@ export const LegacyVsDRYSystemComparison: Story = {
 					onClose: () => setUltraDryOpen(false),
 					title: 'Ultra-DRY',
 					children: (
-						<div style={{ padding: '20px' }}>
+						<Wrapper style={{ padding: '20px' }}>
 							<h3>S() Ultra-DRY</h3>
 							<p>
 								Shortest possible syntax: S('friends',
 								props)
 							</p>
-						</div>
+						</Wrapper>
 					),
 				})}
-			</div>
+			</Wrapper>
 		);
 	},
 	parameters: {
@@ -807,7 +808,7 @@ export const LegacyVsDRYSystemComparison: Story = {
 This story compares the legacy FriendsSidebar with the new DRY system approaches:
 
 1. **Legacy**: \`<FriendsSidebar>\` - Maintains old API for compatibility
-2. **DRY**: \`<UnifiedSidebar kind="friends">\` - Modern explicit approach  
+2. **DRY**: \`<Sidebar kind="friends">\` - Modern explicit approach  
 3. **Ultra-DRY**: \`S('friends', props)\` - Shortest possible syntax
 
 All three render the same underlying component but with different APIs.

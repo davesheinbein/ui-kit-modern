@@ -96,3 +96,39 @@ export const useAppSelector: TypedUseSelectorHook<RootState> =
 	useSelector;
 
 export default store;
+
+// Minimal root reducer (add your slices as needed)
+// const rootReducer = {};
+
+// Use the same reducers as the main store for Storybook
+const storybookRootReducer = {
+	user: userSlice,
+	ui: uiSlice,
+	theme: themeSlice,
+	socket: socketSlice,
+	game: gameSlice,
+	settings: settingsSlice,
+	notifications: notificationSlice,
+	files: fileSlice,
+	modals: modalSlice,
+	admin: adminSlice,
+	table: tableSlice,
+	navigation: navigationSlice,
+	input: inputSlice,
+};
+
+export const storybookStore = configureStore({
+	reducer: storybookRootReducer,
+});
+
+export type StorybookRootState = ReturnType<
+	typeof storybookStore.getState
+>;
+export type StorybookAppDispatch =
+	typeof storybookStore.dispatch;
+
+// Typed hooks for use throughout Storybook
+export const useStorybookDispatch = () =>
+	useDispatch<StorybookAppDispatch>();
+export const useStorybookSelector: TypedUseSelectorHook<StorybookRootState> =
+	useSelector;

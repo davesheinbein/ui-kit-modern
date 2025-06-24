@@ -1,7 +1,7 @@
 /**
  * Page Configurations - Configuration-driven page types and variants
  *
- * This system allows creating different page types using a single unified component,
+ * This system allows creating different page types using a single component,
  * following the DRY principle and similar to the Button configurations system.
  */
 

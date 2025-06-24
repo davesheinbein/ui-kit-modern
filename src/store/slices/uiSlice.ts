@@ -358,7 +358,7 @@ const uiSlice = createSlice({
 			};
 		},
 
-		updateFormField: (
+		updateForms: (
 			state,
 			action: PayloadAction<{
 				formId: string;
@@ -838,7 +838,7 @@ export const {
 	setTableSearchTerm,
 	toggleTableRowSelection,
 	initializeForm,
-	updateFormField,
+	updateForms,
 	setFormError,
 	clearFormErrors,
 	setFormSubmitting,

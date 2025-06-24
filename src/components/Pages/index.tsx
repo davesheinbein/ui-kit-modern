@@ -1,16 +1,9 @@
 import React from 'react';
+import { Wrapper } from '../Wrappers';
 import { PageFactory } from './factory';
 
-export { default as UnifiedPage } from './UnifiedPage';
-export type {
-	PageKind,
-	UnifiedPageProps,
-	BasePageProps,
-} from './UnifiedPage';
-
-// Keep the original Page component for backward compatibility
 export { default as Page } from './Page';
-export type { PageProps } from './Page';
+export type { PageProps, BasePageProps } from './Page';
 
 export * from './configurations';
 
@@ -20,9 +13,8 @@ export {
 	PagePresets,
 	createPage,
 } from './factory';
-export type { UnifiedPageProps as PageFactoryProps } from './UnifiedPage';
 
-// Legacy components using the unified system
+// Legacy components using the  system
 export interface StartupPageProps {
 	onStartDaily: () => void;
 	onStartCustom: () => void;

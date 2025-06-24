@@ -114,7 +114,7 @@ const modalSlice = createSlice({
 			}
 		},
 
-		setModalFormField: (
+		setModalForms: (
 			state,
 			action: PayloadAction<{
 				id: string;
@@ -238,7 +238,7 @@ export const {
 	removeModal,
 	closeAllModals,
 	updateModalData,
-	setModalFormField,
+	setModalForms,
 	clearModalData,
 	setModalLoading,
 	setModalError,

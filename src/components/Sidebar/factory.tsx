@@ -1,14 +1,8 @@
 import React from 'react';
-import UnifiedSidebar, {
-	UnifiedSidebarProps,
-	SidebarKind,
-} from './UnifiedSidebar';
-import {
-	SIDEBAR_CONFIGURATIONS,
-	SIDEBAR_GROUPS,
-	QUICK_SIDEBARS,
-	SidebarConfiguration,
-} from './configurations';
+import { Wrapper } from '../Wrappers';
+import Sidebar from './Sidebar';
+import type { SidebarProps } from './Sidebar';
+import { ExtendedSidebarKind } from './configurations';
 
 /**
  * Sidebar Factory - Creates sidebars with minimal configuration
@@ -19,10 +13,10 @@ export class SidebarFactory {
 	 * Create a sidebar with a specific kind and minimal props
 	 */
 	static create(
-		kind: SidebarKind,
-		props: Partial<UnifiedSidebarProps> = {}
-	): React.ReactElement<UnifiedSidebarProps> {
-		return React.createElement(UnifiedSidebar, {
+		kind: ExtendedSidebarKind,
+		props: Partial<SidebarProps> = {}
+	): React.ReactElement<SidebarProps> {
+		return React.createElement(Sidebar, {
 			kind,
 			open: false, // Default value
 			...props,
@@ -35,10 +29,10 @@ export class SidebarFactory {
 	static createFromGroup(
 		group: keyof typeof SIDEBAR_GROUPS,
 		index: number = 0,
-		props: Partial<UnifiedSidebarProps> = {}
-	): React.ReactElement<UnifiedSidebarProps> {
+		props: Partial<SidebarProps> = {}
+	): React.ReactElement<SidebarProps> {
 		const kinds = SIDEBAR_GROUPS[group];
-		const kind = kinds[index] as SidebarKind;
+		const kind = kinds[index] as ExtendedSidebarKind;
 		if (!kind) {
 			throw new Error(
 				`Invalid index ${index} for group ${group}`
@@ -52,8 +46,8 @@ export class SidebarFactory {
 	 */
 	static createQuick(
 		preset: keyof typeof QUICK_SIDEBARS,
-		props: Partial<UnifiedSidebarProps> = {}
-	): React.ReactElement<UnifiedSidebarProps> {
+		props: Partial<SidebarProps> = {}
+	): React.ReactElement<SidebarProps> {
 		const kind = QUICK_SIDEBARS[preset];
 		return this.create(kind, props);
 	}
@@ -63,8 +57,8 @@ export class SidebarFactory {
 	 */
 	static createMultiple(
 		configs: Array<{
-			kind: SidebarKind;
-			props?: Partial<UnifiedSidebarProps>;
+			kind: ExtendedSidebarKind;
+			props?: Partial<SidebarProps>;
 			key?: string;
 		}>
 	): React.ReactElement[] {
@@ -79,10 +73,10 @@ export class SidebarFactory {
 	 * Create a sidebar with custom configuration
 	 */
 	static createCustom(
-		baseKind: SidebarKind,
+		baseKind: ExtendedSidebarKind,
 		customConfig: Partial<SidebarConfiguration>,
-		props: Partial<UnifiedSidebarProps> = {}
-	): React.ReactElement<UnifiedSidebarProps> {
+		props: Partial<SidebarProps> = {}
+	): React.ReactElement<SidebarProps> {
 		// This would require extending the system to support runtime config override
 		// For now, just use the base kind and merge props
 		return this.create(baseKind, {
@@ -102,23 +96,23 @@ export class SidebarFactory {
 
 // Main factory function - shortest way to create any sidebar
 export const S = (
-	kind: SidebarKind,
-	props?: Partial<UnifiedSidebarProps>
+	kind: ExtendedSidebarKind,
+	props?: Partial<SidebarProps>
 ) => SidebarFactory.create(kind, props);
 
 // Quick preset functions
 export const SidebarPresets = {
-	Friends: (props?: Partial<UnifiedSidebarProps>) =>
+	Friends: (props?: Partial<SidebarProps>) =>
 		SidebarFactory.createQuick('FRIENDS_DEFAULT', props),
-	FriendsMobile: (props?: Partial<UnifiedSidebarProps>) =>
+	FriendsMobile: (props?: Partial<SidebarProps>) =>
 		SidebarFactory.createQuick('FRIENDS_MOBILE', props),
-	FriendsDesktop: (props?: Partial<UnifiedSidebarProps>) =>
+	FriendsDesktop: (props?: Partial<SidebarProps>) =>
 		SidebarFactory.createQuick('FRIENDS_DESKTOP', props),
-	Settings: (props?: Partial<UnifiedSidebarProps>) =>
+	Settings: (props?: Partial<SidebarProps>) =>
 		SidebarFactory.createQuick('SETTINGS_DEFAULT', props),
-	Chat: (props?: Partial<UnifiedSidebarProps>) =>
+	Chat: (props?: Partial<SidebarProps>) =>
 		SidebarFactory.createQuick('CHAT_DEFAULT', props),
-	Notifications: (props?: Partial<UnifiedSidebarProps>) =>
+	Notifications: (props?: Partial<SidebarProps>) =>
 		SidebarFactory.createQuick(
 			'NOTIFICATIONS_DEFAULT',
 			props
@@ -129,12 +123,12 @@ export const SidebarPresets = {
 export const SidebarGroups = {
 	Friends: (
 		index: number = 0,
-		props?: Partial<UnifiedSidebarProps>
+		props?: Partial<SidebarProps>
 	) =>
 		SidebarFactory.createFromGroup('FRIENDS', index, props),
 	Settings: (
 		index: number = 0,
-		props?: Partial<UnifiedSidebarProps>
+		props?: Partial<SidebarProps>
 	) =>
 		SidebarFactory.createFromGroup(
 			'SETTINGS',
@@ -143,11 +137,11 @@ export const SidebarGroups = {
 		),
 	Chat: (
 		index: number = 0,
-		props?: Partial<UnifiedSidebarProps>
+		props?: Partial<SidebarProps>
 	) => SidebarFactory.createFromGroup('CHAT', index, props),
 	Notifications: (
 		index: number = 0,
-		props?: Partial<UnifiedSidebarProps>
+		props?: Partial<SidebarProps>
 	) =>
 		SidebarFactory.createFromGroup(
 			'NOTIFICATIONS',
@@ -156,12 +150,12 @@ export const SidebarGroups = {
 		),
 	Sizes: (
 		index: number = 0,
-		props?: Partial<UnifiedSidebarProps>
+		props?: Partial<SidebarProps>
 	) =>
 		SidebarFactory.createFromGroup('SIZES', index, props),
 	Behaviors: (
 		index: number = 0,
-		props?: Partial<UnifiedSidebarProps>
+		props?: Partial<SidebarProps>
 	) =>
 		SidebarFactory.createFromGroup(
 			'BEHAVIORS',
@@ -170,7 +164,7 @@ export const SidebarGroups = {
 		),
 	Animations: (
 		index: number = 0,
-		props?: Partial<UnifiedSidebarProps>
+		props?: Partial<SidebarProps>
 	) =>
 		SidebarFactory.createFromGroup(
 			'ANIMATIONS',
@@ -179,7 +173,7 @@ export const SidebarGroups = {
 		),
 	Responsive: (
 		index: number = 0,
-		props?: Partial<UnifiedSidebarProps>
+		props?: Partial<SidebarProps>
 	) =>
 		SidebarFactory.createFromGroup(
 			'RESPONSIVE',
@@ -190,113 +184,118 @@ export const SidebarGroups = {
 
 // Specific sidebar creation functions for common use cases
 export const createFriendsSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('friends', props);
 
 export const createFriendsCompactSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('friends-compact', props);
 
 export const createFriendsExpandedSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('friends-expanded', props);
 
 export const createSettingsSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('settings', props);
 
 export const createChatSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('chat', props);
 
 export const createNotificationsSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('notifications', props);
 
 // Position-specific functions
 export const createLeftSidebar = (
 	variant: 'friends' | 'settings' = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-left` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-left` as ExtendedSidebarKind, props);
 
 export const createRightSidebar = (
 	variant: 'friends' | 'settings' = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-right` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-right` as ExtendedSidebarKind, props);
 
 // Size-specific functions
 export const createSmallSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-small` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-small` as ExtendedSidebarKind, props);
 
 export const createMediumSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-medium` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-medium` as ExtendedSidebarKind, props);
 
 export const createLargeSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-large` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-large` as ExtendedSidebarKind, props);
 
 export const createFullSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-full` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-full` as ExtendedSidebarKind, props);
 
 // Responsive functions
 export const createMobileSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-mobile` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-mobile` as ExtendedSidebarKind, props);
 
 export const createDesktopSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-desktop` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-desktop` as ExtendedSidebarKind, props);
 
 export const createResponsiveSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-responsive` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) =>
+	S(`${variant}-responsive` as ExtendedSidebarKind, props);
 
 // Animation-specific functions
 export const createFadeSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-fade` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-fade` as ExtendedSidebarKind, props);
 
 export const createScaleSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-scale` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-scale` as ExtendedSidebarKind, props);
 
 export const createNoAnimationSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-no-animation` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) =>
+	S(
+		`${variant}-no-animation` as ExtendedSidebarKind,
+		props
+	);
 
 // Behavior-specific functions
 export const createModalSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-modal` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-modal` as ExtendedSidebarKind, props);
 
 export const createSlideSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-slide` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-slide` as ExtendedSidebarKind, props);
 
 export const createPushSidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-push` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-push` as ExtendedSidebarKind, props);
 
 export const createOverlaySidebar = (
 	variant: string = 'friends',
-	props?: Partial<UnifiedSidebarProps>
-) => S(`${variant}-overlay` as SidebarKind, props);
+	props?: Partial<SidebarProps>
+) => S(`${variant}-overlay` as ExtendedSidebarKind, props);
 
 /**
  * Sidebar composition utilities
@@ -307,8 +306,8 @@ export const SidebarComposer = {
 	 */
 	createStack: (
 		configs: Array<{
-			kind: SidebarKind;
-			props?: Partial<UnifiedSidebarProps>;
+			kind: ExtendedSidebarKind;
+			props?: Partial<SidebarProps>;
 		}>
 	) => {
 		return configs.map(({ kind, props = {} }, index) =>
@@ -328,9 +327,9 @@ export const SidebarComposer = {
 	 * Create a responsive sidebar that changes based on screen size
 	 */
 	createResponsive: (
-		mobileKind: SidebarKind,
-		desktopKind: SidebarKind,
-		props?: Partial<UnifiedSidebarProps>
+		mobileKind: ExtendedSidebarKind,
+		desktopKind: ExtendedSidebarKind,
+		props?: Partial<SidebarProps>
 	) => {
 		// This would require media query detection
 		// For now, return the responsive variant
@@ -344,16 +343,16 @@ export const SidebarComposer = {
 export const createSidebar = S;
 export const Sidebar = S;
 export const FriendsSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('friends', props);
 export const SettingsSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('settings', props);
 export const ChatSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('chat', props);
 export const NotificationsSidebar = (
-	props?: Partial<UnifiedSidebarProps>
+	props?: Partial<SidebarProps>
 ) => S('notifications', props);
 
 // Default export is the factory

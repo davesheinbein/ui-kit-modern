@@ -5,8 +5,8 @@ import {
 	getUtilityConfig,
 	UtilityKind,
 } from './configurations';
-import { UnifiedUtilityProps } from './UnifiedUtility';
-import UnifiedUtility from './UnifiedUtility';
+import { UtilityProps } from './Utility';
+import Utility from './Utility';
 
 /**
  * Factory Utility Factory
@@ -14,14 +14,13 @@ import UnifiedUtility from './UnifiedUtility';
  */
 export class UtilityFactory {
 	static create(
-		config: UtilityConfiguration &
-			Partial<UnifiedUtilityProps>
+		config: UtilityConfiguration & Partial<UtilityProps>
 	) {
 		return React.forwardRef<
 			HTMLDivElement,
-			Partial<UnifiedUtilityProps>
+			Partial<UtilityProps>
 		>((props, ref) =>
-			React.createElement(UnifiedUtility, {
+			React.createElement(Utility, {
 				ref,
 				...config,
 				...props,
