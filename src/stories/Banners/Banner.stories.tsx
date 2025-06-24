@@ -1,32 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-	BannerFactory,
-	Banner,
-	Ban,
-	BannerPresets,
-} from '../../components/Banner';
+import { Banner } from '../../components/Banner';
 import { Wrapper } from '../../components/Wrappers';
 
-// Simple action logger for Storybook 9
 const action = (label: string) => () =>
 	console.log(`${label} clicked`);
 
-const meta: Meta<typeof BannerFactory> = {
+const meta: Meta<typeof Banner> = {
 	title: 'Components/Banner',
-	component: BannerFactory,
+	component: Banner,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component: `# Banner System
 
-A comprehensive banner system with multiple variants and a DRY factory pattern.
+A comprehensive banner system with multiple variants and a DRY configuration pattern.
 
 ## Features
 - **Base Component**: Banner - foundational styling and behavior
-- **Factory Pattern**: BannerFactory - create any banner type with configuration
-- **Ultra-DRY**: Ban - shorthand static methods for quick creation
-- **Presets**: BannerPresets - common banner patterns
+- **Ultra-DRY**: Banner - create any banner type with configuration
 
 ## Banner Types
 - **Feedback**: Game completion, user feedback
@@ -37,18 +29,23 @@ A comprehensive banner system with multiple variants and a DRY factory pattern.
 
 ## Usage Examples
 \`\`\`tsx
-// Factory pattern
-<BannerFactory kind="success-toast" message="Saved!" />
+// Feedback banner
+<Banner kind="feedback" message="Game completed!" />
 
-// Ultra-short syntax
-{Ban.toast("Saved!", "success")}
+// Toast notification
+<Banner kind="toast" message="Saved successfully!" type="success" />
 
-// Presets
-{BannerPresets.achievement("Level up!")}
-
-// Base component
-<Banner variant="toast" type="success">Success!</Banner>
-\`\`\``,
+// Status bar
+<Banner
+  kind="status"
+  player={player}
+  opponent={opponent}
+  timer="01:23"
+  showMistakes
+  showTimer
+/>
+\`\`\`
+`,
 			},
 		},
 		layout: 'padded',
@@ -143,7 +140,7 @@ A comprehensive banner system with multiple variants and a DRY factory pattern.
 };
 
 export default meta;
-type Story = StoryObj<typeof BannerFactory>;
+type Story = StoryObj<typeof Banner>;
 
 // ============================================================================
 // BASIC BANNER TYPES
@@ -420,39 +417,6 @@ export const VSStatusBar: Story = {
 // USAGE EXAMPLES WITH DIFFERENT PATTERNS
 // ============================================================================
 
-export const UsingBanShorthand: Story = {
-	name: '⚡ Using Ban Shorthand',
-	render: () => {
-		return (
-			<Wrapper
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					gap: '16px',
-				}}
-			>
-				{Ban.toast('Quick success message!', 'success')}
-				{Ban.toast('Quick error message!', 'error')}
-				{Ban.feedback('Game completed!')}
-				{Ban.notification('System alert', 'achievement')}
-			</Wrapper>
-		);
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: `Examples using the ultra-short Ban syntax:
-\`\`\`tsx
-{Ban.toast('Quick success message!', 'success')}
-{Ban.toast('Quick error message!', 'error')}
-{Ban.feedback('Game completed!')}
-{Ban.notification('System alert', 'achievement')}
-\`\`\``,
-			},
-		},
-	},
-};
-
 export const UsingPresets: Story = {
 	name: '🎨 Using Presets',
 	render: () => {
@@ -464,18 +428,22 @@ export const UsingPresets: Story = {
 					gap: '16px',
 				}}
 			>
-				{BannerPresets.gameComplete(
-					'Congratulations! Perfect score achieved!'
-				)}
-				{BannerPresets.achievement(
-					'Level Up! You reached level 10'
-				)}
-				{BannerPresets.burnPlayer(
-					'Ouch! You got burned by the opponent'
-				)}
-				{BannerPresets.success(
-					'Settings saved successfully'
-				)}
+				<Banner
+					kind='feedback'
+					message='Congratulations! Perfect score achieved!'
+				/>
+				<Banner
+					kind='achievement-notification'
+					message='Level Up! You reached level 10'
+				/>
+				<Banner
+					kind='burn-notification'
+					message='Ouch! You got burned by the opponent'
+				/>
+				<Banner
+					kind='success-toast'
+					message='Settings saved successfully'
+				/>
 			</Wrapper>
 		);
 	},
@@ -483,12 +451,12 @@ export const UsingPresets: Story = {
 		docs: {
 			description: {
 				story: `
-Examples using \`BannerPresets\` for common patterns:
+Examples using the \`Banner\` component for common patterns:
 \`\`\`tsx
-{BannerPresets.gameComplete('Perfect score achieved!')}
-{BannerPresets.achievement('Level Up!')}
-{BannerPresets.burnPlayer('You got burned!')}
-{BannerPresets.success('Settings saved')}
+<Banner kind="feedback" message="Perfect score achieved!" />
+<Banner kind="achievement-notification" message="Level Up!" />
+<Banner kind="burn-notification" message="You got burned!" />
+<Banner kind="success-toast" message="Settings saved" />
 \`\`\`
 				`,
 			},
@@ -600,7 +568,7 @@ export const AllBannerTypes: Story = {
 				>
 					Feedback Banners
 				</h3>
-				<BannerFactory
+				<Banner
 					kind='feedback'
 					message='Game completed successfully!'
 				/>
@@ -613,19 +581,19 @@ export const AllBannerTypes: Story = {
 				>
 					Notification Types
 				</h3>
-				<BannerFactory
+				<Banner
 					kind='burn-notification'
 					message='Player got burned!'
 				/>
-				<BannerFactory
+				<Banner
 					kind='achievement-notification'
 					message='Achievement unlocked!'
 				/>
-				<BannerFactory
+				<Banner
 					kind='system-notification'
 					message='System update available'
 				/>
-				<BannerFactory
+				<Banner
 					kind='taunt-notification'
 					message='Player sent a taunt!'
 				/>
@@ -638,19 +606,19 @@ export const AllBannerTypes: Story = {
 				>
 					Toast Messages
 				</h3>
-				<BannerFactory
+				<Banner
 					kind='success-toast'
 					message='Operation completed successfully'
 				/>
-				<BannerFactory
+				<Banner
 					kind='error-toast'
 					message='Something went wrong'
 				/>
-				<BannerFactory
+				<Banner
 					kind='warning-toast'
 					message='Please check your connection'
 				/>
-				<BannerFactory
+				<Banner
 					kind='info-toast'
 					message='New features available'
 				/>
