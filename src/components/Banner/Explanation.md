@@ -75,7 +75,6 @@ erDiagram
   - `toast(message, type, props)`: Creates a toast banner of a specific type (success, error, warning, info).
   - `status(player, props)`: Creates a status bar banner for VS games.
   - `global(message, props)`: Creates a global toast banner.
-- **Ban**: Ultra-short alias for `BannerFactoryClass`.
 - **BannerPresets**: Object of preset banner creators for common use cases.
   - `gameComplete(message)`, `gameFeedback(message)`, `burnPlayer(message)`, `achievement(message)`, `systemAlert(message)`, `taunt(message)`, `success(message)`, `error(message)`, `warning(message)`, `info(message)`, `vsStatus(player, opponent, timer)`, `globalToast(message)`: Each returns a preconfigured banner for the use case.
 
@@ -89,7 +88,6 @@ erDiagram
 ### index.ts
 
 - Re-exports all main components, types, configuration, factory, and presets for easy import.
-- Provides backward compatibility aliases for legacy codebases.
 
 ---
 

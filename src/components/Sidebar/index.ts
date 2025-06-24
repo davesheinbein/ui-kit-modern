@@ -15,7 +15,6 @@ export type {
 
 export {
 	default as SidebarFactory,
-	S,
 	SidebarPresets,
 	SidebarGroups,
 	SidebarComposer,
@@ -41,8 +40,4 @@ export {
 	createSlideSidebar,
 	createPushSidebar,
 	createOverlaySidebar,
-	createSidebar,
-	SettingsSidebar,
-	ChatSidebar,
-	NotificationsSidebar,
 } from './factory';

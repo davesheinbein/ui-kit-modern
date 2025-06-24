@@ -37,9 +37,6 @@ export const MonetizationFactory: React.FC<
 
 MonetizationFactory.displayName = 'MonetizationFactory';
 
-// Ultra-short alias for the factory
-export const M = MonetizationFactory;
-
 // =============================================================================
 // PRESET CREATORS
 // =============================================================================

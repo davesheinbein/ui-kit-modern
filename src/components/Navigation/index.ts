@@ -6,6 +6,5 @@ export * from './configurations';
 
 export {
 	default as NavigationFactory,
-	N,
 	NavigationPresets,
 } from './factory';

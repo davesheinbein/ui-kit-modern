@@ -9,7 +9,6 @@ export type {
 
 export {
 	default as ProviderFactory,
-	P,
 	ProviderPresets,
 	QuickProviders,
 	SimpleProviderFactory,

@@ -14,7 +14,7 @@ This folder implements a **unified, configuration-driven card system** for the U
 
 - **Configuration-driven**: Each card type (friend, game, profile, notification, etc.) is defined by a `kind` and a configuration object. The factory system uses these to render the correct UI and manage state.
 - **Ultra-DRY**: All card UIs share the same core logic and styles, with only the configuration and content changing per kind.
-- **Presets & Utilities**: Use `CardPresets`, `CardFactory`, or `QuickCards` to quickly add cards anywhere in the app, with sensible defaults and easy overrides.
+- **Presets & Utilities**: Use `CardPresets` or `CardFactory` to quickly add cards anywhere in the app, with sensible defaults and easy overrides.
 
 ## Example Usage
 
@@ -52,7 +52,6 @@ erDiagram
 
 - `Card` is the main entry point for card UIs.
 - `CardFactory` is the internal logic for rendering each kind.
-- `CardPresets` and `QuickCards` provide helpers and shortcuts for common card types.
 - `ExtendedCardKind` and `CARD_CONFIGURATIONS` define the available types and settings.
 - `Card.module.scss` provides all styles.
 
@@ -68,15 +67,12 @@ erDiagram
 ### factory.tsx
 
 - **CardFactory**: Functional component for rendering a card of a given kind. Passes all props to the main `Card` component.
-- **C**: Short alias for `CardFactory`.
 - **CardPresets**: Object of preset card creators for common use cases.
   - `FriendCard(props)`, `ProfileCard(props)`, `NotificationCard(props)`, `StatsCard(props)`, `GameCard(props)`, `PuzzleCard(props)`, `RoomCard(props)`, `MatchCard(props)`, `InfoCard(props)`, `ActionCard(props)`, `ContentCard(props)`: Each returns a preconfigured card for the use case.
 - **CardFactoryClass**: Class with static methods for programmatic card creation.
   - `create(kind, props)`: Creates a card of the given kind with the provided props.
   - `createWithConfig(kind, configOverride, props)`: Creates a card with a custom configuration override.
   - `friend(props)`, `game(props)`, `profile(props)`, `notification(props)`, `stats(props)`: Quick creators for common card types.
-- **QuickCards**: Object of ultra-short aliases and common card patterns.
-  - `f(props)`, `g(props)`, `p(props)`, `n(props)`, `s(props)`: Ultra-short aliases for friend, game, profile, notification, and stats cards.
   - `info(props)`, `action(props)`, `display(props)`: Common card patterns for info, action, and display cards.
 
 ### configurations.ts
@@ -90,7 +86,6 @@ erDiagram
 ### index.ts
 
 - Re-exports all main components, types, configuration, factory, and presets for easy import.
-- Provides backward compatibility aliases for legacy codebases.
 
 ---
 

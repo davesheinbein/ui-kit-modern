@@ -76,11 +76,6 @@ const CheckboxFactoryComponent = forwardRef<
 CheckboxFactoryComponent.displayName = 'CheckboxFactory';
 
 /**
- * Ultra-short alias for rapid checkbox creation
- */
-export const C = CheckboxFactory;
-
-/**
  * Checkbox presets with common patterns
  */
 export const CheckboxPresets = {

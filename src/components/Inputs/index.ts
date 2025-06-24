@@ -4,7 +4,6 @@ export type { InputProps } from './Input';
 export {
 	InputFactory,
 	InputFactoryFunction,
-	I,
 } from './factory';
 
 export type {

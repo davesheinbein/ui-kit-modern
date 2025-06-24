@@ -6,7 +6,6 @@ import {
 	Card,
 	CardFactory,
 	CardPresets,
-	QuickCards,
 } from '../../components/Card';
 
 const meta: Meta<typeof Card> = {

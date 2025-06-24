@@ -81,7 +81,6 @@ erDiagram
 ### factory.tsx
 
 - **PageFactory**: React component that creates a page using the configuration system. Merges configuration and props, then renders the `Page` component.
-- **P**: Alias for `PageFactory`.
 - **PagePresets**: Object containing prebuilt page component factories for all common page kinds (e.g., `Landing`, `Dashboard`).
 - **createPage**: Utility function to create a page with custom configuration and props.
 

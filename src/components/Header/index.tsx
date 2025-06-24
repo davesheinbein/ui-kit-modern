@@ -17,7 +17,6 @@ export * from './configurations';
 
 export {
 	default as HeaderFactory,
-	H,
 	HeaderPresets,
 	createHeader,
 } from './factory';

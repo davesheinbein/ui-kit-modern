@@ -432,41 +432,6 @@ export const PresetExamples: Story = {
 	),
 };
 
-// ===== ULTRA-DRY EXAMPLES (H alias) =====
-
-export const UltraDRYExamples: Story = {
-	name: 'Ultra-DRY Usage (H alias)',
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '2rem',
-			}}
-		>
-			<Wrapper>
-				{H.modal('Ultra Modal', () => alert('Closed!'))}
-			</Wrapper>
-
-			<Wrapper>
-				{H.browse('Ultra Browse', () => alert('Back!'))}
-			</Wrapper>
-
-			<Wrapper>{H.page('Ultra Page')}</Wrapper>
-
-			<Wrapper>
-				{H.dashboard('Ultra Dashboard', [
-					{
-						type: 'menu',
-						handler: () => alert('Menu!'),
-						label: 'Menu',
-					},
-				])}
-			</Wrapper>
-		</Wrapper>
-	),
-};
-
 // ===== LEGACY COMPATIBILITY =====
 
 export const LegacyBrowseHeader: Story = {

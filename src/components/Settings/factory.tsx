@@ -113,12 +113,6 @@ const SettingsFactory = forwardRef<
 SettingsFactory.displayName = 'SettingsFactory';
 
 /**
- * Ultra-DRY Settings shortcuts - for maximum convenience
- * Similar to Button factory but for settings
- */
-export const S = SettingsFactory; // Ultra-short alias
-
-/**
  * Settings presets with common patterns
  */
 export const SettingsPresets = {

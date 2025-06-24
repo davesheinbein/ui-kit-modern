@@ -65,14 +65,12 @@ erDiagram
 ### factory.ts
 
 - **ChartFactory(configOrKind)**: Factory function that returns a function for creating a chart of the given kind/configuration. Enables DRY instantiation of chart UIs.
-- **CF**: Ultra-short alias for `ChartFactory`.
 - **ChartPresets**: Object of preset chart creators for common use cases.
   - `legend`, `legendHorizontal`, `legendVertical`, `legendGrid`, `legendMinimal`, `tooltip`, `tooltipSimple`, `tooltipDetailed`, `tooltipCustom`, `filterControls`, `filterCheckboxes`, `filterButtons`, `filterDropdown`, `filterMultiSelect`, `chartControls`, `zoomControls`, `timeRangeSelector`, `dataSeriesToggle`, `dashboardLegend`, `gameStatsFilter`: Each returns a preconfigured chart for the use case.
 
 ### index.ts
 
 - Re-exports all main components, types, configuration, factory, and presets for easy import.
-- Provides backward compatibility aliases for legacy codebases.
 
 ---
 

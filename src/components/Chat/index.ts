@@ -1,7 +1,6 @@
 export {
 	default as ChatFactory,
 	ChatFactoryClass,
-	ChatFactoryShortcut,
 	ChatPresets,
 	ChatBodyFactory,
 } from './factory';

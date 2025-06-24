@@ -449,11 +449,6 @@ export class ChatFactoryClass {
 }
 
 /**
- * Ultra-DRY Chat shortcuts - for maximum convenience
- */
-export const ChatFactoryShortcut = ChatFactoryClass; // Chat alias
-
-/**
  * Chat presets with common patterns
  */
 export const ChatPresets = {

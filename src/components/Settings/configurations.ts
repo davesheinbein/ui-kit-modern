@@ -1157,14 +1157,6 @@ export const SETTINGS_CONFIGURATIONS = {
 	'accessibility-settings': accessibilitySettings,
 	'privacy-settings': privacySettings,
 
-	// Alias configurations for backward compatibility
-	'panel': settingsPanel,
-	'customization': customizationCategory,
-	'user-prefs': userSettings,
-	'themes': themeSettings,
-	'accessibility': accessibilitySettings,
-	'privacy': privacySettings,
-
 	// Theme appearance configurations (migrated from Themes system)
 	...Object.fromEntries(
 		Object.keys(THEME_CONFIGURATIONS).map((key) => [

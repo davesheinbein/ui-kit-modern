@@ -1,9 +1,6 @@
 import React from 'react';
 import { Wrapper } from '../Wrappers';
-import Theme, {
-	ThemeProps,
-	ThemeKind,
-} from './Theme';
+import Theme, { ThemeProps, ThemeKind } from './Theme';
 import {
 	THEME_CONFIGURATIONS,
 	THEME_GROUPS,
@@ -328,15 +325,6 @@ export const ControlledThemeSelector = (
 		onChange,
 		...props,
 	});
-
-/**
- * Quick creation aliases for maximum DRY usage
- */
-
-// Ultra-short aliases
-export const T = ThemeFactory.create;
-export const TG = ThemeFactory.createGroup;
-export const TQ = ThemeFactory.createQuick;
 
 // Common patterns
 export const Themes = {

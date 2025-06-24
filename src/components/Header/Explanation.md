@@ -8,7 +8,6 @@ The `Header` folder implements a unified, configuration-driven header system for
 
 - **Header.tsx**: The main Header component. Renders all header types based on the `kind` prop and configuration. Handles layout, title, tabs, actions, sticky/collapsible behavior, and custom content.
 - **configurations.ts**: Centralizes all header configuration presets. Defines the `ExtendedHeaderKind` type, configuration interfaces, and a map of default configurations for each kind. Provides helper functions for creating and merging header configurations and actions.
-- **factory.tsx**: Provides the `HeaderFactory`, `H` (ultra-short alias), and `HeaderPresets` for DRY instantiation of headers and common layouts. Enables rapid creation of common patterns and custom headers.
 - **Header.module.scss**: Contains all styles for the header system, including layout, variants, tabs, actions, sticky/collapsible behavior, and responsive design. Uses SCSS modules and project-wide mixins/variables.
 - **index.tsx**: Barrel file that exports the main component, types, configurations, factory, and presets for easy import elsewhere. Also provides a legacy-compatible `BrowseHeader` export.
 
@@ -69,7 +68,6 @@ erDiagram
   - `getConfig`: Returns the configuration for a specific header kind.
   - `createWithOverrides`: Returns a header with custom configuration overrides.
   - Quick creation methods: `modal`, `browse`, `browseWithTabs`, `page`, `dashboard`.
-- **H (alias)**: Ultra-short alias for `HeaderFactory`.
 - **HeaderPresets (object)**: Predefined header presets for common scenarios (modal, browse, page, dashboard, settings, game, profile, etc.).
 - **createHeader (function)**: Utility function to create a header with the factory pattern.
 

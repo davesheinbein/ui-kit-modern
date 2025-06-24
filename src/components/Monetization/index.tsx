@@ -11,7 +11,6 @@ export * from './configurations';
 
 export {
 	default as MonetizationFactory,
-	M,
 	MonetizationPresets,
 	QuickMonetization,
 	SimpleMonetizationFactory,

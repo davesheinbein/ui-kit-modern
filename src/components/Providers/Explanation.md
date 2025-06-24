@@ -96,9 +96,7 @@ erDiagram
 ### factory.tsx
 
 - **ProviderFactory**: React component for creating providers using the configuration system. Merges configuration and props, then renders the appropriate provider.
-- **P**: Alias for `ProviderFactory`.
 - **ProviderPresets**: Object containing prebuilt provider component factories for all common provider kinds (e.g., `SOCKET_CONNECTION`, `USER_SETTINGS`).
-- **QuickProviders**: Object with shortcut aliases for rapid provider creation.
 - **SimpleProviderFactory (class)**: Class-based API for creating providers by kind, with static methods for each provider type.
 - **ExtendedProviderPresets**: Object with extended, pre-configured provider setups for common scenarios (e.g., `SOCKET_CONNECTED`, `THEME_LIGHT`).
 

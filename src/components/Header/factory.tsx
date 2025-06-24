@@ -144,11 +144,6 @@ export class HeaderFactory {
 }
 
 /**
- * Ultra-DRY Header shortcuts - for maximum convenience
- */
-export const H = HeaderFactory; // Ultra-short alias
-
-/**
  * Header presets with common patterns
  */
 export const HeaderPresets = {

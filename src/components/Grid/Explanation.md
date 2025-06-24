@@ -8,7 +8,6 @@ The `Grid` folder implements a unified, configuration-driven grid system for Rea
 
 - **Grid.tsx**: The main Grid component. Renders all grid types based on the `kind` prop and configuration. Handles layout, interactivity, VS mode overlays, solved groups, pregame lockout, and custom cell rendering.
 - **configurations.ts**: Centralizes all grid configuration presets. Defines the `ExtendedGridKind` type, configuration interfaces, and a map of default configurations for each kind. Provides helper functions for creating and validating grid configurations.
-- **factory.tsx**: Provides the `GridFactory`, `GridFactoryClass`, `G` (ultra-short alias), `GridPresets`, and `QuickGrids` for DRY instantiation of grids and common game layouts. Enables rapid creation of common patterns and custom grids.
 - **Grid.module.scss**: Contains all styles for the grid system, including layout, variants, cell states, overlays, solved groups, and responsive design. Uses SCSS modules and project-wide mixins/variables.
 - **index.tsx**: Barrel file that exports the main component, types, configurations, factory, and presets for easy import elsewhere. Also provides a legacy-compatible `VSGrid` export.
 
@@ -64,11 +63,9 @@ erDiagram
 - **GridFactoryClass**: Class with static methods for creating grids:
   - `create(kind, props)`: Returns a `Grid` of the given kind and props.
   - `game(props)`: Returns a game grid.
-  - `vsGrid(props)`, `vsBot(props)`, `vsMultiplayer(props)`: Return a VS grid (aliases for different VS scenarios).
   - `pregameLockout(props)`: Returns a pregame lockout grid.
   - `solvedGroups(props)`: Returns a solved groups display grid.
   - `preview(props)`: Returns a preview grid.
-- **G**: Ultra-short alias for `GridFactory`.
 - **GridPresets**: Object with React components for common grid layouts:
   - `GameGrid(props)`: Standard game grid.
   - `VSGrid(props)`: VS match grid.

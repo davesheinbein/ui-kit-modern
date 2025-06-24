@@ -24,9 +24,6 @@ export const CardFactory: React.FC<CardProps> = ({
 
 CardFactory.displayName = 'CardFactory';
 
-// Short alias for convenience
-export const C = CardFactory;
-
 // Preset card components for common use cases
 export const CardPresets = {
 	// User interface presets
@@ -127,34 +124,5 @@ export class CardFactoryClass {
 	static stats = (props: Omit<CardProps, 'kind'>) =>
 		CardFactoryClass.create('stats', props);
 }
-
-/**
- * Ultra-short factory functions for rapid development
- */
-export const QuickCards = {
-	// Ultra-short aliases
-	f: CardFactoryClass.friend,
-	g: CardFactoryClass.game,
-	p: CardFactoryClass.profile,
-	n: CardFactoryClass.notification,
-	s: CardFactoryClass.stats,
-
-	// Common patterns
-	info: (props: Omit<CardProps, 'kind'>) =>
-		CardFactoryClass.create('default', {
-			hover: true,
-			...props,
-		}),
-
-	action: (props: Omit<CardProps, 'kind'>) =>
-		CardFactoryClass.create('elevated', {
-			clickable: true,
-			hover: true,
-			...props,
-		}),
-
-	display: (props: Omit<CardProps, 'kind'>) =>
-		CardFactoryClass.create('outlined', props),
-};
 
 export default CardFactory;

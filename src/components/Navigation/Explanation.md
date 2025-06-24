@@ -55,7 +55,6 @@ erDiagram
 ### factory.ts
 
 - **NavigationFactory(configOrKind)**: Factory function that returns a function to create a navigation component with the given config or kind.
-- **N**: Ultra-short alias for `NavigationFactory`.
 - **NavigationPresets**: Object containing pre-configured navigation component creators for all main navigation types and advanced presets (e.g., `navbar`, `mobileNav`, `dashboardNav`, `wizardNav`).
 
 ### Navigation.tsx

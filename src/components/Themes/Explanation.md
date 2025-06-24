@@ -127,7 +127,6 @@ A set of exported functions for quickly creating theme selectors for common use 
 - `MobileThemes`, `DesktopThemes`, `TabletThemes`, `ModalThemes`, `SidebarThemes`, `HeaderThemes`, `FooterThemes`: Context-specific selectors.
 - `DashboardThemeSelector`, `ModalThemeSelector`, `SidebarThemeSelector`, `HeaderThemeSelector`, `MobileThemeSelector`, `DesktopThemeSelector`: Preset selectors for common UI contexts.
 - `CustomThemeSelector`, `AnimatedThemeSelector`, `StaticThemeSelector`, `StyledThemeSelector`, `ControlledThemeSelector`: Utility functions for custom, animated, static, styled, or controlled theme selectors.
-- `T`, `TG`, `TQ`: Ultra-short aliases for DRY theme creation.
 - `Themes`: Object with common patterns for rapid theme selector instantiation.
 
 ---

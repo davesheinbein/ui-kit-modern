@@ -22,9 +22,6 @@ export const ModalFactory: React.FC<ModalProps> = ({
 
 ModalFactory.displayName = 'ModalFactory';
 
-// Short alias for convenience
-export const M = ModalFactory;
-
 // Preset modal components for common use cases
 export const ModalPresets = {
 	// Basic modals

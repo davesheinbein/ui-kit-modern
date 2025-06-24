@@ -37,16 +37,6 @@ export const TableFactory = (
 };
 
 // ========================================
-// Ultra-Short Alias (T)
-// ========================================
-
-/**
- * Ultra-short alias for TableFactory
- * Usage: T('data-table')({ columns: [...], data: [...] })
- */
-export const T = TableFactory;
-
-// ========================================
 // Pre-configured Table Presets
 // ========================================
 

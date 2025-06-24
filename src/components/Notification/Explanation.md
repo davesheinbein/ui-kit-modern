@@ -63,7 +63,6 @@ erDiagram
 ### factory.ts
 
 - **NotificationFactory**: Higher-order function that returns a pre-configured Notification component for a given kind or config.
-- **NF**: Alias for `NotificationFactory`.
 - **NotificationPresets**: Object containing prebuilt notification component factories for all common notification kinds (e.g., `toastSuccess`, `alertError`).
 
 ### index.ts

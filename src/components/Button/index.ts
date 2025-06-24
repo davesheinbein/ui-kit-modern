@@ -4,6 +4,5 @@ export * from './configurations';
 
 export {
 	default as ButtonFactory,
-	B,
 	ButtonPresets,
 } from './factory';

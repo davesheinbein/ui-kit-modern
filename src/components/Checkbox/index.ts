@@ -12,7 +12,6 @@ export * from './configurations';
 // Factory exports
 export {
 	default as CheckboxFactory,
-	C,
 	CheckboxPresets,
 	CheckboxFactory as CheckboxFactoryClass,
 } from './factory';

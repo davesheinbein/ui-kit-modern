@@ -36,9 +36,6 @@ export const PageFactory: React.FC<PageProps> = ({
 
 PageFactory.displayName = 'PageFactory';
 
-// Short alias for convenience
-export const P = PageFactory;
-
 // Preset page components for common use cases
 export const PagePresets = {
 	// Startup page preset

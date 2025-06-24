@@ -49,9 +49,6 @@ export {
 	StaticThemeSelector,
 	StyledThemeSelector,
 	ControlledThemeSelector,
-	T,
-	TG,
-	TQ,
 	Themes,
 } from './factory';
 

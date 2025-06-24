@@ -11,8 +11,6 @@ export * from './configurations';
 // Export factory system
 export {
 	default as CardFactory,
-	C,
 	CardPresets,
 	CardFactoryClass,
-	QuickCards,
 } from './factory';

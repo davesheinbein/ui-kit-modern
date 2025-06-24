@@ -411,6 +411,5 @@ const Header = forwardRef<HTMLDivElement, HeaderProps>(
 
 Header.displayName = 'Header';
 
-// Backward compatibility: alias Header to Header
-export { Header as Header };
+export { Header };
 export default Header;

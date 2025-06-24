@@ -347,11 +347,6 @@ export class GraphFactory {
 }
 
 /**
- * Ultra-DRY Graph shortcuts - for maximum convenience
- */
-export const G = GraphFactory; // Ultra-short alias
-
-/**
  * Graph presets with common patterns
  * These provide even more convenient shortcuts for common use cases
  */
@@ -362,7 +357,7 @@ export const GraphPresets = {
 	 * Quick trend analysis chart
 	 */
 	TREND: (data: any[], xKey = 'date', yKey = 'value') =>
-		G.analyticsTrend(data, {
+		GraphFactory.analyticsTrend(data, {
 			labelKey: xKey,
 			valueKey: yKey,
 		}),
@@ -375,7 +370,7 @@ export const GraphPresets = {
 		xKey = 'category',
 		yKey = 'value'
 	) =>
-		G.analyticsComparison(data, {
+		GraphFactory.analyticsComparison(data, {
 			labelKey: xKey,
 			valueKey: yKey,
 		}),
@@ -388,7 +383,7 @@ export const GraphPresets = {
 		nameKey = 'name',
 		valueKey = 'value'
 	) =>
-		G.analyticsDistribution(data, {
+		GraphFactory.analyticsDistribution(data, {
 			labelKey: nameKey,
 			valueKey,
 		}),
@@ -401,7 +396,7 @@ export const GraphPresets = {
 		categoryKey = 'category',
 		valueKey = 'score'
 	) =>
-		G.analyticsPerformance(data, {
+		GraphFactory.analyticsPerformance(data, {
 			labelKey: categoryKey,
 			valueKey,
 		}),
@@ -412,19 +407,19 @@ export const GraphPresets = {
 	 * Minimal KPI widget
 	 */
 	KPI: (data: any[], valueKey = 'value') =>
-		G.dashboardKpi(data, { valueKey }),
+		GraphFactory.dashboardKpi(data, { valueKey }),
 
 	/**
 	 * Mini trend widget
 	 */
 	MINI_TREND: (data: any[], valueKey = 'value') =>
-		G.dashboardMini(data, { valueKey }),
+		GraphFactory.dashboardMini(data, { valueKey }),
 
 	/**
 	 * Summary widget
 	 */
 	SUMMARY: (data: any[], valueKey = 'value') =>
-		G.dashboardSummary(data, { valueKey }),
+		GraphFactory.dashboardSummary(data, { valueKey }),
 
 	// === GAME/STATS PATTERNS ===
 
@@ -436,7 +431,7 @@ export const GraphPresets = {
 		matchKey = 'match',
 		scoreKey = 'score'
 	) =>
-		G.statsScoreProgression(data, {
+		GraphFactory.statsScoreProgression(data, {
 			labelKey: matchKey,
 			valueKey: scoreKey,
 		}),
@@ -449,7 +444,7 @@ export const GraphPresets = {
 		categoryKey = 'category',
 		scoreKey = 'score'
 	) =>
-		G.statsPerformanceRadar(data, {
+		GraphFactory.statsPerformanceRadar(data, {
 			labelKey: categoryKey,
 			valueKey: scoreKey,
 		}),
@@ -462,7 +457,7 @@ export const GraphPresets = {
 		matchKey = 'match',
 		scoreKey = 'score'
 	) =>
-		G.statsMatchHistory(data, {
+		GraphFactory.statsMatchHistory(data, {
 			labelKey: matchKey,
 			valueKey: scoreKey,
 		}),
@@ -475,7 +470,7 @@ export const GraphPresets = {
 		categoryKey = 'category',
 		scoreKey = 'score'
 	) =>
-		G.statsCategoryBreakdown(data, {
+		GraphFactory.statsCategoryBreakdown(data, {
 			labelKey: categoryKey,
 			valueKey: scoreKey,
 		}),
@@ -486,7 +481,7 @@ export const GraphPresets = {
 	 * Mobile-friendly chart
 	 */
 	MOBILE: (kind: ExtendedGraphKind, data: any[]) =>
-		G.create(kind, data, {
+		GraphFactory.create(kind, data, {
 			height: 120,
 			className: 'mobile-chart',
 		}),
@@ -495,7 +490,7 @@ export const GraphPresets = {
 	 * Compact chart for small spaces
 	 */
 	COMPACT: (kind: ExtendedGraphKind, data: any[]) =>
-		G.create(kind, data, {
+		GraphFactory.create(kind, data, {
 			height: 80,
 			showAxes: false,
 			showGrid: false,
@@ -505,7 +500,7 @@ export const GraphPresets = {
 	 * Full-featured chart for large displays
 	 */
 	FULL: (kind: ExtendedGraphKind, data: any[]) =>
-		G.create(kind, data, {
+		GraphFactory.create(kind, data, {
 			height: 300,
 			showLegend: true,
 			showLabels: true,

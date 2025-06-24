@@ -125,10 +125,6 @@ A function that returns a table component factory for a given configuration or k
 
 - **Usage**: `TableFactory('data-table')({ columns, data })`
 
-### `T` (alias for `TableFactory`)
-
-Ultra-short alias for `TableFactory`. Usage: `T('sortable-table')({ columns, data })`
-
 ### `TablePresets`
 
 A set of pre-configured table factories for common table types and advanced dashboards. Examples:

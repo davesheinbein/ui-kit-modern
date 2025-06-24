@@ -103,6 +103,3 @@ export const InputFactoryFunction = (
 	const inputKind = props.kind || 'text';
 	return InputFactory.create(inputKind, props);
 };
-
-// Shorthand alias
-export const I = InputFactoryFunction;

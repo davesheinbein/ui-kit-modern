@@ -11,7 +11,6 @@ import {
 	FormsProps,
 } from './Forms';
 
-// Ultra-short alias for rapid form field creation
 export interface FormsFactoryProps {
 	kind: ExtendedFormsKind;
 	value?: any;
@@ -101,9 +100,6 @@ export const FormsFactory = forwardRef<
 
 FormsFactory.displayName = 'FormsFactory';
 
-// Ultra-short alias for maximum DRYness - just like 'B' for buttons
-export const F = FormsFactory;
-
 // Form field presets for common combinations
 export const FormsPresets = {
 	// Quick form creators
@@ -112,14 +108,14 @@ export const FormsPresets = {
 		onChange: any,
 		errors: any = {}
 	) => [
-		<F
+		<FormsFactory
 			key='email'
 			kind='email'
 			value={values.email}
 			onChange={(v: any) => onChange('email', v)}
 			error={errors.email}
 		/>,
-		<F
+		<FormsFactory
 			key='password'
 			kind='password'
 			value={values.password}
@@ -133,35 +129,35 @@ export const FormsPresets = {
 		onChange: any,
 		errors: any = {}
 	) => [
-		<F
+		<FormsFactory
 			key='firstName'
 			kind='first-name'
 			value={values.firstName}
 			onChange={(v: any) => onChange('firstName', v)}
 			error={errors.firstName}
 		/>,
-		<F
+		<FormsFactory
 			key='lastName'
 			kind='last-name'
 			value={values.lastName}
 			onChange={(v: any) => onChange('lastName', v)}
 			error={errors.lastName}
 		/>,
-		<F
+		<FormsFactory
 			key='email'
 			kind='email'
 			value={values.email}
 			onChange={(v: any) => onChange('email', v)}
 			error={errors.email}
 		/>,
-		<F
+		<FormsFactory
 			key='password'
 			kind='password'
 			value={values.password}
 			onChange={(v: any) => onChange('password', v)}
 			error={errors.password}
 		/>,
-		<F
+		<FormsFactory
 			key='terms'
 			kind='terms-checkbox'
 			value={values.terms}
@@ -175,28 +171,28 @@ export const FormsPresets = {
 		onChange: any,
 		errors: any = {}
 	) => [
-		<F
+		<FormsFactory
 			key='name'
 			kind='full-name'
 			value={values.name}
 			onChange={(v: any) => onChange('name', v)}
 			error={errors.name}
 		/>,
-		<F
+		<FormsFactory
 			key='email'
 			kind='email'
 			value={values.email}
 			onChange={(v: any) => onChange('email', v)}
 			error={errors.email}
 		/>,
-		<F
+		<FormsFactory
 			key='phone'
 			kind='phone'
 			value={values.phone}
 			onChange={(v: any) => onChange('phone', v)}
 			error={errors.phone}
 		/>,
-		<F
+		<FormsFactory
 			key='message'
 			kind='message'
 			value={values.message}
@@ -210,28 +206,28 @@ export const FormsPresets = {
 		onChange: any,
 		errors: any = {}
 	) => [
-		<F
+		<FormsFactory
 			key='address'
 			kind='address'
 			value={values.address}
 			onChange={(v: any) => onChange('address', v)}
 			error={errors.address}
 		/>,
-		<F
+		<FormsFactory
 			key='city'
 			kind='city'
 			value={values.city}
 			onChange={(v: any) => onChange('city', v)}
 			error={errors.city}
 		/>,
-		<F
+		<FormsFactory
 			key='state'
 			kind='state'
 			value={values.state}
 			onChange={(v: any) => onChange('state', v)}
 			error={errors.state}
 		/>,
-		<F
+		<FormsFactory
 			key='zip'
 			kind='zip'
 			value={values.zip}
@@ -245,21 +241,21 @@ export const FormsPresets = {
 		onChange: any,
 		errors: any = {}
 	) => [
-		<F
+		<FormsFactory
 			key='cardNumber'
 			kind='credit-card'
 			value={values.cardNumber}
 			onChange={(v: any) => onChange('cardNumber', v)}
 			error={errors.cardNumber}
 		/>,
-		<F
+		<FormsFactory
 			key='expiry'
 			kind='expiry-date'
 			value={values.expiry}
 			onChange={(v: any) => onChange('expiry', v)}
 			error={errors.expiry}
 		/>,
-		<F
+		<FormsFactory
 			key='cvv'
 			kind='cvv'
 			value={values.cvv}
@@ -273,42 +269,42 @@ export const FormsPresets = {
 		onChange: any,
 		errors: any = {}
 	) => [
-		<F
+		<FormsFactory
 			key='firstName'
 			kind='first-name'
 			value={values.firstName}
 			onChange={(v: any) => onChange('firstName', v)}
 			error={errors.firstName}
 		/>,
-		<F
+		<FormsFactory
 			key='lastName'
 			kind='last-name'
 			value={values.lastName}
 			onChange={(v: any) => onChange('lastName', v)}
 			error={errors.lastName}
 		/>,
-		<F
+		<FormsFactory
 			key='email'
 			kind='email'
 			value={values.email}
 			onChange={(v: any) => onChange('email', v)}
 			error={errors.email}
 		/>,
-		<F
+		<FormsFactory
 			key='phone'
 			kind='phone'
 			value={values.phone}
 			onChange={(v: any) => onChange('phone', v)}
 			error={errors.phone}
 		/>,
-		<F
+		<FormsFactory
 			key='bio'
 			kind='bio'
 			value={values.bio}
 			onChange={(v: any) => onChange('bio', v)}
 			error={errors.bio}
 		/>,
-		<F
+		<FormsFactory
 			key='website'
 			kind='website'
 			value={values.website}
@@ -322,21 +318,21 @@ export const FormsPresets = {
 		onChange: any,
 		errors: any = {}
 	) => [
-		<F
+		<FormsFactory
 			key='notifications'
 			kind='notification-switch'
 			value={values.notifications}
 			onChange={(v: any) => onChange('notifications', v)}
 			error={errors.notifications}
 		/>,
-		<F
+		<FormsFactory
 			key='privacy'
 			kind='privacy-switch'
 			value={values.privacy}
 			onChange={(v: any) => onChange('privacy', v)}
 			error={errors.privacy}
 		/>,
-		<F
+		<FormsFactory
 			key='theme'
 			kind='theme-switch'
 			value={values.theme}

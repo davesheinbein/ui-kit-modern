@@ -86,12 +86,6 @@ const ProviderFactory = forwardRef<
 ProviderFactory.displayName = 'ProviderFactory';
 
 /**
- * Ultra-DRY Provider shortcuts - for maximum convenience
- * Similar to Button factory but for providers
- */
-export const P = ProviderFactory; // Ultra-short alias
-
-/**
  * Provider presets with common patterns
  */
 export const ProviderPresets = {

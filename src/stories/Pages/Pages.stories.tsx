@@ -23,7 +23,6 @@ The new  Page system provides a single component that can render any page type t
 
 - **Page**: Main component with kind prop
 - **PageFactory**: Factory function for programmatic creation  
-- **P**: Ultra-short alias for rapid development
 - **PagePresets**: Pre-configured page patterns
 
 ### Usage Examples:
@@ -41,10 +40,6 @@ Using PageFactory:
 {PageFactory({ kind: "profile", layout: "sidebar" })}
 \`\`\`
 
-Using ultra-short alias:
-\`\`\`tsx
-{P({ kind: "game", title: "Game" })}
-\`\`\`
 
 Using presets:
 \`\`\`tsx
@@ -329,50 +324,6 @@ export const FactoryPattern: Story = {
 	},
 };
 
-export const UltraDRYAlias: Story = {
-	name: '⚡ Ultra-DRY Alias (P)',
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '1rem',
-				padding: '1rem',
-			}}
-		>
-			<Wrapper>
-				<h3>Ultra-short "P" alias:</h3>
-				<Wrapper
-					style={{
-						display: 'grid',
-						gap: '1rem',
-						gridTemplateColumns:
-							'repeat(auto-fit, minmax(300px, 1fr))',
-					}}
-				>
-					{P({
-						kind: 'landing',
-						title: 'Ultra-DRY Landing',
-					})}
-					{P({
-						kind: 'settings',
-						title: 'Ultra-DRY Settings',
-						layout: 'sidebar',
-					})}
-				</Wrapper>
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'The ultra-short "P" alias for maximum development speed.',
-			},
-		},
-	},
-};
-
 export const PresetPatterns: Story = {
 	name: '🎯 Preset Patterns',
 	render: () => (
@@ -470,26 +421,6 @@ export const AllVariantsShowcase: Story = {
 			</Wrapper>
 
 			<Wrapper>
-				<h2>⚡ Ultra-DRY Alias</h2>
-				<p>Maximum convenience with "P":</p>
-				<Wrapper
-					style={{
-						display: 'grid',
-						gap: '1rem',
-						gridTemplateColumns:
-							'repeat(auto-fit, minmax(300px, 1fr))',
-					}}
-				>
-					{P({ kind: 'game', title: 'Ultra-DRY Game' })}
-					{P({
-						kind: 'browse',
-						title: 'Ultra-DRY Browse',
-						layout: 'grid',
-					})}
-				</Wrapper>
-			</Wrapper>
-
-			<Wrapper>
 				<h2>🎯 Preset Patterns</h2>
 				<p>
 					Pre-configured page patterns for common use cases:
@@ -517,7 +448,6 @@ export const AllVariantsShowcase: Story = {
 
 1. **Page**: Single component with kind prop
 2. **PageFactory**: Factory function pattern  
-3. **Ultra-DRY Aliases**: P for maximum convenience
 4. **Preset Patterns**: Pre-configured common patterns
 
 This system eliminates code duplication and provides a consistent API for all page variants.`,
@@ -666,40 +596,6 @@ export const StartupDRYFactoryExample: Story = {
 			description: {
 				story:
 					'Startup page created using the PageFactory pattern with callbacks.',
-			},
-		},
-	},
-};
-
-export const StartupUltraDRYExample: Story = {
-	name: '🚀 Startup Ultra-DRY (P)',
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '2rem',
-				padding: '1rem',
-			}}
-		>
-			<Wrapper>
-				<h3>Ultra-short "P" alias:</h3>
-				{P({
-					kind: 'startup',
-					title: 'P Startup Page',
-					subtitle: 'Ultra-DRY with P alias',
-					onStartDaily: () => console.log('Daily mode'),
-					onStartCustom: () => console.log('Custom mode'),
-					onBrowseCustom: () => console.log('Browse'),
-				})}
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Startup page using the ultra-short "P" alias for maximum development speed.',
 			},
 		},
 	},

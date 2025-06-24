@@ -91,13 +91,6 @@ export const CHAT_CONFIGURATIONS = {
 	'match': matchChat,
 	'general': generalChat,
 	'vs-quick-chat': vsQuickChat,
-
-	// Alias configurations for backward compatibility
-	'friend-chat': friendChat,
-	'match-chat': matchChat,
-	'in-match-chat': inMatchChat,
-	'general-chat': generalChat,
-	'vs-quick-chat-bar': vsQuickChat,
 };
 
 export type ExtendedChatKind =

@@ -62,7 +62,6 @@ erDiagram
 - **FooterBodyFactory (component)**: Renders the appropriate footer body layout based on the `kind` and content props. Supports custom content and all predefined layouts (simple, standard, minimal, social, corporate, app, landing, sticky, custom).
 - **SimpleFooterBody, StandardFooterBody, MinimalFooterBody, SocialFooterBody, CorporateFooterBody, AppFooterBody, LandingFooterBody (components)**: Render the content for each footer kind, including copyright, links, and layout.
 - **FooterFactory (component)**: Factory component for creating footers by kind and configuration.
-- **Foot (alias)**: Ultra-short alias for `FooterFactory`.
 - **FooterPresets (object)**: Predefined factory presets for common footer types (SIMPLE, STANDARD, MINIMAL, SOCIAL, CORPORATE, APP, LANDING, STICKY).
 - **createFooter (function)**: Convenience function for creating a footer component by kind and configuration.
 

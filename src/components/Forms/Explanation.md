@@ -8,7 +8,6 @@ The `Forms` folder implements a unified, configuration-driven form field system 
 
 - **Forms.tsx**: The main Forms component. Renders all form field types based on the `kind` prop and configuration. Handles label, error, helper text, and full-width layout. Uses `FormsBodyFactory` for field rendering.
 - **configurations.ts**: Centralizes all form field configuration presets. Defines the `ExtendedFormsKind` type, configuration interfaces, and a map of default configurations for each kind. Used by the factory and main component.
-- **factory.tsx**: Provides the `FormsFactory`, `F` (ultra-short alias), and `FormsPresets` for DRY instantiation of form fields and common form layouts. Enables rapid creation of common patterns and custom fields.
 - **Forms.module.scss**: Contains all styles for the forms system, including layout, error states, label, helper text, and field-specific styles. Uses SCSS modules and project-wide mixins/variables.
 - **index.ts**: Barrel file that exports the main component, types, configurations, factory, and presets for easy import elsewhere.
 
@@ -59,7 +58,6 @@ erDiagram
 ### factory.tsx
 
 - **FormsFactory (component)**: Factory component for creating form fields by kind and configuration. Merges configuration and props, maps extended kinds to field kinds, and renders the correct field.
-- **F (alias)**: Ultra-short alias for `FormsFactory`.
 - **FormsPresets (object)**: Predefined form field and form layout presets for common scenarios (loginForm, signupForm, contactForm, addressForm, paymentForm, profileForm, settingsForm). Each preset returns an array of configured form fields.
 
 ### index.ts

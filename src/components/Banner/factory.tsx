@@ -41,10 +41,6 @@ export interface BannerBodyFactoryProps {
 	[key: string]: any;
 }
 
-/**
- * BannerBodyFactory - Creates the banner content based on banner kind
- * This is the DRY equivalent of the individual banner components
- */
 export const BannerBodyFactory = forwardRef<
 	HTMLDivElement,
 	BannerBodyFactoryProps
@@ -270,16 +266,6 @@ export interface BannerFactoryProps {
 	[key: string]: any;
 }
 
-/**
- * BannerFactory - Ultra-DRY banner creation using configurations
- *
- * Usage examples:
- * <BannerFactory kind="feedback" message="Game completed!" />
- * <BannerFactory kind="burn-notification" message="Player burned!" />
- * <BannerFactory kind="achievement-notification" message="Achievement unlocked!" />
- * <BannerFactory kind="success-toast" message="Saved successfully!" />
- * <BannerFactory kind="vs-status" player={playerData} opponent={opponentData} />
- */
 const BannerFactory = forwardRef<
 	HTMLDivElement,
 	BannerFactoryProps
@@ -413,45 +399,46 @@ export class BannerFactoryClass {
 }
 
 /**
- * Ultra-DRY Banner shortcuts - for maximum convenience
- */
-export const Ban = BannerFactoryClass; // Ultra-short alias
-
-/**
  * Banner presets with common patterns
  */
 export const BannerPresets = {
 	// Feedback banners
-	gameComplete: (message: string) => Ban.feedback(message),
-	gameFeedback: (message: string) => Ban.feedback(message),
+	gameComplete: (message: string) =>
+		BannerFactoryClass.feedback(message),
+	gameFeedback: (message: string) =>
+		BannerFactoryClass.feedback(message),
 
 	// Notifications
 	burnPlayer: (message: string) =>
-		Ban.notification(message, 'burn'),
+		BannerFactoryClass.notification(message, 'burn'),
 	achievement: (message: string) =>
-		Ban.notification(message, 'achievement'),
+		BannerFactoryClass.notification(message, 'achievement'),
 	systemAlert: (message: string) =>
-		Ban.notification(message, 'system'),
+		BannerFactoryClass.notification(message, 'system'),
 	taunt: (message: string) =>
-		Ban.notification(message, 'taunt'),
+		BannerFactoryClass.notification(message, 'taunt'),
 
 	// Toasts
 	success: (message: string) =>
-		Ban.toast(message, 'success'),
-	error: (message: string) => Ban.toast(message, 'error'),
+		BannerFactoryClass.toast(message, 'success'),
+	error: (message: string) =>
+		BannerFactoryClass.toast(message, 'error'),
 	warning: (message: string) =>
-		Ban.toast(message, 'warning'),
-	info: (message: string) => Ban.toast(message, 'info'),
+		BannerFactoryClass.toast(message, 'warning'),
+	info: (message: string) =>
+		BannerFactoryClass.toast(message, 'info'),
 
 	// VS Game
 	vsStatus: (
 		player: BannerFactoryProps['player'],
 		opponent?: BannerFactoryProps['opponent'],
 		timer?: string
-	) => Ban.status(player, { opponent, timer }),
+	) =>
+		BannerFactoryClass.status(player, { opponent, timer }),
 
 	// Global toasts
-	globalToast: (message: string) => Ban.global(message),
+	globalToast: (message: string) =>
+		BannerFactoryClass.global(message),
 };
 
 export default BannerFactory;

@@ -277,7 +277,6 @@ The new  Provider system provides a single component that can render any provide
 
 - **Provider**: Main component with kind prop
 - **ProviderFactory**: Factory function for programmatic creation  
-- **P**: Ultra-short alias for rapid development
 - **ProviderPresets**: Pre-configured provider patterns
 
 ### Usage Examples:
@@ -293,11 +292,6 @@ Using ProviderFactory:
 \`\`\`tsx
 <ProviderFactory kind="socket-provider" autoConnect={true} />
 <ProviderFactory kind="user-settings-provider" />
-\`\`\`
-
-Using ultra-short alias:
-\`\`\`tsx
-<P kind="theme-palette-provider" />
 \`\`\`
 
 Using presets:
@@ -469,46 +463,6 @@ export const FactoryPattern: Story = {
 	},
 };
 
-export const UltraDRYAlias: Story = {
-	name: '⚡ Ultra-DRY Alias (P)',
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '1rem',
-				padding: '1rem',
-			}}
-		>
-			<Wrapper>
-				<h3>Ultra-short "P" alias:</h3>
-				<Wrapper
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: '1rem',
-					}}
-				>
-					<P kind='theme-palette-provider'>
-						<ProviderDemo providerType='Ultra-DRY Theme Provider' />
-					</P>
-					<P kind='achievement-socket-listener'>
-						<ProviderDemo providerType='Ultra-DRY Achievement Listener' />
-					</P>
-				</Wrapper>
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'The ultra-short "P" alias for maximum development speed.',
-			},
-		},
-	},
-};
-
 export const PresetPatterns: Story = {
 	name: '🎯 Preset Patterns',
 	render: () => (
@@ -661,22 +615,6 @@ export const AllVariantsShowcase: Story = {
 			</Wrapper>
 
 			<Wrapper>
-				<h2>⚡ Ultra-DRY Alias</h2>
-				<p>Maximum convenience with "P":</p>
-				<Wrapper
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: '1rem',
-					}}
-				>
-					<P kind='socket-provider' autoConnect={true}>
-						<ProviderDemo providerType='Ultra-DRY Socket' />
-					</P>
-				</Wrapper>
-			</Wrapper>
-
-			<Wrapper>
 				<h2>🎯 Preset Patterns</h2>
 				<p>
 					Pre-configured provider patterns for common use
@@ -706,8 +644,7 @@ export const AllVariantsShowcase: Story = {
 
 1. **Provider**: Single component with kind prop
 2. **ProviderFactory**: Factory function pattern  
-3. **Ultra-DRY Aliases**: P for maximum convenience
-4. **Preset Patterns**: Pre-configured common patterns
+3. **Preset Patterns**: Pre-configured common patterns
 
 This system eliminates code duplication and provides a consistent API for all provider variants.`,
 			},

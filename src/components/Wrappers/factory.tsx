@@ -20,8 +20,7 @@ export interface WrapperFactoryProps
  * This factory provides multiple patterns for creating wrappers:
  * 1. Direct instantiation with full configuration
  * 2. Preset-based creation for common patterns
- * 3. Ultra-short aliases for rapid development
- * 4. Builder pattern for complex configurations
+ * 3. Builder pattern for complex configurations
  */
 class WrapperFactory {
 	/**
@@ -608,20 +607,6 @@ class WrapperBuilder {
 		);
 	}
 }
-
-// ========================================
-// Ultra-Short Alias
-// ========================================
-
-/**
- * W - Ultra-short alias for WrapperFactory
- *
- * Usage:
- * W.button({ children: 'Click me' })
- * W.modal({ isOpen: true })
- * W.legacy({ suppressDeprecationWarning: true })
- */
-export const W = WrapperFactory;
 
 // ========================================
 // Wrapper Presets

@@ -1,9 +1,6 @@
 import React from 'react';
 import { Wrapper } from '../Wrappers';
-import Button, {
-	ButtonProps,
-	ButtonKind,
-} from './Button';
+import Button, { ButtonProps, ButtonKind } from './Button';
 import {
 	BUTTON_CONFIGURATIONS,
 	BUTTON_GROUPS,
@@ -41,10 +38,7 @@ export class ButtonFactory {
 			}
 		>,
 		sharedProps: Partial<ButtonProps> = {}
-	): Record<
-		string,
-		React.ReactElement<ButtonProps>
-	> {
+	): Record<string, React.ReactElement<ButtonProps>> {
 		return Object.fromEntries(
 			Object.entries(groupConfig).map(
 				([key, { kind, props = {} }]) => [
@@ -144,11 +138,6 @@ export class ButtonFactory {
 }
 
 /**
- * Ultra-DRY Button shortcuts - for maximum convenience
- */
-export const B = ButtonFactory; // Ultra-short alias
-
-/**
  * Button presets with common patterns
  */
 export const ButtonPresets = {
@@ -157,11 +146,11 @@ export const ButtonPresets = {
 		onConfirm: () => void,
 		onCancel: () => void
 	) => ({
-		confirm: B.create('danger', {
+		confirm: ButtonFactory.create('danger', {
 			onClick: onConfirm,
 			text: 'Confirm',
 		}),
-		cancel: B.create('secondary', {
+		cancel: ButtonFactory.create('secondary', {
 			onClick: onCancel,
 			text: 'Cancel',
 		}),
@@ -173,11 +162,11 @@ export const ButtonPresets = {
 		onCancel: () => void,
 		itemName?: string
 	) => ({
-		delete: B.create('danger', {
+		delete: ButtonFactory.create('danger', {
 			onClick: onDelete,
 			text: itemName ? `Delete ${itemName}` : 'Delete',
 		}),
-		cancel: B.create('secondary', {
+		cancel: ButtonFactory.create('secondary', {
 			onClick: onCancel,
 			text: 'Cancel',
 		}),
@@ -185,8 +174,8 @@ export const ButtonPresets = {
 
 	// Save/cancel form
 	saveForm: (onSave: () => void, onCancel: () => void) => ({
-		save: B.save(onSave),
-		cancel: B.cancel(onCancel),
+		save: ButtonFactory.save(onSave),
+		cancel: ButtonFactory.cancel(onCancel),
 	}),
 };
 

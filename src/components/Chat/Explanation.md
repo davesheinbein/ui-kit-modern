@@ -58,9 +58,7 @@ erDiagram
 
 - **ChatConfiguration (interface)**: Defines the shape of a chat configuration object, including kind, variant, position, header/input/close button visibility, quick options, title, placeholder, avatar, and extensibility.
 - **friendChat, inMatchChat, matchChat, generalChat, vsQuickChat (objects)**: Default configuration objects for each chat kind.
-- **CHAT_CONFIGURATIONS (object)**: Map of all chat kinds to their configuration objects, including aliases for backward compatibility.
 - **ExtendedChatKind (type)**: Type union of all valid chat kind keys.
-- **ChatKind, ChatVariant, ChatPosition (types)**: Type aliases for chat kind, variant, and position values.
 
 ### factory.tsx
 
@@ -68,7 +66,6 @@ erDiagram
 - **renderMessage (function, inside ChatBodyFactory)**: Renders a single chat message with appropriate style and metadata.
 - **ChatFactory (component)**: Ultra-DRY chat creation component. Merges configuration and props, renders a chat window with a `ChatBodyFactory` inside. Handles all configuration-driven chat instantiation.
 - **ChatFactoryClass (class)**: Static class with methods for creating chat components by kind. Provides `create`, `friend`, `inMatch`, `match`, and `general` methods for DRY instantiation.
-- **ChatFactoryShortcut (alias)**: Alias for `ChatFactoryClass` for convenience.
 - **ChatPresets (object)**: Predefined chat factory presets for common chat types (friend, in-match, match, general), with typical prop overrides.
 
 ### index.ts

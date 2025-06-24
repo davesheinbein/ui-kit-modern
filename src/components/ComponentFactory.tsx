@@ -111,15 +111,6 @@ export interface ComponentFactoryProps {
 	[key: string]: any; // Allow any props to be passed through
 }
 
-/**
- * ComponentFactory - Universal component creation
- *
- * Usage examples:
- * <ComponentFactory kind="btn-primary">Click me</ComponentFactory>
- * <ComponentFactory kind="field-email" />
- * <ComponentFactory kind="field-password" />
- * <ComponentFactory kind="layout-grid">Grid content</ComponentFactory>
- */
 export const ComponentFactory = forwardRef<
 	any,
 	ComponentFactoryProps
@@ -203,9 +194,6 @@ export const ComponentFactory = forwardRef<
 
 ComponentFactory.displayName = 'ComponentFactory';
 
-// Short alias for maximum convenience
-export const C = ComponentFactory;
-
 // Component presets for common UI patterns
 export const ComponentPresets = {
 	// Common button groups
@@ -213,12 +201,20 @@ export const ComponentPresets = {
 		onConfirm: () => void,
 		onCancel: () => void
 	) => [
-		<C key='cancel' kind='btn-secondary' onClick={onCancel}>
+		<ComponentFactory
+			key='cancel'
+			kind='btn-secondary'
+			onClick={onCancel}
+		>
 			Cancel
-		</C>,
-		<C key='confirm' kind='btn-primary' onClick={onConfirm}>
+		</ComponentFactory>,
+		<ComponentFactory
+			key='confirm'
+			kind='btn-primary'
+			onClick={onConfirm}
+		>
 			Confirm
-		</C>,
+		</ComponentFactory>,
 	],
 
 	formActions: (
@@ -227,17 +223,21 @@ export const ComponentPresets = {
 	) =>
 		[
 			onReset && (
-				<C
+				<ComponentFactory
 					key='reset'
 					kind='btn-secondary'
 					onClick={onReset}
 				>
 					Reset
-				</C>
+				</ComponentFactory>
 			),
-			<C key='submit' kind='btn-primary' onClick={onSubmit}>
+			<ComponentFactory
+				key='submit'
+				kind='btn-primary'
+				onClick={onSubmit}
+			>
 				Submit
-			</C>,
+			</ComponentFactory>,
 		].filter(Boolean),
 
 	// Common form layouts
@@ -246,23 +246,23 @@ export const ComponentPresets = {
 		onChange: any,
 		errors: any = {}
 	) => (
-		<C
+		<ComponentFactory
 			kind='layout-flex'
 			style={{ flexDirection: 'column', gap: '1rem' }}
 		>
-			<C
+			<ComponentFactory
 				kind='field-email'
 				value={values.email}
 				onChange={(v: any) => onChange('email', v)}
 				error={errors.email}
 			/>
-			<C
+			<ComponentFactory
 				kind='field-password'
 				value={values.password}
 				onChange={(v: any) => onChange('password', v)}
 				error={errors.password}
 			/>
-		</C>
+		</ComponentFactory>
 	),
 
 	contactForm: (
@@ -270,36 +270,36 @@ export const ComponentPresets = {
 		onChange: any,
 		errors: any = {}
 	) => (
-		<C
+		<ComponentFactory
 			kind='layout-flex'
 			style={{ flexDirection: 'column', gap: '1rem' }}
 		>
-			<C
+			<ComponentFactory
 				kind='field-text'
 				label='Name'
 				value={values.name}
 				onChange={(v: any) => onChange('name', v)}
 				error={errors.name}
 			/>
-			<C
+			<ComponentFactory
 				kind='field-email'
 				value={values.email}
 				onChange={(v: any) => onChange('email', v)}
 				error={errors.email}
 			/>
-			<C
+			<ComponentFactory
 				kind='field-textarea'
 				label='Message'
 				value={values.message}
 				onChange={(v: any) => onChange('message', v)}
 				error={errors.message}
 			/>
-		</C>
+		</ComponentFactory>
 	),
 
 	// Common layout patterns
 	cardLayout: (children: React.ReactNode) => (
-		<C
+		<ComponentFactory
 			kind='layout-container'
 			style={{
 				padding: '1.5rem',
@@ -309,11 +309,11 @@ export const ComponentPresets = {
 			}}
 		>
 			{children}
-		</C>
+		</ComponentFactory>
 	),
 
 	gridLayout: (children: React.ReactNode, columns = 3) => (
-		<C
+		<ComponentFactory
 			kind='layout-grid'
 			style={{
 				display: 'grid',
@@ -322,7 +322,7 @@ export const ComponentPresets = {
 			}}
 		>
 			{children}
-		</C>
+		</ComponentFactory>
 	),
 };
 
@@ -330,19 +330,22 @@ export const ComponentPresets = {
 export const QuickComponents = {
 	// Quick buttons
 	primaryBtn: (text: string, onClick: () => void) => (
-		<C kind='btn-primary' onClick={onClick}>
+		<ComponentFactory kind='btn-primary' onClick={onClick}>
 			{text}
-		</C>
+		</ComponentFactory>
 	),
 	secondaryBtn: (text: string, onClick: () => void) => (
-		<C kind='btn-secondary' onClick={onClick}>
+		<ComponentFactory
+			kind='btn-secondary'
+			onClick={onClick}
+		>
 			{text}
-		</C>
+		</ComponentFactory>
 	),
 	dangerBtn: (text: string, onClick: () => void) => (
-		<C kind='btn-danger' onClick={onClick}>
+		<ComponentFactory kind='btn-danger' onClick={onClick}>
 			{text}
-		</C>
+		</ComponentFactory>
 	),
 
 	// Quick form fields
@@ -352,7 +355,7 @@ export const QuickComponents = {
 		onChange: any,
 		error?: string
 	) => (
-		<C
+		<ComponentFactory
 			kind='field-text'
 			label={label}
 			value={value}
@@ -365,7 +368,7 @@ export const QuickComponents = {
 		onChange: any,
 		error?: string
 	) => (
-		<C
+		<ComponentFactory
 			kind='field-email'
 			value={value}
 			onChange={onChange}
@@ -377,7 +380,7 @@ export const QuickComponents = {
 		onChange: any,
 		error?: string
 	) => (
-		<C
+		<ComponentFactory
 			kind='field-password'
 			value={value}
 			onChange={onChange}
@@ -387,23 +390,23 @@ export const QuickComponents = {
 
 	// Quick layouts
 	flexColumn: (children: React.ReactNode, gap = '1rem') => (
-		<C
+		<ComponentFactory
 			kind='layout-flex'
 			style={{ flexDirection: 'column', gap }}
 		>
 			{children}
-		</C>
+		</ComponentFactory>
 	),
 	flexRow: (children: React.ReactNode, gap = '1rem') => (
-		<C
+		<ComponentFactory
 			kind='layout-flex'
 			style={{ flexDirection: 'row', gap }}
 		>
 			{children}
-		</C>
+		</ComponentFactory>
 	),
 	grid: (children: React.ReactNode, columns = 3) => (
-		<C
+		<ComponentFactory
 			kind='layout-grid'
 			style={{
 				display: 'grid',
@@ -412,7 +415,7 @@ export const QuickComponents = {
 			}}
 		>
 			{children}
-		</C>
+		</ComponentFactory>
 	),
 };
 

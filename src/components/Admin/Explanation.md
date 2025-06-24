@@ -85,7 +85,3 @@ erDiagram
 
 ---
 
-**Migration Note:**
-
-- All previous factory, presets, and utility imports are obsolete. Use only `Admin`.
-- All configuration, state, and rendering logic is now internal to `Admin.tsx`.

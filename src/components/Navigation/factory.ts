@@ -37,16 +37,6 @@ export const NavigationFactory = (
 };
 
 // ========================================
-// Ultra-Short Alias (N)
-// ========================================
-
-/**
- * Ultra-short alias for NavigationFactory
- * Usage: N('navbar')({ items: [...] })
- */
-export const N = NavigationFactory;
-
-// ========================================
 // Pre-configured Navigation Presets
 // ========================================
 

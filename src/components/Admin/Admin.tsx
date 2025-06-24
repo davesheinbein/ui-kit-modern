@@ -29,7 +29,6 @@ export interface AdminProps extends AdminConfiguration {
 	[key: string]: any;
 }
 
-// Data generators for mock/real data
 const dataGenerators = {
 	time: () => new Date().toLocaleTimeString(),
 	performance: () => {
@@ -69,7 +68,6 @@ const dataGenerators = {
 	}),
 };
 
-// Presentational rows
 const DebugRow: React.FC<{
 	label: string;
 	value: string | number;
@@ -105,7 +103,6 @@ const MetricRow: React.FC<{
 	</Wrapper>
 );
 
-// Configuration-driven body components
 interface AdminBodyConfig {
 	className: string;
 	title?: string;
@@ -292,7 +289,6 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 		},
 	};
 
-// Generic hook for admin component initialization and state management
 const useAdminComponent = (
 	componentId: string,
 	kind: AdminKind,

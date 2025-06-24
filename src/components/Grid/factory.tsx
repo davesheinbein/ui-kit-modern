@@ -75,20 +75,6 @@ export class GridFactoryClass {
 	}
 
 	/**
-	 * Create a VS bot grid (alias for backward compatibility)
-	 */
-	static vsBot(props: Omit<GridProps, 'kind'>) {
-		return this.create('vs-grid', props);
-	}
-
-	/**
-	 * Create a VS multiplayer grid (alias for backward compatibility)
-	 */
-	static vsMultiplayer(props: Omit<GridProps, 'kind'>) {
-		return this.create('vs-grid', props);
-	}
-
-	/**
 	 * Create a pregame lockout grid
 	 */
 	static pregameLockout(props: Omit<GridProps, 'kind'>) {
@@ -109,11 +95,6 @@ export class GridFactoryClass {
 		return this.create('preview', props);
 	}
 }
-
-/**
- * Ultra-short alias for rapid grid creation
- */
-export const G = GridFactory;
 
 /**
  * Grid presets with common patterns

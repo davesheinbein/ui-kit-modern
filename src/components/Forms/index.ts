@@ -4,7 +4,6 @@
 // Enhanced form field factory and factory system
 export {
 	default as FormsFactory,
-	F,
 	FormsPresets,
 } from './factory';
 export type { FormsFactoryProps } from './factory';

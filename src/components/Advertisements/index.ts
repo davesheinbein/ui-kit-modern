@@ -1,11 +1,5 @@
 // Main consolidated components and types
-export {
-	Advertisements,
-	AdContainer,
-} from './Advertisements';
-
-// Backward compatibility alias
-export { Advertisements as Advertisement } from './Advertisements';
+export { Advertisements } from './Advertisements';
 
 export type {
 	AdKind,
@@ -16,14 +10,4 @@ export type {
 // Configuration exports
 export * from './configurations';
 
-// Factory exports - new DRY system
-export {
-	AdvertisementFactory,
-	AdUtils,
-	AdPresets,
-	type AdCreationConfig,
-} from './factory';
-
-// Legacy support
-export { AdvertisementFactory as A } from './factory';
-export { AdPresets as AdvertisementPresets } from './factory';
+// Advanced helpers (Factory, Utils, Presets) are available as static properties on Advertisements for programmatic use only.

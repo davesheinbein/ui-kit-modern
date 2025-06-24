@@ -5,6 +5,5 @@ export * from './configurations';
 
 export {
 	default as TableFactory,
-	T,
 	TablePresets,
 } from './factory';

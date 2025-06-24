@@ -8,7 +8,6 @@ The `Graphs` folder implements a unified, configuration-driven graph/chart syste
 
 - **Graphs.tsx**: The main Graph component. Renders all graph types based on the `kind` prop and configuration. Handles chart rendering using Recharts, color schemes, accessibility, and responsive design.
 - **configurations.ts**: Centralizes all graph configuration presets. Defines the `ExtendedGraphKind` type, configuration interfaces, color schemes, and a map of default configurations for each kind. Used by the factory and main component.
-- **factory.tsx**: Provides the `GraphFactory`, `G` (ultra-short alias), `GraphPresets`, and `QuickGraphs` for DRY instantiation of graphs and common analytics/dashboard widgets. Enables rapid creation of common patterns and custom graphs.
 - **Graphs.module.scss**: Contains all styles for the graphs system, including layout, chart-specific styles, color themes, and responsive design. Uses SCSS modules and project-wide mixins/variables.
 - **index.ts**: Barrel file that exports the main component, types, configurations, factory, and presets for easy import elsewhere.
 
@@ -69,7 +68,6 @@ erDiagram
   - Analytics shortcuts: `analyticsTrend`, `analyticsComparison`, `analyticsDistribution`, `analyticsPerformance`.
   - Dashboard shortcuts: `dashboardSummary`, `dashboardKpi`, `dashboardTrend`, `dashboardMini`.
   - Stats shortcuts: `statsScoreProgression`, `statsPerformanceRadar`, `statsMatchHistory`, `statsCategoryBreakdown`, `statsTimeSeries`.
-- **G (alias)**: Ultra-short alias for `GraphFactory`.
 - **GraphPresets (object)**: Predefined graph/analytics/dashboard widget presets for common scenarios (TREND, COMPARISON, DISTRIBUTION, PERFORMANCE, KPI, MINI_TREND, SUMMARY, SCORE_HISTORY, PERFORMANCE_BREAKDOWN, MATCH_HISTORY, CATEGORY_STATS, MOBILE, COMPACT, FULL).
 - **QuickGraphs (object)**: Ultra-convenient graph creation helpers for direct data visualization and dashboard widgets.
 

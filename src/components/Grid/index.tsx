@@ -17,7 +17,6 @@ export * from './configurations';
 export {
 	default as GridFactory,
 	GridFactoryClass,
-	G,
 	GridPresets,
 	QuickGrids,
 } from './factory';

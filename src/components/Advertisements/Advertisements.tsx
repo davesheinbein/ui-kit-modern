@@ -24,36 +24,30 @@ import {
 import { Button } from '../Button';
 import styles from './Advertisements.module.scss';
 
-// Base advertisement props interface
 export interface BaseAdvertisementProps {
 	className?: string;
 	style?: React.CSSProperties;
 }
 
-// Use the extended ad kinds from configurations
 export type AdKind = ExtendedAdKind;
 
-// Individual Advertisement Props
 export interface AdvertisementProps
 	extends BaseAdvertisementProps {
-	// Count prop to determine single vs multiple ads
 	count?: 'one' | 'many';
 
-	// Single ad props (when count="one" or undefined)
 	kind?: AdKind;
 	content?: AdContent;
 
-	// Multiple ads props (when count="many")
 	adPool?: Array<{
 		kind: AdKind;
 		content: AdContent;
-		weight?: number; // for weighted selection
+		weight?: number;
 		props?: Partial<AdvertisementProps>;
 	}>;
 	maxAds?: number;
 	layout?: 'stack' | 'carousel' | 'grid' | 'single';
 	autoRotate?: boolean;
-	rotationInterval?: number; // in milliseconds
+	rotationInterval?: number;
 	spacing?: number;
 	alignItems?:
 		| 'flex-start'
@@ -67,7 +61,6 @@ export interface AdvertisementProps
 		| 'space-between'
 		| 'space-around';
 
-	// Responsive behavior (for multiple ads)
 	responsive?: boolean;
 	breakpoints?: {
 		mobile?: {
@@ -84,12 +77,10 @@ export interface AdvertisementProps
 		};
 	};
 
-	// Common props for both single and multiple
 	allowedAdTypes?: AdKind[];
 	fallbackContent?: React.ReactNode;
 	showFallbackOnError?: boolean;
 
-	// Event handlers
 	onAdLoad?: (adId: string, kind: AdKind) => void;
 	onAdClick?: (adId: string, url: string) => void;
 	onAdImpression?: (adId: string) => void;
@@ -97,76 +88,62 @@ export interface AdvertisementProps
 	onAdError?: (adId: string, error: string) => void;
 	onRewardEarned?: (adId: string, reward: any) => void;
 
-	// Enhanced Analytics Hooks
 	analyticsHooks?: AdAnalyticsHooks;
 	sessionId?: string;
 	userId?: string;
 
-	// Ad Provider Support
 	providers?: AdProvider[];
 	primaryProvider?: AdProviderType;
 	fallbackProviders?: AdProviderType[];
 	providerConfig?: Record<string, any>;
 
-	// State props
 	isVisible?: boolean;
 	isLoading?: boolean;
 	isError?: boolean;
 
-	// Display props
 	autoHide?: boolean;
-	hideDelay?: number; // in milliseconds
+	hideDelay?: number;
 	animationEnabled?: boolean;
 
-	// Targeting and tracking
 	targetingData?: Record<string, any>;
 	trackingEnabled?: boolean;
 
-	// Layout props
 	maxWidth?: number;
 	maxHeight?: number;
 	position?: 'fixed' | 'absolute' | 'relative' | 'static';
 	zIndex?: number;
 
-	// Enhanced customization
 	overrideConfig?: Partial<AdvertisementConfiguration>;
 	customClassName?: string;
 
-	// Modal specific props (for interstitial and reward modals)
 	showBackdrop?: boolean;
 	backdropOpacity?: number;
 }
 
-// Container Props Interface
 export interface AdContainerProps {
 	className?: string;
 	style?: React.CSSProperties;
 
-	// Container configuration
 	allowedAdTypes?: AdKind[];
 	maxAds?: number;
-	rotationInterval?: number; // in milliseconds
+	rotationInterval?: number;
 	autoRotate?: boolean;
 
-	// Advertisement pool
 	adPool?: Array<{
 		kind: AdKind;
 		content: AdContent;
-		weight?: number; // for weighted selection
+		weight?: number;
 		props?: Partial<AdvertisementProps>;
 	}>;
 
-	// Fallback content
 	fallbackContent?: React.ReactNode;
 	showFallbackOnError?: boolean;
 
-	// Event handlers
 	onAdLoad?: (adId: string, kind: AdKind) => void;
 	onAdError?: (adId: string, error: string) => void;
 	onAdClick?: (adId: string, url: string) => void;
 	onAdImpression?: (adId: string) => void;
 
-	// Display configuration
 	layout?: 'stack' | 'carousel' | 'grid' | 'single';
 	spacing?: number;
 	alignItems?:
@@ -181,7 +158,6 @@ export interface AdContainerProps {
 		| 'space-between'
 		| 'space-around';
 
-	// Responsive behavior
 	responsive?: boolean;
 	breakpoints?: {
 		mobile?: {
@@ -198,24 +174,20 @@ export interface AdContainerProps {
 		};
 	};
 
-	// Enhanced Analytics Support
 	analyticsHooks?: AdAnalyticsHooks;
 	sessionId?: string;
 	userId?: string;
 	trackingEnabled?: boolean;
 
-	// Multi-Provider Support
 	providers?: AdProvider[];
 	primaryProvider?: AdProviderType;
 	fallbackProviders?: AdProviderType[];
 	providerConfig?: Record<string, any>;
 
-	// Provider rotation and management
 	enableProviderRotation?: boolean;
-	providerRotationInterval?: number; // milliseconds
-	providerFailureThreshold?: number; // consecutive failures before marking provider as down
+	providerRotationInterval?: number;
+	providerFailureThreshold?: number;
 
-	// Advanced targeting
 	globalTargeting?: Record<string, any>;
 	providerSpecificTargeting?: Record<
 		AdProviderType,
@@ -223,21 +195,17 @@ export interface AdContainerProps {
 	>;
 }
 
-// Single Advertisement Component
 const Advertisements = forwardRef<
 	HTMLDivElement,
 	AdvertisementProps
 >(
 	(
 		{
-			// Count determines single vs multiple ads
 			count = 'one',
 
-			// Single ad props
 			kind,
 			content,
 
-			// Multiple ads props
 			adPool = [],
 			maxAds = 3,
 			layout = 'stack',
@@ -249,7 +217,6 @@ const Advertisements = forwardRef<
 			responsive = true,
 			breakpoints = {},
 
-			// Common props
 			allowedAdTypes = [],
 			fallbackContent,
 			showFallbackOnError = true,
@@ -260,12 +227,10 @@ const Advertisements = forwardRef<
 			onAdError,
 			onRewardEarned,
 
-			// Enhanced Analytics
 			analyticsHooks,
 			sessionId,
 			userId,
 
-			// Provider Support
 			providers = [],
 			primaryProvider = 'custom',
 			fallbackProviders = [],
@@ -293,7 +258,6 @@ const Advertisements = forwardRef<
 		},
 		ref
 	) => {
-		// If count is "many", render the container logic
 		if (count === 'many') {
 			return (
 				<AdContainerImplementation
@@ -329,7 +293,6 @@ const Advertisements = forwardRef<
 			);
 		}
 
-		// For single ads, ensure we have required props
 		if (!kind || !content) {
 			console.error(
 				'Advertisement: kind and content are required for single ads (count="one")'
@@ -338,11 +301,10 @@ const Advertisements = forwardRef<
 					<>{fallbackContent}</>
 				:	null;
 		}
-		// Refs
+
 		const adSlotRef = useRef<HTMLDivElement>(null);
 		const impressionTrackedRef = useRef(false);
 
-		// State
 		const [adState, setAdState] =
 			useState<AdState>('loading');
 		const [isAdVisible, setIsAdVisible] =
@@ -353,7 +315,6 @@ const Advertisements = forwardRef<
 			ctr: 0,
 		});
 
-		// Get base configuration and apply overrides
 		const baseConfig =
 			ADVERTISEMENT_CONFIGURATIONS[
 				kind.replace(
@@ -385,7 +346,6 @@ const Advertisements = forwardRef<
 			...overrideConfig,
 		};
 
-		// Analytics Helper Functions
 		const createAnalyticsEventHelper = useCallback(
 			(
 				eventType: AdAnalyticsEvent['eventType'],
@@ -408,7 +368,6 @@ const Advertisements = forwardRef<
 			(event: AdAnalyticsEvent) => {
 				if (!trackingEnabled) return;
 
-				// Call analytics hooks
 				switch (event.eventType) {
 					case 'impression':
 						analyticsHooks?.onImpression?.(event);
@@ -436,12 +395,10 @@ const Advertisements = forwardRef<
 			[trackingEnabled, analyticsHooks]
 		);
 
-		// Provider Management
 		const loadAdFromProvider = useCallback(async () => {
 			if (!adSlotRef.current || providers.length === 0)
 				return;
 
-			// Try primary provider first
 			const primaryProv = providers.find(
 				(p) => p.config.type === primaryProvider
 			);
@@ -469,7 +426,6 @@ const Advertisements = forwardRef<
 				}
 			}
 
-			// Try fallback providers
 			for (const fallbackType of fallbackProviders) {
 				const fallbackProv = providers.find(
 					(p) => p.config.type === fallbackType
@@ -499,7 +455,6 @@ const Advertisements = forwardRef<
 				}
 			}
 
-			// All providers failed
 			setAdState('error');
 		}, [
 			providers,
@@ -510,7 +465,6 @@ const Advertisements = forwardRef<
 			createAnalyticsEventHelper,
 		]);
 
-		// Load ad from providers when component mounts
 		useEffect(() => {
 			if (providers.length > 0) {
 				loadAdFromProvider();
@@ -519,17 +473,15 @@ const Advertisements = forwardRef<
 			}
 		}, [loadAdFromProvider, providers]);
 
-		// Update visibility when prop changes
 		useEffect(() => {
 			setIsAdVisible(isVisible);
 		}, [isVisible]);
 
-		// Auto-hide functionality
 		useEffect(() => {
 			if (autoHide && hideDelay > 0 && isAdVisible) {
 				const timer = setTimeout(() => {
 					setIsAdVisible(false);
-					// Track dismiss event
+
 					trackEvent(
 						createAnalyticsEventHelper('dismiss', {
 							reason: 'auto-hide',
@@ -550,7 +502,6 @@ const Advertisements = forwardRef<
 			createAnalyticsEventHelper,
 		]);
 
-		// Track impressions with enhanced analytics
 		useEffect(() => {
 			if (
 				isAdVisible &&
@@ -564,7 +515,6 @@ const Advertisements = forwardRef<
 					impressions: (prev.impressions || 0) + 1,
 				}));
 
-				// Track impression event
 				trackEvent(
 					createAnalyticsEventHelper('impression', {
 						adKind: kind,
@@ -593,7 +543,6 @@ const Advertisements = forwardRef<
 			position,
 		]);
 
-		// Handle ad click with enhanced analytics
 		const handleAdClick = useCallback(() => {
 			if (content.actionUrl) {
 				setMetrics((prev) => {
@@ -609,7 +558,6 @@ const Advertisements = forwardRef<
 					};
 				});
 
-				// Track click event
 				trackEvent(
 					createAnalyticsEventHelper('click', {
 						actionUrl: content.actionUrl,
@@ -623,7 +571,6 @@ const Advertisements = forwardRef<
 					content.actionUrl
 				);
 
-				// Open link if it's a clickable ad
 				if (config.clickable) {
 					window.open(
 						content.actionUrl,
@@ -642,11 +589,9 @@ const Advertisements = forwardRef<
 			createAnalyticsEventHelper,
 		]);
 
-		// Handle ad close with analytics
 		const handleAdClose = useCallback(() => {
 			setIsAdVisible(false);
 
-			// Track dismiss event
 			trackEvent(
 				createAnalyticsEventHelper('dismiss', {
 					reason: 'user-close',
@@ -661,10 +606,8 @@ const Advertisements = forwardRef<
 			createAnalyticsEventHelper,
 		]);
 
-		// Handle reward earned (for rewarded ads) with analytics
 		const handleRewardEarned = useCallback(() => {
 			if (kind === 'rewarded-modal') {
-				// Track conversion event
 				trackEvent(
 					createAnalyticsEventHelper('conversion', {
 						rewardType: content.rewardData?.type,
@@ -686,7 +629,6 @@ const Advertisements = forwardRef<
 			createAnalyticsEventHelper,
 		]);
 
-		// Build className
 		const combinedClassName = [
 			styles.advertisement,
 			styles[`advertisement--${kind}`],
@@ -702,7 +644,6 @@ const Advertisements = forwardRef<
 			.filter(Boolean)
 			.join(' ');
 
-		// Build inline styles
 		const combinedStyle: React.CSSProperties = {
 			...style,
 			maxWidth: maxWidth || config.dimensions?.maxWidth,
@@ -712,7 +653,6 @@ const Advertisements = forwardRef<
 			...config.styles,
 		};
 
-		// Don't render if not visible and not a modal type
 		if (
 			!isAdVisible &&
 			![
@@ -724,7 +664,6 @@ const Advertisements = forwardRef<
 			return null;
 		}
 
-		// Render loading state
 		if (isLoading || adState === 'loading') {
 			return (
 				<Wrapper
@@ -742,7 +681,6 @@ const Advertisements = forwardRef<
 			);
 		}
 
-		// Render error state
 		if (isError || adState === 'error') {
 			return fallbackContent ?
 					<Wrapper
@@ -754,7 +692,6 @@ const Advertisements = forwardRef<
 				:	null;
 		}
 
-		// --- Reusable Ad Subcomponents ---
 		const AdImage = ({
 			imageUrl,
 			altText,
@@ -871,7 +808,6 @@ const Advertisements = forwardRef<
 			</Wrapper>
 		);
 
-		// Render different ad types
 		const renderAdContent = () => {
 			switch (kind) {
 				case 'banner':
@@ -1167,7 +1103,6 @@ const Advertisements = forwardRef<
 
 Advertisements.displayName = 'Advertisements';
 
-// Advertisement Container Implementation (used internally by Advertisement component)
 const AdContainerImplementation = forwardRef<
 	HTMLDivElement,
 	AdContainerProps & { ref?: React.Ref<HTMLDivElement> }
@@ -1201,26 +1136,22 @@ const AdContainerImplementation = forwardRef<
 			desktop: { maxAds: 3, layout: 'stack' },
 		},
 
-		// Analytics props
 		analyticsHooks,
 		sessionId,
 		userId,
 		trackingEnabled = true,
 
-		// Provider props
 		providers = [],
 		primaryProvider = 'custom',
 		fallbackProviders = [],
 		providerConfig = {},
 		enableProviderRotation = false,
-		providerRotationInterval = 300000, // 5 minutes
+		providerRotationInterval = 300000,
 		providerFailureThreshold = 3,
 
-		// Targeting props
 		globalTargeting = {},
 		providerSpecificTargeting = {},
 	}) => {
-		// Container state
 		const [currentAds, setCurrentAds] = useState<any[]>([]);
 		const [adErrors, setAdErrors] = useState<
 			Record<string, string>
@@ -1233,24 +1164,20 @@ const AdContainerImplementation = forwardRef<
 				errorRate: 0,
 			});
 
-		// Rotation state
 		const [rotationIndex, setRotationIndex] = useState(0);
 		const rotationTimerRef =
 			useRef<ReturnType<typeof setTimeout>>();
 
-		// Responsive state
 		const [screenSize, setScreenSize] = useState<
 			'mobile' | 'tablet' | 'desktop'
 		>('desktop');
 
-		// Generate unique container ID
 		const containerId = useMemo(
 			() =>
 				`ad-container-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
 			[]
 		);
 
-		// Get responsive config
 		const getResponsiveConfig = useCallback(() => {
 			if (!responsive || !breakpoints) {
 				return { maxAds, layout };
@@ -1271,7 +1198,6 @@ const AdContainerImplementation = forwardRef<
 			layout,
 		]);
 
-		// Screen size detection
 		useEffect(() => {
 			if (!responsive) return;
 
@@ -1297,21 +1223,18 @@ const AdContainerImplementation = forwardRef<
 			};
 		}, [responsive]);
 
-		// Select ads based on allowed types and weights
 		const selectAdsFromPool = useCallback(() => {
 			if (adPool.length === 0) return [];
 
 			const { maxAds: responsiveMaxAds } =
 				getResponsiveConfig();
 
-			// Filter by allowed types
 			const allowedAds = adPool.filter((ad) =>
 				allowedAdTypes.includes(ad.kind)
 			);
 
 			if (allowedAds.length === 0) return [];
 
-			// Weighted selection
 			const weightedAds: any[] = [];
 			allowedAds.forEach((ad) => {
 				const weight = ad.weight || 1;
@@ -1320,20 +1243,17 @@ const AdContainerImplementation = forwardRef<
 				}
 			});
 
-			// Shuffle and select
 			const shuffled = [...weightedAds].sort(
 				() => Math.random() - 0.5
 			);
 			return shuffled.slice(0, responsiveMaxAds);
 		}, [adPool, allowedAdTypes, getResponsiveConfig]);
 
-		// Initialize ads
 		useEffect(() => {
 			const selectedAds = selectAdsFromPool();
 			setCurrentAds(selectedAds);
 		}, [selectAdsFromPool]);
 
-		// Auto-rotation
 		useEffect(() => {
 			if (
 				!autoRotate ||
@@ -1356,7 +1276,6 @@ const AdContainerImplementation = forwardRef<
 			};
 		}, [autoRotate, rotationInterval, currentAds.length]);
 
-		// Handle ad events
 		const handleAdLoad = useCallback(
 			(adId: string, kind: AdKind) => {
 				setContainerMetrics((prev) => ({
@@ -1409,7 +1328,6 @@ const AdContainerImplementation = forwardRef<
 			[onAdImpression]
 		);
 
-		// Build container className
 		const containerClassName = [
 			styles.adContainer,
 			styles[`adContainer--${layout}`],
@@ -1419,7 +1337,6 @@ const AdContainerImplementation = forwardRef<
 			.filter(Boolean)
 			.join(' ');
 
-		// Build container styles
 		const containerStyle: React.CSSProperties = {
 			...style,
 			gap: spacing,
@@ -1427,7 +1344,6 @@ const AdContainerImplementation = forwardRef<
 			justifyContent,
 		};
 
-		// Show fallback if no ads or all failed
 		if (
 			currentAds.length === 0 ||
 			Object.keys(adErrors).length === currentAds.length
@@ -1445,7 +1361,6 @@ const AdContainerImplementation = forwardRef<
 		const { layout: responsiveLayout } =
 			getResponsiveConfig();
 
-		// Render based on layout
 		const renderAds = () => {
 			switch (responsiveLayout) {
 				case 'single':
@@ -1585,11 +1500,512 @@ const AdContainerImplementation = forwardRef<
 	}
 );
 
-// Create AdContainer alias for backward compatibility
 const AdContainer = Advertisements;
 
-// Export both components and types
 export { Advertisements, AdContainer };
 
-// Default export is Advertisements
 export default Advertisements;
+
+export type AdCreationConfig = {
+	kind: AdKind;
+	defaultProps: Partial<AdvertisementProps>;
+	validator?: (content: AdContent) => boolean;
+};
+
+const AD_CREATION_CONFIGS: Partial<
+	Record<AdKind, AdCreationConfig>
+> = {
+	'banner': {
+		kind: 'banner',
+		defaultProps: { position: 'relative' },
+		validator: (content: AdContent) =>
+			!!content.title || !!content.imageUrl,
+	},
+	'banner-ad': {
+		kind: 'banner-ad',
+		defaultProps: { position: 'relative' },
+		validator: (content: AdContent) =>
+			!!content.title || !!content.imageUrl,
+	},
+	'interstitial': {
+		kind: 'interstitial',
+		defaultProps: { position: 'fixed', showBackdrop: true },
+		validator: (content: AdContent) =>
+			!!content.title && !!content.ctaText,
+	},
+	'interstitial-ad': {
+		kind: 'interstitial-ad',
+		defaultProps: { position: 'fixed', showBackdrop: true },
+		validator: (content: AdContent) =>
+			!!content.title && !!content.ctaText,
+	},
+	'rewarded-modal': {
+		kind: 'rewarded-modal',
+		defaultProps: { position: 'fixed', showBackdrop: true },
+		validator: (content: AdContent) =>
+			!!content.title && !!content.ctaText,
+	},
+	'rewarded-ad-modal': {
+		kind: 'rewarded-ad-modal',
+		defaultProps: { position: 'fixed', showBackdrop: true },
+		validator: (content: AdContent) =>
+			!!content.title && !!content.ctaText,
+	},
+	'native-card': {
+		kind: 'native-card',
+		defaultProps: { position: 'relative' },
+		validator: (content: AdContent) =>
+			!!content.title || !!content.description,
+	},
+	'native-ad-card': {
+		kind: 'native-ad-card',
+		defaultProps: { position: 'relative' },
+		validator: (content: AdContent) =>
+			!!content.title || !!content.description,
+	},
+	'sticky-bar': {
+		kind: 'sticky-bar',
+		defaultProps: { position: 'fixed' },
+	},
+	'sticky-ad-bar': {
+		kind: 'sticky-ad-bar',
+		defaultProps: { position: 'fixed' },
+	},
+	'floating-widget': {
+		kind: 'floating-widget',
+		defaultProps: { position: 'fixed' },
+	},
+	'floating-ad-widget': {
+		kind: 'floating-ad-widget',
+		defaultProps: { position: 'fixed' },
+	},
+	'toast-notification': {
+		kind: 'toast-notification',
+		defaultProps: {
+			position: 'fixed',
+			autoHide: true,
+			hideDelay: 5000,
+		},
+	},
+	'toast-ad-notification': {
+		kind: 'toast-ad-notification',
+		defaultProps: {
+			position: 'fixed',
+			autoHide: true,
+			hideDelay: 5000,
+		},
+	},
+	'exit-intent-modal': {
+		kind: 'exit-intent-modal',
+		defaultProps: { position: 'fixed', showBackdrop: true },
+	},
+	'exit-intent-ad-modal': {
+		kind: 'exit-intent-ad-modal',
+		defaultProps: { position: 'fixed', showBackdrop: true },
+	},
+	'in-game-billboard': {
+		kind: 'in-game-billboard',
+		defaultProps: { position: 'relative' },
+	},
+};
+
+const USE_CASE_CONFIGS = {
+	website: {
+		primary: 'banner' as AdKind,
+		secondary: [
+			'native-card',
+			'sticky-bar',
+			'exit-intent-modal',
+		] as AdKind[],
+		priorities: {
+			'banner': 1,
+			'native-card': 2,
+			'sticky-bar': 3,
+			'exit-intent-modal': 4,
+		},
+	},
+	mobile: {
+		primary: 'interstitial' as AdKind,
+		secondary: [
+			'rewarded-modal',
+			'toast-notification',
+		] as AdKind[],
+		priorities: {
+			'interstitial': 1,
+			'rewarded-modal': 2,
+			'toast-notification': 3,
+		},
+	},
+	game: {
+		primary: 'in-game-billboard' as AdKind,
+		secondary: [
+			'rewarded-modal',
+			'floating-widget',
+		] as AdKind[],
+		priorities: {
+			'in-game-billboard': 1,
+			'rewarded-modal': 2,
+			'floating-widget': 3,
+		},
+	},
+	ecommerce: {
+		primary: 'banner' as AdKind,
+		secondary: [
+			'native-card',
+			'exit-intent-modal',
+			'sticky-bar',
+		] as AdKind[],
+		priorities: {
+			'banner': 1,
+			'native-card': 2,
+			'exit-intent-modal': 3,
+			'sticky-bar': 4,
+		},
+	},
+	blog: {
+		primary: 'native-card' as AdKind,
+		secondary: ['banner', 'sticky-bar'] as AdKind[],
+		priorities: {
+			'native-card': 1,
+			'banner': 2,
+			'sticky-bar': 3,
+		},
+	},
+};
+
+export class AdvertisementFactory {
+	static createWithConfig(
+		kind: AdKind,
+		content: AdContent,
+		customProps: Partial<AdvertisementProps> = {}
+	): React.ReactElement<AdvertisementProps> {
+		const config = AD_CREATION_CONFIGS[kind];
+		const props = {
+			...config?.defaultProps,
+			...customProps,
+			kind,
+			content,
+		} as AdvertisementProps;
+		return <Advertisements {...props} />;
+	}
+	static create(
+		kind: AdKind,
+		content: AdContent,
+		customProps: Partial<AdvertisementProps> = {}
+	): React.ReactElement<AdvertisementProps> {
+		return AdvertisementFactory.createWithConfig(
+			kind,
+			content,
+			customProps
+		);
+	}
+	static createBatch(
+		specs: Array<{
+			kind: AdKind;
+			content: AdContent;
+			props?: Partial<AdvertisementProps>;
+		}>
+	): React.ReactElement<AdvertisementProps>[] {
+		return specs.map(({ kind, content, props }) =>
+			AdvertisementFactory.createWithConfig(
+				kind,
+				content,
+				props
+			)
+		);
+	}
+	static createConditional(
+		condition: boolean,
+		kind: AdKind,
+		content: AdContent,
+		props?: Partial<AdvertisementProps>
+	): React.ReactElement<AdvertisementProps> | null {
+		return condition ?
+				AdvertisementFactory.createWithConfig(
+					kind,
+					content,
+					props
+				)
+			:	null;
+	}
+	static createSmart(
+		context: {
+			isMobile?: boolean;
+			isGame?: boolean;
+			hasSpace?: boolean;
+			userEngagement?: 'high' | 'medium' | 'low';
+		},
+		content: AdContent,
+		props?: Partial<AdvertisementProps>
+	): React.ReactElement<AdvertisementProps> {
+		if (context.isGame)
+			return AdvertisementFactory.createWithConfig(
+				'in-game-billboard',
+				content,
+				props
+			);
+		if (context.isMobile)
+			return AdvertisementFactory.createWithConfig(
+				'interstitial',
+				content,
+				props
+			);
+		if (context.userEngagement === 'high')
+			return AdvertisementFactory.createWithConfig(
+				'rewarded-modal',
+				content,
+				props
+			);
+		return AdvertisementFactory.createWithConfig(
+			'banner',
+			content,
+			props
+		);
+	}
+	static createAdSet(
+		useCase: keyof typeof USE_CASE_CONFIGS,
+		contentMap: Record<string, AdContent>,
+		options: {
+			sharedProps?: Partial<AdvertisementProps>;
+			positions?: Record<
+				string,
+				Partial<AdvertisementProps>
+			>;
+			onlyPrimary?: boolean;
+		} = {}
+	): Record<
+		string,
+		React.ReactElement<AdvertisementProps>
+	> {
+		const config = USE_CASE_CONFIGS[useCase];
+		const result: Record<
+			string,
+			React.ReactElement<AdvertisementProps>
+		> = {};
+		if (options.onlyPrimary && config.primary) {
+			result['primary'] =
+				AdvertisementFactory.createWithConfig(
+					config.primary,
+					contentMap['primary'] || {},
+					options.sharedProps
+				);
+			return result;
+		}
+		[config.primary, ...(config.secondary || [])].forEach(
+			(kind, idx) => {
+				const key =
+					idx === 0 ? 'primary' : `secondary${idx}`;
+				result[key] = AdvertisementFactory.createWithConfig(
+					kind,
+					contentMap[key] || {},
+					{
+						...options.sharedProps,
+						...(options.positions?.[key] || {}),
+					}
+				);
+			}
+		);
+		return result;
+	}
+}
+
+export const AdUtils = {
+	batchCreate: (
+		requests: Array<{
+			kind: AdKind;
+			content: AdContent;
+			props?: Partial<AdvertisementProps>;
+		}>
+	) =>
+		requests.map(({ kind, content, props }) =>
+			AdvertisementFactory.createWithConfig(
+				kind,
+				content,
+				props
+			)
+		),
+	conditionalCreate: (
+		conditions: Array<{
+			condition: boolean;
+			kind: AdKind;
+			content: AdContent;
+			props?: Partial<AdvertisementProps>;
+		}>
+	) =>
+		conditions.map(({ condition, kind, content, props }) =>
+			condition ?
+				AdvertisementFactory.createWithConfig(
+					kind,
+					content,
+					props
+				)
+			:	null
+		),
+	responsiveCreate: (
+		content: AdContent,
+		breakpoints: {
+			mobile?: {
+				kind: AdKind;
+				props?: Partial<AdvertisementProps>;
+			};
+			tablet?: {
+				kind: AdKind;
+				props?: Partial<AdvertisementProps>;
+			};
+			desktop?: {
+				kind: AdKind;
+				props?: Partial<AdvertisementProps>;
+			};
+		}
+	) => ({
+		mobile:
+			breakpoints.mobile ?
+				AdvertisementFactory.createWithConfig(
+					breakpoints.mobile.kind,
+					content,
+					breakpoints.mobile.props
+				)
+			:	null,
+		tablet:
+			breakpoints.tablet ?
+				AdvertisementFactory.createWithConfig(
+					breakpoints.tablet.kind,
+					content,
+					breakpoints.tablet.props
+				)
+			:	null,
+		desktop:
+			breakpoints.desktop ?
+				AdvertisementFactory.createWithConfig(
+					breakpoints.desktop.kind,
+					content,
+					breakpoints.desktop.props
+				)
+			:	null,
+	}),
+	abTestCreate: (
+		content: AdContent,
+		variants: Array<{
+			kind: AdKind;
+			props?: Partial<AdvertisementProps>;
+			weight?: number;
+		}>,
+		testGroup?: string
+	) => {
+		const totalWeight = variants.reduce(
+			(sum, v) => sum + (v.weight || 1),
+			0
+		);
+		let idx = 0;
+		if (testGroup) {
+			idx =
+				Math.abs(
+					testGroup
+						.split('')
+						.reduce((a, c) => a + c.charCodeAt(0), 0)
+				) % variants.length;
+		} else {
+			let r = Math.random() * totalWeight;
+			for (let i = 0; i < variants.length; i++) {
+				r -= variants[i].weight || 1;
+				if (r <= 0) {
+					idx = i;
+					break;
+				}
+			}
+		}
+		const v = variants[idx];
+		return AdvertisementFactory.createWithConfig(
+			v.kind,
+			content,
+			v.props
+		);
+	},
+};
+
+export const AdPresets = {
+	websiteHeader: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'banner',
+			content,
+			{ position: 'relative' }
+		),
+	websiteFooter: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'banner',
+			content,
+			{ position: 'relative' }
+		),
+	websiteInContent: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'native-card',
+			content,
+			{ position: 'relative' }
+		),
+	websiteSidebar: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'native-card',
+			content,
+			{ position: 'relative' }
+		),
+	mobileFullscreen: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'interstitial',
+			content,
+			{ position: 'fixed' }
+		),
+	mobileReward: (
+		content: AdContent & { rewardData: any }
+	) =>
+		AdvertisementFactory.createWithConfig(
+			'rewarded-modal',
+			content,
+			{ position: 'fixed' }
+		),
+	gameBillboard: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'in-game-billboard',
+			content,
+			{ position: 'relative' }
+		),
+	gameReward: (content: AdContent & { rewardData: any }) =>
+		AdvertisementFactory.createWithConfig(
+			'rewarded-modal',
+			content,
+			{ position: 'fixed', showBackdrop: true }
+		),
+	productPromo: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'banner',
+			content,
+			{ position: 'relative' }
+		),
+	cartAbandonment: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'exit-intent-modal',
+			content,
+			{ position: 'fixed', showBackdrop: true }
+		),
+	saleNotification: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'toast-notification',
+			content,
+			{ position: 'fixed', autoHide: true, hideDelay: 8000 }
+		),
+	sponsoredContent: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'native-card',
+			content,
+			{ position: 'relative' }
+		),
+	newsletterPromo: (content: AdContent) =>
+		AdvertisementFactory.createWithConfig(
+			'sticky-bar',
+			content,
+			{ position: 'fixed' }
+		),
+};
+
+(Advertisements as any).Factory = AdvertisementFactory;
+(Advertisements as any).Utils = AdUtils;
+(Advertisements as any).Presets = AdPresets;

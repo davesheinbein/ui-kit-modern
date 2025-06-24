@@ -419,11 +419,6 @@ export const FooterFactory: React.FC<FooterProps> = ({
 FooterFactory.displayName = 'FooterFactory';
 
 /**
- * Ultra-DRY Footer shortcuts - for maximum convenience
- */
-export const Foot = FooterFactory; // Ultra-short alias
-
-/**
  * Footer presets with common patterns
  */
 export const FooterPresets = {

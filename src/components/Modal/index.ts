@@ -1,7 +1,6 @@
 export { default as Modal } from './Modal';
 export {
 	default as ModalFactory,
-	M,
 	ModalPresets,
 	createModal,
 	SimpleModalFactory,

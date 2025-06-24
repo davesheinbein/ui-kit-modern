@@ -7,7 +7,6 @@ export type {
 export * from './configurations';
 export {
 	default as GraphFactory,
-	G,
 	GraphPresets,
 	QuickGraphs,
 } from './factory';

@@ -91,7 +91,6 @@ export interface FileUploadValidation {
 	minSize?: number;
 	maxFiles?: number;
 	minFiles?: number;
-	maxFileSize?: number; // Alias for maxSize for backward compatibility
 	allowedTypes?: string[];
 	blockedTypes?: string[];
 	customValidator?: (file: File) => boolean | string;

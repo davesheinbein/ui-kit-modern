@@ -44,9 +44,6 @@ The Settings DRY system provides a configuration-driven approach to creating var
 // Factory pattern
 <SettingsFactory kind="customization-category" items={themes} />
 
-// Ultra-short alias
-<SettingsFactory kind="user-settings" sections={userPrefs} />
-
 // Presets
 <SettingsPresets.UserSettings sections={sections} />
 
@@ -338,36 +335,6 @@ export const FactoryPattern: Story = {
 			description: {
 				story:
 					'Shows SettingsFactory creating different settings interfaces through configuration.',
-			},
-		},
-	},
-};
-
-export const UltraShortAlias: Story = {
-	name: '⚡ SettingsFactory Rapid',
-	render: (args) => (
-		<Wrapper className='space-y-4'>
-			<h3>SettingsFactory Examples</h3>
-			<Wrapper className='grid gap-4'>
-				<SettingsFactory
-					kind='customization-category'
-					title='Themes'
-					items={mockThemeItems}
-					{...args}
-				/>
-				<SettingsFactory
-					kind='user-settings'
-					sections={mockUserSections}
-					{...args}
-				/>
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Demonstrates SettingsFactory for rapid development.',
 			},
 		},
 	},

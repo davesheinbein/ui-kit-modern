@@ -9,7 +9,6 @@ export * from './configurations';
 
 export {
 	default as PageFactory,
-	P,
 	PagePresets,
 	createPage,
 } from './factory';

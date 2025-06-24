@@ -95,7 +95,7 @@ export class SidebarFactory {
  */
 
 // Main factory function - shortest way to create any sidebar
-export const S = (
+export const Sidebar = (
 	kind: ExtendedSidebarKind,
 	props?: Partial<SidebarProps>
 ) => SidebarFactory.create(kind, props);
@@ -185,93 +185,115 @@ export const SidebarGroups = {
 // Specific sidebar creation functions for common use cases
 export const createFriendsSidebar = (
 	props?: Partial<SidebarProps>
-) => S('friends', props);
+) => Sidebar('friends', props);
 
 export const createFriendsCompactSidebar = (
 	props?: Partial<SidebarProps>
-) => S('friends-compact', props);
+) => Sidebar('friends-compact', props);
 
 export const createFriendsExpandedSidebar = (
 	props?: Partial<SidebarProps>
-) => S('friends-expanded', props);
+) => Sidebar('friends-expanded', props);
 
 export const createSettingsSidebar = (
 	props?: Partial<SidebarProps>
-) => S('settings', props);
+) => Sidebar('settings', props);
 
 export const createChatSidebar = (
 	props?: Partial<SidebarProps>
-) => S('chat', props);
+) => Sidebar('chat', props);
 
 export const createNotificationsSidebar = (
 	props?: Partial<SidebarProps>
-) => S('notifications', props);
+) => Sidebar('notifications', props);
 
 // Position-specific functions
 export const createLeftSidebar = (
 	variant: 'friends' | 'settings' = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-left` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-left` as ExtendedSidebarKind, props);
 
 export const createRightSidebar = (
 	variant: 'friends' | 'settings' = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-right` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-right` as ExtendedSidebarKind, props);
 
 // Size-specific functions
 export const createSmallSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-small` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-small` as ExtendedSidebarKind, props);
 
 export const createMediumSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-medium` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(
+		`${variant}-medium` as ExtendedSidebarKind,
+		props
+	);
 
 export const createLargeSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-large` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-large` as ExtendedSidebarKind, props);
 
 export const createFullSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-full` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-full` as ExtendedSidebarKind, props);
 
 // Responsive functions
 export const createMobileSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-mobile` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(
+		`${variant}-mobile` as ExtendedSidebarKind,
+		props
+	);
 
 export const createDesktopSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-desktop` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(
+		`${variant}-desktop` as ExtendedSidebarKind,
+		props
+	);
 
 export const createResponsiveSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
 ) =>
-	S(`${variant}-responsive` as ExtendedSidebarKind, props);
+	Sidebar(
+		`${variant}-responsive` as ExtendedSidebarKind,
+		props
+	);
 
 // Animation-specific functions
 export const createFadeSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-fade` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-fade` as ExtendedSidebarKind, props);
 
 export const createScaleSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-scale` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-scale` as ExtendedSidebarKind, props);
 
 export const createNoAnimationSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
 ) =>
-	S(
+	Sidebar(
 		`${variant}-no-animation` as ExtendedSidebarKind,
 		props
 	);
@@ -280,22 +302,29 @@ export const createNoAnimationSidebar = (
 export const createModalSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-modal` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-modal` as ExtendedSidebarKind, props);
 
 export const createSlideSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-slide` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-slide` as ExtendedSidebarKind, props);
 
 export const createPushSidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-push` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(`${variant}-push` as ExtendedSidebarKind, props);
 
 export const createOverlaySidebar = (
 	variant: string = 'friends',
 	props?: Partial<SidebarProps>
-) => S(`${variant}-overlay` as ExtendedSidebarKind, props);
+) =>
+	Sidebar(
+		`${variant}-overlay` as ExtendedSidebarKind,
+		props
+	);
 
 /**
  * Sidebar composition utilities
@@ -311,7 +340,7 @@ export const SidebarComposer = {
 		}>
 	) => {
 		return configs.map(({ kind, props = {} }, index) =>
-			S(kind, {
+			Sidebar(kind, {
 				...props,
 				style: {
 					...props.style,
@@ -333,27 +362,9 @@ export const SidebarComposer = {
 	) => {
 		// This would require media query detection
 		// For now, return the responsive variant
-		return S('friends-responsive', props);
+		return Sidebar('friends-responsive', props);
 	},
 };
-
-/**
- * Legacy aliases for backward compatibility
- */
-export const createSidebar = S;
-export const Sidebar = S;
-export const FriendsSidebar = (
-	props?: Partial<SidebarProps>
-) => S('friends', props);
-export const SettingsSidebar = (
-	props?: Partial<SidebarProps>
-) => S('settings', props);
-export const ChatSidebar = (
-	props?: Partial<SidebarProps>
-) => S('chat', props);
-export const NotificationsSidebar = (
-	props?: Partial<SidebarProps>
-) => S('notifications', props);
 
 // Default export is the factory
 export default SidebarFactory;

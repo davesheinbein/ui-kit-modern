@@ -8,7 +8,6 @@ export * from './configurations';
 // Factory system
 export {
 	default as WrapperFactory,
-	W,
 	WrapperPresets,
 	createWrapper,
 	createWrapperWithConfig,

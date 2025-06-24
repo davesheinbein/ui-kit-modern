@@ -50,7 +50,6 @@ erDiagram
 ### factory.tsx
 
 - **MonetizationFactory**: React functional component. Instantiates a `Monetization` of the specified kind, merging config and props.
-- **M**: Ultra-short alias for `MonetizationFactory`.
 - **MonetizationPresets**: Object containing preset creator functions for common monetization UI (e.g., `basicPlan`, `premiumPlan`, `usageTracker`, `checkoutForm`, `upgradeModal`, `creditBalance`, `buyButton`, `flashSale`).
 - **createMonetization(kind, props)**: Simplified creator function for any monetization component.
 - **SimpleMonetizationFactory**: Class with static methods for creating monetization components for all major use cases (pricing, payment, engagement, tracking, etc.).

@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useCallback } from 'react';
 import { Button } from '../../components/Button';
 import { Advertisements } from '../../components/Advertisements/Advertisements';
-import { AdvertisementFactory } from '../../components/Advertisements';
 import { Wrapper } from '../../components/Wrappers';
 import {
 	AdContent,
@@ -25,12 +24,12 @@ const meta: Meta = {
 				component: `
 # Advertisement System
 
-A comprehensive, modern advertisement component system built with TypeScript and React. This system provides a DRY (Don't Repeat Yourself) approach to creating and managing advertisements across different platforms and use cases.
+A modern, unified advertisement component system built with TypeScript and React. This system provides a DRY (Don't Repeat Yourself) approach to creating and managing advertisements across different platforms and use cases.
 
 ## Features
 
 - **10+ Advertisement Types**: Banner, Interstitial, Rewarded Modal, Native Card, Sticky Bar, Floating Widget, Toast Notification, Exit Intent Modal, In-Game Billboard, and flexible Ad Container
-- **Factory Pattern**: Easy creation with minimal configuration using \`AdvertisementFactory\` or shorthand \`A\` class
+- **Unified API**: Just use the <Advertisements /> component with the kind prop for any ad type
 - **Analytics Integration**: Comprehensive tracking with hooks for impressions, clicks, conversions, and errors
 - **Multi-Provider Support**: Integration with AdSense, Adsterra, custom providers with fallback mechanisms
 - **Responsive Design**: Automatic adaptation to different screen sizes with configurable breakpoints
@@ -40,41 +39,35 @@ A comprehensive, modern advertisement component system built with TypeScript and
 
 ## Quick Start
 
-\`\`\`typescript
-import { AdvertisementFactory, A } from 'path/to/advertisements';
+\`\`\`tsx
+import { Advertisements } from 'src/components/Advertisements';
 
-// Using the factory
-const banner = AdvertisementFactory.createBanner({
-  id: 'my-banner',
-  title: 'Special Offer!',
-  description: 'Save 50% on premium features.',
-  ctaText: 'Learn More',
-  actionUrl: 'https://example.com'
-});
+// Render a single banner ad
+<Advertisements kind="banner" content={{ title: 'Special Offer!', ctaText: 'Learn More' }} />;
 
-// Using shorthand
-const nativeAd = AdvertisementFactory.create('native-card', {
-  id: 'my-native',
-  title: 'Sponsored Content',
-  description: 'Discover new possibilities...',
-  ctaText: 'Read More',
-  actionUrl: '#'
-});
+// Render a multi-ad layout (stack, grid, carousel, etc.)
+<Advertisements
+  count="many"
+  adPool={[
+    { kind: 'banner', content: { title: 'Header Ad' } },
+    { kind: 'native-card', content: { title: 'In-Content Ad' } },
+    { kind: 'sticky-bar', content: { title: 'Sticky Bar' } },
+  ]}
+  layout="grid"
+  maxAds={3}
+/>;
 \`\`\`
 
-## Architecture
+## Advanced Usage
 
-The system is built with several key components:
+For advanced, programmatic scenarios (dynamic ad pools, validation, etc.), use the static helpers:
 
-### Core Components
-- **Advertisement**: The main component that renders all ad types
-- **Advertisement**: A container for managing multiple ads with rotation and layout options
-- **AdvertisementFactory**: Factory class for creating ads with minimal configuration
+\`\`\`tsx
+const adProps = Advertisements.Factory.create('native-card', { title: 'Dynamic Ad', ctaText: 'Go' });
+<Advertisements {...adProps} />;
+\`\`\`
 
-### Analytics & Providers
-- **Analytics Hooks**: Track impressions, clicks, conversions, and errors
-- **Multi-Provider Support**: AdSense, Adsterra, custom providers with automatic failover
-- **Performance Tracking**: Real-time metrics and reporting capabilities
+But for most use cases, just use the kind prop.
 
 ## Advertisement Types
 
@@ -148,7 +141,7 @@ const sampleRewardContent: AdContent = {
 // Sample ad pool for containers
 const sampleAdPool = [
 	{
-		kind: 'banner-ad' as const,
+		kind: 'banner' as const,
 		content: {
 			id: 'banner-1',
 			title: 'Summer Sale - 50% Off!',
@@ -162,7 +155,7 @@ const sampleAdPool = [
 		weight: 2,
 	},
 	{
-		kind: 'native-ad-card' as const,
+		kind: 'native-card' as const,
 		content: {
 			id: 'native-1',
 			title: 'Discover New Technology',
@@ -177,7 +170,7 @@ const sampleAdPool = [
 		weight: 1,
 	},
 	{
-		kind: 'banner-ad' as const,
+		kind: 'banner' as const,
 		content: {
 			id: 'banner-2',
 			title: 'Premium Membership',
@@ -191,7 +184,7 @@ const sampleAdPool = [
 		weight: 1,
 	},
 	{
-		kind: 'native-ad-card' as const,
+		kind: 'native-card' as const,
 		content: {
 			id: 'native-2',
 			title: 'Health & Wellness Tips',
@@ -206,7 +199,7 @@ const sampleAdPool = [
 		weight: 1,
 	},
 	{
-		kind: 'floating-ad-widget' as const,
+		kind: 'floating-widget' as const,
 		content: {
 			id: 'widget-1',
 			title: 'Need Help?',
@@ -293,7 +286,7 @@ const createSampleProviders = (): AdProvider[] => [
 // Enhanced ad pool with provider-specific content
 const enhancedAdPool = [
 	{
-		kind: 'banner-ad' as const,
+		kind: 'banner',
 		content: {
 			id: 'adsense-banner-1',
 			title: 'AdSense Banner Ad',
@@ -307,7 +300,7 @@ const enhancedAdPool = [
 		weight: 2,
 	},
 	{
-		kind: 'native-ad-card' as const,
+		kind: 'native-card',
 		content: {
 			id: 'adsterra-native-1',
 			title: 'Adsterra Native Ad',
@@ -322,7 +315,7 @@ const enhancedAdPool = [
 		weight: 1,
 	},
 	{
-		kind: 'banner-ad' as const,
+		kind: 'banner',
 		content: {
 			id: 'custom-sponsor-1',
 			title: 'Premium Sponsor',
@@ -681,7 +674,7 @@ export const BannerAd: Story = {
 		<Wrapper style={{ padding: '20px' }}>
 			<h2>Banner Advertisement</h2>
 			<Advertisements
-				kind='banner-ad'
+				kind='banner'
 				content={sampleBannerContent}
 				animationEnabled={true}
 				trackingEnabled={true}
@@ -714,7 +707,7 @@ export const InterstitialAd: Story = {
 				</Button>
 
 				<Advertisements
-					kind='interstitial-ad'
+					kind='interstitial'
 					content={{
 						id: 'interstitial-1',
 						title: 'Special Offer Just for You!',
@@ -765,7 +758,7 @@ export const RewardedModal: Story = {
 				</Button>
 
 				<Advertisements
-					kind='rewarded-ad-modal'
+					kind='rewarded-modal'
 					content={sampleRewardContent}
 					isVisible={isVisible}
 					showBackdrop={true}
@@ -786,267 +779,19 @@ export const RewardedModal: Story = {
 	},
 };
 
-export const NativeCard: Story = {
-	render: () => (
-		<Wrapper style={{ padding: '20px' }}>
-			<h2>Native Card Advertisement</h2>
-			<p>This native ad blends seamlessly with content:</p>
-			<Advertisements
-				kind='native-ad-card'
-				content={sampleNativeContent}
-				animationEnabled={true}
-				trackingEnabled={true}
-			/>
-		</Wrapper>
-	),
-};
+// ===== ADVANCED PROGRAMMATIC USAGE EXAMPLE =====
 
-export const StickyBar: Story = {
-	render: () => (
-		<Wrapper
-			style={{ padding: '20px', minHeight: '100vh' }}
-		>
-			<h2>Sticky Bar Advertisement</h2>
-			<p>
-				The sticky bar appears at the bottom of the page.
-			</p>
-			<Wrapper
-				style={{
-					height: '1000px',
-					background: '#f8f9fa',
-					padding: '20px',
-					borderRadius: '8px',
-				}}
-			>
-				<p>
-					Scroll content to see the sticky bar behavior...
-				</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing
-					elit...
-				</p>
-			</Wrapper>
-
-			<Advertisements
-				kind='sticky-ad-bar'
-				content={{
-					id: 'sticky-1',
-					title: 'Newsletter Signup',
-					description:
-						'Get the latest updates delivered to your inbox.',
-					ctaText: 'Subscribe',
-					actionUrl: 'https://example.com/newsletter',
-				}}
-				position='fixed'
-				style={{ bottom: 0, left: 0, right: 0 }}
-				animationEnabled={true}
-			/>
-		</Wrapper>
-	),
-};
-
-export const FloatingWidget: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				padding: '20px',
-				minHeight: '100vh',
-				position: 'relative',
-			}}
-		>
-			<h2>Floating Widget Advertisement</h2>
-			<p>
-				A floating widget appears in the corner with
-				auto-hide functionality.
-			</p>
-
-			<Advertisements
-				kind='floating-ad-widget'
-				content={{
-					id: 'floating-1',
-					title: 'Need Help?',
-					imageUrl:
-						'https://via.placeholder.com/200x150/17a2b8/ffffff?text=Help+Widget',
-					ctaText: 'Chat Now',
-					actionUrl: 'https://example.com/chat',
-					altText: 'Customer support chat widget',
-				}}
-				position='fixed'
-				style={{ bottom: 20, right: 20 }}
-				autoHide={true}
-				hideDelay={10000}
-				animationEnabled={true}
-			/>
-		</Wrapper>
-	),
-};
-
-export const ToastNotification: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				padding: '20px',
-				minHeight: '100vh',
-				position: 'relative',
-			}}
-		>
-			<h2>Toast Notification Advertisement</h2>
-			<p>
-				Toast notifications appear in the corner and
-				auto-dismiss.
-			</p>
-
-			<Advertisements
-				kind='toast-ad-notification'
-				content={{
-					id: 'toast-1',
-					title: 'New Feature Available!',
-					description:
-						'Check out our latest feature that will boost your productivity.',
-					ctaText: 'Try Now',
-					actionUrl: 'https://example.com/features',
-				}}
-				position='fixed'
-				style={{ top: 20, right: 20 }}
-				autoHide={true}
-				hideDelay={5000}
-				animationEnabled={true}
-			/>
-		</Wrapper>
-	),
-};
-
-// ===== FACTORY PATTERN EXAMPLES =====
-
-export const BasicFactoryUsage: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				padding: '20px',
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '20px',
-			}}
-		>
-			<h2>Basic Factory Usage</h2>
-			<p>
-				Using <code>AdvertisementFactory.create()</code>{' '}
-				method:
-			</p>
-
-			{AdvertisementFactory.create(
-				'banner-ad',
-				sampleBannerContent
-			)}
-			{AdvertisementFactory.create(
-				'native-ad-card',
-				sampleNativeContent
-			)}
-		</Wrapper>
-	),
-};
-
-export const ShorthandFactoryUsage: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				padding: '20px',
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '20px',
-			}}
-		>
-			<h2>Shorthand Factory Usage</h2>
-			<p>
-				Using the shorthand{' '}
-				<code>AdvertisementFactory.create()</code> class for
-				quicker ad creation:
-			</p>
-
-			{AdvertisementFactory.create(
-				'banner-ad',
-				sampleBannerContent
-			)}
-			{AdvertisementFactory.create(
-				'native-ad-card',
-				sampleNativeContent
-			)}
-		</Wrapper>
-	),
-};
-
-export const SpecializedFactoryMethods: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				padding: '20px',
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '20px',
-			}}
-		>
-			<h2>Specialized Factory Methods</h2>
-
-			<Wrapper>
-				<h3>createBanner()</h3>
-				{AdvertisementFactory.createBanner({
-					id: 'factory-banner',
-					title: 'Factory Created Banner',
-					description:
-						'This banner was created using the specialized factory method.',
-					imageUrl:
-						'https://via.placeholder.com/728x90/007bff/ffffff?text=Factory+Banner',
-					ctaText: 'Learn More',
-					actionUrl: 'https://example.com/factory',
-				})}
-			</Wrapper>
-
-			<Wrapper>
-				<h3>createNativeCard()</h3>
-				{AdvertisementFactory.createNativeCard({
-					id: 'factory-native',
-					title: 'Factory Native Ad',
-					description:
-						'Native advertisement created with specialized factory method.',
-					imageUrl:
-						'https://via.placeholder.com/300x200/28a745/ffffff?text=Factory+Native',
-					ctaText: 'Read More',
-					actionUrl: 'https://example.com/native',
-					sponsored: true,
-				})}
-			</Wrapper>
-
-			<Wrapper>
-				<h3>createFloatingWidget()</h3>
-				{AdvertisementFactory.createFloatingWidget(
-					{
-						id: 'factory-widget',
-						title: 'Factory Widget',
-						imageUrl:
-							'https://via.placeholder.com/200x150/17a2b8/ffffff?text=Factory+Widget',
-						ctaText: 'Contact',
-						actionUrl: 'https://example.com/contact',
-					},
-					{ position: 'fixed' }
-				)}
-			</Wrapper>
-
-			<Wrapper>
-				<h3>createStickyBar()</h3>
-				{AdvertisementFactory.createStickyBar(
-					{
-						id: 'factory-sticky',
-						title: 'Factory Sticky Bar',
-						description:
-							'Created with specialized factory method.',
-						ctaText: 'Subscribe',
-						actionUrl: 'https://example.com/subscribe',
-					},
-					{ position: 'fixed' }
-				)}
-			</Wrapper>
-		</Wrapper>
-	),
+export const ProgrammaticFactoryAd: Story = {
+	render: () => {
+		const adProps = Advertisements.Factory.create(
+			'native-card',
+			{
+				title: 'Dynamic Ad (Programmatic)',
+				ctaText: 'Go',
+			}
+		);
+		return <Advertisements {...adProps} />;
+	},
 };
 
 // ===== AD CONTAINER EXAMPLES =====
@@ -1061,7 +806,7 @@ export const StackLayout: Story = {
 				maxAds={3}
 				adPool={sampleAdPool}
 				spacing={16}
-				allowedAdTypes={['banner-ad', 'native-ad-card']}
+				allowedAdTypes={['banner', 'native-card']}
 			/>
 		</Wrapper>
 	),
@@ -1078,7 +823,7 @@ export const CarouselLayout: Story = {
 				adPool={sampleAdPool}
 				autoRotate={true}
 				rotationInterval={5000}
-				allowedAdTypes={['banner-ad', 'native-ad-card']}
+				allowedAdTypes={['banner', 'native-card']}
 				spacing={16}
 			/>
 		</Wrapper>
@@ -1095,7 +840,7 @@ export const GridLayout: Story = {
 				maxAds={4}
 				adPool={sampleAdPool}
 				spacing={20}
-				allowedAdTypes={['native-ad-card']}
+				allowedAdTypes={['native-card']}
 			/>
 		</Wrapper>
 	),
@@ -1122,7 +867,7 @@ export const ResponsiveContainer: Story = {
 					desktop: { maxAds: 3, layout: 'grid' },
 				}}
 				spacing={16}
-				allowedAdTypes={['banner-ad', 'native-ad-card']}
+				allowedAdTypes={['banner', 'native-card']}
 			/>
 		</Wrapper>
 	),
@@ -1135,7 +880,7 @@ export const WithAutoRotation: Story = {
 	args: {
 		adPool: [
 			{
-				kind: 'banner-ad',
+				kind: 'banner',
 				content: {
 					title: 'Rotating Banner 1',
 					description: 'First rotating advertisement',
@@ -1147,7 +892,7 @@ export const WithAutoRotation: Story = {
 				weight: 1,
 			},
 			{
-				kind: 'banner-ad',
+				kind: 'banner',
 				content: {
 					title: 'Rotating Banner 2',
 					description: 'Second rotating advertisement',
@@ -1159,7 +904,7 @@ export const WithAutoRotation: Story = {
 				weight: 1,
 			},
 			{
-				kind: 'native-ad-card',
+				kind: 'native-card',
 				content: {
 					title: 'Native Card Ad',
 					description: 'Native card in rotation',
@@ -1197,7 +942,7 @@ export const WithEventHandlers: Story = {
 	args: {
 		adPool: [
 			{
-				kind: 'banner-ad',
+				kind: 'banner',
 				content: {
 					title: 'Interactive Banner',
 					description: 'Click to see event handling',
@@ -1209,7 +954,7 @@ export const WithEventHandlers: Story = {
 				weight: 1,
 			},
 			{
-				kind: 'native-ad-card',
+				kind: 'native-card',
 				content: {
 					title: 'Interactive Native Card',
 					description: 'Watch console for events',
@@ -1293,7 +1038,7 @@ export const FilteredAdTypes: Story = {
 	args: {
 		adPool: [
 			{
-				kind: 'banner-ad',
+				kind: 'banner',
 				content: {
 					title: 'Banner (Filtered Out)',
 					description: 'This banner will be filtered out',
@@ -1303,7 +1048,7 @@ export const FilteredAdTypes: Story = {
 				weight: 1,
 			},
 			{
-				kind: 'native-ad-card',
+				kind: 'native-card',
 				content: {
 					title: 'Native Card (Shown)',
 					description: 'Only native cards are allowed',
@@ -1315,7 +1060,7 @@ export const FilteredAdTypes: Story = {
 				weight: 1,
 			},
 			{
-				kind: 'native-ad-card',
+				kind: 'native-card',
 				content: {
 					title: 'Another Native Card',
 					description: 'This will also be shown',
@@ -1333,7 +1078,7 @@ export const FilteredAdTypes: Story = {
 			layout='stack'
 			maxAds={5}
 			adPool={args.adPool}
-			allowedAdTypes={['native-ad-card']} // Only allow native cards
+			allowedAdTypes={['native-card']} // Only allow native cards
 			spacing={16}
 		/>
 	),
@@ -1351,7 +1096,7 @@ export const WeightedSelection: Story = {
 	args: {
 		adPool: [
 			{
-				kind: 'banner-ad',
+				kind: 'banner',
 				content: {
 					title: 'High Priority Ad (Weight: 5)',
 					description:
@@ -1364,7 +1109,7 @@ export const WeightedSelection: Story = {
 				weight: 5, // Higher weight
 			},
 			{
-				kind: 'banner-ad',
+				kind: 'banner',
 				content: {
 					title: 'Low Priority Ad (Weight: 1)',
 					description:
@@ -1506,7 +1251,7 @@ export const CompleteIntegrationDemo: Story = {
 				<Wrapper style={{ marginBottom: '20px' }}>
 					<h3>Header Banner</h3>
 					<Advertisements
-						kind='banner-ad'
+						kind='banner'
 						content={{
 							title: 'Special Offer - 50% Off!',
 							description:
@@ -1540,7 +1285,7 @@ export const CompleteIntegrationDemo: Story = {
 
 						{/* Native Ad in content */}
 						<Advertisements
-							kind='native-ad-card'
+							kind='native-card'
 							content={{
 								title: 'Sponsored: Learn Web Development',
 								description:
@@ -1570,7 +1315,7 @@ export const CompleteIntegrationDemo: Story = {
 						<Advertisements
 							adPool={[
 								{
-									kind: 'banner-ad',
+									kind: 'banner',
 									content: {
 										title: 'Sidebar Promotion',
 										ctaText: 'Check it out',
@@ -1579,7 +1324,7 @@ export const CompleteIntegrationDemo: Story = {
 									weight: 1,
 								},
 								{
-									kind: 'native-ad-card',
+									kind: 'native-card',
 									content: {
 										title: 'Featured Product',
 										description:
@@ -1602,7 +1347,7 @@ export const CompleteIntegrationDemo: Story = {
 
 				{/* Floating Widget */}
 				<Advertisements
-					kind='floating-ad-widget'
+					kind='floating-widget'
 					content={{
 						title: 'Newsletter',
 						description: 'Subscribe for updates',

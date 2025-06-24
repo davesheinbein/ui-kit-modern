@@ -55,7 +55,6 @@ erDiagram
 ### factory.tsx
 
 - **ModalFactory**: React functional component. Instantiates a `Modal` of the specified kind with any additional props.
-- **M**: Short alias for `ModalFactory`.
 - **ModalPresets**: Object containing preset modal components for common use cases (e.g., `Alert`, `Confirm`, `Form`, `PreGame`, `EndGame`, etc.), each rendering a modal of the corresponding kind.
 - **createModal**: Object with quick create functions for common modal patterns (`alert`, `confirm`, `form`).
 - **SimpleModalFactory**: Class with static methods for creating modals for common patterns (confirmation, alert, game, VS mode, commerce, form, custom, and quick presets like delete/save confirmation and alerts).

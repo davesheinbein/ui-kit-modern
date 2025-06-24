@@ -7,6 +7,5 @@ export * from './configurations';
 
 export {
 	default as NotificationFactory,
-	NF,
 	NotificationPresets,
 } from './factory';

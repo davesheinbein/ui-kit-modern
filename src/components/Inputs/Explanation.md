@@ -72,7 +72,6 @@ erDiagram
 - **InputConfiguration**: Interface describing the structure of an input configuration object.
 - **INPUT_CONFIGURATIONS**: Record mapping each `ExtendedInputKind` to its default configuration.
 - **INPUT_GROUPS**: Categorizes input kinds for organized display (basic, specialized, authentication, utility).
-- **InputKind**: Type alias for `ExtendedInputKind`.
 
 ### factory.tsx
 
@@ -83,7 +82,6 @@ erDiagram
   - `username(props)`, `loginEmail(props)`, `confirmationPassword(props)`: Create authentication input types.
   - `searchFilter(props)`, `custom(props)`: Create utility/custom input types.
 - **InputFactoryFunction(kindOrProps, overrides)**: Functional factory for creating inputs. If the first argument is a string, creates an input of that kind; if it's a props object, uses its `kind` property or defaults to 'text'.
-- **I**: Shorthand alias for `InputFactoryFunction`.
 
 ### Input.tsx
 

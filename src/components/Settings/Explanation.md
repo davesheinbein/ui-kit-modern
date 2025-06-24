@@ -14,7 +14,6 @@ The `Settings` folder provides a highly flexible, configuration-driven system fo
 
 ## Usage
 
-- Use `SettingsFactory` or the `S` alias for most new settings UIs. Pass a `kind` and optional overrides to generate the desired panel or customization grid.
 - Use configuration objects from `configurations.ts` or define your own for custom settings.
 - For legacy code, wrappers like `CustomizationCategory` and `SettingsPanel` are provided for backward compatibility.
 
@@ -113,9 +112,7 @@ erDiagram
 ### factory.tsx
 
 - **SettingsFactory**: React component for creating settings UIs using the configuration system. Merges configuration and props, then renders the `Settings` component.
-- **S**: Alias for `SettingsFactory`.
 - **SettingsPresets**: Object containing prebuilt settings panel/category creators for all common settings kinds (e.g., `USER_PREFERENCES`, `THEME_CUSTOMIZATION`).
-- **QuickSettings**: Object with shortcut aliases for rapid settings UI creation.
 
 ### index.tsx
 

@@ -7,14 +7,12 @@ The `Wrappers` folder provides a universal, configuration-driven system for rend
 ## Architecture
 
 - **configurations.ts**: Centralizes all wrapper configuration types, variants, and presets. Defines the shape of wrapper configuration objects and provides reusable configuration objects for all supported wrapper kinds, including migration paths and deprecation warnings.
-- **factory.tsx**: Exposes the `WrapperFactory` class and a set of ultra-DRY creation functions and presets for rapid instantiation of any wrapper. Includes ultra-short aliases (`W`), builder patterns, and quick wrapper functions for rapid development.
 - **Wrapper.tsx**: The core component that renders the wrapper UI based on the provided configuration and props. Handles all logic for mapping kinds, variants, layouts, and rendering the correct target component or container. Also manages migration helpers and deprecation warnings.
 - **index.ts**: Exports all main components, types, and factory functions for easy import and usage throughout the codebase.
 - **Wrapper.module.scss**: Modern, theme-aware styles for all wrapper layouts, variants, and states, supporting dark mode, responsive design, and accessibility. Includes special styles for migration helpers and legacy support.
 
 ## Usage
 
-- Use the `WrapperFactory` or `W` alias for most new wrappers. Pass a `kind` and optional props to generate the desired wrapper.
 - Use configuration objects from `configurations.ts` or define your own for custom wrappers.
 - Use quick wrapper functions and presets for rapid migration and DRY usage.
 - Wrappers can be used to standardize layout, provide backward compatibility, or enhance components with additional logic or styling.
@@ -108,12 +106,6 @@ A class with static methods for creating wrappers in a DRY, declarative way. Pro
 - `component(props)`, `provider(props)`: Generic wrappers.
 - `flexContainer(props)`, `gridContainer(props)`, `centerContainer(props)`, `stackContainer(props)`: Layout container wrappers.
 - `backwardCompatibility(props)`, `legacy(props)`: Migration/compatibility wrappers.
-
----
-
-### `W` (ultra-short alias for `WrapperFactory`)
-
-Ultra-short alias for the factory, e.g. `W.button({ children: 'Click me' })`.
 
 ---
 
