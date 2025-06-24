@@ -129,3 +129,29 @@ export const radarChartData = [
 	{ category: 'Focus', score: 85 },
 	{ category: 'Consistency', score: 65 },
 ];
+
+// Admin/Debug mock data generators for Storybook and demo purposes
+export const mockAdminDataGenerators = {
+	time: () => new Date().toLocaleTimeString(),
+	performance: () => ({
+		memory: 128, // MB
+		fps: 60,
+		loadTime: 1234, // ms
+	}),
+	errors: () => [
+		{
+			time: new Date().toLocaleTimeString(),
+			message: 'Network timeout',
+		},
+		{
+			time: new Date().toLocaleTimeString(),
+			message: 'Invalid API response',
+		},
+	],
+	environment: () => ({
+		nodeEnv: 'browser',
+		userAgent: 'MockUserAgent/1.0...',
+		componentsRendered: 42,
+		activeListeners: 7,
+	}),
+};

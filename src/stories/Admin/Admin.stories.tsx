@@ -69,6 +69,13 @@ export const SessionDebugger: Story = {
 		kind: 'session-debugger',
 		enabled: true,
 		position: 'top-left',
+		data: {
+			status: 'authenticated',
+			userId: '12345',
+			email: 'test@example.com',
+			sessionExists: 'Yes',
+			timestamp: '12:34:56',
+		},
 	},
 };
 
@@ -77,6 +84,13 @@ export const SessionDebuggerDisabled: Story = {
 		kind: 'session-debugger',
 		enabled: false,
 		position: 'top-left',
+		data: {
+			status: 'guest',
+			userId: 'N/A',
+			email: 'N/A',
+			sessionExists: 'No',
+			timestamp: '12:00:00',
+		},
 	},
 };
 
@@ -85,6 +99,13 @@ export const SessionDebuggerTopRight: Story = {
 		kind: 'session-debugger',
 		enabled: true,
 		position: 'top-right',
+		data: {
+			status: 'authenticated',
+			userId: '67890',
+			email: 'another@example.com',
+			sessionExists: 'Yes',
+			timestamp: '13:45:00',
+		},
 	},
 };
 
@@ -93,13 +114,13 @@ export const SessionDebuggerWithMockSession: Story = {
 		kind: 'session-debugger',
 		enabled: true,
 		position: 'top-left',
-		session: {
-			user: {
-				id: '12345',
-				email: 'test@example.com',
-			},
+		data: {
+			status: 'authenticated',
+			userId: '12345',
+			email: 'test@example.com',
+			sessionExists: 'Yes',
+			timestamp: '12:34:56',
 		},
-		status: 'authenticated',
 	},
 };
 
@@ -109,7 +130,12 @@ export const PerformanceMonitor: Story = {
 		kind: 'performance-monitor',
 		enabled: true,
 		position: 'top-right',
-		componentId: 'stable-perf-monitor', // Fixed componentId to prevent re-initialization
+		componentId: 'stable-perf-monitor',
+		data: {
+			memory: 256,
+			fps: 59,
+			loadTime: 987,
+		},
 	},
 	parameters: {
 		docs: {
@@ -126,6 +152,15 @@ export const ErrorLogger: Story = {
 		kind: 'error-logger',
 		enabled: true,
 		position: 'bottom-left',
+		data: {
+			errors: [
+				{ time: '12:34:56', message: 'Network timeout' },
+				{
+					time: '12:35:01',
+					message: 'Invalid API response',
+				},
+			],
+		},
 	},
 };
 
@@ -134,6 +169,13 @@ export const DebugPanel: Story = {
 		kind: 'debug-panel',
 		enabled: true,
 		position: 'center',
+		data: {
+			nodeEnv: 'production',
+			userAgent:
+				'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
+			componentsRendered: 42,
+			activeListeners: 7,
+		},
 	},
 };
 
