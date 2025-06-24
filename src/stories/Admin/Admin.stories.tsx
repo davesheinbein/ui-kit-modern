@@ -4,10 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 import { Button } from '../../components/Button';
-import {
-	AdminFactory,
-	AdminPresets,
-} from '../../components/Admin';
+import { Admin } from '../../components/Admin';
 
 // Redux Provider decorator for all Admin stories
 const withReduxProvider = (Story: React.ComponentType) => (
@@ -16,16 +13,16 @@ const withReduxProvider = (Story: React.ComponentType) => (
 	</Provider>
 );
 
-const meta: Meta<typeof AdminFactory> = {
+const meta: Meta<typeof Admin> = {
 	title: 'Admin/Admin',
-	component: AdminFactory,
+	component: Admin,
 	decorators: [withReduxProvider],
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component:
-					'Admin component system for debugging and development tools. Built using the DRY factory pattern for maximum flexibility and reusability.',
+					'Admin component system for debugging and development tools. Unified DRY admin system.',
 			},
 		},
 	},
@@ -65,7 +62,7 @@ const meta: Meta<typeof AdminFactory> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof AdminFactory>;
+type Story = StoryObj<typeof Admin>;
 
 export const SessionDebugger: Story = {
 	args: {
@@ -143,22 +140,22 @@ export const DebugPanel: Story = {
 export const AllPositions: Story = {
 	render: () => (
 		<>
-			<AdminFactory
+			<Admin
 				kind='session-debugger'
 				enabled={true}
 				position='top-left'
 			/>
-			<AdminFactory
+			<Admin
 				kind='performance-monitor'
 				enabled={true}
 				position='top-right'
 			/>
-			<AdminFactory
+			<Admin
 				kind='error-logger'
 				enabled={true}
 				position='bottom-left'
 			/>
-			<AdminFactory
+			<Admin
 				kind='debug-panel'
 				enabled={true}
 				position='center'
@@ -174,7 +171,7 @@ export const CustomContent: Story = {
 		position: 'center',
 	},
 	render: (args) => (
-		<AdminFactory {...args}>
+		<Admin {...args}>
 			<Wrapper>
 				<h3
 					style={{ margin: '0 0 10px 0', color: '#4ade80' }}
@@ -191,17 +188,7 @@ export const CustomContent: Story = {
 					Action Button
 				</Button>
 			</Wrapper>
-		</AdminFactory>
-	),
-};
-
-// DRY System Examples using factory patterns
-export const UsingPresets: Story = {
-	render: () => (
-		<Wrapper>
-			{/* Using AdminPresets for quick setup */}
-			{AdminPresets.SESSION_DEBUGGER()}
-		</Wrapper>
+		</Admin>
 	),
 };
 

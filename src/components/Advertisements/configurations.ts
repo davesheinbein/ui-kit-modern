@@ -1,12 +1,3 @@
-/**
- * Advertisement Configurations - DRY Advertisement Configuration System
- *
- * Comprehensive configuration system for all advertisement types including
- * banner ads, interstitials, rewarded ads, native ads, and more.
- *
- * @module AdvertisementConfigurations
- */
-
 import { ReactNode } from 'react';
 
 // ===== CORE TYPES =====
