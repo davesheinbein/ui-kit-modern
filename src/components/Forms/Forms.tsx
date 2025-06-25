@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Wrapper } from '../Wrappers';
 import styles from './Forms.module.scss';
 import {
@@ -6,8 +6,14 @@ import {
 	ExtendedFormsKind,
 	FormsConfiguration,
 } from './configurations';
+import Input from '../Inputs/Input';
+import Textarea from '../Textareas/Textarea';
+import { Select } from '../Selects/Select';
+import { Checkbox } from '../Checkbox/Checkbox';
+import { Radio } from '../Radios/Radio';
+import { Switch } from '../Switchs/Switch';
+import { Range } from '../Ranges/Range';
 
-// DRY FieldKind type
 export type FieldKind =
 	| 'input'
 	| 'textarea'
@@ -18,306 +24,227 @@ export type FieldKind =
 	| 'switch'
 	| 'range';
 
-export interface FormsProps {
+export interface FormsFieldConfig {
 	kind: FieldKind;
+	name: string;
 	label?: string;
-	error?: string;
 	helperText?: string;
-	fullWidth?: boolean;
-	className?: string;
-	value?: any;
-	onChange?: (value: any, event?: any) => void;
+	error?: string;
 	placeholder?: string;
-	disabled?: boolean;
+	options?: any[];
+	min?: number;
+	max?: number;
+	step?: number;
 	required?: boolean;
 	configuration?: FormsConfiguration;
 	[key: string]: any;
 }
 
-const FormsBodyFactory = forwardRef<
-	any,
-	{
-		kind: FieldKind;
-		configuration?: FormsConfiguration;
-		value?: any;
-		onChange?: (value: any, event?: any) => void;
-		onBlur?: (event: any) => void;
-		onFocus?: (event: any) => void;
-		placeholder?: string;
-		disabled?: boolean;
-		required?: boolean;
-		className?: string;
-		[key: string]: any;
-	}
->(
+export interface FormsProps {
+	fields: FormsFieldConfig[];
+	values?: Record<string, any>;
+	onChange?: (values: Record<string, any>) => void;
+	onSubmit?: (values: Record<string, any>) => void;
+	error?: string;
+	helperText?: string;
+	fullWidth?: boolean;
+	className?: string;
+}
+
+const FormsBody = forwardRef<any, any>(
 	(
-		{
-			kind,
-			configuration,
-			value,
-			onChange,
-			onBlur,
-			onFocus,
-			placeholder,
-			disabled = false,
-			required = false,
-			className = '',
-			...props
-		},
+		{ kind, configuration, value, onChange, ...props },
 		ref
 	) => {
-		const handleChange = (event: any) => {
-			const target = event.target;
-			let newValue;
-
-			switch (kind) {
-				case 'checkbox':
-				case 'switch':
-					newValue = target.checked;
-					break;
-				case 'range':
-					newValue = parseInt(target.value, 10);
-					break;
-				case 'select':
-					newValue = target.value;
-					break;
-				default:
-					newValue = target.value;
-			}
-
-			onChange?.(newValue, event);
-		};
-
-		const baseProps = {
-			ref,
-			value: value ?? '',
-			onChange: handleChange,
-			onBlur,
-			onFocus,
-			placeholder,
-			disabled,
-			required,
-			className,
-			...props,
-		};
-
 		switch (kind) {
 			case 'input':
 			default:
 				return (
-					<input
-						{...baseProps}
-						type={configuration?.inputMode || 'text'}
+					<Input
+						ref={ref}
+						value={value ?? ''}
+						onChange={onChange}
+						{...props}
+						kind={configuration?.inputMode || 'text'}
 					/>
 				);
-
 			case 'textarea':
 				return (
-					<textarea
-						{...baseProps}
-						rows={configuration?.minRows || 3}
+					<Textarea
+						ref={ref}
+						value={value ?? ''}
+						onChange={onChange}
+						{...props}
 					/>
 				);
-
 			case 'select':
-				const options = configuration?.options || [];
 				return (
-					<select {...baseProps}>
-						{placeholder && (
-							<option value='' disabled>
-								{placeholder}
-							</option>
-						)}
-						{options.map((option: any) => (
-							<option
-								key={option.value}
-								value={option.value}
-								disabled={option.disabled}
-							>
-								{option.label}
-							</option>
-						))}
-					</select>
+					<Select
+						ref={ref}
+						value={value ?? ''}
+						onChange={onChange}
+						{...props}
+						kind={configuration?.kind || 'dropdown'}
+						options={
+							props.options || configuration?.options || []
+						}
+					/>
 				);
-
 			case 'checkbox':
 				return (
-					<Wrapper className='checkboxContainer'>
-						<input
-							{...baseProps}
-							type='checkbox'
-							checked={value || false}
-							value={undefined}
-						/>
-						{configuration?.label && (
-							<label>{configuration.label}</label>
-						)}
-					</Wrapper>
+					<Checkbox
+						ref={ref}
+						checked={!!value}
+						onChange={onChange}
+						{...props}
+						label={props.label || configuration?.label}
+					/>
 				);
-
 			case 'radio':
-				const radioOptions = configuration?.options || [];
 				return (
-					<Wrapper className='radioContainer'>
-						{radioOptions.map((option: any) => (
-							<label
-								key={option.value}
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									gap: '8px',
-								}}
-							>
-								<input
-									type='radio'
-									name={props.name}
-									value={option.value}
-									checked={value === option.value}
-									onChange={handleChange}
-									disabled={disabled || option.disabled}
-								/>
-								{option.label}
-							</label>
-						))}
-					</Wrapper>
+					<Radio
+						ref={ref}
+						value={value ?? ''}
+						onChange={onChange}
+						{...props}
+						options={
+							props.options || configuration?.options || []
+						}
+						name={props.name}
+						configuration={props.configuration}
+					/>
 				);
-
 			case 'radio-group':
-				const groupOptions = configuration?.options || [];
 				return (
-					<Wrapper className='radioGroup'>
-						{groupOptions.map((option: any) => (
-							<label
-								key={option.value}
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									gap: '8px',
-								}}
-							>
-								<input
-									type='radio'
-									name={props.name || 'radio-group'}
-									value={option.value}
-									checked={value === option.value}
-									onChange={handleChange}
-									disabled={disabled || option.disabled}
-								/>
-								{option.label}
-							</label>
-						))}
-					</Wrapper>
+					<Radio
+						ref={ref}
+						value={value ?? ''}
+						onChange={onChange}
+						{...props}
+						options={
+							props.options || configuration?.options || []
+						}
+						name={props.name}
+						configuration={props.configuration}
+					/>
 				);
-
 			case 'switch':
 				return (
-					<Wrapper className='switchContainer'>
-						<input
-							{...baseProps}
-							type='checkbox'
-							checked={value || false}
-							value={undefined}
-							style={{
-								appearance: 'none',
-								width: '44px',
-								height: '24px',
-								backgroundColor:
-									value ? '#2563eb' : '#d1d5db',
-								borderRadius: '12px',
-								position: 'relative',
-								cursor: 'pointer',
-								transition: 'background-color 0.2s',
-							}}
-						/>
-						{configuration?.label && (
-							<label>{configuration.label}</label>
-						)}
-					</Wrapper>
+					<Switch
+						ref={ref}
+						checked={!!value}
+						onChange={onChange}
+						{...props}
+						label={props.label || configuration?.label}
+					/>
 				);
-
 			case 'range':
 				return (
-					<input
-						{...baseProps}
-						type='range'
-						min={configuration?.min || 0}
-						max={configuration?.max || 100}
-						step={configuration?.step || 1}
-						value={value || 0}
+					<Range
+						ref={ref}
+						value={value ?? 0}
+						onChange={onChange}
+						{...props}
+						min={props.min ?? configuration?.min ?? 0}
+						max={props.max ?? configuration?.max ?? 100}
+						step={props.step ?? configuration?.step ?? 1}
 					/>
 				);
 		}
 	}
 );
+FormsBody.displayName = 'FormsBody';
 
-FormsBodyFactory.displayName = 'FormsBodyFactory';
-
-/**
- * Forms - DRY, configuration-based form field component
- * Combines Forms (layout) and FormsBodyFactory (input rendering)
- */
 const Forms = forwardRef<any, FormsProps>(
 	(
 		{
-			kind,
-			label,
+			fields,
+			values = {},
+			onChange,
+			onSubmit,
 			error,
 			helperText,
 			fullWidth,
 			className,
-			configuration,
 			...props
 		},
 		ref
 	) => {
-		// Get default configuration if not provided
-		const config =
-			configuration ||
-			FORM_FIELD_CONFIGURATIONS[
-				'text' as ExtendedFormsKind
-			];
+		const [formValues, setFormValues] =
+			useState<Record<string, any>>(values);
 
-		const fieldWrapperClass = [
-			styles.fieldWrapper,
-			fullWidth && styles.fullWidth,
-			error && styles.hasError,
-			className,
-		]
-			.filter(Boolean)
-			.join(' ');
+		const handleFieldChange = (
+			name: string,
+			value: any
+		) => {
+			const updated = { ...formValues, [name]: value };
+			setFormValues(updated);
+			onChange?.(updated);
+		};
+
+		const handleSubmit = (e: React.FormEvent) => {
+			e.preventDefault();
+			onSubmit?.(formValues);
+		};
 
 		return (
-			<Wrapper ref={ref} className={fieldWrapperClass}>
-				{label && (
-					<label className={styles.label}>
-						{label}
-						{props.required && (
-							<span className={styles.required}>*</span>
+			<form
+				ref={ref}
+				className={className}
+				onSubmit={handleSubmit}
+				style={{ width: fullWidth ? '100%' : undefined }}
+			>
+				{fields.map((field) => (
+					<div
+						key={field.name}
+						className={styles.fieldWrapper}
+					>
+						{field.label && (
+							<label
+								className={styles.label}
+								htmlFor={field.name}
+							>
+								{field.label}
+								{field.required && (
+									<span className={styles.required}>*</span>
+								)}
+							</label>
 						)}
-					</label>
-				)}
-				<Wrapper className={styles.fieldContainer}>
-					<FormsBodyFactory
-						ref={ref}
-						kind={kind}
-						configuration={config}
-						{...props}
-					/>
-				</Wrapper>
+						<div className={styles.fieldContainer}>
+							<FormsBody
+								{...field}
+								value={formValues[field.name] ?? ''}
+								onChange={(val: any) =>
+									handleFieldChange(field.name, val)
+								}
+							/>
+						</div>
+						{field.error && (
+							<span className={styles.errorText}>
+								{field.error}
+							</span>
+						)}
+						{field.helperText && !field.error && (
+							<span className={styles.helperText}>
+								{field.helperText}
+							</span>
+						)}
+					</div>
+				))}
 				{error && (
-					<span className={styles.errorText}>{error}</span>
+					<div className={styles.errorText}>{error}</div>
 				)}
 				{helperText && !error && (
-					<span className={styles.helperText}>
+					<div className={styles.helperText}>
 						{helperText}
-					</span>
+					</div>
 				)}
-			</Wrapper>
+				<button type='submit'>Submit</button>
+			</form>
 		);
 	}
 );
-
 Forms.displayName = 'Forms';
 
 export default Forms;
-export { Forms, FormsBodyFactory };
+export { Forms, FormsBody };

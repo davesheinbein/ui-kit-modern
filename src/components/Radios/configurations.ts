@@ -89,8 +89,7 @@ export interface RadioConfiguration {
 	};
 }
 
-// Factory props interface
-export interface RadioFactoryProps {
+export interface RadioProps {
 	kind: ExtendedRadioKind;
 	name: string;
 	options: RadioOption[];
@@ -106,53 +105,89 @@ export interface RadioFactoryProps {
 	configuration?: Partial<RadioConfiguration>;
 }
 
-// Predefined configurations
+const baseStandard: RadioConfiguration = {
+	variant: 'standard',
+	size: 'medium',
+	state: 'default',
+	style: 'default',
+	alignment: 'vertical',
+	showLabels: true,
+	showDescriptions: false,
+	allowDeselect: false,
+	required: false,
+	spacing: 'normal',
+	borderRadius: 'small',
+	animationDuration: 200,
+};
+
+const baseButton: RadioConfiguration = {
+	variant: 'button',
+	size: 'medium',
+	state: 'default',
+	style: 'outlined',
+	alignment: 'horizontal',
+	showLabels: true,
+	showDescriptions: false,
+	allowDeselect: false,
+	required: false,
+	spacing: 'tight',
+	borderRadius: 'medium',
+	animationDuration: 150,
+};
+
+const baseCard: RadioConfiguration = {
+	variant: 'card',
+	size: 'large',
+	state: 'default',
+	style: 'outlined',
+	alignment: 'horizontal',
+	showLabels: true,
+	showDescriptions: false,
+	allowDeselect: false,
+	required: false,
+	spacing: 'normal',
+	borderRadius: 'medium',
+	animationDuration: 200,
+};
+
+// --- Consolidated Configurations ---
 export const RADIO_CONFIGURATIONS: Record<
 	ExtendedRadioKind,
 	RadioConfiguration
 > = {
-	'standard': {
-		variant: 'standard',
-		size: 'medium',
-		state: 'default',
-		style: 'default',
-		alignment: 'vertical',
-		showLabels: true,
-		showDescriptions: false,
-		allowDeselect: false,
-		required: false,
-		spacing: 'normal',
+	'standard': { ...baseStandard },
+	'preference': { ...baseStandard, showDescriptions: true },
+	'custom': {
+		...baseStandard,
+		variant: 'custom',
+		borderRadius: 'medium',
+	},
+
+	'button-group': { ...baseButton },
+	'color-picker': {
+		...baseButton,
+		style: 'filled',
+		showLabels: false,
+		borderRadius: 'full',
+	},
+	'size-selector': {
+		...baseButton,
+		size: 'small',
 		borderRadius: 'small',
-		animationDuration: 200,
 	},
-	'button-group': {
-		variant: 'button',
-		size: 'medium',
-		state: 'default',
-		style: 'outlined',
-		alignment: 'horizontal',
-		showLabels: true,
-		showDescriptions: false,
-		allowDeselect: false,
-		required: false,
-		spacing: 'tight',
-		borderRadius: 'medium',
-		animationDuration: 150,
-	},
+
 	'card-selection': {
-		variant: 'card',
-		size: 'large',
-		state: 'default',
-		style: 'outlined',
+		...baseCard,
 		alignment: 'grid',
-		showLabels: true,
 		showDescriptions: true,
-		allowDeselect: false,
-		required: false,
-		spacing: 'normal',
-		borderRadius: 'medium',
-		animationDuration: 200,
 	},
+	'image-radio': { ...baseCard },
+	'plan-selector': {
+		...baseCard,
+		showDescriptions: true,
+		required: true,
+	},
+
 	'toggle-switch': {
 		variant: 'switch',
 		size: 'medium',
@@ -166,89 +201,5 @@ export const RADIO_CONFIGURATIONS: Record<
 		spacing: 'normal',
 		borderRadius: 'full',
 		animationDuration: 300,
-	},
-	'image-radio': {
-		variant: 'card',
-		size: 'large',
-		state: 'default',
-		style: 'outlined',
-		alignment: 'horizontal',
-		showLabels: true,
-		showDescriptions: false,
-		allowDeselect: false,
-		required: false,
-		spacing: 'normal',
-		borderRadius: 'medium',
-		animationDuration: 200,
-	},
-	'color-picker': {
-		variant: 'button',
-		size: 'medium',
-		state: 'default',
-		style: 'filled',
-		alignment: 'horizontal',
-		showLabels: false,
-		showDescriptions: false,
-		allowDeselect: false,
-		required: false,
-		spacing: 'tight',
-		borderRadius: 'full',
-		animationDuration: 150,
-	},
-	'size-selector': {
-		variant: 'button',
-		size: 'small',
-		state: 'default',
-		style: 'outlined',
-		alignment: 'horizontal',
-		showLabels: true,
-		showDescriptions: false,
-		allowDeselect: false,
-		required: false,
-		spacing: 'tight',
-		borderRadius: 'small',
-		animationDuration: 150,
-	},
-	'plan-selector': {
-		variant: 'card',
-		size: 'large',
-		state: 'default',
-		style: 'outlined',
-		alignment: 'horizontal',
-		showLabels: true,
-		showDescriptions: true,
-		allowDeselect: false,
-		required: true,
-		spacing: 'normal',
-		borderRadius: 'medium',
-		animationDuration: 200,
-	},
-	'preference': {
-		variant: 'standard',
-		size: 'medium',
-		state: 'default',
-		style: 'default',
-		alignment: 'vertical',
-		showLabels: true,
-		showDescriptions: true,
-		allowDeselect: false,
-		required: false,
-		spacing: 'normal',
-		borderRadius: 'small',
-		animationDuration: 200,
-	},
-	'custom': {
-		variant: 'custom',
-		size: 'medium',
-		state: 'default',
-		style: 'default',
-		alignment: 'vertical',
-		showLabels: true,
-		showDescriptions: false,
-		allowDeselect: false,
-		required: false,
-		spacing: 'normal',
-		borderRadius: 'medium',
-		animationDuration: 200,
 	},
 };

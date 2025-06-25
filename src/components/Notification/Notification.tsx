@@ -421,9 +421,6 @@ const Notification = forwardRef<
 
 Notification.displayName = 'Notification';
 
-// ===================== PRESET HELPERS (formerly factory) =====================
-
-// Example: You can add static helpers if you want to keep preset convenience
 (Notification as any).Presets = {
 	toast: (props: Partial<NotificationProps> = {}) => (
 		<Notification kind='toast' {...props} />

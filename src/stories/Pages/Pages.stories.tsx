@@ -1,11 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-	Page,
-	PageFactory,
-	P,
-	PagePresets,
-} from '../../components/Pages';
+import { Page, PagePresets } from '../../components/Pages';
 import { Wrapper } from '../../components/Wrappers';
 import type { PageProps } from '../../components/Pages';
 
@@ -22,7 +17,7 @@ const meta: Meta<typeof Page> = {
 The new  Page system provides a single component that can render any page type through configuration:
 
 - **Page**: Main component with kind prop
-- **PageFactory**: Factory function for programmatic creation  
+- **Page**:  function for programmatic creation  
 - **PagePresets**: Pre-configured page patterns
 
 ### Usage Examples:
@@ -34,10 +29,10 @@ Using Page with kind prop:
 <Page kind="landing" />
 \`\`\`
 
-Using PageFactory:
+Using Page:
 \`\`\`tsx
-{PageFactory({ kind: "settings", title: "Settings" })}
-{PageFactory({ kind: "profile", layout: "sidebar" })}
+{Page({ kind: "settings", title: "Settings" })}
+{Page({ kind: "profile", layout: "sidebar" })}
 \`\`\`
 
 
@@ -278,10 +273,10 @@ export const FullSize: Story = {
 	},
 };
 
-// ===== FACTORY PATTERN EXAMPLES =====
+// =====  PATTERN EXAMPLES =====
 
-export const FactoryPattern: Story = {
-	name: '🏭 Factory Pattern Example',
+export const Pattern: Story = {
+	name: '🏭  Pattern Example',
 	render: () => (
 		<Wrapper
 			style={{
@@ -292,7 +287,7 @@ export const FactoryPattern: Story = {
 			}}
 		>
 			<Wrapper>
-				<h3>PageFactory Examples:</h3>
+				<h3>Page Examples:</h3>
 				<Wrapper
 					style={{
 						display: 'grid',
@@ -301,13 +296,13 @@ export const FactoryPattern: Story = {
 							'repeat(auto-fit, minmax(300px, 1fr))',
 					}}
 				>
-					{PageFactory({
+					{Page({
 						kind: 'startup',
-						title: 'Factory Startup',
+						title: ' Startup',
 					})}
-					{PageFactory({
+					{Page({
 						kind: 'dashboard',
-						title: 'Factory Dashboard',
+						title: ' Dashboard',
 						layout: 'grid',
 					})}
 				</Wrapper>
@@ -318,7 +313,7 @@ export const FactoryPattern: Story = {
 		docs: {
 			description: {
 				story:
-					'Demonstrates the PageFactory function for programmatic page creation.',
+					'Demonstrates the Page function for programmatic page creation.',
 			},
 		},
 	},
@@ -398,7 +393,7 @@ export const AllVariantsShowcase: Story = {
 			</Wrapper>
 
 			<Wrapper>
-				<h2>🏭 Factory Pattern</h2>
+				<h2>🏭 Pattern</h2>
 				<p>Programmatic page creation:</p>
 				<Wrapper
 					style={{
@@ -408,13 +403,13 @@ export const AllVariantsShowcase: Story = {
 							'repeat(auto-fit, minmax(300px, 1fr))',
 					}}
 				>
-					{PageFactory({
+					{Page({
 						kind: 'settings',
-						title: 'Factory Settings',
+						title: ' Settings',
 					})}
-					{PageFactory({
+					{Page({
 						kind: 'profile',
-						title: 'Factory Profile',
+						title: ' Profile',
 						layout: 'centered',
 					})}
 				</Wrapper>
@@ -447,7 +442,7 @@ export const AllVariantsShowcase: Story = {
 				story: `Complete showcase of the DRY Page system demonstrating all patterns:
 
 1. **Page**: Single component with kind prop
-2. **PageFactory**: Factory function pattern  
+2. **Page**:  function pattern  
 4. **Preset Patterns**: Pre-configured common patterns
 
 This system eliminates code duplication and provides a consistent API for all page variants.`,
@@ -566,8 +561,8 @@ export const StartupCustomStyling: Story = {
 	},
 };
 
-export const StartupDRYFactoryExample: Story = {
-	name: '🚀 Startup Factory Pattern',
+export const StartupDRYExample: Story = {
+	name: '🚀 Startup  Pattern',
 	render: () => (
 		<Wrapper
 			style={{
@@ -578,11 +573,11 @@ export const StartupDRYFactoryExample: Story = {
 			}}
 		>
 			<Wrapper>
-				<h3>PageFactory Startup:</h3>
-				{PageFactory({
+				<h3>Page Startup:</h3>
+				{Page({
 					kind: 'startup',
-					title: 'Factory Startup Page',
-					subtitle: 'Created with PageFactory',
+					title: ' Startup Page',
+					subtitle: 'Created with Page',
 					onStartDaily: () => console.log('Daily mode'),
 					onStartCustom: () => console.log('Custom mode'),
 					onBrowseCustom: () => console.log('Browse'),
@@ -595,7 +590,7 @@ export const StartupDRYFactoryExample: Story = {
 		docs: {
 			description: {
 				story:
-					'Startup page created using the PageFactory pattern with callbacks.',
+					'Startup page created using the Page pattern with callbacks.',
 			},
 		},
 	},

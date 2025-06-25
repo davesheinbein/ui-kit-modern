@@ -16,7 +16,7 @@ export {
 export type {
 	SelectKind,
 	SelectConfiguration,
-	SelectFactoryProps,
+	SelectProps,
 } from './Select';
 export type {
 	SelectVariant,

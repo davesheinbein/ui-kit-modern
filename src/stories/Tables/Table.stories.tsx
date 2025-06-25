@@ -533,24 +533,7 @@ export const AllVariants: Story = {
 	),
 };
 
-// ========================================
-// Factory Pattern Stories
-// ========================================
-
-export const FactoryBasic: Story = {
-	render: () => {
-		const DataTableComponent = createTable('data-table');
-		return (
-			<DataTableComponent
-				columns={sampleColumns}
-				data={sampleData}
-				variant='striped'
-			/>
-		);
-	},
-};
-
-export const FactoryShorthand: Story = {
+export const Shorthand: Story = {
 	render: () => {
 		const GridComponent = createTable('data-grid');
 		return (
@@ -564,7 +547,7 @@ export const FactoryShorthand: Story = {
 	},
 };
 
-export const FactoryPresets: Story = {
+export const Presets: Story = {
 	render: () => {
 		const DashboardGrid = TablePresets.dashboardGrid;
 		return (
@@ -576,19 +559,7 @@ export const FactoryPresets: Story = {
 	},
 };
 
-export const FactoryGameLeaderboard: Story = {
-	render: () => {
-		const LeaderboardTable = TablePresets.gameLeaderboard;
-		return (
-			<LeaderboardTable
-				columns={gameLeaderboardColumns}
-				data={leaderboardData}
-			/>
-		);
-	},
-};
-
-export const FactoryAdminTable: Story = {
+export const AdminTable: Story = {
 	render: () => {
 		const AdminTable = TablePresets.adminTable;
 		return (

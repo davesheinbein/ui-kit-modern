@@ -4,7 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import {
 	RadioConfiguration,
+	ExtendedRadioKind,
 	RadioOption,
+	RADIO_CONFIGURATIONS,
 } from './configurations';
 import {
 	setRadioState,
@@ -278,25 +280,17 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(
 Radio.displayName = 'Radio';
 export default Radio;
 
-// ===================== STATIC HELPERS AND PRESETS (formerly factory) =====================
-import {
-	RADIO_CONFIGURATIONS,
-	ExtendedRadioKind,
-	RadioConfiguration,
-} from './configurations';
-
-export interface RadioFactoryProps
+export interface RadioProps
 	extends Omit<RadioProps, 'configuration'> {
 	kind: ExtendedRadioKind;
 	configuration?: Partial<RadioConfiguration>;
 }
 
-// Factory-like static helper
 function createRadio({
 	kind,
 	configuration,
 	...props
-}: RadioFactoryProps) {
+}: RadioProps) {
 	const baseConfig =
 		RADIO_CONFIGURATIONS[kind] ||
 		RADIO_CONFIGURATIONS.standard;
@@ -307,27 +301,26 @@ function createRadio({
 	return <Radio {...props} configuration={finalConfig} />;
 }
 
-// Preset helpers for common radio types
 const Presets = {
-	Standard: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	Standard: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'standard', ...props }),
-	ButtonGroup: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	ButtonGroup: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'button-group', ...props }),
-	CardSelection: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	CardSelection: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'card-selection', ...props }),
-	ToggleSwitch: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	ToggleSwitch: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'toggle-switch', ...props }),
-	Image: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	Image: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'image-radio', ...props }),
-	ColorPicker: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	ColorPicker: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'color-picker', ...props }),
-	SizeSelector: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	SizeSelector: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'size-selector', ...props }),
-	PlanSelector: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	PlanSelector: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'plan-selector', ...props }),
-	Preference: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	Preference: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'preference', ...props }),
-	Custom: (props: Omit<RadioFactoryProps, 'kind'>) =>
+	Custom: (props: Omit<RadioProps, 'kind'>) =>
 		createRadio({ kind: 'custom', ...props }),
 };
 
@@ -336,7 +329,4 @@ const Presets = {
 (Radio as any).createRadio = createRadio;
 
 export { Presets as RadioPresets, createRadio };
-export type {
-	RadioFactoryProps,
-	ExtendedRadioKind as RadioKind,
-};
+export type { ExtendedRadioKind as RadioKind };

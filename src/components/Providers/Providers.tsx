@@ -297,9 +297,6 @@ const AchievementSocketListenerComponent = forwardRef<
 	}
 );
 
-// ===================== STATIC HELPERS AND PRESETS (formerly factory) =====================
-
-// Provider presets with common patterns
 const ProviderPresets = {
 	SOCKET_CONNECTION: (
 		session?: any,
@@ -350,8 +347,7 @@ const QuickProviders = {
 	full: ProviderPresets.FULL_SETUP,
 };
 
-// SimpleProviderFactory class for class-based provider creation
-class SimpleProviderFactory {
+class Provider {
 	static create(
 		kind: ProviderKind,
 		props: Partial<ProviderProps> = {}
@@ -380,37 +376,37 @@ class SimpleProviderFactory {
 // Extended Provider Presets
 const ExtendedProviderPresets = {
 	SOCKET_CONNECTED: (session: any) =>
-		SimpleProviderFactory.socket({
+		Provider.socket({
 			session,
 			autoConnect: true,
 		}),
 	SOCKET_MANUAL: (session: any) =>
-		SimpleProviderFactory.socket({
+		Provider.socket({
 			session,
 			autoConnect: false,
 		}),
 	USER_SETTINGS: (initialSettings?: any) =>
-		SimpleProviderFactory.userSettings({ initialSettings }),
+		Provider.userSettings({ initialSettings }),
 	EMPTY_SETTINGS: () =>
-		SimpleProviderFactory.userSettings({
+		Provider.userSettings({
 			initialSettings: {},
 		}),
 	THEME_LIGHT: () =>
-		SimpleProviderFactory.themePalette({
+		Provider.themePalette({
 			initialTheme: 'light',
 		}),
 	THEME_DARK: () =>
-		SimpleProviderFactory.themePalette({
+		Provider.themePalette({
 			initialTheme: 'dark',
 		}),
 	THEME_AUTO: () =>
-		SimpleProviderFactory.themePalette({
+		Provider.themePalette({
 			initialTheme: 'auto',
 		}),
 	ACHIEVEMENT_LISTENER: (
 		onAchievement?: (achievement: any) => void
 	) =>
-		SimpleProviderFactory.achievementListener({
+		Provider.achievementListener({
 			onAchievement,
 		}),
 };
@@ -418,14 +414,14 @@ const ExtendedProviderPresets = {
 // Attach helpers to Providers
 (Providers as any).Presets = ProviderPresets;
 (Providers as any).Quick = QuickProviders;
-(Providers as any).SimpleFactory = SimpleProviderFactory;
+(Providers as any).Simple = Provider;
 (Providers as any).ExtendedPresets =
 	ExtendedProviderPresets;
 
 export {
 	ProviderPresets,
 	QuickProviders,
-	SimpleProviderFactory,
+	Provider,
 	ExtendedProviderPresets,
 };
 

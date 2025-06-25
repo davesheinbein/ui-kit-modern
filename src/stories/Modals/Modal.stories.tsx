@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Wrapper } from '../../components/Wrappers';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
-import { ModalFactory } from '../../components/Modal';
+import { Modal } from '../../components/Modal';
 
 // Types for different modal configurations
 interface UserStats {
@@ -21,9 +21,9 @@ interface PurchaseItem {
 	description: string;
 }
 
-const meta: Meta<typeof ModalFactory> = {
+const meta: Meta<typeof Modal> = {
 	title: 'Modals/Modal',
-	component: ModalFactory,
+	component: Modal,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -31,7 +31,7 @@ const meta: Meta<typeof ModalFactory> = {
 				component: `
 # Modal System
 
-The modal system provides both basic modal components and factory-based modal creation for complex use cases.
+The modal system provides both basic modal components and -based modal creation for complex use cases.
 
 ## Key Benefits
 
@@ -52,7 +52,7 @@ The modal system provides both basic modal components and factory-based modal cr
 
 ## Usage Patterns
 
-1. **Direct Factory**: \`ModalFactory\` with \`kind\` prop
+1. **Direct **: \`Modal\` with \`kind\` prop
 2. **Wrapper Components**: For complex interactions
 3. **Hook-based**: For state management
 `,
@@ -114,7 +114,7 @@ The modal system provides both basic modal components and factory-based modal cr
 };
 
 export default meta;
-type Story = StoryObj<typeof ModalFactory>;
+type Story = StoryObj<typeof Modal>;
 
 // ===== OVERVIEW STORY =====
 export const AllModalTypesOverview: Story = {
@@ -251,7 +251,7 @@ export const AllModalTypesOverview: Story = {
 				</Wrapper>
 
 				{/* Pre-Game Modal */}
-				<ModalFactory
+				<Modal
 					kind='pre-game'
 					open={activeModal === 'pre-game'}
 					title='Ready to Play?'
@@ -272,10 +272,10 @@ export const AllModalTypesOverview: Story = {
 							when you're prepared to start.
 						</p>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
 				{/* End Game Modal */}
-				<ModalFactory
+				<Modal
 					kind='end-game'
 					open={activeModal === 'end-game'}
 					title='Congratulations!'
@@ -319,10 +319,10 @@ export const AllModalTypesOverview: Story = {
 							</Wrapper>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
 				{/* Rules Modal */}
-				<ModalFactory
+				<Modal
 					kind='rules'
 					open={activeModal === 'rules'}
 					title='How to Play'
@@ -368,10 +368,10 @@ export const AllModalTypesOverview: Story = {
 							</ul>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
 				{/* Statistics Modal */}
-				<ModalFactory
+				<Modal
 					kind='statistics'
 					open={activeModal === 'statistics'}
 					title='Statistics'
@@ -459,10 +459,10 @@ export const AllModalTypesOverview: Story = {
 							</Wrapper>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
 				{/* VS Mode Modal */}
-				<ModalFactory
+				<Modal
 					kind='vs-mode'
 					open={activeModal === 'vs-mode'}
 					title='Choose VS Mode'
@@ -508,10 +508,10 @@ export const AllModalTypesOverview: Story = {
 							</Button>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
 				{/* VS Room Modal */}
-				<ModalFactory
+				<Modal
 					kind='vs-room'
 					open={activeModal === 'vs-room'}
 					title='Join Room'
@@ -557,10 +557,10 @@ export const AllModalTypesOverview: Story = {
 							their game.
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
 				{/* Purchase Modal */}
-				<ModalFactory
+				<Modal
 					kind='purchase'
 					open={activeModal === 'purchase'}
 					title='Purchase Item'
@@ -600,10 +600,10 @@ export const AllModalTypesOverview: Story = {
 							</Wrapper>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
 				{/* Sign In Modal */}
-				<ModalFactory
+				<Modal
 					kind='sign-in'
 					open={activeModal === 'sign-in'}
 					title='Sign In'
@@ -629,10 +629,10 @@ export const AllModalTypesOverview: Story = {
 							friends, and unlock exclusive features!
 						</p>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
 				{/* Share Content Modal */}
-				<ModalFactory
+				<Modal
 					kind='share-content'
 					open={activeModal === 'share-content'}
 					title='Share Your Results'
@@ -696,10 +696,10 @@ export const AllModalTypesOverview: Story = {
 							</Button>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
 				{/* Custom Puzzle Modal */}
-				<ModalFactory
+				<Modal
 					kind='custom-puzzle'
 					open={activeModal === 'custom-puzzle'}
 					title='Create Custom Puzzle'
@@ -758,7 +758,7 @@ export const AllModalTypesOverview: Story = {
 							</select>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 			</Wrapper>
 		);
 	},
@@ -1730,8 +1730,8 @@ export const ModalSystemDemo: Story = {
 					</Button>
 				</Wrapper>
 
-				{/* All modal implementations using the same ModalFactory */}
-				<ModalFactory
+				{/* All modal implementations using the same Modal */}
+				<Modal
 					kind='pre-game'
 					open={activeModal === 'pre-game'}
 					title='Ready to Play?'
@@ -1752,9 +1752,9 @@ export const ModalSystemDemo: Story = {
 							to start and see the end game modal.
 						</p>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
-				<ModalFactory
+				<Modal
 					kind='end-game'
 					open={activeModal === 'end-game'}
 					title={
@@ -1795,9 +1795,9 @@ export const ModalSystemDemo: Story = {
 							</Wrapper>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
-				<ModalFactory
+				<Modal
 					kind='share-content'
 					open={activeModal === 'share-content'}
 					title='Share Your Victory!'
@@ -1846,9 +1846,9 @@ export const ModalSystemDemo: Story = {
 							</Button>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
-				<ModalFactory
+				<Modal
 					kind='vs-mode'
 					open={activeModal === 'vs-mode'}
 					title='Choose VS Mode'
@@ -1895,9 +1895,9 @@ export const ModalSystemDemo: Story = {
 							</Button>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
-				<ModalFactory
+				<Modal
 					kind='vs-room'
 					open={activeModal === 'vs-room'}
 					title='Join Room'
@@ -1931,9 +1931,9 @@ export const ModalSystemDemo: Story = {
 							/>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
-				<ModalFactory
+				<Modal
 					kind='purchase'
 					open={activeModal === 'purchase'}
 					title='Purchase Item'
@@ -1971,9 +1971,9 @@ export const ModalSystemDemo: Story = {
 							</Wrapper>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
-				<ModalFactory
+				<Modal
 					kind='sign-in'
 					open={activeModal === 'sign-in'}
 					title='Sign In Required'
@@ -1998,9 +1998,9 @@ export const ModalSystemDemo: Story = {
 							save your items to your account.
 						</p>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 
-				<ModalFactory
+				<Modal
 					kind='custom-puzzle'
 					open={activeModal === 'custom-puzzle'}
 					title='Create Custom Puzzle'
@@ -2064,7 +2064,7 @@ export const ModalSystemDemo: Story = {
 							</Wrapper>
 						</Wrapper>
 					</Wrapper>
-				</ModalFactory>
+				</Modal>
 			</Wrapper>
 		);
 	},
@@ -2072,7 +2072,7 @@ export const ModalSystemDemo: Story = {
 		docs: {
 			description: {
 				story:
-					'Complete interactive demo showing modal workflows and chaining. All modals are created using the same ModalFactory with different configurations.',
+					'Complete interactive demo showing modal workflows and chaining. All modals are created using the same Modal with different configurations.',
 			},
 		},
 	},

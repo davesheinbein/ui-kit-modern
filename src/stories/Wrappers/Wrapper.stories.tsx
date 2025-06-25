@@ -351,14 +351,10 @@ export const StackContainer: Story = {
 	},
 };
 
-// ========================================
-// Factory Examples (now direct Wrapper usage)
-// ========================================
-
-export const FactoryComponent: Story = {
+export const Component: Story = {
 	render: () => (
 		<Wrapper>
-			<h3>Wrapper Examples (No Factory)</h3>
+			<h3>Wrapper Examples (No)</h3>
 			<Wrapper
 				style={{
 					display: 'flex',
@@ -376,14 +372,12 @@ export const FactoryComponent: Story = {
 						}}
 					>
 						<Wrapper kind='component'>
-							Factory component wrapper
+							component wrapper
 						</Wrapper>
 						<Wrapper kind='provider'>
-							Factory provider wrapper
+							provider wrapper
 						</Wrapper>
-						<Wrapper kind='legacy'>
-							Factory legacy wrapper
-						</Wrapper>
+						<Wrapper kind='legacy'>legacy wrapper</Wrapper>
 					</Wrapper>
 				</Wrapper>
 
@@ -422,7 +416,7 @@ export const FactoryComponent: Story = {
 								border: '1px dashed #ccc',
 							}}
 						>
-							Centered content via factory
+							Centered content via
 						</Wrapper>
 						<Wrapper kind='stack-container'>
 							<Wrapper

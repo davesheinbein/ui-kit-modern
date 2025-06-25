@@ -187,7 +187,7 @@ export const LevelProgress: Story = {
 	},
 };
 
-export const FactoryComponents: Story = {
+export const Components: Story = {
 	render: () => (
 		<Wrapper
 			style={{

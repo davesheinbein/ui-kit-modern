@@ -939,9 +939,7 @@ Table.displayName = 'Table';
 
 export default memo(Table);
 
-// ===================== STATIC HELPERS AND PRESETS (formerly factory) =====================
-
-export interface TableFactoryConfig {
+export interface TableConfig {
 	kind: TableKind;
 	[key: string]: any;
 }
@@ -950,7 +948,7 @@ export interface TableFactoryConfig {
  * createTable - DRY helper for creating table components with minimal code
  */
 export function createTable(
-	config: TableFactoryConfig | TableKind
+	config: TableConfig | TableKind
 ) {
 	const finalConfig =
 		typeof config === 'string' ? { kind: config } : config;

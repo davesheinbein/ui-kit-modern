@@ -3,11 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import { Wrapper } from '../../components/Wrappers';
 import {
-	MonetizationFactory,
 	Monetization,
-	MonetizationPresets,
-	QuickMonetization,
-	SimpleMonetizationFactory,
 	PricingPlan,
 	UsageData,
 	PaymentData,
@@ -32,7 +28,7 @@ A comprehensive monetization component system that supports pricing cards, payme
 ## Features
 
 - **Multiple Types**: Pricing cards, subscription plans, payment forms, usage meters, credit displays, and more
-- **DRY Architecture**:  system with factory patterns for easy component creation
+- **DRY Architecture**:  system with patterns for easy component creation
 - **Customizable**: Full theming, sizing, and behavior configuration
 - **TypeScript**: Full type safety with comprehensive interfaces
 - **Responsive**: Mobile-friendly designs with responsive layouts
@@ -67,17 +63,11 @@ A comprehensive monetization component system that supports pricing cards, payme
 />
 \`\`\`
 
-## Factory Usage
+## Usage
 
 \`\`\`tsx
-// Using MonetizationFactory
-<MonetizationFactory kind="pricing-card" plan={plan} />
-
-// Using presets
-{MonetizationPresets.premiumPlan(plan, onSelect)}
-
-// Using quick components
-<QuickMonetization.PricingCard plan={plan} onSelect={onSelect} />
+// Using Monetization
+<Monetization kind="pricing-card" plan={plan} />
 \`\`\`
 				`,
 			},
@@ -432,10 +422,10 @@ export const UsageMeterStates: Story = {
 };
 
 // =============================================================================
-// FACTORY PATTERN STORIES
+// PATTERN STORIES
 // =============================================================================
 
-export const FactoryExamples: Story = {
+export const Examples: Story = {
 	render: () => (
 		<Wrapper
 			style={{
@@ -445,8 +435,8 @@ export const FactoryExamples: Story = {
 			}}
 		>
 			<Wrapper>
-				<h3>MonetizationFactory</h3>
-				<MonetizationFactory
+				<h3>Monetization</h3>
+				<Monetization
 					kind='pricing-card'
 					plan={samplePlans[1]}
 					config={{
@@ -456,29 +446,6 @@ export const FactoryExamples: Story = {
 						},
 					}}
 				/>
-			</Wrapper>
-
-			<Wrapper>
-				<h3>MonetizationPresets.premiumPlan</h3>
-				{MonetizationPresets.premiumPlan(
-					samplePlans[1],
-					(plan) => console.log('Selected:', plan)
-				)}
-			</Wrapper>
-
-			<Wrapper>
-				<h3>QuickMonetization.UsageBar</h3>
-				<QuickMonetization.UsageBar
-					usage={sampleUsage}
-					onUpgrade={() => console.log('Quick upgrade!')}
-				/>
-			</Wrapper>
-
-			<Wrapper>
-				<h3>SimpleMonetizationFactory.creditDisplay</h3>
-				{SimpleMonetizationFactory.creditDisplay(2500, () =>
-					console.log('Buy credits')
-				)}
 			</Wrapper>
 		</Wrapper>
 	),

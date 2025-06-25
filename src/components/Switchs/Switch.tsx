@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import {
 	SWITCH_CONFIGURATIONS,
 	ExtendedSwitchKind,
-	SwitchFactoryProps,
+	SwitchProps,
 	SwitchConfiguration,
 } from './configurations';
 import {
@@ -43,8 +43,7 @@ export interface SwitchProps {
 }
 
 export function createSwitch(
-	props: SwitchFactoryProps &
-		React.RefAttributes<HTMLDivElement>
+	props: SwitchProps & React.RefAttributes<HTMLDivElement>
 ) {
 	const {
 		kind,

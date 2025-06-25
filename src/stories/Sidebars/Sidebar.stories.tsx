@@ -11,7 +11,7 @@ export default {
 			component:
 				`All sidebar usage is via <Sidebar variant="..." open={...} onClose={...} {...otherProps} />.\n\n` +
 				`- 'variant', 'open', and 'onClose' are required for interactive sidebars.\n` +
-				`- All previous factory/preset/helper/kind logic is removed for maximum clarity and simplicity.\n` +
+				`- All previous preset/helper/kind logic is removed for maximum clarity and simplicity.\n` +
 				`- See the Sidebar Variants Gallery below for 20+ layout examples.`,
 		},
 	},

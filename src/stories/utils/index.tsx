@@ -76,13 +76,13 @@ export const createComponentMeta = (
 	},
 });
 
-export const createFactoryStory = (
+export const createStory = (
 	name: string,
-	factoryFn: any,
+	Fn: any,
 	props: any = {}
 ) => ({
 	name: `🏭 ${name}`,
-	render: () => factoryFn(props),
+	render: () => Fn(props),
 });
 
 export const createPlaygroundStory = (

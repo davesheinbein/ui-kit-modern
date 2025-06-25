@@ -421,12 +421,6 @@ const Chart = forwardRef<HTMLDivElement, ChartProps>(
 Chart.displayName = 'Chart';
 export default memo(Chart);
 
-// --- Named helpers for DRY chart creation (formerly ChartFactory, ChartPresets) ---
-
-/**
- * Create a chart with a specific kind and minimal props
- * @example createChart('legend-horizontal', { chartId: 'my-legend', dataSeries: [...] })
- */
 export function createChart(
 	kind: ChartKind,
 	props: Omit<ChartProps, 'kind'> = {}

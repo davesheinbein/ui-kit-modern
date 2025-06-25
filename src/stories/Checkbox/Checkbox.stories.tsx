@@ -730,7 +730,7 @@ export const AllCheckboxTypes: Story = {
 		docs: {
 			description: {
 				story:
-					'Comprehensive showcase of all checkbox types supported by the checkbox factory system.',
+					'Comprehensive showcase of all checkbox types supported by the checkbox system.',
 			},
 		},
 	},

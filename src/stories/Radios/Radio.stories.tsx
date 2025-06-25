@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { RadioFactory } from '../../components/Radios';
+import { Radio } from '../../components/Radios';
 import { commonDecorators } from '../config/decorators';
 
-const meta: Meta<typeof RadioFactory> = {
+const meta: Meta<typeof Radio> = {
 	title: 'Radios/Radio',
-	component: RadioFactory,
+	component: Radio,
 	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
@@ -236,5 +236,133 @@ export const Preference: Story = {
 		label: 'Notification Preferences',
 		helpText:
 			'Choose how you would like to receive notifications',
+	},
+};
+
+// 4. Image Radio Options
+export const ImageRadio: Story = {
+	args: {
+		kind: 'image-radio',
+		name: 'image-radio',
+		options: [
+			{ value: 'cat', label: 'Cat', image: '/cat.png' },
+			{ value: 'dog', label: 'Dog', image: '/dog.png' },
+		],
+		label: 'Choose a pet',
+	},
+};
+
+// 5. Icon Radio Options
+import { FaSun, FaMoon } from 'react-icons/fa';
+export const IconRadio: Story = {
+	args: {
+		kind: 'standard',
+		name: 'icon-radio',
+		options: [
+			{ value: 'light', label: 'Light', icon: <FaSun /> },
+			{ value: 'dark', label: 'Dark', icon: <FaMoon /> },
+		],
+		label: 'Theme',
+	},
+};
+
+// 10. Radios with Badges
+export const BadgedRadio: Story = {
+	args: {
+		kind: 'standard',
+		name: 'badged-radio',
+		options: [
+			{ value: 'standard', label: 'Standard' },
+			{
+				value: 'premium',
+				label: (
+					<>
+						<span>Premium</span>{' '}
+						<span
+							style={{
+								background: '#ffd700',
+								borderRadius: 4,
+								padding: '2px 6px',
+								marginLeft: 4,
+							}}
+						>
+							Recommended
+						</span>
+					</>
+				),
+			},
+		],
+		label: 'Choose a plan',
+	},
+};
+
+// 12. Two-Column Grid Layout
+export const GridRadio: Story = {
+	args: {
+		kind: 'card-selection',
+		name: 'grid-radio',
+		options: [
+			{ value: 'a', label: 'A' },
+			{ value: 'b', label: 'B' },
+			{ value: 'c', label: 'C' },
+			{ value: 'd', label: 'D' },
+		],
+		label: 'Grid Layout',
+	},
+};
+
+// 15. Image-only Radios
+export const ImageOnlyRadio: Story = {
+	args: {
+		kind: 'image-radio',
+		name: 'image-only-radio',
+		options: [
+			{
+				value: 'pattern1',
+				label: '',
+				image: '/pattern1.png',
+			},
+			{
+				value: 'pattern2',
+				label: '',
+				image: '/pattern2.png',
+			},
+		],
+		label: 'Choose a pattern',
+	},
+};
+
+// 16. Radios with Inline Price or Value
+export const PriceRadio: Story = {
+	args: {
+		kind: 'standard',
+		name: 'price-radio',
+		options: [
+			{
+				value: 'standard',
+				label: 'Standard',
+				description: '$5',
+			},
+			{
+				value: 'premium',
+				label: 'Premium',
+				description: '$10',
+			},
+		],
+		label: 'Pricing',
+	},
+};
+
+// 17. Step-by-Step Wizard Radio (single step example)
+export const WizardRadio: Story = {
+	args: {
+		kind: 'standard',
+		name: 'wizard-radio',
+		options: [
+			{ value: 'step1', label: 'Step 1' },
+			{ value: 'step2', label: 'Step 2' },
+		],
+		label: 'Wizard Step',
+		helpText: 'Select to continue to the next step',
 	},
 };

@@ -1,9 +1,5 @@
 export { default as Modal } from './Modal';
-export { default as Modal } from './UnifiedModal';
-export type {
-	ModalKind,
-	UnifiedModalProps,
-} from './UnifiedModal';
+export type { ModalKind, ModalProps } from './Modal';
 export type {
 	ExtendedModalKind,
 	ModalConfiguration,

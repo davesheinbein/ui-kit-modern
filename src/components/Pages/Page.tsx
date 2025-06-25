@@ -291,9 +291,6 @@ const Page: React.FC<PageProps> = ({
 	);
 };
 
-// Static helpers and presets migrated from factory.tsx
-
-// Preset page components for common use cases
 const Presets = {
 	Startup: (props: Omit<PageProps, 'kind'>) => (
 		<Page kind='startup' {...props} />

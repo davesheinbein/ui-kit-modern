@@ -227,9 +227,6 @@ function renderNavigationContent(
 	}
 }
 
-// ===================== PRESET HELPERS (formerly factory) =====================
-
-// Example: You can add static helpers if you want to keep preset convenience
 (Navigation as any).Presets = {
 	navbar: (props: Partial<NavigationProps> = {}) => (
 		<Navigation kind='navbar' {...props} />

@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { RangeFactory } from '../../components/Ranges';
+import { Range } from '../../components/Ranges';
 import { Wrapper } from '../../components/Wrappers';
 import { commonDecorators } from '../config/decorators';
 import { commonArgTypes } from '../config/argTypes';
 
-const meta: Meta<typeof RangeFactory> = {
+const meta: Meta<typeof Range> = {
 	title: 'Range/Range',
-	component: RangeFactory,
+	component: Range,
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -249,21 +249,21 @@ export const AllRangeTypes: Story = {
 				maxWidth: '600px',
 			}}
 		>
-			<RangeFactory
+			<Range
 				kind='range'
 				label='Basic Range'
 				value={50}
 				min={0}
 				max={100}
 			/>
-			<RangeFactory
+			<Range
 				kind='slider'
 				label='Modern Slider'
 				value={25}
 				min={0}
 				max={100}
 			/>
-			<RangeFactory
+			<Range
 				kind='stepped-range'
 				label='Stepped Range'
 				value={50}
@@ -271,21 +271,21 @@ export const AllRangeTypes: Story = {
 				max={100}
 				step={10}
 			/>
-			<RangeFactory
+			<Range
 				kind='volume-control'
 				aria-label='Volume Control'
 				value={75}
 				min={0}
 				max={100}
 			/>
-			<RangeFactory
+			<Range
 				kind='temperature-control'
 				label='Temperature Control'
 				value={22}
 				min={-10}
 				max={40}
 			/>
-			<RangeFactory
+			<Range
 				kind='progress-slider'
 				label='Progress Slider'
 				value={65}
@@ -305,7 +305,7 @@ export const InteractivePlayground: Story = {
 				padding: '2rem',
 			}}
 		>
-			<RangeFactory {...args} />
+			<Range {...args} />
 			<Wrapper
 				style={{
 					marginTop: '2rem',

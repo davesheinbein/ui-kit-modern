@@ -1,7 +1,5 @@
 import React, { forwardRef } from 'react';
-import Progress, {
-	UnifiedProgressProps,
-} from './UnifiedProgress';
+import Progress, { UnifiedProgressProps } from './Progress';
 
 export interface ProgressProps
 	extends Omit<UnifiedProgressProps, 'kind'> {

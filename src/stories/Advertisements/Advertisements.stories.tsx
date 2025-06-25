@@ -63,7 +63,7 @@ import { Advertisements } from 'src/components/Advertisements';
 For advanced, programmatic scenarios (dynamic ad pools, validation, etc.), use the static helpers:
 
 \`\`\`tsx
-const adProps = Advertisements.Factory.create('native-card', { title: 'Dynamic Ad', ctaText: 'Go' });
+const adProps = Advertisements..create('native-card', { title: 'Dynamic Ad', ctaText: 'Go' });
 <Advertisements {...adProps} />;
 \`\`\`
 
@@ -437,16 +437,16 @@ export const SystemOverview: Story = {
 							gap: '10px',
 						}}
 					>
-						🏭 Factory Pattern
+						🏭 Pattern
 					</h3>
 					<p style={{ color: '#666', lineHeight: 1.6 }}>
-						DRY approach with factory methods and shorthand
-						creation for consistent ad generation.
+						DRY approach with methods and shorthand creation
+						for consistent ad generation.
 					</p>
 					<ul
 						style={{ color: '#666', paddingLeft: '20px' }}
 					>
-						<li>AdvertisementFactory</li>
+						<li>Advertisement</li>
 						<li>Shorthand A class</li>
 						<li>Preset configurations</li>
 						<li>Group creation</li>
@@ -639,7 +639,7 @@ export const SystemOverview: Story = {
 							fontSize: '14px',
 						}}
 					>
-						Factory Patterns
+						Patterns
 					</Wrapper>
 					<Wrapper
 						style={{
@@ -781,15 +781,12 @@ export const RewardedModal: Story = {
 
 // ===== ADVANCED PROGRAMMATIC USAGE EXAMPLE =====
 
-export const ProgrammaticFactoryAd: Story = {
+export const ProgrammaticAd: Story = {
 	render: () => {
-		const adProps = Advertisements.Factory.create(
-			'native-card',
-			{
-				title: 'Dynamic Ad (Programmatic)',
-				ctaText: 'Go',
-			}
-		);
+		const adProps = Advertisements.create('native-card', {
+			title: 'Dynamic Ad (Programmatic)',
+			ctaText: 'Go',
+		});
 		return <Advertisements {...adProps} />;
 	},
 };

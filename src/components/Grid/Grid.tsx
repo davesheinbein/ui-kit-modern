@@ -53,20 +53,9 @@ export interface GridProps
 	isLocked?: boolean;
 	className?: string;
 	cellClassName?: string;
-	/**
-	 * Controls flex direction of each solved category group (row or column)
-	 */
 	categoryDirection?: 'row' | 'column';
 }
 
-/**
- * Grid - The main grid component that handles all grid types
- * This component uses configuration-driven rendering to support multiple
- * grid types while maintaining a consistent API.
- *
- * All grid creation is now handled by <Grid {...props}> directly.
- * Factory and QuickGrids are deprecated. Use <Grid kind="grid" ... /> or <Grid kind="pregame" ... /> etc.
- */
 const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 	(
 		{

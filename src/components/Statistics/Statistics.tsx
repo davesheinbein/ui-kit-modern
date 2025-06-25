@@ -297,8 +297,6 @@ const Statistics: React.FC<StatisticsProps> = ({
 	);
 };
 
-// --- FACTORY LOGIC CONSOLIDATION ---
-// Ultra-short component creation functions as static helpers
 export const Daily = (
 	props: Omit<StatisticsProps, 'stats'> & {
 		stats: PlayerStats;

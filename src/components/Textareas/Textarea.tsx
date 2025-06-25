@@ -4,11 +4,11 @@ import {
 	TEXTAREA_CONFIGURATIONS,
 	ExtendedTextareaKind,
 	TextareaConfiguration,
-	TextareaFactoryProps,
+	TextareaProps,
 } from './configurations';
 
 export interface TextareaProps
-	extends Partial<TextareaFactoryProps> {
+	extends Partial<TextareaProps> {
 	kind?: ExtendedTextareaKind;
 	configuration?: Partial<TextareaConfiguration>;
 }

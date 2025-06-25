@@ -64,7 +64,7 @@ export interface RangeConfiguration {
 	};
 }
 
-export interface RangeFactoryProps {
+export interface RangeProps {
 	'kind': ExtendedRangeKind;
 	'value'?: number | number[];
 	'defaultValue'?: number | number[];

@@ -756,9 +756,6 @@ const Monetization = forwardRef<
 
 Monetization.displayName = 'Monetization';
 
-// ===================== PRESET HELPERS (formerly factory) =====================
-
-// Example: You can add static helpers if you want to keep preset convenience
 Monetization.Presets = {
 	basicPlan: (
 		plan: PricingPlan,

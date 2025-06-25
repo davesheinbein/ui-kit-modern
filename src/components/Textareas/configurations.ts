@@ -52,7 +52,7 @@ export interface TextareaConfiguration {
 	};
 }
 
-export interface TextareaFactoryProps {
+export interface TextareaProps {
 	kind: ExtendedTextareaKind;
 	value?: string;
 	defaultValue?: string;

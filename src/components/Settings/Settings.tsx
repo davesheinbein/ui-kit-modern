@@ -123,7 +123,6 @@ export interface SettingsProps {
 	[key: string]: any;
 }
 
-// --- FACTORY LOGIC CONSOLIDATION ---
 function getFinalSettingsConfig(
 	kind: SettingsKind,
 	configOverride?: Partial<SettingsConfiguration>

@@ -8,7 +8,6 @@ import {
 	AdminKind,
 	AdminConfiguration,
 } from './configurations';
-import { mockAdminDataGenerators } from '../../stories/mocks';
 import {
 	selectClientTime,
 	selectPerformanceMetrics,
@@ -30,9 +29,6 @@ export interface AdminProps extends AdminConfiguration {
 	data?: any;
 	[key: string]: any;
 }
-
-// Replace dataGenerators with imported mockAdminDataGenerators for story/demo use
-const dataGenerators = mockAdminDataGenerators;
 
 // Consolidated InfoRow component
 const InfoRow: React.FC<{
@@ -101,7 +97,7 @@ interface AdminBodyConfig {
 	className: string;
 	title?: string;
 	updateInterval?: number;
-	dataKey?: keyof typeof dataGenerators;
+	dataKey?: string;
 	selector?: (state: any, componentId: string) => any;
 	actionCreator?: any;
 	fields?: AdminFieldConfig[];

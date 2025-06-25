@@ -5,6 +5,20 @@ import { Wrapper } from '../Wrappers';
 export { default as Providers } from './Providers';
 export type { ProviderProps } from './Providers';
 
-export * from './configurations';
+// Explicitly export contexts and types to avoid wildcard conflicts
+export {
+	ThemePaletteContext,
+	SocketContext,
+	UserSettingsContext,
+	useThemePalette,
+	useSocket,
+	useUserSettings,
+} from './Providers';
 
-// Remove all factory-related and Provider exports
+export type {
+	ThemePaletteContextType,
+	SocketContextType,
+	UserSettingsContextType,
+} from './Providers';
+
+export * from './configurations';

@@ -70,8 +70,7 @@ export interface SwitchConfiguration {
 	};
 }
 
-// Factory props interface
-export interface SwitchFactoryProps {
+export interface SwitchProps {
 	kind: ExtendedSwitchKind;
 	checked?: boolean;
 	defaultChecked?: boolean;

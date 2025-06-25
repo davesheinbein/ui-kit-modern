@@ -478,8 +478,6 @@ const Utility = forwardRef<HTMLDivElement, UtilityProps>(
 Utility.displayName = 'Utility';
 export default memo(Utility);
 
-// ===================== STATIC HELPERS AND PRESETS (formerly factory) =====================
-
 // DRY helper to create a Utility component with a config object
 export function createUtility(
 	config: UtilityConfiguration & Partial<UtilityProps>

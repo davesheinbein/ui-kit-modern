@@ -1,11 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Navigation } from '../../components/Navigation';
 import { Wrapper } from '../../components/Wrappers';
-import {
-	NavigationFactory,
-	N,
-	NavigationPresets,
-} from '../../components/Navigation';
 
 const meta: Meta<typeof Navigation> = {
 	title: 'Navigation/Navigation',
@@ -254,92 +249,6 @@ export const StepNavigation: Story = {
 		showProgress: true,
 	},
 };
-
-// ========================================
-// Factory Pattern Stories
-// ========================================
-
-export const FactoryBasic: Story = {
-	render: () => {
-		const NavbarComponent = NavigationFactory('navbar');
-		return (
-			<NavbarComponent
-				items={sampleItems}
-				variant='filled'
-			/>
-		);
-	},
-};
-
-export const FactoryShorthand: Story = {
-	render: () => {
-		const TabsComponent = N('tabs');
-		return <TabsComponent items={sampleTabs} />;
-	},
-};
-
-export const FactoryPresets: Story = {
-	render: () => {
-		const ResponsiveNav = NavigationPresets.responsiveNav;
-		return (
-			<ResponsiveNav items={sampleItems} logo='My App' />
-		);
-	},
-};
-
-export const FactoryDashboard: Story = {
-	render: () => {
-		const DashboardNav = NavigationPresets.dashboardNav;
-		return (
-			<DashboardNav
-				items={[
-					{
-						label: 'Dashboard',
-						href: '/dashboard',
-						icon: '📊',
-					},
-					{
-						label: 'Analytics',
-						href: '/analytics',
-						icon: '📈',
-					},
-					{
-						label: 'Settings',
-						href: '/settings',
-						icon: '⚙️',
-					},
-					{
-						label: 'Profile',
-						href: '/profile',
-						icon: '👤',
-					},
-				]}
-				isOpen={true}
-			/>
-		);
-	},
-};
-
-export const FactoryWizard: Story = {
-	render: () => {
-		const WizardNav = NavigationPresets.wizardNav;
-		return (
-			<WizardNav
-				steps={[
-					{ label: 'Personal Info', completed: true },
-					{ label: 'Address', current: true },
-					{ label: 'Payment' },
-					{ label: 'Confirmation' },
-				]}
-				currentStep={2}
-			/>
-		);
-	},
-};
-
-// ========================================
-// Variant Stories
-// ========================================
 
 export const AllVariants: Story = {
 	render: () => (

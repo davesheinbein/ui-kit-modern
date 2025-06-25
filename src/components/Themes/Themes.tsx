@@ -391,8 +391,6 @@ const Themes: React.FC<ThemesProps> = ({
 	);
 };
 
-// --- Static helpers and presets migrated from factory.tsx ---
-
 // Helper to create a Themes component with a specific kind
 export function createTheme(
 	kind: ThemeKind,

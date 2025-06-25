@@ -345,12 +345,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = 'Button';
 
-// --- Named helpers for DRY button creation (formerly ButtonFactory/ButtonPresets) ---
-
-/**
- * Create a button with a specific kind and minimal props
- * @example createButton('primary', { text: 'Save', onClick })
- */
 export function createButton(
 	kind: ButtonKind,
 	props: Partial<ButtonProps> = {}
@@ -361,9 +355,6 @@ export function createButton(
 	});
 }
 
-/**
- * Create multiple buttons from a group configuration
- */
 export function createButtonGroup(
 	groupConfig: Record<
 		string,
@@ -381,7 +372,6 @@ export function createButtonGroup(
 	);
 }
 
-// Quick access helpers for common buttons
 export const saveButton = (
 	onClick?: () => void,
 	text = 'Save'

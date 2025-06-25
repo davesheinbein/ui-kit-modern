@@ -10,7 +10,6 @@ export type {
 	MediaConfiguration,
 } from './configurations';
 
-export type { MediaProps } from './UnifiedMedia';
-export { default as Media } from './UnifiedMedia';
+export type { MediaProps } from './Media';
 export { default as Media } from './Media';
-export { getMediaConfig } from './configurations';
+export * from './configurations';

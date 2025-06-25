@@ -2,8 +2,6 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
 	Settings,
-	SettingsFactory,
-	SettingsPresets,
 	QuickSettings,
 	defaultThemes,
 } from '../../components/Settings';
@@ -24,8 +22,6 @@ The Settings DRY system provides a configuration-driven approach to creating var
 
 ## Components:
 - **Settings**: Main component that handles all settings types
-- **SettingsFactory**: Configuration-driven factory for rapid settings creation
-- **SettingsPresets**: Pre-configured settings for common use cases
 - **QuickSettings**: Optimized shortcuts for frequent patterns
 
 ## Supported Settings Types:
@@ -40,12 +36,6 @@ The Settings DRY system provides a configuration-driven approach to creating var
 \`\`\`tsx
 // Direct usage
 <Settings kind="settings-panel" sections={sections} />
-
-// Factory pattern
-<SettingsFactory kind="customization-category" items={themes} />
-
-// Presets
-<SettingsPresets.UserSettings sections={sections} />
 
 // Quick patterns
 <QuickSettings.Theme items={themes} />
@@ -312,60 +302,6 @@ export const SettingsShowcase: Story = {
 	},
 };
 
-export const FactoryPattern: Story = {
-	name: '🏭 SettingsFactory Pattern',
-	render: (args) => (
-		<Wrapper className='space-y-4'>
-			<h3>Factory Pattern Examples</h3>
-			<Wrapper className='grid gap-4'>
-				<SettingsFactory
-					kind='settings-panel'
-					title='User Preferences'
-					sections={mockUserSections}
-					{...args}
-				/>
-			</Wrapper>
-		</Wrapper>
-	),
-	args: {
-		showHeader: true,
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Shows SettingsFactory creating different settings interfaces through configuration.',
-			},
-		},
-	},
-};
-
-export const PresetsShowcase: Story = {
-	name: '🎨 SettingsPresets',
-	render: (args) => (
-		<Wrapper className='space-y-4'>
-			<h3>Settings Presets Examples</h3>
-			<Wrapper className='grid gap-4'>
-				{SettingsPresets.USER_PREFERENCES()}
-				{SettingsPresets.THEME_CUSTOMIZATION(
-					mockThemeItems
-				)}
-				{SettingsPresets.ACCESSIBILITY(
-					mockAccessibilitySections
-				)}
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Shows pre-configured SettingsPresets for common settings scenarios.',
-			},
-		},
-	},
-};
-
 export const QuickSettingsPatterns: Story = {
 	name: '🚀 QuickSettings',
 	render: (args) => (
@@ -542,33 +478,6 @@ export const LargeItemGrid: Story = {
 				accentColor: `hsl(${((i + 1) * 30) % 360}, 70%, 60%)`,
 			})),
 		],
-	},
-};
-
-// Configuration Override Examples
-export const CustomConfiguration: Story = {
-	name: '⚙️ Custom Configuration',
-	render: (args) => (
-		<SettingsFactory
-			kind='customization-category'
-			title='Custom Grid Layout'
-			items={mockThemeItems}
-			configuration={{
-				gridLayout: true,
-				columns: 2,
-				showPrices: true,
-				enableSearch: true,
-			}}
-			{...args}
-		/>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Demonstrates custom configuration overrides for specialized layouts.',
-			},
-		},
 	},
 };
 
@@ -783,36 +692,6 @@ export const CustomizationSingleItem: Story = {
 		},
 	},
 };
-
-export const CustomizationCustomGridLayout: Story = {
-	name: '⚙️ Customization - Custom Grid Layout',
-	render: (args) => (
-		<SettingsFactory
-			kind='customization-category'
-			title='Custom Layout'
-			items={mockThemeItems}
-			configuration={{
-				gridLayout: true,
-				columns: 2,
-				showPrices: true,
-				enableSearch: true,
-			}}
-			{...args}
-		/>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Customization with custom configuration overrides for specialized grid layouts.',
-			},
-		},
-	},
-};
-
-// =============================================================================
-// THEME SELECTOR STORIES (Merged from ThemeSelector.stories.tsx)
-// =============================================================================
 
 export const ThemeSwatchesSelector: Story = {
 	name: '🎨 Theme Swatches Selector',
@@ -1491,7 +1370,7 @@ export const AllSettingsShowcase: Story = {
 						<h3 className='text-lg font-semibold mb-4'>
 							Theme Settings
 						</h3>
-						<SettingsFactory
+						<Settings
 							kind='theme-settings'
 							items={createThemeItems(
 								currentSettings.theme
@@ -1506,7 +1385,7 @@ export const AllSettingsShowcase: Story = {
 						<h3 className='text-lg font-semibold mb-4'>
 							User Preferences
 						</h3>
-						<SettingsFactory
+						<Settings
 							kind='user-settings'
 							configuration={{
 								title: 'User Preferences',
@@ -1549,7 +1428,7 @@ export const AllSettingsShowcase: Story = {
 						<h3 className='text-lg font-semibold mb-4'>
 							Theme Customization
 						</h3>
-						<SettingsFactory
+						<Settings
 							kind='customization-category'
 							title='Themes'
 							items={customizationThemeItems.slice(0, 4)}
@@ -1563,7 +1442,7 @@ export const AllSettingsShowcase: Story = {
 						<h3 className='text-lg font-semibold mb-4'>
 							Privacy Settings
 						</h3>
-						<SettingsFactory
+						<Settings
 							kind='privacy-settings'
 							configuration={{
 								title: 'Privacy & Security',

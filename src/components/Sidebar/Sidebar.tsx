@@ -1,35 +1,3 @@
-/**
- * Sidebar Component (Ultra-DRY, Prop-Driven)
- *
- * A sidebar is a secondary navigation or content panel typically positioned to the left or right of a web interface. Its primary role is to provide quick access to supporting content, navigation links, filters, user account controls, or actions without interrupting the main page experience.
- *
- * ## Usage (DRY Pattern)
- *
- * All sidebar creation should use this single component API:
- *
- *   <Sidebar open={...} onClose={...} position="left|right" size="small|medium|large|full" variant="permanent|collapsible|drawer|overlay|push|floating|tabbed|multi-level|icon-only|profile|filter|settings|search|activity|quick-actions|favorites|media|vertical-tabs|contextual" ...otherProps />
- *
- * - 'open' and 'onClose' are required props for interactive sidebars.
- * - Use 'variant', 'position', 'size', and custom children to achieve any sidebar layout.
- * - All previous factory/preset/helper/kind logic is removed for maximum clarity and simplicity.
- *
- * ## Sidebar Types (via props)
- * - Permanent: variant="permanent" open position="left"
- * - Collapsible: variant="collapsible" open={isOpen} ...
- * - Drawer: variant="drawer" open={isOpen} ...
- * - Overlay: variant="overlay" open={isOpen} ...
- * - Push: variant="push" open={isOpen} ...
- * - Floating: variant="floating" open={isOpen} ...
- * - Contextual: variant="contextual" ...
- * - Tabbed: variant="tabbed" ...
- * - Multi-Level: variant="multi-level" ...
- * - Icon-Only: variant="icon-only" ...
- * - Right-Aligned: position="right" ...
- * - Profile, Filter, Settings, Search, Activity, Quick Actions, Favorites, Media, Vertical Tabs: use corresponding variant
- *
- * For mobile, use open/close state and position/size to control drawer behavior. For desktop, use permanent/collapsible variants and size/position as needed.
- */
-
 import React, {
 	forwardRef,
 	useEffect,

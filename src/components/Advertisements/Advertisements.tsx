@@ -1673,7 +1673,7 @@ const USE_CASE_CONFIGS = {
 	},
 };
 
-export class AdvertisementFactory {
+export class Advertisement {
 	static createWithConfig(
 		kind: AdKind,
 		content: AdContent,
@@ -1693,7 +1693,7 @@ export class AdvertisementFactory {
 		content: AdContent,
 		customProps: Partial<AdvertisementProps> = {}
 	): React.ReactElement<AdvertisementProps> {
-		return AdvertisementFactory.createWithConfig(
+		return Advertisement.createWithConfig(
 			kind,
 			content,
 			customProps
@@ -1707,7 +1707,7 @@ export class AdvertisementFactory {
 		}>
 	): React.ReactElement<AdvertisementProps>[] {
 		return specs.map(({ kind, content, props }) =>
-			AdvertisementFactory.createWithConfig(
+			Advertisement.createWithConfig(
 				kind,
 				content,
 				props
@@ -1721,7 +1721,7 @@ export class AdvertisementFactory {
 		props?: Partial<AdvertisementProps>
 	): React.ReactElement<AdvertisementProps> | null {
 		return condition ?
-				AdvertisementFactory.createWithConfig(
+				Advertisement.createWithConfig(
 					kind,
 					content,
 					props
@@ -1739,24 +1739,24 @@ export class AdvertisementFactory {
 		props?: Partial<AdvertisementProps>
 	): React.ReactElement<AdvertisementProps> {
 		if (context.isGame)
-			return AdvertisementFactory.createWithConfig(
+			return Advertisement.createWithConfig(
 				'in-game-billboard',
 				content,
 				props
 			);
 		if (context.isMobile)
-			return AdvertisementFactory.createWithConfig(
+			return Advertisement.createWithConfig(
 				'interstitial',
 				content,
 				props
 			);
 		if (context.userEngagement === 'high')
-			return AdvertisementFactory.createWithConfig(
+			return Advertisement.createWithConfig(
 				'rewarded-modal',
 				content,
 				props
 			);
-		return AdvertisementFactory.createWithConfig(
+		return Advertisement.createWithConfig(
 			'banner',
 			content,
 			props
@@ -1784,7 +1784,7 @@ export class AdvertisementFactory {
 		> = {};
 		if (options.onlyPrimary && config.primary) {
 			result['primary'] =
-				AdvertisementFactory.createWithConfig(
+				Advertisement.createWithConfig(
 					config.primary,
 					contentMap['primary'] || {},
 					options.sharedProps
@@ -1795,7 +1795,7 @@ export class AdvertisementFactory {
 			(kind, idx) => {
 				const key =
 					idx === 0 ? 'primary' : `secondary${idx}`;
-				result[key] = AdvertisementFactory.createWithConfig(
+				result[key] = Advertisement.createWithConfig(
 					kind,
 					contentMap[key] || {},
 					{
@@ -1818,7 +1818,7 @@ export const AdUtils = {
 		}>
 	) =>
 		requests.map(({ kind, content, props }) =>
-			AdvertisementFactory.createWithConfig(
+			Advertisement.createWithConfig(
 				kind,
 				content,
 				props
@@ -1834,7 +1834,7 @@ export const AdUtils = {
 	) =>
 		conditions.map(({ condition, kind, content, props }) =>
 			condition ?
-				AdvertisementFactory.createWithConfig(
+				Advertisement.createWithConfig(
 					kind,
 					content,
 					props
@@ -1860,7 +1860,7 @@ export const AdUtils = {
 	) => ({
 		mobile:
 			breakpoints.mobile ?
-				AdvertisementFactory.createWithConfig(
+				Advertisement.createWithConfig(
 					breakpoints.mobile.kind,
 					content,
 					breakpoints.mobile.props
@@ -1868,7 +1868,7 @@ export const AdUtils = {
 			:	null,
 		tablet:
 			breakpoints.tablet ?
-				AdvertisementFactory.createWithConfig(
+				Advertisement.createWithConfig(
 					breakpoints.tablet.kind,
 					content,
 					breakpoints.tablet.props
@@ -1876,7 +1876,7 @@ export const AdUtils = {
 			:	null,
 		desktop:
 			breakpoints.desktop ?
-				AdvertisementFactory.createWithConfig(
+				Advertisement.createWithConfig(
 					breakpoints.desktop.kind,
 					content,
 					breakpoints.desktop.props
@@ -1915,7 +1915,7 @@ export const AdUtils = {
 			}
 		}
 		const v = variants[idx];
-		return AdvertisementFactory.createWithConfig(
+		return Advertisement.createWithConfig(
 			v.kind,
 			content,
 			v.props
@@ -1925,31 +1925,31 @@ export const AdUtils = {
 
 export const AdPresets = {
 	websiteHeader: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'banner',
 			content,
 			{ position: 'relative' }
 		),
 	websiteFooter: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'banner',
 			content,
 			{ position: 'relative' }
 		),
 	websiteInContent: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'native-card',
 			content,
 			{ position: 'relative' }
 		),
 	websiteSidebar: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'native-card',
 			content,
 			{ position: 'relative' }
 		),
 	mobileFullscreen: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'interstitial',
 			content,
 			{ position: 'fixed' }
@@ -1957,55 +1957,55 @@ export const AdPresets = {
 	mobileReward: (
 		content: AdContent & { rewardData: any }
 	) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'rewarded-modal',
 			content,
 			{ position: 'fixed' }
 		),
 	gameBillboard: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'in-game-billboard',
 			content,
 			{ position: 'relative' }
 		),
 	gameReward: (content: AdContent & { rewardData: any }) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'rewarded-modal',
 			content,
 			{ position: 'fixed', showBackdrop: true }
 		),
 	productPromo: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'banner',
 			content,
 			{ position: 'relative' }
 		),
 	cartAbandonment: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'exit-intent-modal',
 			content,
 			{ position: 'fixed', showBackdrop: true }
 		),
 	saleNotification: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'toast-notification',
 			content,
 			{ position: 'fixed', autoHide: true, hideDelay: 8000 }
 		),
 	sponsoredContent: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'native-card',
 			content,
 			{ position: 'relative' }
 		),
 	newsletterPromo: (content: AdContent) =>
-		AdvertisementFactory.createWithConfig(
+		Advertisement.createWithConfig(
 			'sticky-bar',
 			content,
 			{ position: 'fixed' }
 		),
 };
 
-(Advertisements as any).Factory = AdvertisementFactory;
+(Advertisements as any).Factory = Advertisement;
 (Advertisements as any).Utils = AdUtils;
 (Advertisements as any).Presets = AdPresets;

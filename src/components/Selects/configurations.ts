@@ -108,8 +108,7 @@ export interface SelectConfiguration {
 	};
 }
 
-// Factory props interface
-export interface SelectFactoryProps {
+export interface SelectProps {
 	kind: ExtendedSelectKind;
 	options: SelectOption[] | SelectOptionGroup[];
 	value?: string | string[];

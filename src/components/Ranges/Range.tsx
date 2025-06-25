@@ -412,10 +412,9 @@ export const Range = forwardRef<
 
 Range.displayName = 'Range';
 
-// ===================== STATIC FACTORY-LIKE HELPER (formerly RangeFactory) =====================
 import type { ExtendedRangeKind } from './configurations';
 
-export interface RangeFactoryProps
+export interface RangeProps
 	extends Omit<RangeProps, 'configuration'> {
 	kind: ExtendedRangeKind;
 	configuration?: Partial<RangeConfiguration>;
@@ -425,7 +424,7 @@ function createRange({
 	kind,
 	configuration,
 	...props
-}: RangeFactoryProps) {
+}: RangeProps) {
 	const baseConfig =
 		RANGE_CONFIGURATIONS[kind] ||
 		RANGE_CONFIGURATIONS.range;

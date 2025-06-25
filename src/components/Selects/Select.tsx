@@ -12,7 +12,7 @@ import {
 	SELECT_CONFIGURATIONS,
 	ExtendedSelectKind,
 	SelectConfiguration,
-	SelectFactoryProps,
+	SelectProps,
 } from './configurations';
 import {
 	setSelectState,
@@ -24,16 +24,10 @@ import type {
 	SelectOptionGroup,
 } from './configurations';
 
-export interface SelectProps extends SelectFactoryProps {
+export interface SelectProps extends SelectProps {
 	componentId?: string;
 }
 
-/**
- * Select - Main Select Component
- *
- * Simple wrapper around SelectFactory for backward compatibility and ease of use.
- * For advanced configurations, use SelectFactory directly.
- */
 export const Select = forwardRef<
 	HTMLDivElement,
 	SelectProps
@@ -374,23 +368,18 @@ export const Select = forwardRef<
 			className
 		);
 
-		// ...rest of the rendering logic, menu, options, etc...
-
 		return (
 			<div
 				ref={ref}
 				className={containerClasses}
 				{...props}
-			>
-				{/* ...render label, control, menu, help/error text, etc... */}
-			</div>
+			></div>
 		);
 	}
 );
 
 Select.displayName = 'Select';
 
-// --- FACTORY LOGIC CONSOLIDATION ---
 function getFinalConfig(
 	kind: ExtendedSelectKind | undefined,
 	configuration: Partial<SelectConfiguration> | undefined,
@@ -414,53 +403,53 @@ function getFinalConfig(
 }
 
 export const Dropdown: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => <Select kind='dropdown' {...props} />;
 export const Multiselect: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => <Select kind='multiselect' {...props} />;
 export const Autocomplete: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => <Select kind='autocomplete' {...props} />;
 export const SearchableDropdown: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => (
 	<Select kind='searchable-dropdown' {...props} />
 );
 export const CountrySelector: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => (
 	<Select kind='country-selector' {...props} />
 );
 export const TimezoneSelector: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => (
 	<Select kind='timezone-selector' {...props} />
 );
 export const LanguageSelector: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => (
 	<Select kind='language-selector' {...props} />
 );
 export const CategoryFilter: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => <Select kind='category-filter' {...props} />;
 export const TagSelector: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => <Select kind='tag-selector' {...props} />;
 export const UserPicker: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => <Select kind='user-picker' {...props} />;
 export const DateRangeSelector: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => <Select kind='date-range' {...props} />;
 export const CustomSelect: React.FC<
-	Omit<SelectFactoryProps, 'kind'>
+	Omit<SelectProps, 'kind'>
 > = (props) => <Select kind='custom' {...props} />;
 
 // Export types for consumers
 export type {
-	SelectFactoryProps,
+	SelectProps,
 	ExtendedSelectKind as SelectKind,
 	SelectConfiguration,
 } from './configurations';

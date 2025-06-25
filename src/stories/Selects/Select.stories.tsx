@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SelectFactory } from '../../components/Selects';
+import { Select } from '../../components/Selects';
 import { commonDecorators } from '../config/decorators';
 
-const meta: Meta<typeof SelectFactory> = {
+const meta: Meta<typeof Select> = {
 	title: 'Selects/Select',
-	component: SelectFactory,
+	component: Select,
 	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
