@@ -277,3 +277,66 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(
 
 Radio.displayName = 'Radio';
 export default Radio;
+
+// ===================== STATIC HELPERS AND PRESETS (formerly factory) =====================
+import {
+	RADIO_CONFIGURATIONS,
+	ExtendedRadioKind,
+	RadioConfiguration,
+} from './configurations';
+
+export interface RadioFactoryProps
+	extends Omit<RadioProps, 'configuration'> {
+	kind: ExtendedRadioKind;
+	configuration?: Partial<RadioConfiguration>;
+}
+
+// Factory-like static helper
+function createRadio({
+	kind,
+	configuration,
+	...props
+}: RadioFactoryProps) {
+	const baseConfig =
+		RADIO_CONFIGURATIONS[kind] ||
+		RADIO_CONFIGURATIONS.standard;
+	const finalConfig: RadioConfiguration = {
+		...baseConfig,
+		...configuration,
+	};
+	return <Radio {...props} configuration={finalConfig} />;
+}
+
+// Preset helpers for common radio types
+const Presets = {
+	Standard: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'standard', ...props }),
+	ButtonGroup: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'button-group', ...props }),
+	CardSelection: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'card-selection', ...props }),
+	ToggleSwitch: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'toggle-switch', ...props }),
+	Image: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'image-radio', ...props }),
+	ColorPicker: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'color-picker', ...props }),
+	SizeSelector: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'size-selector', ...props }),
+	PlanSelector: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'plan-selector', ...props }),
+	Preference: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'preference', ...props }),
+	Custom: (props: Omit<RadioFactoryProps, 'kind'>) =>
+		createRadio({ kind: 'custom', ...props }),
+};
+
+// Attach helpers to Radio
+(Radio as any).Presets = Presets;
+(Radio as any).createRadio = createRadio;
+
+export { Presets as RadioPresets, createRadio };
+export type {
+	RadioFactoryProps,
+	ExtendedRadioKind as RadioKind,
+};

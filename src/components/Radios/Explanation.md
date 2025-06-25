@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Radios` folder implements a DRY, configuration-driven system for all types of radio groups and selectors in the UI kit. It supports standard radios, button groups, card selections, toggle switches, image/color/size pickers, and more, all using a single, unified `Radio` component, a central configuration registry, and a factory for rapid, declarative radio creation. This system ensures consistency, extensibility, and rapid development of selection UIs.
+The `Radios` folder implements a DRY, configuration-driven system for all types of radio groups and selectors in the UI kit. It supports standard radios, button groups, card selections, toggle switches, image/color/size pickers, and more, all using a single, `Radio` component, a central configuration registry, and a factory for rapid, declarative radio creation. This system ensures consistency, extensibility, and rapid development of selection UIs.
 
 ## Key Files and Structure
 
@@ -23,8 +23,6 @@ The `Radios` folder implements a DRY, configuration-driven system for all types 
 ## Example Usage
 
 ```tsx
-import { ButtonGroupRadio, CardSelectionRadio } from './factory';
-
 // Button group radio
 <ButtonGroupRadio
   name="color"

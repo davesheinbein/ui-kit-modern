@@ -130,28 +130,175 @@ export const radarChartData = [
 	{ category: 'Consistency', score: 65 },
 ];
 
-// Admin/Debug mock data generators for Storybook and demo purposes
-export const mockAdminDataGenerators = {
-	time: () => new Date().toLocaleTimeString(),
-	performance: () => ({
-		memory: 128, // MB
-		fps: 60,
-		loadTime: 1234, // ms
-	}),
-	errors: () => [
-		{
-			time: new Date().toLocaleTimeString(),
-			message: 'Network timeout',
-		},
-		{
-			time: new Date().toLocaleTimeString(),
-			message: 'Invalid API response',
-		},
-	],
-	environment: () => ({
-		nodeEnv: 'browser',
-		userAgent: 'MockUserAgent/1.0...',
-		componentsRendered: 42,
-		activeListeners: 7,
-	}),
-};
+// === GRID MOCK DATA ===
+export const gridWords3x3 = [
+	'Apple',
+	'Banana',
+	'Cherry',
+	'Date',
+	'Elderberry',
+	'Fig',
+	'Grape',
+	'Honeydew',
+	'Kiwi',
+];
+
+export const gridWords4x4 = [
+	'Lion',
+	'Tiger',
+	'Bear',
+	'Wolf',
+	'Fox',
+	'Eagle',
+	'Shark',
+	'Whale',
+	'Frog',
+	'Snake',
+	'Lizard',
+	'Turtle',
+	'Crab',
+	'Octopus',
+	'Seal',
+	'Penguin',
+];
+
+export const gridWords5x5 = [
+	'Paris',
+	'London',
+	'Berlin',
+	'Rome',
+	'Madrid',
+	'Vienna',
+	'Prague',
+	'Budapest',
+	'Warsaw',
+	'Dublin',
+	'Oslo',
+	'Stockholm',
+	'Copenhagen',
+	'Helsinki',
+	'Reykjavik',
+	'Athens',
+	'Lisbon',
+	'Brussels',
+	'Amsterdam',
+	'Zurich',
+	'Moscow',
+	'Istanbul',
+	'Kiev',
+	'Belgrade',
+	'Bucharest',
+];
+
+export const gridWords = [
+	'Alpha',
+	'Beta',
+	'Gamma',
+	'Delta',
+	'Epsilon',
+	'Zeta',
+	'Eta',
+	'Theta',
+	'Iota',
+	'Kappa',
+	'Lambda',
+	'Mu',
+	'Nu',
+	'Xi',
+	'Omicron',
+	'Pi',
+	'Rho',
+	'Sigma',
+	'Tau',
+	'Upsilon',
+	'Phi',
+	'Chi',
+	'Psi',
+	'Omega',
+	'Andromeda',
+	'Centaurus',
+	'Draco',
+	'Orion',
+	'Phoenix',
+	'Cygnus',
+	'Cassiopeia',
+	'Ursa Major',
+	'Ursa Minor',
+	'Leo',
+	'Virgo',
+	'Libra',
+	'Aquila',
+	'Scorpius',
+	'Capricornus',
+	'Aquarius',
+	'Pisces',
+	'Aries',
+	'Taurus',
+	'Gemini',
+	'Cancer',
+	'Leo Minor',
+	'Monoceros',
+];
+
+// =====================
+// Header Stories Mocks
+// =====================
+
+export const navItemsMain = [
+	'Home',
+	'About',
+	'Features',
+	'Contact',
+];
+export const navItemsLeft = ['Home', 'About'];
+export const navItemsRight = ['Shop', 'Contact'];
+export const navItemsMega = [
+	'Products ▼',
+	'Services ▼',
+	'Resources ▼',
+];
+export const navItemsGallery = [
+	'Gallery',
+	'Portfolio',
+	'Contact',
+];
+export const navItemsSidebar = [
+	'Home',
+	'About',
+	'Contact',
+	'Profile',
+];
+export const navItemsShop = ['Shop', 'Cart', 'Profile'];
+export const navItemsHelp = ['Help', 'Sign In'];
+export const navItemsBottom = [
+	'Home',
+	'Features',
+	'Shop',
+	'Contact',
+];
+export const navItemsBlog = ['Home', 'Blog', 'About'];
+export const navItemsShopDeals = ['Shop', 'Deals'];
+export const navItemsFeatures = ['Features', 'Pricing'];
+export const navItemsIconOnly = ['🏠', '🛒', '❤️', '👤'];
+export const navItemsCart = ['Shop', 'About', 'Cart'];
+export const navItemsBottomNav = ['🏠', '🛒', '❤️', '☰'];
+export const navItemsShopContact = [
+	'Home',
+	'About',
+	'Shop',
+	'Contact',
+];
+
+export const breadcrumbsCategory = [
+	'Home',
+	'Category',
+	'Page',
+];
+
+export const notificationTextShipping =
+	'Free Shipping Today Only!';
+
+export const ctaSubscribe = 'Subscribe Now';
+export const ctaSignUp = 'Sign Up';
+export const ctaLogIn = 'Log In';
+export const ctaBuyNow = 'Buy Now';

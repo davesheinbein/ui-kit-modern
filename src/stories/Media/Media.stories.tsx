@@ -1,9 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Wrapper } from '../../components/Wrappers';
-import {
-	Media,
-	MediaComponents,
-} from '../../components/Media';
+import { Media } from '../../components/Media';
 
 const meta: Meta<typeof Media> = {
 	title: 'Media/Media',
@@ -226,23 +223,23 @@ export const AvatarSizes: Story = {
 				alignItems: 'center',
 			}}
 		>
-			<MediaComponents.UserAvatar
+			<Media.UserAvatar
 				size='xs'
 				src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
 			/>
-			<MediaComponents.UserAvatar
+			<Media.UserAvatar
 				size='sm'
 				src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
 			/>
-			<MediaComponents.UserAvatar
+			<Media.UserAvatar
 				size='md'
 				src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
 			/>
-			<MediaComponents.UserAvatar
+			<Media.UserAvatar
 				size='lg'
 				src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
 			/>
-			<MediaComponents.UserAvatar
+			<Media.UserAvatar
 				size='xl'
 				src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
 			/>
@@ -260,27 +257,27 @@ export const MediaGallery: Story = {
 				padding: '2rem',
 			}}
 		>
-			<MediaComponents.ImageCard
+			<Media.ImageCard
 				src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop'
 				title='Mountain View'
 				showOverlay={true}
 			/>
-			<MediaComponents.ImageCard
+			<Media.ImageCard
 				src='https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=200&fit=crop'
 				title='Forest Path'
 				showOverlay={true}
 			/>
-			<MediaComponents.ImageCard
+			<Media.ImageCard
 				src='https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?w=300&h=200&fit=crop'
 				title='Ocean Waves'
 				showOverlay={true}
 			/>
-			<MediaComponents.VideoCard
+			<Media.VideoCard
 				src='https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 				title='Sample Video'
 				showMetadata={true}
 			/>
-			<MediaComponents.AudioCard
+			<Media.AudioCard
 				src='https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=200&fit=crop'
 				metadata={{
 					title: 'Music Track',
@@ -288,7 +285,7 @@ export const MediaGallery: Story = {
 				}}
 				showMetadata={true}
 			/>
-			<MediaComponents.DocumentCard
+			<Media.DocumentCard
 				title='Document.pdf'
 				metadata={{
 					fileSize: '2.4 MB',

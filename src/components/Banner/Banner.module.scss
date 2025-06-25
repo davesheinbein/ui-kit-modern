@@ -520,65 +520,6 @@
 	}
 }
 
-// Dark theme support
-@media (prefers-color-scheme: dark) {
-	.banner {
-		border-color: rgba(255, 255, 255, 0.1);
-
-		&::before {
-			background: linear-gradient(
-				90deg,
-				transparent 0%,
-				rgba(255, 255, 255, 0.2) 50%,
-				transparent 100%
-			);
-		}
-	}
-
-	.banner--feedback {
-		background: linear-gradient(
-			135deg,
-			rgba(31, 41, 55, 0.9) 0%,
-			rgba(17, 24, 39, 0.95) 100%
-		);
-		color: var(--color-white);
-		border-color: rgba(75, 85, 99, 0.3);
-	}
-
-	.banner--status {
-		background: linear-gradient(
-			135deg,
-			rgba(31, 41, 55, 0.9) 0%,
-			rgba(17, 24, 39, 0.95) 100%
-		);
-		border-color: rgba(75, 85, 99, 0.3);
-		color: var(--color-white);
-	}
-
-	.bannerCloseButton {
-		background: rgba(255, 255, 255, 0.1);
-		border-color: rgba(255, 255, 255, 0.2);
-
-		&:hover {
-			background: rgba(255, 255, 255, 0.2);
-		}
-	}
-}
-
-// High contrast mode support
-@media (prefers-contrast: high) {
-	.banner {
-		border-width: 2px;
-
-		&--success,
-		&--error,
-		&--warning,
-		&--info {
-			filter: contrast(1.2) saturate(1.3);
-		}
-	}
-}
-
 // Reduced motion support
 @media (prefers-reduced-motion: reduce) {
 	.banner {

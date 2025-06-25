@@ -544,63 +544,6 @@
 	}
 }
 
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-	.progress {
-		&__label {
-			color: var(--color-text-primary-dark, #f9fafb);
-		}
-
-		&__value,
-		&__description {
-			color: var(--color-text-secondary-dark, #9ca3af);
-		}
-
-		&__track {
-			background-color: var(
-				--color-background-secondary-dark,
-				#374151
-			);
-		}
-
-		&__spinner_circle {
-			border-color: var(
-				--color-background-secondary-dark,
-				#374151
-			);
-		}
-
-		&__percentage {
-			color: var(--color-text-primary-dark, #f9fafb);
-		}
-
-		&__step_label {
-			color: var(--color-text-primary-dark, #f9fafb);
-		}
-
-		&__step_description {
-			color: var(--color-text-secondary-dark, #9ca3af);
-		}
-
-		&__step_marker {
-			background-color: var(
-				--color-background-secondary-dark,
-				#374151
-			);
-			color: var(--color-text-secondary-dark, #9ca3af);
-		}
-
-		&__skeleton_line {
-			background: linear-gradient(
-				90deg,
-				var(--color-background-secondary-dark, #374151) 0%,
-				var(--color-background-tertiary-dark, #4b5563) 50%,
-				var(--color-background-secondary-dark, #374151) 100%
-			);
-		}
-	}
-}
-
 // Responsive design
 @media (max-width: 768px) {
 	.progress {

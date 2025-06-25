@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Header` folder implements a unified, configuration-driven header system for React applications. It supports a wide variety of header types (browse, dashboard, modal, page, sidebar, navigation, simple, custom, and more) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom layouts, tabs, actions, theming, and responsive design.
+The `Header` folder implements a , configuration-driven header system for React applications. It supports a wide variety of header types (browse, dashboard, modal, page, sidebar, navigation, simple, custom, and more) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom layouts, tabs, actions, theming, and responsive design.
 
 ## Key Files
 
@@ -78,4 +78,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified, and extensible header UI system. All header UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.
+This folder provides a robust, , and extensible header UI system. All header UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.

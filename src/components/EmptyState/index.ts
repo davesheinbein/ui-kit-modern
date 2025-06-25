@@ -8,8 +8,4 @@ export type {
 
 export type { EmptyStateProps } from './EmptyState';
 export { default as EmptyState } from './EmptyState';
-export {
-	EmptyStateFactory,
-	EmptyStateComponents,
-} from './factory';
 export { getEmptyStateConfig } from './configurations';

@@ -1,13 +1,9 @@
 export { default as Modal } from './Modal';
-export {
-	default as ModalFactory,
-	ModalPresets,
-	createModal,
-	SimpleModalFactory,
-	useModal,
-	ModalWorkflows,
-} from './factory';
-export type { ModalKind, ModalProps } from './Modal';
+export { default as Modal } from './UnifiedModal';
+export type {
+	ModalKind,
+	UnifiedModalProps,
+} from './UnifiedModal';
 export type {
 	ExtendedModalKind,
 	ModalConfiguration,

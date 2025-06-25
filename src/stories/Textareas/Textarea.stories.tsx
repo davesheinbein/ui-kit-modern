@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TextareaFactory } from '../../components/Textareas';
+import { Textarea } from '../../components/Textareas';
 import { Wrapper } from '../../components/Wrappers';
 import { commonDecorators } from '../config/decorators';
 import { commonArgTypes } from '../config/argTypes';
 
-const meta: Meta<typeof TextareaFactory> = {
+const meta: Meta<typeof Textarea> = {
 	title: 'Textarea/Textarea',
-	component: TextareaFactory,
+	component: Textarea,
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -148,22 +148,22 @@ export const AllKinds: Story = {
 				maxWidth: '600px',
 			}}
 		>
-			<TextareaFactory
+			<Textarea
 				kind='standard'
 				label='Standard Textarea'
 				placeholder='Standard styling...'
 			/>
-			<TextareaFactory
+			<Textarea
 				kind='comment'
 				label='Comment Textarea'
 				placeholder='Comment styling...'
 			/>
-			<TextareaFactory
+			<Textarea
 				kind='description'
 				label='Description Textarea'
 				placeholder='Description styling...'
 			/>
-			<TextareaFactory
+			<Textarea
 				kind='note'
 				label='Note Textarea'
 				placeholder='Note styling...'

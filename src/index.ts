@@ -5,7 +5,6 @@ export * from './components/Button';
 export * from './components/Card';
 export * from './components/Chart';
 export * from './components/Checkbox';
-export * from './components/ComponentFactory';
 export * from './components/EmptyState';
 export * from './components/FileUpload';
 export * from './components/Forms';

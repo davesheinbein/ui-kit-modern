@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Map` component folder provides a unified, configuration-driven system for rendering a wide variety of map and geo-related UIs. It supports different map types (world, region, city, game, etc.), interactive features, markers, regions, and game-specific overlays. The system is designed to be DRY, extensible, and easy to use both directly and via factories.
+The `Map` component folder provides a , configuration-driven system for rendering a wide variety of map and geo-related UIs. It supports different map types (world, region, city, game, etc.), interactive features, markers, regions, and game-specific overlays. The system is designed to be DRY, extensible, and easy to use both directly and via factories.
 
 ### Key Files
 
@@ -78,4 +78,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified map component system for all mapping and geo needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.
+This folder provides a robust, map component system for all mapping and geo needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.

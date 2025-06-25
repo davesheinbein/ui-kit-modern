@@ -38,9 +38,7 @@ export interface StatisticsProps {
 	[key: string]: any;
 }
 
-const Statistics: React.FC<
-	StatisticsProps
-> = ({
+const Statistics: React.FC<StatisticsProps> = ({
 	stats,
 	mode = 'daily',
 	kind,
@@ -298,5 +296,305 @@ const Statistics: React.FC<
 		</Wrapper>
 	);
 };
+
+// --- FACTORY LOGIC CONSOLIDATION ---
+// Ultra-short component creation functions as static helpers
+export const Daily = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='daily' {...props} />;
+export const DailyCard = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='daily-card' {...props} />;
+export const DailyGrid = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='daily-grid' {...props} />;
+export const DailyCompact = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='daily-compact' {...props} />;
+export const DailyDetailed = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='daily-detailed' {...props} />;
+export const VS = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='vs' {...props} />;
+export const VSCard = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='vs-card' {...props} />;
+export const VSComparison = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='vs-comparison' {...props} />;
+export const VSDetailed = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='vs-detailed' {...props} />;
+export const History = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='history' {...props} />;
+export const HistoryCard = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='history-card' {...props} />;
+export const HistoryTrends = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='history-trends' {...props} />;
+export const HistoryDetailed = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='history-detailed' {...props} />;
+export const Leaderboard = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='leaderboard' {...props} />;
+export const Achievements = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='achievements' {...props} />;
+export const Trends = (
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind='trends' {...props} />;
+// Layout shortcuts
+export const CompactStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind={kind} layout='compact' {...props} />;
+export const ExpandedStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => (
+	<Statistics kind={kind} layout='expanded' {...props} />
+);
+export const MinimalStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind={kind} layout='minimal' {...props} />;
+// Display shortcuts
+export const CardStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind={kind} display='card' {...props} />;
+export const GridStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind={kind} display='grid' {...props} />;
+export const ListStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind={kind} display='list' {...props} />;
+export const TableStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => <Statistics kind={kind} display='table' {...props} />;
+// Color scheme shortcuts
+export const BlueStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => (
+	<Statistics kind={kind} colorScheme='blue' {...props} />
+);
+export const GreenStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => (
+	<Statistics kind={kind} colorScheme='green' {...props} />
+);
+export const RedStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => (
+	<Statistics kind={kind} colorScheme='red' {...props} />
+);
+export const PurpleStats = (
+	kind: ExtendedStatisticsKind,
+	props: Omit<StatisticsProps, 'stats'> & {
+		stats: PlayerStats;
+	}
+) => (
+	<Statistics kind={kind} colorScheme='purple' {...props} />
+);
+// Dashboard presets
+export const DashboardDaily = (
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) =>
+	Daily({
+		stats,
+		layout: 'compact',
+		showCountUp: true,
+		...props,
+	});
+export const DashboardVS = (
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) =>
+	VS({
+		stats,
+		layout: 'compact',
+		showComparisons: false,
+		...props,
+	});
+export const DashboardHistory = (
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) =>
+	History({
+		stats,
+		layout: 'compact',
+		maxItems: 5,
+		...props,
+	});
+// Modal presets
+export const ModalDaily = (
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) =>
+	Daily({
+		stats,
+		layout: 'expanded',
+		showCountUp: true,
+		showPercentages: true,
+		...props,
+	});
+export const ModalVS = (
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) =>
+	VS({
+		stats,
+		layout: 'expanded',
+		showComparisons: true,
+		showTrends: true,
+		...props,
+	});
+export const ModalHistory = (
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) =>
+	History({
+		stats,
+		layout: 'expanded',
+		showTrends: true,
+		showAchievements: true,
+		...props,
+	});
+// Mobile presets
+export const MobileDaily = (
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) =>
+	Daily({
+		stats,
+		size: 'small',
+		layout: 'compact',
+		maxItems: 4,
+		...props,
+	});
+export const MobileVS = (
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) =>
+	VS({
+		stats,
+		size: 'small',
+		layout: 'compact',
+		showComparisons: false,
+		...props,
+	});
+export const MobileHistory = (
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) =>
+	History({
+		stats,
+		size: 'small',
+		layout: 'compact',
+		maxItems: 3,
+		...props,
+	});
+// Utility functions
+export const AnimatedStats = (
+	kind: ExtendedStatisticsKind,
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) => (
+	<Statistics
+		kind={kind}
+		stats={stats}
+		showCountUp={true}
+		animationDuration={1500}
+		{...props}
+	/>
+);
+export const StaticStats = (
+	kind: ExtendedStatisticsKind,
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) => (
+	<Statistics
+		kind={kind}
+		stats={stats}
+		showCountUp={false}
+		{...props}
+	/>
+);
+export const HighlightedStats = (
+	kind: ExtendedStatisticsKind,
+	stats: PlayerStats,
+	props: Partial<StatisticsProps> = {}
+) => (
+	<Statistics
+		kind={kind}
+		stats={stats}
+		highlightBest={true}
+		showShadows={true}
+		{...props}
+	/>
+);
 
 export default Statistics;

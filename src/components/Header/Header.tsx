@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Wrapper } from '../Wrappers';
 import {
 	HEADER_CONFIGURATIONS,
@@ -6,64 +6,44 @@ import {
 	HeaderConfiguration,
 	TabConfiguration,
 	ActionConfiguration,
-	createHeaderConfig,
 } from './configurations';
 import { Button } from '../Button';
+import Sidebar from '../Sidebar/Sidebar';
 import styles from './Header.module.scss';
 
-// Base header variant types
-export type HeaderVariant =
-	| 'browse'
-	| 'dashboard'
-	| 'modal'
-	| 'page'
-	| 'sidebar'
-	| 'navigation'
-	| 'simple'
-	| 'custom';
-
-// Base header props interface
-export interface BaseHeaderProps
-	extends React.HTMLAttributes<HTMLDivElement> {
-	variant?: HeaderVariant;
-	layout?:
-		| 'left-aligned'
-		| 'center-aligned'
-		| 'space-between'
-		| 'custom';
-	padding?: 'none' | 'small' | 'medium' | 'large';
-}
-
-// Use the extended header kinds from configurations
 export type HeaderKind = ExtendedHeaderKind;
 
-export interface HeaderProps
-	extends Omit<BaseHeaderProps, 'variant' | 'children'> {
-	kind: HeaderKind;
+export interface HeaderAction extends ActionConfiguration {
+	position?: 'left' | 'right';
+}
 
-	// Content props
+// --- Flexible Slot-Based API Additions ---
+export type HeaderLayout =
+	| 'horizontal'
+	| 'vertical'
+	| 'split'
+	| 'stacked'
+	| 'bottom';
+export type HeaderPosition = 'top' | 'bottom' | 'sidebar';
+export interface HeaderSections {
+	[key: string]: React.ReactNode;
+}
+
+export interface HeaderProps
+	extends React.HTMLAttributes<HTMLDivElement> {
+	kind?: HeaderKind;
 	title?: string;
 	subtitle?: string;
 	icon?: React.ReactNode;
 	children?: React.ReactNode;
-
-	// Tab props
 	tabs?: TabConfiguration[];
 	currentTab?: string;
 	onTabChange?: (tab: string) => void;
-
-	// Action props
-	actions?: ActionConfiguration[];
-	leftActions?: ActionConfiguration[];
-	rightActions?: ActionConfiguration[];
-
-	// Behavior props
+	actions?: HeaderAction[];
 	sticky?: boolean;
 	collapsible?: boolean;
 	isCollapsed?: boolean;
 	onToggleCollapse?: () => void;
-
-	// Styling props
 	borderBottom?: boolean;
 	background?:
 		| 'transparent'
@@ -71,20 +51,19 @@ export interface HeaderProps
 		| 'secondary'
 		| 'custom';
 	customBackgroundColor?: string;
-
-	// Enhanced customization - allows complete override of configuration
-	overrideConfig?: Partial<HeaderConfiguration>;
-	customClassName?: string;
-
-	// Accessibility
 	ariaLabel?: string;
 	role?: string;
+	className?: string;
+	// --- Flexible slot-based API ---
+	layout?: HeaderLayout;
+	sections?: HeaderSections;
+	position?: HeaderPosition;
 }
 
 const Header = forwardRef<HTMLDivElement, HeaderProps>(
 	(
 		{
-			kind,
+			kind = 'custom',
 			title,
 			subtitle,
 			icon,
@@ -93,8 +72,6 @@ const Header = forwardRef<HTMLDivElement, HeaderProps>(
 			currentTab,
 			onTabChange,
 			actions = [],
-			leftActions = [],
-			rightActions = [],
 			sticky = false,
 			collapsible = false,
 			isCollapsed = false,
@@ -103,43 +80,152 @@ const Header = forwardRef<HTMLDivElement, HeaderProps>(
 			background,
 			customBackgroundColor,
 			className = '',
-			overrideConfig = {},
-			customClassName = '',
 			ariaLabel,
 			role = 'banner',
+			// --- new flexible API ---
+			layout,
+			sections,
+			position = 'top',
 			...props
 		},
 		ref
 	) => {
-		// Get base configuration and apply overrides
-		const config: HeaderConfiguration = {
-			...HEADER_CONFIGURATIONS[kind],
-			...overrideConfig,
-		};
+		// --- Mobile Sidebar State ---
+		const [sidebarOpen, setSidebarOpen] = useState(false);
 
-		// Merge all actions based on configuration
-		const allActions = [
-			...((
-				config.actionsPosition === 'left' ||
-				config.actionsPosition === 'both'
-			) ?
-				leftActions
-			:	[]),
-			...actions,
-			...((
-				config.actionsPosition === 'right' ||
-				config.actionsPosition === 'both'
-			) ?
-				rightActions
-			:	[]),
-		];
+		// --- Flexible slot-based rendering ---
+		if (sections) {
+			const layoutClass =
+				layout ? styles[`layout-${layout}`] : '';
+			const positionClass =
+				position ? styles[`position-${position}`] : '';
 
-		// Build className
+			// Detect HamburgerMenu slot and wrap with click handler
+			const slots = Object.entries(sections).map(
+				([slot, node]) => {
+					if (
+						slot.toLowerCase().includes('hamburger') ||
+						(slot === 'actionsRight' &&
+							React.isValidElement(node) &&
+							(node as any).type?.name === 'HamburgerMenu')
+					) {
+						return (
+							<div
+								key={slot}
+								className={[
+									styles.headerSlot,
+									styles[`headerSlot-${slot}`] || '',
+								]
+									.filter(Boolean)
+									.join(' ')}
+								onClick={() => setSidebarOpen(true)}
+								style={{ cursor: 'pointer' }}
+							>
+								{node}
+							</div>
+						);
+					}
+					return (
+						<div
+							key={slot}
+							className={[
+								styles.headerSlot,
+								styles[`headerSlot-${slot}`] || '',
+							]
+								.filter(Boolean)
+								.join(' ')}
+						>
+							{node}
+						</div>
+					);
+				}
+			);
+
+			// Mobile nav content for Sidebar (show nav/search/actions)
+			const mobileNavContent = (
+				<div style={{ padding: 24 }}>
+					{sections.nav && (
+						<div style={{ marginBottom: 16 }}>
+							{sections.nav}
+						</div>
+					)}
+					{sections.search && (
+						<div style={{ marginBottom: 16 }}>
+							{sections.search}
+						</div>
+					)}
+					{sections.actionsRight && (
+						<div>{sections.actionsRight}</div>
+					)}
+				</div>
+			);
+
+			return (
+				<>
+					<header
+						{...props}
+						ref={ref}
+						className={[
+							styles.header,
+							layoutClass,
+							positionClass,
+							className,
+							sticky ? styles.sticky : '',
+							background ? styles[`bg-${background}`] : '',
+							borderBottom ? styles.borderBottom : '',
+						]
+							.filter(Boolean)
+							.join(' ')}
+						role={role}
+						aria-label={ariaLabel || title}
+						style={{
+							...props.style,
+							...(customBackgroundColor && {
+								backgroundColor: customBackgroundColor,
+							}),
+						}}
+					>
+						<Wrapper className={styles.headerInner}>
+							{slots}
+						</Wrapper>
+						{children && (
+							<Wrapper className={styles.headerChildren}>
+								{children}
+							</Wrapper>
+						)}
+					</header>
+					{/* Mobile Sidebar for Hamburger */}
+					<Sidebar
+						kind='navigation'
+						open={sidebarOpen}
+						onClose={() => setSidebarOpen(false)}
+						title={title || 'Menu'}
+						header={null}
+						hasOverlay
+						showCloseButton
+						role='dialog'
+						ariaLabel='Mobile Navigation'
+					>
+						{mobileNavContent}
+					</Sidebar>
+				</>
+			);
+		}
+
+		const config: HeaderConfiguration =
+			HEADER_CONFIGURATIONS[kind] || {};
+
+		const leftActions = actions.filter(
+			(a) => a.position === 'left' || !a.position
+		);
+		const rightActions = actions.filter(
+			(a) => a.position === 'right'
+		);
+
 		const headerClasses = [
 			styles.header,
 			config.className || '',
 			className,
-			customClassName,
 			config.layout ?
 				styles[`layout-${config.layout}`]
 			:	'',
@@ -166,13 +252,11 @@ const Header = forwardRef<HTMLDivElement, HeaderProps>(
 			.filter(Boolean)
 			.join(' ');
 
-		// Render action buttons
 		const renderActions = (
-			actionList: ActionConfiguration[],
+			actionList: HeaderAction[],
 			position: 'left' | 'right'
 		) => {
 			if (actionList.length === 0) return null;
-
 			return (
 				<Wrapper
 					className={`${styles.actions} ${styles[`actions-${position}`]}`}
@@ -192,13 +276,12 @@ const Header = forwardRef<HTMLDivElement, HeaderProps>(
 							default:
 								buttonKind = 'icon';
 						}
-
 						return (
 							<Button
 								key={index}
 								kind={buttonKind as any}
 								onClick={action.handler}
-								className={`${styles.actionButton} ${action.className || ''}`}
+								className={action.className || ''}
 								aria-label={action.label}
 								icon={action.icon}
 							>
@@ -212,11 +295,9 @@ const Header = forwardRef<HTMLDivElement, HeaderProps>(
 			);
 		};
 
-		// Render tabs
 		const renderTabs = () => {
 			if (!config.showTabs || tabs.length === 0)
 				return null;
-
 			return (
 				<Wrapper
 					className={`${styles.tabs} ${styles[`tabs-${config.tabsPosition}`]} ${styles[`tabs-align-${config.tabsAlign}`]}`}
@@ -250,11 +331,9 @@ const Header = forwardRef<HTMLDivElement, HeaderProps>(
 			);
 		};
 
-		// Render title section
 		const renderTitle = () => {
 			if (!config.showTitle && !title && !subtitle)
 				return null;
-
 			return (
 				<Wrapper className={styles.titleSection}>
 					{icon && (
@@ -289,92 +368,52 @@ const Header = forwardRef<HTMLDivElement, HeaderProps>(
 			);
 		};
 
-		// Handle different layouts
 		const renderContent = () => {
-			const leftActionsToRender =
-				(
-					config.actionsPosition === 'left' ||
-					config.actionsPosition === 'both'
-				) ?
-					[
-						...leftActions,
-						...(config.actionsPosition === 'left' ?
-							actions
-						:	[]),
-					]
-				:	[];
-
-			const rightActionsToRender =
-				(
-					config.actionsPosition === 'right' ||
-					config.actionsPosition === 'both'
-				) ?
-					[
-						...(config.actionsPosition === 'right' ?
-							actions
-						:	[]),
-						...rightActions,
-					]
-				:	[];
-
 			switch (config.layout) {
 				case 'left-aligned':
-					return (
-						<>
-							{renderActions(leftActionsToRender, 'left')}
-							<Wrapper className={styles.content}>
-								{renderTitle()}
-								{config.tabsPosition === 'below-title' &&
-									renderTabs()}
-							</Wrapper>
-							{renderActions(rightActionsToRender, 'right')}
-						</>
-					);
-
 				case 'center-aligned':
 					return (
 						<>
-							{renderActions(leftActionsToRender, 'left')}
+							{renderActions(leftActions, 'left')}
 							<Wrapper
-								className={`${styles.content} ${styles.contentCentered}`}
+								className={
+									config.layout === 'center-aligned' ?
+										`${styles.content} ${styles.contentCentered}`
+									:	styles.content
+								}
 							>
 								{renderTitle()}
 								{config.tabsPosition === 'below-title' &&
 									renderTabs()}
 							</Wrapper>
-							{renderActions(rightActionsToRender, 'right')}
+							{renderActions(rightActions, 'right')}
 						</>
 					);
-
 				case 'space-between':
 					return (
 						<>
 							<Wrapper className={styles.leftSection}>
-								{renderActions(leftActionsToRender, 'left')}
+								{renderActions(leftActions, 'left')}
 								{renderTitle()}
 							</Wrapper>
 							{config.tabsPosition === 'beside-title' &&
 								renderTabs()}
 							<Wrapper className={styles.rightSection}>
-								{renderActions(
-									rightActionsToRender,
-									'right'
-								)}
+								{renderActions(rightActions, 'right')}
 							</Wrapper>
 						</>
 					);
-
 				case 'custom':
 				default:
 					return (
 						<>
-							{renderActions(leftActionsToRender, 'left')}
+							{renderActions(leftActions, 'left')}
 							<Wrapper className={styles.content}>
 								{renderTitle()}
 								{config.tabsPosition === 'below-title' &&
 									renderTabs()}
 							</Wrapper>
-							{renderActions(rightActionsToRender, 'right')}
+							{renderActions(rightActions, 'right')}
 						</>
 					);
 			}

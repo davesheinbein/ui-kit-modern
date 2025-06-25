@@ -24,7 +24,7 @@ const meta: Meta = {
 				component: `
 # Advertisement System
 
-A modern, unified advertisement component system built with TypeScript and React. This system provides a DRY (Don't Repeat Yourself) approach to creating and managing advertisements across different platforms and use cases.
+A modern, advertisement component system built with TypeScript and React. This system provides a DRY (Don't Repeat Yourself) approach to creating and managing advertisements across different platforms and use cases.
 
 ## Features
 

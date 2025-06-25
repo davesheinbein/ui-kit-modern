@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Grid` folder implements a unified, configuration-driven grid system for React applications. It supports a wide variety of grid types (basic, game, preview, locked, VS mode, pregame lockout, solved groups, word grid, and custom) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom layouts, behaviors, overlays, and responsive design.
+The `Grid` folder implements a , configuration-driven grid system for React applications. It supports a wide variety of grid types (basic, game, preview, locked, VS mode, pregame lockout, solved groups, word grid, and custom) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom layouts, behaviors, overlays, and responsive design.
 
 ## Key Files
 
@@ -82,7 +82,7 @@ erDiagram
 ### Grid.tsx
 
 - **Grid (main component)**: Renders a grid of the specified kind, using configuration-driven rendering. Handles layout, interactivity, overlays, solved groups, pregame lockout, and custom cell rendering.
-- **renderSolvedGroups(pendingSolvedGroups, activePuzzle, gridClasses, props, ref)**: Helper function. Renders the solved groups display for the `solved-groups` kind.
+- **renderSolvedGroups(pendingSolvedGroups, activePuzzle, gridClasses, props, ref)**: Helper function. Renders the solved groups display for the `solved` kind.
 - **renderPregameLockout(words, layout, gridClasses, props, ref)**: Helper function. Renders the pregame lockout grid with locked cells.
 - **renderVSOverlays(isVSMode, isOpponent, solvedByPlayer, playerId, opponentId, playerColor, opponentColor, botDifficulty, isPreview)**: Helper function. Renders overlays for VS mode, such as opponent selection and solved badges.
 
@@ -93,4 +93,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified, and extensible grid UI system. All grid UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.
+This folder provides a robust, , and extensible grid UI system. All grid UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.

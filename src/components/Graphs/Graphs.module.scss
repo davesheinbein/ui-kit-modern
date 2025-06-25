@@ -13,15 +13,36 @@
 	@include container-base;
 	@include flex-column;
 	width: 100%;
-	margin: var(--spacing-5) 0 var(--spacing-2) 0;
-	gap: var(--spacing-2);
+	margin: var(--spacing-6) 0 var(--spacing-2) 0;
+	gap: var(--spacing-3);
+	background: var(--color-surface);
+	border-radius: var(--radius-xl);
+	box-shadow:
+		0 4px 24px 0 rgba(37, 99, 235, 0.08),
+		0 1.5px 4px 0 rgba(0, 0, 0, 0.04);
+	padding: var(--spacing-6);
+	transition:
+		box-shadow 0.18s,
+		background 0.18s;
 }
 
 .graphsTitle {
-	margin: 0 0 var(--spacing-2) 0;
-	font-size: var(--font-size-base);
+	margin: 0 0 var(--spacing-3) 0;
+	font-size: 1.25rem;
 	color: var(--color-primary);
-	font-weight: var(--font-weight-semibold);
+	font-weight: 600;
+	letter-spacing: 0.01em;
+	text-align: left;
+}
+
+.graphsSubtitle {
+	margin: 0 0 var(--spacing-2) 0;
+	font-size: 1.05rem;
+	color: var(--color-text-secondary);
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	text-align: left;
+	line-height: 1.4;
 }
 
 // ========================================
@@ -136,6 +157,17 @@
 	}
 }
 
+// Radar Charts
+.radarChart {
+	.recharts-polar-grid {
+		stroke: var(--color-border);
+	}
+	.recharts-radar {
+		stroke-width: 3px;
+		fill-opacity: 0.18;
+	}
+}
+
 // Scatter Charts
 .scatterChart {
 	.recharts-scatter-symbol {
@@ -161,14 +193,18 @@
 // ========================================
 
 .recharts-tooltip-wrapper {
-	pointer-events: none;
+	font-size: var(--font-size-sm);
+	background: var(--color-surface);
+	border-radius: var(--radius-md);
+	box-shadow: 0 2px 8px 0 rgba(37, 99, 235, 0.1);
+	border: 1px solid var(--color-border);
+	pointer-events: auto;
 }
 
 .recharts-cartesian-axis-tick-value {
 	fill: var(--color-text-muted);
-	font-size: var(--font-size-xs);
+	font-size: var(--font-size-sm);
 }
-
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
 	stroke: var(--color-border);
@@ -177,15 +213,90 @@
 
 .recharts-legend-wrapper {
 	padding-top: var(--spacing-3);
+	text-align: center;
 }
 
 .recharts-legend-item {
-	margin-right: var(--spacing-3);
+	margin-right: var(--spacing-4);
+	font-size: var(--font-size-sm);
+	color: var(--color-text-secondary);
 }
 
-.recharts-brush .recharts-brush-slide {
-	fill: rgba(37, 99, 235, 0.1);
-	stroke: var(--color-primary);
+.graphsLegendLabel {
+	margin: 0 0 var(--spacing-1) 0;
+	font-size: 0.98rem;
+	color: var(--color-accent);
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	text-align: left;
+	line-height: 1.3;
+	background: linear-gradient(
+		90deg,
+		var(--color-accent) 0%,
+		var(--color-primary-light) 100%
+	);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+.graphsTooltipLabel {
+	margin: 0 0 var(--spacing-2) 0;
+	font-size: 0.95rem;
+	color: var(--color-secondary);
+	font-weight: 400;
+	letter-spacing: 0.01em;
+	text-align: left;
+	line-height: 1.2;
+	opacity: 0.85;
+}
+
+.graphsCustomTooltip {
+	background: var(--color-surface);
+	border-radius: var(--radius-md);
+	box-shadow: 0 2px 8px 0 rgba(37, 99, 235, 0.1);
+	border: 1px solid var(--color-border);
+	padding: var(--spacing-3);
+	min-width: 120px;
+	font-size: var(--font-size-sm);
+	color: var(--color-text-primary);
+	pointer-events: auto;
+	z-index: 10;
+}
+.graphsTooltipContent {
+	margin-top: var(--spacing-1);
+}
+.graphsTooltipTitle {
+	font-weight: 600;
+	margin-bottom: var(--spacing-1);
+	color: var(--color-primary);
+}
+.graphsTooltipItem {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	margin-bottom: 2px;
+}
+.graphsTooltipColor {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border-radius: 2px;
+	margin-right: 0.5em;
+}
+.graphsPieLabel {
+	font-size: 0.95rem;
+	font-weight: 500;
+	fill: var(--color-primary);
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+	pointer-events: none;
+}
+.graphsAxisLabel {
+	font-size: 1rem;
+	font-weight: 600;
+	fill: var(--color-accent);
+	letter-spacing: 0.01em;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 // ========================================
@@ -194,9 +305,13 @@
 
 .graphsContainer--modern {
 	@include elevated-surface;
-	padding: var(--spacing-6);
-	background: var(--color-surface);
-	border-radius: var(--radius-lg);
+	padding: var(--spacing-8);
+	background: linear-gradient(
+		135deg,
+		var(--color-surface) 80%,
+		var(--color-primary-lightest) 100%
+	);
+	border-radius: var(--radius-2xl);
 }
 
 .graphsContainer--minimal {
@@ -210,8 +325,8 @@
 }
 
 .graphsContainer--bordered {
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
+	border: 1.5px solid var(--color-border);
+	border-radius: var(--radius-lg);
 	padding: var(--spacing-4);
 }
 
@@ -223,8 +338,8 @@
 	.recharts-bar,
 	.recharts-line,
 	.recharts-area {
-		fill: var(--color-primary);
 		stroke: var(--color-primary);
+		fill: var(--color-primary);
 	}
 }
 
@@ -232,8 +347,8 @@
 	.recharts-bar,
 	.recharts-line,
 	.recharts-area {
-		fill: var(--color-success);
 		stroke: var(--color-success);
+		fill: var(--color-success);
 	}
 }
 
@@ -241,8 +356,8 @@
 	.recharts-bar,
 	.recharts-line,
 	.recharts-area {
-		fill: var(--color-warning);
 		stroke: var(--color-warning);
+		fill: var(--color-warning);
 	}
 }
 
@@ -250,8 +365,8 @@
 	.recharts-bar,
 	.recharts-line,
 	.recharts-area {
-		fill: var(--color-danger);
 		stroke: var(--color-danger);
+		fill: var(--color-danger);
 	}
 }
 
@@ -275,31 +390,105 @@
 
 @media (max-width: 768px) {
 	.graphsContainer {
-		margin: var(--spacing-3) 0 var(--spacing-1) 0;
-		gap: var(--spacing-1);
+		padding: var(--spacing-3);
+		border-radius: var(--radius-lg);
 	}
-
 	.graphsTitle {
-		font-size: var(--font-size-sm);
-		margin-bottom: var(--spacing-1);
-	}
-
-	.recharts-cartesian-axis-tick-value {
-		font-size: 10px;
+		font-size: 1.1rem;
 	}
 }
 
 @media (max-width: 480px) {
 	.graphsContainer {
-		margin: var(--spacing-2) 0;
+		padding: var(--spacing-2);
+		border-radius: var(--radius-md);
 	}
-
 	.graphsTitle {
-		font-size: var(--font-size-xs);
+		font-size: 1rem;
 	}
+}
 
-	.recharts-legend-item {
-		margin-right: var(--spacing-1);
-		font-size: 11px;
+// ========================================
+// Chart Centering Wrapper
+// ========================================
+
+.graphsChartWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	min-height: 320px;
+	min-width: 280px;
+	padding: var(--spacing-2);
+	box-sizing: border-box;
+	background: transparent;
+	border-radius: var(--radius-lg);
+	transition: background 0.18s;
+}
+
+@media (max-width: 768px) {
+	.graphsChartWrapper {
+		min-height: 200px;
+		min-width: 160px;
+		padding: var(--spacing-1);
 	}
+}
+
+@media (max-width: 480px) {
+	.graphsChartWrapper {
+		min-height: 120px;
+		min-width: 80px;
+	}
+}
+
+// ========================================
+// Interactive Legend Styles
+// ========================================
+
+.graphsInteractiveLegend {
+	display: flex;
+	gap: var(--spacing-3);
+	margin-bottom: var(--spacing-2);
+	flex-wrap: wrap;
+}
+.graphsLegendItem {
+	background: none;
+	border: none;
+	padding: 0.25em 0.75em;
+	font-size: 0.98rem;
+	font-weight: 500;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	border-radius: var(--radius-md);
+	transition:
+		background 0.15s,
+		color 0.15s;
+	outline: none;
+	user-select: none;
+	opacity: 0.85;
+}
+.graphsLegendItem:hover,
+.graphsLegendItem:focus {
+	background: var(--color-primary-lightest);
+	color: var(--color-primary);
+	opacity: 1;
+}
+.graphsLegendItemActive {
+	font-weight: 700;
+	opacity: 1;
+}
+.graphsLegendItemInactive {
+	text-decoration: line-through;
+	opacity: 0.4;
+}
+.graphsLegendColor {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border-radius: 3px;
+	margin-right: 0.5em;
+	background: var(--color-primary);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }

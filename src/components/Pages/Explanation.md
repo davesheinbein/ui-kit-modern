@@ -23,8 +23,6 @@ The `Pages` folder implements a configuration-driven, DRY page layout system for
 ## Example Usage
 
 ```tsx
-import { PageFactory, PagePresets } from './factory';
-
 // Create a dashboard page with custom title
 <PageFactory kind="dashboard" title="Dashboard" />
 

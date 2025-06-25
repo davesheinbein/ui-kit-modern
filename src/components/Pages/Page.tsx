@@ -3,10 +3,12 @@ import { Wrapper } from '../Wrappers';
 import styles from './Pages.module.scss';
 import { Button } from '../Button';
 import {
-	PageConfiguration,
+	getPageConfiguration,
+	createPageConfig,
 	ExtendedPageKind,
 	PAGE_CONFIGURATIONS,
 } from './configurations';
+import type { PageConfiguration } from './configurations';
 
 // Base page variant types
 export type PageVariant =
@@ -289,6 +291,66 @@ const Page: React.FC<PageProps> = ({
 	);
 };
 
+// Static helpers and presets migrated from factory.tsx
+
+// Preset page components for common use cases
+const Presets = {
+	Startup: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='startup' {...props} />
+	),
+	Landing: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='landing' {...props} />
+	),
+	Dashboard: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='dashboard' {...props} />
+	),
+	Settings: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='settings' {...props} />
+	),
+	Profile: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='profile' {...props} />
+	),
+	Game: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='game' {...props} />
+	),
+	Browse: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='browse' {...props} />
+	),
+	Results: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='results' {...props} />
+	),
+	About: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='about' {...props} />
+	),
+	Help: (props: Omit<PageProps, 'kind'>) => (
+		<Page kind='help' {...props} />
+	),
+};
+
+// Utility function to create page with custom configuration
+function createPage(
+	kind: ExtendedPageKind,
+	props?: Omit<PageProps, 'kind'>,
+	configOverrides?: any
+) {
+	const config =
+		configOverrides ?
+			createPageConfig(kind, configOverrides)
+		:	getPageConfiguration(kind);
+
+	return (
+		<Page kind={kind} configuration={config} {...props} />
+	);
+}
+
+// Attach helpers to Page
+(Page as any).Presets = Presets;
+(Page as any).createPage = createPage;
+
+export { Presets as PagePresets, createPage };
+
 Page.displayName = 'Page';
 
 export default Page;
+
+export type { PageConfiguration } from './configurations';

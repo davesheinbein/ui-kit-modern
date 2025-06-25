@@ -184,19 +184,6 @@
 	}
 }
 
-// Dark mode with CSS custom properties
-@media (prefers-color-scheme: dark) {
-	.empty_state {
-		--text-secondary: var(--gray-400);
-		--text-primary: var(--gray-50);
-		--text-tertiary: var(--gray-500);
-
-		&--interactive:hover {
-			--primary-50: var(--gray-800);
-		}
-	}
-}
-
 // Responsive design with media queries
 @media (max-width: 768px) {
 	.empty_state {

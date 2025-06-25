@@ -1,6 +1,5 @@
 @use '../../styles/mixins' as mixins;
 
-// ===== BASE FOOTER STYLES =====
 .footer {
 	@include mixins.flex-row(0, center, nowrap);
 	@include mixins.contained-width(100%);
@@ -9,11 +8,11 @@
 	position: relative;
 	z-index: var(--z-sticky);
 	border-top: 1px solid var(--border-default);
-	color: var(--text-tertiary);
+	color: var(--text-primary);
 	@include mixins.text-sm;
 	padding: var(--spacing-4) var(--spacing-8);
 	background: var(--bg-surface);
-	overflow: hidden; // Prevent content overflow
+	overflow: hidden;
 
 	@include mixins.mobile {
 		@include mixins.flex-column(var(--spacing-2));
@@ -22,14 +21,12 @@
 	}
 }
 
-// ===== DRY SYSTEM: FOOTER KIND VARIANTS =====
 .footer-simple {
 	padding: var(--spacing-2) var(--spacing-4);
 	@include mixins.text-xs;
 }
 
 .footer-standard {
-	// Uses base footer styles as default
 	padding: var(--spacing-4) var(--spacing-8);
 }
 
@@ -71,14 +68,12 @@
 }
 
 .footer-custom {
-	// Custom styling can be applied via className prop
 	padding: var(--spacing-4) var(--spacing-8);
 }
 
-// ===== DRY SYSTEM: THEME VARIANTS =====
 .footer-theme-light {
 	background: var(--bg-surface);
-	color: var(--text-tertiary);
+	color: var(--text-primary);
 	border-top-color: var(--border-default);
 }
 
@@ -106,7 +101,6 @@
 	color: inherit;
 }
 
-// ===== DRY SYSTEM: SIZE VARIANTS =====
 .footer-size-small {
 	padding: var(--spacing-2) var(--spacing-4);
 	@include mixins.text-xs;
@@ -122,7 +116,6 @@
 	@include mixins.text-base;
 }
 
-// ===== DRY SYSTEM: STICKY MODIFIER =====
 .footer-sticky {
 	position: fixed !important;
 	bottom: 0;
@@ -130,10 +123,8 @@
 	z-index: var(--z-fixed);
 	margin-top: 0;
 	box-shadow: var(--shadow-lg);
-	// Intentional overflow: Sticky footer needs to stay positioned over content
 }
 
-// ===== FOOTER LAYOUT COMPONENTS =====
 .footerLeft {
 	@include mixins.flex-row(0, center);
 	flex-shrink: 0;
@@ -142,7 +133,7 @@
 .footerCenter {
 	@include mixins.flex-center;
 	flex: 1;
-	overflow: hidden; // Prevent text overflow
+	overflow: hidden;
 
 	@include mixins.mobile {
 		order: -1;
@@ -164,7 +155,7 @@
 
 .footerLink {
 	@include mixins.interactive-element;
-	color: var(--text-tertiary);
+	color: var(--text-primary);
 	text-decoration: none;
 	background: none;
 	border: none;

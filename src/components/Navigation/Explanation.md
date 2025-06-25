@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Navigation` component folder provides a unified, configuration-driven system for rendering navigation UIs, including navbars, sidebars, tab bars, breadcrumbs, and menus. The system is DRY, extensible, and easy to use both directly and via factories.
+The `Navigation` component folder provides a , configuration-driven system for rendering navigation UIs, including navbars, sidebars, tab bars, breadcrumbs, and menus. The system is DRY, extensible, and easy to use both directly and via factories.
 
 ### Key Files
 
@@ -69,4 +69,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified navigation component system for all navbar, sidebar, tab, and menu needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.
+This folder provides a robust, navigation component system for all navbar, sidebar, tab, and menu needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.

@@ -1,48 +1,74 @@
-// Base Sidebar component - Backward compatibility wrapper
+/**
+ * Sidebar Component (Ultra-DRY, Prop-Driven)
+ *
+ * A sidebar is a secondary navigation or content panel typically positioned to the left or right of a web interface. Its primary role is to provide quick access to supporting content, navigation links, filters, user account controls, or actions without interrupting the main page experience.
+ *
+ * ## Usage (DRY Pattern)
+ *
+ * All sidebar creation should use this single component API:
+ *
+ *   <Sidebar open={...} onClose={...} position="left|right" size="small|medium|large|full" variant="permanent|collapsible|drawer|overlay|push|floating|tabbed|multi-level|icon-only|profile|filter|settings|search|activity|quick-actions|favorites|media|vertical-tabs|contextual" ...otherProps />
+ *
+ * - 'open' and 'onClose' are required props for interactive sidebars.
+ * - Use 'variant', 'position', 'size', and custom children to achieve any sidebar layout.
+ * - All previous factory/preset/helper/kind logic is removed for maximum clarity and simplicity.
+ *
+ * ## Sidebar Types (via props)
+ * - Permanent: variant="permanent" open position="left"
+ * - Collapsible: variant="collapsible" open={isOpen} ...
+ * - Drawer: variant="drawer" open={isOpen} ...
+ * - Overlay: variant="overlay" open={isOpen} ...
+ * - Push: variant="push" open={isOpen} ...
+ * - Floating: variant="floating" open={isOpen} ...
+ * - Contextual: variant="contextual" ...
+ * - Tabbed: variant="tabbed" ...
+ * - Multi-Level: variant="multi-level" ...
+ * - Icon-Only: variant="icon-only" ...
+ * - Right-Aligned: position="right" ...
+ * - Profile, Filter, Settings, Search, Activity, Quick Actions, Favorites, Media, Vertical Tabs: use corresponding variant
+ *
+ * For mobile, use open/close state and position/size to control drawer behavior. For desktop, use permanent/collapsible variants and size/position as needed.
+ */
+
 import React, {
 	forwardRef,
 	useEffect,
 	useRef,
 	useCallback,
 } from 'react';
-import { Wrapper } from '../Wrappers';
-import {
-	SIDEBAR_CONFIGURATIONS,
-	ExtendedSidebarKind,
-	SidebarConfiguration,
-	createSidebarConfig,
-} from './configurations';
 import styles from './Sidebar.module.scss';
-import { Button } from '../Button';
 
 export type SidebarVariant =
-	| 'friends'
+	| 'permanent'
+	| 'collapsible'
+	| 'drawer'
+	| 'overlay'
+	| 'push'
+	| 'floating'
+	| 'tabbed'
+	| 'multi-level'
+	| 'icon-only'
+	| 'profile'
+	| 'filter'
 	| 'settings'
-	| 'chat'
-	| 'notifications'
+	| 'search'
+	| 'activity'
+	| 'quick-actions'
+	| 'favorites'
+	| 'media'
+	| 'vertical-tabs'
+	| 'contextual'
 	| 'custom';
 
-export interface BaseSidebarProps
-	extends React.HTMLAttributes<HTMLDivElement> {
-	variant?: SidebarVariant;
-	position?: 'left' | 'right';
-	size?: 'small' | 'medium' | 'large' | 'full';
-	open?: boolean;
-	onClose?: () => void;
-}
-
-export type SidebarKind = ExtendedSidebarKind;
-
 export interface SidebarProps
-	extends Omit<BaseSidebarProps, 'variant' | 'children'> {
-	kind?: SidebarKind;
+	extends React.HTMLAttributes<HTMLDivElement> {
 	open: boolean;
 	onClose: () => void;
-	children?: React.ReactNode;
-	title?: string;
+	position?: 'left' | 'right';
+	size?: 'small' | 'medium' | 'large' | 'full';
+	variant?: SidebarVariant;
 	header?: React.ReactNode;
 	footer?: React.ReactNode;
-	hasOverlay?: boolean;
 	showCloseButton?: boolean;
 	closeButtonText?: string;
 	closeButtonIcon?: React.ReactNode;
@@ -55,7 +81,6 @@ export interface SidebarProps
 	ariaLabel?: string;
 	ariaLabelledBy?: string;
 	ariaDescribedBy?: string;
-	role?: string;
 	overlayClassName?: string;
 	headerClassName?: string;
 	contentClassName?: string;
@@ -68,33 +93,31 @@ export interface SidebarProps
 	onEscapeKey?: () => void;
 	className?: string;
 	style?: React.CSSProperties;
-	[key: string]: any;
+	children?: React.ReactNode;
 }
 
 const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 	(
 		{
-			kind = 'friends',
 			open,
 			onClose,
-			title,
-			children,
+			position = 'left',
+			size = 'medium',
+			variant = 'permanent',
 			header,
 			footer,
-			hasOverlay,
 			showCloseButton,
-			closeButtonText,
+			closeButtonText = 'Close sidebar',
 			closeButtonIcon,
 			closeOnOverlayClick = true,
 			closeOnEscape = true,
 			focusTrap = true,
 			returnFocus = true,
-			animationDuration,
+			animationDuration = 250,
 			disableAnimation = false,
 			ariaLabel,
 			ariaLabelledBy,
 			ariaDescribedBy,
-			role = 'dialog',
 			overlayClassName,
 			headerClassName,
 			contentClassName,
@@ -107,29 +130,19 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 			onEscapeKey,
 			className,
 			style,
+			children,
 			...rest
 		},
 		ref
 	) => {
-		const config =
-			SIDEBAR_CONFIGURATIONS[kind as ExtendedSidebarKind];
+		// Overlay logic
 		const overlayRef = useRef<HTMLDivElement>(null);
 		const sidebarRef = useRef<HTMLDivElement>(null);
 		const previousActiveElement =
 			useRef<HTMLElement | null>(null);
 		const isAnimating = useRef(false);
 
-		const finalConfig: SidebarConfiguration = {
-			...config,
-			hasOverlay: hasOverlay ?? config.hasOverlay,
-			showCloseButton:
-				showCloseButton ?? config.showCloseButton,
-			closeButtonText:
-				closeButtonText ?? config.closeButtonText,
-			animationDuration:
-				animationDuration ?? config.animationDuration,
-		};
-
+		// Handle Escape key
 		const handleEscapeKey = useCallback(
 			(event: KeyboardEvent) => {
 				if (
@@ -145,6 +158,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 			[open, closeOnEscape, onClose, onEscapeKey]
 		);
 
+		// Overlay click
 		const handleOverlayClick = useCallback(
 			(event: React.MouseEvent<HTMLDivElement>) => {
 				if (
@@ -158,10 +172,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 			[closeOnOverlayClick, onClose, onOverlayClick]
 		);
 
-		const handleCloseClick = useCallback(() => {
-			onClose?.();
-		}, [onClose]);
-
+		// Focus trap
 		useEffect(() => {
 			if (open && focusTrap) {
 				previousActiveElement.current =
@@ -176,7 +187,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 					} else {
 						sidebarRef.current?.focus();
 					}
-				}, finalConfig.animationDuration || 0);
+				}, animationDuration || 0);
 			}
 			return () => {
 				if (
@@ -187,13 +198,9 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 					previousActiveElement.current.focus();
 				}
 			};
-		}, [
-			open,
-			focusTrap,
-			returnFocus,
-			finalConfig.animationDuration,
-		]);
+		}, [open, focusTrap, returnFocus, animationDuration]);
 
+		// Escape key event
 		useEffect(() => {
 			if (open) {
 				document.addEventListener(
@@ -209,19 +216,17 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 			}
 		}, [open, handleEscapeKey]);
 
+		// Animation events
 		useEffect(() => {
 			if (open) {
 				onOpen?.();
 				onAnimationStart?.();
-				if (
-					!disableAnimation &&
-					finalConfig.animationDuration
-				) {
+				if (!disableAnimation && animationDuration) {
 					isAnimating.current = true;
 					setTimeout(() => {
 						isAnimating.current = false;
 						onAnimationEnd?.();
-					}, finalConfig.animationDuration);
+					}, animationDuration);
 				} else {
 					onAnimationEnd?.();
 				}
@@ -232,11 +237,18 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 			onAnimationStart,
 			onAnimationEnd,
 			disableAnimation,
-			finalConfig.animationDuration,
+			animationDuration,
 		]);
 
+		// Prevent background scroll when overlay is open
 		useEffect(() => {
-			if (open && finalConfig.hasOverlay) {
+			if (
+				open &&
+				(variant === 'overlay' ||
+					variant === 'drawer' ||
+					variant === 'push' ||
+					variant === 'floating')
+			) {
 				const originalOverflow =
 					document.body.style.overflow;
 				document.body.style.overflow = 'hidden';
@@ -244,118 +256,107 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 					document.body.style.overflow = originalOverflow;
 				};
 			}
-		}, [open, finalConfig.hasOverlay]);
+		}, [open, variant]);
 
+		// Sidebar classes
 		const sidebarClasses = [
-			finalConfig.className,
-			open ? 'sidebar-open' : '',
-			disableAnimation ? 'sidebar-no-animation' : '',
+			styles.baseSidebar,
+			styles[`sidebar-${position}`],
+			styles[`sidebar-size-${size}`],
+			styles[`sidebar-variant-${variant}`],
+			open ? styles['sidebar-open'] : '',
+			disableAnimation ?
+				styles['sidebar-no-animation']
+			:	'',
 			className,
 		]
 			.filter(Boolean)
 			.join(' ');
 
+		// Overlay classes
 		const overlayClasses = [
-			finalConfig.overlayClassName,
-			open ? 'overlay-visible' : '',
+			styles.sidebarOverlay,
 			overlayClassName,
+			open ? styles['overlay-visible'] : '',
 		]
 			.filter(Boolean)
 			.join(' ');
 
+		// Header, content, footer classes
 		const headerClasses = [
 			styles.sidebarHeader,
 			headerClassName,
 		]
 			.filter(Boolean)
 			.join(' ');
-
 		const contentClasses = [
 			styles.sidebarContent,
 			contentClassName,
 		]
 			.filter(Boolean)
 			.join(' ');
-
 		const footerClasses = [
 			styles.sidebarFooter,
 			footerClassName,
 		]
 			.filter(Boolean)
 			.join(' ');
-
 		const closeButtonClasses = [
-			finalConfig.position === 'left' ?
-				styles.sidebarCloseBtnLeft
-			:	styles.sidebarCloseBtn,
+			styles.sidebarCloseBtn,
 			closeButtonClassName,
 		]
 			.filter(Boolean)
 			.join(' ');
 
+		// Sidebar style
 		const sidebarStyle: React.CSSProperties = {
 			...style,
-			zIndex: finalConfig.zIndex,
-			minWidth: finalConfig.minWidth,
-			maxWidth: finalConfig.maxWidth,
-			height: finalConfig.height,
 			transitionDuration:
-				disableAnimation ? '0s' : (
-					`${finalConfig.animationDuration}ms`
-				),
+				disableAnimation ? '0s' : `${animationDuration}ms`,
 		};
 
+		// Overlay style
 		const overlayStyle: React.CSSProperties = {
-			zIndex:
-				finalConfig.zIndex ?
-					finalConfig.zIndex - 1
-				:	undefined,
 			transitionDuration:
-				disableAnimation ? '0s' : (
-					`${finalConfig.animationDuration}ms`
-				),
+				disableAnimation ? '0s' : `${animationDuration}ms`,
 		};
 
-		const renderHeader = () => {
-			if (header) return header;
-			if (!title && !finalConfig.showCloseButton)
-				return null;
-			return (
-				<Wrapper className={headerClasses}>
-					{title && (
-						<h2
-							className={styles.sidebarTitle}
-							id={ariaLabelledBy || `sidebar-title-${kind}`}
-						>
-							{title}
-						</h2>
-					)}
-					{finalConfig.showCloseButton && (
-						<Button
-							kind='close'
-							onClick={handleCloseClick}
-							className={closeButtonClasses}
-							aria-label={`Close ${finalConfig.ariaLabel || 'sidebar'}`}
-						/>
-					)}
-				</Wrapper>
-			);
-		};
+		// Hide close button by default for permanent sidebars
+		const computedShowCloseButton =
+			typeof showCloseButton === 'boolean' ? showCloseButton
+			:	variant !== 'permanent';
 
-		const renderFooter = () => {
-			if (!footer) return null;
-			return (
-				<Wrapper className={footerClasses}>
-					{footer}
-				</Wrapper>
-			);
-		};
+		// Render header
+		const sidebarHeader =
+			header !== undefined ?
+				<div className={headerClasses}>{header}</div>
+			:	null;
+
+		// Render close button
+		const closeBtn =
+			computedShowCloseButton ?
+				<button
+					type='button'
+					className={closeButtonClasses}
+					onClick={onClose}
+					aria-label={closeButtonText}
+				>
+					{closeButtonIcon || '×'}
+				</button>
+			:	null;
+
+		// Overlay rendering for overlay/drawer/push/floating
+		const shouldShowOverlay =
+			open &&
+			(variant === 'overlay' ||
+				variant === 'drawer' ||
+				variant === 'push' ||
+				variant === 'floating');
 
 		return (
 			<>
-				{/* Overlay */}
-				{finalConfig.hasOverlay && (
-					<Wrapper
+				{shouldShowOverlay && (
+					<div
 						ref={overlayRef}
 						className={overlayClasses}
 						style={overlayStyle}
@@ -363,56 +364,27 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 						aria-hidden='true'
 					/>
 				)}
-				{/* Sidebar */}
-				<Wrapper
-					ref={sidebarRef}
+				<div
+					ref={ref || sidebarRef}
 					className={sidebarClasses}
 					style={sidebarStyle}
-					role={role}
-					aria-label={ariaLabel || finalConfig.ariaLabel}
-					aria-labelledby={
-						ariaLabelledBy ||
-						(title ? `sidebar-title-${kind}` : undefined)
-					}
+					role='complementary'
+					aria-label={ariaLabel}
+					aria-labelledby={ariaLabelledBy}
 					aria-describedby={ariaDescribedBy}
-					aria-modal={finalConfig.hasOverlay}
-					tabIndex={focusTrap ? -1 : undefined}
+					tabIndex={-1}
 					{...rest}
 				>
-					{renderHeader()}
-					<Wrapper className={contentClasses}>
-						{children}
-					</Wrapper>
-					{renderFooter()}
-					<Wrapper
-						className={styles['sidebar-sr-only']}
-						aria-live='polite'
-						aria-atomic='true'
-					>
-						{open ?
-							`${finalConfig.ariaLabel} opened`
-						:	`${finalConfig.ariaLabel} closed`}
-					</Wrapper>
-				</Wrapper>
+					{sidebarHeader}
+					{closeBtn}
+					<div className={contentClasses}>{children}</div>
+					{footer && (
+						<div className={footerClasses}>{footer}</div>
+					)}
+				</div>
 			</>
 		);
 	}
 );
 
-Sidebar.displayName = 'Sidebar';
-
 export default Sidebar;
-
-export interface FriendsSidebarProps {
-	open: boolean;
-	onClose: () => void;
-	children?: React.ReactNode;
-}
-
-export const FriendsSidebar: React.FC<
-	FriendsSidebarProps
-> = ({ open, onClose, children }) => (
-	<Sidebar kind='friends' open={open} onClose={onClose}>
-		{children}
-	</Sidebar>
-);

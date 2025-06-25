@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Checkbox` folder implements a unified, configuration-driven checkbox system for React applications. It supports multiple checkbox variants (standard, toggle, switch, dark mode toggle, and custom) using a single, DRY component and factory pattern. The system is designed for flexibility, accessibility, and rapid development, with full support for custom styles, sizes, and behaviors.
+The `Checkbox` folder implements a , configuration-driven checkbox system for React applications. It supports multiple checkbox variants (standard, toggle, switch, dark mode toggle, and custom) using a single, DRY component and factory pattern. The system is designed for flexibility, accessibility, and rapid development, with full support for custom styles, sizes, and behaviors.
 
 ## Key Files
 
@@ -46,4 +46,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified, and extensible checkbox UI system. All checkbox-related UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system.
+This folder provides a robust, , and extensible checkbox UI system. All checkbox-related UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system.

@@ -525,10 +525,315 @@ const Wrapper = forwardRef<any, WrapperProps>(
 	}
 );
 
-// ========================================
-// Exports
-// ========================================
+// ===================== STATIC HELPERS (formerly WrapperFactory) =====================
 
-Wrapper.displayName = 'Wrapper';
+export interface WrapperFactoryProps
+	extends Omit<WrapperProps, 'kind'> {
+	kind: WrapperKind;
+	configuration?: Partial<WrapperConfiguration>;
+}
+
+export const WrapperHelpers = {
+	button: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='button-wrapper' {...props} />
+	),
+	header: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='header-wrapper' {...props} />
+	),
+	modal: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='modal-wrapper' {...props} />
+	),
+	grid: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='grid-wrapper' {...props} />
+	),
+	page: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='page-wrapper' {...props} />
+	),
+	graph: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='graph-wrapper' {...props} />
+	),
+	sidebar: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='sidebar-wrapper' {...props} />
+	),
+	settings: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='settings-wrapper' {...props} />
+	),
+	theme: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='theme-wrapper' {...props} />
+	),
+	admin: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='admin-wrapper' {...props} />
+	),
+	card: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='card-wrapper' {...props} />
+	),
+	banner: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='banner-wrapper' {...props} />
+	),
+	chat: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='chat-wrapper' {...props} />
+	),
+	form: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='form-wrapper' {...props} />
+	),
+	// Provider wrappers
+	socketProvider: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper kind='socket-provider-wrapper' {...props} />
+	),
+	userSettingsProvider: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper
+			kind='user-settings-provider-wrapper'
+			{...props}
+		/>
+	),
+	themePaletteProvider: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper
+			kind='theme-palette-provider-wrapper'
+			{...props}
+		/>
+	),
+	achievementSocketListener: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper
+			kind='achievement-socket-listener-wrapper'
+			{...props}
+		/>
+	),
+	// Legacy wrappers
+	primaryButton: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='primary-button-wrapper' {...props} />,
+	secondaryButton: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper kind='secondary-button-wrapper' {...props} />
+	),
+	closeButton: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='close-button-wrapper' {...props} />,
+	iconButton: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='icon-button-wrapper' {...props} />,
+	browseHeader: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='browse-header-wrapper' {...props} />,
+	modalHeader: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='modal-header-wrapper' {...props} />,
+	vsGrid: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='vs-grid-wrapper' {...props} />
+	),
+	startupPage: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='startup-page-wrapper' {...props} />,
+	customizationCategory: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper
+			kind='customization-category-wrapper'
+			{...props}
+		/>
+	),
+	settingsPanel: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='settings-panel-wrapper' {...props} />,
+	themeSelector: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='theme-selector-wrapper' {...props} />,
+	friendsSidebar: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper kind='friends-sidebar-wrapper' {...props} />
+	),
+	sessionDebugger: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper kind='session-debugger-wrapper' {...props} />
+	),
+	darkModeToggle: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper kind='dark-mode-toggle-wrapper' {...props} />
+	),
+	// Generic wrappers
+	component: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='component' {...props} />
+	),
+	provider: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='provider' {...props} />
+	),
+	legacy: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='legacy' {...props} />
+	),
+	// Layout containers
+	flexContainer: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='flex-container' {...props} />,
+	gridContainer: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='grid-container' {...props} />,
+	centerContainer: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='center-container' {...props} />,
+	stackContainer: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => <Wrapper kind='stack-container' {...props} />,
+	backwardCompatibility: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper
+			kind='backward-compatibility-wrapper'
+			{...props}
+		/>
+	),
+	legacySilent: (
+		props: Omit<WrapperFactoryProps, 'kind'>
+	) => (
+		<Wrapper
+			kind='legacy-wrapper'
+			suppressDeprecationWarning
+			{...props}
+		/>
+	),
+	simple: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='simple-wrapper' {...props} />
+	),
+	enhanced: (props: Omit<WrapperFactoryProps, 'kind'>) => (
+		<Wrapper kind='enhanced-wrapper' {...props} />
+	),
+};
+
+// Builder pattern for advanced configuration
+export class WrapperBuilder {
+	private kind: WrapperKind;
+	private config: Partial<WrapperConfiguration> = {};
+
+	constructor(kind: WrapperKind) {
+		this.kind = kind;
+	}
+	variant(variant: WrapperConfiguration['variant']) {
+		this.config.variant = variant;
+		return this;
+	}
+	layout(layout: WrapperConfiguration['layout']) {
+		this.config.layout = layout;
+		return this;
+	}
+	target(targetComponent: string, Component: string) {
+		this.config.targetComponent = targetComponent;
+		this.config.Component = Component;
+		return this;
+	}
+	maintainAPI(maintain: boolean = true) {
+		this.config.maintainAPI = maintain;
+		return this;
+	}
+	deprecationWarning(warn: boolean = true) {
+		this.config.deprecationWarning = warn;
+		return this;
+	}
+	migrationPath(path: string) {
+		this.config.migrationPath = path;
+		return this;
+	}
+	description(desc: string) {
+		this.config.description = desc;
+		return this;
+	}
+	className(className: string) {
+		this.config.className = className;
+		return this;
+	}
+	build() {
+		return (
+			props: Omit<
+				WrapperFactoryProps,
+				'kind' | 'configuration'
+			>
+		) => (
+			<Wrapper
+				kind={this.kind}
+				configuration={this.config}
+				{...props}
+			/>
+		);
+	}
+}
+
+// Presets for common use cases
+export const WrapperPresets = {
+	BUTTON: (props: any) => WrapperHelpers.button(props),
+	HEADER: (props: any) => WrapperHelpers.header(props),
+	MODAL: (props: any) => WrapperHelpers.modal(props),
+	GRID: (props: any) => WrapperHelpers.grid(props),
+	PAGE: (props: any) => WrapperHelpers.page(props),
+	SIDEBAR: (props: any) => WrapperHelpers.sidebar(props),
+	SETTINGS: (props: any) => WrapperHelpers.settings(props),
+	LEGACY_WITH_WARNING: (props: any) =>
+		WrapperHelpers.legacy({
+			...props,
+			configuration: { deprecationWarning: true },
+		}),
+	LEGACY_SILENT: (props: any) =>
+		WrapperHelpers.legacySilent(props),
+	BACKWARD_COMPATIBILITY: (props: any) =>
+		WrapperHelpers.backwardCompatibility(props),
+	SIMPLE: (props: any) => WrapperHelpers.simple(props),
+	ENHANCED: (props: any) => WrapperHelpers.enhanced(props),
+};
+
+// Quick wrapper functions for instant creation
+export const QuickWrappers = {
+	button: (children: React.ReactNode, props: any = {}) =>
+		WrapperHelpers.button({ children, ...props }),
+	header: (children: React.ReactNode, props: any = {}) =>
+		WrapperHelpers.header({ children, ...props }),
+	modal: (children: React.ReactNode, props: any = {}) =>
+		WrapperHelpers.modal({ children, ...props }),
+	grid: (children: React.ReactNode, props: any = {}) =>
+		WrapperHelpers.grid({ children, ...props }),
+	page: (children: React.ReactNode, props: any = {}) =>
+		WrapperHelpers.page({ children, ...props }),
+	sidebar: (children: React.ReactNode, props: any = {}) =>
+		WrapperHelpers.sidebar({ children, ...props }),
+	settings: (children: React.ReactNode, props: any = {}) =>
+		WrapperHelpers.settings({ children, ...props }),
+	legacy: (children: React.ReactNode, props: any = {}) =>
+		WrapperHelpers.legacy({ children, ...props }),
+};
+
+// Standalone creation functions
+export function createWrapper(
+	kind: WrapperKind,
+	props: Omit<WrapperFactoryProps, 'kind'> = {}
+) {
+	return <Wrapper kind={kind} {...props} />;
+}
+
+export function createWrapperWithConfig(
+	kind: WrapperKind,
+	config: Partial<WrapperConfiguration>,
+	props: Omit<
+		WrapperFactoryProps,
+		'kind' | 'configuration'
+	> = {}
+) {
+	return (
+		<Wrapper
+			kind={kind}
+			configuration={config}
+			{...props}
+		/>
+	);
+}
+
+// ...existing code...
 
 export default memo(Wrapper);

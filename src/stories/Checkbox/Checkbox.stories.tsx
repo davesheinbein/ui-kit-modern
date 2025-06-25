@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CheckboxFactory } from '../../components/Checkbox';
+import { Checkbox } from '../../components/Checkbox';
 import { Wrapper } from '../../components/Wrappers';
 import { ThemePaletteProvider } from '../../components/Providers';
 
-const meta: Meta<typeof CheckboxFactory> = {
-	title: 'Forms/Checkbox',
-	component: CheckboxFactory,
+const meta: Meta<typeof Checkbox> = {
+	title: 'Checkbox/Checkbox',
+	component: Checkbox,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -153,21 +153,18 @@ export const AllVariants: Story = {
 			}}
 		>
 			<h3>Basic Checkboxes</h3>
-			<CheckboxFactory
-				kind='checkbox'
-				label='Default checkbox'
-			/>
-			<CheckboxFactory
+			<Checkbox kind='checkbox' label='Default checkbox' />
+			<Checkbox
 				kind='checkbox'
 				label='Checked checkbox'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Disabled checkbox'
 				disabled
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Disabled checked'
 				disabled
@@ -175,19 +172,19 @@ export const AllVariants: Story = {
 			/>
 
 			<h3>Color Variants</h3>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Success'
 				variant='success'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Warning'
 				variant='warning'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Danger'
 				variant='danger'
@@ -195,19 +192,19 @@ export const AllVariants: Story = {
 			/>
 
 			<h3>Sizes</h3>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Small'
 				size='small'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Medium'
 				size='medium'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Large'
 				size='large'
@@ -227,32 +224,28 @@ export const ToggleVariants: Story = {
 			}}
 		>
 			<h3>Toggle Checkboxes</h3>
-			<CheckboxFactory kind='toggle' label='Toggle off' />
-			<CheckboxFactory
-				kind='toggle'
-				label='Toggle on'
-				checked
-			/>
-			<CheckboxFactory
+			<Checkbox kind='toggle' label='Toggle off' />
+			<Checkbox kind='toggle' label='Toggle on' checked />
+			<Checkbox
 				kind='toggle'
 				label='Toggle disabled'
 				disabled
 			/>
 
 			<h3>Toggle Colors</h3>
-			<CheckboxFactory
+			<Checkbox
 				kind='toggle'
 				label='Success toggle'
 				variant='success'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='toggle'
 				label='Warning toggle'
 				variant='warning'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='toggle'
 				label='Danger toggle'
 				variant='danger'
@@ -260,19 +253,19 @@ export const ToggleVariants: Story = {
 			/>
 
 			<h3>Toggle Sizes</h3>
-			<CheckboxFactory
+			<Checkbox
 				kind='toggle'
 				label='Small toggle'
 				size='small'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='toggle'
 				label='Medium toggle'
 				size='medium'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='toggle'
 				label='Large toggle'
 				size='large'
@@ -292,32 +285,28 @@ export const SwitchVariants: Story = {
 			}}
 		>
 			<h3>Switch Checkboxes</h3>
-			<CheckboxFactory kind='switch' label='Switch off' />
-			<CheckboxFactory
-				kind='switch'
-				label='Switch on'
-				checked
-			/>
-			<CheckboxFactory
+			<Checkbox kind='switch' label='Switch off' />
+			<Checkbox kind='switch' label='Switch on' checked />
+			<Checkbox
 				kind='switch'
 				label='Switch disabled'
 				disabled
 			/>
 
 			<h3>Switch Colors</h3>
-			<CheckboxFactory
+			<Checkbox
 				kind='switch'
 				label='Success switch'
 				variant='success'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='switch'
 				label='Warning switch'
 				variant='warning'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='switch'
 				label='Danger switch'
 				variant='danger'
@@ -325,19 +314,19 @@ export const SwitchVariants: Story = {
 			/>
 
 			<h3>Switch Sizes</h3>
-			<CheckboxFactory
+			<Checkbox
 				kind='switch'
 				label='Small switch'
 				size='small'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='switch'
 				label='Medium switch'
 				size='medium'
 				checked
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='switch'
 				label='Large switch'
 				size='large'
@@ -356,22 +345,22 @@ export const ErrorAndHelperText: Story = {
 				gap: '1rem',
 			}}
 		>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Checkbox with error'
 				error='This field is required'
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='checkbox'
 				label='Checkbox with helper text'
 				helperText='This is some helpful information'
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='toggle'
 				label='Toggle with error'
 				error='Please enable this option'
 			/>
-			<CheckboxFactory
+			<Checkbox
 				kind='switch'
 				label='Switch with helper text'
 				helperText='This controls a system setting'
@@ -398,22 +387,22 @@ export const FormExample: Story = {
 					gap: '1rem',
 				}}
 			>
-				<CheckboxFactory
+				<Checkbox
 					kind='checkbox'
 					label='I agree to the Terms and Conditions'
 					helperText='Required to create an account'
 				/>
-				<CheckboxFactory
+				<Checkbox
 					kind='checkbox'
 					label='Subscribe to newsletter'
 					helperText='Get updates about new features'
 				/>
-				<CheckboxFactory
+				<Checkbox
 					kind='toggle'
 					label='Enable notifications'
 					checked
 				/>
-				<CheckboxFactory
+				<Checkbox
 					kind='switch'
 					label='Two-factor authentication'
 					variant='success'
@@ -450,7 +439,7 @@ export const DarkModeToggleSizes: Story = {
 			>
 				<Wrapper style={{ textAlign: 'center' }}>
 					<p>Small</p>
-					<CheckboxFactory
+					<Checkbox
 						kind='dark-mode-toggle'
 						size='small'
 						darkModeContext={true}
@@ -458,7 +447,7 @@ export const DarkModeToggleSizes: Story = {
 				</Wrapper>
 				<Wrapper style={{ textAlign: 'center' }}>
 					<p>Medium</p>
-					<CheckboxFactory
+					<Checkbox
 						kind='dark-mode-toggle'
 						size='medium'
 						darkModeContext={true}
@@ -466,7 +455,7 @@ export const DarkModeToggleSizes: Story = {
 				</Wrapper>
 				<Wrapper style={{ textAlign: 'center' }}>
 					<p>Large</p>
-					<CheckboxFactory
+					<Checkbox
 						kind='dark-mode-toggle'
 						size='large'
 						darkModeContext={true}
@@ -489,7 +478,7 @@ export const DarkModeToggleInContainer: Story = {
 			>
 				<h3>Theme Settings</h3>
 				<p>Toggle between light and dark mode:</p>
-				<CheckboxFactory
+				<Checkbox
 					kind='dark-mode-toggle'
 					darkModeContext={true}
 				/>
@@ -537,7 +526,7 @@ export const CheckboxSettingsPanel: Story = {
 								Switch between light and dark themes
 							</p>
 						</Wrapper>
-						<CheckboxFactory
+						<Checkbox
 							kind='dark-mode-toggle'
 							darkModeContext={true}
 						/>
@@ -568,11 +557,7 @@ export const CheckboxSettingsPanel: Story = {
 								Receive updates and alerts
 							</p>
 						</Wrapper>
-						<CheckboxFactory
-							kind='switch'
-							size='medium'
-							checked
-						/>
+						<Checkbox kind='switch' size='medium' checked />
 					</Wrapper>
 					<Wrapper
 						style={{
@@ -593,7 +578,7 @@ export const CheckboxSettingsPanel: Story = {
 								Automatically save your progress
 							</p>
 						</Wrapper>
-						<CheckboxFactory
+						<Checkbox
 							kind='toggle'
 							variant='success'
 							checked
@@ -628,17 +613,17 @@ export const AllCheckboxTypes: Story = {
 							gap: '0.5rem',
 						}}
 					>
-						<CheckboxFactory
+						<Checkbox
 							kind='checkbox'
 							label='Basic checkbox'
 							checked
 						/>
-						<CheckboxFactory
+						<Checkbox
 							kind='checkbox'
 							label='With error'
 							error='This field is required'
 						/>
-						<CheckboxFactory
+						<Checkbox
 							kind='checkbox'
 							label='Success variant'
 							variant='success'
@@ -658,18 +643,18 @@ export const AllCheckboxTypes: Story = {
 							gap: '0.5rem',
 						}}
 					>
-						<CheckboxFactory
+						<Checkbox
 							kind='toggle'
 							label='Toggle control'
 							checked
 						/>
-						<CheckboxFactory
+						<Checkbox
 							kind='toggle'
 							label='Warning toggle'
 							variant='warning'
 							checked
 						/>
-						<CheckboxFactory
+						<Checkbox
 							kind='toggle'
 							label='Large toggle'
 							size='large'
@@ -687,18 +672,18 @@ export const AllCheckboxTypes: Story = {
 							gap: '0.5rem',
 						}}
 					>
-						<CheckboxFactory
+						<Checkbox
 							kind='switch'
 							label='Switch control'
 							checked
 						/>
-						<CheckboxFactory
+						<Checkbox
 							kind='switch'
 							label='Success switch'
 							variant='success'
 							checked
 						/>
-						<CheckboxFactory
+						<Checkbox
 							kind='switch'
 							label='Small switch'
 							size='small'
@@ -718,11 +703,11 @@ export const AllCheckboxTypes: Story = {
 							gap: '0.5rem',
 						}}
 					>
-						<CheckboxFactory
+						<Checkbox
 							kind='dark-mode-toggle'
 							darkModeContext={true}
 						/>
-						<CheckboxFactory
+						<Checkbox
 							kind='dark-mode-toggle'
 							size='large'
 							darkModeContext={true}

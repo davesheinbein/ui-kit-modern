@@ -1,22 +1,19 @@
 import React from 'react';
 import { Wrapper } from '../Wrappers';
 
-export { default as Monetization } from './Monetization';
+export { default as Monetization } from './UnifiedMonetization';
 export type {
-	MonetizationProps,
+	UnifiedMonetizationProps,
 	BaseMonetizationProps,
-} from './Monetization';
+} from './UnifiedMonetization';
+
+// Keep the original Monetization component for backward compatibility
+export { default as Monetization } from './Monetization';
+export type { MonetizationProps } from './Monetization';
 
 export * from './configurations';
 
-export {
-	default as MonetizationFactory,
-	MonetizationPresets,
-	QuickMonetization,
-	SimpleMonetizationFactory,
-	createMonetization,
-} from './factory';
-
+// Remove all factory and preset exports
 // =============================================================================
 // BACKWARD COMPATIBILITY WRAPPERS
 // =============================================================================

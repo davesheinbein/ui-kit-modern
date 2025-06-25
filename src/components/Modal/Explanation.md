@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Modal` component folder provides a unified, configuration-driven system for rendering modal dialogs, overlays, and popups. It supports a variety of modal types (alert, confirm, custom, fullscreen, etc.), transition effects, and accessibility features. The system is DRY, extensible, and easy to use both directly and via factories.
+The `Modal` component folder provides a , configuration-driven system for rendering modal dialogs, overlays, and popups. It supports a variety of modal types (alert, confirm, custom, fullscreen, etc.), transition effects, and accessibility features. The system is DRY, extensible, and easy to use both directly and via factories.
 
 ### Key Files
 
@@ -81,4 +81,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified modal component system for all dialog, overlay, and popup needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.
+This folder provides a robust, modal component system for all dialog, overlay, and popup needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.

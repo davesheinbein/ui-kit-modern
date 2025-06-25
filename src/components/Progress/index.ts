@@ -8,7 +8,8 @@ export type {
 	ProgressConfiguration,
 } from './configurations';
 
-export type { ProgressProps } from './Progress';
+export type { ProgressProps } from './UnifiedProgress';
+export { default as Progress } from './UnifiedProgress';
 export { default as Progress } from './Progress';
 export {
 	ProgressFactory,

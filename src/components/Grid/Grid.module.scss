@@ -127,7 +127,7 @@
 
 // Pregame lockout styling is now handled inline in Grid
 
-.solved-groups-display {
+.solved {
 	@extend .grid-solved;
 }
 
@@ -289,10 +289,11 @@
 .solvedCategories {
 	@include contained-element();
 	display: grid;
-	grid-template-columns: repeat(
+	/* grid-template-columns: repeat(
 		auto-fit,
 		minmax(var(--size-55), 1fr)
-	); // 220px
+	); // 220px */
+	/* Removed grid-template-columns to allow inline style to control layout */
 	gap: var(--spacing-md);
 	margin: var(--spacing-xl) 0;
 	list-style: none;
@@ -567,13 +568,14 @@
 		@include text-body-sm();
 	}
 
-	.solved-groups-display {
+	.solved {
 		gap: var(--spacing-sm);
 		padding: 0 var(--spacing-sm);
 	}
 
 	.solvedCategories {
-		grid-template-columns: 1fr;
+		/* grid-template-columns: 1fr; */
+		/* Removed grid-template-columns to allow inline style to control layout */
 		gap: var(--spacing-sm);
 	}
 }

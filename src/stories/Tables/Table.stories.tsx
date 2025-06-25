@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Wrapper } from '../../components/Wrappers';
-import { Table } from '../../components/Table';
 import {
-	TableFactory,
-	T,
+	Table,
+	createTable,
 	TablePresets,
 } from '../../components/Table';
 
@@ -540,7 +539,7 @@ export const AllVariants: Story = {
 
 export const FactoryBasic: Story = {
 	render: () => {
-		const DataTableComponent = TableFactory('data-table');
+		const DataTableComponent = createTable('data-table');
 		return (
 			<DataTableComponent
 				columns={sampleColumns}
@@ -553,7 +552,7 @@ export const FactoryBasic: Story = {
 
 export const FactoryShorthand: Story = {
 	render: () => {
-		const GridComponent = T('data-grid');
+		const GridComponent = createTable('data-grid');
 		return (
 			<GridComponent
 				columns={sampleColumns}

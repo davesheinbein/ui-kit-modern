@@ -6,25 +6,13 @@
  */
 
 // Basic grid types
-export type GridVariant =
-	| 'basic'
-	| 'game'
-	| 'preview'
-	| 'locked'
-	| 'solved'
-	| 'custom';
+export type GridVariant = 'grid' | 'pregame' | 'solved';
 
 // Extended grid kinds for specific game modes and states
 export type ExtendedGridKind =
-	| 'basic'
-	| 'game'
-	| 'preview'
-	| 'locked'
-	| 'vs-grid'
-	| 'pregame-lockout'
-	| 'solved-groups'
-	| 'word-grid'
-	| 'custom';
+	| 'grid'
+	| 'pregame'
+	| 'solved';
 
 // Grid layout configuration
 export interface GridLayout {
@@ -69,8 +57,8 @@ export const GRID_CONFIGURATIONS: Record<
 	ExtendedGridKind,
 	GridConfiguration
 > = {
-	'basic': {
-		variant: 'basic',
+	grid: {
+		variant: 'grid',
 		layout: {
 			rows: 4,
 			cols: 4,
@@ -93,110 +81,8 @@ export const GRID_CONFIGURATIONS: Record<
 		},
 	},
 
-	'game': {
-		variant: 'game',
-		layout: {
-			rows: 4,
-			cols: 4,
-			gap: 12,
-			maxWidth: 480,
-			minHeight: 320,
-		},
-		styling: {
-			background: '#fff',
-			borderRadius: 16,
-			boxShadow: '0 2px 16px 0 #e3eaff33',
-			padding: 12,
-		},
-		behavior: {
-			interactive: true,
-			preview: false,
-			locked: false,
-			multiSelect: true,
-			vsMode: false,
-		},
-		className: 'game-grid',
-	},
-
-	'preview': {
-		variant: 'preview',
-		layout: {
-			rows: 4,
-			cols: 4,
-			gap: 12,
-			maxWidth: 480,
-			minHeight: 320,
-		},
-		styling: {
-			background: '#fff',
-			borderRadius: 16,
-			boxShadow: '0 2px 16px 0 #e3eaff33',
-			padding: 12,
-		},
-		behavior: {
-			interactive: false,
-			preview: true,
-			locked: false,
-			multiSelect: false,
-			vsMode: false,
-		},
-		className: 'preview-grid',
-	},
-
-	'locked': {
-		variant: 'locked',
-		layout: {
-			rows: 4,
-			cols: 4,
-			gap: 8,
-			maxWidth: 480,
-			minHeight: 320,
-		},
-		styling: {
-			background: '#f8fafc',
-			borderRadius: 16,
-			boxShadow: '0 2px 16px 0 #e3eaff33',
-			padding: 12,
-		},
-		behavior: {
-			interactive: false,
-			preview: false,
-			locked: true,
-			multiSelect: false,
-			vsMode: false,
-		},
-		className: 'locked-grid',
-		cellClassName: 'locked-cell',
-	},
-
-	'vs-grid': {
-		variant: 'game',
-		layout: {
-			rows: 4,
-			cols: 4,
-			gap: 12,
-			maxWidth: 480,
-			minHeight: 320,
-		},
-		styling: {
-			background: '#fff',
-			borderRadius: 16,
-			boxShadow: '0 2px 16px 0 #e3eaff33',
-			padding: 12,
-		},
-		behavior: {
-			interactive: true,
-			preview: false,
-			locked: false,
-			multiSelect: true,
-			vsMode: true,
-		},
-		className: 'vs-grid',
-		overlayComponents: ['opponent-overlay', 'solved-badge'],
-	},
-
-	'pregame-lockout': {
-		variant: 'locked',
+	pregame: {
+		variant: 'pregame',
 		layout: {
 			rows: 4,
 			cols: 4,
@@ -217,12 +103,12 @@ export const GRID_CONFIGURATIONS: Record<
 			multiSelect: false,
 			vsMode: false,
 		},
-		className: 'pregame-lockout',
-		cellClassName: 'pregame-cell-lockout',
+		className: 'pregame',
+		cellClassName: 'pregame-cell',
 		overlayComponents: ['lockout-overlay'],
 	},
 
-	'solved-groups': {
+	solved: {
 		variant: 'solved',
 		layout: {
 			rows: 1,
@@ -242,98 +128,14 @@ export const GRID_CONFIGURATIONS: Record<
 			multiSelect: false,
 			vsMode: false,
 		},
-		className: 'solved-groups-display',
-	},
-
-	'word-grid': {
-		variant: 'game',
-		layout: {
-			rows: 4,
-			cols: 4,
-			gap: 12,
-			maxWidth: 480,
-			minHeight: 320,
-		},
-		styling: {
-			background: '#fff',
-			borderRadius: 16,
-			boxShadow: '0 2px 16px 0 #e3eaff33',
-			padding: 12,
-		},
-		behavior: {
-			interactive: true,
-			preview: false,
-			locked: false,
-			multiSelect: true,
-			vsMode: false,
-		},
-		className: 'word-grid',
-	},
-
-	'custom': {
-		variant: 'custom',
-		layout: {
-			rows: 4,
-			cols: 4,
-			gap: 12,
-		},
-		styling: {},
-		behavior: {
-			interactive: true,
-		},
-		className: 'custom-grid',
+		className: 'solved',
 	},
 };
 
-// Grid groups for easier categorization
-export const GRID_GROUPS = {
-	BASIC: [
-		'basic',
-		'game',
-		'preview',
-		'locked',
-	] as ExtendedGridKind[],
-	VS_MODE: ['vs-grid'] as ExtendedGridKind[],
-	SPECIAL: [
-		'pregame-lockout',
-		'solved-groups',
-		'word-grid',
-	] as ExtendedGridKind[],
-	CUSTOM: ['custom'] as ExtendedGridKind[],
-};
-
-// Grid presets for common configurations
-export const GRID_PRESETS = {
-	STANDARD_GAME: {
-		kind: 'game' as ExtendedGridKind,
-		layout: { rows: 4, cols: 4 },
-		words: [],
-		selected: [],
-		locked: [],
-	},
-	VS_MATCH: {
-		kind: 'vs-grid' as ExtendedGridKind,
-		layout: { rows: 4, cols: 4 },
-		words: [],
-		selected: [],
-		locked: [],
-		opponentSelected: [],
-		vsMode: true,
-	},
-	PREVIEW_GRID: {
-		kind: 'preview' as ExtendedGridKind,
-		layout: { rows: 4, cols: 4 },
-		words: [],
-		preview: true,
-		interactive: false,
-	},
-	LOCKED_PREGAME: {
-		kind: 'pregame-lockout' as ExtendedGridKind,
-		layout: { rows: 4, cols: 4 },
-		words: [],
-		locked: true,
-		interactive: false,
-	},
+// Remove all legacy/unused kind arrays and presets
+// If any grouping is needed, only include the new valid kinds:
+export const GRID_KIND_GROUPS = {
+	MAIN: ['grid', 'pregame', 'solved'] as ExtendedGridKind[],
 };
 
 // Helper function to create grid configuration

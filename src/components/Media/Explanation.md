@@ -2,26 +2,23 @@
 
 ## Overview
 
-The `Media` component folder provides a unified, configuration-driven system for rendering and interacting with various media types, including images, videos, audio, and embeds. The system is designed to be DRY, extensible, and easy to use both directly and via factories.
+The `Media` component folder provides a , configuration-driven system for rendering and interacting with various media types, including images, videos, audio, and embeds. The system is designed to be DRY, extensible, and easy to use both directly and via factories.
 
 ### Key Files
 
 - **Media.tsx**: The main React component. Handles rendering logic for different media types, responsive layouts, overlays, and controls.
 - **configurations.ts**: Centralizes all media kinds, variants, and configuration presets. Exports types and a lookup function for DRY configuration.
-- **factory.tsx**: Provides a `MediaFactory` for creating pre-configured media components and a `MediaComponents` object for easy access to common media types.
 - **index.ts**: Barrel file for clean exports of all types, components, and factories.
 - **Media.module.scss**: (Optional) SCSS module for styling media containers, overlays, and controls.
 
 ## Usage
 
-- Use `<Media kind="image" ... />` for direct configuration, or use a prebuilt component from `MediaComponents` (e.g., `<MediaComponents.Image />`).
 - All media props can be overridden at usage time for flexibility.
 - Supports overlays, captions, and responsive layouts.
 
 ## Extensibility
 
 - Add new media kinds or variants by updating `configurations.ts`.
-- Add new prebuilt components by extending `MediaComponents` in `factory.tsx`.
 - The system is designed to support both static and interactive media.
 
 ## ERD (Entity Relationship Diagram)
@@ -50,7 +47,6 @@ erDiagram
 - **MediaFactory**: Class with static methods for creating media components:
   - `create(config)`: Returns a React forwardRef component for a media item with the given configuration and any additional props.
   - `createFromKind(kind)`: Looks up the configuration for the given kind and returns a forwardRef media component.
-- **MediaComponents**: Object containing pre-configured media components for each media kind (e.g., `UserAvatar`, `ImageCard`, `VideoPlayer`, etc.), each created using `MediaFactory.createFromKind`.
 
 ### Media.tsx
 
@@ -72,4 +68,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified media component system for all image, video, audio, and embed needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.
+This folder provides a robust, media component system for all image, video, audio, and embed needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.

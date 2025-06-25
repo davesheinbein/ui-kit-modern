@@ -305,32 +305,6 @@
 }
 
 // ========================================
-// Dark Mode Support
-// ========================================
-@media (prefers-color-scheme: dark) {
-	.inputWrapper {
-		background: var(--color-surface-dark);
-		border-color: var(--color-border-dark);
-	}
-
-	.input {
-		color: var(--color-text-primary-dark);
-
-		&::placeholder {
-			color: var(--color-text-tertiary-dark);
-		}
-	}
-
-	.label {
-		color: var(--color-text-primary-dark);
-	}
-
-	.helperText {
-		color: var(--color-text-secondary-dark);
-	}
-}
-
-// ========================================
 // Accessibility Improvements
 // ========================================
 @media (prefers-reduced-motion: reduce) {

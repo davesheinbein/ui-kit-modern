@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SwitchFactory } from '../../components/Switchs';
+import { Switch } from '../../components/Switchs';
 import { commonDecorators } from '../config/decorators';
 
-const meta: Meta<typeof SwitchFactory> = {
+const meta: Meta<typeof Switch> = {
 	title: 'Switchs/Switch',
-	component: SwitchFactory,
+	component: Switch,
 	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',

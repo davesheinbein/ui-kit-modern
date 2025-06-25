@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Monetization` component folder provides a unified, configuration-driven system for rendering monetization-related UI elements, such as paywalls, subscription prompts, purchase dialogs, and in-app currency displays. The system is DRY, extensible, and easy to use both directly and via factories.
+The `Monetization` component folder provides a , configuration-driven system for rendering monetization-related UI elements, such as paywalls, subscription prompts, purchase dialogs, and in-app currency displays. The system is DRY, extensible, and easy to use both directly and via factories.
 
 ### Key Files
 
@@ -76,4 +76,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified monetization component system for all paywall, subscription, and purchase needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.
+This folder provides a robust, monetization component system for all paywall, subscription, and purchase needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Forms` folder implements a unified, configuration-driven form field system for React applications. It supports a wide variety of form field types (input, textarea, select, checkbox, radio, switch, range, and many specialized fields) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom validation, error handling, and layout.
+The `Forms` folder implements a , configuration-driven form field system for React applications. It supports a wide variety of form field types (input, textarea, select, checkbox, radio, switch, range, and many specialized fields) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom validation, error handling, and layout.
 
 ## Key Files
 
@@ -66,4 +66,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified, and extensible form field UI system. All form fields are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.
+This folder provides a robust, , and extensible form field UI system. All form fields are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.

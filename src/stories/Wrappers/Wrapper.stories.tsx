@@ -1,11 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
-import {
-	Wrapper,
-	WrapperFactory,
-	W,
-} from '../../components/Wrappers';
+import { Wrapper } from '../../components/Wrappers';
 import type { WrapperProps } from '../../components/Wrappers';
 
 const meta: Meta<typeof Wrapper> = {
@@ -356,13 +352,13 @@ export const StackContainer: Story = {
 };
 
 // ========================================
-// Factory Examples
+// Factory Examples (now direct Wrapper usage)
 // ========================================
 
 export const FactoryComponent: Story = {
 	render: () => (
 		<Wrapper>
-			<h3>WrapperFactory Examples</h3>
+			<h3>Wrapper Examples (No Factory)</h3>
 			<Wrapper
 				style={{
 					display: 'flex',
@@ -379,15 +375,15 @@ export const FactoryComponent: Story = {
 							gap: '1rem',
 						}}
 					>
-						{WrapperFactory.component({
-							children: 'Factory component wrapper',
-						})}
-						{WrapperFactory.provider({
-							children: 'Factory provider wrapper',
-						})}
-						{WrapperFactory.legacy({
-							children: 'Factory legacy wrapper',
-						})}
+						<Wrapper kind='component'>
+							Factory component wrapper
+						</Wrapper>
+						<Wrapper kind='provider'>
+							Factory provider wrapper
+						</Wrapper>
+						<Wrapper kind='legacy'>
+							Factory legacy wrapper
+						</Wrapper>
 					</Wrapper>
 				</Wrapper>
 
@@ -400,60 +396,52 @@ export const FactoryComponent: Story = {
 							gap: '1rem',
 						}}
 					>
-						{WrapperFactory.flexContainer({
-							children: (
-								<>
-									<span
-										style={{
-											padding: '0.5rem',
-											background: '#e3f2fd',
-										}}
-									>
-										Flex Item 1
-									</span>
-									<span
-										style={{
-											padding: '0.5rem',
-											background: '#f3e5f5',
-										}}
-									>
-										Flex Item 2
-									</span>
-								</>
-							),
-							gap: '0.5rem',
-						})}
-						{WrapperFactory.centerContainer({
-							children: 'Centered content via factory',
-							style: {
+						<Wrapper kind='flex-container' gap='0.5rem'>
+							<span
+								style={{
+									padding: '0.5rem',
+									background: '#e3f2fd',
+								}}
+							>
+								Flex Item 1
+							</span>
+							<span
+								style={{
+									padding: '0.5rem',
+									background: '#f3e5f5',
+								}}
+							>
+								Flex Item 2
+							</span>
+						</Wrapper>
+						<Wrapper
+							kind='center-container'
+							style={{
 								height: '100px',
 								background: '#f5f5f5',
 								border: '1px dashed #ccc',
-							},
-						})}
-						{WrapperFactory.stackContainer({
-							children: (
-								<>
-									<Wrapper
-										style={{
-											padding: '0.5rem',
-											background: '#ffecb3',
-										}}
-									>
-										Stack Item 1
-									</Wrapper>
-									<Wrapper
-										style={{
-											padding: '0.5rem',
-											background: '#ffcdd2',
-										}}
-									>
-										Stack Item 2
-									</Wrapper>
-								</>
-							),
-							gap: '0.25rem',
-						})}
+							}}
+						>
+							Centered content via factory
+						</Wrapper>
+						<Wrapper kind='stack-container'>
+							<Wrapper
+								style={{
+									padding: '0.5rem',
+									background: '#ffecb3',
+								}}
+							>
+								Stack Item 1
+							</Wrapper>
+							<Wrapper
+								style={{
+									padding: '0.5rem',
+									background: '#ffcdd2',
+								}}
+							>
+								Stack Item 2
+							</Wrapper>
+						</Wrapper>
 					</Wrapper>
 				</Wrapper>
 			</Wrapper>

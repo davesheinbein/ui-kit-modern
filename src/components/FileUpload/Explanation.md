@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `FileUpload` folder implements a unified, configuration-driven file upload system for React applications. It supports a wide variety of upload scenarios (dropzone, image uploader, avatar uploader, document uploader, gallery, bulk, etc.) using a single, DRY component and factory pattern. The system is designed for flexibility, extensibility, and visual consistency, with support for custom validation, preview, drag-and-drop, and Redux state management.
+The `FileUpload` folder implements a , configuration-driven file upload system for React applications. It supports a wide variety of upload scenarios (dropzone, image uploader, avatar uploader, document uploader, gallery, bulk, etc.) using a single, DRY component and factory pattern. The system is designed for flexibility, extensibility, and visual consistency, with support for custom validation, preview, drag-and-drop, and Redux state management.
 
 ## Key Files
 
@@ -90,4 +90,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified, and extensible file upload UI system. All file upload UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.
+This folder provides a robust, , and extensible file upload UI system. All file upload UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.

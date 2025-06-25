@@ -1,8 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-	FileUpload,
-	FileUploadComponents,
-} from '../../components/FileUpload';
+import { FileUpload } from '../../components/FileUpload';
 
 const meta: Meta<typeof FileUpload> = {
 	title: 'Files/File Upload',
@@ -219,56 +216,6 @@ export const LargeSize: Story = {
 		showPreview: true,
 		onFilesSelected: (files) =>
 			console.log('Files selected:', files),
-	},
-};
-
-// Factory components examples
-export const FactoryDropzone: Story = {
-	render: () => {
-		const DropzoneComponent = FileUploadComponents.Dropzone;
-		return (
-			<DropzoneComponent
-				onFilesSelected={(files) =>
-					console.log('Factory dropzone files:', files)
-				}
-			/>
-		);
-	},
-};
-
-export const FactoryImageUploader: Story = {
-	render: () => {
-		const ImageUploaderComponent =
-			FileUploadComponents.ImageUploader;
-		return (
-			<ImageUploaderComponent
-				showPreview={true}
-				onFilesSelected={(files) =>
-					console.log(
-						'Factory image uploader files:',
-						files
-					)
-				}
-			/>
-		);
-	},
-};
-
-export const FactoryAvatarUploader: Story = {
-	render: () => {
-		const AvatarUploaderComponent =
-			FileUploadComponents.AvatarUploader;
-		return (
-			<AvatarUploaderComponent
-				showPreview={true}
-				onFilesSelected={(files) =>
-					console.log(
-						'Factory avatar uploader files:',
-						files
-					)
-				}
-			/>
-		);
 	},
 };
 

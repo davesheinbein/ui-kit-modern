@@ -1,13 +1,4 @@
-import React, { forwardRef } from 'react';
-import { Wrapper } from '../Wrappers';
-import styles from './Graphs.module.scss';
-import type {
-	GraphConfiguration,
-	ExtendedGraphKind,
-} from './configurations';
-import { COLOR_SCHEMES } from './configurations';
-
-// === RECHARTS IMPORTS ===
+import React, { forwardRef, useState } from 'react';
 import {
 	BarChart,
 	Bar,
@@ -26,340 +17,190 @@ import {
 	ScatterChart,
 	Scatter,
 	ComposedChart,
+	CartesianGrid,
 	XAxis,
 	YAxis,
-	CartesianGrid,
-	Tooltip,
-	Legend,
+	Tooltip as RechartsTooltip,
+	Legend as RechartsLegend,
 	ResponsiveContainer,
 } from 'recharts';
+import styles from './Graphs.module.scss';
+import {
+	COLOR_SCHEMES,
+	ExtendedGraphKind,
+	GraphConfiguration,
+} from './configurations';
 
-export type GraphShape =
-	| 'bar'
-	| 'horizontalBar'
-	| 'pie'
-	| 'line'
-	| 'area'
-	| 'radar'
-	| 'composed';
+// === DRY HELPERS ===
+const ChartGrid = ({ showGrid }: { showGrid?: boolean }) =>
+	showGrid ? <CartesianGrid strokeDasharray='3 3' /> : null;
+const ChartLegend = ({
+	showLegend,
+}: {
+	showLegend?: boolean;
+}) => (showLegend ? <RechartsLegend /> : null);
+const ChartTooltip = ({
+	showTooltip,
+}: {
+	showTooltip?: boolean;
+}) => (showTooltip ? <RechartsTooltip /> : null);
+const ChartXAxis = ({
+	showAxes,
+	dataKey,
+	type,
+}: {
+	showAxes?: boolean;
+	dataKey?: string;
+	type?: 'number' | 'category';
+}) =>
+	showAxes ? <XAxis dataKey={dataKey} type={type} /> : null;
+const ChartYAxis = ({
+	showAxes,
+	type,
+}: {
+	showAxes?: boolean;
+	type?: 'number' | 'category';
+}) => (showAxes ? <YAxis type={type} /> : null);
 
-/**
- * Primary Graph component - a wrapper around Graph for the most common use case
- * For more advanced graph types, use Graph with the 'kind' prop
- * @example
- * <Graphs data={data} />
- * <Graphs data={data} shape="pie" />
- * <Graphs data={data} kind="analytics-trend" />
- */
-export interface GraphsProps
-	extends Omit<GraphProps, 'kind'> {
-	/** Graph shape - defaults to 'bar' */
-	shape?: GraphShape;
-	/** Graph kind - for advanced configurations */
-	kind?: GraphProps['kind'];
-}
-
-const Graphs: React.FC<GraphsProps> = ({
-	shape = 'bar',
-	kind,
-	...props
-}) => {
-	// Map legacy shape to kind if kind is not provided
-	const finalKind = kind || (shape as GraphProps['kind']);
-
-	return <Graph kind={finalKind} {...props} />;
+// --- Custom Tooltip Component ---
+const CustomTooltip = ({
+	active,
+	payload,
+	label,
+	labelKey,
+}: any) => {
+	if (!active || !payload || !payload.length) return null;
+	return (
+		<div className={styles.graphsCustomTooltip}>
+			<div className={styles.graphsTooltipContent}>
+				{labelKey && label && (
+					<div className={styles.graphsTooltipTitle}>
+						{labelKey}: <b>{label}</b>
+					</div>
+				)}
+				{payload.map((entry: any, idx: number) => (
+					<div
+						key={idx}
+						className={styles.graphsTooltipItem}
+					>
+						<span
+							className={styles.graphsTooltipColor}
+							style={{ background: entry.color }}
+						/>
+						{entry.name}: <b>{entry.value}</b>
+					</div>
+				))}
+			</div>
+		</div>
+	);
 };
 
-/**
- * Main Graph component - handles all graph types through configuration
- */
-const Graph = forwardRef<HTMLDivElement, GraphProps>(
-	(props, ref) => {
-		const {
-			kind,
-			data,
-			dataKey = 'value',
-			labelKey = 'name',
-			title,
-			colors,
-			colorScheme = 'default',
-			className = '',
-			style,
-			width = '100%',
-			height = 200,
-			showGrid = true,
-			showAxes = true,
-			showLegend = false,
-			showTooltip = true,
-			showLabels = false,
-			showValues = false,
-			animationDuration = 400,
-			animationEnabled = true,
-			configuration = {},
-			onClick,
-			onHover,
-			ariaLabel,
-			ariaDescription,
-			...rest
-		} = props;
+// --- Custom Pie Label Renderer ---
+const renderPieLabel = ({
+	cx,
+	cy,
+	midAngle,
+	innerRadius,
+	outerRadius,
+	percent,
+	index,
+	name,
+	value,
+}: any) => {
+	const RADIAN = Math.PI / 180;
+	const radius =
+		innerRadius + (outerRadius - innerRadius) * 0.6;
+	const x = cx + radius * Math.cos(-midAngle * RADIAN);
+	const y = cy + radius * Math.sin(-midAngle * RADIAN);
+	return (
+		<text
+			x={x}
+			y={y}
+			fill='#222'
+			textAnchor={x > cx ? 'start' : 'end'}
+			dominantBaseline='central'
+			className={styles.graphsPieLabel}
+		>
+			{name}: {value}
+		</text>
+	);
+};
 
-		const colorList =
-			colors ||
-			COLOR_SCHEMES[colorScheme] ||
-			COLOR_SCHEMES.default;
-
-		let chart: React.ReactNode = null;
-
-		switch (kind) {
-			case 'bar':
-			case 'bar-stacked':
-			case 'bar-grouped':
-				chart = (
-					<BarChart
-						data={data}
-						width={
-							typeof width === 'number' ? width : undefined
-						}
-						height={height}
-						{...rest}
-					>
-						{showGrid && (
-							<CartesianGrid strokeDasharray='3 3' />
-						)}
-						{showAxes && <XAxis dataKey={labelKey} />}
-						{showAxes && <YAxis />}
-						{showTooltip && <Tooltip />}
-						{showLegend && <Legend />}
-						<Bar dataKey={dataKey} fill={colorList[0]} />
-					</BarChart>
-				);
-				break;
-			case 'bar-horizontal':
-			case 'bar-horizontal-stacked':
-				chart = (
-					<BarChart
-						layout='vertical'
-						data={data}
-						width={
-							typeof width === 'number' ? width : undefined
-						}
-						height={height}
-						{...rest}
-					>
-						{showGrid && (
-							<CartesianGrid strokeDasharray='3 3' />
-						)}
-						{showAxes && <XAxis type='number' />}
-						{showAxes && (
-							<YAxis dataKey={labelKey} type='category' />
-						)}
-						{showTooltip && <Tooltip />}
-						{showLegend && <Legend />}
-						<Bar dataKey={dataKey} fill={colorList[0]} />
-					</BarChart>
-				);
-				break;
-			case 'line':
-			case 'line-smooth':
-			case 'line-multi':
-			case 'line-stepped':
-				chart = (
-					<LineChart
-						data={data}
-						width={
-							typeof width === 'number' ? width : undefined
-						}
-						height={height}
-						{...rest}
-					>
-						{showGrid && (
-							<CartesianGrid strokeDasharray='3 3' />
-						)}
-						{showAxes && <XAxis dataKey={labelKey} />}
-						{showAxes && <YAxis />}
-						{showTooltip && <Tooltip />}
-						{showLegend && <Legend />}
-						<Line
-							type='monotone'
-							dataKey={dataKey}
-							stroke={colorList[0]}
-						/>
-					</LineChart>
-				);
-				break;
-			case 'area':
-			case 'area-stacked':
-			case 'area-smooth':
-				chart = (
-					<AreaChart
-						data={data}
-						width={
-							typeof width === 'number' ? width : undefined
-						}
-						height={height}
-						{...rest}
-					>
-						{showGrid && (
-							<CartesianGrid strokeDasharray='3 3' />
-						)}
-						{showAxes && <XAxis dataKey={labelKey} />}
-						{showAxes && <YAxis />}
-						{showTooltip && <Tooltip />}
-						{showLegend && <Legend />}
-						<Area
-							type='monotone'
-							dataKey={dataKey}
-							fill={colorList[0]}
-							stroke={colorList[0]}
-						/>
-					</AreaChart>
-				);
-				break;
-			case 'pie':
-			case 'doughnut':
-			case 'pie-with-labels':
-				chart = (
-					<PieChart
-						width={typeof width === 'number' ? width : 320}
-						height={height}
-						{...rest}
-					>
-						<Pie
-							data={data}
-							dataKey={dataKey}
-							nameKey={labelKey}
-							cx='50%'
-							cy='50%'
-							outerRadius={height ? height / 2.5 : 80}
-							innerRadius={
-								kind === 'doughnut' ?
-									height ?
-										height / 4
-									:	40
-								:	0
-							}
-							fill={colorList[0]}
-							label={showLabels}
-						>
-							{data.map((entry, idx) => (
-								<Cell
-									key={`cell-${idx}`}
-									fill={colorList[idx % colorList.length]}
-								/>
-							))}
-						</Pie>
-						{showTooltip && <Tooltip />}
-						{showLegend && <Legend />}
-					</PieChart>
-				);
-				break;
-			case 'radar':
-				chart = (
-					<RadarChart
-						data={data}
-						width={typeof width === 'number' ? width : 320}
-						height={height}
-						{...rest}
-					>
-						<PolarGrid />
-						<PolarAngleAxis dataKey={labelKey} />
-						<PolarRadiusAxis />
-						<Radar
-							dataKey={dataKey}
-							stroke={colorList[0]}
-							fill={colorList[0]}
-							fillOpacity={0.6}
-						/>
-						{showLegend && <Legend />}
-						{showTooltip && <Tooltip />}
-					</RadarChart>
-				);
-				break;
-			case 'scatter':
-				chart = (
-					<ScatterChart
-						width={typeof width === 'number' ? width : 320}
-						height={height}
-						{...rest}
-					>
-						<CartesianGrid />
-						<XAxis dataKey={labelKey} name={labelKey} />
-						<YAxis dataKey={dataKey} name={dataKey} />
-						<Tooltip cursor={{ strokeDasharray: '3 3' }} />
-						<Scatter data={data} fill={colorList[0]} />
-					</ScatterChart>
-				);
-				break;
-			case 'composed-bar-line':
-				chart = (
-					<ComposedChart
-						data={data}
-						width={
-							typeof width === 'number' ? width : undefined
-						}
-						height={height}
-						{...rest}
-					>
-						<CartesianGrid strokeDasharray='3 3' />
-						<XAxis dataKey={labelKey} />
-						<YAxis />
-						<Tooltip />
-						<Legend />
-						<Bar dataKey={dataKey} fill={colorList[0]} />
-						<Line
-							type='monotone'
-							dataKey={dataKey}
-							stroke={colorList[1] || colorList[0]}
-						/>
-					</ComposedChart>
-				);
-				break;
-			// Add more chart types as needed
-			default:
-				chart = <div>Unsupported chart type: {kind}</div>;
-		}
-
+// --- Custom Radar Axis Tick Renderer ---
+const RadarAxisTick = (props: any) => {
+	const { payload, x, y, textAnchor, index, cx, cy } =
+		props;
+	const label = payload && payload.value;
+	// Only rotate for these two labels
+	const isLeft = label === 'Perfect Games';
+	const isRight = label === 'Red Herrings';
+	if (!isLeft && !isRight) {
 		return (
-			<div
-				className={`${styles.graphsContainer} ${className}`}
-				style={style}
-				ref={ref}
-				aria-label={ariaLabel || title}
-				aria-description={ariaDescription}
-			>
-				{title && (
-					<div className={styles.graphsTitle}>{title}</div>
-				)}
-				<ResponsiveContainer width='100%' height={height}>
-					{chart}
-				</ResponsiveContainer>
-			</div>
+			<g transform={`translate(${x},${y})`}>
+				<text
+					textAnchor={textAnchor}
+					fontSize={14}
+					fill='var(--color-accent)'
+					fontWeight={600}
+					style={{
+						textShadow: '0 1px 4px rgba(0,0,0,0.06)',
+					}}
+				>
+					{label}
+				</text>
+			</g>
 		);
 	}
-);
+	// Calculate angle so bottom faces center
+	const angle = (() => {
+		if (isLeft) return -90; // left side, rotate up
+		if (isRight) return 90; // right side, rotate down
+		return 0;
+	})();
+	return (
+		<g transform={`translate(${x},${y})`}>
+			<text
+				textAnchor='middle'
+				fontSize={14}
+				fill='var(--color-accent)'
+				fontWeight={600}
+				style={{ textShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
+				transform={`rotate(${angle})`}
+			>
+				{label}
+			</text>
+		</g>
+	);
+};
 
-Graph.displayName = 'Graph';
-
-// Re-export types for backward compatibility
-export type GraphKind = ExtendedGraphKind;
+// Allow advanced chart-specific props in configuration
+type ChartSpecificConfig = {
+	barProps?: Record<string, any>;
+	areaProps?: Record<string, any>;
+	pieProps?: Record<string, any>;
+	radarProps?: Record<string, any>;
+	scatterProps?: Record<string, any>;
+	series?: Array<{
+		dataKey: string;
+		name?: string;
+		props?: Record<string, any>;
+	}>;
+	lineKey?: string;
+};
 
 export interface GraphProps {
-	kind: GraphKind;
+	kind: ExtendedGraphKind;
 	data: any[];
-	// ...existing props from GraphProps...
 	dataKey?: string;
 	labelKey?: string;
-	valueKey?: string;
-	nameKey?: string;
 	title?: string;
+	subtitle?: string;
+	xAxisLabel?: string;
+	yAxisLabel?: string;
+	label?: string; // Consolidated label for legend and tooltip
+	emptyLabel?: string;
 	colors?: string[];
-	colorScheme?:
-		| 'default'
-		| 'primary'
-		| 'secondary'
-		| 'rainbow'
-		| 'monochrome'
-		| 'custom';
+	colorScheme?: keyof typeof COLOR_SCHEMES;
 	className?: string;
 	style?: React.CSSProperties;
 	width?: number | string;
@@ -378,12 +219,674 @@ export interface GraphProps {
 	showValues?: boolean;
 	animationDuration?: number;
 	animationEnabled?: boolean;
-	configuration?: Partial<GraphConfiguration>;
+	configuration?: Partial<GraphConfiguration> &
+		ChartSpecificConfig;
 	onClick?: (data: any, index: number) => void;
 	onHover?: (data: any, index: number) => void;
 	ariaLabel?: string;
 	ariaDescription?: string;
+	backgroundColor?: string;
 }
 
+const Graph = forwardRef<HTMLDivElement, GraphProps>(
+	(props, ref) => {
+		const {
+			kind,
+			data,
+			dataKey = 'value',
+			labelKey = 'name',
+			title,
+			subtitle,
+			xAxisLabel,
+			yAxisLabel,
+			label, // Use consolidated label
+			emptyLabel = 'No data available',
+			colors,
+			colorScheme = 'default',
+			className = '',
+			style,
+			width = '100%',
+			height = 320,
+			showGrid = true,
+			showAxes = true,
+			showLegend = false,
+			showTooltip = true,
+			showLabels = false,
+			showValues = false,
+			animationDuration = 400,
+			animationEnabled = true,
+			configuration = {},
+			onClick,
+			onHover,
+			ariaLabel,
+			ariaDescription,
+			margin,
+			backgroundColor = 'transparent',
+			...rest
+		} = props;
+
+		const colorList =
+			Array.isArray(colors) ? [...colors]
+			: Array.isArray(COLOR_SCHEMES[colorScheme]) ?
+				[...COLOR_SCHEMES[colorScheme]]
+			:	[...COLOR_SCHEMES.default];
+
+		const defaultMargin = {
+			top: 24,
+			right: 24,
+			bottom: 24,
+			left: 24,
+		};
+		const minSize = 120;
+
+		let chart = null;
+
+		if (!data || data.length === 0) {
+			chart = (
+				<div
+					style={{
+						color: 'var(--color-text-muted)',
+						textAlign: 'center',
+						padding: '2rem',
+					}}
+				>
+					{emptyLabel}
+				</div>
+			);
+		} else {
+			switch (kind) {
+				case 'bar':
+				case 'bar-stacked':
+				case 'bar-grouped':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<BarChart
+								data={data}
+								margin={margin || defaultMargin}
+							>
+								<ChartGrid showGrid={showGrid} />
+								{xAxisLabel ?
+									<XAxis
+										dataKey={labelKey}
+										type='category'
+										label={{
+											value: xAxisLabel,
+											position: 'insideBottom',
+											offset: -5,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartXAxis
+										showAxes={showAxes}
+										dataKey={labelKey}
+										type='category'
+									/>
+								}
+								{yAxisLabel ?
+									<YAxis
+										type='number'
+										label={{
+											value: yAxisLabel,
+											angle: -90,
+											position: 'insideLeft',
+											offset: 10,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartYAxis
+										showAxes={showAxes}
+										type='number'
+									/>
+								}
+								<ChartTooltip showTooltip={false} />
+								{showTooltip && (
+									<RechartsTooltip
+										content={(props) => (
+											<CustomTooltip
+												{...props}
+												labelKey={labelKey}
+											/>
+										)}
+									/>
+								)}
+								<ChartLegend showLegend={showLegend} />
+								<Bar
+									dataKey={dataKey}
+									fill={colorList[0]}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+									{...configuration?.barProps}
+								>
+									{data.map((entry, idx) => (
+										<Cell
+											key={`cell-${idx}`}
+											fill={
+												colorList[idx % colorList.length]
+											}
+										/>
+									))}
+								</Bar>
+							</BarChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'line':
+				case 'line-smooth':
+				case 'line-multi':
+				case 'line-stepped':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<LineChart
+								data={data}
+								margin={margin || defaultMargin}
+							>
+								<ChartGrid showGrid={showGrid} />
+								{xAxisLabel ?
+									<XAxis
+										dataKey={labelKey}
+										type='category'
+										label={{
+											value: xAxisLabel,
+											position: 'insideBottom',
+											offset: -5,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartXAxis
+										showAxes={showAxes}
+										dataKey={labelKey}
+										type='category'
+									/>
+								}
+								{yAxisLabel ?
+									<YAxis
+										type='number'
+										label={{
+											value: yAxisLabel,
+											angle: -90,
+											position: 'insideLeft',
+											offset: 10,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartYAxis
+										showAxes={showAxes}
+										type='number'
+									/>
+								}
+								<ChartTooltip showTooltip={false} />
+								{showTooltip && (
+									<RechartsTooltip
+										content={(props) => (
+											<CustomTooltip
+												{...props}
+												labelKey={labelKey}
+											/>
+										)}
+									/>
+								)}
+								<ChartLegend showLegend={showLegend} />
+								{configuration?.series ?
+									configuration.series.map(
+										(series, idx) => (
+											<Line
+												key={series.dataKey}
+												type={
+													kind === 'line-smooth' ?
+														'monotone'
+													: kind === 'line-stepped' ?
+														'step'
+													:	'linear'
+												}
+												dataKey={series.dataKey}
+												stroke={
+													colorList[idx % colorList.length]
+												}
+												strokeWidth={2}
+												dot={showLabels}
+												animationDuration={
+													animationEnabled ?
+														animationDuration
+													:	0
+												}
+												{...series.props}
+											/>
+										)
+									)
+								:	<Line
+										type={
+											kind === 'line-smooth' ? 'monotone'
+											: kind === 'line-stepped' ?
+												'step'
+											:	'linear'
+										}
+										dataKey={dataKey}
+										stroke={colorList[0]}
+										strokeWidth={2}
+										dot={showLabels}
+										animationDuration={
+											animationEnabled ?
+												animationDuration
+											:	0
+										}
+									/>
+								}
+							</LineChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'area':
+				case 'area-stacked':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<AreaChart
+								data={data}
+								margin={margin || defaultMargin}
+							>
+								<ChartGrid showGrid={showGrid} />
+								{xAxisLabel ?
+									<XAxis
+										dataKey={labelKey}
+										type='category'
+										label={{
+											value: xAxisLabel,
+											position: 'insideBottom',
+											offset: -5,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartXAxis
+										showAxes={showAxes}
+										dataKey={labelKey}
+										type='category'
+									/>
+								}
+								{yAxisLabel ?
+									<YAxis
+										type='number'
+										label={{
+											value: yAxisLabel,
+											angle: -90,
+											position: 'insideLeft',
+											offset: 10,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartYAxis
+										showAxes={showAxes}
+										type='number'
+									/>
+								}
+								<ChartTooltip showTooltip={false} />
+								{showTooltip && (
+									<RechartsTooltip
+										content={(props) => (
+											<CustomTooltip
+												{...props}
+												labelKey={labelKey}
+											/>
+										)}
+									/>
+								)}
+								<ChartLegend showLegend={showLegend} />
+								<Area
+									type='monotone'
+									dataKey={dataKey}
+									stroke={colorList[0]}
+									fill={colorList[0]}
+									fillOpacity={0.18}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+									{...configuration?.areaProps}
+								/>
+							</AreaChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'pie':
+				case 'doughnut':
+				case 'pie-with-labels':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<PieChart>
+								<Pie
+									data={data}
+									dataKey={dataKey}
+									nameKey={labelKey}
+									cx='50%'
+									cy='50%'
+									outerRadius={
+										kind === 'doughnut' ? '70%' : '90%'
+									}
+									innerRadius={
+										kind === 'doughnut' ? '50%' : 0
+									}
+									label={
+										showLabels ? renderPieLabel : false
+									}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+									{...configuration?.pieProps}
+								>
+									{data.map((entry, idx) => (
+										<Cell
+											key={`cell-${idx}`}
+											fill={
+												colorList[idx % colorList.length]
+											}
+										/>
+									))}
+								</Pie>
+								{showTooltip && (
+									<RechartsTooltip
+										content={(props) => (
+											<CustomTooltip
+												{...props}
+												labelKey={labelKey}
+											/>
+										)}
+										isAnimationActive={false}
+									/>
+								)}
+								<ChartLegend showLegend={showLegend} />
+							</PieChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'radar':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={360} // Increased minWidth for radar
+						>
+							<RadarChart
+								data={data}
+								cx='50%'
+								cy='50%'
+								outerRadius='80%'
+								margin={margin || defaultMargin}
+							>
+								<PolarGrid />
+								<PolarAngleAxis
+									dataKey={labelKey}
+									tick={RadarAxisTick}
+								/>
+								<PolarRadiusAxis />
+								<Radar
+									name={title || ''}
+									dataKey={dataKey}
+									stroke={colorList[0]}
+									fill={colorList[0]}
+									fillOpacity={0.18}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+									{...configuration?.radarProps}
+								/>
+								<ChartTooltip showTooltip={showTooltip} />
+								<ChartLegend showLegend={showLegend} />
+							</RadarChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'scatter':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<ScatterChart
+								margin={margin || defaultMargin}
+							>
+								<ChartGrid showGrid={showGrid} />
+								{xAxisLabel ?
+									<XAxis
+										dataKey={labelKey}
+										type='category'
+										label={{
+											value: xAxisLabel,
+											position: 'insideBottom',
+											offset: -5,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartXAxis
+										showAxes={showAxes}
+										dataKey={labelKey}
+										type='category'
+									/>
+								}
+								{yAxisLabel ?
+									<YAxis
+										type='number'
+										label={{
+											value: yAxisLabel,
+											angle: -90,
+											position: 'insideLeft',
+											offset: 10,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartYAxis
+										showAxes={showAxes}
+										type='number'
+									/>
+								}
+								<ChartTooltip showTooltip={showTooltip} />
+								<ChartLegend showLegend={showLegend} />
+								<Scatter
+									data={data}
+									fill={colorList[0]}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+									{...configuration?.scatterProps}
+								/>
+							</ScatterChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'composed-bar-line':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<ComposedChart
+								data={data}
+								margin={margin || defaultMargin}
+							>
+								<ChartGrid showGrid={showGrid} />
+								{xAxisLabel ?
+									<XAxis
+										dataKey={labelKey}
+										type='category'
+										label={{
+											value: xAxisLabel,
+											position: 'insideBottom',
+											offset: -5,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartXAxis
+										showAxes={showAxes}
+										dataKey={labelKey}
+										type='category'
+									/>
+								}
+								{yAxisLabel ?
+									<YAxis
+										type='number'
+										label={{
+											value: yAxisLabel,
+											angle: -90,
+											position: 'insideLeft',
+											offset: 10,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<ChartYAxis
+										showAxes={showAxes}
+										type='number'
+									/>
+								}
+								<ChartTooltip showTooltip={showTooltip} />
+								<ChartLegend showLegend={showLegend} />
+								<Bar
+									dataKey={dataKey}
+									fill={colorList[0]}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+								/>
+								<Line
+									type='monotone'
+									dataKey={
+										configuration?.lineKey || dataKey
+									}
+									stroke={colorList[1] || colorList[0]}
+									strokeWidth={2}
+									dot={showLabels}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+								/>
+							</ComposedChart>
+						</ResponsiveContainer>
+					);
+					break;
+				default:
+					chart = (
+						<div
+							style={{
+								color: 'var(--color-danger)',
+								textAlign: 'center',
+								padding: '2rem',
+							}}
+						>
+							Unsupported graph kind: <b>{kind}</b>
+						</div>
+					);
+			}
+		}
+
+		return (
+			<div
+				ref={ref}
+				className={[
+					styles.graphsContainer,
+					styles[`graphsContainer--${colorScheme}`],
+					className,
+				]
+					.filter(Boolean)
+					.join(' ')}
+				style={{
+					...style,
+					background: backgroundColor || style?.background,
+				}}
+				aria-label={ariaLabel || title}
+				aria-description={ariaDescription}
+			>
+				{title && (
+					<div className={styles.graphsTitle}>{title}</div>
+				)}
+				{subtitle && (
+					<div className={styles.graphsSubtitle}>
+						{subtitle}
+					</div>
+				)}
+				{label && (
+					<div className={styles.graphsLegendLabel}>
+						{label}
+					</div>
+				)}
+				<div
+					className={styles.graphsChartWrapper}
+					style={{
+						width:
+							typeof width === 'number' ?
+								`${width}px`
+							:	width,
+						height: height ? `${height}px` : undefined,
+					}}
+				>
+					{chart}
+				</div>
+			</div>
+		);
+	}
+);
+
+Graph.displayName = 'Graph';
+
+// --- Interactive Legend for Multi-Series ---
+const InteractiveLegend = ({
+	series,
+	activeKeys,
+	onToggle,
+	colorList,
+}: {
+	series: { dataKey: string; name?: string }[];
+	activeKeys: string[];
+	onToggle: (key: string) => void;
+	colorList: string[];
+}) => (
+	<div className={styles.graphsInteractiveLegend}>
+		{series.map((s, idx) => (
+			<button
+				key={s.dataKey}
+				type='button'
+				className={[
+					styles.graphsLegendItem,
+					activeKeys.includes(s.dataKey) ?
+						styles.graphsLegendItemActive
+					:	styles.graphsLegendItemInactive,
+				]
+					.filter(Boolean)
+					.join(' ')}
+				onClick={() => onToggle(s.dataKey)}
+				style={{ color: colorList[idx % colorList.length] }}
+			>
+				<span
+					className={styles.graphsLegendColor}
+					style={{
+						background: colorList[idx % colorList.length],
+					}}
+				/>
+				{s.name || s.dataKey}
+			</button>
+		))}
+	</div>
+);
+
+export type GraphKind = ExtendedGraphKind;
 export default Graph;
-export { Graph, Graphs };

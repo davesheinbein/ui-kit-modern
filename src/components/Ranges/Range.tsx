@@ -6,10 +6,7 @@ import React, {
 import { Wrapper } from '../Wrappers';
 import { useSelector, useDispatch } from 'react-redux';
 import { RANGE_CONFIGURATIONS } from './configurations';
-import type {
-	RangeFactoryProps,
-	RangeConfiguration,
-} from './configurations';
+import type { RangeConfiguration } from './configurations';
 import './Range.module.scss';
 import {
 	setRangeState,
@@ -17,23 +14,43 @@ import {
 	cleanupComponent,
 } from '../../store/slices/uiSlice';
 
-export interface RangeProps
-	extends Omit<RangeFactoryProps, 'kind'> {
-	variant?:
+export interface RangeProps {
+	'variant'?:
 		| 'default'
 		| 'primary'
 		| 'secondary'
 		| 'success'
 		| 'warning'
 		| 'danger';
-	size?: 'small' | 'medium' | 'large';
-	style?:
+	'size'?: 'small' | 'medium' | 'large';
+	'style'?:
 		| 'default'
 		| 'modern'
 		| 'minimal'
 		| 'rounded'
 		| 'flat';
-	componentId?: string;
+	'componentId'?: string;
+	'value'?: number | number[];
+	'defaultValue'?: number | number[];
+	'onChange'?: (value: number | number[]) => void;
+	'onChangeComplete'?: (value: number | number[]) => void;
+	'label'?: string;
+	'placeholder'?: string;
+	'helpText'?: string;
+	'error'?: string;
+	'className'?: string;
+	'disabled'?: boolean;
+	'readOnly'?: boolean;
+	'required'?: boolean;
+	'min'?: number;
+	'max'?: number;
+	'step'?: number;
+	'marks'?: Record<number, string> | boolean;
+	'name'?: string;
+	'id'?: string;
+	'aria-label'?: string;
+	'aria-describedby'?: string;
+	'configuration'?: Partial<RangeConfiguration>;
 }
 
 export const Range = forwardRef<
@@ -394,4 +411,33 @@ export const Range = forwardRef<
 );
 
 Range.displayName = 'Range';
+
+// ===================== STATIC FACTORY-LIKE HELPER (formerly RangeFactory) =====================
+import type { ExtendedRangeKind } from './configurations';
+
+export interface RangeFactoryProps
+	extends Omit<RangeProps, 'configuration'> {
+	kind: ExtendedRangeKind;
+	configuration?: Partial<RangeConfiguration>;
+}
+
+function createRange({
+	kind,
+	configuration,
+	...props
+}: RangeFactoryProps) {
+	const baseConfig =
+		RANGE_CONFIGURATIONS[kind] ||
+		RANGE_CONFIGURATIONS.range;
+	const finalConfig: RangeConfiguration = {
+		...baseConfig,
+		...configuration,
+	};
+	return <Range {...props} configuration={finalConfig} />;
+}
+
+// Attach helper to Range
+(Range as any).createRange = createRange;
+export { createRange };
+
 export default Range;

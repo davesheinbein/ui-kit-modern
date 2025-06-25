@@ -9,14 +9,6 @@ export type {
 // Configuration exports
 export * from './configurations';
 
-// Factory exports
-export {
-	default as CheckboxFactory,
-	CheckboxPresets,
-	CheckboxFactory as CheckboxFactoryClass,
-} from './factory';
-export type { CheckboxFactoryProps } from './factory';
-
 // Legacy exports for specific checkbox types (these now use the  system)
 import React, { forwardRef } from 'react';
 import Checkbox, { CheckboxProps } from './Checkbox';

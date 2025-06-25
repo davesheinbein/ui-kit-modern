@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Providers` folder implements a DRY, configuration-driven system for all context, socket, settings, theme, and custom providers in the UI kit. It enables the creation and composition of all provider types using a single, unified `Providers` component, a central configuration registry, and a factory for rapid, declarative provider creation. This system ensures consistency, composability, and maintainability for all global and scoped state/context providers.
+The `Providers` folder implements a DRY, configuration-driven system for all context, socket, settings, theme, and custom providers in the UI kit. It enables the creation and composition of all provider types using a single, `Providers` component, a central configuration registry, and a factory for rapid, declarative provider creation. This system ensures consistency, composability, and maintainability for all global and scoped state/context providers.
 
 ## Key Files and Structure
 
@@ -23,11 +23,6 @@ The `Providers` folder implements a DRY, configuration-driven system for all con
 ## Example Usage
 
 ```tsx
-import {
-	ProviderFactory,
-	ProviderPresets,
-} from './factory';
-
 // Create a socket provider
 <ProviderFactory
 	kind='socket-provider'

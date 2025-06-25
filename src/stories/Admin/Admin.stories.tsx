@@ -22,7 +22,7 @@ const meta: Meta<typeof Admin> = {
 		docs: {
 			description: {
 				component:
-					'Admin component system for debugging and development tools. Unified DRY admin system.',
+					'Admin component system for debugging and development tools. DRY admin system.',
 			},
 		},
 	},

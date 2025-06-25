@@ -1,15 +1,5 @@
-export { default as ThemeSelector } from './ThemeSelector';
-export type {
-	ThemeSelectorProps,
-	ThemeKind,
-	ThemeVariant,
-	ThemeDisplay,
-	ThemeLayout,
-	ThemeDefinition,
-} from './ThemeSelector';
-
 export {
-	default as ThemeFactory,
+	ThemeSelector,
 	ThemeSwatches,
 	ThemeDropdown,
 	ThemeCards,
@@ -49,7 +39,15 @@ export {
 	StaticThemeSelector,
 	StyledThemeSelector,
 	ControlledThemeSelector,
-	Themes,
-} from './factory';
-
+	ThemesPresets,
+} from './Themes';
+export type {
+	ThemesProps as ThemeSelectorProps,
+	ThemeKind,
+	ThemeVariant,
+	ThemeDisplay,
+	ThemeLayout,
+	ThemeDefinition,
+} from './Themes';
 export * from './configurations';
+export type { ThemesProps } from '../../components/Themes/Themes';

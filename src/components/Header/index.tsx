@@ -15,12 +15,6 @@ export type {
 
 export * from './configurations';
 
-export {
-	default as HeaderFactory,
-	HeaderPresets,
-	createHeader,
-} from './factory';
-
 // =============================================================================
 // BACKWARD COMPATIBILITY WRAPPERS
 // =============================================================================

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Ranges` folder implements a DRY, configuration-driven system for all types of range sliders and controls in the UI kit. It supports single and dual sliders, stepped ranges, color/volume/brightness pickers, progress sliders, and more, all using a single, unified `Range` component, a central configuration registry, and a factory for rapid, declarative range creation. This system ensures consistency, extensibility, and rapid development of range-based UIs.
+The `Ranges` folder implements a DRY, configuration-driven system for all types of range sliders and controls in the UI kit. It supports single and dual sliders, stepped ranges, color/volume/brightness pickers, progress sliders, and more, all using a single, `Range` component, a central configuration registry, and a factory for rapid, declarative range creation. This system ensures consistency, extensibility, and rapid development of range-based UIs.
 
 ## Key Files and Structure
 
@@ -23,8 +23,6 @@ The `Ranges` folder implements a DRY, configuration-driven system for all types 
 ## Example Usage
 
 ```tsx
-import { RangeFactory } from './factory';
-
 // Standard slider
 <RangeFactory kind="slider" value={value} onChange={setValue} label="Volume" />
 

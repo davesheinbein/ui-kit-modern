@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Footer` folder implements a unified, configuration-driven footer system for React applications. It supports a wide variety of footer layouts (simple, standard, minimal, social, corporate, app, landing, sticky, custom) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom content, links, themes, and responsive layouts.
+The `Footer` folder implements a , configuration-driven footer system for React applications. It supports a wide variety of footer layouts (simple, standard, minimal, social, corporate, app, landing, sticky, custom) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom content, links, themes, and responsive layouts.
 
 ## Key Files
 
@@ -71,4 +71,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified, and extensible footer UI system. All footer-related UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.
+This folder provides a robust, , and extensible footer UI system. All footer-related UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.

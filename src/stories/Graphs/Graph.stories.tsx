@@ -1,683 +1,204 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import {
-	Graph,
-	GraphFactory,
-	G,
-	GraphPresets,
-	QuickGraphs,
-	GraphKind,
-	GraphProps,
-} from '../../components/Graphs';
-import { Wrapper } from '../../components/Wrappers';
+import { Graph } from '../../components/Graphs';
+import type { GraphProps } from '../../components/Graphs';
 import {
 	sampleChartData,
 	pieChartData,
 	timeSeriesData,
 	multiSeriesData,
-	radarChartData,
 } from '../mocks';
 
-const meta: Meta<typeof Graph> = {
-	title: 'Graphs/Graphs',
+export default {
+	title: 'Graphs/Graph',
 	component: Graph,
-	tags: ['autodocs'],
 	parameters: {
+		layout: 'centered',
 		docs: {
 			description: {
-				component: `
-## Graph DRY System
-
-The new Graph system provides a configuration-driven approach to creating charts with maximum reusability and minimal code duplication.
-
-### Key Features:
-- **Component**: One component handles all chart types
-- **Configuration-Driven**: Pre-configured chart types for common use cases  
-- **Factory Pattern**: Ultra-convenient creation methods
-- **Type Safety**: Full TypeScript support with intelligent autocomplete
-- **Responsive**: Built-in responsive behavior and mobile optimization
-- **Accessible**: ARIA labels and screen reader support
-- **Extensible**: Easy to add new chart types and configurations
-
-### Usage Examples:
-
-\`\`\`tsx
-// Basic usage
-<Graph kind="bar" data={data} />
-
-// Factory method
-{G.bar(data)}
-
-// Quick presets
-{GraphPresets.TREND(data)}
-
-// Ultra-short
-{QuickGraphs.trend(data)}
-\`\`\`
-				`,
+				component:
+					'Unified <Graph /> component. Use the `kind` prop to select chart type. All configuration is via props. See each story for usage.',
 			},
 		},
 	},
-	argTypes: {
-		kind: {
-			control: 'select',
-			options: [
-				'bar',
-				'bar-stacked',
-				'bar-grouped',
-				'bar-horizontal',
-				'bar-horizontal-stacked',
-				'line',
-				'line-smooth',
-				'line-multi',
-				'line-stepped',
-				'area',
-				'area-stacked',
-				'area-smooth',
-				'pie',
-				'doughnut',
-				'pie-with-labels',
-				'radar',
-				'scatter',
-				'composed-bar-line',
-				'analytics-trend',
-				'analytics-comparison',
-				'analytics-distribution',
-				'analytics-performance',
-				'dashboard-summary',
-				'dashboard-kpi',
-				'dashboard-trend',
-				'dashboard-mini',
-				'stats-score-progression',
-				'stats-performance-radar',
-				'stats-match-history',
-				'stats-category-breakdown',
-				'stats-time-series',
+};
+
+// --- Bar Chart ---
+export const Bar = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='bar'
+		data={sampleChartData}
+		dataKey='score'
+		labelKey='match'
+		title='Bar Chart Example'
+		subtitle='Scores by match (subtitle)'
+		label='Match Results'
+		ariaLabel='Bar chart of scores by match'
+		{...args}
+	/>
+);
+Bar.args = {
+	showGrid: true,
+	showAxes: true,
+	showLegend: false,
+	colorScheme: 'primary',
+};
+Bar.storyName = 'Bar Chart';
+
+// --- Line Chart ---
+export const Line = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='line'
+		data={timeSeriesData}
+		dataKey='value'
+		labelKey='date'
+		title='Line Chart Example'
+		subtitle='Values over time (subtitle)'
+		label='Value Series'
+		ariaLabel='Line chart of values over time'
+		{...args}
+	/>
+);
+Line.args = {
+	showGrid: true,
+	showAxes: true,
+	showLegend: false,
+	colorScheme: 'rainbow',
+};
+Line.storyName = 'Line Chart';
+
+// --- Area Chart ---
+export const Area = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='area'
+		data={timeSeriesData}
+		dataKey='value'
+		labelKey='date'
+		title='Area Chart Example'
+		subtitle='Area under curve (subtitle)'
+		label='Area Series'
+		ariaLabel='Area chart of values over time'
+		{...args}
+	/>
+);
+Area.args = {
+	showGrid: true,
+	showAxes: true,
+	showLegend: false,
+	colorScheme: 'secondary',
+};
+Area.storyName = 'Area Chart';
+
+// --- Pie Chart ---
+export const Pie = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='pie'
+		data={pieChartData}
+		dataKey='score'
+		labelKey='category'
+		title='Pie Chart Example'
+		subtitle='Scores by category (subtitle)'
+		label='Categories'
+		ariaLabel='Pie chart of scores by category'
+		{...args}
+	/>
+);
+Pie.args = {
+	showLegend: true,
+	showTooltip: true,
+	colorScheme: 'rainbow',
+};
+Pie.storyName = 'Pie Chart';
+
+// --- Radar Chart ---
+export const Radar = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='radar'
+		data={pieChartData}
+		dataKey='score'
+		labelKey='category'
+		title='Radar Chart Example'
+		subtitle='Scores by category (subtitle)'
+		label='Radar Categories'
+		ariaLabel='Radar chart of scores by category'
+		{...args}
+	/>
+);
+Radar.args = {
+	showLegend: true,
+	showTooltip: true,
+	colorScheme: 'default',
+};
+Radar.storyName = 'Radar Chart';
+
+// --- Multi-Series Line Chart ---
+export const MultiLine = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='line-multi'
+		data={multiSeriesData}
+		dataKey='wins'
+		labelKey='month'
+		title='Multi-Line Chart Example'
+		subtitle='Wins, losses, and draws by month (subtitle)'
+		ariaLabel='Multi-line chart of wins, losses, and draws by month'
+		{...args}
+		configuration={{
+			series: [
+				{ dataKey: 'wins', name: 'Wins' },
+				{ dataKey: 'losses', name: 'Losses' },
+				{ dataKey: 'draws', name: 'Draws' },
 			],
-			description: 'The type of chart to render',
-		},
-		data: {
-			control: 'object',
-			description: 'Chart data array',
-		},
-		dataKey: {
-			control: 'text',
-			description: 'Key for data values',
-		},
-		labelKey: {
-			control: 'text',
-			description: 'Key for data labels',
-		},
-		title: {
-			control: 'text',
-			description: 'Chart title',
-		},
-		colorScheme: {
-			control: 'select',
-			options: [
-				'default',
-				'primary',
-				'secondary',
-				'rainbow',
-				'monochrome',
-				'custom',
-			],
-			description: 'Pre-defined color scheme',
-		},
-		height: {
-			control: {
-				type: 'range',
-				min: 80,
-				max: 400,
-				step: 20,
-			},
-			description: 'Chart height in pixels',
-		},
-		width: {
-			control: {
-				type: 'range',
-				min: 200,
-				max: 800,
-				step: 20,
-			},
-			description: 'Chart width in pixels',
-		},
-		showGrid: {
-			control: 'boolean',
-			description: 'Show/hide grid lines',
-		},
-		showLegend: {
-			control: 'boolean',
-			description: 'Show/hide legend',
-		},
-		showTooltip: {
-			control: 'boolean',
-			description: 'Show/hide tooltips',
-		},
-		showLabels: {
-			control: 'boolean',
-			description: 'Show/hide data labels',
-		},
-		animationEnabled: {
-			control: 'boolean',
-			description: 'Enable/disable animations',
-		},
-	},
+		}}
+	/>
+);
+MultiLine.args = {
+	showGrid: true,
+	showAxes: true,
+	showLegend: true,
+	colorScheme: 'rainbow',
 };
+MultiLine.storyName = 'Multi-Line Chart';
 
-export default meta;
-type Story = StoryObj<typeof Graph>;
-
-// === BASIC CHARTS ===
-
-export const BarChart: Story = {
-	args: {
-		kind: 'bar',
-		data: sampleChartData,
-		dataKey: 'score',
-		labelKey: 'match',
-		title: 'Basic Bar Chart',
-		height: 160,
-	},
+// --- Accessibility/Edge Case Example ---
+export const EmptyState = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='bar'
+		data={[]}
+		dataKey='score'
+		labelKey='match'
+		title='Empty State Example'
+		subtitle='No data available (subtitle)'
+		ariaLabel='Empty bar chart (no data)'
+		{...args}
+	/>
+);
+EmptyState.args = {
+	showGrid: true,
+	showAxes: true,
+	showLegend: false,
 };
+EmptyState.storyName = 'Empty State';
 
-export const HorizontalBarChart: Story = {
-	args: {
-		kind: 'bar-horizontal',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Horizontal Bar Chart',
-		height: 180,
-	},
+// --- Customization Example ---
+export const CustomColors = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='pie'
+		data={pieChartData}
+		dataKey='score'
+		labelKey='category'
+		title='Custom Colors Example'
+		ariaLabel='Pie chart with custom colors'
+		colors={['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']}
+		{...args}
+	/>
+);
+CustomColors.args = {
+	showLegend: true,
+	showTooltip: true,
 };
+CustomColors.storyName = 'Custom Colors';
 
-export const StackedBarChart: Story = {
-	args: {
-		kind: 'bar-stacked',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Stacked Bar Chart',
-		height: 180,
-		showLegend: true,
-	},
-};
-
-export const LineChart: Story = {
-	args: {
-		kind: 'line',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Line Chart',
-		height: 160,
-	},
-};
-
-export const SmoothLineChart: Story = {
-	args: {
-		kind: 'line-smooth',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Smooth Line Chart',
-		height: 160,
-	},
-};
-
-export const AreaChart: Story = {
-	args: {
-		kind: 'area',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Area Chart',
-		height: 160,
-	},
-};
-
-export const PieChart: Story = {
-	args: {
-		kind: 'pie',
-		data: pieChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Pie Chart',
-		height: 200,
-		showLegend: true,
-	},
-};
-
-export const DoughnutChart: Story = {
-	args: {
-		kind: 'doughnut',
-		data: pieChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Doughnut Chart',
-		height: 200,
-		showLegend: true,
-	},
-};
-
-export const RadarChart: Story = {
-	args: {
-		kind: 'radar',
-		data: radarChartData,
-		dataKey: 'score',
-		labelKey: 'category',
-		title: 'Radar Chart',
-		height: 200,
-		showLegend: true,
-	},
-};
-
-export const ComposedChart: Story = {
-	args: {
-		kind: 'composed-bar-line',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Composed Chart (Bar + Line)',
-		height: 200,
-		showLegend: true,
-	},
-};
-
-// === COLOR SCHEMES ===
-
-export const PrimaryColors: Story = {
-	args: {
-		kind: 'bar',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Primary Color Scheme',
-		colorScheme: 'primary',
-		height: 160,
-	},
-};
-
-export const RainbowColors: Story = {
-	args: {
-		kind: 'pie',
-		data: pieChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Rainbow Color Scheme',
-		colorScheme: 'rainbow',
-		height: 200,
-		showLegend: true,
-	},
-};
-
-export const MonochromeColors: Story = {
-	args: {
-		kind: 'area',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Monochrome Color Scheme',
-		colorScheme: 'monochrome',
-		height: 160,
-	},
-};
-
-// === ANALYTICS CHARTS ===
-
-export const AnalyticsTrend: Story = {
-	args: {
-		kind: 'analytics-trend',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Analytics Trend Chart',
-		height: 120,
-	},
-};
-
-export const AnalyticsComparison: Story = {
-	args: {
-		kind: 'analytics-comparison',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Analytics Comparison Chart',
-		height: 100,
-	},
-};
-
-export const AnalyticsDistribution: Story = {
-	args: {
-		kind: 'analytics-distribution',
-		data: pieChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Analytics Distribution Chart',
-		height: 120,
-	},
-};
-
-export const AnalyticsPerformance: Story = {
-	args: {
-		kind: 'analytics-performance',
-		data: radarChartData,
-		dataKey: 'score',
-		labelKey: 'category',
-		title: 'Analytics Performance Chart',
-		height: 140,
-	},
-};
-
-// === DASHBOARD CHARTS ===
-
-export const DashboardSummary: Story = {
-	args: {
-		kind: 'dashboard-summary',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Dashboard Summary Widget',
-		height: 80,
-	},
-};
-
-export const DashboardKPI: Story = {
-	args: {
-		kind: 'dashboard-kpi',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Dashboard KPI Widget',
-		height: 60,
-	},
-};
-
-export const DashboardTrend: Story = {
-	args: {
-		kind: 'dashboard-trend',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Dashboard Trend Widget',
-		height: 100,
-	},
-};
-
-export const DashboardMini: Story = {
-	args: {
-		kind: 'dashboard-mini',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Dashboard Mini Widget',
-		height: 40,
-	},
-};
-
-// === STATS CHARTS ===
-
-export const StatsScoreProgression: Story = {
-	args: {
-		kind: 'stats-score-progression',
-		data: sampleChartData.map((item, index) => ({
-			match: `Game ${index + 1}`,
-			score: item.score,
-		})),
-		dataKey: 'score',
-		labelKey: 'match',
-		title: 'Score Progression',
-		height: 160,
-	},
-};
-
-export const StatsPerformanceRadar: Story = {
-	args: {
-		kind: 'stats-performance-radar',
-		data: radarChartData,
-		dataKey: 'score',
-		labelKey: 'category',
-		title: 'Performance Radar',
-		height: 200,
-		showLegend: true,
-	},
-};
-
-export const StatsMatchHistory: Story = {
-	args: {
-		kind: 'stats-match-history',
-		data: sampleChartData.map((item, index) => ({
-			match: `Match ${index + 1}`,
-			score: item.score,
-		})),
-		dataKey: 'score',
-		labelKey: 'match',
-		title: 'Match History',
-		height: 140,
-	},
-};
-
-export const StatsCategoryBreakdown: Story = {
-	args: {
-		kind: 'stats-category-breakdown',
-		data: [
-			{ category: 'Connections', score: 85 },
-			{ category: 'Red Herrings', score: 65 },
-			{ category: 'Speed', score: 92 },
-			{ category: 'Accuracy', score: 78 },
-		],
-		dataKey: 'score',
-		labelKey: 'category',
-		title: 'Category Performance',
-		height: 180,
-		showLegend: true,
-	},
-};
-
-// === FACTORY EXAMPLES ===
-
-export const FactoryExample: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'grid',
-				gridTemplateColumns:
-					'repeat(auto-fit, minmax(300px, 1fr))',
-				gap: '20px',
-			}}
-		>
-			{G.bar(sampleChartData, {
-				title: 'Factory Bar Chart',
-				height: 140,
-			})}
-			{G.pie(pieChartData, {
-				title: 'Factory Pie Chart',
-				height: 160,
-			})}
-			{G.line(sampleChartData, {
-				title: 'Factory Line Chart',
-				height: 140,
-			})}
-			{G.radar(radarChartData, {
-				title: 'Factory Radar Chart',
-				height: 160,
-			})}
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Examples of using the GraphFactory (G) for quick chart creation.',
-			},
-		},
-	},
-};
-
-export const PresetsExample: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'grid',
-				gridTemplateColumns:
-					'repeat(auto-fit, minmax(300px, 1fr))',
-				gap: '20px',
-			}}
-		>
-			{GraphPresets.TREND(sampleChartData)}
-			{GraphPresets.COMPARISON(sampleChartData)}
-			{GraphPresets.DISTRIBUTION(pieChartData)}
-			{GraphPresets.PERFORMANCE(radarChartData)}
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Examples of using GraphPresets for common chart patterns.',
-			},
-		},
-	},
-};
-
-export const QuickGraphsExample: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'grid',
-				gridTemplateColumns:
-					'repeat(auto-fit, minmax(300px, 1fr))',
-				gap: '20px',
-			}}
-		>
-			{QuickGraphs.trend(sampleChartData)}
-			{QuickGraphs.comparison(sampleChartData)}
-			{QuickGraphs.distribution(pieChartData)}
-			{QuickGraphs.kpi(sampleChartData)}
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Examples of using QuickGraphs for ultra-fast chart creation.',
-			},
-		},
-	},
-};
-
-// === RESPONSIVE EXAMPLES ===
-
-export const ResponsiveCharts: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '20px',
-			}}
-		>
-			<Wrapper
-				style={{
-					display: 'grid',
-					gridTemplateColumns:
-						'repeat(auto-fit, minmax(200px, 1fr))',
-					gap: '10px',
-				}}
-			>
-				{GraphPresets.MOBILE('bar', sampleChartData)}
-				{GraphPresets.MOBILE('line', sampleChartData)}
-				{GraphPresets.MOBILE('pie', pieChartData)}
-			</Wrapper>
-			<Wrapper
-				style={{
-					display: 'grid',
-					gridTemplateColumns:
-						'repeat(auto-fit, minmax(150px, 1fr))',
-					gap: '10px',
-				}}
-			>
-				{GraphPresets.COMPACT(
-					'dashboard-kpi',
-					sampleChartData
-				)}
-				{GraphPresets.COMPACT(
-					'dashboard-mini',
-					sampleChartData
-				)}
-				{GraphPresets.COMPACT(
-					'analytics-trend',
-					sampleChartData
-				)}
-			</Wrapper>
-			<Wrapper>
-				{GraphPresets.FULL(
-					'composed-bar-line',
-					sampleChartData
-				)}
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Examples of responsive chart patterns for different screen sizes.',
-			},
-		},
-	},
-};
-
-// === CONFIGURATION EXAMPLES ===
-
-export const CustomConfiguration: Story = {
-	args: {
-		kind: 'bar',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Custom Configuration Example',
-		height: 180,
-		configuration: {
-			colors: [
-				'#ff6b6b',
-				'#4ecdc4',
-				'#45b7d1',
-				'#f9ca24',
-				'#f0932b',
-			],
-			barRadius: [8, 8, 0, 0],
-			showGrid: true,
-			animation: { enabled: true, duration: 1000 },
-			xAxis: { fontSize: 14, label: 'Months' },
-			yAxis: { fontSize: 14, label: 'Values' },
-		},
-		showLegend: true,
-	},
-};
-
-export const InteractiveExample: Story = {
-	args: {
-		kind: 'bar',
-		data: sampleChartData,
-		dataKey: 'value',
-		labelKey: 'name',
-		title: 'Interactive Chart Example',
-		height: 160,
-		onClick: (data: any, index: number) => {
-			alert(`Clicked on ${data.name}: ${data.value}`);
-		},
-		onHover: (data: any, index: number) => {
-			console.log('Hovered:', data);
-		},
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Example with click and hover event handlers.',
-			},
-		},
-	},
-};
+// --- Docs/Usage Note ---
+/**
+ * All stories use the <Graph {...props}> API. See args for customization.
+ * For more advanced configuration, use the `configuration` prop.
+ */

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Selects` folder implements a DRY, configuration-driven system for all types of select dropdowns and pickers in the UI kit. It supports standard dropdowns, multiselects, autocompletes, searchable dropdowns, country/timezone/language selectors, tag/user pickers, date ranges, and more—all using a single, unified `Select` component, a central configuration registry, and a factory for rapid, declarative select creation. This system ensures consistency, extensibility, and rapid development of selection UIs.
+The `Selects` folder implements a DRY, configuration-driven system for all types of select dropdowns and pickers in the UI kit. It supports standard dropdowns, multiselects, autocompletes, searchable dropdowns, country/timezone/language selectors, tag/user pickers, date ranges, and more—all using a single, `Select` component, a central configuration registry, and a factory for rapid, declarative select creation. This system ensures consistency, extensibility, and rapid development of selection UIs.
 
 ## Key Files and Structure
 
@@ -23,7 +23,6 @@ The `Selects` folder implements a DRY, configuration-driven system for all types
 ## Example Usage
 
 ```tsx
-import { Dropdown, Multiselect, Autocomplete } from './factory';
 
 // Standard dropdown
 <Dropdown

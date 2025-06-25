@@ -1,6 +1,6 @@
 # Advertisements Component System (`src/components/Advertisements`)
 
-This folder now implements a **single, unified Advertisements component**. You only need to import `Advertisements` and provide props to render any ad (banner, interstitial, native card, sticky bar, floating widget, toast, modal, etc.), as a single or multi-ad layout. All configuration, state, and rendering logic is handled internally.
+This folder now implements a **single, Advertisements component**. You only need to import `Advertisements` and provide props to render any ad (banner, interstitial, native card, sticky bar, floating widget, toast, modal, etc.), as a single or multi-ad layout. All configuration, state, and rendering logic is handled internally.
 
 ## Key Concepts
 

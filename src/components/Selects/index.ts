@@ -1,10 +1,23 @@
-export { default as Select } from './Select';
-export { default as SelectFactory } from './factory';
+export { Select } from './Select';
+export {
+	Dropdown,
+	Multiselect,
+	Autocomplete,
+	SearchableDropdown,
+	CountrySelector,
+	TimezoneSelector,
+	LanguageSelector,
+	CategoryFilter,
+	TagSelector,
+	UserPicker,
+	DateRangeSelector,
+	CustomSelect,
+} from './Select';
 export type {
 	SelectKind,
 	SelectConfiguration,
 	SelectFactoryProps,
-} from './factory';
+} from './Select';
 export type {
 	SelectVariant,
 	SelectSize,

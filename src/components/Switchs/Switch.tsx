@@ -5,7 +5,12 @@ import React, {
 } from 'react';
 import { Wrapper } from '../Wrappers';
 import classNames from 'classnames';
-import { SwitchConfiguration } from './configurations';
+import {
+	SWITCH_CONFIGURATIONS,
+	ExtendedSwitchKind,
+	SwitchFactoryProps,
+	SwitchConfiguration,
+} from './configurations';
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -32,8 +37,62 @@ export interface SwitchProps {
 	name?: string;
 	id?: string;
 	componentId?: string; // For Redux state identification
-	configuration: SwitchConfiguration;
+	kind?: ExtendedSwitchKind;
+	configuration?: Partial<SwitchConfiguration>;
 	[key: string]: any;
+}
+
+export function createSwitch(
+	props: SwitchFactoryProps &
+		React.RefAttributes<HTMLDivElement>
+) {
+	const {
+		kind,
+		checked,
+		defaultChecked,
+		onChange,
+		label,
+		onLabel,
+		offLabel,
+		helpText,
+		error,
+		className,
+		disabled,
+		required,
+		name,
+		id,
+		configuration,
+		...rest
+	} = props;
+	const baseConfig =
+		SWITCH_CONFIGURATIONS[kind as ExtendedSwitchKind] ||
+		SWITCH_CONFIGURATIONS.toggle;
+	const finalConfig: SwitchConfiguration = {
+		...baseConfig,
+		...configuration,
+	};
+	if (disabled) finalConfig.state = 'disabled';
+	if (error) finalConfig.state = 'error';
+	if (required) finalConfig.required = true;
+	return (
+		<Switch
+			checked={checked}
+			defaultChecked={defaultChecked}
+			onChange={onChange}
+			label={label}
+			onLabel={onLabel}
+			offLabel={offLabel}
+			helpText={helpText}
+			error={error}
+			className={className}
+			disabled={disabled}
+			required={required}
+			name={name}
+			id={id}
+			configuration={finalConfig}
+			{...rest}
+		/>
+	);
 }
 
 export const Switch = forwardRef<
@@ -42,6 +101,8 @@ export const Switch = forwardRef<
 >(
 	(
 		{
+			kind,
+			configuration,
 			checked: controlledChecked,
 			defaultChecked,
 			onChange,
@@ -56,7 +117,6 @@ export const Switch = forwardRef<
 			name,
 			id,
 			componentId,
-			configuration,
 			...props
 		},
 		ref
@@ -136,21 +196,32 @@ export const Switch = forwardRef<
 			onChange,
 		]);
 
+		let finalConfig = configuration as SwitchConfiguration;
+		if (kind) {
+			const baseConfig =
+				SWITCH_CONFIGURATIONS[kind as ExtendedSwitchKind] ||
+				SWITCH_CONFIGURATIONS.toggle;
+			finalConfig = {
+				...baseConfig,
+				...configuration,
+			};
+		}
+
 		const containerClasses = classNames(
 			styles.switchContainer,
-			styles[`variant-${configuration.variant}`],
-			styles[`size-${configuration.size}`],
-			styles[`style-${configuration.style}`],
-			styles[`radius-${configuration.borderRadius}`],
+			styles[`variant-${finalConfig.variant}`],
+			styles[`size-${finalConfig.size}`],
+			styles[`style-${finalConfig.style}`],
+			styles[`radius-${finalConfig.borderRadius}`],
 			{
 				[styles.checked]: currentChecked,
 				[styles.disabled]:
-					disabled || configuration.state === 'disabled',
+					disabled || finalConfig.state === 'disabled',
 				[styles.error]:
-					error || configuration.state === 'error',
-				[styles.animated]: configuration.animated,
+					error || finalConfig.state === 'error',
+				[styles.animated]: finalConfig.animated,
 			},
-			configuration.customStyles?.container,
+			finalConfig.customStyles?.container,
 			className
 		);
 
@@ -163,7 +234,7 @@ export const Switch = forwardRef<
 				{label && (
 					<Wrapper className={styles.fieldLabel}>
 						{label}
-						{(required || configuration.required) && (
+						{(required || finalConfig.required) && (
 							<span className={styles.requiredMark}>*</span>
 						)}
 					</Wrapper>
@@ -178,7 +249,7 @@ export const Switch = forwardRef<
 						disabled={disabled}
 						className={styles.switchInput}
 						style={{
-							animationDuration: `${configuration.animationDuration}ms`,
+							animationDuration: `${finalConfig.animationDuration}ms`,
 						}}
 					/>
 					<label
@@ -188,7 +259,7 @@ export const Switch = forwardRef<
 						<Wrapper className={styles.switchTrack}>
 							<Wrapper className={styles.switchThumb} />
 						</Wrapper>
-						{configuration.showLabels &&
+						{finalConfig.showLabels &&
 							(onLabel || offLabel) && (
 								<Wrapper className={styles.switchLabels}>
 									{currentChecked ? onLabel : offLabel}

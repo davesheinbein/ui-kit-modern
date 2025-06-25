@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Graphs` folder implements a unified, configuration-driven graph/chart system for React applications. It supports a wide variety of graph types (bar, line, area, pie, doughnut, radar, scatter, composed, analytics, dashboard, stats, and more) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom color schemes, responsive layouts, and advanced configuration.
+The `Graphs` folder implements a , configuration-driven graph/chart system for React applications. It supports a wide variety of graph types (bar, line, area, pie, doughnut, radar, scatter, composed, analytics, dashboard, stats, and more) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom color schemes, responsive layouts, and advanced configuration.
 
 ## Key Files
 
@@ -77,4 +77,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified, and extensible graph/chart UI system. All graph UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.
+This folder provides a robust, , and extensible graph/chart UI system. All graph UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.

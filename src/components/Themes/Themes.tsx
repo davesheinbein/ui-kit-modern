@@ -11,12 +11,14 @@ import {
 	ThemeConfiguration,
 	ExtendedThemeKind,
 	THEME_CONFIGURATIONS,
+	THEME_GROUPS,
+	QUICK_THEMES,
 } from './configurations';
 
 // Re-export the original exports for backward compatibility
 export { defaultThemes as themes, vsModeDefaults };
 
-export interface ThemeSelectorProps
+export interface ThemesProps
 	extends Partial<ThemeConfiguration> {
 	value?: string;
 	kind?: ExtendedThemeKind;
@@ -34,7 +36,7 @@ export type {
 	ThemeDefinition,
 };
 
-const ThemeSelector: React.FC<ThemeSelectorProps> = ({
+const Themes: React.FC<ThemesProps> = ({
 	// DRY system
 	kind,
 
@@ -389,4 +391,237 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
 	);
 };
 
-export default ThemeSelector;
+// --- Static helpers and presets migrated from factory.tsx ---
+
+// Helper to create a Themes component with a specific kind
+export function createTheme(
+	kind: ThemeKind,
+	props: Partial<ThemesProps> = {}
+) {
+	return <Themes kind={kind} {...props} />;
+}
+
+// Group creation helper
+export function createThemeGroup(
+	groupName: keyof typeof THEME_GROUPS,
+	sharedProps: Partial<ThemesProps> = {}
+) {
+	const group = THEME_GROUPS[groupName];
+	if (!group) return [];
+	return group.map((kind, index) => (
+		<Themes
+			key={`${groupName}-${index}`}
+			kind={kind as ExtendedThemeKind}
+			{...sharedProps}
+		/>
+	));
+}
+
+// Quick theme creation
+export function createQuickTheme(
+	quickName: keyof typeof QUICK_THEMES,
+	props: Partial<ThemesProps> = {}
+) {
+	const quickConfig = QUICK_THEMES[quickName];
+	if (!quickConfig)
+		throw new Error(`Quick theme "${quickName}" not found`);
+	return <Themes kind={quickConfig} {...props} />;
+}
+
+// Ultra-shortcuts
+export const ThemeSelector = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector', props);
+export const ThemeSwatches = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-swatches', props);
+export const ThemeDropdown = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-dropdown', props);
+export const ThemeCards = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-cards', props);
+export const ThemeGrid = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-grid', props);
+export const HorizontalThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-horizontal', props);
+export const VerticalThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-vertical', props);
+export const CompactThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-compact', props);
+export const ExpandedThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-expanded', props);
+export const SmallThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-small', props);
+export const MediumThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-medium', props);
+export const LargeThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-large', props);
+export const LabeledThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-with-labels', props);
+export const UnlabeledThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-no-labels', props);
+export const PreviewThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-with-preview', props);
+export const NoPreviewThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-no-preview', props);
+export const AnimatedThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-animated', props);
+export const StaticThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector-static', props);
+export const ThemePalette = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('palette-provider', props);
+export const ThemeSwitcher = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('theme-switcher', props);
+export const CustomThemeBuilder = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('custom-theme-builder', props);
+export const VSModeThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('vs-mode-selector', props);
+export const MobileThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('mobile-optimized', props);
+export const DesktopThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('desktop-optimized', props);
+export const TabletThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('tablet-optimized', props);
+export const ModalThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('modal-theme-selector', props);
+export const SidebarThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('sidebar-theme-selector', props);
+export const HeaderThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('header-theme-selector', props);
+export const FooterThemes = (
+	props: Partial<ThemesProps> = {}
+) => createTheme('footer-theme-selector', props);
+
+// Preset helpers
+export const DashboardThemeSelector = (
+	props: Partial<ThemesProps> = {}
+) =>
+	ThemeSelector({
+		size: 'small',
+		layout: 'horizontal',
+		showLabels: false,
+		gap: 8,
+		...props,
+	});
+export const ModalThemeSelector = (
+	props: Partial<ThemesProps> = {}
+) =>
+	ThemeCards({
+		size: 'large',
+		showLabels: true,
+		showPreview: true,
+		gap: 20,
+		...props,
+	});
+export const SidebarThemeSelector = (
+	props: Partial<ThemesProps> = {}
+) =>
+	ThemeDropdown({
+		size: 'small',
+		showLabels: true,
+		...props,
+	});
+export const HeaderThemeSelector = (
+	props: Partial<ThemesProps> = {}
+) =>
+	ThemeDropdown({
+		size: 'small',
+		showLabels: false,
+		...props,
+	});
+export const MobileThemeSelector = (
+	props: Partial<ThemesProps> = {}
+) =>
+	ThemeDropdown({
+		size: 'small',
+		showLabels: true,
+		...props,
+	});
+export const DesktopThemeSelector = (
+	props: Partial<ThemesProps> = {}
+) =>
+	ThemeSwatches({
+		size: 'large',
+		showLabels: true,
+		showPreview: true,
+		animated: true,
+		gap: 18,
+		...props,
+	});
+
+// Utility helpers
+export const CustomThemeSelector = (
+	themes: ThemeDefinition[] | string[],
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector', { themes, ...props });
+export const AnimatedThemeSelector = (
+	props: Partial<ThemesProps> = {}
+) =>
+	createTheme('selector', {
+		animated: true,
+		showGlow: true,
+		hoverEffect: true,
+		...props,
+	});
+export const StaticThemeSelector = (
+	props: Partial<ThemesProps> = {}
+) =>
+	createTheme('selector', {
+		animated: false,
+		showGlow: false,
+		hoverEffect: false,
+		...props,
+	});
+export const StyledThemeSelector = (
+	className: string,
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector', { className, ...props });
+export const ControlledThemeSelector = (
+	value: string,
+	onChange: (theme: string) => void,
+	props: Partial<ThemesProps> = {}
+) => createTheme('selector', { value, onChange, ...props });
+
+// Common patterns object
+export const ThemesPresets = {
+	Default: () => ThemeSelector(),
+	Compact: () => CompactThemes(),
+	Dropdown: () => ThemeDropdown(),
+	Cards: () => ThemeCards(),
+	Mobile: () => MobileThemes(),
+	Desktop: () => DesktopThemes(),
+	Tablet: () => TabletThemes(),
+	Modal: () => ModalThemes(),
+	Sidebar: () => SidebarThemes(),
+	Header: () => HeaderThemes(),
+	Footer: () => FooterThemes(),
+	VSMode: () => VSModeThemes(),
+	Custom: () => CustomThemeBuilder(),
+};
+
+export default Themes;

@@ -165,21 +165,3 @@ $primary-dark: var(--color-gray-800);
 // Legacy shadow variables
 $primary-shadow: var(--shadow-sm);
 $primary-shadow-light: var(--shadow-sm);
-
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-	:root {
-		--color-surface: var(--color-gray-900);
-		--color-surface-alt: var(--color-gray-800);
-		--color-surface-inverse: var(--color-white);
-
-		--color-text-primary: var(--color-gray-100);
-		--color-text-secondary: var(--color-gray-300);
-		--color-text-muted: var(--color-gray-400);
-		--color-text-inverse: var(--color-gray-900);
-
-		--color-border: var(--color-gray-700);
-		--color-border-strong: var(--color-gray-600);
-		--color-border-subtle: var(--color-gray-800);
-	}
-}

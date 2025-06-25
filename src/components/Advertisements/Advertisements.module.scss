@@ -743,31 +743,6 @@
 	}
 }
 
-@media (prefers-color-scheme: dark) {
-	.advertisement {
-		&--standard {
-			background: var(--color-gray-800, #343a40);
-			border-color: var(--color-gray-700, #495057);
-			color: var(--color-gray-100, #f8f9fa);
-		}
-
-		&--native {
-			background: var(--color-gray-900, #212529);
-			color: var(--color-gray-100, #f8f9fa);
-		}
-	}
-
-	.advertisement__modal_content {
-		background: var(--color-gray-800, #343a40);
-		color: var(--color-gray-100, #f8f9fa);
-	}
-
-	.advertisement__native {
-		background: var(--color-gray-800, #343a40);
-		border-color: var(--color-gray-700, #495057);
-	}
-}
-
 // ===== Print Styles =====
 
 @media print {

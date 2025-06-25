@@ -7,7 +7,4 @@ export type {
 	AdContainerProps,
 } from './Advertisements';
 
-// Configuration exports
 export * from './configurations';
-
-// Advanced helpers (Factory, Utils, Presets) are available as static properties on Advertisements for programmatic use only.

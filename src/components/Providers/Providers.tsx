@@ -297,5 +297,137 @@ const AchievementSocketListenerComponent = forwardRef<
 	}
 );
 
+// ===================== STATIC HELPERS AND PRESETS (formerly factory) =====================
+
+// Provider presets with common patterns
+const ProviderPresets = {
+	SOCKET_CONNECTION: (
+		session?: any,
+		autoConnect = true,
+		url?: string
+	) => (
+		<Providers
+			kind='socket-provider'
+			session={session}
+			autoConnect={autoConnect}
+			url={url}
+		/>
+	),
+	USER_SETTINGS: (initialSettings?: any) => (
+		<Providers
+			kind='user-settings-provider'
+			initialSettings={initialSettings}
+		/>
+	),
+	ACHIEVEMENT_LISTENER: () => (
+		<Providers kind='achievement-socket-listener' />
+	),
+	THEME_PALETTE: () => (
+		<Providers kind='theme-palette-provider' />
+	),
+	FULL_SETUP: (session?: any, initialSettings?: any) => (
+		<>
+			<Providers
+				kind='socket-provider'
+				session={session}
+				autoConnect={true}
+			/>
+			<Providers
+				kind='user-settings-provider'
+				initialSettings={initialSettings}
+			/>
+			<Providers kind='achievement-socket-listener' />
+		</>
+	),
+};
+
+// Quick providers for ultra-rapid development
+const QuickProviders = {
+	socket: ProviderPresets.SOCKET_CONNECTION,
+	settings: ProviderPresets.USER_SETTINGS,
+	achievements: ProviderPresets.ACHIEVEMENT_LISTENER,
+	theme: ProviderPresets.THEME_PALETTE,
+	full: ProviderPresets.FULL_SETUP,
+};
+
+// SimpleProviderFactory class for class-based provider creation
+class SimpleProviderFactory {
+	static create(
+		kind: ProviderKind,
+		props: Partial<ProviderProps> = {}
+	) {
+		return <Providers kind={kind} {...props} />;
+	}
+	static socket(props: Partial<ProviderProps> = {}) {
+		return this.create('socket-provider', props);
+	}
+	static userSettings(props: Partial<ProviderProps> = {}) {
+		return this.create('user-settings-provider', props);
+	}
+	static themePalette(props: Partial<ProviderProps> = {}) {
+		return this.create('theme-palette-provider', props);
+	}
+	static achievementListener(
+		props: Partial<ProviderProps> = {}
+	) {
+		return this.create(
+			'achievement-socket-listener',
+			props
+		);
+	}
+}
+
+// Extended Provider Presets
+const ExtendedProviderPresets = {
+	SOCKET_CONNECTED: (session: any) =>
+		SimpleProviderFactory.socket({
+			session,
+			autoConnect: true,
+		}),
+	SOCKET_MANUAL: (session: any) =>
+		SimpleProviderFactory.socket({
+			session,
+			autoConnect: false,
+		}),
+	USER_SETTINGS: (initialSettings?: any) =>
+		SimpleProviderFactory.userSettings({ initialSettings }),
+	EMPTY_SETTINGS: () =>
+		SimpleProviderFactory.userSettings({
+			initialSettings: {},
+		}),
+	THEME_LIGHT: () =>
+		SimpleProviderFactory.themePalette({
+			initialTheme: 'light',
+		}),
+	THEME_DARK: () =>
+		SimpleProviderFactory.themePalette({
+			initialTheme: 'dark',
+		}),
+	THEME_AUTO: () =>
+		SimpleProviderFactory.themePalette({
+			initialTheme: 'auto',
+		}),
+	ACHIEVEMENT_LISTENER: (
+		onAchievement?: (achievement: any) => void
+	) =>
+		SimpleProviderFactory.achievementListener({
+			onAchievement,
+		}),
+};
+
+// Attach helpers to Providers
+(Providers as any).Presets = ProviderPresets;
+(Providers as any).Quick = QuickProviders;
+(Providers as any).SimpleFactory = SimpleProviderFactory;
+(Providers as any).ExtendedPresets =
+	ExtendedProviderPresets;
+
+export {
+	ProviderPresets,
+	QuickProviders,
+	SimpleProviderFactory,
+	ExtendedProviderPresets,
+};
+
 Providers.displayName = 'Providers';
 export default Providers;

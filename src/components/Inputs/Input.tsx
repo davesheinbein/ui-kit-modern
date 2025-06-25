@@ -1,17 +1,17 @@
-import React, {
-	forwardRef,
-	useCallback,
-	useEffect,
-} from 'react';
-import { Wrapper } from '../Wrappers';
-import styles from './Input.module.scss';
-import {
-	InputKind,
-	InputStyle,
-	InputConfiguration,
-	INPUT_CONFIGURATIONS,
-} from './configurations';
-// Redux hooks and actions (assume these are available in store/hooks and store/slices)
+/**
+ * Input - Ultra-DRY, prop-driven input component for all input types
+ *
+ * Usage:
+ *   <Input kind="text" label="Username" />
+ *   <Input kind="password" label="Password" showPasswordToggle />
+ *   <Input kind="email" label="Email" required />
+ *   <Input kind="number" label="Age" min={0} max={120} />
+ *   <Input kind="search" label="Search" clearable />
+ *   <Input kind="custom" label="Custom" icon={<Icon />} />
+ *
+ * All configuration is via props. No factories, helpers, or presets required.
+ */
+import React, { forwardRef } from 'react';
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -20,15 +20,14 @@ import {
 	selectInputValue,
 	selectInputState,
 	selectShowPassword,
-	selectIsFocused,
-	selectIsValid,
-	selectInputErrorText,
-	initializeComponentState,
-	removeComponentState,
-	setValue,
-	setFocused,
-	togglePasswordVisibility,
 } from '../../store/slices/inputSlice';
+import type {
+	InputKind,
+	InputStyle,
+	InputSize,
+	InputConfiguration,
+} from './configurations';
+import styles from './Input.module.scss';
 
 export interface InputProps
 	extends Partial<
@@ -51,8 +50,8 @@ export interface InputProps
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-	(
-		{
+	(props, ref) => {
+		const {
 			kind,
 			componentId,
 			variant,
@@ -88,12 +87,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 			value: controlledValue,
 			defaultValue,
 			onChange,
-			...props
-		},
-		ref
-	) => {
+			...rest
+		} = props;
+
+		// DRY: All state/logic is handled here, no factories/helpers
 		const finalComponentId =
-			componentId || `input-${kind}-${Date.now()}`;
+			componentId || `input-${kind}-${React.useId()}`;
 		const dispatch = useAppDispatch();
 		const inputValue = useAppSelector((state) =>
 			selectInputValue(state, finalComponentId)
@@ -104,133 +103,47 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 		const showPassword = useAppSelector((state) =>
 			selectShowPassword(state, finalComponentId)
 		);
-		const isFocused = useAppSelector((state) =>
-			selectIsFocused(state, finalComponentId)
-		);
-		const isValid = useAppSelector((state) =>
-			selectIsValid(state, finalComponentId)
-		);
-		const reduxErrorText = useAppSelector((state) =>
-			selectInputErrorText(state, finalComponentId)
-		);
-
-		useEffect(() => {
-			const initialValue = String(
-				defaultValue || controlledValue || ''
-			);
-			dispatch(
-				initializeComponentState({
-					componentId: finalComponentId,
-					initialState: {
-						value: initialValue,
-						state:
-							state === 'disabled' ? 'error' : 'default',
-					},
-				})
-			);
-			return () => {
-				dispatch(
-					removeComponentState({
-						componentId: finalComponentId,
-					})
-				);
-			};
-		}, [dispatch, finalComponentId, defaultValue, state]);
-
-		useEffect(() => {
-			if (controlledValue !== undefined) {
-				dispatch(
-					setValue({
-						componentId: finalComponentId,
-						value: String(controlledValue),
-					})
-				);
-			}
-		}, [controlledValue, dispatch, finalComponentId]);
-
-		const config = INPUT_CONFIGURATIONS[kind] || {};
-		const mergedConfig = {
-			variant: variant || config.variant || 'text',
-			size: size || config.size || 'medium',
-			style: inputStyle || config.style || 'outlined',
-			placeholder: placeholder || config.placeholder || '',
-			label: label || config.label || '',
-			helperText: helperText || config.helperText || '',
-			errorText:
-				errorText ||
-				reduxErrorText ||
-				config.errorText ||
-				'',
-			successText: successText || config.successText || '',
-			required: required || config.required || false,
-			disabled: disabled || config.disabled || false,
-			autoComplete:
-				autoComplete || config.autoComplete || '',
-			maxLength: maxLength || config.maxLength,
-			minLength: minLength || config.minLength,
-			pattern: pattern || config.pattern || '',
-			icon: icon || config.icon || '',
-			prefix: prefix || config.prefix || '',
-			suffix: suffix || config.suffix || '',
-			clearable: clearable || config.clearable || false,
-			showPasswordToggle:
-				showPasswordToggle ||
-				config.showPasswordToggle ||
-				false,
-			debounceMs: debounceMs || config.debounceMs || 0,
-		};
 
 		const isControlled = controlledValue !== undefined;
 		const finalInputValue =
 			isControlled ? controlledValue : inputValue;
 
-		const handleChange = useCallback(
-			(event: React.ChangeEvent<HTMLInputElement>) => {
-				const newValue = event.target.value;
-				if (!isControlled) {
-					dispatch(
-						setValue({
-							componentId: finalComponentId,
-							value: newValue,
-						})
-					);
+		const handleChange = (
+			event: React.ChangeEvent<HTMLInputElement>
+		) => {
+			const newValue = event.target.value;
+			if (!isControlled) {
+				dispatch(
+					setValue({
+						componentId: finalComponentId,
+						value: newValue,
+					})
+				);
+			}
+			if (onChange) {
+				onChange(event);
+			}
+			if (onValueChange) {
+				if (debounceMs > 0 && debounced) {
+					// Debounce logic (user should implement debounce util or use lodash.debounce)
+					onValueChange(newValue); // Replace with debounced version if needed
+				} else {
+					onValueChange(newValue);
 				}
-				if (onChange) {
-					onChange(event);
+			}
+			if (customValidation) {
+				const validationResult = customValidation(newValue);
+				if (typeof validationResult === 'string') {
+					// Set error text in Redux or local state
+				} else if (validationResult === false) {
+					// Set error state
+				} else {
+					// Valid
 				}
-				if (onValueChange) {
-					if (mergedConfig.debounceMs > 0 && debounced) {
-						// Debounce logic (user should implement debounce util or use lodash.debounce)
-						onValueChange(newValue); // Replace with debounced version if needed
-					} else {
-						onValueChange(newValue);
-					}
-				}
-				if (customValidation) {
-					const validationResult =
-						customValidation(newValue);
-					if (typeof validationResult === 'string') {
-						// Set error text in Redux or local state
-					} else if (validationResult === false) {
-						// Set error state
-					} else {
-						// Valid
-					}
-				}
-			},
-			[
-				isControlled,
-				onChange,
-				onValueChange,
-				mergedConfig.debounceMs,
-				debounced,
-				customValidation,
-				dispatch,
-				finalComponentId,
-			]
-		);
+			}
+		};
 
-		const handleClear = useCallback(() => {
+		const handleClear = () => {
 			const newValue = '';
 			if (!isControlled) {
 				dispatch(
@@ -243,166 +156,128 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 			if (onValueChange) {
 				onValueChange(newValue);
 			}
-		}, [
-			isControlled,
-			onValueChange,
-			dispatch,
-			finalComponentId,
-		]);
+		};
 
-		const handlePasswordToggle = useCallback(() => {
+		const handlePasswordToggle = () => {
 			dispatch(
 				togglePasswordVisibility({
 					componentId: finalComponentId,
 				})
 			);
-		}, [dispatch, finalComponentId]);
+		};
 
-		const handleFocus = useCallback(
-			(event: React.FocusEvent<HTMLInputElement>) => {
-				dispatch(
-					setFocused({
-						componentId: finalComponentId,
-						isFocused: true,
-					})
-				);
-				props.onFocus?.(event);
-			},
-			[dispatch, finalComponentId, props.onFocus]
-		);
+		const handleFocus = (
+			event: React.FocusEvent<HTMLInputElement>
+		) => {
+			dispatch(
+				setFocused({
+					componentId: finalComponentId,
+					isFocused: true,
+				})
+			);
+			props.onFocus?.(event);
+		};
 
-		const handleBlur = useCallback(
-			(event: React.FocusEvent<HTMLInputElement>) => {
-				dispatch(
-					setFocused({
-						componentId: finalComponentId,
-						isFocused: false,
-					})
-				);
-				props.onBlur?.(event);
-			},
-			[dispatch, finalComponentId, props.onBlur]
-		);
+		const handleBlur = (
+			event: React.FocusEvent<HTMLInputElement>
+		) => {
+			dispatch(
+				setFocused({
+					componentId: finalComponentId,
+					isFocused: false,
+				})
+			);
+			props.onBlur?.(event);
+		};
 
 		const inputType =
-			mergedConfig.variant === 'password' && showPassword ?
+			variant === 'password' && showPassword ?
 				'text'
-			:	mergedConfig.variant;
-
-		const containerClasses = [
-			styles.inputContainer,
-			styles[`size-${mergedConfig.size}`],
-			styles[`style-${mergedConfig.style}`],
-			styles[`state-${currentState}`],
-			mergedConfig.disabled && styles.disabled,
-			containerClassName,
-		]
-			.filter(Boolean)
-			.join(' ');
-
-		const inputClasses = [
-			styles.input,
-			mergedConfig.icon && styles.hasIcon,
-			mergedConfig.prefix && styles.hasPrefix,
-			mergedConfig.suffix && styles.hasSuffix,
-			inputClassName,
-			className,
-		]
-			.filter(Boolean)
-			.join(' ');
-
-		const displayHelperText =
-			(
-				currentState === 'error' &&
-				(reduxErrorText || mergedConfig.errorText)
-			) ?
-				reduxErrorText || mergedConfig.errorText
-			: (
-				currentState === 'success' &&
-				mergedConfig.successText
-			) ?
-				mergedConfig.successText
-			:	mergedConfig.helperText;
+			:	variant;
 
 		return (
-			<Wrapper className={containerClasses}>
-				{mergedConfig.label && (
+			<div
+				className={`${styles.inputContainer} ${containerClassName}`}
+			>
+				{label && (
 					<label
 						className={`${styles.label} ${labelClassName}`}
 					>
-						{mergedConfig.label}
-						{mergedConfig.required && (
-							<span className={styles.required}>*</span>
-						)}
+						{label}
+						{required && ' *'}
 					</label>
 				)}
-				<div className={styles.inputWrapper}>
-					{mergedConfig.icon && (
+				<div
+					className={`${styles.inputWrapper} ${styles[`size-${size}`]} ${styles[`style-${inputStyle}`]} ${styles[`state-${state}`]} ${className}`}
+				>
+					{icon && (
 						<span
 							className={`${styles.icon} ${iconClassName}`}
 						>
-							{/* icon rendering logic */}
+							{icon}
 						</span>
 					)}
-					{mergedConfig.prefix && (
-						<span className={styles.prefix}>
-							{mergedConfig.prefix}
-						</span>
+					{prefix && (
+						<span className={styles.prefix}>{prefix}</span>
 					)}
 					<input
-						type={inputType}
 						ref={ref}
-						className={inputClasses}
-						placeholder={mergedConfig.placeholder}
-						disabled={mergedConfig.disabled}
-						required={mergedConfig.required}
-						maxLength={mergedConfig.maxLength}
-						minLength={mergedConfig.minLength}
-						pattern={mergedConfig.pattern}
-						autoComplete={mergedConfig.autoComplete}
+						type={inputType}
+						className={`${styles.input} ${inputClassName}`}
+						placeholder={placeholder}
 						value={finalInputValue}
+						defaultValue={defaultValue}
+						required={required}
+						disabled={disabled}
+						maxLength={maxLength}
+						minLength={minLength}
+						pattern={pattern}
+						autoComplete={autoComplete}
 						onChange={handleChange}
 						onFocus={handleFocus}
 						onBlur={handleBlur}
-						{...props}
+						{...rest}
 					/>
-					{mergedConfig.suffix && (
-						<span className={styles.suffix}>
-							{mergedConfig.suffix}
-						</span>
+					{suffix && (
+						<span className={styles.suffix}>{suffix}</span>
 					)}
-					{mergedConfig.clearable && finalInputValue && (
+					{clearable && (
 						<button
 							type='button'
 							className={styles.clearButton}
-							onClick={handleClear}
-							tabIndex={-1}
 							aria-label='Clear input'
 						>
 							&times;
 						</button>
 					)}
-					{mergedConfig.showPasswordToggle &&
-						mergedConfig.variant === 'password' && (
-							<button
-								type='button'
-								className={styles.passwordToggle}
-								onClick={handlePasswordToggle}
-								tabIndex={-1}
-								aria-label='Toggle password visibility'
-							>
-								{showPassword ? 'Hide' : 'Show'}
-							</button>
-						)}
+					{showPasswordToggle && kind === 'password' && (
+						<button
+							type='button'
+							className={styles.passwordToggle}
+							aria-label='Toggle password visibility'
+						>
+							👁️
+						</button>
+					)}
 				</div>
-				{displayHelperText && (
+				{helperText && (
 					<div
 						className={`${styles.helperText} ${helperClassName}`}
 					>
-						{displayHelperText}
+						{helperText}
 					</div>
 				)}
-			</Wrapper>
+				{errorText && (
+					<div className={styles.stateError}>
+						{errorText}
+					</div>
+				)}
+				{successText && (
+					<div className={styles.stateSuccess}>
+						{successText}
+					</div>
+				)}
+			</div>
 		);
 	}
 );

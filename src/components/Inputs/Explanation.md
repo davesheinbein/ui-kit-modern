@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Inputs` folder implements a highly DRY, configurable, and extensible input component system for React. It provides a unified `Input` component with advanced features, a configuration-driven approach, Redux integration for state management, and a factory for rapid input creation. This system is designed for scalability, reusability, and consistency across all forms and input use cases in the UI kit.
+The `Inputs` folder implements a highly DRY, configurable, and extensible input component system for React. It provides a `Input` component with advanced features, a configuration-driven approach, Redux integration for state management, and a factory for rapid input creation. This system is designed for scalability, reusability, and consistency across all forms and input use cases in the UI kit.
 
 ## Key Files and Structure
 
@@ -23,7 +23,6 @@ The `Inputs` folder implements a highly DRY, configurable, and extensible input 
 ## Example Usage
 
 ```tsx
-import { InputFactory } from './factory';
 
 // Create a password input with custom label
 div>

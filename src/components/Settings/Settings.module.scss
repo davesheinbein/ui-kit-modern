@@ -423,33 +423,4 @@
 			font-size: var(--text-base);
 		}
 	}
-
-	// Modern dark mode with CSS custom properties
-	@media (prefers-color-scheme: dark) {
-		.settings {
-			--surface-primary: var(--gray-800);
-			--text-primary: var(--gray-50);
-			--border-color: var(--gray-600);
-		}
-
-		.settingsField {
-			--surface-primary: var(--gray-700);
-			--border-color: var(--gray-500);
-
-			&:hover {
-				--border-color: var(--primary-400);
-				--surface-primary: var(--gray-600);
-			}
-		}
-
-		.customizationItemBtn {
-			--surface-primary: var(--gray-700);
-			--text-primary: var(--gray-50);
-			--border-color: var(--gray-500);
-
-			&:hover {
-				--border-color: var(--primary-400);
-			}
-		}
-	}
 }

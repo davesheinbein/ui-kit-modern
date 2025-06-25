@@ -8,17 +8,21 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import styles from './Select.module.scss';
-import type {
-	SelectFactoryProps,
-	SelectOption,
-	SelectOptionGroup,
+import {
+	SELECT_CONFIGURATIONS,
+	ExtendedSelectKind,
 	SelectConfiguration,
+	SelectFactoryProps,
 } from './configurations';
 import {
 	setSelectState,
 	selectSelectState,
 	cleanupComponent,
 } from '../../store/slices/uiSlice';
+import type {
+	SelectOption,
+	SelectOptionGroup,
+} from './configurations';
 
 export interface SelectProps extends SelectFactoryProps {
 	componentId?: string;
@@ -315,24 +319,58 @@ export const Select = forwardRef<
 			return selectedOption?.label || '';
 		};
 
+		// Use finalConfig as SelectConfiguration, and destructure with fallback to empty object to avoid type errors and redeclaration
+		let finalConfig = configuration;
+		if (kind) {
+			finalConfig = getFinalConfig(
+				kind,
+				configuration,
+				disabled,
+				error,
+				loading
+			);
+		}
+
+		// Fix destructuring from finalConfig: cast finalConfig as SelectConfiguration for destructuring, fallback to empty object if undefined
+		const {
+			variant,
+			size,
+			style,
+			borderRadius,
+			state,
+			customStyles,
+			...restConfiguration
+		} = (finalConfig || {}) as SelectConfiguration;
+
+		const mergedConfiguration = {
+			variant,
+			size,
+			style,
+			borderRadius,
+			state,
+			customStyles,
+			...restConfiguration,
+		};
+
 		const containerClasses = classNames(
 			styles.selectContainer,
-			styles[`variant-${configuration?.variant}`],
-			styles[`size-${configuration?.size}`],
-			styles[`style-${configuration?.style}`],
-			styles[`radius-${configuration?.borderRadius}`],
+			styles[`variant-${variant}`],
+			styles[`size-${size}`],
+			styles[`style-${style}`],
+			styles[`radius-${borderRadius}`],
 			{
 				[styles.open]: isOpen,
-				[styles.disabled]:
-					disabled || configuration?.state === 'disabled',
-				[styles.error]:
-					error || configuration?.state === 'error',
-				[styles.loading]:
-					loading || configuration?.state === 'loading',
-				[styles.multiple]: configuration?.multiple,
-				[styles.searchable]: configuration?.searchable,
+				[styles.disabled]: disabled || state === 'disabled',
+				[styles.error]: error || state === 'error',
+				[styles.loading]: loading || state === 'loading',
+				[styles.multiple]: (
+					finalConfig as SelectConfiguration
+				)?.multiple,
+				[styles.searchable]: (
+					finalConfig as SelectConfiguration
+				)?.searchable,
 			},
-			configuration?.customStyles?.container,
+			customStyles?.container,
 			className
 		);
 
@@ -352,4 +390,77 @@ export const Select = forwardRef<
 
 Select.displayName = 'Select';
 
-export default Select;
+// --- FACTORY LOGIC CONSOLIDATION ---
+function getFinalConfig(
+	kind: ExtendedSelectKind | undefined,
+	configuration: Partial<SelectConfiguration> | undefined,
+	disabled?: boolean,
+	error?: string,
+	loading?: boolean
+): SelectConfiguration | undefined {
+	if (!kind)
+		return configuration as SelectConfiguration | undefined;
+	const baseConfig =
+		SELECT_CONFIGURATIONS[kind] ||
+		SELECT_CONFIGURATIONS.dropdown;
+	const finalConfig: SelectConfiguration = {
+		...baseConfig,
+		...configuration,
+	};
+	if (disabled) finalConfig.state = 'disabled';
+	if (error) finalConfig.state = 'error';
+	if (loading) finalConfig.state = 'loading';
+	return finalConfig;
+}
+
+export const Dropdown: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => <Select kind='dropdown' {...props} />;
+export const Multiselect: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => <Select kind='multiselect' {...props} />;
+export const Autocomplete: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => <Select kind='autocomplete' {...props} />;
+export const SearchableDropdown: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => (
+	<Select kind='searchable-dropdown' {...props} />
+);
+export const CountrySelector: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => (
+	<Select kind='country-selector' {...props} />
+);
+export const TimezoneSelector: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => (
+	<Select kind='timezone-selector' {...props} />
+);
+export const LanguageSelector: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => (
+	<Select kind='language-selector' {...props} />
+);
+export const CategoryFilter: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => <Select kind='category-filter' {...props} />;
+export const TagSelector: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => <Select kind='tag-selector' {...props} />;
+export const UserPicker: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => <Select kind='user-picker' {...props} />;
+export const DateRangeSelector: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => <Select kind='date-range' {...props} />;
+export const CustomSelect: React.FC<
+	Omit<SelectFactoryProps, 'kind'>
+> = (props) => <Select kind='custom' {...props} />;
+
+// Export types for consumers
+export type {
+	SelectFactoryProps,
+	ExtendedSelectKind as SelectKind,
+	SelectConfiguration,
+} from './configurations';

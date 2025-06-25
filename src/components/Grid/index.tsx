@@ -14,14 +14,6 @@ export { default as Grid } from './Grid';
 
 export * from './configurations';
 
-export {
-	default as GridFactory,
-	GridFactoryClass,
-	GridPresets,
-	QuickGrids,
-} from './factory';
-export type { GridFactoryProps } from './factory';
-
 // =============================================================================
 // BACKWARD COMPATIBILITY WRAPPERS
 // =============================================================================

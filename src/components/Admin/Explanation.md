@@ -1,6 +1,6 @@
 # Admin Component System (`src/components/Admin`)
 
-This folder now implements a **single, unified Admin/Debug UI component**. You only need to import `Admin` and provide a `kind` prop to render any admin/debug UI (session debugger, performance monitor, error logger, debug panel, or custom). All configuration, state, and rendering logic is handled internally.
+This folder now implements a **single, Admin/Debug UI component**. You only need to import `Admin` and provide a `kind` prop to render any admin/debug UI (session debugger, performance monitor, error logger, debug panel, or custom). All configuration, state, and rendering logic is handled internally.
 
 ## Key Concepts
 
@@ -84,4 +84,3 @@ erDiagram
 ```
 
 ---
-

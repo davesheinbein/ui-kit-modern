@@ -100,34 +100,8 @@ export type { SettingsKind } from './configurations';
 export interface SettingsProps {
 	kind: SettingsKind;
 	title?: string;
-	items?: Array<{
-		id: string;
-		name: string;
-		description?: string;
-		equipped?: boolean;
-		price?: number;
-		currency?: string;
-		shop?: boolean;
-		unlocked?: boolean;
-		[key: string]: any;
-	}>;
-	sections?: Array<{
-		id: string;
-		title: string;
-		description?: string;
-		fields: Array<{
-			id: string;
-			type:
-				| 'checkbox'
-				| 'radio'
-				| 'select'
-				| 'range'
-				| 'text';
-			label: string;
-			value: any;
-			options?: Array<{ label: string; value: any }>;
-		}>;
-	}>;
+	items?: SettingsItem[];
+	sections?: SettingsSection[];
 	onEquip?: (
 		slot: string,
 		id: string
@@ -143,8 +117,83 @@ export interface SettingsProps {
 	ariaLabelPrefix?: string;
 	lockedIndices?: number[];
 	className?: string;
+	showHeader?: boolean;
+	showFooter?: boolean;
+	configuration?: Partial<SettingsConfiguration>;
 	[key: string]: any;
 }
+
+// --- FACTORY LOGIC CONSOLIDATION ---
+function getFinalSettingsConfig(
+	kind: SettingsKind,
+	configOverride?: Partial<SettingsConfiguration>
+) {
+	const config =
+		SETTINGS_CONFIGURATIONS[
+			kind as keyof typeof SETTINGS_CONFIGURATIONS
+		];
+	return { ...config, ...configOverride };
+}
+
+// Static preset helpers
+export const UserPreferences: React.FC<
+	Partial<SettingsProps>
+> = (props) => <Settings kind='user-settings' {...props} />;
+export const ThemeCustomization: React.FC<{
+	items: SettingsItem[];
+	onEquip?: SettingsProps['onEquip'];
+}> = ({ items, onEquip, ...props }) => (
+	<Settings
+		kind='theme-settings'
+		items={items}
+		onEquip={onEquip}
+		{...props}
+	/>
+);
+export const CustomizationCategory: React.FC<{
+	items: SettingsItem[];
+	onEquip?: SettingsProps['onEquip'];
+}> = ({ items, onEquip, ...props }) => (
+	<Settings
+		kind='customization-category'
+		items={items}
+		onEquip={onEquip}
+		{...props}
+	/>
+);
+export const SettingsPanel: React.FC<{
+	sections: SettingsSection[];
+	onSettingChange?: SettingsProps['onSettingChange'];
+}> = ({ sections, onSettingChange, ...props }) => (
+	<Settings
+		kind='settings-panel'
+		sections={sections}
+		onSettingChange={onSettingChange}
+		{...props}
+	/>
+);
+export const AccessibilitySettings: React.FC<{
+	sections: SettingsSection[];
+	onSettingChange?: SettingsProps['onSettingChange'];
+}> = ({ sections, onSettingChange, ...props }) => (
+	<Settings
+		kind='accessibility-settings'
+		sections={sections}
+		onSettingChange={onSettingChange}
+		{...props}
+	/>
+);
+export const PrivacySettings: React.FC<{
+	sections: SettingsSection[];
+	onSettingChange?: SettingsProps['onSettingChange'];
+}> = ({ sections, onSettingChange, ...props }) => (
+	<Settings
+		kind='privacy-settings'
+		sections={sections}
+		onSettingChange={onSettingChange}
+		{...props}
+	/>
+);
 
 const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 	(

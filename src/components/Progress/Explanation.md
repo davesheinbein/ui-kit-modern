@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Progress` folder implements a highly flexible, configuration-driven system for all types of progress indicators and loaders in the UI kit. It supports spinners, bars, skeletons, multi-step, upload/download, and more, all using a single, unified `Progress` component, a central configuration registry, and a factory for DRY creation. This system ensures consistency, extensibility, and rapid development of progress UIs.
+The `Progress` folder implements a highly flexible, configuration-driven system for all types of progress indicators and loaders in the UI kit. It supports spinners, bars, skeletons, multi-step, upload/download, and more, all using a single, `Progress` component, a central configuration registry, and a factory for DRY creation. This system ensures consistency, extensibility, and rapid development of progress UIs.
 
 ## Key Files and Structure
 
@@ -23,8 +23,6 @@ The `Progress` folder implements a highly flexible, configuration-driven system 
 ## Example Usage
 
 ```tsx
-import { ProgressComponents } from './factory';
-
 // Show a loading spinner
 <ProgressComponents.LoadingSpinner />
 

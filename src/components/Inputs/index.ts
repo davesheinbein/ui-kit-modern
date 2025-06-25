@@ -1,10 +1,6 @@
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
 
-export {
-	InputFactory,
-	InputFactoryFunction,
-} from './factory';
 
 export type {
 	InputKind,

@@ -421,4 +421,95 @@ const Notification = forwardRef<
 
 Notification.displayName = 'Notification';
 
+// ===================== PRESET HELPERS (formerly factory) =====================
+
+// Example: You can add static helpers if you want to keep preset convenience
+(Notification as any).Presets = {
+	toast: (props: Partial<NotificationProps> = {}) => (
+		<Notification kind='toast' {...props} />
+	),
+	toastSuccess: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='toast-success' {...props} />,
+	toastError: (props: Partial<NotificationProps> = {}) => (
+		<Notification kind='toast-error' {...props} />
+	),
+	toastWarning: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='toast-warning' {...props} />,
+	toastInfo: (props: Partial<NotificationProps> = {}) => (
+		<Notification kind='toast-info' {...props} />
+	),
+	snackbar: (props: Partial<NotificationProps> = {}) => (
+		<Notification kind='snackbar' {...props} />
+	),
+	snackbarAction: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='snackbar-action' {...props} />,
+	snackbarPersistent: (
+		props: Partial<NotificationProps> = {}
+	) => (
+		<Notification kind='snackbar-persistent' {...props} />
+	),
+	alert: (props: Partial<NotificationProps> = {}) => (
+		<Notification kind='alert' {...props} />
+	),
+	alertSuccess: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='alert-success' {...props} />,
+	alertError: (props: Partial<NotificationProps> = {}) => (
+		<Notification kind='alert-error' {...props} />
+	),
+	alertWarning: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='alert-warning' {...props} />,
+	alertInfo: (props: Partial<NotificationProps> = {}) => (
+		<Notification kind='alert-info' {...props} />
+	),
+	banner: (props: Partial<NotificationProps> = {}) => (
+		<Notification kind='banner' {...props} />
+	),
+	bannerAnnouncement: (
+		props: Partial<NotificationProps> = {}
+	) => (
+		<Notification kind='banner-announcement' {...props} />
+	),
+	bannerPromotion: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='banner-promotion' {...props} />,
+	bannerUpdate: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='banner-update' {...props} />,
+	confirmDialog: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='confirm-dialog' {...props} />,
+	confirmDelete: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='confirm-delete' {...props} />,
+	confirmAction: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='confirm-action' {...props} />,
+	confirmNavigation: (
+		props: Partial<NotificationProps> = {}
+	) => (
+		<Notification kind='confirm-navigation' {...props} />
+	),
+	achievementToast: (
+		props: Partial<NotificationProps> = {}
+	) => <Notification kind='achievement-toast' {...props} />,
+	gameAlert: (props: Partial<NotificationProps> = {}) => (
+		<Notification kind='game-alert' {...props} />
+	),
+	matchNotification: (
+		props: Partial<NotificationProps> = {}
+	) => (
+		<Notification kind='match-notification' {...props} />
+	),
+	socialNotification: (
+		props: Partial<NotificationProps> = {}
+	) => (
+		<Notification kind='social-notification' {...props} />
+	),
+};
+
 export default memo(Notification);

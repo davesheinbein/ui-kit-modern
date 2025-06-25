@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `EmptyState` folder implements a unified, configuration-driven system for displaying empty, error, and placeholder states in React applications. It supports a wide variety of empty state scenarios (data, user, game, content, error) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom icons, illustrations, actions, and layouts.
+The `EmptyState` folder implements a , configuration-driven system for displaying empty, error, and placeholder states in React applications. It supports a wide variety of empty state scenarios (data, user, game, content, error) using a single, DRY component and factory pattern. The system is designed for flexibility, rapid development, and visual consistency, with support for custom icons, illustrations, actions, and layouts.
 
 ## Key Files
 
@@ -73,4 +73,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified, and extensible empty state UI system. All empty state UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.
+This folder provides a robust, , and extensible empty state UI system. All empty state UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system. The function-by-function reference describes the main exports and their responsibilities.

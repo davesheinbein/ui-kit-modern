@@ -2,11 +2,11 @@
 
 ## Overview
 
-The `Chat` folder provides a unified, configuration-driven chat UI system for React applications. It enables rendering of multiple chat variants (friend, in-match, match, general, quick chat) using a single, DRY component and factory pattern. The system supports both presentational and high-level chat logic, Redux integration for state, and is fully compatible with Storybook and other consumers.
+The `Chat` folder provides a , configuration-driven chat UI system for React applications. It enables rendering of multiple chat variants (friend, in-match, match, general, quick chat) using a single, DRY component and factory pattern. The system supports both presentational and high-level chat logic, Redux integration for state, and is fully compatible with Storybook and other consumers.
 
 ## Key Files
 
-- **Chat.tsx**: The main unified Chat component. Renders either a presentational chat window or delegates to the factory for configuration-driven chat UIs.
+- **Chat.tsx**: The main Chat component. Renders either a presentational chat window or delegates to the factory for configuration-driven chat UIs.
 - **configurations.ts**: Centralizes all chat configuration presets. Defines the `ChatKind` type, configuration interfaces, and a map of default configurations for each kind. Used by the factory to drive chat behavior and appearance.
 - **factory.tsx**: Provides the `ChatFactory`, `ChatBodyFactory`, and `ChatPresets` for DRY instantiation of chat UIs. Handles merging of configuration, Redux state, and rendering of chat messages, input, and quick chat options.
 - **Chat.module.scss**: Contains all styles for the chat component, including layout, variants, message bubbles, input, and quick chat bar. Uses SCSS modules and project-wide mixins/variables.
@@ -52,7 +52,7 @@ erDiagram
 
 ### Chat.tsx
 
-- **Chat (component)**: Unified chat component. If `kind` is provided, delegates to `ChatFactory` for configuration-driven chat; otherwise, renders a presentational chat window with header, content, and optional close button.
+- **Chat (component)**: chat component. If `kind` is provided, delegates to `ChatFactory` for configuration-driven chat; otherwise, renders a presentational chat window with header, content, and optional close button.
 
 ### configurations.ts
 
@@ -74,4 +74,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified, and extensible chat UI system. All chat-related UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system.
+This folder provides a robust, , and extensible chat UI system. All chat-related UIs are driven by configuration, making it easy to add new features, maintain consistency, and avoid code duplication. The ERD above shows the relationships between the main entities in this system.

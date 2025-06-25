@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Notification` component folder provides a unified, configuration-driven system for rendering notifications, alerts, toasts, and banners. It supports a variety of notification types (info, success, warning, error), positions, and auto-dismiss behaviors. The system is DRY, extensible, and easy to use both directly and via factories.
+The `Notification` component folder provides a , configuration-driven system for rendering notifications, alerts, toasts, and banners. It supports a variety of notification types (info, success, warning, error), positions, and auto-dismiss behaviors. The system is DRY, extensible, and easy to use both directly and via factories.
 
 ### Key Files
 
@@ -74,4 +74,4 @@ erDiagram
 
 ## Summary
 
-This folder provides a robust, unified notification component system for all alert, toast, and banner needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.
+This folder provides a robust, notification component system for all alert, toast, and banner needs in the UI Kit. It is fully configuration-driven, supports a wide range of use cases, and is easy to extend and maintain.

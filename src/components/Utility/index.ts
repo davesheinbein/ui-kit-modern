@@ -10,8 +10,4 @@ export type {
 
 export type { UtilityProps } from './Utility';
 export { default as Utility } from './Utility';
-export {
-	UtilityFactory,
-	UtilityComponents,
-} from './factory';
 export { getUtilityConfig } from './configurations';

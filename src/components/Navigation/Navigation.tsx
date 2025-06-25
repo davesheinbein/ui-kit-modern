@@ -227,9 +227,71 @@ function renderNavigationContent(
 	}
 }
 
-// ...existing code for renderNavbar, renderMobileNav, renderHamburgerMenu, renderSideDrawer, renderBreadcrumbs, renderPagination, renderTabs, renderSegmentedControls, renderGenericNavigation...
-// For brevity, these renderers are unchanged from the previous Navigation implementation
-// ...existing code...
+// ===================== PRESET HELPERS (formerly factory) =====================
+
+// Example: You can add static helpers if you want to keep preset convenience
+(Navigation as any).Presets = {
+	navbar: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='navbar' {...props} />
+	),
+	mobileNav: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='mobile-nav' {...props} />
+	),
+	hamburger: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='hamburger-menu' {...props} />
+	),
+	sideDrawer: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='side-drawer' {...props} />
+	),
+	breadcrumbs: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='breadcrumbs' {...props} />
+	),
+	pagination: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='pagination' {...props} />
+	),
+	tabs: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='tabs' {...props} />
+	),
+	segmentedControls: (
+		props: Partial<NavigationProps> = {}
+	) => <Navigation kind='segmented-controls' {...props} />,
+	backNav: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='back-navigation' {...props} />
+	),
+	stepNav: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='step-navigation' {...props} />
+	),
+	filterNav: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='filter-navigation' {...props} />
+	),
+	quickNav: (props: Partial<NavigationProps> = {}) => (
+		<Navigation kind='quick-navigation' {...props} />
+	),
+	responsiveNav: (props: Partial<NavigationProps> = {}) => (
+		<Navigation
+			kind='navbar'
+			responsive={true}
+			mobileBreakpoint={768}
+			{...props}
+		/>
+	),
+	dashboardNav: (props: Partial<NavigationProps> = {}) => (
+		<Navigation
+			kind='side-drawer'
+			collapsible={true}
+			defaultCollapsed={false}
+			{...props}
+		/>
+	),
+	wizardNav: (props: Partial<NavigationProps> = {}) => (
+		<Navigation
+			kind='step-navigation'
+			showProgress={true}
+			allowSkip={false}
+			{...props}
+		/>
+	),
+};
 
 Navigation.displayName = 'Navigation';
 

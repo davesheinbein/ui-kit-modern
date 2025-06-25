@@ -478,6 +478,61 @@ const Utility = forwardRef<HTMLDivElement, UtilityProps>(
 Utility.displayName = 'Utility';
 export default memo(Utility);
 
+// ===================== STATIC HELPERS AND PRESETS (formerly factory) =====================
+
+// DRY helper to create a Utility component with a config object
+export function createUtility(
+	config: UtilityConfiguration & Partial<UtilityProps>
+) {
+	return React.forwardRef<
+		HTMLDivElement,
+		Partial<UtilityProps>
+	>((props, ref) => (
+		<Utility ref={ref} {...config} {...props} />
+	));
+}
+
+// DRY helper to create a Utility component from a kind
+export function createUtilityFromKind(kind: UtilityKind) {
+	const config = getUtilityConfig(kind);
+	return createUtility(config);
+}
+
+// Pre-configured utility components (static helpers)
+export const UtilityComponents = {
+	Tooltip: createUtilityFromKind('tooltip'),
+	Popover: createUtilityFromKind('popover'),
+	DropdownMenu: createUtilityFromKind('dropdown-menu'),
+	ContextMenu: createUtilityFromKind('context-menu'),
+	ModalOverlay: createUtilityFromKind('modal-overlay'),
+	Divider: createUtilityFromKind('divider'),
+	Separator: createUtilityFromKind('separator'),
+	Spacer: createUtilityFromKind('spacer'),
+	SectionBreak: createUtilityFromKind('section-break'),
+	Tag: createUtilityFromKind('tag'),
+	Chip: createUtilityFromKind('chip'),
+	Badge: createUtilityFromKind('badge'),
+	Label: createUtilityFromKind('label'),
+	Pill: createUtilityFromKind('pill'),
+	StatusIndicator: createUtilityFromKind(
+		'status-indicator'
+	),
+	Stepper: createUtilityFromKind('stepper'),
+	Breadcrumb: createUtilityFromKind('breadcrumb'),
+	Pagination: createUtilityFromKind('pagination'),
+	WizardSteps: createUtilityFromKind('wizard-steps'),
+	RatingStars: createUtilityFromKind('rating-stars'),
+	RatingHearts: createUtilityFromKind('rating-hearts'),
+	ThumbsRating: createUtilityFromKind('thumbs-rating'),
+	NumericRating: createUtilityFromKind('numeric-rating'),
+	FeedbackScale: createUtilityFromKind('feedback-scale'),
+	Container: createUtilityFromKind('container'),
+	GridItem: createUtilityFromKind('grid-item'),
+	FlexItem: createUtilityFromKind('flex-item'),
+	Stack: createUtilityFromKind('stack'),
+	InlineStack: createUtilityFromKind('inline-stack'),
+};
+
 // Export types for external usage
 export type {
 	UtilityKind,

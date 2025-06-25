@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Chart` folder implements a highly flexible, configuration-driven chart UI system for modern React applications. It provides a single, unified `Chart` component that can render a wide variety of chart-related UIs—such as legends, tooltips, filter controls, and chart controls—based on a `kind` prop and configuration. The system is designed to be DRY, extensible, and easy to use, supporting both direct usage and factory/preset patterns for rapid development.
+The `Chart` folder implements a highly flexible, configuration-driven chart UI system for modern React applications. It provides a single, `Chart` component that can render a wide variety of chart-related UIs—such as legends, tooltips, filter controls, and chart controls—based on a `kind` prop and configuration. The system is designed to be DRY, extensible, and easy to use, supporting both direct usage and factory/preset patterns for rapid development.
 
 ## Key Files
 

@@ -939,6 +939,104 @@ Table.displayName = 'Table';
 
 export default memo(Table);
 
+// ===================== STATIC HELPERS AND PRESETS (formerly factory) =====================
+
+export interface TableFactoryConfig {
+	kind: TableKind;
+	[key: string]: any;
+}
+
+/**
+ * createTable - DRY helper for creating table components with minimal code
+ */
+export function createTable(
+	config: TableFactoryConfig | TableKind
+) {
+	const finalConfig =
+		typeof config === 'string' ? { kind: config } : config;
+	return (props: Partial<TableProps> = {}) => {
+		const mergedProps = { ...finalConfig, ...props };
+		return React.createElement(Table, mergedProps);
+	};
+}
+
+export const TablePresets = {
+	// Basic Tables
+	dataTable: createTable('data-table'),
+	simpleTable: createTable('simple-table'),
+	sortableTable: createTable('sortable-table'),
+	filterableTable: createTable('filterable-table'),
+
+	// Advanced Tables
+	dataGrid: createTable('data-grid'),
+	editableGrid: createTable('editable-grid'),
+	selectableGrid: createTable('selectable-grid'),
+	expandableGrid: createTable('expandable-grid'),
+
+	// Loading States
+	skeletonTable: createTable('skeleton-table'),
+	loadingTable: createTable('loading-table'),
+
+	// Specialized Tables
+	pricingTable: createTable('pricing-table'),
+	comparisonTable: createTable('comparison-table'),
+	statsTable: createTable('stats-table'),
+	leaderboardTable: createTable('leaderboard-table'),
+
+	// Advanced Presets
+	dashboardGrid: createTable({
+		kind: 'data-grid',
+		variant: 'modern',
+		sortable: true,
+		filterable: true,
+		searchable: true,
+		pagination: true,
+		stickyHeader: true,
+	}),
+
+	adminTable: createTable({
+		kind: 'data-grid',
+		variant: 'bordered',
+		sortable: true,
+		filterable: true,
+		selectable: true,
+		selectionMode: 'multiple',
+		editable: true,
+		pagination: true,
+	}),
+
+	reportTable: createTable({
+		kind: 'stats-table',
+		variant: 'striped',
+		sortable: true,
+		filterable: true,
+		searchable: true,
+		zebraStripes: true,
+		stickyHeader: true,
+	}),
+
+	quickList: createTable({
+		kind: 'simple-table',
+		variant: 'minimal',
+		hoverEffects: true,
+		clickableRows: true,
+	}),
+
+	gameLeaderboard: createTable({
+		kind: 'leaderboard-table',
+		variant: 'modern',
+		sortable: true,
+		searchable: true,
+		pagination: {
+			page: 1,
+			pageSize: 10,
+			total: 0,
+			showSizeSelector: true,
+			pageSizeOptions: [10, 25, 50, 100],
+		},
+	}),
+};
+
 // Export types for external usage
 export type {
 	TableKind,
