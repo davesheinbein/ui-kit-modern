@@ -8,6 +8,7 @@ import {
 	UsageData,
 	PaymentData,
 } from '../../components/Monetization';
+import { commonDecorators } from '../config/decorators';
 
 // =============================================================================
 // STORYBOOK META
@@ -16,6 +17,7 @@ import {
 const meta: Meta<typeof Monetization> = {
 	title: 'Monetization/Monetization',
 	component: Monetization,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
 		docs: {

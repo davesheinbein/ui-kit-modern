@@ -9,7 +9,7 @@ export type {
 // Configuration exports
 export * from './configurations';
 
-// Legacy exports for specific checkbox types (these now use the  system)
+// Specialized wrapper for dark mode toggle checkbox
 import React, { forwardRef } from 'react';
 import Checkbox, { CheckboxProps } from './Checkbox';
 

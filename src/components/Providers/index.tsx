@@ -22,3 +22,4 @@ export type {
 } from './Providers';
 
 export * from './configurations';
+export { ThemeProvider } from './Providers';

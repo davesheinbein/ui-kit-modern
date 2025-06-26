@@ -83,17 +83,6 @@ export interface ThemeConfiguration {
 	hoverEffect?: boolean;
 }
 
-// VS mode defaults
-export const vsModeDefaults: VSModeColors = {
-	player: '#2563eb',
-	enemy: '#ef4444',
-	playerBg: '#e0e7ff',
-	enemyBg: '#fee2e2',
-	boardBg: '#fff',
-	font: '#222',
-	border: '#e0e7ef',
-};
-
 // Default themes collection
 export const defaultThemes: ThemeDefinition[] = [
 	{

@@ -1,18 +1,12 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
 import { Forms } from '../../components/Forms';
+import { commonDecorators } from '../config/decorators';
 
 export default {
 	title: 'Forms/Forms',
 	component: Forms,
-	decorators: [
-		(Story) => (
-			<Provider store={store}>
-				<Story />
-			</Provider>
-		),
-	],
+	decorators: commonDecorators,
+	tags: ['autodocs'],
 };
 
 const fields = [

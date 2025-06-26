@@ -7,10 +7,13 @@ import {
 	timeSeriesData,
 	multiSeriesData,
 } from '../mocks';
+import { commonDecorators } from '../config/decorators';
 
 export default {
 	title: 'Graphs/Graph',
 	component: Graph,
+	decorators: commonDecorators,
+	tags: ['autodocs'],
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -178,7 +181,7 @@ EmptyState.args = {
 };
 EmptyState.storyName = 'Empty State';
 
-// --- Customization Example ---
+// --- Custom Colors Example ---
 export const CustomColors = (args: Partial<GraphProps>) => (
 	<Graph
 		kind='pie'

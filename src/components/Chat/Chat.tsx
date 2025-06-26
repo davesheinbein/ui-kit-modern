@@ -196,8 +196,11 @@ const Chat = forwardRef<HTMLDivElement, ChatProps>(
 				{kind === 'quick-chat' &&
 					quickOptions.length > 0 && (
 						<Wrapper
-							className={styles.vsQuickChatBar}
-							style={{ marginBottom: 0, marginTop: 8 }}
+							className={
+								styles.vsQuickChatBar +
+								' ' +
+								styles['vsQuickChatBar--spaced']
+							}
 						>
 							{quickOptions.map((option, idx) => (
 								<Button
@@ -213,10 +216,7 @@ const Chat = forwardRef<HTMLDivElement, ChatProps>(
 						</Wrapper>
 					)}
 				{mergedShowInput !== false && (
-					<Wrapper
-						className={styles.chatInput}
-						style={{ display: 'flex', gap: 8, padding: 12 }}
-					>
+					<Wrapper className={styles.chatInput}>
 						<input
 							type='text'
 							className={styles.chatInputField}
@@ -224,7 +224,6 @@ const Chat = forwardRef<HTMLDivElement, ChatProps>(
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
 							onKeyDown={handleInputKeyDown}
-							style={{ flex: 1 }}
 						/>
 						<Button
 							kind='primary'

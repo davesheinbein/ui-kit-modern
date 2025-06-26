@@ -492,3 +492,30 @@
 	background: var(--color-primary);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
+
+// ========================================
+// Empty and Unsupported Labels
+// ========================================
+
+.graphs__emptyLabel {
+	color: var(--color-text-muted);
+	text-align: center;
+	padding: 2rem;
+}
+
+.graphs__unsupportedKind {
+	color: var(--color-danger);
+	text-align: center;
+	padding: 2rem;
+}
+
+// ========================================
+// Radar Axis Tick
+// ========================================
+
+.graphs__radarAxisTick {
+	font-size: 14px;
+	fill: var(--color-accent);
+	font-weight: 600;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}

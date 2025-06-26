@@ -719,7 +719,18 @@ const Advertisements = forwardRef<
 			as?: keyof JSX.IntrinsicElements;
 		}) =>
 			title ?
-				React.createElement(as, { className }, title)
+				React.createElement(
+					as,
+					{
+						className: [
+							styles.advertisement__title,
+							className,
+						]
+							.filter(Boolean)
+							.join(' '),
+					},
+					title
+				)
 			:	null;
 
 		const AdDescription = ({
@@ -730,7 +741,16 @@ const Advertisements = forwardRef<
 			className?: string;
 		}) =>
 			description ?
-				<p className={className}>{description}</p>
+				<p
+					className={[
+						styles.advertisement__description,
+						className,
+					]
+						.filter(Boolean)
+						.join(' ')}
+				>
+					{description}
+				</p>
 			:	null;
 
 		const AdCTAButton = ({
@@ -745,7 +765,9 @@ const Advertisements = forwardRef<
 			ctaText ?
 				<Button
 					kind='primary'
-					className={className}
+					className={[styles.advertisement__cta, className]
+						.filter(Boolean)
+						.join(' ')}
 					onClick={onClick}
 				>
 					{ctaText}
@@ -763,7 +785,12 @@ const Advertisements = forwardRef<
 		}) => (
 			<Button
 				kind='ghost'
-				className={className}
+				className={[
+					styles.advertisement__close_button,
+					className,
+				]
+					.filter(Boolean)
+					.join(' ')}
 				onClick={onClick}
 				aria-label={ariaLabel}
 			>
@@ -1707,11 +1734,7 @@ export class Advertisement {
 		}>
 	): React.ReactElement<AdvertisementProps>[] {
 		return specs.map(({ kind, content, props }) =>
-			Advertisement.createWithConfig(
-				kind,
-				content,
-				props
-			)
+			Advertisement.createWithConfig(kind, content, props)
 		);
 	}
 	static createConditional(
@@ -1721,11 +1744,7 @@ export class Advertisement {
 		props?: Partial<AdvertisementProps>
 	): React.ReactElement<AdvertisementProps> | null {
 		return condition ?
-				Advertisement.createWithConfig(
-					kind,
-					content,
-					props
-				)
+				Advertisement.createWithConfig(kind, content, props)
 			:	null;
 	}
 	static createSmart(
@@ -1783,12 +1802,11 @@ export class Advertisement {
 			React.ReactElement<AdvertisementProps>
 		> = {};
 		if (options.onlyPrimary && config.primary) {
-			result['primary'] =
-				Advertisement.createWithConfig(
-					config.primary,
-					contentMap['primary'] || {},
-					options.sharedProps
-				);
+			result['primary'] = Advertisement.createWithConfig(
+				config.primary,
+				contentMap['primary'] || {},
+				options.sharedProps
+			);
 			return result;
 		}
 		[config.primary, ...(config.secondary || [])].forEach(
@@ -1818,11 +1836,7 @@ export const AdUtils = {
 		}>
 	) =>
 		requests.map(({ kind, content, props }) =>
-			Advertisement.createWithConfig(
-				kind,
-				content,
-				props
-			)
+			Advertisement.createWithConfig(kind, content, props)
 		),
 	conditionalCreate: (
 		conditions: Array<{
@@ -1834,11 +1848,7 @@ export const AdUtils = {
 	) =>
 		conditions.map(({ condition, kind, content, props }) =>
 			condition ?
-				Advertisement.createWithConfig(
-					kind,
-					content,
-					props
-				)
+				Advertisement.createWithConfig(kind, content, props)
 			:	null
 		),
 	responsiveCreate: (
@@ -1925,29 +1935,21 @@ export const AdUtils = {
 
 export const AdPresets = {
 	websiteHeader: (content: AdContent) =>
-		Advertisement.createWithConfig(
-			'banner',
-			content,
-			{ position: 'relative' }
-		),
+		Advertisement.createWithConfig('banner', content, {
+			position: 'relative',
+		}),
 	websiteFooter: (content: AdContent) =>
-		Advertisement.createWithConfig(
-			'banner',
-			content,
-			{ position: 'relative' }
-		),
+		Advertisement.createWithConfig('banner', content, {
+			position: 'relative',
+		}),
 	websiteInContent: (content: AdContent) =>
-		Advertisement.createWithConfig(
-			'native-card',
-			content,
-			{ position: 'relative' }
-		),
+		Advertisement.createWithConfig('native-card', content, {
+			position: 'relative',
+		}),
 	websiteSidebar: (content: AdContent) =>
-		Advertisement.createWithConfig(
-			'native-card',
-			content,
-			{ position: 'relative' }
-		),
+		Advertisement.createWithConfig('native-card', content, {
+			position: 'relative',
+		}),
 	mobileFullscreen: (content: AdContent) =>
 		Advertisement.createWithConfig(
 			'interstitial',
@@ -1975,11 +1977,9 @@ export const AdPresets = {
 			{ position: 'fixed', showBackdrop: true }
 		),
 	productPromo: (content: AdContent) =>
-		Advertisement.createWithConfig(
-			'banner',
-			content,
-			{ position: 'relative' }
-		),
+		Advertisement.createWithConfig('banner', content, {
+			position: 'relative',
+		}),
 	cartAbandonment: (content: AdContent) =>
 		Advertisement.createWithConfig(
 			'exit-intent-modal',
@@ -1993,17 +1993,13 @@ export const AdPresets = {
 			{ position: 'fixed', autoHide: true, hideDelay: 8000 }
 		),
 	sponsoredContent: (content: AdContent) =>
-		Advertisement.createWithConfig(
-			'native-card',
-			content,
-			{ position: 'relative' }
-		),
+		Advertisement.createWithConfig('native-card', content, {
+			position: 'relative',
+		}),
 	newsletterPromo: (content: AdContent) =>
-		Advertisement.createWithConfig(
-			'sticky-bar',
-			content,
-			{ position: 'fixed' }
-		),
+		Advertisement.createWithConfig('sticky-bar', content, {
+			position: 'fixed',
+		}),
 };
 
 (Advertisements as any).Factory = Advertisement;

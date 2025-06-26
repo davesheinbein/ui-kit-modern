@@ -343,6 +343,16 @@
 	.themeSwatchBar {
 		flex: 1;
 		block-size: 100%;
+
+		&--primary {
+			background-color: var(--theme-primary-color);
+		}
+		&--accent {
+			background-color: var(--theme-accent-color);
+		}
+		&--secondary {
+			background-color: var(--theme-secondary-color);
+		}
 	}
 
 	// Emote-specific styles
@@ -368,6 +378,10 @@
 		font-weight: var(--font-weight-bold);
 		margin-block-end: var(--spacing-xs);
 		text-align: center;
+
+		&--customFont {
+			font-family: var(--custom-font-family);
+		}
 	}
 
 	// Border-specific styles
@@ -380,6 +394,11 @@
 		border-width: 3px;
 		border-style: solid;
 		background: var(--surface-primary);
+
+		&--customBorder {
+			border-color: var(--custom-border-color);
+			border-style: var(--custom-border-style, solid);
+		}
 	}
 
 	// Background-specific styles

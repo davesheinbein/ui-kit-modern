@@ -290,12 +290,12 @@
 	}
 
 	// Profile image
-	img {
+	&__image {
 		width: 36px;
 		height: 36px;
 		border-radius: var(--radius-full);
 		object-fit: cover;
-		border: 2px solid var(--color-primary);
+		border: 2px solid #38bdf8;
 	}
 
 	// Icon fallback
@@ -311,7 +311,6 @@
 	}
 }
 
-// Legacy button overrides (for backward compatibility)
 .primaryBtn {
 	@include button-primary;
 	@include button-size-md;
@@ -423,4 +422,18 @@
 
 .sr-only {
 	@include visually-hidden;
+}
+
+// Icon+Text vertical layouts for Button
+.button__icon-text--top {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.button__icon-text--bottom {
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: center;
+	justify-content: center;
 }

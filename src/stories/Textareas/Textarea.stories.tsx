@@ -7,6 +7,7 @@ import { commonArgTypes } from '../config/argTypes';
 const meta: Meta<typeof Textarea> = {
 	title: 'Textarea/Textarea',
 	component: Textarea,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -16,7 +17,6 @@ const meta: Meta<typeof Textarea> = {
 			},
 		},
 	},
-	decorators: commonDecorators,
 	argTypes: {
 		kind: {
 			control: { type: 'select' },

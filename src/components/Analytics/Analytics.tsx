@@ -773,7 +773,7 @@ const Analytics = forwardRef<
 							}
 							style={{ backgroundColor: color }}
 						/>
-						<span>Series {index + 1}</span>
+						<span>Series </span>
 					</Wrapper>
 				))}
 			</Wrapper>

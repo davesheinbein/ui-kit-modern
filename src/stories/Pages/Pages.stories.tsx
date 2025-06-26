@@ -3,11 +3,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Page, PagePresets } from '../../components/Pages';
 import { Wrapper } from '../../components/Wrappers';
 import type { PageProps } from '../../components/Pages';
+import { commonDecorators } from '../config/decorators';
 
 // Meta configuration for the DRY Page system
 const meta: Meta<typeof Page> = {
 	title: 'Pages/Page',
 	component: Page,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {

@@ -1,26 +1,52 @@
 import React from 'react';
 import {
 	Card,
-	createCard,
-	FriendCard,
-	ProfileCard,
-	NotificationCard,
-	StatsCard,
-	GameCard,
-	InfoCard,
 	ActionCard,
 	ContentCard,
+	NotificationCard,
+	FriendCard,
 } from '../../components/Card';
+import { commonDecorators } from '../config/decorators';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Card> = {
 	title: 'Cards/Card',
 	component: Card,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 };
 export default meta;
 
 type Story = StoryObj<typeof Card>;
+
+// Alphabetized stories
+export const Action: Story = {
+	render: () => (
+		<ActionCard
+			title='Action Card'
+			content='This card is clickable and has hover.'
+			onClick={() => alert('Clicked!')}
+		/>
+	),
+};
+
+export const Content: Story = {
+	render: () => (
+		<ContentCard
+			title='Content Card'
+			content='This card uses the outlined style.'
+		/>
+	),
+};
+
+// Example of using the createCard helper directly
+export const CustomHelper: Story = {
+	render: () =>
+		createCard('profile', {
+			title: 'Profile (helper)',
+			content: 'Created with createCard.',
+		}),
+};
 
 export const Default: Story = {
 	args: {
@@ -35,14 +61,6 @@ export const Elevated: Story = {
 		title: 'Elevated Card',
 		content: 'This card uses the elevated variant.',
 		kind: 'elevated',
-	},
-};
-
-export const Outlined: Story = {
-	args: {
-		title: 'Outlined Card',
-		content: 'This card uses the outlined variant.',
-		kind: 'outlined',
 	},
 };
 
@@ -81,7 +99,7 @@ export const Notification: Story = {
 			subtitle='This is a notification card.'
 			content='Something important happened.'
 			notificationType='warning'
-			actions={<button>Dismiss</button>}
+			actions={[]}
 		/>
 	),
 };
@@ -107,30 +125,10 @@ export const Info: Story = {
 	),
 };
 
-export const Action: Story = {
-	render: () => (
-		<ActionCard
-			title='Action Card'
-			content='This card is clickable and has hover.'
-			onClick={() => alert('Clicked!')}
-		/>
-	),
-};
-
-export const Content: Story = {
-	render: () => (
-		<ContentCard
-			title='Content Card'
-			content='This card uses the outlined style.'
-		/>
-	),
-};
-
-// Example of using the createCard helper directly
-export const CustomHelper: Story = {
-	render: () =>
-		createCard('profile', {
-			title: 'Profile (helper)',
-			content: 'Created with createCard.',
-		}),
+export const Outlined: Story = {
+	args: {
+		title: 'Outlined Card',
+		content: 'This card uses the outlined variant.',
+		kind: 'outlined',
+	},
 };

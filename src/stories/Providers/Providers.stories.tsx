@@ -9,6 +9,7 @@ import {
 	useThemePalette,
 } from '../../components/Providers';
 import type { ProviderProps } from '../../components/Providers';
+import { commonDecorators } from '../config/decorators';
 
 // Example component that uses the provider context
 const ProviderDemo: React.FC<{ providerType: string }> = ({
@@ -264,6 +265,7 @@ const AchievementListenerDemo: React.FC = () => (
 const meta: Meta<typeof Provider> = {
 	title: 'Providers/Provider',
 	component: Provider,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -360,7 +362,7 @@ export const AchievementSocketListener: Story = {
 	},
 };
 
-export const ThemePaletteProvider: Story = {
+export const ThemeProvider: Story = {
 	name: '🎨 Theme Palette Provider',
 	args: {
 		kind: 'theme-palette-provider',

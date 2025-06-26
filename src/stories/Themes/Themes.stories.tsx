@@ -42,6 +42,7 @@ import {
 	ControlledThemeSelector,
 	ThemesPresets,
 } from '../../components/Themes';
+import { mockThemes } from '../mocks';
 
 // Add type for Storybook args
 import type { ThemesProps } from '../../components/Themes';
@@ -56,6 +57,7 @@ export const Default = (args: ThemesProps) => (
 );
 Default.args = {
 	title: 'Select Theme',
+	themes: mockThemes,
 };
 
 export const Swatches = (args: ThemesProps) => (
@@ -63,6 +65,7 @@ export const Swatches = (args: ThemesProps) => (
 );
 Swatches.args = {
 	display: 'swatches',
+	themes: mockThemes,
 };
 
 export const Dropdown = (args: ThemesProps) => (
@@ -70,6 +73,7 @@ export const Dropdown = (args: ThemesProps) => (
 );
 Dropdown.args = {
 	display: 'dropdown',
+	themes: mockThemes,
 };
 
 export const Cards = (args: ThemesProps) => (
@@ -77,6 +81,7 @@ export const Cards = (args: ThemesProps) => (
 );
 Cards.args = {
 	display: 'cards',
+	themes: mockThemes,
 };
 
 export const Grid = (args: ThemesProps) => (
@@ -84,6 +89,7 @@ export const Grid = (args: ThemesProps) => (
 );
 Grid.args = {
 	display: 'grid',
+	themes: mockThemes,
 };
 
 export const Horizontal = (args: ThemesProps) => (
@@ -91,6 +97,7 @@ export const Horizontal = (args: ThemesProps) => (
 );
 Horizontal.args = {
 	layout: 'horizontal',
+	themes: mockThemes,
 };
 
 export const Vertical = (args: ThemesProps) => (
@@ -98,6 +105,7 @@ export const Vertical = (args: ThemesProps) => (
 );
 Vertical.args = {
 	layout: 'vertical',
+	themes: mockThemes,
 };
 
 export const Compact = (args: ThemesProps) => (
@@ -105,6 +113,7 @@ export const Compact = (args: ThemesProps) => (
 );
 Compact.args = {
 	layout: 'compact',
+	themes: mockThemes,
 };
 
 export const Animated = (args: ThemesProps) => (
@@ -112,6 +121,7 @@ export const Animated = (args: ThemesProps) => (
 );
 Animated.args = {
 	animated: true,
+	themes: mockThemes,
 };
 
 export const Static = (args: ThemesProps) => (
@@ -119,6 +129,7 @@ export const Static = (args: ThemesProps) => (
 );
 Static.args = {
 	animated: false,
+	themes: mockThemes,
 };
 
 export const WithLabels = (args: ThemesProps) => (
@@ -126,6 +137,7 @@ export const WithLabels = (args: ThemesProps) => (
 );
 WithLabels.args = {
 	showLabels: true,
+	themes: mockThemes,
 };
 
 export const NoLabels = (args: ThemesProps) => (
@@ -133,6 +145,7 @@ export const NoLabels = (args: ThemesProps) => (
 );
 NoLabels.args = {
 	showLabels: false,
+	themes: mockThemes,
 };
 
 export const WithPreview = (args: ThemesProps) => (
@@ -140,6 +153,7 @@ export const WithPreview = (args: ThemesProps) => (
 );
 WithPreview.args = {
 	showPreview: true,
+	themes: mockThemes,
 };
 
 export const NoPreview = (args: ThemesProps) => (
@@ -147,6 +161,7 @@ export const NoPreview = (args: ThemesProps) => (
 );
 NoPreview.args = {
 	showPreview: false,
+	themes: mockThemes,
 };
 
 export const Palette = (args: ThemesProps) => (
@@ -154,6 +169,7 @@ export const Palette = (args: ThemesProps) => (
 );
 Palette.args = {
 	variant: 'palette',
+	themes: mockThemes,
 };
 
 export const Switcher = (args: ThemesProps) => (
@@ -161,6 +177,7 @@ export const Switcher = (args: ThemesProps) => (
 );
 Switcher.args = {
 	variant: 'switcher',
+	themes: mockThemes,
 };
 
 export const VSMode = (args: ThemesProps) => (
@@ -168,6 +185,7 @@ export const VSMode = (args: ThemesProps) => (
 );
 VSMode.args = {
 	kind: 'vs-mode-selector',
+	themes: mockThemes,
 };
 
 export const Custom = (args: ThemesProps) => (
@@ -175,6 +193,7 @@ export const Custom = (args: ThemesProps) => (
 );
 Custom.args = {
 	kind: 'custom-theme-builder',
+	themes: mockThemes,
 };
 
 export const ResponsiveMobile = (args: ThemesProps) => (
@@ -182,6 +201,7 @@ export const ResponsiveMobile = (args: ThemesProps) => (
 );
 ResponsiveMobile.args = {
 	kind: 'mobile-optimized',
+	themes: mockThemes,
 };
 
 export const ResponsiveDesktop = (args: ThemesProps) => (
@@ -189,6 +209,7 @@ export const ResponsiveDesktop = (args: ThemesProps) => (
 );
 ResponsiveDesktop.args = {
 	kind: 'desktop-optimized',
+	themes: mockThemes,
 };
 
 export const ResponsiveTablet = (args: ThemesProps) => (
@@ -196,6 +217,7 @@ export const ResponsiveTablet = (args: ThemesProps) => (
 );
 ResponsiveTablet.args = {
 	kind: 'tablet-optimized',
+	themes: mockThemes,
 };
 
 export const ContextModal = (args: ThemesProps) => (
@@ -203,6 +225,7 @@ export const ContextModal = (args: ThemesProps) => (
 );
 ContextModal.args = {
 	kind: 'modal-theme-selector',
+	themes: mockThemes,
 };
 
 export const ContextSidebar = (args: ThemesProps) => (
@@ -210,6 +233,7 @@ export const ContextSidebar = (args: ThemesProps) => (
 );
 ContextSidebar.args = {
 	kind: 'sidebar-theme-selector',
+	themes: mockThemes,
 };
 
 export const ContextHeader = (args: ThemesProps) => (
@@ -217,6 +241,7 @@ export const ContextHeader = (args: ThemesProps) => (
 );
 ContextHeader.args = {
 	kind: 'header-theme-selector',
+	themes: mockThemes,
 };
 
 export const ContextFooter = (args: ThemesProps) => (
@@ -224,4 +249,5 @@ export const ContextFooter = (args: ThemesProps) => (
 );
 ContextFooter.args = {
 	kind: 'footer-theme-selector',
+	themes: mockThemes,
 };

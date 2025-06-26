@@ -2,10 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Wrapper } from '../../components/Wrappers';
 import { Utility } from '../../components/Utility';
 import { UtilityKind } from '../../components/Utility/configurations';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Utility> = {
 	title: 'Utility/Utility',
 	component: Utility,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
 		docs: {

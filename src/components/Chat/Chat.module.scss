@@ -240,6 +240,11 @@
 	overflow: hidden;
 }
 
+.vsQuickChatBar--spaced {
+	margin-bottom: 0;
+	margin-top: 8px;
+}
+
 .vsQuickChatButton {
 	@include button-base;
 	@include interactive-element;

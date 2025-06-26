@@ -63,7 +63,11 @@ const Textarea = forwardRef<
 					maxLength={maxLength}
 					name={name}
 					id={id}
-					className={finalConfig.customStyles?.textarea}
+					className={`textarea${
+						finalConfig.customStyles?.textarea ?
+							' ' + finalConfig.customStyles?.textarea
+						:	''
+					}`}
 					{...props}
 				/>
 				{helpText && !error && (

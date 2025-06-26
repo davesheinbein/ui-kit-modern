@@ -445,11 +445,117 @@
 			transform: scale(1.1);
 		}
 	}
+
+	.vsStatus__emoteIcon {
+		font-size: 1.5rem;
+		line-height: 1;
+	}
 }
 
 // Hidden state for feedback banners
 .banner--feedback.banner--hidden {
 	display: none;
+}
+
+// BEM-style content and message containers
+.banner__content--feedback {
+	width: 100%;
+	text-align: center;
+	color: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+.banner__content--notification {
+	width: 100%;
+	color: inherit;
+	font-size: inherit;
+}
+.banner__content--toast {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.banner__content--status {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+.banner__content--global {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+// BEM-style message elements
+.banner__message--feedback {
+	font-size: inherit;
+	font-weight: 600;
+	color: inherit;
+	text-align: center;
+	width: 100%;
+}
+.banner__message--notification {
+	font-size: inherit;
+	color: inherit;
+}
+.banner__message--toast {
+	font-size: inherit;
+	color: inherit;
+}
+.banner__message--global {
+	font-size: inherit;
+	color: inherit;
+}
+
+// BEM-style label
+.banner__label {
+	font-weight: 600;
+}
+
+// BEM-style status sub-elements
+.banner__status-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.banner__status-avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+.banner__status-username {
+	font-weight: 700;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.banner__status-groups {
+	margin-left: 8px;
+}
+.banner__status-mistakes {
+	margin-left: 8px;
+}
+.banner__status-timer {
+	font-weight: 700;
+	font-size: 1.125rem;
+}
+.banner__status-emote-btn {
+	margin-left: 8px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1.25rem;
+	transition: transform 0.15s;
+	&:hover {
+		transform: scale(1.1);
+	}
+}
+.banner__status-emote-icon {
+	font-size: 1.5rem;
+	line-height: 1;
 }
 
 // Animation keyframes

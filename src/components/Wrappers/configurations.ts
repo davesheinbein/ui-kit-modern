@@ -53,7 +53,6 @@ export type WrapperKind =
 	| 'dark-mode-toggle-wrapper'
 
 	// Generic Wrappers
-	| 'backward-compatibility-wrapper'
 	| 'legacy-wrapper'
 	| 'simple-wrapper'
 	| 'enhanced-wrapper';
@@ -436,16 +435,16 @@ const userSettingsProviderWrapper: WrapperConfiguration = {
 		'Use Provider with kind="user-settings-provider"',
 };
 
-const themePaletteProviderWrapper: WrapperConfiguration = {
+const ThemeProviderWrapper: WrapperConfiguration = {
 	kind: 'theme-palette-provider-wrapper',
 	variant: 'provider-wrapper',
 	layout: 'passthrough',
-	targetComponent: 'ThemePaletteProvider',
+	targetComponent: 'ThemeProvider',
 	Component: 'Provider',
 	maintainAPI: true,
 	preserveEvents: true,
 	description:
-		'Backward compatibility wrapper for ThemePaletteProvider',
+		'Backward compatibility wrapper for ThemeProvider',
 	migrationPath:
 		'Use Provider with kind="theme-palette-provider"',
 };
@@ -669,32 +668,6 @@ const darkModeToggleWrapper: WrapperConfiguration = {
 		'Use Button with kind="dark-mode-toggle" or Button.darkModeToggle()',
 };
 
-// Generic Wrappers
-const backwardCompatibilityWrapper: WrapperConfiguration = {
-	kind: 'backward-compatibility-wrapper',
-	variant: 'backward-compatibility',
-	layout: 'passthrough',
-	targetComponent: 'LegacyComponent',
-	Component: 'Component',
-	maintainAPI: true,
-	preserveEvents: true,
-	description: 'Generic backward compatibility wrapper',
-	migrationPath: 'Migrate to the corresponding component',
-};
-
-const legacyWrapper: WrapperConfiguration = {
-	kind: 'legacy-wrapper',
-	variant: 'legacy-support',
-	layout: 'passthrough',
-	targetComponent: 'LegacyComponent',
-	Component: 'Component',
-	maintainAPI: true,
-	preserveEvents: true,
-	deprecationWarning: true,
-	description: 'Generic legacy component wrapper',
-	migrationPath: 'Use the corresponding component',
-};
-
 const simpleWrapper: WrapperConfiguration = {
 	kind: 'simple-wrapper',
 	variant: 'simplified-interface',
@@ -761,8 +734,7 @@ export const WRAPPER_CONFIGURATIONS: Record<
 	'socket-provider-wrapper': socketProviderWrapper,
 	'user-settings-provider-wrapper':
 		userSettingsProviderWrapper,
-	'theme-palette-provider-wrapper':
-		themePaletteProviderWrapper,
+	'theme-palette-provider-wrapper': ThemeProviderWrapper,
 	'achievement-socket-listener-wrapper':
 		achievementSocketListenerWrapper,
 
@@ -784,9 +756,6 @@ export const WRAPPER_CONFIGURATIONS: Record<
 	'dark-mode-toggle-wrapper': darkModeToggleWrapper,
 
 	// Generic Wrappers
-	'backward-compatibility-wrapper':
-		backwardCompatibilityWrapper,
-	'legacy-wrapper': legacyWrapper,
 	'simple-wrapper': simpleWrapper,
 	'enhanced-wrapper': enhancedWrapper,
 };
@@ -901,7 +870,6 @@ export const WRAPPER_GROUPS = {
 	] as WrapperKind[],
 
 	GENERIC: [
-		'backward-compatibility-wrapper',
 		'legacy-wrapper',
 		'simple-wrapper',
 		'enhanced-wrapper',

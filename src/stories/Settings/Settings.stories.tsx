@@ -7,10 +7,12 @@ import {
 } from '../../components/Settings';
 import { Wrapper } from '../../components/Wrappers';
 import type { SettingsProps } from '../../components/Settings/Settings';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Settings> = {
 	title: 'Settings/Settings',
 	component: Settings,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {

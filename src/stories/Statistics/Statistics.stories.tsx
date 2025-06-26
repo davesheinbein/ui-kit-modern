@@ -5,10 +5,12 @@ import {
 	Statistics,
 	StatisticsProps,
 } from '../../components/Statistics';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Statistics> = {
 	title: 'Statistics/Statistics',
 	component: Statistics,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {

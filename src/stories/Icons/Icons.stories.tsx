@@ -2,10 +2,12 @@ import React from 'react';
 import { Icons } from '../../components/Icons';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ICONS_LIST } from '../../components/Icons/configurations';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Icons> = {
 	title: 'Icons/Icons',
 	component: Icons,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	argTypes: {
 		name: {

@@ -1,0 +1,41 @@
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	vertical-align: middle;
+	font-size: 1em;
+	line-height: 1;
+	color: inherit;
+}
+
+.icon--small {
+	font-size: 1rem;
+}
+
+.icon--medium {
+	font-size: 1.5rem;
+}
+
+.icon--large {
+	font-size: 2rem;
+}
+
+.icon--primary {
+	color: var(--color-primary);
+}
+
+.icon--secondary {
+	color: var(--color-secondary);
+}
+
+.icon--success {
+	color: var(--color-success);
+}
+
+.icon--warning {
+	color: var(--color-warning);
+}
+
+.icon--danger {
+	color: var(--color-danger);
+}

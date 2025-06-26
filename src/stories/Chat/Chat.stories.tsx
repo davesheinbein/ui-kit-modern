@@ -1,6 +1,7 @@
 import React from 'react';
 import { Chat } from '../../components/Chat';
 import type { Meta, StoryObj } from '@storybook/react';
+import { commonDecorators } from '../config/decorators';
 
 const demoMessages = [
 	{
@@ -29,6 +30,7 @@ const demoMessages = [
 const meta: Meta<typeof Chat> = {
 	title: 'Chat/Chat',
 	component: Chat,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	args: {
 		messages: demoMessages,
@@ -39,7 +41,6 @@ const meta: Meta<typeof Chat> = {
 	},
 };
 export default meta;
-
 type Story = StoryObj<typeof Chat>;
 
 export const ChatStory: Story = {

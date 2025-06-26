@@ -146,6 +146,12 @@
 .optionText {
 	color: var(--color-text-primary);
 	line-height: 1.4;
+	// Default font weight
+	font-weight: 400;
+
+	&--bold {
+		font-weight: 600;
+	}
 }
 
 // Option description
@@ -307,9 +313,6 @@
 		height: 16px;
 	}
 
-	.optionText {
-	}
-
 	.variant-button & .radioOption {
 		padding: var(--spacing-2) var(--spacing-3);
 	}
@@ -323,9 +326,6 @@
 	.radioLabel::before {
 		width: 24px;
 		height: 24px;
-	}
-
-	.optionText {
 	}
 
 	.variant-button & .radioOption {

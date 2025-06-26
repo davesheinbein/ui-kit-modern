@@ -174,3 +174,26 @@
 		}
 	}
 }
+
+.form__submit {
+	font-weight: 600;
+	font-size: var(--text-base);
+	padding: var(--spacing-3) var(--spacing-6);
+	border-radius: var(--radius-md);
+	background: var(--primary-500);
+	color: var(--text-primary-inverse);
+	border: none;
+	cursor: pointer;
+	transition: background 0.15s;
+	margin-top: var(--spacing-md);
+	display: inline-block;
+
+	&:hover {
+		background: var(--primary-600);
+	}
+
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--primary-200);
+	}
+}

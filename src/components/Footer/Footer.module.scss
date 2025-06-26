@@ -145,6 +145,11 @@
 	flex-shrink: 0;
 }
 
+.footerRight__label {
+	margin-right: 1rem;
+	font-weight: 600;
+}
+
 .footerNav {
 	@include mixins.flex-row(var(--spacing-2), center, wrap);
 

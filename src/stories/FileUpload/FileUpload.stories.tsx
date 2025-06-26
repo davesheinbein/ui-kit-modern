@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { FileUpload } from '../../components/FileUpload';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof FileUpload> = {
 	title: 'Files/File Upload',
 	component: FileUpload,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -71,54 +74,12 @@ const meta: Meta<typeof FileUpload> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-	args: {
-		kind: 'dropzone',
-		onFilesSelected: (files) =>
-			console.log('Files selected:', files),
-	},
-};
-
-export const ImageUploader: Story = {
-	args: {
-		kind: 'image-uploader',
-		showPreview: true,
-		onFilesSelected: (files) =>
-			console.log('Images selected:', files),
-	},
-};
-
 export const AvatarUploader: Story = {
 	args: {
 		kind: 'avatar-uploader',
 		showPreview: true,
 		onFilesSelected: (files) =>
 			console.log('Avatar selected:', files),
-	},
-};
-
-export const DocumentUploader: Story = {
-	args: {
-		kind: 'document-uploader',
-		onFilesSelected: (files) =>
-			console.log('Documents selected:', files),
-	},
-};
-
-export const FileButton: Story = {
-	args: {
-		kind: 'file-button',
-		onFilesSelected: (files) =>
-			console.log('Files selected:', files),
-	},
-};
-
-export const MultipleFiles: Story = {
-	args: {
-		kind: 'multiple-files',
-		showPreview: true,
-		onFilesSelected: (files) =>
-			console.log('Multiple files selected:', files),
 	},
 };
 
@@ -131,23 +92,19 @@ export const BulkUploader: Story = {
 	},
 };
 
-// States examples
-export const UploadingState: Story = {
+export const Default: Story = {
 	args: {
 		kind: 'dropzone',
-		state: 'uploading',
 		onFilesSelected: (files) =>
 			console.log('Files selected:', files),
 	},
 };
 
-export const SuccessState: Story = {
+export const DocumentUploader: Story = {
 	args: {
-		kind: 'dropzone',
-		state: 'success',
-		successText: 'Files uploaded successfully!',
+		kind: 'document-uploader',
 		onFilesSelected: (files) =>
-			console.log('Files selected:', files),
+			console.log('Documents selected:', files),
 	},
 };
 
@@ -161,16 +118,33 @@ export const ErrorState: Story = {
 	},
 };
 
-export const DisabledState: Story = {
+export const FilledVariant: Story = {
 	args: {
-		kind: 'dropzone',
-		disabled: true,
+		kind: 'document-uploader',
+		variant: 'filled',
 		onFilesSelected: (files) =>
 			console.log('Files selected:', files),
 	},
 };
 
-// Variants examples
+export const FileButton: Story = {
+	args: {
+		kind: 'file-button',
+		onFilesSelected: (files) =>
+			console.log('Files selected:', files),
+	},
+};
+
+export const LargeSize: Story = {
+	args: {
+		kind: 'dropzone',
+		size: 'large',
+		showPreview: true,
+		onFilesSelected: (files) =>
+			console.log('Files selected:', files),
+	},
+};
+
 export const MinimalVariant: Story = {
 	args: {
 		kind: 'dropzone',
@@ -190,16 +164,15 @@ export const ModernVariant: Story = {
 	},
 };
 
-export const FilledVariant: Story = {
+export const MultipleFiles: Story = {
 	args: {
-		kind: 'document-uploader',
-		variant: 'filled',
+		kind: 'multiple-files',
+		showPreview: true,
 		onFilesSelected: (files) =>
-			console.log('Files selected:', files),
+			console.log('Multiple files selected:', files),
 	},
 };
 
-// Sizes examples
 export const SmallSize: Story = {
 	args: {
 		kind: 'file-button',
@@ -209,11 +182,20 @@ export const SmallSize: Story = {
 	},
 };
 
-export const LargeSize: Story = {
+export const SuccessState: Story = {
 	args: {
 		kind: 'dropzone',
-		size: 'large',
-		showPreview: true,
+		state: 'success',
+		successText: 'Files uploaded successfully!',
+		onFilesSelected: (files) =>
+			console.log('Files selected:', files),
+	},
+};
+
+export const UploadingState: Story = {
+	args: {
+		kind: 'dropzone',
+		state: 'uploading',
 		onFilesSelected: (files) =>
 			console.log('Files selected:', files),
 	},

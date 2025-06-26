@@ -78,7 +78,7 @@
 	@include visually-hidden;
 }
 
-.themePaletteProvider {
-	// ThemePaletteProvider affects global theming
+.ThemeProvider {
+	// ThemeProvider affects global theming
 	display: contents;
 }

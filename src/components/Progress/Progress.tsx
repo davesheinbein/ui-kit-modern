@@ -1,16 +1,14 @@
 import React, { forwardRef } from 'react';
-import Progress, { UnifiedProgressProps } from './Progress';
+import Progress, { ProgressProps } from './Progress';
 
 export interface ProgressProps
-	extends Omit<UnifiedProgressProps, 'kind'> {
+	extends Omit<ProgressProps, 'kind'> {
 	kind?: ProgressProps['kind'];
 }
 
 const Progress = forwardRef<HTMLDivElement, ProgressProps>(
 	({ kind = 'linear-progress', ...props }, ref) => {
-		return (
-			<UnifiedProgress ref={ref} kind={kind} {...props} />
-		);
+		return <Progress ref={ref} kind={kind} {...props} />;
 	}
 );
 

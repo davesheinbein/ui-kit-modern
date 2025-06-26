@@ -29,7 +29,8 @@ export interface RadioProps {
 	className?: string;
 	disabled?: boolean;
 	required?: boolean;
-	configuration: RadioConfiguration;
+	kind?: ExtendedRadioKind;
+	configuration?: Partial<RadioConfiguration>;
 }
 
 export const Radio = forwardRef<HTMLDivElement, RadioProps>(
@@ -47,7 +48,8 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(
 			className,
 			disabled,
 			required,
-			configuration,
+			kind = 'standard',
+			configuration = {},
 			...props
 		},
 		ref
@@ -206,6 +208,7 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(
 						onChange={() => handleChange(option.value)}
 						className={inputClasses}
 						style={{
+							// Only keep prop-dependent inline styles
 							animationDuration: `${configuration.animationDuration}ms`,
 						}}
 					/>
@@ -280,15 +283,11 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(
 Radio.displayName = 'Radio';
 export default Radio;
 
-export interface RadioProps
-	extends Omit<RadioProps, 'configuration'> {
-	kind: ExtendedRadioKind;
-	configuration?: Partial<RadioConfiguration>;
-}
+// Remove the duplicate RadioProps interface and update helpers to use the main RadioProps type
 
 function createRadio({
-	kind,
-	configuration,
+	kind = 'standard',
+	configuration = {},
 	...props
 }: RadioProps) {
 	const baseConfig =
@@ -298,7 +297,13 @@ function createRadio({
 		...baseConfig,
 		...configuration,
 	};
-	return <Radio {...props} configuration={finalConfig} />;
+	return (
+		<Radio
+			{...props}
+			kind={kind}
+			configuration={finalConfig}
+		/>
+	);
 }
 
 const Presets = {

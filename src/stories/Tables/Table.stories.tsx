@@ -5,10 +5,12 @@ import {
 	createTable,
 	TablePresets,
 } from '../../components/Table';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Table> = {
 	title: 'Tables/Table',
 	component: Table,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'fullscreen',
 	},

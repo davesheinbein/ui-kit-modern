@@ -2,10 +2,12 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Loading } from '../../components/Loading';
 import type { LoadingProps } from '../../components/Loading';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Loading> = {
 	title: 'Feedback/Loading',
 	component: Loading,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	argTypes: {
 		kind: {

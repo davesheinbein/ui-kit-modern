@@ -1,9 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Analytics } from '../../components/Analytics';
+import { Chart } from '../../components/Chart';
+import { Graph } from '../../components/Graphs';
+import { commonDecorators } from '../config/decorators';
+import {
+	sampleChartData,
+	pieChartData,
+	timeSeriesData,
+	multiSeriesData,
+} from '../mocks/index';
 
 const meta: Meta<typeof Analytics> = {
 	title: 'Analytics/Analytics',
 	component: Analytics,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -84,78 +94,179 @@ const meta: Meta<typeof Analytics> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Sample data for stories
-const sampleMetrics = [
-	{
-		id: '1',
-		name: 'Total Users',
-		value: 1234,
-		change: 12.5,
-		trend: 'up' as const,
-	},
-];
-
-const sampleData = [
-	{ date: '2024-01-01', value: 100 },
-	{ date: '2024-01-02', value: 150 },
-	{ date: '2024-01-03', value: 120 },
-	{ date: '2024-01-04', value: 180 },
-	{ date: '2024-01-05', value: 200 },
-];
-
-export const Default: Story = {
-	args: {
-		kind: 'dashboard',
-		title: 'Analytics Dashboard',
-		metrics: sampleMetrics,
-		data: sampleData,
-	},
-};
-
 export const Dashboard: Story = {
 	args: {
 		kind: 'dashboard',
-		title: 'Main Dashboard',
-		metrics: sampleMetrics,
-		data: sampleData,
-		variant: 'dashboard',
-		size: 'lg',
-	},
-};
-
-export const Realtime: Story = {
-	args: {
-		kind: 'realtime',
-		title: 'Real-time Metrics',
+		title: 'Performance Dashboard',
 		metrics: [
 			{
 				id: '1',
-				name: 'Active Users',
-				value: 42,
+				name: 'Total Users',
+				value: 1234,
+				change: 12.5,
 				trend: 'up',
 			},
+			{
+				id: '2',
+				name: 'Active Sessions',
+				value: 321,
+				change: -3.2,
+				trend: 'down',
+			},
+			{
+				id: '3',
+				name: 'Conversion Rate',
+				value: 0.18,
+				change: 0.01,
+				trend: 'up',
+				format: 'percentage',
+			},
 		],
-		data: sampleData,
-		variant: 'realtime',
-		size: 'md',
-	},
-};
-
-export const Reports: Story = {
-	args: {
-		kind: 'report',
-		title: 'Monthly Reports',
-		data: sampleData,
-		timeRange: 'month',
-		variant: 'reports',
+		data: sampleChartData,
+		variant: 'dashboard',
 		size: 'lg',
 	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'A dashboard with multiple metrics and a chart.',
+			},
+		},
+	},
 };
 
-export const Metrics: Story = {
+export const ChartWithCustomRenderer: Story = {
+	args: {
+		kind: 'chart',
+		title: 'Custom Bar Chart',
+		data: multiSeriesData,
+		showLegend: true,
+		chartType: 'bar',
+		variant: 'dashboard',
+		size: 'md',
+		customRenderer: () => (
+			<Chart
+				kind='legend-horizontal'
+				chartId='analytics-bar-demo'
+				dataSeries={[
+					{
+						id: 'wins',
+						label: 'Wins',
+						color: '#3b82f6',
+						visible: true,
+						data: multiSeriesData.map((d) => ({
+							x: d.month,
+							y: d.wins,
+						})),
+					},
+					{
+						id: 'losses',
+						label: 'Losses',
+						color: '#ef4444',
+						visible: true,
+						data: multiSeriesData.map((d) => ({
+							x: d.month,
+							y: d.losses,
+						})),
+					},
+					{
+						id: 'draws',
+						label: 'Draws',
+						color: '#f59e0b',
+						visible: true,
+						data: multiSeriesData.map((d) => ({
+							x: d.month,
+							y: d.draws,
+						})),
+					},
+				]}
+				variant='modern'
+				showIcons
+			/>
+		),
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Analytics with a custom Chart (legend-horizontal) as its content.',
+			},
+		},
+	},
+};
+
+export const PieChartWithCustomRenderer: Story = {
+	args: {
+		kind: 'chart',
+		title: 'Custom Pie Chart',
+		data: pieChartData,
+		showLegend: true,
+		chartType: 'pie',
+		variant: 'dashboard',
+		size: 'md',
+		customRenderer: () => (
+			<Chart
+				kind='legend-grid'
+				chartId='analytics-pie-demo'
+				dataSeries={pieChartData.map((d, i) => ({
+					id: d.category,
+					label: d.category,
+					color: [
+						'#3b82f6',
+						'#10b981',
+						'#f59e0b',
+						'#ef4444',
+					][i],
+					visible: true,
+					data: [{ x: d.category, y: d.score }],
+				}))}
+				variant='modern'
+				showIcons
+			/>
+		),
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Analytics with a custom Chart (legend-grid) as its content.',
+			},
+		},
+	},
+};
+
+export const GraphWithCustomRenderer: Story = {
+	args: {
+		kind: 'report',
+		title: 'Custom Graph Report',
+		data: timeSeriesData,
+		variant: 'reports',
+		size: 'lg',
+		customRenderer: () => (
+			<Graph
+				kind='line'
+				data={timeSeriesData}
+				dataKey='date'
+				title='Time Series Line Graph'
+			/>
+		),
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Analytics with a custom Graph (line) as its content.',
+			},
+		},
+	},
+};
+
+// Keep a few core stories for reference
+export const Metric: Story = {
 	args: {
 		kind: 'metric',
-		title: 'Key Metrics',
+		title: 'Uptime',
 		metrics: [
 			{
 				id: '1',
@@ -169,123 +280,42 @@ export const Metrics: Story = {
 		variant: 'metrics',
 		size: 'md',
 	},
-};
-
-export const Performance: Story = {
-	args: {
-		kind: 'dashboard',
-		title: 'Performance Metrics',
-		metrics: [
-			{
-				id: '1',
-				name: 'Performance Score',
-				value: 85,
-				trend: 'up',
+	parameters: {
+		docs: {
+			description: {
+				story: 'A single key metric with trend.',
 			},
-		],
-		variant: 'performance',
-		size: 'md',
+		},
 	},
 };
 
 export const Loading: Story = {
 	args: {
 		kind: 'dashboard',
-		title: 'Loading Dashboard',
+		title: 'Loading State',
 		loading: true,
 		variant: 'dashboard',
 		size: 'md',
+	},
+	parameters: {
+		docs: {
+			description: { story: 'Shows the loading state.' },
+		},
 	},
 };
 
 export const Error: Story = {
 	args: {
 		kind: 'dashboard',
-		title: 'Error Dashboard',
+		title: 'Error State',
 		error:
 			'Failed to load analytics data. Please try again.',
 		variant: 'dashboard',
 		size: 'md',
 	},
-};
-
-export const Small: Story = {
-	args: {
-		kind: 'metric',
-		title: 'Small Metrics',
-		metrics: sampleMetrics,
-		variant: 'metrics',
-		size: 'sm',
-	},
-};
-
-export const Large: Story = {
-	args: {
-		kind: 'dashboard',
-		title: 'Large Dashboard',
-		metrics: sampleMetrics,
-		data: sampleData,
-		variant: 'dashboard',
-		size: 'lg',
-	},
-};
-
-export const Minimal: Story = {
-	args: {
-		kind: 'metric',
-		title: 'Minimal View',
-		metrics: sampleMetrics,
-		variant: 'metrics',
-		size: 'md',
-	},
-};
-
-export const Detailed: Story = {
-	args: {
-		kind: 'dashboard',
-		title: 'Detailed Analytics',
-		metrics: sampleMetrics,
-		data: sampleData,
-		variant: 'dashboard',
-		size: 'lg',
-		timeRange: 'week',
-	},
-};
-
-// Interactive stories
-export const Interactive: Story = {
-	args: {
-		kind: 'dashboard',
-		title: 'Interactive Dashboard',
-		metrics: sampleMetrics,
-		data: sampleData,
-		variant: 'dashboard',
-		size: 'lg',
-	},
-	play: async ({ canvasElement }) => {
-		// Add interaction testing if needed
-	},
-};
-
-// Playground story for testing all combinations
-export const Playground: Story = {
-	args: {
-		kind: 'dashboard',
-		title: 'Analytics Playground',
-		metrics: sampleMetrics,
-		data: sampleData,
-		variant: 'dashboard',
-		size: 'md',
-		timeRange: 'day',
-	},
-	argTypes: {
-		metrics: {
-			control: 'object',
-			description: 'Metrics data array',
-		},
-		data: {
-			control: 'object',
-			description: 'Chart data array',
+	parameters: {
+		docs: {
+			description: { story: 'Shows the error state.' },
 		},
 	},
 };

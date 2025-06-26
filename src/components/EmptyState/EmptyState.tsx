@@ -164,11 +164,14 @@ const EmptyState = forwardRef<
 					(isPrimary ? 'primary' : 'secondary')
 			}
 			onClick={action.onClick}
-			className={`${styles.empty_state__action} ${
+			className={[
+				styles.empty_state__action,
 				styles[
 					`empty_state__action--${action.variant || (isPrimary ? 'primary' : 'secondary')}`
-				]
-			}`}
+				],
+			]
+				.filter(Boolean)
+				.join(' ')}
 		>
 			{action.icon && (
 				<span className={styles.empty_state__action_icon}>

@@ -502,17 +502,6 @@ export const themeBuilder: SettingsConfiguration = {
 	},
 };
 
-// VS mode defaults
-export const vsModeDefaults = {
-	player: '#2563eb',
-	enemy: '#ef4444',
-	playerBg: '#e0e7ff',
-	enemyBg: '#fee2e2',
-	boardBg: '#fff',
-	font: '#222',
-	border: '#e0e7ef',
-};
-
 // Utility functions for theme management
 export function getThemeByName(
 	name: string,

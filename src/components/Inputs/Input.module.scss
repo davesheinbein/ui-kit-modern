@@ -32,8 +32,9 @@
 	font-weight: 500;
 	margin-bottom: var(--spacing-1);
 
-	.required {
+	&__required {
 		color: var(--color-error);
+		font-weight: bold;
 		margin-left: var(--spacing-1);
 	}
 }

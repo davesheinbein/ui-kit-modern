@@ -122,7 +122,7 @@ const Providers = forwardRef<HTMLDivElement, ProviderProps>(
 				);
 			case 'theme-palette-provider':
 				return (
-					<ThemePaletteProviderComponent
+					<ThemeProvider
 						initialTheme={initialTheme}
 						initialPalette={initialPalette}
 						ref={ref}
@@ -130,7 +130,7 @@ const Providers = forwardRef<HTMLDivElement, ProviderProps>(
 						{...props}
 					>
 						{children}
-					</ThemePaletteProviderComponent>
+					</ThemeProvider>
 				);
 			case 'achievement-socket-listener':
 				return (
@@ -232,7 +232,7 @@ const UserSettingsProviderComponent = forwardRef<
 	}
 );
 
-const ThemePaletteProviderComponent = forwardRef<
+const ThemeProvider = forwardRef<
 	HTMLDivElement,
 	{
 		initialTheme?: string;
@@ -423,6 +423,7 @@ export {
 	QuickProviders,
 	Provider,
 	ExtendedProviderPresets,
+	ThemeProvider,
 };
 
 Providers.displayName = 'Providers';

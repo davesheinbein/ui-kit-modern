@@ -106,7 +106,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar',
 		className: styles.friendsSidebar,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-compact': {
@@ -122,7 +122,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (compact)',
 		className: styles.friendsSidebarCompact,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-expanded': {
@@ -138,7 +138,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (expanded)',
 		className: styles.friendsSidebarExpanded,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'settings': {
@@ -154,7 +154,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Settings sidebar',
 		className: styles.settingsSidebar,
-		overlayClassName: styles.settingsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'settings-minimal': {
@@ -214,7 +214,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2200,
 		ariaLabel: 'Notifications sidebar',
 		className: styles.notificationsSidebar,
-		overlayClassName: styles.notificationsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'notifications-compact': {
@@ -245,7 +245,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (left)',
 		className: styles.friendsSidebarLeft,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-right': {
@@ -261,7 +261,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (right)',
 		className: styles.friendsSidebarRight,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'settings-left': {
@@ -277,7 +277,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Settings sidebar (left)',
 		className: styles.settingsSidebarLeft,
-		overlayClassName: styles.settingsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'settings-right': {
@@ -293,7 +293,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Settings sidebar (right)',
 		className: styles.settingsSidebarRight,
-		overlayClassName: styles.settingsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	// Size variants
@@ -310,7 +310,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (small)',
 		className: styles.friendsSidebarSmall,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-medium': {
@@ -326,7 +326,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (medium)',
 		className: styles.friendsSidebarMedium,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-large': {
@@ -342,7 +342,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (large)',
 		className: styles.friendsSidebarLarge,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-full': {
@@ -358,7 +358,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (full width)',
 		className: styles.friendsSidebarFull,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	// Behavior variants
@@ -375,7 +375,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2500,
 		ariaLabel: 'Friends sidebar (modal)',
 		className: styles.friendsSidebarModal,
-		overlayClassName: styles.friendsSidebarOverlayModal,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-slide': {
@@ -391,7 +391,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (slide)',
 		className: styles.friendsSidebarSlide,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-push': {
@@ -422,7 +422,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2000,
 		ariaLabel: 'Friends sidebar (overlay)',
 		className: styles.friendsSidebarOverlayMode,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	// Animation variants
@@ -439,7 +439,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (fade animation)',
 		className: styles.friendsSidebarFade,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-scale': {
@@ -455,7 +455,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (scale animation)',
 		className: styles.friendsSidebarScale,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-no-animation': {
@@ -471,7 +471,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (no animation)',
 		className: styles.friendsSidebarNoAnimation,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	// Custom combinations
@@ -488,7 +488,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (mobile)',
 		className: styles.friendsSidebarMobile,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'friends-desktop': {
@@ -519,7 +519,7 @@ export const SIDEBAR_CONFIGURATIONS: Record<
 		zIndex: 2100,
 		ariaLabel: 'Friends sidebar (responsive)',
 		className: styles.friendsSidebarResponsive,
-		overlayClassName: styles.friendsSidebarOverlay,
+		overlayClassName: styles.sidebarOverlay,
 	},
 
 	'custom': {

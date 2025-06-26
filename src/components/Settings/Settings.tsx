@@ -289,26 +289,44 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 							<Wrapper className={styles.themeSwatch}>
 								{item.primaryColor && (
 									<Wrapper
-										className={styles.themeSwatchBar}
-										style={{
-											backgroundColor: item.primaryColor,
-										}}
+										className={clsx(
+											styles.themeSwatchBar,
+											styles['themeSwatchBar--primary']
+										)}
+										style={
+											{
+												'--theme-primary-color':
+													item.primaryColor,
+											} as React.CSSProperties
+										}
 									/>
 								)}
 								{item.accentColor && (
 									<Wrapper
-										className={styles.themeSwatchBar}
-										style={{
-											backgroundColor: item.accentColor,
-										}}
+										className={clsx(
+											styles.themeSwatchBar,
+											styles['themeSwatchBar--accent']
+										)}
+										style={
+											{
+												'--theme-accent-color':
+													item.accentColor,
+											} as React.CSSProperties
+										}
 									/>
 								)}
 								{item.secondaryColor && (
 									<Wrapper
-										className={styles.themeSwatchBar}
-										style={{
-											backgroundColor: item.secondaryColor,
-										}}
+										className={clsx(
+											styles.themeSwatchBar,
+											styles['themeSwatchBar--secondary']
+										)}
+										style={
+											{
+												'--theme-secondary-color':
+													item.secondaryColor,
+											} as React.CSSProperties
+										}
 									/>
 								)}
 							</Wrapper>
@@ -323,8 +341,15 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 
 					{isFont && (
 						<Wrapper
-							className={styles.fontPreview}
-							style={{ fontFamily: item.style }}
+							className={clsx(
+								styles.fontPreview,
+								styles['fontPreview--customFont']
+							)}
+							style={
+								{
+									'--custom-font-family': item.style,
+								} as React.CSSProperties
+							}
 						>
 							Aa
 						</Wrapper>
@@ -332,11 +357,17 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 
 					{isBorder && (
 						<Wrapper
-							className={styles.borderPreview}
-							style={{
-								borderColor: item.borderColor,
-								borderStyle: item.style || 'solid',
-							}}
+							className={clsx(
+								styles.borderPreview,
+								styles['borderPreview--customBorder']
+							)}
+							style={
+								{
+									'--custom-border-color': item.borderColor,
+									'--custom-border-style':
+										item.style || 'solid',
+								} as React.CSSProperties
+							}
 						/>
 					)}
 

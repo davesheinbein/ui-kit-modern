@@ -7,6 +7,7 @@ import { commonArgTypes } from '../config/argTypes';
 const meta: Meta<typeof Range> = {
 	title: 'Range/Range',
 	component: Range,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
 		docs: {

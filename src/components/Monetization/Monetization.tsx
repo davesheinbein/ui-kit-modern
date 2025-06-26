@@ -583,28 +583,25 @@ const Monetization = forwardRef<
 				onDismiss,
 			} = props;
 			return (
-				<Wrapper style={{ textAlign: 'center' }}>
+				<Wrapper className={styles.upgradePrompt}>
 					{recommendedPlan && (
 						<>
-							<div
-								style={{
-									fontWeight: 700,
-									fontSize: '1.25rem',
-									marginBottom: 8,
-								}}
-							>
+							<div className={styles.upgradePrompt__title}>
 								Upgrade from {currentPlan} to{' '}
 								{recommendedPlan.name}
 							</div>
 							<ul
-								style={{
-									margin: '1rem 0',
-									padding: 0,
-									listStyle: 'none',
-								}}
+								className={styles.upgradePrompt__benefits}
 							>
 								{benefits.map((b, i) => (
-									<li key={i}>• {b}</li>
+									<li
+										key={i}
+										className={
+											styles.upgradePrompt__benefit
+										}
+									>
+										• {b}
+									</li>
 								))}
 							</ul>
 							<Button kind='primary' onClick={onUpgrade}>
@@ -614,12 +611,56 @@ const Monetization = forwardRef<
 								<Button
 									kind='secondary'
 									onClick={onDismiss}
-									style={{ marginLeft: 8 }}
+									className={styles.upgradePrompt__dismiss}
 								>
 									Dismiss
 								</Button>
 							)}
 						</>
+					)}
+				</Wrapper>
+			);
+		};
+
+		const renderDiscountBanner = () => {
+			const { discount, onApply, onDismiss } = props;
+			if (!discount) return <Wrapper>No discount</Wrapper>;
+			const discountText =
+				discount.type === 'percentage' ?
+					`${discount.value}% OFF`
+				:	`${formatPrice(discount.value)} OFF`;
+			return (
+				<Wrapper className={styles.discountBanner}>
+					{onDismiss && (
+						<Button
+							kind='secondary'
+							onClick={onDismiss}
+							className={styles.discountBanner__dismiss}
+						>
+							×
+						</Button>
+					)}
+					<div className={styles.discountBanner__title}>
+						{discountText}
+					</div>
+					{discount.code && (
+						<div className={styles.discountBanner__code}>
+							Use code: <b>{discount.code}</b>
+						</div>
+					)}
+					{discount.expiresAt && (
+						<div className={styles.discountBanner__expires}>
+							Expires:{' '}
+							{discount.expiresAt.toLocaleDateString()}
+						</div>
+					)}
+					{onApply && (
+						<Button
+							kind='primary'
+							onClick={() => onApply(discount.code)}
+						>
+							Apply
+						</Button>
 					)}
 				</Wrapper>
 			);
@@ -633,10 +674,8 @@ const Monetization = forwardRef<
 				onEarn,
 			} = props;
 			return (
-				<Wrapper style={{ textAlign: 'center' }}>
-					<div
-						style={{ fontWeight: 700, fontSize: '2rem' }}
-					>
+				<Wrapper className={styles.creditDisplay}>
+					<div className={styles.creditDisplay__amount}>
 						{credits}
 						{maxCredits ? ` / ${maxCredits}` : ''} credits
 					</div>
@@ -649,7 +688,7 @@ const Monetization = forwardRef<
 						<Button
 							kind='secondary'
 							onClick={onEarn}
-							style={{ marginLeft: 8 }}
+							className={styles.creditDisplay__earn}
 						>
 							Earn Credits
 						</Button>
@@ -664,80 +703,18 @@ const Monetization = forwardRef<
 			return (
 				<Button
 					kind='primary'
-					className={styles.pricingButton}
+					className={clsx(
+						styles.pricingButton,
+						styles.purchaseButtonFullWidth
+					)}
 					onClick={onPurchase}
 					disabled={disabled || loading}
-					style={{ width: '100%' }}
 				>
 					{loading ?
 						'Processing...'
 					:	`Buy ${product.name} - ${formatPrice(product.price, product.currency)}`
 					}
 				</Button>
-			);
-		};
-
-		const renderDiscountBanner = () => {
-			const { discount, onApply, onDismiss } = props;
-			if (!discount) return <Wrapper>No discount</Wrapper>;
-			const discountText =
-				discount.type === 'percentage' ?
-					`${discount.value}% OFF`
-				:	`${formatPrice(discount.value)} OFF`;
-			return (
-				<Wrapper
-					style={{
-						textAlign: 'center',
-						position: 'relative',
-					}}
-				>
-					{onDismiss && (
-						<Button
-							kind='secondary'
-							onClick={onDismiss}
-							style={{
-								position: 'absolute',
-								right: 0,
-								top: 0,
-							}}
-						>
-							×
-						</Button>
-					)}
-					<div
-						style={{
-							fontWeight: 700,
-							fontSize: '1.5rem',
-							marginBottom: 8,
-						}}
-					>
-						{discountText}
-					</div>
-					{discount.code && (
-						<div style={{ marginBottom: 8 }}>
-							Use code: <b>{discount.code}</b>
-						</div>
-					)}
-					{discount.expiresAt && (
-						<div
-							style={{
-								color: 'var(--color-error-500)',
-								marginBottom: 8,
-							}}
-						>
-							Expires:{' '}
-							{discount.expiresAt.toLocaleDateString()}
-						</div>
-					)}
-					{onApply && (
-						<Button
-							kind='primary'
-							onClick={() => onApply(discount.code)}
-						>
-							Apply
-						</Button>
-					)}
-				</Wrapper>
 			);
 		};
 

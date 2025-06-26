@@ -1,79 +1,30 @@
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 import { Wrapper } from '../../components/Wrappers';
+import { height } from '@fortawesome/free-solid-svg-icons/fa0';
+
+// Redux Provider decorator for Storybook
+export const reduxProviderDecorator = (Story: any) => (
+	<Provider store={store}>
+		<Story />
+	</Provider>
+);
 
 export const commonDecorators = [
+	reduxProviderDecorator,
 	(Story: any) => (
 		<Wrapper
 			kind='flex-container'
 			direction='column'
-			style={{ padding: '1rem', minHeight: '400px' }}
+			style={{
+				height: '100%',
+				minHeight: '100vh',
+				padding: 0,
+				gap: 0,
+			}}
 		>
 			<Story />
 		</Wrapper>
 	),
 ];
-
-export const centeredDecorator = (Story: any) => (
-	<Wrapper
-		kind='center-container'
-		method='flex'
-		style={{
-			minHeight: '400px',
-			padding: '2rem',
-		}}
-	>
-		<Story />
-	</Wrapper>
-);
-
-export const darkBackgroundDecorator = (Story: any) => (
-	<Wrapper
-		kind='flex-container'
-		direction='column'
-		style={{
-			backgroundColor: '#1a1a1a',
-			color: 'white',
-			padding: '2rem',
-			minHeight: '400px',
-		}}
-	>
-		<Story />
-	</Wrapper>
-);
-
-export const gameLayoutDecorator = (Story: any) => (
-	<Wrapper
-		kind='center-container'
-		style={{
-			width: '100%',
-			maxWidth: '1200px',
-			margin: '0 auto',
-			padding: '1rem',
-			backgroundColor: '#f5f5f5',
-			minHeight: '600px',
-		}}
-	>
-		<Story />
-	</Wrapper>
-);
-
-export const modalDecorator = (Story: any) => (
-	<Wrapper
-		style={{ position: 'relative', height: '600px' }}
-	>
-		<Story />
-	</Wrapper>
-);
-
-export const cardGridDecorator = (Story: any) => (
-	<Wrapper
-		style={{
-			display: 'grid',
-			gridTemplateColumns:
-				'repeat(auto-fit, minmax(300px, 1fr))',
-			gap: '1rem',
-			padding: '1rem',
-		}}
-	>
-		<Story />
-	</Wrapper>
-);

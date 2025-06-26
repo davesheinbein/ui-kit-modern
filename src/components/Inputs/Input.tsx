@@ -204,7 +204,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 						className={`${styles.label} ${labelClassName}`}
 					>
 						{label}
-						{required && ' *'}
+						{required && (
+							<span className={styles.label__required}>
+								*
+							</span>
+						)}
 					</label>
 				)}
 				<div

@@ -3,6 +3,7 @@ import { Wrapper } from '../../components/Wrappers';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
+import { commonDecorators } from '../config/decorators';
 
 // Types for different modal configurations
 interface UserStats {
@@ -56,6 +57,7 @@ The modal system provides both basic modal components and -based modal creation 
 2. **Wrapper Components**: For complex interactions
 3. **Hook-based**: For state management
 `,
+				decorators: commonDecorators,
 			},
 		},
 		layout: 'fullscreen',

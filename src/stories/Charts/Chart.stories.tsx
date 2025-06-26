@@ -1,42 +1,17 @@
 import React from 'react';
 import {
 	Chart,
-	ChartProps,
-	LegendChart,
-	LegendHorizontal,
-	LegendVertical,
-	LegendGrid,
-	LegendMinimal,
-	TooltipChart,
-	TooltipSimple,
-	TooltipDetailed,
-	TooltipCustom,
-	FilterControls,
-	FilterCheckboxes,
-	FilterButtons,
-	FilterDropdown,
-	FilterMultiSelect,
 	ChartControls,
-	ZoomControls,
-	TimeRangeSelector,
-	DataSeriesToggle,
-	DashboardLegend,
-	GameStatsFilter,
+	LegendVertical,
+	FilterCheckboxes,
 } from '../../components/Chart';
-import { Meta, StoryObj } from '@storybook/react';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
+import { commonDecorators } from '../config/decorators';
+import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<ChartProps> = {
+const meta: Meta<any> = {
 	title: 'Charts/Chart',
 	component: Chart,
-	decorators: [
-		(Story) => (
-			<Provider store={store}>
-				<Story />
-			</Provider>
-		),
-	],
+	decorators: commonDecorators,
 	args: {
 		kind: 'chart-legend',
 		chartId: 'demo-chart',
@@ -70,12 +45,21 @@ const meta: Meta<ChartProps> = {
 		layout: 'centered',
 	},
 };
-
 export default meta;
+type Story = StoryObj<any>;
 
-type Story = StoryObj<ChartProps>;
+// Alphabetized stories
+export const ChartControlsStory: Story = {
+	render: (args) => (
+		<ChartControls {...args} chartId='controls-demo' />
+	),
+	args: {},
+};
 
-export const Default: Story = {
+export const Default: Story = { args: {} };
+
+export const Tooltip: Story = {
+	render: (args) => <div>Tooltip story placeholder</div>,
 	args: {},
 };
 
@@ -98,22 +82,6 @@ export const WithFilterControls: Story = {
 			showSelectAll
 			searchable
 		/>
-	),
-	args: {},
-};
-
-export const Tooltip: Story = {
-	render: (args) => (
-		<TooltipChart {...args} chartId='tooltip-demo'>
-			This is a tooltip for a chart data point.
-		</TooltipChart>
-	),
-	args: {},
-};
-
-export const ChartControlsStory: Story = {
-	render: (args) => (
-		<ChartControls {...args} chartId='controls-demo' />
 	),
 	args: {},
 };

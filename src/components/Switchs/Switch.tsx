@@ -22,7 +22,7 @@ import {
 } from '../../store/slices/uiSlice';
 import styles from './Switch.module.scss';
 
-export interface SwitchProps {
+export interface UISwitchProps {
 	checked?: boolean;
 	defaultChecked?: boolean;
 	onChange?: (checked: boolean) => void;
@@ -43,10 +43,10 @@ export interface SwitchProps {
 }
 
 export function createSwitch(
-	props: SwitchProps & React.RefAttributes<HTMLDivElement>
+	props: UISwitchProps & React.RefAttributes<HTMLDivElement>
 ) {
 	const {
-		kind,
+		kind = 'toggle',
 		checked,
 		defaultChecked,
 		onChange,
@@ -61,6 +61,7 @@ export function createSwitch(
 		name,
 		id,
 		configuration,
+		componentId,
 		...rest
 	} = props;
 	const baseConfig =
@@ -75,6 +76,7 @@ export function createSwitch(
 	if (required) finalConfig.required = true;
 	return (
 		<Switch
+			kind={kind}
 			checked={checked}
 			defaultChecked={defaultChecked}
 			onChange={onChange}
@@ -88,6 +90,7 @@ export function createSwitch(
 			required={required}
 			name={name}
 			id={id}
+			componentId={componentId}
 			configuration={finalConfig}
 			{...rest}
 		/>
@@ -96,11 +99,11 @@ export function createSwitch(
 
 export const Switch = forwardRef<
 	HTMLDivElement,
-	SwitchProps
+	UISwitchProps
 >(
 	(
 		{
-			kind,
+			kind = 'toggle', // default kind
 			configuration,
 			checked: controlledChecked,
 			defaultChecked,
@@ -195,16 +198,17 @@ export const Switch = forwardRef<
 			onChange,
 		]);
 
-		let finalConfig = configuration as SwitchConfiguration;
-		if (kind) {
-			const baseConfig =
-				SWITCH_CONFIGURATIONS[kind as ExtendedSwitchKind] ||
-				SWITCH_CONFIGURATIONS.toggle;
-			finalConfig = {
-				...baseConfig,
-				...configuration,
-			};
-		}
+		// Robust config merging: always merge with default config for kind
+		const baseConfig =
+			SWITCH_CONFIGURATIONS[kind as ExtendedSwitchKind] ||
+			SWITCH_CONFIGURATIONS.toggle;
+		const finalConfig: SwitchConfiguration = {
+			...baseConfig,
+			...(configuration || {}),
+		};
+		if (disabled) finalConfig.state = 'disabled';
+		if (error) finalConfig.state = 'error';
+		if (required) finalConfig.required = true;
 
 		const containerClasses = classNames(
 			styles.switchContainer,

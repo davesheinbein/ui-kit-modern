@@ -139,12 +139,7 @@ const RadarAxisTick = (props: any) => {
 			<g transform={`translate(${x},${y})`}>
 				<text
 					textAnchor={textAnchor}
-					fontSize={14}
-					fill='var(--color-accent)'
-					fontWeight={600}
-					style={{
-						textShadow: '0 1px 4px rgba(0,0,0,0.06)',
-					}}
+					className={styles.graphs__radarAxisTick}
 				>
 					{label}
 				</text>
@@ -161,10 +156,7 @@ const RadarAxisTick = (props: any) => {
 		<g transform={`translate(${x},${y})`}>
 			<text
 				textAnchor='middle'
-				fontSize={14}
-				fill='var(--color-accent)'
-				fontWeight={600}
-				style={{ textShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
+				className={styles.graphs__radarAxisTick}
 				transform={`rotate(${angle})`}
 			>
 				{label}
@@ -283,13 +275,7 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 
 		if (!data || data.length === 0) {
 			chart = (
-				<div
-					style={{
-						color: 'var(--color-text-muted)',
-						textAlign: 'center',
-						padding: '2rem',
-					}}
-				>
+				<div className={styles.graphs__emptyLabel}>
 					{emptyLabel}
 				</div>
 			);
@@ -786,13 +772,7 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 					break;
 				default:
 					chart = (
-						<div
-							style={{
-								color: 'var(--color-danger)',
-								textAlign: 'center',
-								padding: '2rem',
-							}}
-						>
+						<div className={styles.graphs__unsupportedKind}>
 							Unsupported graph kind: <b>{kind}</b>
 						</div>
 					);

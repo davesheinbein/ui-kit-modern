@@ -152,18 +152,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 					<img
 						src={imageUrl}
 						alt={userName || 'Profile'}
-						style={{
-							width: 36,
-							height: 36,
-							borderRadius: '50%',
-							objectFit: 'cover',
-							border: '2px solid #38bdf8',
-						}}
+						className={styles['friends-toggle__image']}
 					/>
 				);
 			} else {
 				friendsToggleContent = (
-					<span className='friends-toggle-icon'>
+					<span className={styles['friends-toggle-icon']}>
 						<svg
 							width='28'
 							height='28'
@@ -257,15 +251,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				) {
 					return (
 						<span
-							style={{
-								display: 'flex',
-								flexDirection:
-									iconPosition === 'top' ? 'column' : (
-										'column-reverse'
-									),
-								alignItems: 'center',
-								justifyContent: 'center',
-							}}
+							className={
+								iconPosition === 'top' ?
+									styles['button__icon-text--top']
+								:	styles['button__icon-text--bottom']
+							}
 						>
 							<span>{displayIcon}</span>
 							{displayText && <span>{displayText}</span>}

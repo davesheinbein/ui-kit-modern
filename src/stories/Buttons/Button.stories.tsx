@@ -7,10 +7,12 @@ import {
 	ButtonProps,
 } from '../../components/Button';
 import type { Meta, StoryObj } from '@storybook/react';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Button> = {
 	title: 'Buttons/Button',
 	component: Button,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {

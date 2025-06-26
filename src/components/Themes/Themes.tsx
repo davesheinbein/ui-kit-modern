@@ -2,8 +2,6 @@ import React from 'react';
 import { Wrapper } from '../Wrappers';
 import styles from './Theme.module.scss';
 import {
-	defaultThemes,
-	vsModeDefaults,
 	ThemeVariant,
 	ThemeDisplay,
 	ThemeLayout,
@@ -14,9 +12,6 @@ import {
 	THEME_GROUPS,
 	QUICK_THEMES,
 } from './configurations';
-
-// Re-export the original exports for backward compatibility
-export { defaultThemes as themes, vsModeDefaults };
 
 export interface ThemesProps
 	extends Partial<ThemeConfiguration> {
@@ -68,7 +63,7 @@ const Themes: React.FC<ThemesProps> = ({
 
 	// Behavior
 	defaultTheme = 'light',
-	themes = defaultThemes,
+	themes,
 	onChange,
 	onCustomTheme,
 
@@ -164,20 +159,9 @@ const Themes: React.FC<ThemesProps> = ({
 	// Get theme definitions
 	const themeDefinitions = React.useMemo(() => {
 		if (Array.isArray(themes)) {
-			if (typeof themes[0] === 'string') {
-				return (themes as string[]).map((name) => ({
-					name,
-					label: name,
-					color: '#ccc',
-					bg: '#fff',
-					font: '#222',
-					swatchType: 'solid',
-					vsMode: vsModeDefaults,
-				}));
-			}
 			return themes as ThemeDefinition[];
 		}
-		return defaultThemes;
+		return [];
 	}, [themes]);
 
 	// Render dropdown display
@@ -209,42 +193,71 @@ const Themes: React.FC<ThemesProps> = ({
 	// Render swatches display
 	const renderSwatches = () => (
 		<ul
-			className={`${styles.swatches} ${itemClassName}`}
-			style={{ gap: `${config.gap}px` }}
+			className={[
+				styles.swatches,
+				itemClassName,
+				getGapClass(config.gap),
+			]
+				.filter(Boolean)
+				.join(' ')}
 		>
 			{themeDefinitions.map((theme) => (
 				<li
 					key={theme.name}
-					className={`${styles.themeItem} ${activeTheme === theme.name ? styles.active : ''} ${activeTheme === theme.name ? 'active' : ''}`}
+					className={[
+						styles.themeItem,
+						activeTheme === theme.name ? styles.active : '',
+						activeTheme === theme.name ? 'active' : '',
+						styles['theme-bg'],
+						activeTheme === theme.name ?
+							styles['theme-border-active']
+						:	styles['theme-border'],
+						activeTheme === theme.name && config.showGlow ?
+							styles['theme-box-shadow-active']
+						: config.showShadow ? styles['theme-box-shadow']
+						: '',
+					]
+						.filter(Boolean)
+						.join(' ')}
 					onClick={() => handleThemeChange(theme.name)}
-					style={{
-						background: theme.bg,
-						border: `${activeTheme === theme.name ? '3px' : '2px'} solid ${activeTheme === theme.name ? theme.color : '#e0e7ef'}`,
-						boxShadow:
-							(
-								activeTheme === theme.name &&
-								config.showGlow
-							) ?
-								`0 0 16px 2px ${theme.color}66`
-							: config.showShadow ? '0 1px 4px 0 #e3eaff33'
-							: 'none',
-					}}
+					style={
+						{
+							'--theme-bg': theme.bg,
+							'--theme-border': '#e0e7ef',
+							'--theme-active-border': theme.color,
+							'--theme-shadow': '#e3eaff33',
+							'--theme-active-shadow': theme.color + '66',
+						} as React.CSSProperties
+					}
 					aria-label={`Select ${theme.label} theme`}
 				>
 					{config.showPreview && (
 						<span
-							className={styles.themePreview}
-							style={{ background: theme.color }}
+							className={[
+								styles.themePreview,
+								styles['theme-preview-color'],
+							].join(' ')}
+							style={
+								{
+									'--theme-preview-color': theme.color,
+								} as React.CSSProperties
+							}
 						/>
 					)}
 					{activeTheme === theme.name &&
 						config.showGlow &&
 						config.animated && (
 							<span
-								className={styles.themeGlow}
-								style={{
-									boxShadow: `0 0 24px 6px ${theme.color}55`,
-								}}
+								className={
+									styles.themeGlow +
+									' ' +
+									styles['theme-glow-active']
+								}
+								style={
+									{
+										'--theme-glow': theme.color + '55',
+									} as React.CSSProperties
+								}
 							/>
 						)}
 				</li>
@@ -255,8 +268,13 @@ const Themes: React.FC<ThemesProps> = ({
 	// Render cards display
 	const renderCards = () => (
 		<Wrapper
-			className={`${styles.cards} ${itemClassName}`}
-			style={{ gap: `${config.gap}px` }}
+			className={[
+				styles.cards,
+				itemClassName,
+				getGapClass(config.gap),
+			]
+				.filter(Boolean)
+				.join(' ')}
 		>
 			{themeDefinitions.map((theme) => (
 				<Wrapper
@@ -623,3 +641,9 @@ export const ThemesPresets = {
 };
 
 export default Themes;
+
+const getGapClass = (gap: number) => {
+	if (gap <= 10) return styles['theme-gap-small'];
+	if (gap >= 20) return styles['theme-gap-large'];
+	return styles['theme-gap-medium'];
+};

@@ -1,4 +1,3 @@
-// src/components/EmptyState/index.ts
 export type {
 	EmptyStateKind,
 	EmptyStateVariant,

@@ -6,26 +6,34 @@ import React, {
 } from 'react';
 import styles from './Sidebar.module.scss';
 
+// Utility for className composition (DRY)
+function cn(
+	...args: (string | undefined | false | null)[]
+) {
+	return args.filter(Boolean).join(' ');
+}
+
 export type SidebarVariant =
-	| 'permanent'
-	| 'collapsible'
-	| 'drawer'
-	| 'overlay'
-	| 'push'
-	| 'floating'
-	| 'tabbed'
-	| 'multi-level'
+	| 'classic'
 	| 'icon-only'
+	| 'collapsible'
+	| 'persistent-right'
+	| 'horizontal'
+	| 'sticky'
 	| 'profile'
-	| 'filter'
-	| 'settings'
+	| 'action-button'
+	| 'mega'
+	| 'badges'
 	| 'search'
-	| 'activity'
-	| 'quick-actions'
-	| 'favorites'
-	| 'media'
-	| 'vertical-tabs'
+	| 'theme-switcher'
 	| 'contextual'
+	| 'progress'
+	| 'widgets'
+	| 'footer-links'
+	| 'floating'
+	| 'split-nav'
+	| 'mobile-slideout'
+	| 'social-links'
 	| 'custom';
 
 export interface SidebarProps
@@ -35,6 +43,22 @@ export interface SidebarProps
 	position?: 'left' | 'right';
 	size?: 'small' | 'medium' | 'large' | 'full';
 	variant?: SidebarVariant;
+	collapsible?: boolean;
+	collapsed?: boolean;
+	iconOnly?: boolean;
+	sticky?: boolean;
+	horizontal?: boolean;
+	profile?: React.ReactNode;
+	actionButton?: React.ReactNode;
+	badges?: React.ReactNode;
+	search?: React.ReactNode;
+	themeSwitcher?: React.ReactNode;
+	progress?: React.ReactNode;
+	widgets?: React.ReactNode;
+	footerLinks?: React.ReactNode;
+	floating?: boolean;
+	splitNav?: React.ReactNode;
+	socialLinks?: React.ReactNode;
 	header?: React.ReactNode;
 	footer?: React.ReactNode;
 	showCloseButton?: boolean;
@@ -69,9 +93,25 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 		{
 			open,
 			onClose,
-			position = 'left',
+			position = 'right',
 			size = 'medium',
-			variant = 'permanent',
+			variant = 'classic',
+			collapsible = false,
+			collapsed = false,
+			iconOnly = false,
+			sticky = false,
+			horizontal = false,
+			profile,
+			actionButton,
+			badges,
+			search,
+			themeSwitcher,
+			progress,
+			widgets,
+			footerLinks,
+			floating = false,
+			splitNav,
+			socialLinks,
 			header,
 			footer,
 			showCloseButton,
@@ -103,7 +143,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 		},
 		ref
 	) => {
-		// Overlay logic
+		// Overlay and focus logic
 		const overlayRef = useRef<HTMLDivElement>(null);
 		const sidebarRef = useRef<HTMLDivElement>(null);
 		const previousActiveElement =
@@ -212,10 +252,14 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 		useEffect(() => {
 			if (
 				open &&
-				(variant === 'overlay' ||
-					variant === 'drawer' ||
-					variant === 'push' ||
-					variant === 'floating')
+				[
+					'overlay',
+					'drawer',
+					'push',
+					'floating',
+					'mobile-slideout',
+					'floating',
+				].includes(variant)
 			) {
 				const originalOverflow =
 					document.body.style.overflow;
@@ -226,55 +270,46 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 			}
 		}, [open, variant]);
 
-		// Sidebar classes
-		const sidebarClasses = [
+		// Sidebar classes (prop-driven, DRY)
+		const sidebarClasses = cn(
 			styles.baseSidebar,
-			styles[`sidebar-${position}`],
-			styles[`sidebar-size-${size}`],
-			styles[`sidebar-variant-${variant}`],
-			open ? styles['sidebar-open'] : '',
-			disableAnimation ?
-				styles['sidebar-no-animation']
-			:	'',
-			className,
-		]
-			.filter(Boolean)
-			.join(' ');
+			position === 'left' && styles['sidebar-left'],
+			size && styles[`sidebar-${size}`],
+			open && styles['sidebar-open'],
+			collapsible && styles['sidebar-collapsible'],
+			collapsed && styles['sidebar-collapsed'],
+			iconOnly && styles['sidebar-icon-only'],
+			sticky && styles['sidebar-sticky'],
+			horizontal && styles['sidebar-horizontal'],
+			floating && styles['sidebar-floating'],
+			variant === 'mega' && styles['sidebar-mega'],
+			className
+		);
 
 		// Overlay classes
-		const overlayClasses = [
+		const overlayClasses = cn(
 			styles.sidebarOverlay,
 			overlayClassName,
-			open ? styles['overlay-visible'] : '',
-		]
-			.filter(Boolean)
-			.join(' ');
+			open && styles['overlay-visible']
+		);
 
-		// Header, content, footer classes
-		const headerClasses = [
+		// Header, content, footer, close button classes
+		const headerClasses = cn(
 			styles.sidebarHeader,
-			headerClassName,
-		]
-			.filter(Boolean)
-			.join(' ');
-		const contentClasses = [
+			headerClassName
+		);
+		const contentClasses = cn(
 			styles.sidebarContent,
-			contentClassName,
-		]
-			.filter(Boolean)
-			.join(' ');
-		const footerClasses = [
+			contentClassName
+		);
+		const footerClasses = cn(
 			styles.sidebarFooter,
-			footerClassName,
-		]
-			.filter(Boolean)
-			.join(' ');
-		const closeButtonClasses = [
+			footerClassName
+		);
+		const closeButtonClasses = cn(
 			styles.sidebarCloseBtn,
-			closeButtonClassName,
-		]
-			.filter(Boolean)
-			.join(' ');
+			closeButtonClassName
+		);
 
 		// Sidebar style
 		const sidebarStyle: React.CSSProperties = {
@@ -289,15 +324,56 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 				disableAnimation ? '0s' : `${animationDuration}ms`,
 		};
 
-		// Hide close button by default for permanent sidebars
+		// Hide close button by default for classic/persistent sidebars
 		const computedShowCloseButton =
 			typeof showCloseButton === 'boolean' ? showCloseButton
-			:	variant !== 'permanent';
+			:	![
+					'classic',
+					'persistent-right',
+					'sticky',
+					'horizontal',
+				].includes(variant);
 
-		// Render header
+		// Render header (profile, search, themeSwitcher, badges, etc)
 		const sidebarHeader =
-			header !== undefined ?
-				<div className={headerClasses}>{header}</div>
+			(
+				header !== undefined ||
+				profile ||
+				search ||
+				themeSwitcher ||
+				badges
+			) ?
+				<div className={headerClasses}>
+					{profile && (
+						<div className={styles.sidebarProfile}>
+							{profile}
+						</div>
+					)}
+					{header}
+					{search && (
+						<div className={styles.sidebarSearch}>
+							{search}
+						</div>
+					)}
+					{themeSwitcher && (
+						<div className={styles.sidebarTheme}>
+							{themeSwitcher}
+						</div>
+					)}
+					{badges && (
+						<div className={styles.sidebarBadges}>
+							{badges}
+						</div>
+					)}
+				</div>
+			:	null;
+
+		// Render action button (top right)
+		const actionBtn =
+			actionButton ?
+				<div className={styles.sidebarActionBtn}>
+					{actionButton}
+				</div>
 			:	null;
 
 		// Render close button
@@ -313,13 +389,16 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 				</button>
 			:	null;
 
-		// Overlay rendering for overlay/drawer/push/floating
+		// Overlay rendering for overlay/drawer/push/floating/mobile-slideout
 		const shouldShowOverlay =
 			open &&
-			(variant === 'overlay' ||
-				variant === 'drawer' ||
-				variant === 'push' ||
-				variant === 'floating');
+			[
+				'overlay',
+				'drawer',
+				'push',
+				'floating',
+				'mobile-slideout',
+			].includes(variant);
 
 		return (
 			<>
@@ -344,8 +423,41 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 					{...rest}
 				>
 					{sidebarHeader}
+					{actionBtn}
 					{closeBtn}
+					{/* Split nav (for split navigation + CTA) */}
+					{splitNav && (
+						<div className={styles.sidebarSplitNav}>
+							{splitNav}
+						</div>
+					)}
+					{/* Progress indicators */}
+					{progress && (
+						<div className={styles.sidebarProgress}>
+							{progress}
+						</div>
+					)}
+					{/* Embedded widgets */}
+					{widgets && (
+						<div className={styles.sidebarWidgets}>
+							{widgets}
+						</div>
+					)}
+					{/* Main content */}
 					<div className={contentClasses}>{children}</div>
+					{/* Footer links */}
+					{footerLinks && (
+						<div className={styles.sidebarFooterLinks}>
+							{footerLinks}
+						</div>
+					)}
+					{/* Social/external links */}
+					{socialLinks && (
+						<div className={styles.sidebarSocialLinks}>
+							{socialLinks}
+						</div>
+					)}
+					{/* Footer */}
 					{footer && (
 						<div className={footerClasses}>{footer}</div>
 					)}

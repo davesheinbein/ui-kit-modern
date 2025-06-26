@@ -5,6 +5,29 @@ import {
 	MapProps,
 } from '../../components/Map';
 import 'leaflet/dist/leaflet.css';
+import { commonDecorators } from '../config/decorators';
+
+const meta = {
+	title: 'Map/Map',
+	component: Map,
+	decorators: commonDecorators,
+	parameters: {
+		docs: {
+			description: {
+				component: `
+**Unified Map Component**  
+All map types, variants, and features are supported via props.  
+Usage: \`<Map {...props} />\`
+
+**Visibility Note:**
+- Leaflet CSS is imported at the top of this file.
+- The map container must have an explicit height (e.g., 400px) to be visible.
+				`,
+			},
+		},
+	},
+};
+export default meta;
 
 // Example marker data for each map kind
 const mapMarkers: Record<MapKind, MapProps['markers']> = {
@@ -160,51 +183,58 @@ const mapMarkers: Record<MapKind, MapProps['markers']> = {
 	],
 };
 
-// Example centers for each map kind
+// Example centers and zooms for each map kind (visually interesting defaults)
 const mapCenters: Record<
 	MapKind,
 	{ lat: number; lng: number }
 > = {
-	'world-map': { lat: 20, lng: 0 },
-	'region-map': { lat: 48.5, lng: 11.5 },
-	'city-map': { lat: 48.8566, lng: 2.3522 },
-	'street-map': { lat: 51.5079, lng: -0.0877 },
-	'satellite-map': { lat: 36.1069, lng: -112.1129 },
-	'terrain-map': { lat: 46.8182, lng: 8.2275 },
-	'interactive-map': { lat: -33.8688, lng: 151.2093 },
-	'game-map': { lat: 34.0522, lng: -118.2437 },
-	'floor-plan': { lat: 0, lng: 0 },
-	'campus-map': { lat: 37.4275, lng: -122.1697 },
-	'location-marker': { lat: 51.5, lng: -0.09 },
-	'region-claim-marker': { lat: 40, lng: -100 },
-	'player-presence-indicator': { lat: 35, lng: 135 },
-	'poi-marker': { lat: 48.8584, lng: 2.2945 },
-	'cluster-marker': { lat: 40, lng: -75 },
-	'territory-map': { lat: 55.3781, lng: -3.436 },
-	'battle-map': { lat: 52.52, lng: 13.405 },
-	'resource-map': { lat: 60, lng: 100 },
-	'mini-map': { lat: 0, lng: 0 },
-	'radar-view': { lat: 0, lng: 0 },
+	'world-map': { lat: 30, lng: 10 }, // Center on Mediterranean
+	'region-map': { lat: 51.1657, lng: 10.4515 }, // Germany
+	'city-map': { lat: 40.7128, lng: -74.006 }, // New York City
+	'street-map': { lat: 51.5074, lng: -0.1278 }, // London
+	'satellite-map': { lat: 27.9881, lng: 86.925 }, // Mt. Everest
+	'terrain-map': { lat: 46.8523, lng: -121.7603 }, // Mt. Rainier
+	'interactive-map': { lat: 35.6895, lng: 139.6917 }, // Tokyo
+	'game-map': { lat: 34.0522, lng: -118.2437 }, // Los Angeles
+	'floor-plan': { lat: 0, lng: 0 }, // Placeholder
+	'campus-map': { lat: 37.4275, lng: -122.1697 }, // Stanford
+	'location-marker': { lat: 48.8584, lng: 2.2945 }, // Eiffel Tower
+	'region-claim-marker': { lat: 40.6892, lng: -74.0445 }, // Statue of Liberty
+	'player-presence-indicator': {
+		lat: 35.6586,
+		lng: 139.7454,
+	}, // Tokyo Tower
+	'poi-marker': { lat: 51.5007, lng: -0.1246 }, // Big Ben
+	'cluster-marker': { lat: 41.9028, lng: 12.4964 }, // Rome
+	'territory-map': { lat: 55.9533, lng: -3.1883 }, // Edinburgh
+	'battle-map': { lat: 48.1351, lng: 11.582 }, // Munich
+	'resource-map': { lat: 59.3293, lng: 18.0686 }, // Stockholm
+	'mini-map': { lat: 40.4168, lng: -3.7038 }, // Madrid
+	'radar-view': { lat: 35.6895, lng: 139.6917 }, // Tokyo
 };
 
-export default {
-	title: 'Map/Map',
-	component: Map,
-	parameters: {
-		docs: {
-			description: {
-				component: `
-**Unified Map Component**  
-All map types, variants, and features are supported via props.  
-Usage: \`<Map {...props} />\`
-
-**Visibility Note:**
-- Leaflet CSS is imported at the top of this file.
-- The map container must have an explicit height (e.g., 400px) to be visible.
-				`,
-			},
-		},
-	},
+// Example zooms for each map kind (visually interesting defaults)
+const mapZooms: Partial<Record<MapKind, number>> = {
+	'world-map': 2,
+	'region-map': 6,
+	'city-map': 13,
+	'street-map': 16,
+	'satellite-map': 10,
+	'terrain-map': 10,
+	'interactive-map': 11,
+	'game-map': 12,
+	'floor-plan': 18,
+	'campus-map': 15,
+	'location-marker': 15,
+	'region-claim-marker': 5,
+	'player-presence-indicator': 13,
+	'poi-marker': 16,
+	'cluster-marker': 7,
+	'territory-map': 7,
+	'battle-map': 10,
+	'resource-map': 5,
+	'mini-map': 12,
+	'radar-view': 12,
 };
 
 const kinds: MapKind[] = [
@@ -248,6 +278,7 @@ export const Docs = () => (
 			<Map
 				kind='world-map'
 				center={mapCenters['world-map']}
+				zoom={mapZooms['world-map']}
 				markers={mapMarkers['world-map']}
 			/>
 		</ClientOnly>
@@ -261,6 +292,7 @@ export const BasicWorldMap = (args: Partial<MapProps>) => (
 			<Map
 				kind='world-map'
 				center={mapCenters['world-map']}
+				zoom={mapZooms['world-map']}
 				markers={mapMarkers['world-map']}
 				{...args}
 			/>
@@ -278,6 +310,7 @@ export const InteractiveMap = (args: Partial<MapProps>) => (
 				zoomable
 				pannable
 				center={mapCenters['interactive-map']}
+				zoom={mapZooms['interactive-map']}
 				markers={mapMarkers['interactive-map']}
 				{...args}
 			/>
@@ -293,6 +326,7 @@ export const SatelliteMap = (args: Partial<MapProps>) => (
 				kind='satellite-map'
 				variant='satellite'
 				center={mapCenters['satellite-map']}
+				zoom={mapZooms['satellite-map']}
 				markers={mapMarkers['satellite-map']}
 				{...args}
 			/>
@@ -308,6 +342,7 @@ export const TerrainMap = (args: Partial<MapProps>) => (
 				kind='terrain-map'
 				variant='terrain'
 				center={mapCenters['terrain-map']}
+				zoom={mapZooms['terrain-map']}
 				markers={mapMarkers['terrain-map']}
 				{...args}
 			/>
@@ -321,8 +356,8 @@ export const CityMap = (args: Partial<MapProps>) => (
 		<ClientOnly>
 			<Map
 				kind='city-map'
-				zoom={12}
 				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
 				markers={mapMarkers['city-map']}
 				{...args}
 			/>
@@ -338,6 +373,7 @@ export const GameMap = (args: Partial<MapProps>) => (
 				kind='game-map'
 				showGrid
 				center={mapCenters['game-map']}
+				zoom={mapZooms['game-map']}
 				markers={mapMarkers['game-map']}
 				{...args}
 			/>
@@ -353,6 +389,7 @@ export const MiniMap = (args: Partial<MapProps>) => (
 				kind='mini-map'
 				size='sm'
 				center={mapCenters['mini-map']}
+				zoom={mapZooms['mini-map']}
 				markers={mapMarkers['mini-map']}
 				{...args}
 			/>
@@ -367,6 +404,7 @@ export const UsageExample = (args: Partial<MapProps>) => (
 			<Map
 				kind='world-map'
 				center={mapCenters['world-map']}
+				zoom={mapZooms['world-map']}
 				markers={mapMarkers['world-map']}
 				{...args}
 			/>
@@ -406,6 +444,7 @@ export const AllMapKindsGallery = () => (
 							<Map
 								kind={kind}
 								center={mapCenters[kind]}
+								zoom={mapZooms[kind]}
 								markers={mapMarkers[kind]}
 							/>
 						</ClientOnly>

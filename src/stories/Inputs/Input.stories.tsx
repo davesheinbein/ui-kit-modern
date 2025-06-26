@@ -6,10 +6,13 @@ import type {
 	InputStyle,
 } from '../../components/Inputs/configurations';
 import type { InputProps } from '../../components/Inputs';
+import { commonDecorators } from '../config/decorators';
 
 export default {
 	title: 'Inputs/Input',
 	component: Input,
+	decorators: commonDecorators,
+	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {

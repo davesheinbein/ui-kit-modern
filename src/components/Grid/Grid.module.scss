@@ -438,8 +438,8 @@
 	text-transform: uppercase;
 	letter-spacing: 0.025em;
 	color: var(--color-text-primary);
+	font-weight: 600;
 
-	// Color-coordinated titles for each difficulty level
 	.categoryGroup[data-level='0'] & {
 		color: var(--color-warning-dark);
 	}
@@ -519,39 +519,6 @@
 .textFadeIn {
 	animation: fade-in var(--transition-duration-slow) ease
 		forwards;
-}
-
-// Legacy class names for backward compatibility
-.solvedGroupsContainer {
-	@extend .boardContainer;
-}
-
-.solvedCategoriesContainer {
-	@extend .solvedCategories;
-}
-
-.solvedCategory {
-	@extend .categoryGroup;
-}
-
-.cardListItem {
-	@extend .cardItem;
-}
-
-.solved-group {
-	@extend .categoryGroup;
-}
-
-.solved-label {
-	@extend .categoryTitle;
-}
-
-.solved-words {
-	@extend .cardList;
-}
-
-.solved-word {
-	@extend .cardItem;
 }
 
 // ===== RESPONSIVE STYLES =====

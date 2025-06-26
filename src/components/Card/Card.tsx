@@ -198,19 +198,14 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 				<>
 					{statValue && (
 						<Wrapper
-							className='stat-value'
-							style={{
-								fontSize: '2rem',
-								fontWeight: 'bold',
-							}}
+							className={styles['stats-card__value']}
 						>
 							{statValue}
 						</Wrapper>
 					)}
 					{statLabel && (
 						<Wrapper
-							className='stat-label'
-							style={{ fontSize: '0.875rem', opacity: 0.8 }}
+							className={styles['stats-card__label']}
 						>
 							{statLabel}
 						</Wrapper>

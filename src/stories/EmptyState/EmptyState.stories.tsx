@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { EmptyState } from '../../components/EmptyState';
 import { EmptyStateKind } from '../../components/EmptyState/configurations';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof EmptyState> = {
 	title: 'EmptyState/EmptyState',
 	component: EmptyState,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
 		docs: {

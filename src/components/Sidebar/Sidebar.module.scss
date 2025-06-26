@@ -4,6 +4,14 @@
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 
+// Size map for DRYness
+$sidebar-sizes: (
+	small: 280px,
+	medium: 360px,
+	large: 480px,
+	full: 100vw,
+);
+
 // ========================================
 // Base Overlay (Properly Contained)
 // ========================================
@@ -22,13 +30,6 @@
 	}
 }
 
-// Legacy overlay classes (for backward compatibility)
-.friendsSidebarOverlay,
-.settingsSidebarOverlay,
-.notificationsSidebarOverlay {
-	@extend .sidebarOverlay;
-}
-
 // ========================================
 // Base Sidebar with Modern Containment
 // ========================================
@@ -41,11 +42,9 @@
 	transition: transform var(--transition-normal);
 	display: flex;
 	flex-direction: column;
-	max-width: 100vw; // Prevent overflow on small screens
+	max-width: 100vw;
 	box-sizing: border-box;
-	overflow: hidden; // Prevent content bleeding
-
-	// Default positioning (right side)
+	overflow: hidden;
 	right: 0;
 	transform: translateX(100%);
 
@@ -53,21 +52,33 @@
 		transform: translateX(0);
 	}
 
-	// Left side positioning
 	&.sidebar-left {
 		right: auto;
 		left: 0;
 		transform: translateX(-100%);
-
 		&.sidebar-open {
 			transform: translateX(0);
 		}
 	}
 
-	// Responsive behavior
 	@include mobile-only {
-		width: 100vw !important; // Full width on mobile
+		width: 100vw !important;
 		max-width: 100vw;
+	}
+}
+
+// ========================================
+// Sidebar Size Utilities (DRY)
+// ========================================
+@each $name, $width in $sidebar-sizes {
+	.sidebar-#{$name} {
+		width: $width;
+		@if $name == full {
+			max-width: 100vw;
+		}
+		@include mobile-only {
+			width: 100vw;
+		}
 	}
 }
 
@@ -80,11 +91,7 @@
 	overflow-x: hidden;
 	padding: var(--spacing-6);
 	box-sizing: border-box;
-
-	// Safe scrolling
 	overscroll-behavior: contain;
-
-	// Ensure content doesn't overflow
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 }
@@ -98,7 +105,6 @@
 	background: var(--color-surface-alt);
 	flex-shrink: 0;
 	box-sizing: border-box;
-
 	.sidebarTitle {
 		margin: 0;
 		font-size: var(--font-size-lg);
@@ -120,196 +126,6 @@
 }
 
 // ========================================
-// Size Variants (Mobile-First, Responsive)
-// ========================================
-.sidebar-small {
-	width: 280px;
-
-	@include mobile-only {
-		width: 100vw;
-	}
-
-	@media (max-width: 320px) {
-		width: 100vw;
-	}
-}
-
-.sidebar-medium {
-	width: 360px;
-
-	@include mobile-only {
-		width: 100vw;
-	}
-
-	@media (max-width: 400px) {
-		width: 100vw;
-	}
-}
-
-.sidebar-large {
-	width: 480px;
-
-	@include mobile-only {
-		width: 100vw;
-	}
-
-	@include tablet-up {
-		max-width: 80vw; // Don't take up entire screen on tablets
-	}
-}
-
-.sidebar-compact {
-	width: 240px;
-
-	@include mobile-only {
-		width: 100vw;
-	}
-}
-
-.sidebar-expanded {
-	width: 520px;
-
-	@include mobile-only {
-		width: 100vw;
-	}
-
-	@include tablet-up {
-		max-width: 85vw;
-	}
-}
-
-.sidebar-full {
-	width: 100vw;
-	max-width: 100vw;
-}
-
-// ========================================
-// Sidebar Type Variants
-// ========================================
-.friendsSidebar {
-	@extend .baseSidebar;
-	width: 360px;
-
-	@include mobile-only {
-		width: 100vw;
-	}
-}
-
-.settingsSidebar {
-	@extend .baseSidebar;
-	width: 320px;
-
-	// Settings sidebar typically appears on left
-	right: auto;
-	left: 0;
-	transform: translateX(-100%);
-
-	&.sidebar-open {
-		transform: translateX(0);
-	}
-
-	@include mobile-only {
-		width: 100vw;
-	}
-}
-
-.chatSidebar {
-	@extend .baseSidebar;
-	width: 340px;
-	z-index: var(--z-modal); // Lower z-index for chat
-
-	@include mobile-only {
-		width: 100vw;
-	}
-}
-
-.notificationsSidebar {
-	@extend .baseSidebar;
-	width: 320px;
-	z-index: calc(
-		var(--z-modal) + 10
-	); // Higher z-index for notifications
-
-	@include mobile-only {
-		width: 100vw;
-	}
-}
-
-// ========================================
-// Animation Variants
-// ========================================
-.sidebar-fade {
-	opacity: 0;
-	transform: translateX(0) !important;
-	transition: opacity var(--transition-normal);
-
-	&.sidebar-open {
-		opacity: 1;
-	}
-
-	&.sidebar-left {
-		transform: translateX(0) !important;
-	}
-}
-
-.sidebar-scale {
-	transform: translateX(100%) scale(0.95);
-	transition: transform var(--transition-normal);
-
-	&.sidebar-open {
-		transform: translateX(0) scale(1);
-	}
-
-	&.sidebar-left {
-		transform: translateX(-100%) scale(0.95);
-
-		&.sidebar-open {
-			transform: translateX(0) scale(1);
-		}
-	}
-}
-
-.sidebar-slide-up {
-	transform: translateX(100%) translateY(2rem);
-	transition: transform var(--transition-normal);
-
-	&.sidebar-open {
-		transform: translateX(0) translateY(0);
-	}
-
-	&.sidebar-left {
-		transform: translateX(-100%) translateY(2rem);
-
-		&.sidebar-open {
-			transform: translateX(0) translateY(0);
-		}
-	}
-}
-
-// ========================================
-// Behavior Variants
-// ========================================
-.sidebar-modal {
-	z-index: var(--z-modal);
-}
-
-.sidebar-overlay {
-	z-index: calc(var(--z-modal) - 10);
-}
-
-.sidebar-push {
-	position: relative;
-	z-index: auto;
-	box-shadow: none;
-	height: auto;
-	transform: none !important;
-
-	&.sidebar-open {
-		transform: none !important;
-	}
-}
-
-// ========================================
 // Accessibility & Interaction States
 // ========================================
 .baseSidebar {
@@ -317,8 +133,6 @@
 		outline: 2px solid var(--color-primary);
 		outline-offset: -2px;
 	}
-
-	// Ensure tap targets are large enough on mobile
 	@include mobile-only {
 		button,
 		a,
@@ -330,139 +144,6 @@
 }
 
 // Close button positioning
-.sidebarCloseButton {
-	@include absolute-contained(
-		$top: var(--spacing-4),
-		$right: var(--spacing-4)
-	);
-	background: none;
-	border: none;
-	border-radius: var(--radius-md);
-	width: 32px;
-	height: 32px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	color: var(--color-text-secondary);
-	transition: all var(--transition-fast);
-
-	&:hover {
-		background: var(--color-gray-100);
-		color: var(--color-text-primary);
-	}
-
-	&:focus-visible {
-		@include focus-ring;
-	}
-}
-
-// ========================================
-// Content Sections
-// ========================================
-.sidebarSection {
-	margin-bottom: var(--spacing-6);
-
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
-.sidebarSectionTitle {
-	font-size: var(--font-size-sm);
-	font-weight: var(--font-weight-semibold);
-	color: var(--color-text-secondary);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	margin-bottom: var(--spacing-3);
-	@include text-truncate;
-}
-
-.sidebarList {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
-.sidebarListItem {
-	margin-bottom: var(--spacing-2);
-
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
-// ========================================
-// Responsive Breakpoints
-// ========================================
-@media (max-width: 480px) {
-	.baseSidebar {
-		// On very small screens, ensure sidebars don't break layout
-		max-width: 100vw !important;
-		width: 100vw !important;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.baseSidebar {
-		transition: none;
-	}
-
-	.sidebarOverlay {
-		transition: none;
-	}
-}
-
-.friendsSidebarNoAnimation {
-	@extend .friendsSidebar;
-	transition: none;
-}
-
-/* Responsive variants */
-.friendsSidebarMobile {
-	@extend .friendsSidebar;
-	width: 100vw;
-
-	@media (min-width: 768px) {
-		width: 320px;
-	}
-}
-
-.friendsSidebarDesktop {
-	@extend .friendsSidebar;
-	position: relative;
-	z-index: 1000;
-
-	@media (max-width: 767px) {
-		position: fixed;
-		z-index: 2100;
-	}
-}
-
-.friendsSidebarResponsive {
-	@extend .friendsSidebar;
-
-	@media (max-width: 767px) {
-		width: 100vw;
-	}
-
-	@media (min-width: 768px) and (max-width: 1023px) {
-		width: 280px;
-	}
-
-	@media (min-width: 1024px) {
-		width: 320px;
-	}
-}
-
-/* Modal overlay variant */
-.friendsSidebarOverlayModal {
-	@extend .friendsSidebarOverlay;
-	z-index: 2500;
-	background: rgba(0, 0, 0, 0.5);
-}
-
-/* Close button styles */
 .sidebarCloseBtn {
 	position: absolute;
 	top: 12px;
@@ -476,96 +157,58 @@
 	border-radius: 4px;
 	transition: all 0.2s ease;
 	z-index: 10;
-
 	&:hover {
 		background: rgba(0, 0, 0, 0.1);
 		color: #333;
 	}
-
 	&:focus {
 		outline: 2px solid #007bff;
 		outline-offset: 2px;
 	}
 }
 
-.sidebarCloseBtnLeft {
-	@extend .sidebarCloseBtn;
-	right: auto;
-	left: 12px;
+// ========================================
+// Responsive Breakpoints
+// ========================================
+@media (max-width: 480px) {
+	.baseSidebar {
+		max-width: 100vw !important;
+		width: 100vw !important;
+	}
 }
 
-/* Header styles */
-.sidebarHeader {
-	padding: 16px 20px;
-	border-bottom: 1px solid #eee;
-	background: #f8f9fa;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	min-height: 60px;
-}
-
-.sidebarTitle {
-	font-size: 1.125rem;
-	font-weight: 600;
-	color: #333;
-	margin: 0;
-}
-
-/* Content styles */
-.sidebarContent {
-	flex: 1;
-	overflow-y: auto;
-	padding: 16px 20px;
-}
-
-/* Footer styles */
-.sidebarFooter {
-	padding: 16px 20px;
-	border-top: 1px solid #eee;
-	background: #f8f9fa;
-}
-
-/* Dark theme support */
+// ========================================
+// Dark theme support
+// ========================================
 [data-theme='dark'] {
 	.baseSidebar {
 		background: #1a1a1a;
 		color: #fff;
 		box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
 	}
-
 	.sidebarHeader,
 	.sidebarFooter {
 		background: #2a2a2a;
 		border-color: #444;
 	}
-
 	.sidebarTitle {
 		color: #fff;
 	}
-
 	.sidebarCloseBtn {
 		color: #ccc;
-
 		&:hover {
 			background: rgba(255, 255, 255, 0.1);
 			color: #fff;
 		}
 	}
-
-	.friendsSidebarOverlay,
-	.settingsSidebarOverlay,
-	.notificationsSidebarOverlay {
-		background: rgba(0, 0, 0, 0.6);
-	}
 }
 
-/* Focus management */
+// ========================================
+// Utility & Accessibility
+// ========================================
 .sidebar-focus-trap {
 	outline: none;
 }
-
-/* Accessibility improvements */
 .sidebar-sr-only {
 	position: absolute;
 	width: 1px;
@@ -578,33 +221,134 @@
 	border: 0;
 }
 
-/* Animation duration classes */
+// ========================================
+// Animation duration classes
+// ========================================
 .sidebar-fast {
 	transition-duration: 0.15s !important;
 }
-
 .sidebar-slow {
 	transition-duration: 0.5s !important;
 }
 
-/* High contrast mode support */
+// ========================================
+// High contrast mode support
+// ========================================
 @media (prefers-contrast: high) {
 	.baseSidebar {
 		border: 2px solid;
 	}
-
 	.sidebarCloseBtn {
 		border: 1px solid;
 	}
 }
 
-/* Reduced motion support */
+// ========================================
+// Reduced motion support
+// ========================================
 @media (prefers-reduced-motion: reduce) {
 	.baseSidebar,
-	.friendsSidebarOverlay,
-	.settingsSidebarOverlay,
-	.notificationsSidebarOverlay,
+	.sidebarOverlay,
 	.sidebarCloseBtn {
 		transition: none !important;
 	}
+}
+
+// Sidebar layout/variant utilities
+.sidebar-collapsible {
+	transition: width var(--transition-normal);
+}
+.sidebar-collapsed {
+	width: 64px !important;
+	min-width: 64px !important;
+	max-width: 64px !important;
+	overflow-x: hidden;
+}
+.sidebar-icon-only {
+	width: 56px !important;
+	min-width: 56px !important;
+	max-width: 56px !important;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	> *:not(.sidebarCloseBtn) {
+		margin: 0 auto;
+	}
+}
+.sidebar-sticky {
+	position: sticky !important;
+	top: 0;
+	z-index: var(--z-modal);
+}
+.sidebar-horizontal {
+	flex-direction: row !important;
+	height: auto !important;
+	width: 100vw !important;
+	max-width: 100vw !important;
+	min-height: 56px;
+	.top,
+	.bottom {
+		flex-direction: row;
+	}
+}
+.sidebar-floating {
+	position: fixed !important;
+	top: 32px;
+	left: auto;
+	right: 32px;
+	width: 320px;
+	box-shadow: var(--shadow-2xl);
+	border-radius: 16px;
+	z-index: var(--z-modal);
+}
+.sidebar-mega {
+	width: 600px !important;
+	max-width: 90vw;
+	padding: 0;
+}
+.sidebarSplitNav {
+	padding: var(--spacing-4) var(--spacing-6);
+	border-bottom: 1px solid var(--color-border);
+	background: var(--color-surface-alt);
+}
+.sidebarProfile {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-3);
+	margin-bottom: var(--spacing-4);
+}
+.sidebarActionBtn {
+	position: absolute;
+	top: 12px;
+	right: 48px;
+	z-index: 11;
+}
+.sidebarBadges {
+	display: flex;
+	gap: var(--spacing-2);
+	margin-top: var(--spacing-2);
+}
+.sidebarSearch {
+	margin-top: var(--spacing-2);
+}
+.sidebarTheme {
+	margin-top: var(--spacing-2);
+}
+.sidebarProgress {
+	margin: var(--spacing-4) 0;
+}
+.sidebarWidgets {
+	margin: var(--spacing-4) 0;
+}
+.sidebarFooterLinks {
+	padding: var(--spacing-4) var(--spacing-6);
+	border-top: 1px solid var(--color-border);
+	background: var(--color-surface-alt);
+}
+.sidebarSocialLinks {
+	display: flex;
+	gap: var(--spacing-3);
+	padding: var(--spacing-4) var(--spacing-6);
+	border-top: 1px solid var(--color-border);
+	background: var(--color-surface-alt);
 }

@@ -37,7 +37,7 @@ const Loading: React.FC<LoadingProps> = ({
 			{kind === 'spinner' && (
 				<div
 					className={styles.spinner}
-					style={color ? { borderColor: color } : {}}
+					style={color ? { borderColor: color } : undefined}
 				/>
 			)}
 			{kind === 'dots' && (

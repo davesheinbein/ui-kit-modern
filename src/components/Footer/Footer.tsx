@@ -109,7 +109,7 @@ const Footer: React.FC<FooterProps> = ({
 				rightContent !== undefined ? rightContent
 				: kind === 'social' ?
 					<>
-						<span style={{ marginRight: '1rem' }}>
+						<span className={styles.footerRight__label}>
 							Follow us:
 						</span>
 						{defaultLinks.length > 0 && (

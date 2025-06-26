@@ -336,7 +336,7 @@ const FileUpload = forwardRef<
 				accept={finalAccept}
 				multiple={finalMultiple}
 				onChange={handleFileInput}
-				style={{ display: 'none' }}
+				className={styles.fileInputHidden}
 				disabled={disabled || state === 'disabled'}
 			/>
 
@@ -361,8 +361,8 @@ const FileUpload = forwardRef<
 					{state === 'uploading' && (
 						<Wrapper className={styles.progressBar}>
 							<Wrapper
-								className={styles.progressFill}
-								style={{ width: `${uploadProgress}%` }}
+								className={styles.fileUpload__progressFill}
+								data-progress={uploadProgress}
 							/>
 						</Wrapper>
 					)}

@@ -47,16 +47,17 @@ const InfoRow: React.FC<{
 	valueClassName = '',
 }) => (
 	<Wrapper
-		className={className}
-		style={{
-			display: 'flex',
-			justifyContent: 'space-between',
-			marginBottom: 4,
-		}}
+		className={[styles['admin__info-row'], className]
+			.filter(Boolean)
+			.join(' ')}
 	>
 		<span
-			className={labelClassName}
-			style={{ fontWeight: 600 }}
+			className={[
+				styles['admin__info-label'],
+				labelClassName,
+			]
+				.filter(Boolean)
+				.join(' ')}
 		>
 			{label}
 		</span>
@@ -175,27 +176,25 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 				errors: props.data?.errors || [],
 			}),
 			renderer: (data, styles, props) => (
-				<Wrapper
-					className={styles.errorLogger}
-					style={{ maxHeight: 200, overflowY: 'auto' }}
-				>
+				<Wrapper className={styles.errorLogger}>
 					{data.errors?.length ?
 						data.errors.map((error: any, index: number) => (
-							<div key={index} style={{ marginBottom: 6 }}>
-								<span
-									style={{
-										color: '#f87171',
-										fontWeight: 600,
-									}}
-								>
+							<div
+								key={index}
+								className={styles.errorEntry}
+							>
+								<span className={styles.errorTime}>
 									{error.time}
 								</span>
-								<span style={{ marginLeft: 8 }}>
+								<span className={styles.errorMessage}>
 									{error.message}
 								</span>
 							</div>
 						))
-					:	<span style={{ color: '#aaa' }}>No errors</span>}
+					:	<span className={styles.noErrors}>
+							No errors
+						</span>
+					}
 				</Wrapper>
 			),
 		},
@@ -207,7 +206,7 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 			}),
 			renderer: (data, styles, props) => (
 				<Wrapper className={styles.debugPanel}>
-					<div style={{ fontWeight: 600, marginBottom: 8 }}>
+					<div className={styles.panelHeaderTitle}>
 						Debug Panel
 					</div>
 					{data && Object.keys(data).length ?
@@ -218,7 +217,7 @@ const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 								value={String(value)}
 							/>
 						))
-					:	<span style={{ color: '#aaa' }}>
+					:	<span className={styles.noDebugData}>
 							No debug data
 						</span>
 					}

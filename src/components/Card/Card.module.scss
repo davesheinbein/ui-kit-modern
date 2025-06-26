@@ -200,4 +200,14 @@
 		color: var(--surface-primary);
 		font-weight: var(--font-weight-semibold);
 	}
+
+	&__value {
+		font-size: 2rem;
+		font-weight: bold;
+	}
+
+	&__label {
+		font-size: 0.875rem;
+		opacity: 0.8;
+	}
 }

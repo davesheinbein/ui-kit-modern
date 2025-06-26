@@ -133,19 +133,7 @@ export type ExtendedFormsKind =
 	| 'bio'
 	| 'feedback'
 
-	// Legacy backward compatibility
-	| 'text'
-	| 'email'
-	| 'password'
-	| 'search'
-	| 'tel'
-	| 'url'
-	| 'number'
-	| 'date'
-	| 'time'
-	| 'datetime-local'
-	| 'file'
-	| 'hidden'
+	// Custom/Unknown types
 	| 'custom';
 
 // Predefined configurations for maximum DRYness
@@ -554,81 +542,7 @@ export const FORM_FIELD_CONFIGURATIONS: Record<
 		placeholder: 'Your feedback...',
 	},
 
-	// Legacy backward compatibility
-	'text': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-		behavior: 'standard',
-	},
-	'email': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-		behavior: 'email',
-		inputMode: 'email',
-		autoComplete: 'email',
-	},
-	'password': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-		behavior: 'password',
-		autoComplete: 'current-password',
-	},
-	'search': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-		behavior: 'search',
-		inputMode: 'search',
-		placeholder: 'Search...',
-	},
-	'tel': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-		inputMode: 'tel',
-		autoComplete: 'tel',
-	},
-	'url': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-		inputMode: 'url',
-		autoComplete: 'url',
-	},
-	'number': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-		inputMode: 'numeric',
-	},
-	'date': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-	},
-	'time': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-	},
-	'datetime-local': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-	},
-	'file': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-	},
-	'hidden': {
-		component: 'input',
-		variant: 'outlined',
-		size: 'medium',
-	},
+	// Custom/Unknown types
 	'custom': {
 		component: 'input',
 		variant: 'outlined',

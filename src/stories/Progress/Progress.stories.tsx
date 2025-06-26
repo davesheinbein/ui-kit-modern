@@ -4,10 +4,12 @@ import {
 	ProgressComponents,
 } from '../../components/Progress';
 import { Wrapper } from '../../components/Wrappers';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Progress> = {
 	title: 'Progress/Progress',
 	component: Progress,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
 		docs: {

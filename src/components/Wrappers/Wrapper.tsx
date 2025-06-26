@@ -3,6 +3,8 @@ import React, {
 	memo,
 	useMemo,
 	useEffect,
+	useRef,
+	useImperativeHandle,
 	createElement,
 } from 'react';
 import { Button } from '../Button';
@@ -35,6 +37,19 @@ function renderTargetComponent(
 		isLayoutContainer
 	);
 
+	// Sidebar close-on-background-click logic
+	const isSidebarWrapper =
+		config.kind === 'sidebar-wrapper';
+	const { onClose, ref, ...restProps } = props;
+	const handleWrapperClick = (e: React.MouseEvent) => {
+		if (
+			e.target === e.currentTarget &&
+			typeof onClose === 'function'
+		) {
+			onClose();
+		}
+	};
+
 	// Determine element props based on type
 	const elementProps =
 		isLayoutContainer ?
@@ -42,11 +57,20 @@ function renderTargetComponent(
 				...renderData.containerStyles.otherProps,
 				style: renderData.containerStyles.style,
 				className: mergedClassName,
+				ref,
+				...(isSidebarWrapper ?
+					{ onClick: handleWrapperClick }
+				:	{}),
+				...restProps,
 			}
 		:	{
-				...props,
+				...restProps,
 				'className': mergedClassName,
 				'data--kind': renderData.mappedKind,
+				ref,
+				...(isSidebarWrapper ?
+					{ onClick: handleWrapperClick }
+				:	{}),
 			};
 
 	// Universal element wrapper with conditional rendering
@@ -431,15 +455,46 @@ const Wrapper = forwardRef<any, WrapperProps>(
 			suppressDeprecationWarning = false,
 			onMigrationHelp,
 			configuration: configOverrides,
+			onClose,
 			...props
 		},
 		ref
 	) => {
-		const baseConfig = getWrapperConfig(kind);
-		const config =
-			configOverrides ?
-				{ ...baseConfig, ...configOverrides }
-			:	baseConfig;
+		const localRef = useRef<HTMLDivElement>(null);
+		useImperativeHandle(ref, () => localRef.current);
+
+		// Outside click handler for sidebar-wrapper
+		useEffect(() => {
+			if (kind !== 'sidebar-wrapper' || !onClose) return;
+			function handleClick(event: MouseEvent | TouchEvent) {
+				const wrapper = localRef.current;
+				if (
+					wrapper &&
+					!wrapper.contains(event.target as Node)
+				) {
+					onClose();
+				}
+			}
+			document.addEventListener('mousedown', handleClick);
+			document.addEventListener('touchstart', handleClick);
+			return () => {
+				document.removeEventListener(
+					'mousedown',
+					handleClick
+				);
+				document.removeEventListener(
+					'touchstart',
+					handleClick
+				);
+			};
+		}, [kind, onClose]);
+
+		const config = useMemo(
+			() =>
+				getWrapperConfig(kind) ||
+				(configOverrides as WrapperConfiguration),
+			[kind, configOverrides]
+		);
 
 		if (!config) {
 			console.warn(
@@ -462,74 +517,23 @@ const Wrapper = forwardRef<any, WrapperProps>(
 			return managedProps;
 		}, [props, config, ref]);
 
-		const mergedClassName = useMemo(
-			() =>
-				[
-					styles.Wrapper,
-					styles[
-						`wrapper--${config?.variant || 'default'}`
-					],
-					styles[`wrapper--${config?.layout || 'default'}`],
-					config?.wrapperClassName,
-					className,
-				]
-					.filter(Boolean)
-					.join(' '),
-			[config, className]
-		);
+		const mergedClassName = [
+			styles.Wrapper,
+			className,
+			config ? `wrapper--${config.variant}` : '',
+			config ? `wrapper--${config.layout}` : '',
+		]
+			.filter(Boolean)
+			.join(' ');
 
-		useEffect(() => {
-			const shouldWarn =
-				config?.deprecationWarning &&
-				!suppressDeprecationWarning &&
-				typeof window !== 'undefined';
-
-			if (shouldWarn) {
-				console.warn(
-					`🚨 Deprecation Warning: ${config.targetComponent} is deprecated.\n` +
-						`📖 Migration Path: ${config.migrationPath}\n` +
-						`🔗 Component: ${config.Component}\n` +
-						`📝 Description: ${config.description}`
-				);
-			}
-		}, [config, suppressDeprecationWarning]);
-
-		const renderMigrationHelper = () =>
-			(
-				config?.deprecationWarning &&
-				typeof window !== 'undefined'
-			) ?
-				<div className={styles.migrationHelper}>
-					<Button
-						kind='secondary'
-						onClick={onMigrationHelp}
-						className={styles.migrationButton}
-						title={`Migration help for ${config?.targetComponent}`}
-					>
-						📖 Migration Guide
-					</Button>
-				</div>
-			:	null;
-
-		return (
-			<>
-				{renderMigrationHelper()}
-				{renderTargetComponent(
-					config,
-					processedProps,
-					children,
-					mergedClassName
-				)}
-			</>
+		return renderTargetComponent(
+			config,
+			{ ...props, ref: localRef },
+			children,
+			mergedClassName
 		);
 	}
 );
-
-export interface WrapperProps
-	extends Omit<WrapperProps, 'kind'> {
-	kind: WrapperKind;
-	configuration?: Partial<WrapperConfiguration>;
-}
 
 export const WrapperHelpers = {
 	button: (props: Omit<WrapperProps, 'kind'>) => (
@@ -586,9 +590,7 @@ export const WrapperHelpers = {
 			{...props}
 		/>
 	),
-	themePaletteProvider: (
-		props: Omit<WrapperProps, 'kind'>
-	) => (
+	ThemeProvider: (props: Omit<WrapperProps, 'kind'>) => (
 		<Wrapper
 			kind='theme-palette-provider-wrapper'
 			{...props}
@@ -672,14 +674,6 @@ export const WrapperHelpers = {
 	),
 	stackContainer: (props: Omit<WrapperProps, 'kind'>) => (
 		<Wrapper kind='stack-container' {...props} />
-	),
-	backwardCompatibility: (
-		props: Omit<WrapperProps, 'kind'>
-	) => (
-		<Wrapper
-			kind='backward-compatibility-wrapper'
-			{...props}
-		/>
 	),
 	legacySilent: (props: Omit<WrapperProps, 'kind'>) => (
 		<Wrapper
@@ -766,8 +760,6 @@ export const WrapperPresets = {
 		}),
 	LEGACY_SILENT: (props: any) =>
 		WrapperHelpers.legacySilent(props),
-	BACKWARD_COMPATIBILITY: (props: any) =>
-		WrapperHelpers.backwardCompatibility(props),
 	SIMPLE: (props: any) => WrapperHelpers.simple(props),
 	ENHANCED: (props: any) => WrapperHelpers.enhanced(props),
 };
@@ -813,7 +805,5 @@ export function createWrapperWithConfig(
 		/>
 	);
 }
-
-// ...existing code...
 
 export default memo(Wrapper);

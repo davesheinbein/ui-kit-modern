@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Checkbox } from '../../components/Checkbox';
 import { Wrapper } from '../../components/Wrappers';
-import { ThemePaletteProvider } from '../../components/Providers';
+import { ThemeProvider } from '../../components/Providers';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Checkbox> = {
 	title: 'Checkbox/Checkbox',
 	component: Checkbox,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -13,7 +15,7 @@ const meta: Meta<typeof Checkbox> = {
 				component:
 					'The ultimate DRY checkbox component. Single component handles ALL checkbox types through the "kind" prop. ' +
 					'Supports checkbox, toggle, switch, and dark mode toggle variants with configuration-driven approach. ' +
-					'Dark mode toggle integrates with ThemePaletteProvider for seamless theme switching.',
+					'Dark mode toggle integrates with ThemeProvider for seamless theme switching.',
 			},
 		},
 	},
@@ -420,16 +422,16 @@ export const DarkModeToggle: Story = {
 	},
 	decorators: [
 		(Story) => (
-			<ThemePaletteProvider>
+			<ThemeProvider>
 				<Story />
-			</ThemePaletteProvider>
+			</ThemeProvider>
 		),
 	],
 };
 
 export const DarkModeToggleSizes: Story = {
 	render: () => (
-		<ThemePaletteProvider>
+		<ThemeProvider>
 			<Wrapper
 				style={{
 					display: 'flex',
@@ -462,13 +464,13 @@ export const DarkModeToggleSizes: Story = {
 					/>
 				</Wrapper>
 			</Wrapper>
-		</ThemePaletteProvider>
+		</ThemeProvider>
 	),
 };
 
 export const DarkModeToggleInContainer: Story = {
 	render: () => (
-		<ThemePaletteProvider>
+		<ThemeProvider>
 			<Wrapper
 				style={{
 					padding: '2rem',
@@ -483,13 +485,13 @@ export const DarkModeToggleInContainer: Story = {
 					darkModeContext={true}
 				/>
 			</Wrapper>
-		</ThemePaletteProvider>
+		</ThemeProvider>
 	),
 };
 
 export const CheckboxSettingsPanel: Story = {
 	render: () => (
-		<ThemePaletteProvider>
+		<ThemeProvider>
 			<Wrapper
 				style={{
 					maxWidth: '400px',
@@ -586,13 +588,13 @@ export const CheckboxSettingsPanel: Story = {
 					</Wrapper>
 				</Wrapper>
 			</Wrapper>
-		</ThemePaletteProvider>
+		</ThemeProvider>
 	),
 };
 
 export const AllCheckboxTypes: Story = {
 	render: () => (
-		<ThemePaletteProvider>
+		<ThemeProvider>
 			<Wrapper
 				style={{
 					display: 'grid',
@@ -719,12 +721,12 @@ export const AllCheckboxTypes: Story = {
 								marginTop: '0.5rem',
 							}}
 						>
-							Integrated with ThemePaletteProvider
+							Integrated with ThemeProvider
 						</Wrapper>
 					</Wrapper>
 				</Wrapper>
 			</Wrapper>
-		</ThemePaletteProvider>
+		</ThemeProvider>
 	),
 	parameters: {
 		docs: {

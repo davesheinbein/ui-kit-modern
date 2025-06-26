@@ -161,97 +161,133 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 			case 'feedback':
 				content = (
 					<Wrapper
-						style={{
-							width: '100%',
-							textAlign: 'center',
-							color: 'inherit',
-							fontSize: 'inherit',
-							fontWeight: 'inherit',
-						}}
+						className={styles['banner__content--feedback']}
 					>
-						{message}
+						<span
+							className={
+								styles['banner__message--feedback']
+							}
+						>
+							{message}
+						</span>
 					</Wrapper>
 				);
 				break;
 			case 'notification':
-				content = <Wrapper>{message}</Wrapper>;
+				content = (
+					<Wrapper
+						className={
+							styles['banner__content--notification']
+						}
+					>
+						<span
+							className={
+								styles['banner__message--notification']
+							}
+						>
+							{message}
+						</span>
+					</Wrapper>
+				);
 				break;
 			case 'toast':
 				content = (
 					<Wrapper
-						style={{
-							display: 'flex',
-							alignItems: 'center',
-							gap: '8px',
-						}}
+						className={styles['banner__content--toast']}
 					>
 						{effectiveIcon && <span>{effectiveIcon}</span>}
-						<span>{message}</span>
+						<span
+							className={styles['banner__message--toast']}
+						>
+							{message}
+						</span>
 					</Wrapper>
 				);
 				break;
 			case 'status':
 				content = (
-					<Wrapper className={styles.vsStatusBar}>
+					<Wrapper
+						className={styles['banner__content--status']}
+					>
 						{/* Left: Player info */}
 						<Wrapper
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								gap: 8,
-							}}
+							className={styles['banner__status-row']}
 						>
 							{player?.avatarUrl && (
 								<img
 									src={player.avatarUrl}
 									alt={player.username}
-									className={styles.vsStatusAvatar}
+									className={
+										styles['banner__status-avatar']
+									}
 								/>
 							)}
-							<span className={styles.vsStatusUsername}>
+							<span
+								className={
+									styles['banner__status-username']
+								}
+							>
 								{player?.username}
 								{player?.isYou && ' (You)'}
 							</span>
-							<span className={styles.vsStatusGroups}>
+							<span
+								className={styles['banner__status-groups']}
+							>
 								{player?.groupsSolved || 0}/{totalGroups}
 							</span>
 							{showMistakes && (
-								<span className={styles.vsStatusMistakes}>
+								<span
+									className={
+										styles['banner__status-mistakes']
+									}
+								>
 									{player?.mistakes || 0} mistakes
 								</span>
 							)}
 						</Wrapper>
 						{/* Center: Timer */}
 						{showTimer && timer && (
-							<Wrapper className={styles.vsStatusTimer}>
+							<Wrapper
+								className={styles['banner__status-timer']}
+							>
 								{timer}
 							</Wrapper>
 						)}
 						{/* Right: Opponent info */}
 						{opponent && (
 							<Wrapper
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									gap: 8,
-								}}
+								className={styles['banner__status-row']}
 							>
 								{showMistakes && (
-									<span className={styles.vsStatusMistakes}>
+									<span
+										className={
+											styles['banner__status-mistakes']
+										}
+									>
 										{opponent.mistakes} mistakes
 									</span>
 								)}
-								<span className={styles.vsStatusGroups}>
+								<span
+									className={
+										styles['banner__status-groups']
+									}
+								>
 									{opponent.groupsSolved}/{totalGroups}
 								</span>
-								<span className={styles.vsStatusUsername}>
+								<span
+									className={
+										styles['banner__status-username']
+									}
+								>
 									{opponent.username}
 								</span>
 								{opponent.avatarUrl && (
 									<img
 										src={opponent.avatarUrl}
 										alt={opponent.username}
-										className={styles.vsStatusAvatar}
+										className={
+											styles['banner__status-avatar']
+										}
 									/>
 								)}
 							</Wrapper>
@@ -260,11 +296,19 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 						{onEmoteClick && (
 							<Button
 								kind='vs-status-emote'
-								className={styles.vsStatusEmoteBtn}
+								className={
+									styles['banner__status-emote-btn']
+								}
 								onClick={onEmoteClick}
 								aria-label='Send emote'
 							>
-								😀
+								<span
+									className={
+										styles['banner__status-emote-icon']
+									}
+								>
+									😀
+								</span>
 							</Button>
 						)}
 					</Wrapper>
@@ -274,16 +318,18 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 				content =
 					message ?
 						<Wrapper
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								gap: '8px',
-							}}
+							className={styles['banner__content--global']}
 						>
 							{effectiveIcon && (
 								<span>{effectiveIcon}</span>
 							)}
-							<span>{message}</span>
+							<span
+								className={
+									styles['banner__message--global']
+								}
+							>
+								{message}
+							</span>
 						</Wrapper>
 					:	null;
 				break;

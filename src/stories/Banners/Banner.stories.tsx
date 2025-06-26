@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Banner } from '../../components/Banner';
 import { Wrapper } from '../../components/Wrappers';
+import { commonDecorators } from '../config/decorators';
 
 const action = (label: string) => () =>
 	console.log(`${label} clicked`);
@@ -8,6 +9,7 @@ const action = (label: string) => () =>
 const meta: Meta<typeof Banner> = {
 	title: 'Components/Banner',
 	component: Banner,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -147,7 +149,7 @@ type Story = StoryObj<typeof Banner>;
 // ============================================================================
 
 export const Playground: Story = {
-	name: '🎮 Playground',
+	name: 'Playground',
 	args: {
 		kind: 'success-toast',
 		message: 'This is a customizable banner!',
@@ -164,7 +166,7 @@ export const Playground: Story = {
 };
 
 export const FeedbackBanner: Story = {
-	name: '📝 Feedback Banner',
+	name: 'Feedback Banner',
 	args: {
 		kind: 'feedback',
 		message:
@@ -181,7 +183,7 @@ export const FeedbackBanner: Story = {
 };
 
 export const NotificationBanner: Story = {
-	name: '🔔 Notification Banner',
+	name: 'Notification Banner',
 	args: {
 		kind: 'notification',
 		message: 'System maintenance will begin in 15 minutes.',
@@ -198,7 +200,7 @@ export const NotificationBanner: Story = {
 };
 
 export const ToastBanner: Story = {
-	name: '🍞 Toast Banner',
+	name: 'Toast Banner',
 	args: {
 		kind: 'toast',
 		message: 'Achievement unlocked: First Victory!',
@@ -215,7 +217,7 @@ export const ToastBanner: Story = {
 };
 
 export const GlobalToast: Story = {
-	name: '🌍 Global Toast',
+	name: 'Global Toast',
 	args: {
 		kind: 'global',
 		message: 'Welcome to the new game mode!',
@@ -236,7 +238,7 @@ export const GlobalToast: Story = {
 // ============================================================================
 
 export const BurnNotification: Story = {
-	name: '🔥 Burn Notification',
+	name: 'Burn Notification',
 	args: {
 		kind: 'burn-notification',
 		message: 'Player got burned! -50 points',
@@ -253,7 +255,7 @@ export const BurnNotification: Story = {
 };
 
 export const AchievementNotification: Story = {
-	name: '🏆 Achievement Notification',
+	name: 'Achievement Notification',
 	args: {
 		kind: 'achievement-notification',
 		message: 'Achievement Unlocked: Perfect Game!',
@@ -270,7 +272,7 @@ export const AchievementNotification: Story = {
 };
 
 export const SystemNotification: Story = {
-	name: 'ℹ️ System Notification',
+	name: 'System Notification',
 	args: {
 		kind: 'system-notification',
 		message: 'Game rules have been updated',
@@ -287,7 +289,7 @@ export const SystemNotification: Story = {
 };
 
 export const TauntNotification: Story = {
-	name: '😈 Taunt Notification',
+	name: 'Taunt Notification',
 	args: {
 		kind: 'taunt-notification',
 		message: 'Player sent a taunt: "Too easy!"',
@@ -308,7 +310,7 @@ export const TauntNotification: Story = {
 // ============================================================================
 
 export const SuccessToast: Story = {
-	name: '✅ Success Toast',
+	name: 'Success Toast',
 	args: {
 		kind: 'success-toast',
 		message: 'Data saved successfully!',
@@ -325,7 +327,7 @@ export const SuccessToast: Story = {
 };
 
 export const ErrorToast: Story = {
-	name: '❌ Error Toast',
+	name: 'Error Toast',
 	args: {
 		kind: 'error-toast',
 		message: 'Failed to connect to server',
@@ -342,7 +344,7 @@ export const ErrorToast: Story = {
 };
 
 export const WarningToast: Story = {
-	name: '⚠️ Warning Toast',
+	name: 'Warning Toast',
 	args: {
 		kind: 'warning-toast',
 		message:
@@ -360,7 +362,7 @@ export const WarningToast: Story = {
 };
 
 export const InfoToast: Story = {
-	name: 'ℹ️ Info Toast',
+	name: 'Info Toast',
 	args: {
 		kind: 'info-toast',
 		message: 'New update available - restart to apply',
@@ -381,11 +383,11 @@ export const InfoToast: Story = {
 // ============================================================================
 
 export const VSStatusBar: Story = {
-	name: '⚔️ VS Status Bar',
+	name: 'VS Status Bar',
 	args: {
 		kind: 'vs-status',
 		player: {
-			username: 'Player1',
+			username: 'ayer1',
 			avatarUrl:
 				'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=32&h=32&fit=crop&crop=face',
 			groupsSolved: 2,
@@ -393,7 +395,7 @@ export const VSStatusBar: Story = {
 			isYou: true,
 		},
 		opponent: {
-			username: 'Player2',
+			username: 'ayer2',
 			avatarUrl:
 				'https://images.unsplash.com/photo-1494790108755-2616b332c6ff?w=32&h=32&fit=crop&crop=face',
 			groupsSolved: 1,
@@ -418,7 +420,7 @@ export const VSStatusBar: Story = {
 // ============================================================================
 
 export const UsingPresets: Story = {
-	name: '🎨 Using Presets',
+	name: 'Using Presets',
 	render: () => {
 		return (
 			<Wrapper
@@ -465,7 +467,7 @@ Examples using the \`Banner\` component for common patterns:
 };
 
 export const BaseBannerComponent: Story = {
-	name: '🏗️ Base Banner Component',
+	name: 'Base Banner Component',
 	render: () => {
 		return (
 			<Wrapper
@@ -531,7 +533,7 @@ Examples using the base \`Banner\` component with custom JSX content:
 // ============================================================================
 
 export const AutoCloseDemo: Story = {
-	name: '⏰ Auto-Close Demo',
+	name: 'Auto-Close Demo',
 	args: {
 		kind: 'success-toast',
 		message: 'This banner will auto-close in 3 seconds!',
@@ -549,7 +551,7 @@ export const AutoCloseDemo: Story = {
 };
 
 export const AllBannerTypes: Story = {
-	name: '🌈 All Banner Types',
+	name: 'All Banner Types',
 	render: () => {
 		return (
 			<Wrapper

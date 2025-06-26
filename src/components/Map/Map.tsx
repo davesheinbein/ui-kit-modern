@@ -90,14 +90,16 @@ const getMarkerIcon = (
 	icon?: React.ReactNode,
 	color?: string
 ) => {
-	if (!icon) return undefined;
-	// For now, only support emoji or string icons as Leaflet icons
-	if (typeof icon === 'string') {
+	// If icon is a string, use DivIcon
+	if (typeof icon === 'string' && icon.trim() !== '') {
 		return new L.DivIcon({
 			html: `<span style="font-size: 1.5em; color: ${color || 'inherit'}">${icon}</span>`,
 		});
 	}
-	return undefined;
+	// If icon is missing or not a string, fallback to a default pin
+	return new L.DivIcon({
+		html: `<span style="font-size: 1.5em; color: ${color || 'inherit'}">📍</span>`,
+	});
 };
 
 // Helper for tile URLs by variant
@@ -450,6 +452,7 @@ const Map = forwardRef<HTMLDivElement, MapProps>(
 					zoom={leafletZoom}
 					minZoom={finalConfig.minZoom}
 					maxZoom={finalConfig.maxZoom}
+					className={styles.map__container}
 					style={{
 						width: '100%',
 						height: '100%',
@@ -464,32 +467,35 @@ const Map = forwardRef<HTMLDivElement, MapProps>(
 						url={getTileLayerUrl(finalConfig.variant)}
 					/>
 					{/* Markers */}
-					{leafletMarkers.map((marker) => (
-						<Marker
-							key={marker.id}
-							position={
-								[
-									marker.position.lat,
-									marker.position.lng,
-								] as LatLngExpression
-							}
-							icon={getMarkerIcon(
-								marker.icon,
-								marker.color
-							)}
-							eventHandlers={
-								marker.clickable && onMarkerClick ?
-									{
-										click: () => onMarkerClick(marker),
-									}
-								:	undefined
-							}
-						>
-							{marker.title && (
-								<Popup>{marker.title}</Popup>
-							)}
-						</Marker>
-					))}
+					{leafletMarkers.map((marker) => {
+						const markerIcon = getMarkerIcon(
+							marker.icon,
+							marker.color
+						);
+						return (
+							<Marker
+								key={marker.id}
+								position={
+									[
+										marker.position.lat,
+										marker.position.lng,
+									] as LatLngExpression
+								}
+								icon={markerIcon}
+								eventHandlers={
+									marker.clickable && onMarkerClick ?
+										{
+											click: () => onMarkerClick(marker),
+										}
+									:	undefined
+								}
+							>
+								{marker.title && (
+									<Popup>{marker.title}</Popup>
+								)}
+							</Marker>
+						);
+					})}
 					{/* Regions/Polygons */}
 					{leafletRegions.map((region) => (
 						<Polygon

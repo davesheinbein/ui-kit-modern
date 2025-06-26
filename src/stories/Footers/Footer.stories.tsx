@@ -1,10 +1,12 @@
 import React from 'react';
 import { Footer } from '../../components/Footer';
 import type { Meta, StoryObj } from '@storybook/react';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Footer> = {
 	title: 'Footers/Footer',
 	component: Footer,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -18,27 +20,9 @@ const meta: Meta<typeof Footer> = {
 export default meta;
 type Story = StoryObj<typeof Footer>;
 
-export const Simple: Story = {
+export const App: Story = {
 	args: {
-		kind: 'simple',
-	},
-};
-
-export const Standard: Story = {
-	args: {
-		kind: 'standard',
-	},
-};
-
-export const Minimal: Story = {
-	args: {
-		kind: 'minimal',
-	},
-};
-
-export const Social: Story = {
-	args: {
-		kind: 'social',
+		kind: 'app',
 	},
 };
 
@@ -48,9 +32,12 @@ export const Corporate: Story = {
 	},
 };
 
-export const App: Story = {
+export const Custom: Story = {
 	args: {
-		kind: 'app',
+		kind: 'custom',
+		leftContent: <span>🎯 Puzzle Game v2.1.0</span>,
+		centerContent: <span>Made with ❤️</span>,
+		rightContent: <span>Status: Online</span>,
 	},
 };
 
@@ -60,17 +47,32 @@ export const Landing: Story = {
 	},
 };
 
-export const Sticky: Story = {
+export const Minimal: Story = {
 	args: {
-		kind: 'sticky',
+		kind: 'minimal',
 	},
 };
 
-export const Custom: Story = {
+export const Simple: Story = {
 	args: {
-		kind: 'custom',
-		leftContent: <span>🎯 Puzzle Game v2.1.0</span>,
-		centerContent: <span>Made with ❤️</span>,
-		rightContent: <span>Status: Online</span>,
+		kind: 'simple',
+	},
+};
+
+export const Social: Story = {
+	args: {
+		kind: 'social',
+	},
+};
+
+export const Standard: Story = {
+	args: {
+		kind: 'standard',
+	},
+};
+
+export const Sticky: Story = {
+	args: {
+		kind: 'sticky',
 	},
 };

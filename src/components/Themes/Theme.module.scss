@@ -75,12 +75,38 @@
 			transform: translateY(-1px);
 		}
 
+		&.theme-bg {
+			background: var(--theme-bg, #fff) !important;
+		}
+		&.theme-border {
+			border: 3px solid var(--theme-border, #e0e7ef) !important;
+		}
+		&.theme-border-active {
+			border: 3px solid
+				var(--theme-active-border, var(--color-primary)) !important;
+		}
+		&.theme-box-shadow {
+			box-shadow: 0 0 16px 2px
+				var(--theme-shadow, #e3eaff33) !important;
+		}
+		&.theme-box-shadow-active {
+			box-shadow: 0 0 16px 2px
+				var(--theme-active-shadow, #3b82f666) !important;
+		}
+
 		.themePreview {
 			border-radius: 8px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			transition: all 0.22s ease;
+
+			&.theme-preview-color {
+				background: var(
+					--theme-preview-color,
+					#ccc
+				) !important;
+			}
 
 			.themeInitial {
 				font-weight: 700;
@@ -95,7 +121,22 @@
 			pointer-events: none;
 			opacity: 0.7;
 			transition: opacity 0.22s ease;
+
+			&.theme-glow-active {
+				box-shadow: 0 0 24px 6px
+					var(--theme-glow, #3b82f655) !important;
+			}
 		}
+	}
+
+	&.theme-gap-small {
+		gap: 8px !important;
+	}
+	&.theme-gap-medium {
+		gap: 18px !important;
+	}
+	&.theme-gap-large {
+		gap: 24px !important;
 	}
 }
 
@@ -183,6 +224,16 @@
 			color: var(--color-text-secondary);
 			margin-top: 0.25rem;
 		}
+	}
+
+	&.theme-gap-small {
+		gap: 8px !important;
+	}
+	&.theme-gap-medium {
+		gap: 18px !important;
+	}
+	&.theme-gap-large {
+		gap: 24px !important;
 	}
 }
 

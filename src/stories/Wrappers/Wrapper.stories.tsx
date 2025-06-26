@@ -3,10 +3,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import { Wrapper } from '../../components/Wrappers';
 import type { WrapperProps } from '../../components/Wrappers';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Wrapper> = {
 	title: 'Wrappers/Wrapper',
 	component: Wrapper,
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -22,7 +24,6 @@ const meta: Meta<typeof Wrapper> = {
 			options: [
 				'component',
 				'provider',
-				'legacy',
 				'flex-container',
 				'grid-container',
 				'center-container',
@@ -155,13 +156,6 @@ export const ProviderWrapper: Story = {
 	},
 };
 
-export const LegacyWrapper: Story = {
-	args: {
-		kind: 'legacy',
-		children: 'This content is wrapped in a legacy wrapper',
-	},
-};
-
 // ========================================
 // Specific Provider Wrapper Stories
 // ========================================
@@ -180,7 +174,7 @@ export const UserSettingsProviderWrapper: Story = {
 	},
 };
 
-export const ThemePaletteProviderWrapper: Story = {
+export const ThemeProviderWrapper: Story = {
 	args: {
 		kind: 'theme-palette-provider-wrapper',
 		children: 'Theme palette provider wrapper content',
@@ -377,7 +371,6 @@ export const Component: Story = {
 						<Wrapper kind='provider'>
 							provider wrapper
 						</Wrapper>
-						<Wrapper kind='legacy'>legacy wrapper</Wrapper>
 					</Wrapper>
 				</Wrapper>
 
@@ -503,10 +496,152 @@ export const NestedWrappers: Story = {
 			<h4>Outer Wrapper</h4>
 			<Wrapper kind='provider'>
 				<h5>Inner Provider Wrapper</h5>
-				<Wrapper kind='legacy'>
-					<span>Deeply nested legacy wrapper content</span>
+				<Wrapper>
+					<span>Deeply nested wrapper content</span>
 				</Wrapper>
 			</Wrapper>
 		</Wrapper>
 	),
 };
+
+// ========================================
+// Sidebar Overlay Example
+// ========================================
+
+export const SidebarWithOverlay: Story = {
+	render: (args) => {
+		const [open, setOpen] = React.useState(false);
+		return (
+			<div
+				style={{ position: 'relative', minHeight: '300px' }}
+			>
+				<Button
+					kind='primary'
+					size='small'
+					onClick={() => setOpen(true)}
+				>
+					Open Sidebar With Overlay
+				</Button>
+				{open && (
+					<>
+						{/* Overlay covers the whole screen */}
+						<div
+							style={{
+								position: 'fixed',
+								top: 0,
+								left: 0,
+								width: '100vw',
+								height: '100vh',
+								background: 'rgba(0,0,0,0.2)',
+								zIndex: 99,
+							}}
+							onClick={() => setOpen(false)}
+							aria-label='Close sidebar overlay'
+						/>
+						<Wrapper
+							kind='sidebar-wrapper'
+							style={{
+								position: 'fixed',
+								top: 0,
+								right: 0,
+								height: '100vh',
+								width: 320,
+								background: '#fff',
+								zIndex: 100,
+								boxShadow: '0 0 16px rgba(0,0,0,0.15)',
+								padding: 24,
+							}}
+							onClose={() => setOpen(false)}
+						>
+							<div>
+								<h3>Sidebar With Overlay</h3>
+								<p>
+									This sidebar closes when you click the
+									overlay or outside the sidebar.
+								</p>
+								<Button
+									kind='secondary'
+									size='small'
+									onClick={() => setOpen(false)}
+								>
+									Close
+								</Button>
+							</div>
+						</Wrapper>
+					</>
+				)}
+			</div>
+		);
+	},
+};
+
+// ========================================
+// Sidebar Wrapper Stories with Overlay (All Sidebar Stories)
+// ========================================
+
+export const SidebarWrapperWithOverlay: Story = {
+	render: (args) => {
+		const [open, setOpen] = React.useState(false);
+		return (
+			<div style={{ position: 'relative', minHeight: 300 }}>
+				<Button
+					kind='primary'
+					size='small'
+					onClick={() => setOpen(true)}
+				>
+					Open Sidebar With Overlay
+				</Button>
+				{open && (
+					<>
+						{/* Overlay covers the whole screen */}
+						<div
+							style={{
+								position: 'fixed',
+								top: 0,
+								left: 0,
+								width: '100vw',
+								height: '100vh',
+								background: 'rgba(0,0,0,0.2)',
+								zIndex: 99,
+							}}
+							onClick={() => setOpen(false)}
+							aria-label='Close sidebar overlay'
+						/>
+						<Wrapper
+							kind='sidebar-wrapper'
+							style={{
+								position: 'fixed',
+								top: 0,
+								right: 0,
+								height: '100vh',
+								width: 320,
+								background: '#fff',
+								zIndex: 100,
+								boxShadow: '0 0 16px rgba(0,0,0,0.15)',
+								padding: 24,
+							}}
+							onClose={() => setOpen(false)}
+						>
+							<div>
+								<h3>Sidebar With Overlay</h3>
+								<p>
+									This sidebar closes when you click the
+									overlay or outside the sidebar.
+								</p>
+								<Button
+									kind='secondary'
+									size='small'
+									onClick={() => setOpen(false)}
+								>
+									Close
+								</Button>
+							</div>
+						</Wrapper>
+					</>
+				)}
+			</div>
+		);
+	},
+};
+
+// If you have other sidebar stories, repeat the overlay pattern for each variant as needed.

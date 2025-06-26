@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Wrapper } from '../../components/Wrappers';
 import { Media } from '../../components/Media';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Media> = {
 	title: 'Media/Media',
 	component: Media,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'centered',
 		docs: {

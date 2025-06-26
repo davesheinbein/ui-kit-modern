@@ -132,12 +132,6 @@ export const GRID_CONFIGURATIONS: Record<
 	},
 };
 
-// Remove all legacy/unused kind arrays and presets
-// If any grouping is needed, only include the new valid kinds:
-export const GRID_KIND_GROUPS = {
-	MAIN: ['grid', 'pregame', 'solved'] as ExtendedGridKind[],
-};
-
 // Helper function to create grid configuration
 export const createGridConfig = (
 	baseKind: ExtendedGridKind,

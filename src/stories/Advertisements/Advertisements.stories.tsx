@@ -14,6 +14,7 @@ import {
 	createAdsterraProvider,
 	createCustomProvider,
 } from '../../components/Advertisements';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta = {
 	title: 'Advertisements/Advertisements',
@@ -87,6 +88,7 @@ But for most use cases, just use the kind prop.
 			},
 		},
 	},
+	decorators: commonDecorators,
 	tags: ['autodocs'],
 };
 

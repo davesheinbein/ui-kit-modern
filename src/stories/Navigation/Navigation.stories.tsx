@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Navigation } from '../../components/Navigation';
 import { Wrapper } from '../../components/Wrappers';
+import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Navigation> = {
 	title: 'Navigation/Navigation',
 	component: Navigation,
+	decorators: commonDecorators,
 	parameters: {
 		layout: 'fullscreen',
 	},
