@@ -35,7 +35,6 @@ export interface BannerConfiguration {
 	[key: string]: any;
 }
 
-// Basic banner kinds
 export const feedbackBanner: BannerConfiguration = {
 	kind: 'feedback',
 	variant: 'feedback',
@@ -85,94 +84,86 @@ export const globalToastBanner: BannerConfiguration = {
 	showCloseButton: true,
 };
 
-// Extended banner kinds with specific configurations
 export const burnNotification: BannerConfiguration = {
 	...notificationBanner,
 	type: 'burn',
-	icon: '🔥',
+	icon: 'danger',
 };
 
 export const achievementNotification: BannerConfiguration =
 	{
 		...notificationBanner,
 		type: 'achievement',
-		icon: '🏆',
+		icon: 'success',
 	};
 
 export const systemNotification: BannerConfiguration = {
 	...notificationBanner,
 	type: 'system',
-	icon: 'ℹ️',
+	icon: 'info',
 };
 
 export const tauntNotification: BannerConfiguration = {
 	...notificationBanner,
 	type: 'taunt',
-	icon: '😈',
+	icon: 'warning',
 };
 
 export const successToast: BannerConfiguration = {
 	...toastBanner,
 	type: 'success',
-	icon: '✅',
+	icon: 'success',
 };
 
 export const errorToast: BannerConfiguration = {
 	...toastBanner,
 	type: 'error',
-	icon: '❌',
+	icon: 'danger',
 	duration: 5000,
 };
 
 export const warningToast: BannerConfiguration = {
 	...toastBanner,
 	type: 'warning',
-	icon: '⚠️',
+	icon: 'warning',
 	duration: 4000,
 };
 
 export const infoToast: BannerConfiguration = {
 	...toastBanner,
 	type: 'info',
-	icon: 'ℹ️',
+	icon: 'info',
 };
 
-// VS Game specific configurations
 export const vsStatusBar: BannerConfiguration = {
 	...statusBanner,
 	showMistakes: true,
 	showTimer: true,
 };
 
-// Export all configurations
 export const BANNER_CONFIGURATIONS = {
-	// Basic kinds
 	'feedback': feedbackBanner,
 	'notification': notificationBanner,
 	'toast': toastBanner,
 	'status': statusBanner,
 	'global': globalToastBanner,
 
-	// Notification types
 	'burn-notification': burnNotification,
 	'achievement-notification': achievementNotification,
 	'system-notification': systemNotification,
 	'taunt-notification': tauntNotification,
 
-	// Toast types
 	'success-toast': successToast,
 	'error-toast': errorToast,
 	'warning-toast': warningToast,
 	'info-toast': infoToast,
 
-	// VS Game
 	'vs-status': vsStatusBar,
 };
 
 export type ExtendedBannerKind =
 	keyof typeof BANNER_CONFIGURATIONS;
 
-// Type exports
 export type BannerKind = ExtendedBannerKind;
 export type BannerType =
 	| 'burn'

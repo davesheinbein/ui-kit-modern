@@ -60,10 +60,6 @@
 	// Interactive hover state
 	@include smooth-transition(transform, box-shadow);
 	cursor: default;
-
-	&:hover {
-		transform: translateY(-2px);
-	}
 }
 
 // Position variants - some extend beyond parent bounds intentionally
@@ -137,6 +133,9 @@
 }
 
 .banner--toast {
+	width: max-content;
+	min-width: 320px;
+	max-width: 90vw;
 	box-shadow:
 		0 16px 32px rgba(0, 0, 0, 0.15),
 		0 8px 16px rgba(0, 0, 0, 0.1),
@@ -171,8 +170,12 @@
 	position: fixed;
 	top: var(--spacing-5);
 	left: 50%;
+	right: auto;
 	transform: translateX(-50%);
 	z-index: 9999; // Ensure maximum visibility
+	width: max-content;
+	min-width: 320px;
+	max-width: 90vw;
 	box-shadow:
 		0 20px 40px rgba(0, 0, 0, 0.15),
 		0 10px 20px rgba(0, 0, 0, 0.1),
@@ -182,6 +185,13 @@
 	// Add subtle glow effect
 	&::before {
 		box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+	}
+
+	animation: bannerFadeIn 0.4s
+		cubic-bezier(0.34, 1.56, 0.64, 1);
+
+	&:hover {
+		transform: none !important;
 	}
 }
 
@@ -560,13 +570,13 @@
 
 // Animation keyframes
 @keyframes bannerSlideIn {
-	from {
+	0% {
+		transform: translateY(-24px) scale(0.98);
 		opacity: 0;
-		transform: translateY(-30px) scale(0.95);
 	}
-	to {
-		opacity: 1;
+	100% {
 		transform: translateY(0) scale(1);
+		opacity: 1;
 	}
 }
 
@@ -586,6 +596,15 @@
 	}
 	100% {
 		background-position: 200% 0;
+	}
+}
+
+@keyframes bannerFadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
 	}
 }
 

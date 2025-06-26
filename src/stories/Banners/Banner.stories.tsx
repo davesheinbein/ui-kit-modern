@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Banner } from '../../components/Banner';
 import { Wrapper } from '../../components/Wrappers';
@@ -201,10 +202,10 @@ export const NotificationBanner: Story = {
 
 export const ToastBanner: Story = {
 	name: 'Toast Banner',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'toast',
 		message: 'Achievement unlocked: First Victory!',
-		onClose: action('toast closed'),
 	},
 	parameters: {
 		docs: {
@@ -218,10 +219,10 @@ export const ToastBanner: Story = {
 
 export const GlobalToast: Story = {
 	name: 'Global Toast',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'global',
 		message: 'Welcome to the new game mode!',
-		onClose: action('global toast closed'),
 	},
 	parameters: {
 		docs: {
@@ -239,10 +240,10 @@ export const GlobalToast: Story = {
 
 export const BurnNotification: Story = {
 	name: 'Burn Notification',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'burn-notification',
 		message: 'Player got burned! -50 points',
-		onClose: action('burn notification closed'),
 	},
 	parameters: {
 		docs: {
@@ -256,10 +257,10 @@ export const BurnNotification: Story = {
 
 export const AchievementNotification: Story = {
 	name: 'Achievement Notification',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'achievement-notification',
 		message: 'Achievement Unlocked: Perfect Game!',
-		onClose: action('achievement closed'),
 	},
 	parameters: {
 		docs: {
@@ -311,10 +312,10 @@ export const TauntNotification: Story = {
 
 export const SuccessToast: Story = {
 	name: 'Success Toast',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'success-toast',
 		message: 'Data saved successfully!',
-		onClose: action('success toast closed'),
 	},
 	parameters: {
 		docs: {
@@ -328,10 +329,10 @@ export const SuccessToast: Story = {
 
 export const ErrorToast: Story = {
 	name: 'Error Toast',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'error-toast',
 		message: 'Failed to connect to server',
-		onClose: action('error toast closed'),
 	},
 	parameters: {
 		docs: {
@@ -345,11 +346,11 @@ export const ErrorToast: Story = {
 
 export const WarningToast: Story = {
 	name: 'Warning Toast',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'warning-toast',
 		message:
 			'Connection unstable - some features may be limited',
-		onClose: action('warning toast closed'),
 	},
 	parameters: {
 		docs: {
@@ -363,10 +364,10 @@ export const WarningToast: Story = {
 
 export const InfoToast: Story = {
 	name: 'Info Toast',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'info-toast',
 		message: 'New update available - restart to apply',
-		onClose: action('info toast closed'),
 	},
 	parameters: {
 		docs: {
@@ -636,3 +637,20 @@ export const AllBannerTypes: Story = {
 		},
 	},
 };
+
+// Utility for stateful closeable banners
+function CloseableBannerStory(args: any) {
+	const [open, setOpen] = useState(true);
+	if (!open) return null;
+	return (
+		<div
+			style={{
+				position: 'relative',
+				minHeight: 200,
+				overflow: 'visible',
+			}}
+		>
+			<Banner {...args} onClose={() => setOpen(false)} />
+		</div>
+	);
+}

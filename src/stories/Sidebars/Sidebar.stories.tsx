@@ -29,8 +29,14 @@ const DemoContent = ({ label }: { label: string }) => (
 );
 
 // Overlay component for consistent sidebar UX
-const Overlay = ({ open, onClose }: { open: boolean; onClose: () => void }) =>
-	open ? (
+const Overlay = ({
+	open,
+	onClose,
+}: {
+	open: boolean;
+	onClose: () => void;
+}) =>
+	open ?
 		<div
 			style={{
 				position: 'fixed',
@@ -41,10 +47,10 @@ const Overlay = ({ open, onClose }: { open: boolean; onClose: () => void }) =>
 				background: 'rgba(0,0,0,0.4)',
 				zIndex: 1000,
 			}}
-			data-testid="sidebar-overlay"
+			data-testid='sidebar-overlay'
 			onClick={onClose}
 		/>
-	) : null;
+	:	null;
 
 // DRY: All sidebar variant demos in one place
 const sidebarVariants = [
@@ -181,7 +187,11 @@ const SidebarDemo = ({
 			if (e.key === 'Escape') setOpen(false);
 		};
 		document.addEventListener('keydown', handleKeyDown);
-		return () => document.removeEventListener('keydown', handleKeyDown);
+		return () =>
+			document.removeEventListener(
+				'keydown',
+				handleKeyDown
+			);
 	}, [open]);
 
 	return (

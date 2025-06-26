@@ -443,3 +443,16 @@ export const mockThemes: ThemeDefinition[] = [
 		},
 	},
 ];
+
+// === Analytics Defaults (for use in Analytics component and stories) ===
+export const DEFAULT_DATA = [];
+export const DEFAULT_METRICS = [];
+export const DEFAULT_FILTERS = [];
+export const DEFAULT_COLORS = [
+	'#3b82f6',
+	'#10b981',
+	'#f59e0b',
+	'#ef4444',
+	'#8b5cf6',
+];
+export const DEFAULT_PLUGINS = [];

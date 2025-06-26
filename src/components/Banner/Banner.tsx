@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Wrapper } from '../Wrappers';
 import { Button } from '../Button';
+import { Icons, IconName } from '../Icons';
 import styles from './Banner.module.scss';
 import {
 	BANNER_CONFIGURATIONS,
@@ -157,184 +158,154 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 
 		// Render content based on kind
 		let content: React.ReactNode = null;
-		switch (finalConfig.kind) {
-			case 'feedback':
-				content = (
-					<Wrapper
-						className={styles['banner__content--feedback']}
-					>
-						<span
-							className={
-								styles['banner__message--feedback']
-							}
-						>
-							{message}
-						</span>
-					</Wrapper>
+		const renderIcon = (icon: any) => {
+			if (!icon) return null;
+			if (typeof icon === 'string') {
+				return (
+					<Icons
+						name={icon as IconName}
+						size={20}
+						className={styles.bannerIcon}
+					/>
 				);
-				break;
-			case 'notification':
-				content = (
-					<Wrapper
-						className={
-							styles['banner__content--notification']
-						}
+			}
+			return icon;
+		};
+
+		const SIMPLE_BANNER_KINDS = [
+			'feedback',
+			'notification',
+			'toast',
+			'global',
+		];
+		const contentClassMap: Record<string, string> = {
+			feedback: styles['banner__content--feedback'],
+			notification: styles['banner__content--notification'],
+			toast: styles['banner__content--toast'],
+			global: styles['banner__content--global'],
+		};
+		const messageClassMap: Record<string, string> = {
+			feedback: styles['banner__message--feedback'],
+			notification: styles['banner__message--notification'],
+			toast: styles['banner__message--toast'],
+			global: styles['banner__message--global'],
+		};
+
+		if (SIMPLE_BANNER_KINDS.includes(finalConfig.kind)) {
+			content = (
+				<Wrapper
+					className={contentClassMap[finalConfig.kind]}
+				>
+					{renderIcon(effectiveIcon)}
+					<span
+						className={messageClassMap[finalConfig.kind]}
 					>
-						<span
-							className={
-								styles['banner__message--notification']
-							}
+						{message}
+					</span>
+				</Wrapper>
+			);
+		} else if (finalConfig.kind === 'status') {
+			content = (
+				<Wrapper
+					className={styles['banner__content--status']}
+				>
+					{/* Left: Player info */}
+					<Wrapper className={styles['banner__status-row']}>
+						{renderIcon(effectiveIcon)}
+						{player?.avatarUrl && (
+							<img
+								src={player.avatarUrl}
+								alt={player.username}
+								className={styles['banner__status-avatar']}
+							/>
+						)}
+						<Wrapper
+							className={styles['banner__status-username']}
 						>
-							{message}
-						</span>
-					</Wrapper>
-				);
-				break;
-			case 'toast':
-				content = (
-					<Wrapper
-						className={styles['banner__content--toast']}
-					>
-						{effectiveIcon && <span>{effectiveIcon}</span>}
-						<span
-							className={styles['banner__message--toast']}
+							{player?.username}
+							{player?.isYou && ' (You)'}
+						</Wrapper>
+						<Wrapper
+							className={styles['banner__status-groups']}
 						>
-							{message}
-						</span>
+							{player?.groupsSolved || 0}/{totalGroups}
+						</Wrapper>
+						{showMistakes && (
+							<Wrapper
+								className={
+									styles['banner__status-mistakes']
+								}
+							>
+								{player?.mistakes || 0} mistakes
+							</Wrapper>
+						)}
 					</Wrapper>
-				);
-				break;
-			case 'status':
-				content = (
-					<Wrapper
-						className={styles['banner__content--status']}
-					>
-						{/* Left: Player info */}
+					{/* Center: Timer */}
+					{showTimer && timer && (
+						<Wrapper
+							className={styles['banner__status-timer']}
+						>
+							{timer}
+						</Wrapper>
+					)}
+					{/* Right: Opponent info */}
+					{opponent && (
 						<Wrapper
 							className={styles['banner__status-row']}
 						>
-							{player?.avatarUrl && (
+							{showMistakes && (
+								<Wrapper
+									className={
+										styles['banner__status-mistakes']
+									}
+								>
+									{opponent.mistakes} mistakes
+								</Wrapper>
+							)}
+							<Wrapper
+								className={styles['banner__status-groups']}
+							>
+								{opponent.groupsSolved}/{totalGroups}
+							</Wrapper>
+							<Wrapper
+								className={
+									styles['banner__status-username']
+								}
+							>
+								{opponent.username}
+							</Wrapper>
+							{opponent.avatarUrl && (
 								<img
-									src={player.avatarUrl}
-									alt={player.username}
+									src={opponent.avatarUrl}
+									alt={opponent.username}
 									className={
 										styles['banner__status-avatar']
 									}
 								/>
 							)}
-							<span
-								className={
-									styles['banner__status-username']
-								}
-							>
-								{player?.username}
-								{player?.isYou && ' (You)'}
-							</span>
-							<span
-								className={styles['banner__status-groups']}
-							>
-								{player?.groupsSolved || 0}/{totalGroups}
-							</span>
-							{showMistakes && (
-								<span
-									className={
-										styles['banner__status-mistakes']
-									}
-								>
-									{player?.mistakes || 0} mistakes
-								</span>
-							)}
 						</Wrapper>
-						{/* Center: Timer */}
-						{showTimer && timer && (
-							<Wrapper
-								className={styles['banner__status-timer']}
-							>
-								{timer}
-							</Wrapper>
-						)}
-						{/* Right: Opponent info */}
-						{opponent && (
-							<Wrapper
-								className={styles['banner__status-row']}
-							>
-								{showMistakes && (
-									<span
-										className={
-											styles['banner__status-mistakes']
-										}
-									>
-										{opponent.mistakes} mistakes
-									</span>
-								)}
-								<span
-									className={
-										styles['banner__status-groups']
-									}
-								>
-									{opponent.groupsSolved}/{totalGroups}
-								</span>
-								<span
-									className={
-										styles['banner__status-username']
-									}
-								>
-									{opponent.username}
-								</span>
-								{opponent.avatarUrl && (
-									<img
-										src={opponent.avatarUrl}
-										alt={opponent.username}
-										className={
-											styles['banner__status-avatar']
-										}
-									/>
-								)}
-							</Wrapper>
-						)}
-						{/* Emote button */}
-						{onEmoteClick && (
-							<Button
-								kind='vs-status-emote'
-								className={
-									styles['banner__status-emote-btn']
-								}
-								onClick={onEmoteClick}
-								aria-label='Send emote'
-							>
-								<span
-									className={
-										styles['banner__status-emote-icon']
-									}
-								>
-									😀
-								</span>
-							</Button>
-						)}
-					</Wrapper>
-				);
-				break;
-			case 'global':
-				content =
-					message ?
-						<Wrapper
-							className={styles['banner__content--global']}
+					)}
+					{/* Emote button */}
+					{onEmoteClick && (
+						<Button
+							kind='vs-status-emote'
+							className={styles['banner__status-emote-btn']}
+							onClick={onEmoteClick}
+							aria-label='Send emote'
 						>
-							{effectiveIcon && (
-								<span>{effectiveIcon}</span>
-							)}
-							<span
+							<Wrapper
 								className={
-									styles['banner__message--global']
+									styles['banner__status-emote-icon']
 								}
 							>
-								{message}
-							</span>
-						</Wrapper>
-					:	null;
-				break;
-			default:
-				content = message || children || 'Banner content';
+								😀
+							</Wrapper>
+						</Button>
+					)}
+				</Wrapper>
+			);
+		} else {
+			content = message || children || 'Banner content';
 		}
 
 		return (

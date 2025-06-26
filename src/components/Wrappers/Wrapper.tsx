@@ -430,7 +430,7 @@ export interface WrapperProps {
 
 	// Wrapper-specific props
 	suppressDeprecationWarning?: boolean;
-	onMigrationHelp?: () => void;
+	onHelp?: () => void;
 
 	// Configuration overrides
 	configuration?: Partial<WrapperConfiguration>;
@@ -453,7 +453,7 @@ const Wrapper = forwardRef<any, WrapperProps>(
 			children,
 			className,
 			suppressDeprecationWarning = false,
-			onMigrationHelp,
+			onHelp,
 			configuration: configOverrides,
 			onClose,
 			...props
@@ -506,7 +506,7 @@ const Wrapper = forwardRef<any, WrapperProps>(
 		const processedProps = useMemo(() => {
 			const {
 				suppressDeprecationWarning: _,
-				onMigrationHelp: __,
+				onHelp: __,
 				configuration: ___,
 				...targetProps
 			} = props;
@@ -719,8 +719,8 @@ export class WrapperBuilder {
 		this.config.deprecationWarning = warn;
 		return this;
 	}
-	migrationPath(path: string) {
-		this.config.migrationPath = path;
+	path(path: string) {
+		this.config.path = path;
 		return this;
 	}
 	description(desc: string) {
