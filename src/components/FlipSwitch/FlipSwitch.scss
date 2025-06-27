@@ -1,4 +1,4 @@
-.switch {
+.flip-switch {
 	font-size: 17px;
 	position: relative;
 	display: inline-block;
@@ -7,13 +7,13 @@
 	user-select: none;
 }
 
-.cb {
+.flip-switch__input {
 	opacity: 0;
 	width: 0;
 	height: 0;
 }
 
-.toggle {
+.flip-switch__toggle {
 	position: absolute;
 	cursor: pointer;
 	width: 100%;
@@ -31,8 +31,8 @@
 		0.3em 0.3em 0 0 #373737,
 		0 0.3em 0 0 #373737;
 
-	.left,
-	.right {
+	.flip-switch__left,
+	.flip-switch__right {
 		position: absolute;
 		display: flex;
 		width: 50%;
@@ -44,7 +44,7 @@
 		transition: all 150ms;
 	}
 
-	.left {
+	.flip-switch__left {
 		color: #373737;
 		left: 0;
 		bottom: 0;
@@ -72,7 +72,7 @@
 		}
 	}
 
-	.right {
+	.flip-switch__right {
 		color: rgb(206, 206, 206);
 		right: 1px;
 		bottom: 0;
@@ -101,13 +101,13 @@
 	}
 }
 
-.switch input:checked + .toggle {
-	.left {
+.flip-switch__input:checked + .flip-switch__toggle {
+	.flip-switch__left {
 		transform: rotateX(10deg) rotateY(45deg);
 		color: rgb(206, 206, 206);
 	}
 
-	.right {
+	.flip-switch__right {
 		transform: rotateX(10deg) rotateY(0deg);
 		color: #487bdb;
 	}

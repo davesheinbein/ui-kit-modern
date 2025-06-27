@@ -497,7 +497,309 @@
 	font-size: 2rem;
 }
 
-// Flip Switch BEM Hook
+// ===== FLIP SWITCH VARIANT (from FlipSwitch.scss) =====
 .flip-switch {
-	// BEM hook for FlipSwitch variant. Add overrides or theming here if needed.
+	font-size: 17px;
+	position: relative;
+	display: inline-block;
+	width: 5em;
+	height: 2.5em;
+	user-select: none;
+}
+
+.flip-switch__input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.flip-switch__toggle {
+	position: absolute;
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+	background-color: #373737;
+	border-radius: 0.1em;
+	transition: 0.4s;
+	text-transform: uppercase;
+	font-weight: 700;
+	overflow: hidden;
+	box-shadow:
+		-0.3em 0 0 0 #373737,
+		-0.3em 0.3em 0 0 #373737,
+		0.3em 0 0 0 #373737,
+		0.3em 0.3em 0 0 #373737,
+		0 0.3em 0 0 #373737;
+
+	.flip-switch__left,
+	.flip-switch__right {
+		position: absolute;
+		display: flex;
+		width: 50%;
+		height: 88%;
+		background-color: #f3f3f3;
+		align-items: center;
+		justify-content: center;
+		transform-style: preserve-3d;
+		transition: all 150ms;
+	}
+
+	.flip-switch__left {
+		color: #373737;
+		left: 0;
+		bottom: 0;
+		transform-origin: right;
+		transform: rotateX(10deg);
+
+		&::before {
+			position: absolute;
+			content: '';
+			width: 100%;
+			height: 100%;
+			background-color: rgb(206, 206, 206);
+			transform-origin: center left;
+			transform: rotateY(90deg);
+		}
+
+		&::after {
+			position: absolute;
+			content: '';
+			width: 100%;
+			height: 100%;
+			background-color: rgb(112, 112, 112);
+			transform-origin: center bottom;
+			transform: rotateX(90deg);
+		}
+	}
+
+	.flip-switch__right {
+		color: rgb(206, 206, 206);
+		right: 1px;
+		bottom: 0;
+		transform-origin: left;
+		transform: rotateX(10deg) rotateY(-45deg);
+
+		&::before {
+			position: absolute;
+			content: '';
+			width: 100%;
+			height: 100%;
+			background-color: rgb(206, 206, 206);
+			transform-origin: center right;
+			transform: rotateY(-90deg);
+		}
+
+		&::after {
+			position: absolute;
+			content: '';
+			width: 100%;
+			height: 100%;
+			background-color: rgb(112, 112, 112);
+			transform-origin: center bottom;
+			transform: rotateX(90deg);
+		}
+	}
+}
+
+.flip-switch__input:checked + .flip-switch__toggle {
+	.flip-switch__left {
+		transform: rotateX(10deg) rotateY(45deg);
+		color: rgb(206, 206, 206);
+	}
+
+	.flip-switch__right {
+		transform: rotateX(10deg) rotateY(0deg);
+		color: #487bdb;
+	}
+}
+
+// ===== NEBULA VARIANT =====
+.nebula {
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	user-select: none;
+
+	input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
+
+	.checkbox-wrapper {
+		position: relative;
+		width: 48px;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&::before {
+			content: '';
+			position: absolute;
+			width: 48px;
+			height: 48px;
+			background: rgba(75, 94, 170, 0.2);
+			border-radius: 50%;
+			transform: scale(0);
+			transition: transform 0.4s
+				cubic-bezier(0.4, 0, 0.2, 1.4);
+			z-index: -1;
+		}
+	}
+
+	&:hover .checkbox-wrapper::before {
+		transform: scale(1);
+	}
+
+	.checkmark {
+		position: absolute;
+		width: 32px;
+		height: 32px;
+		background: linear-gradient(135deg, #0a0a23, #1c2526);
+		border: 2px solid #4b5eaa;
+		border-radius: 12px;
+		transition:
+			transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+			background 0.3s ease-in-out,
+			border-color 0.3s ease,
+			border-radius 0.3s ease;
+		box-shadow: 0 0 8px rgba(75, 94, 170, 0.3);
+
+		&::after {
+			content: '';
+			position: absolute;
+			display: none;
+			left: 50%;
+			top: 50%;
+			width: 10px;
+			height: 10px;
+			background: transparent;
+			border: 2px solid #fff;
+			border-radius: 50%;
+			transform: translate(-50%, -50%) scale(0);
+			transition:
+				transform 0.3s cubic-bezier(0.4, 0, 0.2, 1.6),
+				opacity 0.3s ease-in-out;
+		}
+	}
+
+	&:hover .checkmark {
+		transform: scale(1.1);
+		box-shadow: 0 0 12px rgba(75, 94, 170, 0.5);
+	}
+
+	input:checked ~ .checkbox-wrapper .checkmark {
+		background: linear-gradient(135deg, #ff5e62, #ffd452);
+		border-color: #ffd452;
+		border-radius: 50%;
+		transform: rotate(45deg) scale(1.2);
+		box-shadow: 0 0 20px rgba(255, 212, 82, 0.8);
+		animation: bounce 0.4s
+			cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	}
+
+	input:checked ~ .checkbox-wrapper .checkmark::after {
+		display: block;
+		transform: translate(-50%, -50%) scale(1);
+		opacity: 1;
+	}
+
+	.nebula-glow {
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		background: radial-gradient(
+			circle,
+			rgba(75, 94, 170, 0.3) 10%,
+			transparent 70%
+		);
+		border-radius: 50%;
+		opacity: 0.5;
+		transition:
+			opacity 0.3s ease,
+			transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	input:checked ~ .checkbox-wrapper .nebula-glow {
+		opacity: 1;
+		transform: rotate(180deg);
+		background: radial-gradient(
+			circle,
+			rgba(255, 94, 170, 0.5) 10%,
+			rgba(255, 212, 82, 0.3) 70%
+		);
+		animation: swirl 1.5s infinite
+			cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.sparkle-container {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			width: 4px;
+			height: 4px;
+			background: #ffd452;
+			border-radius: 50%;
+			opacity: 0;
+			transition: all 0.6s ease;
+		}
+	}
+
+	input:checked
+		~ .checkbox-wrapper
+		.sparkle-container::before {
+		transform: translate(12px, -12px);
+		opacity: 1;
+		animation: twinkle 0.8s cubic-bezier(0.5, 0, 0.5, 1)
+			forwards;
+	}
+
+	input:checked
+		~ .checkbox-wrapper
+		.sparkle-container::after {
+		transform: translate(-12px, 12px);
+		background: #ff5e62;
+		opacity: 1;
+		animation: twinkle 0.8s cubic-bezier(0.5, 0, 0.5, 1)
+			0.2s forwards;
+	}
+}
+
+@keyframes swirl {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes bounce {
+	0%,
+	100% {
+		transform: rotate(45deg) scale(1.2);
+	}
+	50% {
+		transform: rotate(45deg) scale(1.4);
+	}
+}
+
+@keyframes twinkle {
+	0% {
+		transform: scale(1);
+		opacity: 1;
+	}
+	100% {
+		transform: scale(1.5) translate(10px, -10px);
+		opacity: 0;
+	}
 }

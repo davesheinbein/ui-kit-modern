@@ -8,13 +8,9 @@ import {
 import { ThemePaletteContext } from '../Providers';
 import styles from './checkbox.module.scss';
 import Icons from '../Icons/Icons';
-import { FlipSwitch as ExternalFlipSwitch } from '../FlipSwitch/FlipSwitch';
-import { Nebula as ExternalNebula } from '../Nebula/Nebula';
 
-// Re-export types for convenience
 export type CheckboxKind = ExtendedCheckboxKind;
 
-// Base checkbox props interface
 export interface BaseCheckboxProps
 	extends Omit<
 		React.InputHTMLAttributes<HTMLInputElement>,
@@ -30,12 +26,11 @@ export interface BaseCheckboxProps
 	fullWidth?: boolean;
 }
 
-// Main checkbox props interface
 export interface CheckboxProps extends BaseCheckboxProps {
-	kind?: CheckboxKind; // Optional for backward compatibility
+	kind?: CheckboxKind;
 	configuration?: Partial<CheckboxConfiguration>;
-	// Special props for specific checkbox types
-	darkModeContext?: boolean; // For dark-mode-toggle
+
+	darkModeContext?: boolean;
 }
 
 const Checkbox = forwardRef<
@@ -44,7 +39,7 @@ const Checkbox = forwardRef<
 >(
 	(
 		{
-			kind = 'checkbox', // Default to 'checkbox' for backward compatibility
+			kind = 'checkbox',
 			configuration,
 			label,
 			labelPosition,
@@ -63,13 +58,11 @@ const Checkbox = forwardRef<
 		},
 		ref
 	) => {
-		// Get configuration for this checkbox kind
 		const config = {
 			...CHECKBOX_CONFIGURATIONS[kind],
 			...configuration,
 		};
 
-		// Handle dark mode toggle special case
 		const themePaletteContext = useContext(
 			ThemePaletteContext
 		);
@@ -81,7 +74,6 @@ const Checkbox = forwardRef<
 			darkModeContext &&
 			themePaletteContext
 		) {
-			// Check if the theme context has dark mode properties
 			const hasDarkMode = 'darkMode' in themePaletteContext;
 			if (hasDarkMode) {
 				finalChecked = (themePaletteContext as any)
@@ -93,13 +85,11 @@ const Checkbox = forwardRef<
 			}
 		}
 
-		// Determine label position
 		const effectiveLabelPosition =
 			labelPosition || config.labelPosition;
 		const effectiveSize = size || config.size;
 		const effectiveVariant = variant || config.variant;
 
-		// Build container classes
 		const containerClasses = [
 			styles.Checkbox,
 			styles[config.className],
@@ -120,12 +110,10 @@ const Checkbox = forwardRef<
 			.filter(Boolean)
 			.join(' ');
 
-		// Build input classes
 		const inputClasses = [styles.checkboxInput]
 			.filter(Boolean)
 			.join(' ');
 
-		// Get icon for special checkbox types
 		const getIcon = () => {
 			if (config.icon) {
 				return finalChecked ?
@@ -135,7 +123,6 @@ const Checkbox = forwardRef<
 			return null;
 		};
 
-		// ThemeSwitch: visually rich dark mode toggle (inline, no separate file)
 		const themeSwitchStyles = `
 		.switch { font-size: 17px; position: relative; display: inline-block; width: 4em; height: 2.2em; border-radius: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
 		.switch input { opacity: 0; width: 0; height: 0; }
@@ -200,7 +187,6 @@ const Checkbox = forwardRef<
 			);
 		};
 
-		// FlipSwitch: use external FlipSwitch component for 'flip-switch' kind
 		const FlipSwitch: React.FC<{
 			id?: string;
 			checked?: boolean;
@@ -210,14 +196,25 @@ const Checkbox = forwardRef<
 			checked = false,
 			onChange,
 		}) => (
-			<ExternalFlipSwitch
-				id={id}
-				checked={checked}
-				onChange={onChange}
-			/>
+			<label className={styles['flip-switch']}>
+				<input
+					id={id}
+					className={styles['flip-switch__input']}
+					type='checkbox'
+					checked={checked}
+					onChange={(e) => onChange?.(e.target.checked)}
+				/>
+				<span className={styles['flip-switch__toggle']}>
+					<span className={styles['flip-switch__left']}>
+						off
+					</span>
+					<span className={styles['flip-switch__right']}>
+						on
+					</span>
+				</span>
+			</label>
 		);
 
-		// NebulaCheckbox: use external Nebula component for 'Nebula' kind
 		const NebulaCheckbox: React.FC<{
 			id?: string;
 			checked?: boolean;
@@ -227,10 +224,24 @@ const Checkbox = forwardRef<
 			checked = false,
 			onChange,
 		}) => (
-			<ExternalNebula id={id} checked={checked} onChange={onChange} />
+			<label className={styles['nebula']}>
+				<input
+					id={id}
+					type='checkbox'
+					checked={checked}
+					onChange={(e) => onChange?.(e.target.checked)}
+					className={styles['checkboxInput']}
+				/>
+				<div className={styles['checkbox-wrapper']}>
+					<div className={styles['checkmark']}></div>
+					<div className={styles['nebula-glow']}></div>
+					<div
+						className={styles['sparkle-container']}
+					></div>
+				</div>
+			</label>
 		);
 
-		// For dark mode toggle, we need special handling
 		if (kind === 'dark-mode-toggle') {
 			return (
 				<ThemeSwitch
@@ -280,7 +291,6 @@ const Checkbox = forwardRef<
 			);
 		}
 
-		// Standard checkbox rendering
 		const labelElement =
 			label && effectiveLabelPosition !== 'none' ?
 				<span

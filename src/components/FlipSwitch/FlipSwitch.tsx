@@ -13,17 +13,17 @@ export const FlipSwitch: React.FC<FlipSwitchProps> = ({
 	onChange,
 }) => {
 	return (
-		<label className='switch'>
+		<label className='flip-switch'>
 			<input
 				id={id}
-				className='cb'
+				className='flip-switch__input'
 				type='checkbox'
 				checked={checked}
 				onChange={(e) => onChange?.(e.target.checked)}
 			/>
-			<span className='toggle'>
-				<span className='left'>off</span>
-				<span className='right'>on</span>
+			<span className='flip-switch__toggle'>
+				<span className='flip-switch__left'>off</span>
+				<span className='flip-switch__right'>on</span>
 			</span>
 		</label>
 	);

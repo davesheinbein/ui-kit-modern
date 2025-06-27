@@ -295,7 +295,6 @@ export const AllVariants: Story = {
 				>
 					<StatefulCheckbox
 						kind='Nebula'
-						darkModeContext={true}
 						size='large'
 					/>
 					<span>Dark Mode (Nebula)</span>
