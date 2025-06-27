@@ -1,4 +1,8 @@
-import React, { useContext, forwardRef } from 'react';
+import React, {
+	useContext,
+	forwardRef,
+	useRef,
+} from 'react';
 import { Wrapper } from '../Wrappers';
 import {
 	CheckboxConfiguration,
@@ -242,6 +246,29 @@ const Checkbox = forwardRef<
 			</label>
 		);
 
+		// Ripple logic only for main Checkbox
+		const labelRef = useRef<HTMLLabelElement>(null);
+		const handleRipple = (
+			e: React.MouseEvent<HTMLInputElement>
+		) => {
+			const label = labelRef.current;
+			if (!label) return;
+
+			const rect = label.getBoundingClientRect();
+			const size = Math.max(rect.width, rect.height);
+			const ripple = document.createElement('span');
+			ripple.className = styles.ripple;
+			ripple.style.width =
+				ripple.style.height = `${size}px`;
+			ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+			ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+			label.appendChild(ripple);
+			ripple.addEventListener('animationend', () => {
+				if (ripple.parentNode)
+					ripple.parentNode.removeChild(ripple);
+			});
+		};
+
 		if (kind === 'dark-mode-toggle') {
 			return (
 				<ThemeSwitch
@@ -304,7 +331,7 @@ const Checkbox = forwardRef<
 			<Wrapper
 				className={fullWidth ? styles.fullWidth : ''}
 			>
-				<label className={containerClasses}>
+				<label className={containerClasses} ref={labelRef}>
 					{effectiveLabelPosition === 'left' &&
 						labelElement}
 					<input
@@ -315,6 +342,7 @@ const Checkbox = forwardRef<
 						onChange={finalOnChange}
 						disabled={disabled}
 						{...props}
+						onClick={handleRipple}
 					/>
 					{effectiveLabelPosition === 'right' &&
 						labelElement}
