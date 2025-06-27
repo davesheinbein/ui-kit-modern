@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 import { Wrapper } from '../Wrappers';
-import styles from './Chat.module.scss';
+import styles from './chat.module.scss';
 import { Button } from '../Button';
 import {
 	ChatKind,

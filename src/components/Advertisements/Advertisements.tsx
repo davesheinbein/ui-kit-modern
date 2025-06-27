@@ -22,7 +22,7 @@ import {
 	createAnalyticsEvent,
 } from './configurations';
 import { Button } from '../Button';
-import styles from './Advertisements.module.scss';
+import styles from './advertisements.module.scss';
 
 export interface BaseAdvertisementProps {
 	className?: string;

@@ -15,6 +15,8 @@ import {
 	FaExclamationTriangle,
 	FaCheckCircle,
 	FaExclamationCircle,
+	FaSun,
+	FaMoon,
 } from 'react-icons/fa';
 import styles from './Icons.module.scss';
 
@@ -50,7 +52,9 @@ export type IconName =
 	| 'copy'
 	| 'warning'
 	| 'success'
-	| 'danger';
+	| 'danger'
+	| 'sun'
+	| 'moon';
 
 const icons: Record<IconName, React.ComponentType<any>> = {
 	'check': FaCheck,
@@ -68,6 +72,8 @@ const icons: Record<IconName, React.ComponentType<any>> = {
 	'warning': FaExclamationTriangle,
 	'success': FaCheckCircle,
 	'danger': FaExclamationCircle,
+	'sun': FaSun,
+	'moon': FaMoon,
 };
 
 export const Icons: React.FC<IconProps> = ({

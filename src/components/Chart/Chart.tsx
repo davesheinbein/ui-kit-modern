@@ -19,7 +19,7 @@ import {
 	selectChartSearchTerm,
 } from '../../store/slices/uiSlice';
 import { RootState } from '../../store';
-import styles from './Chart.module.scss';
+import styles from './chart.module.scss';
 
 export interface ChartProps {
 	kind: ChartKind;

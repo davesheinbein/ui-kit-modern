@@ -7,7 +7,7 @@ import {
 	getEmptyStateConfig,
 } from './configurations';
 import { Button } from '../Button';
-import styles from './EmptyState.module.scss';
+import styles from './empty-state.module.scss';
 
 export interface EmptyStateProps {
 	kind: EmptyStateKind;

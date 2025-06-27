@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { Wrapper } from '../Wrappers';
 import { Button } from '../Button';
-import styles from './Analytics.module.scss';
+import styles from './analytics.module.scss';
 import {
 	AnalyticsConfiguration,
 	AnalyticsDataPoint,

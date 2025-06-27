@@ -4,7 +4,7 @@ import {
 	ExtendedButtonKind,
 	ButtonConfiguration,
 } from './configurations';
-import styles from './Button.module.scss';
+import styles from './button.module.scss';
 import { Icons } from '../Icons';
 
 /**

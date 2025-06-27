@@ -15,7 +15,6 @@ import {
 	getFileUploadStyles,
 	validateFiles,
 } from './configurations';
-import styles from './FileUpload.module.scss';
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -34,6 +33,7 @@ import {
 	selectComponentValidationErrors,
 	selectComponentSelectedFiles,
 } from '../../store/slices/fileSlice';
+import styles from './file-upload.module.scss';
 
 export interface FileUploadProps {
 	kind: FileUploadKind;

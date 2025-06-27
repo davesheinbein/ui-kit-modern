@@ -1,21 +1,8 @@
-/**
- * Notification Slice - Notification Domain State Management
- *
- * Responsible for:
- * - Toast notifications and alerts
- * - Achievement notifications
- * - System messages
- * - Notification queue and display
- *
- * Simple notification domain for all alert/notification concerns
- */
-
 import {
 	createSlice,
 	PayloadAction,
 } from '@reduxjs/toolkit';
 
-// Notification interfaces
 export interface Notification {
 	id: string;
 	type:
@@ -45,16 +32,9 @@ export interface NotificationAction {
 }
 
 export interface NotificationState {
-	// Active notifications (displayed in UI)
 	active: Notification[];
-
-	// All notifications (history)
 	all: Notification[];
-
-	// Queue for notifications waiting to be shown
 	queue: Notification[];
-
-	// Display settings
 	maxActive: number;
 	defaultDuration: number;
 	position:
@@ -64,23 +44,17 @@ export interface NotificationState {
 		| 'bottom-left'
 		| 'top-center'
 		| 'bottom-center';
-
-	// Statistics
 	stats: {
 		total: number;
 		unread: number;
 		dismissed: number;
 		achievements: number;
 	};
-
-	// Settings
 	soundEnabled: boolean;
 	showAchievements: boolean;
 	showSystem: boolean;
 	showErrors: boolean;
 	groupSimilar: boolean;
-
-	// Loading
 	isLoading: boolean;
 	error: string | null;
 }
@@ -89,28 +63,20 @@ const initialState: NotificationState = {
 	active: [],
 	all: [],
 	queue: [],
-
-	// Display settings
 	maxActive: 5,
 	defaultDuration: 5000,
 	position: 'top-right',
-
-	// Statistics
 	stats: {
 		total: 0,
 		unread: 0,
 		dismissed: 0,
 		achievements: 0,
 	},
-
-	// Settings
 	soundEnabled: true,
 	showAchievements: true,
 	showSystem: true,
 	showErrors: true,
 	groupSimilar: true,
-
-	// Loading
 	isLoading: false,
 	error: null,
 };
@@ -119,7 +85,6 @@ const notificationSlice = createSlice({
 	name: 'notifications',
 	initialState,
 	reducers: {
-		// Add notifications
 		addNotification: (
 			state,
 			action: PayloadAction<
@@ -137,17 +102,14 @@ const notificationSlice = createSlice({
 				dismissed: false,
 			};
 
-			// Add to all notifications
 			state.all.unshift(notification);
 			state.stats.total += 1;
 			state.stats.unread += 1;
 
-			// Track achievement notifications
 			if (notification.type === 'achievement') {
 				state.stats.achievements += 1;
 			}
 
-			// Check if we can show immediately or queue
 			if (state.active.length < state.maxActive) {
 				state.active.push(notification);
 			} else {
@@ -155,7 +117,6 @@ const notificationSlice = createSlice({
 			}
 		},
 
-		// Quick notification creators
 		addSuccess: (
 			state,
 			action: PayloadAction<{
@@ -283,28 +244,24 @@ const notificationSlice = createSlice({
 			);
 		},
 
-		// Dismiss notifications
 		dismissNotification: (
 			state,
 			action: PayloadAction<string>
 		) => {
 			const notificationId = action.payload;
 
-			// Remove from active
 			const activeIndex = state.active.findIndex(
 				(n) => n.id === notificationId
 			);
 			if (activeIndex >= 0) {
 				state.active.splice(activeIndex, 1);
 
-				// Move next queued notification to active
 				if (state.queue.length > 0) {
 					const nextNotification = state.queue.shift()!;
 					state.active.push(nextNotification);
 				}
 			}
 
-			// Mark as dismissed in all notifications
 			const notification = state.all.find(
 				(n) => n.id === notificationId
 			);
@@ -315,7 +272,6 @@ const notificationSlice = createSlice({
 		},
 
 		dismissAll: (state) => {
-			// Clear active notifications
 			state.active.forEach((notification) => {
 				if (!notification.dismissed) {
 					notification.dismissed = true;
@@ -324,7 +280,6 @@ const notificationSlice = createSlice({
 			});
 			state.active = [];
 
-			// Clear queue
 			state.queue.forEach((notification) => {
 				if (!notification.dismissed) {
 					notification.dismissed = true;
@@ -334,7 +289,6 @@ const notificationSlice = createSlice({
 			state.queue = [];
 		},
 
-		// Mark as read
 		markAsRead: (state, action: PayloadAction<string>) => {
 			const notificationId = action.payload;
 			const notification = state.all.find(
@@ -355,7 +309,6 @@ const notificationSlice = createSlice({
 			state.stats.unread = 0;
 		},
 
-		// Handle notification actions
 		executeAction: (
 			state,
 			action: PayloadAction<{
@@ -364,7 +317,6 @@ const notificationSlice = createSlice({
 			}>
 		) => {
 			const { notificationId } = action.payload;
-			// Mark notification as read when action is executed
 			const notification = state.all.find(
 				(n) => n.id === notificationId
 			);
@@ -374,7 +326,6 @@ const notificationSlice = createSlice({
 			}
 		},
 
-		// Settings
 		updateSettings: (
 			state,
 			action: PayloadAction<{
@@ -420,14 +371,12 @@ const notificationSlice = createSlice({
 			state.soundEnabled = !state.soundEnabled;
 		},
 
-		// Clear history
 		clearHistory: (state) => {
 			state.all = state.all.filter(
 				(n) =>
 					state.active.includes(n) ||
 					state.queue.includes(n)
 			);
-			// Recalculate stats
 			state.stats.total = state.all.length;
 			state.stats.unread = state.all.filter(
 				(n) => !n.read
@@ -452,24 +401,20 @@ const notificationSlice = createSlice({
 			};
 		},
 
-		// Filter notifications
 		removeByType: (
 			state,
 			action: PayloadAction<Notification['type']>
 		) => {
 			const type = action.payload;
 
-			// Remove from active
 			state.active = state.active.filter(
 				(n) => n.type !== type
 			);
 
-			// Remove from queue
 			state.queue = state.queue.filter(
 				(n) => n.type !== type
 			);
 
-			// Remove from all and update stats
 			const removedCount = state.all.filter(
 				(n) => n.type === type
 			).length;
@@ -490,7 +435,6 @@ const notificationSlice = createSlice({
 			}
 		},
 
-		// Error handling
 		setError: (
 			state,
 			action: PayloadAction<string | null>
@@ -506,7 +450,6 @@ const notificationSlice = createSlice({
 			state.isLoading = action.payload;
 		},
 
-		// Auto-dismiss expired notifications
 		processExpiredNotifications: (state) => {
 			const now = Date.now();
 			const expiredIds: string[] = [];
@@ -522,7 +465,6 @@ const notificationSlice = createSlice({
 				}
 			});
 
-			// Dismiss expired notifications
 			expiredIds.forEach((id) => {
 				notificationSlice.caseReducers.dismissNotification(
 					state,
@@ -536,7 +478,6 @@ const notificationSlice = createSlice({
 	},
 });
 
-// Export actions
 export const {
 	addNotification,
 	addSuccess,
@@ -560,7 +501,6 @@ export const {
 	processExpiredNotifications,
 } = notificationSlice.actions;
 
-// Selectors
 export const selectNotifications = (state: {
 	notifications: NotificationState;
 }) => state.notifications;

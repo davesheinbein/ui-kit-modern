@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Wrapper } from '../Wrappers';
-import styles from './Card.module.scss';
+import styles from './card.module.scss';
 import {
 	ExtendedCardKind,
 	CARD_CONFIGURATIONS,

@@ -17,6 +17,8 @@ export type ExtendedCheckboxKind =
 	| 'toggle'
 	| 'switch'
 	| 'dark-mode-toggle'
+	| 'flip-switch'
+	| 'Nebula'
 	| 'custom';
 
 export interface CheckboxConfiguration {
@@ -112,6 +114,46 @@ export const CHECKBOX_CONFIGURATIONS: Record<
 		icon: {
 			checked: '🌙',
 			unchecked: '☀️',
+		},
+	},
+	'flip-switch': {
+		variant: 'toggle',
+		className: 'flip-switch',
+		size: 'large',
+		labelPosition: 'none',
+		behavior: {
+			toggle: true,
+			switch: false,
+			animated: true,
+		},
+		styling: {
+			rounded: true,
+			bordered: false,
+			shadow: false,
+		},
+		icon: {
+			checked: 'on',
+			unchecked: 'off',
+		},
+	},
+	'Nebula': {
+		variant: 'toggle',
+		className: 'nebula',
+		size: 'large',
+		labelPosition: 'none',
+		behavior: {
+			toggle: true,
+			switch: false,
+			animated: true,
+		},
+		styling: {
+			rounded: true,
+			bordered: false,
+			shadow: false,
+		},
+		icon: {
+			checked: 'nebula',
+			unchecked: 'nebula',
 		},
 	},
 	'custom': {

@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { Wrapper } from '../Wrappers';
 import { Button } from '../Button';
 import { Icons, IconName } from '../Icons';
-import styles from './Banner.module.scss';
+import styles from './banner.module.scss';
 import {
 	BANNER_CONFIGURATIONS,
 	BannerKind,
@@ -308,6 +308,18 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 			content = message || children || 'Banner content';
 		}
 
+		// Internal open/close state if onClose is not provided
+		const [isOpen, setIsOpen] = React.useState(true);
+		const handleClose = () => {
+			if (onClose) {
+				onClose();
+			} else {
+				setIsOpen(false);
+			}
+		};
+
+		if (!isOpen) return null;
+
 		return (
 			<Wrapper
 				ref={ref}
@@ -316,11 +328,12 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 				{...props}
 			>
 				{content}
-				{onClose && (
+				{(onClose !== undefined ||
+					finalConfig.showCloseButton) && (
 					<Button
 						kind='close'
 						className={styles.bannerCloseButton}
-						onClick={onClose}
+						onClick={handleClose}
 						aria-label='Close banner'
 					>
 						×

@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
-import { Input, InputProps } from '../../components/Inputs';
+import { Input, InputProps } from '../components/Inputs';
 import {
 	Radio,
 	RadioProps,
-} from '../../components/Radios/Radio';
-import { Switch } from '../../components/Switchs';
-import type { SwitchProps } from '../../components/Switchs/configurations';
-import { Select } from '../../components/Selects/Select';
-import type { SelectProps } from '../../components/Selects/Select';
-import { Textarea } from '../../components/Textareas';
-import type { TextareaProps } from '../../components/Textareas/configurations';
-import {
-	Checkbox,
-	CheckboxProps,
-} from '../../components/Checkbox';
+} from '../components/Radios/Radio';
+import { Switch } from '../components/Switchs';
+import type { SwitchProps } from '../components/Switchs/configurations';
+import { Select } from '../components/Selects/Select';
+import type { SelectProps } from '../components/Selects/Select';
+import Textarea from '../components/Textareas/Textarea';
+import type { TextareaProps } from '../components/Textareas/Textarea';
 
 /**
  * StatefulInput
@@ -77,7 +73,7 @@ export const StatefulSwitch: React.FC<SwitchProps> = ({
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
 		setChecked(e.target.checked);
-		onChange?.(e);
+		onChange?.(e.target.checked);
 	};
 	return (
 		<Switch
@@ -118,6 +114,7 @@ export const StatefulSelect: React.FC<SelectProps> = ({
 export const StatefulTextarea: React.FC<TextareaProps> = ({
 	value: _value,
 	onChange,
+	kind = 'standard',
 	...props
 }) => {
 	const [value, setValue] = useState(_value ?? '');
@@ -130,6 +127,7 @@ export const StatefulTextarea: React.FC<TextareaProps> = ({
 			{...props}
 			value={value}
 			onChange={handleChange}
+			kind={kind}
 		/>
 	);
 };
@@ -177,29 +175,4 @@ export const StatefulObject: React.FC<{
 }> = ({ initial, children }) => {
 	const [value, setValue] = useState(initial);
 	return <>{children(value, setValue)}</>;
-};
-
-/**
- * StatefulCheckbox
- * A helper for Storybook that manages its own checked state for Checkbox, Toggle, and Dark Mode Toggle.
- */
-export const StatefulCheckbox: React.FC<CheckboxProps> = ({
-	checked: _checked,
-	onChange,
-	...props
-}) => {
-	const [checked, setChecked] = useState(_checked ?? false);
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement>
-	) => {
-		setChecked(e.target.checked);
-		onChange?.(e);
-	};
-	return (
-		<Checkbox
-			{...props}
-			checked={checked}
-			onChange={handleChange}
-		/>
-	);
 };

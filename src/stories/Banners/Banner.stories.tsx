@@ -145,16 +145,25 @@ A comprehensive banner system with multiple variants and a DRY configuration pat
 export default meta;
 type Story = StoryObj<typeof Banner>;
 
+// Helper for closeable banners in stories
+const CloseableBannerStory = (args: any) => {
+	const [open, setOpen] = React.useState(true);
+	if (!open) return null;
+	return (
+		<Banner {...args} onClose={() => setOpen(false)} />
+	);
+};
+
 // ============================================================================
 // BASIC BANNER TYPES
 // ============================================================================
 
 export const Playground: Story = {
 	name: 'Playground',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'success-toast',
 		message: 'This is a customizable banner!',
-		onClose: action('close clicked'),
 	},
 	parameters: {
 		docs: {
@@ -185,10 +194,10 @@ export const FeedbackBanner: Story = {
 
 export const NotificationBanner: Story = {
 	name: 'Notification Banner',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'notification',
 		message: 'System maintenance will begin in 15 minutes.',
-		onClose: action('notification closed'),
 	},
 	parameters: {
 		docs: {
@@ -274,10 +283,10 @@ export const AchievementNotification: Story = {
 
 export const SystemNotification: Story = {
 	name: 'System Notification',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'system-notification',
 		message: 'Game rules have been updated',
-		onClose: action('system notification closed'),
 	},
 	parameters: {
 		docs: {
@@ -291,10 +300,10 @@ export const SystemNotification: Story = {
 
 export const TauntNotification: Story = {
 	name: 'Taunt Notification',
+	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
 	args: {
 		kind: 'taunt-notification',
 		message: 'Player sent a taunt: "Too easy!"',
-		onClose: action('taunt closed'),
 	},
 	parameters: {
 		docs: {
@@ -637,20 +646,3 @@ export const AllBannerTypes: Story = {
 		},
 	},
 };
-
-// Utility for stateful closeable banners
-function CloseableBannerStory(args: any) {
-	const [open, setOpen] = useState(true);
-	if (!open) return null;
-	return (
-		<div
-			style={{
-				position: 'relative',
-				minHeight: 200,
-				overflow: 'visible',
-			}}
-		>
-			<Banner {...args} onClose={() => setOpen(false)} />
-		</div>
-	);
-}

@@ -866,53 +866,6 @@
 }
 
 // ========================================
-// Legacy Utilities (for backward compatibility)
-// ========================================
-
-.gap-sm {
-	gap: var(--spacing-2);
-}
-.gap-md {
-	gap: var(--spacing-3);
-}
-.gap-lg {
-	gap: var(--spacing-4);
-}
-.gap-xl {
-	gap: var(--spacing-6);
-}
-
-.p-sm {
-	padding: var(--spacing-2);
-}
-.p-md {
-	padding: var(--spacing-3);
-}
-.p-lg {
-	padding: var(--spacing-4);
-}
-.p-xl {
-	padding: var(--spacing-6);
-}
-
-.m-sm {
-	margin: var(--spacing-2);
-}
-.m-md {
-	margin: var(--spacing-3);
-}
-.m-lg {
-	margin: var(--spacing-4);
-}
-.m-xl {
-	margin: var(--spacing-6);
-}
-
-.text-gray {
-	color: var(--color-text-secondary);
-}
-
-// ========================================
 // Responsive Utilities
 // ========================================
 

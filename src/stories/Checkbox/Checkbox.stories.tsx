@@ -3,6 +3,7 @@ import { Checkbox } from '../../components/Checkbox';
 import { Wrapper } from '../../components/Wrappers';
 import { ThemeProvider } from '../../components/Providers';
 import { commonDecorators } from '../config/decorators';
+import { StatefulCheckbox } from '../utils';
 
 const meta: Meta<typeof Checkbox> = {
 	title: 'Checkbox/Checkbox',
@@ -14,7 +15,7 @@ const meta: Meta<typeof Checkbox> = {
 			description: {
 				component:
 					'The ultimate DRY checkbox component. Single component handles ALL checkbox types through the "kind" prop. ' +
-					'Supports checkbox, toggle, switch, and dark mode toggle variants with configuration-driven approach. ' +
+					'Supports checkbox, toggle, and dark mode toggle variants with configuration-driven approach. ' +
 					'Dark mode toggle integrates with ThemeProvider for seamless theme switching.',
 			},
 		},
@@ -22,12 +23,7 @@ const meta: Meta<typeof Checkbox> = {
 	argTypes: {
 		kind: {
 			control: 'select',
-			options: [
-				'checkbox',
-				'toggle',
-				'switch',
-				'dark-mode-toggle',
-			],
+			options: ['checkbox', 'toggle', 'dark-mode-toggle'],
 			description: 'The type of checkbox to render',
 		},
 		label: {
@@ -143,6 +139,7 @@ export const Default: Story = {
 		label: 'Default Checkbox',
 		checked: false,
 	},
+	render: (args) => <StatefulCheckbox {...args} />,
 };
 
 export const AllVariants: Story = {
@@ -154,64 +151,156 @@ export const AllVariants: Story = {
 				gap: '1rem',
 			}}
 		>
-			<h3>Basic Checkboxes</h3>
-			<Checkbox kind='checkbox' label='Default checkbox' />
-			<Checkbox
+			<h3>Checkboxes</h3>
+			<StatefulCheckbox kind='checkbox' label='Default' />
+			<StatefulCheckbox
 				kind='checkbox'
-				label='Checked checkbox'
+				label='Checked'
 				checked
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
-				label='Disabled checkbox'
+				label='Disabled'
 				disabled
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
 				label='Disabled checked'
 				disabled
 				checked
 			/>
-
-			<h3>Color Variants</h3>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
 				label='Success'
 				variant='success'
 				checked
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
 				label='Warning'
 				variant='warning'
 				checked
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
 				label='Danger'
 				variant='danger'
 				checked
 			/>
-
-			<h3>Sizes</h3>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
 				label='Small'
 				size='small'
 				checked
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
 				label='Medium'
 				size='medium'
 				checked
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
 				label='Large'
 				size='large'
 				checked
 			/>
+			<h3>Toggles</h3>
+			<StatefulCheckbox kind='toggle' label='Toggle off' />
+			<StatefulCheckbox
+				kind='toggle'
+				label='Toggle on'
+				checked
+			/>
+			<StatefulCheckbox
+				kind='toggle'
+				label='Disabled toggle'
+				disabled
+			/>
+			<StatefulCheckbox
+				kind='toggle'
+				label='Success toggle'
+				variant='success'
+				checked
+			/>
+			<StatefulCheckbox
+				kind='toggle'
+				label='Warning toggle'
+				variant='warning'
+				checked
+			/>
+			<StatefulCheckbox
+				kind='toggle'
+				label='Danger toggle'
+				variant='danger'
+				checked
+			/>
+			<StatefulCheckbox
+				kind='toggle'
+				label='Small toggle'
+				size='small'
+				checked
+			/>
+			<StatefulCheckbox
+				kind='toggle'
+				label='Medium toggle'
+				size='medium'
+				checked
+			/>
+			<StatefulCheckbox
+				kind='toggle'
+				label='Large toggle'
+				size='large'
+				checked
+			/>
+			<h3>Dark Mode Toggle</h3>
+			<ThemeProvider>
+				<div
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						gap: '0.75rem',
+						marginBottom: '1.25rem', // add spacing below
+					}}
+				>
+					<StatefulCheckbox
+						kind='dark-mode-toggle'
+						darkModeContext={true}
+						size='large'
+					/>
+					<span>Dark Mode (default)</span>
+				</div>
+				<div
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						gap: '0.75rem',
+						marginBottom: '1.25rem', // add spacing below
+					}}
+				>
+					<StatefulCheckbox
+						kind='flip-switch'
+						darkModeContext={true}
+						size='large'
+					/>
+					<span>Dark Mode (FlipSwitch)</span>
+				</div>
+				<div
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						gap: '0.75rem',
+						marginBottom: '1.25rem', // add spacing below
+					}}
+				>
+					<StatefulCheckbox
+						kind='Nebula'
+						darkModeContext={true}
+						size='large'
+					/>
+					<span>Dark Mode (Nebula)</span>
+				</div>
+			</ThemeProvider>
 		</Wrapper>
 	),
 };
@@ -225,112 +314,50 @@ export const ToggleVariants: Story = {
 				gap: '1rem',
 			}}
 		>
-			<h3>Toggle Checkboxes</h3>
-			<Checkbox kind='toggle' label='Toggle off' />
-			<Checkbox kind='toggle' label='Toggle on' checked />
-			<Checkbox
+			<StatefulCheckbox kind='toggle' label='Toggle off' />
+			<StatefulCheckbox
 				kind='toggle'
-				label='Toggle disabled'
+				label='Toggle on'
+				checked
+			/>
+			<StatefulCheckbox
+				kind='toggle'
+				label='Disabled toggle'
 				disabled
 			/>
-
-			<h3>Toggle Colors</h3>
-			<Checkbox
+			<StatefulCheckbox
 				kind='toggle'
 				label='Success toggle'
 				variant='success'
 				checked
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='toggle'
 				label='Warning toggle'
 				variant='warning'
 				checked
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='toggle'
 				label='Danger toggle'
 				variant='danger'
 				checked
 			/>
-
-			<h3>Toggle Sizes</h3>
-			<Checkbox
+			<StatefulCheckbox
 				kind='toggle'
 				label='Small toggle'
 				size='small'
 				checked
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='toggle'
 				label='Medium toggle'
 				size='medium'
 				checked
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='toggle'
 				label='Large toggle'
-				size='large'
-				checked
-			/>
-		</Wrapper>
-	),
-};
-
-export const SwitchVariants: Story = {
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '1rem',
-			}}
-		>
-			<h3>Switch Checkboxes</h3>
-			<Checkbox kind='switch' label='Switch off' />
-			<Checkbox kind='switch' label='Switch on' checked />
-			<Checkbox
-				kind='switch'
-				label='Switch disabled'
-				disabled
-			/>
-
-			<h3>Switch Colors</h3>
-			<Checkbox
-				kind='switch'
-				label='Success switch'
-				variant='success'
-				checked
-			/>
-			<Checkbox
-				kind='switch'
-				label='Warning switch'
-				variant='warning'
-				checked
-			/>
-			<Checkbox
-				kind='switch'
-				label='Danger switch'
-				variant='danger'
-				checked
-			/>
-
-			<h3>Switch Sizes</h3>
-			<Checkbox
-				kind='switch'
-				label='Small switch'
-				size='small'
-				checked
-			/>
-			<Checkbox
-				kind='switch'
-				label='Medium switch'
-				size='medium'
-				checked
-			/>
-			<Checkbox
-				kind='switch'
-				label='Large switch'
 				size='large'
 				checked
 			/>
@@ -347,25 +374,20 @@ export const ErrorAndHelperText: Story = {
 				gap: '1rem',
 			}}
 		>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
 				label='Checkbox with error'
 				error='This field is required'
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='checkbox'
 				label='Checkbox with helper text'
 				helperText='This is some helpful information'
 			/>
-			<Checkbox
+			<StatefulCheckbox
 				kind='toggle'
 				label='Toggle with error'
 				error='Please enable this option'
-			/>
-			<Checkbox
-				kind='switch'
-				label='Switch with helper text'
-				helperText='This controls a system setting'
 			/>
 		</Wrapper>
 	),
@@ -389,26 +411,20 @@ export const FormExample: Story = {
 					gap: '1rem',
 				}}
 			>
-				<Checkbox
+				<StatefulCheckbox
 					kind='checkbox'
 					label='I agree to the Terms and Conditions'
 					helperText='Required to create an account'
 				/>
-				<Checkbox
+				<StatefulCheckbox
 					kind='checkbox'
 					label='Subscribe to newsletter'
 					helperText='Get updates about new features'
 				/>
-				<Checkbox
+				<StatefulCheckbox
 					kind='toggle'
 					label='Enable notifications'
 					checked
-				/>
-				<Checkbox
-					kind='switch'
-					label='Two-factor authentication'
-					variant='success'
-					helperText='Recommended for account security'
 				/>
 			</Wrapper>
 		</Wrapper>
@@ -427,313 +443,5 @@ export const DarkModeToggle: Story = {
 			</ThemeProvider>
 		),
 	],
-};
-
-export const DarkModeToggleSizes: Story = {
-	render: () => (
-		<ThemeProvider>
-			<Wrapper
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					gap: '2rem',
-				}}
-			>
-				<Wrapper style={{ textAlign: 'center' }}>
-					<p>Small</p>
-					<Checkbox
-						kind='dark-mode-toggle'
-						size='small'
-						darkModeContext={true}
-					/>
-				</Wrapper>
-				<Wrapper style={{ textAlign: 'center' }}>
-					<p>Medium</p>
-					<Checkbox
-						kind='dark-mode-toggle'
-						size='medium'
-						darkModeContext={true}
-					/>
-				</Wrapper>
-				<Wrapper style={{ textAlign: 'center' }}>
-					<p>Large</p>
-					<Checkbox
-						kind='dark-mode-toggle'
-						size='large'
-						darkModeContext={true}
-					/>
-				</Wrapper>
-			</Wrapper>
-		</ThemeProvider>
-	),
-};
-
-export const DarkModeToggleInContainer: Story = {
-	render: () => (
-		<ThemeProvider>
-			<Wrapper
-				style={{
-					padding: '2rem',
-					background: '#f5f5f5',
-					borderRadius: '8px',
-				}}
-			>
-				<h3>Theme Settings</h3>
-				<p>Toggle between light and dark mode:</p>
-				<Checkbox
-					kind='dark-mode-toggle'
-					darkModeContext={true}
-				/>
-			</Wrapper>
-		</ThemeProvider>
-	),
-};
-
-export const CheckboxSettingsPanel: Story = {
-	render: () => (
-		<ThemeProvider>
-			<Wrapper
-				style={{
-					maxWidth: '400px',
-					padding: '2rem',
-					border: '1px solid #e5e7eb',
-					borderRadius: '8px',
-					backgroundColor: 'white',
-				}}
-			>
-				<h3>User Preferences</h3>
-				<Wrapper
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: '1.5rem',
-					}}
-				>
-					<Wrapper
-						style={{
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-						}}
-					>
-						<Wrapper>
-							<strong>Dark Mode</strong>
-							<p
-								style={{
-									margin: '4px 0 0 0',
-									fontSize: '14px',
-									color: '#6b7280',
-								}}
-							>
-								Switch between light and dark themes
-							</p>
-						</Wrapper>
-						<Checkbox
-							kind='dark-mode-toggle'
-							darkModeContext={true}
-						/>
-					</Wrapper>
-					<hr
-						style={{
-							margin: 0,
-							border: 'none',
-							borderTop: '1px solid #e5e7eb',
-						}}
-					/>
-					<Wrapper
-						style={{
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-						}}
-					>
-						<Wrapper>
-							<strong>Notifications</strong>
-							<p
-								style={{
-									margin: '4px 0 0 0',
-									fontSize: '14px',
-									color: '#6b7280',
-								}}
-							>
-								Receive updates and alerts
-							</p>
-						</Wrapper>
-						<Checkbox kind='switch' size='medium' checked />
-					</Wrapper>
-					<Wrapper
-						style={{
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-						}}
-					>
-						<Wrapper>
-							<strong>Auto-save</strong>
-							<p
-								style={{
-									margin: '4px 0 0 0',
-									fontSize: '14px',
-									color: '#6b7280',
-								}}
-							>
-								Automatically save your progress
-							</p>
-						</Wrapper>
-						<Checkbox
-							kind='toggle'
-							variant='success'
-							checked
-						/>
-					</Wrapper>
-				</Wrapper>
-			</Wrapper>
-		</ThemeProvider>
-	),
-};
-
-export const AllCheckboxTypes: Story = {
-	render: () => (
-		<ThemeProvider>
-			<Wrapper
-				style={{
-					display: 'grid',
-					gap: '2rem',
-					gridTemplateColumns:
-						'repeat(auto-fit, minmax(300px, 1fr))',
-					padding: '1rem',
-				}}
-			>
-				<Wrapper>
-					<h4 style={{ marginBottom: '1rem' }}>
-						Standard Checkbox
-					</h4>
-					<Wrapper
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '0.5rem',
-						}}
-					>
-						<Checkbox
-							kind='checkbox'
-							label='Basic checkbox'
-							checked
-						/>
-						<Checkbox
-							kind='checkbox'
-							label='With error'
-							error='This field is required'
-						/>
-						<Checkbox
-							kind='checkbox'
-							label='Success variant'
-							variant='success'
-							checked
-						/>
-					</Wrapper>
-				</Wrapper>
-
-				<Wrapper>
-					<h4 style={{ marginBottom: '1rem' }}>
-						Toggle Switch
-					</h4>
-					<Wrapper
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '0.5rem',
-						}}
-					>
-						<Checkbox
-							kind='toggle'
-							label='Toggle control'
-							checked
-						/>
-						<Checkbox
-							kind='toggle'
-							label='Warning toggle'
-							variant='warning'
-							checked
-						/>
-						<Checkbox
-							kind='toggle'
-							label='Large toggle'
-							size='large'
-							checked
-						/>
-					</Wrapper>
-				</Wrapper>
-
-				<Wrapper>
-					<h4 style={{ marginBottom: '1rem' }}>Switch</h4>
-					<Wrapper
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '0.5rem',
-						}}
-					>
-						<Checkbox
-							kind='switch'
-							label='Switch control'
-							checked
-						/>
-						<Checkbox
-							kind='switch'
-							label='Success switch'
-							variant='success'
-							checked
-						/>
-						<Checkbox
-							kind='switch'
-							label='Small switch'
-							size='small'
-							checked
-						/>
-					</Wrapper>
-				</Wrapper>
-
-				<Wrapper>
-					<h4 style={{ marginBottom: '1rem' }}>
-						Dark Mode Toggle
-					</h4>
-					<Wrapper
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '0.5rem',
-						}}
-					>
-						<Checkbox
-							kind='dark-mode-toggle'
-							darkModeContext={true}
-						/>
-						<Checkbox
-							kind='dark-mode-toggle'
-							size='large'
-							darkModeContext={true}
-						/>
-						<Wrapper
-							style={{
-								fontSize: '0.9rem',
-								color: '#666',
-								marginTop: '0.5rem',
-							}}
-						>
-							Integrated with ThemeProvider
-						</Wrapper>
-					</Wrapper>
-				</Wrapper>
-			</Wrapper>
-		</ThemeProvider>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Comprehensive showcase of all checkbox types supported by the checkbox system.',
-			},
-		},
-	},
+	render: (args) => <StatefulCheckbox {...args} />,
 };

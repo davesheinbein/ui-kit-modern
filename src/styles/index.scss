@@ -3,6 +3,10 @@
 @import './mixins.scss';
 @import './utilities.scss';
 
+// Import FlipSwitch and NebulaCheckbox SCSS globally
+@import '../components/FlipSwitch/FlipSwitch.scss';
+@import '../components/NebulaCheckbox/NebulaCheckbox.scss';
+
 // Base styles
 body {
 	font-family:

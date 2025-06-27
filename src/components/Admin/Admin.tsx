@@ -4,7 +4,7 @@ import React, {
 	useMemo,
 } from 'react';
 import { Wrapper } from '../Wrappers';
-import {
+import type {
 	AdminKind,
 	AdminConfiguration,
 } from './configurations';
@@ -20,7 +20,7 @@ import {
 	useAppDispatch,
 	useAppSelector,
 } from '../../store/hooks';
-import styles from './Admin.module.scss';
+import styles from './admin.module.scss';
 
 export interface AdminProps extends AdminConfiguration {
 	children?: React.ReactNode;
@@ -30,7 +30,6 @@ export interface AdminProps extends AdminConfiguration {
 	[key: string]: any;
 }
 
-// Consolidated InfoRow component
 const InfoRow: React.FC<{
 	label: string;
 	value: string | number;
@@ -68,7 +67,6 @@ const InfoRow: React.FC<{
 	</Wrapper>
 );
 
-// --- Field configs for each admin kind ---
 const adminFieldConfigs: Record<
 	string,
 	Array<{ label: string; key: string; unit?: string }>
@@ -85,10 +83,8 @@ const adminFieldConfigs: Record<
 		{ label: 'FPS', key: 'fps' },
 		{ label: 'Load Time', key: 'loadTime', unit: 'ms' },
 	],
-	// Add more as needed
 };
 
-// --- Update AdminBodyConfig type ---
 interface AdminFieldConfig {
 	label: string;
 	key: string;
@@ -111,7 +107,6 @@ interface AdminBodyConfig {
 	) => React.ReactNode;
 }
 
-// --- Generic default renderer ---
 function defaultAdminRenderer(
 	data: any,
 	fields: AdminFieldConfig[] = [],
@@ -132,7 +127,6 @@ function defaultAdminRenderer(
 	);
 }
 
-// --- Refactored adminBodyConfigs ---
 const adminBodyConfigs: Record<AdminKind, AdminBodyConfig> =
 	{
 		'session-debugger': {
