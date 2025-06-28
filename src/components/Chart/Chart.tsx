@@ -1,9 +1,17 @@
 import React, {
-	useState,
 	useMemo,
-	memo,
+	useState,
 	forwardRef,
 } from 'react';
+import clsx from 'clsx';
+import { Card } from '../Card';
+import {
+	getPrimaryValue,
+	getPrimaryLabel,
+	getPrimaryDelta,
+	getPrimaryStatus,
+	getLeaderboardEntries,
+} from './chartHelpers';
 import type { ChartProps } from './configurations';
 import { Wrapper } from '../Wrappers';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,16 +33,7 @@ import {
 } from '../../store/slices/uiSlice';
 import { RootState } from '../../store';
 import styles from './chart.module.scss';
-import {
-	getSafe,
-	getPrimaryValue,
-	getPrimaryLabel,
-	getPrimaryDelta,
-	getPrimaryStatus,
-	getLeaderboardEntries,
-} from './chartHelpers';
-import clsx from 'clsx';
-import { Card, CardProps } from '../Card';
+import Input from '../Inputs/Input';
 
 // SVG/Widget constants
 const DEFAULT_GAUGE_RADIUS = 40;
@@ -43,378 +42,480 @@ const DEFAULT_GAUGE_HEIGHT = 60;
 const DEFAULT_CIRCULAR_RADIUS = 24;
 const DEFAULT_CIRCULAR_SIZE = 60;
 
-const KpiWidget = ({
-	dataSeries,
-	styles,
-	color,
-	size = 'medium',
-	variant = 'default',
-	orientation = 'horizontal',
-	...cardProps
-}: any) => {
-	const value = getPrimaryValue(dataSeries);
-	const label = getPrimaryLabel(dataSeries);
-	return (
-		<Card
-			className={clsx(
-				styles.kpiWidget,
-				styles[`kpiWidget--${size}`],
-				styles[`kpiWidget--${variant}`]
-			)}
-			variant={variant}
-			size={size}
-			orientation={orientation}
-			style={
-				{
-					'--chart-accent': color,
-					...cardProps.style,
-				} as React.CSSProperties
-			}
-			role='group'
-			aria-label={`KPI: ${label}`}
-			{...cardProps}
-		>
-			<div className={styles.kpiValue}>{value}</div>
-			<div className={styles.kpiLabel}>{label}</div>
-		</Card>
-	);
-};
+// --- WIDGETS ---
+// Add word-break and ellipsis to all value/label containers, and ensure Card allows content to grow
+// (SCSS changes required, but add inline style fallback for now)
 
-const ScorecardWidget = ({
-	dataSeries,
-	styles,
-	scorecardIcon,
-	color,
-	size = 'medium',
-	variant = 'default',
-	orientation = 'horizontal',
-	...cardProps
-}: any) => {
-	const value = getPrimaryValue(dataSeries);
-	const label = getPrimaryLabel(dataSeries);
-	return (
-		<Card
-			className={clsx(
-				styles.scorecardWidget,
-				styles[`scorecardWidget--${size}`],
-				styles[`scorecardWidget--${variant}`]
-			)}
-			variant={variant}
-			size={size}
-			orientation={orientation}
-			style={
-				{
-					'--chart-accent': color,
-					...cardProps.style,
-				} as React.CSSProperties
-			}
-			role='group'
-			aria-label={`Scorecard: ${label}`}
-			{...cardProps}
-		>
-			{scorecardIcon && (
-				<span className={styles.scorecardIcon}>
-					{scorecardIcon}
-				</span>
-			)}
-			<div className={styles.scorecardValue}>{value}</div>
-			<div className={styles.scorecardLabel}>{label}</div>
-		</Card>
-	);
-};
-
-const ProgressWidget = ({
-	dataSeries,
-	styles,
-	color,
-	size = 'medium',
-	variant = 'default',
-}: any) => {
-	const value = getPrimaryValue(dataSeries);
-	const label = getPrimaryLabel(dataSeries);
-	const percent = Math.max(0, Math.min(100, value));
-	return (
+// Helper to render value/label/extra fields
+function renderFields(
+	fields: Array<{ className: string; value: any }>
+) {
+	return fields.map((f, i) => (
 		<div
-			className={clsx(
-				styles.progressWidget,
-				styles[`progressWidget--${size}`],
-				styles[`progressWidget--${variant}`]
-			)}
-			role='group'
-			aria-label={`Progress: ${label}`}
-			style={
-				{ '--chart-accent': color } as React.CSSProperties
-			}
+			key={i}
+			className={f.className}
+			style={{
+				wordBreak: 'break-word',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis',
+			}}
 		>
-			<div className={styles.progressLabel}>{label}</div>
-			<div className={styles.progressBarContainer}>
-				<div
-					className={styles.progressBar}
-					style={{ width: `${percent}%` }}
-				/>
-			</div>
-			<div className={styles.progressValue}>{percent}%</div>
+			{f.value}
 		</div>
-	);
-};
+	));
+}
 
-const GaugeWidget = ({
-	dataSeries,
+// BaseWidget for Card + .widgetContent + fields
+const BaseWidget = ({
+	cardClass,
+	fields,
 	styles,
+	variant,
+	size,
+	orientation,
 	color,
-	widgetSize,
-	size = 'medium',
-	variant = 'default',
-}: any) => {
-	const value = getPrimaryValue(dataSeries);
-	const label = getPrimaryLabel(dataSeries);
-	const radius = DEFAULT_GAUGE_RADIUS;
-	const circumference = 2 * Math.PI * radius;
-	const percent = Math.max(0, Math.min(100, value));
-	const width = widgetSize || DEFAULT_GAUGE_WIDTH;
-	const height =
-		widgetSize ? widgetSize * 0.6 : DEFAULT_GAUGE_HEIGHT;
-	return (
-		<div
-			className={clsx(
-				styles.gaugeWidget,
-				styles[`gaugeWidget--${size}`],
-				styles[`gaugeWidget--${variant}`]
-			)}
-			role='group'
-			aria-label={`Gauge: ${label}`}
-			style={
-				{ '--chart-accent': color } as React.CSSProperties
-			}
-		>
-			<svg
-				width={width}
-				height={height}
-				viewBox={`0 0 ${width} ${height}`}
-				aria-label='Gauge'
-			>
-				<path
-					d={`M10,${height - 10} A${radius},${radius} 0 0,1 ${width - 10},${height - 10}`}
-					fill='none'
-					stroke='var(--color-gray-200)'
-					strokeWidth='8'
-				/>
-				<path
-					d={`M10,${height - 10} A${radius},${radius} 0 0,1 ${width - 10},${height - 10}`}
-					fill='none'
-					stroke='var(--chart-accent)'
-					strokeWidth='8'
-					strokeDasharray={circumference / 2}
-					strokeDashoffset={
-						circumference / 2 -
-						(circumference / 2) * (percent / 100)
-					}
-					strokeLinecap='round'
-				/>
-			</svg>
-			<div className={styles.gaugeValue}>{percent}%</div>
-			<div className={styles.gaugeLabel}>{label}</div>
+	cardProps = {},
+	ariaLabel,
+	extraContent,
+}: {
+	cardClass: string;
+	fields: Array<{ className: string; value: any }>;
+	styles: any;
+	variant: any;
+	size: any;
+	orientation?: any;
+	color?: any;
+	cardProps?: any;
+	ariaLabel: string;
+	extraContent?: React.ReactNode;
+}) => (
+	<Card
+		className={clsx(cardClass, `card-size-${size}`)}
+		variant={variant}
+		size={size}
+		orientation={orientation}
+		style={{
+			'--chart-accent': color,
+			'minWidth': 0,
+			'minHeight': 0,
+			...(cardProps?.style || {}),
+		}}
+		role='group'
+		aria-label={ariaLabel}
+		{...cardProps}
+	>
+		<div className={styles.widgetContent}>
+			{renderFields(fields)}
+			{extraContent}
 		</div>
-	);
-};
+	</Card>
+);
 
-const DeltaWidget = ({
-	dataSeries,
+// BaseWidgetWithSVG for SVG+content widgets
+const BaseWidgetWithSVG = ({
+	cardClass,
+	svg,
+	fields,
 	styles,
+	variant,
+	size,
+	orientation,
 	color,
-	deltaUpIcon,
-	deltaDownIcon,
-	size = 'medium',
-	variant = 'default',
-}: any) => {
-	const value = getPrimaryValue(dataSeries);
-	const delta = getPrimaryDelta(dataSeries);
-	const label = getPrimaryLabel(dataSeries);
-	const up = delta > 0;
-	return (
-		<div
-			className={clsx(
-				styles.deltaWidget,
-				styles[`deltaWidget--${size}`],
-				styles[`deltaWidget--${variant}`]
-			)}
-			role='group'
-			aria-label={`Delta: ${label}`}
-			style={
-				{ '--chart-accent': color } as React.CSSProperties
-			}
-		>
-			<div className={styles.deltaValue}>{value}</div>
-			<div
-				className={up ? styles.deltaUp : styles.deltaDown}
-				aria-label={up ? 'Increase' : 'Decrease'}
-			>
-				{up ? (deltaUpIcon ?? '▲') : (deltaDownIcon ?? '▼')}{' '}
-				{Math.abs(delta)}%
-			</div>
-			<div className={styles.deltaLabel}>{label}</div>
+	cardProps = {},
+	ariaLabel,
+}: {
+	cardClass: string;
+	svg: React.ReactNode;
+	fields: Array<{ className: string; value: any }>;
+	styles: any;
+	variant: any;
+	size: any;
+	orientation?: any;
+	color?: any;
+	cardProps?: any;
+	ariaLabel: string;
+}) => (
+	<Card
+		className={clsx(cardClass, `card-size-${size}`)}
+		variant={variant}
+		size={size}
+		style={{
+			'--chart-accent': color,
+			'minWidth': 0,
+			'minHeight': 0,
+			...(cardProps?.style || {}),
+		}}
+		role='group'
+		aria-label={ariaLabel}
+		{...cardProps}
+	>
+		{svg}
+		<div className={styles.widgetContent}>
+			{renderFields(fields)}
 		</div>
-	);
-};
+	</Card>
+);
 
-const CircularProgressWidget = ({
-	dataSeries,
-	styles,
-	color,
-	widgetSize,
-	size = 'medium',
-	variant = 'default',
-}: any) => {
-	const value = getPrimaryValue(dataSeries);
-	const label = getPrimaryLabel(dataSeries);
-	const radius = DEFAULT_CIRCULAR_RADIUS;
-	const circumference = 2 * Math.PI * radius;
-	const percent = Math.max(0, Math.min(100, value));
-	const sizeProp = widgetSize || DEFAULT_CIRCULAR_SIZE;
-	return (
-		<div
-			className={clsx(
-				styles.circularProgressWidget,
-				styles[`circularProgressWidget--${size}`],
-				styles[`circularProgressWidget--${variant}`]
-			)}
-			role='group'
-			aria-label={`Circular Progress: ${label}`}
-			style={
-				{ '--chart-accent': color } as React.CSSProperties
-			}
-		>
-			<svg
-				width={sizeProp}
-				height={sizeProp}
-				viewBox={`0 0 ${sizeProp} ${sizeProp}`}
-				aria-label='Circular Progress'
-			>
-				<circle
-					cx={sizeProp / 2}
-					cy={sizeProp / 2}
-					r={radius}
-					fill='none'
-					stroke='var(--color-gray-200)'
-					strokeWidth='8'
-				/>
-				<circle
-					cx={sizeProp / 2}
-					cy={sizeProp / 2}
-					r={radius}
-					fill='none'
-					stroke='var(--chart-accent)'
-					strokeWidth='8'
-					strokeDasharray={circumference}
-					strokeDashoffset={
-						circumference * (1 - percent / 100)
-					}
-					strokeLinecap='round'
-				/>
-			</svg>
-			<div className={styles.circularValue}>{percent}%</div>
-			<div className={styles.circularLabel}>{label}</div>
-		</div>
-	);
-};
-
-const StatusWidget = ({
-	dataSeries,
-	styles,
-	size = 'medium',
-	variant = 'default',
-}: any) => {
-	const status = getPrimaryStatus(dataSeries);
-	const label = getPrimaryLabel(dataSeries);
-	return (
-		<div
-			className={clsx(
-				styles.statusWidget,
-				styles[`statusWidget--${size}`],
-				styles[`statusWidget--${variant}`]
-			)}
-			role='status'
-			aria-label={`Status: ${label}, ${status}`}
-		>
-			<span
-				className={
-					styles.statusIndicator +
-					' ' +
-					styles[`status-${status}`]
-				}
-				aria-label={status}
-			/>
-			<span className={styles.statusLabel}>{label}</span>
-		</div>
-	);
-};
-
-const LeaderboardWidget = ({
-	dataSeries,
-	styles,
-	size = 'medium',
-	variant = 'default',
-}: any) => {
-	const entries: Array<any> =
-		getLeaderboardEntries(dataSeries);
-	if (!entries.length)
+// Widget config map
+const widgetConfig = {
+	kpi: (props: any) => {
+		const {
+			dataSeries,
+			styles,
+			color,
+			size,
+			variant,
+			orientation,
+			...cardProps
+		} = props;
 		return (
-			<div className={styles.leaderboardWidget}>
-				No data
-			</div>
+			<BaseWidget
+				cardClass={clsx(
+					styles.kpiWidget,
+					styles[`kpiWidget--${size}`],
+					styles[`kpiWidget--${variant}`]
+				)}
+				fields={[
+					{
+						className: styles.kpiValue,
+						value: getPrimaryValue(dataSeries),
+					},
+					{
+						className: styles.kpiLabel,
+						value: getPrimaryLabel(dataSeries),
+					},
+				]}
+				styles={styles}
+				variant={variant}
+				size={size}
+				orientation={orientation}
+				color={color}
+				cardProps={cardProps}
+				ariaLabel={`KPI: ${getPrimaryLabel(dataSeries)}`}
+			/>
 		);
-	return (
-		<div
-			className={clsx(
-				styles.leaderboardWidget,
-				styles[`leaderboardWidget--${size}`],
-				styles[`leaderboardWidget--${variant}`]
-			)}
-			role='region'
-			aria-label='Leaderboard'
-		>
-			<ul className={styles.leaderboardList} role='list'>
-				{entries.map((entry: any, i: number) => (
-					<li
-						key={entry.id || i}
-						className={styles.leaderboardItem}
-						role='listitem'
-						tabIndex={0}
-						aria-label={`Rank ${i + 1}: ${entry.label || entry.name}, ${entry.value}`}
+	},
+	scorecard: (props: any) => {
+		const {
+			dataSeries,
+			styles,
+			scorecardIcon,
+			color,
+			size,
+			variant,
+			orientation,
+			...cardProps
+		} = props;
+		return (
+			<BaseWidget
+				cardClass={clsx(
+					styles.scorecardWidget,
+					styles[`scorecardWidget--${size}`],
+					styles[`scorecardWidget--${variant}`]
+				)}
+				fields={[
+					{
+						className: styles.scorecardValue,
+						value: getPrimaryValue(dataSeries),
+					},
+					{
+						className: styles.scorecardLabel,
+						value: getPrimaryLabel(dataSeries),
+					},
+				]}
+				styles={styles}
+				variant={variant}
+				size={size}
+				orientation={orientation}
+				color={color}
+				cardProps={cardProps}
+				ariaLabel='Scorecard Widget'
+				extraContent={
+					scorecardIcon ?
+						<span className={styles.scorecardIcon}>
+							{scorecardIcon}
+						</span>
+					:	undefined
+				}
+			/>
+		);
+	},
+	progress: (props: any) => {
+		const {
+			dataSeries,
+			styles,
+			color,
+			size,
+			variant,
+			orientation,
+			...cardProps
+		} = props;
+		return (
+			<BaseWidget
+				cardClass={clsx(
+					styles.progressWidget,
+					styles[`progressWidget--${size}`],
+					styles[`progressWidget--${variant}`]
+				)}
+				fields={[
+					{
+						className: styles.progressValue,
+						value: getPrimaryValue(dataSeries),
+					},
+					{
+						className: styles.progressLabel,
+						value: getPrimaryLabel(dataSeries),
+					},
+				]}
+				styles={styles}
+				variant={variant}
+				size={size}
+				orientation={orientation}
+				color={color}
+				cardProps={cardProps}
+				ariaLabel='Progress Widget'
+			/>
+		);
+	},
+	gauge: (props: any) => {
+		const {
+			dataSeries,
+			styles,
+			color,
+			size,
+			variant,
+			orientation,
+			...cardProps
+		} = props;
+		return (
+			<BaseWidget
+				cardClass={clsx(
+					styles.gaugeWidget,
+					styles[`gaugeWidget--${size}`],
+					styles[`gaugeWidget--${variant}`]
+				)}
+				fields={[
+					{
+						className: styles.gaugeValue,
+						value: getPrimaryValue(dataSeries),
+					},
+					{
+						className: styles.gaugeLabel,
+						value: getPrimaryLabel(dataSeries),
+					},
+				]}
+				styles={styles}
+				variant={variant}
+				size={size}
+				orientation={orientation}
+				color={color}
+				cardProps={cardProps}
+				ariaLabel='Gauge Widget'
+			/>
+		);
+	},
+	delta: (props: any) => {
+		const {
+			dataSeries,
+			styles,
+			color,
+			size,
+			variant,
+			orientation,
+			...cardProps
+		} = props;
+		const delta = getPrimaryDelta(dataSeries);
+		return (
+			<BaseWidget
+				cardClass={clsx(
+					styles.deltaWidget,
+					styles[`deltaWidget--${size}`],
+					styles[`deltaWidget--${variant}`]
+				)}
+				fields={[
+					{
+						className: styles.deltaValue,
+						value: getPrimaryValue(dataSeries),
+					},
+					{
+						className: styles.deltaLabel,
+						value: getPrimaryLabel(dataSeries),
+					},
+					{ className: styles.deltaDelta, value: delta },
+				]}
+				styles={styles}
+				variant={variant}
+				size={size}
+				orientation={orientation}
+				color={color}
+				cardProps={cardProps}
+				ariaLabel='Delta Widget'
+			/>
+		);
+	},
+	circularProgress: (props: any) => {
+		const {
+			dataSeries,
+			styles,
+			color,
+			size,
+			variant,
+			orientation,
+			...cardProps
+		} = props;
+		const value = getPrimaryValue(dataSeries);
+		const label = getPrimaryLabel(dataSeries);
+		const radius = 24;
+		const stroke = 8;
+		const normalizedRadius = radius - stroke / 2;
+		const circumference = 2 * Math.PI * normalizedRadius;
+		const percent = Math.max(0, Math.min(100, value));
+		const offset =
+			circumference - (percent / 100) * circumference;
+		return (
+			<BaseWidgetWithSVG
+				cardClass={clsx(
+					styles.circularProgressWidget,
+					styles[`circularProgressWidget--${size}`],
+					styles[`circularProgressWidget--${variant}`]
+				)}
+				svg={
+					<svg
+						width={radius * 2}
+						height={radius * 2}
+						viewBox={`0 0 ${radius * 2} ${radius * 2}`}
+						aria-label='Circular Progress'
 					>
-						{entry.avatar && (
-							<img
-								src={entry.avatar}
-								alt={entry.name || entry.label}
-								className={styles.leaderboardAvatar}
-							/>
-						)}
-						<span className={styles.leaderboardRank}>
-							{i + 1}
-						</span>
-						<span className={styles.leaderboardLabel}>
-							{entry.name || entry.label}
-						</span>
-						<span className={styles.leaderboardValue}>
-							{entry.value}
-						</span>
-					</li>
-				))}
-			</ul>
-		</div>
-	);
+						<circle
+							cx={radius}
+							cy={radius}
+							r={normalizedRadius}
+							fill='none'
+							stroke='var(--color-gray-200)'
+							strokeWidth={stroke}
+						/>
+						<circle
+							cx={radius}
+							cy={radius}
+							r={normalizedRadius}
+							fill='none'
+							stroke='var(--chart-accent)'
+							strokeWidth={stroke}
+							strokeDasharray={circumference}
+							strokeDashoffset={offset}
+							strokeLinecap='round'
+						/>
+					</svg>
+				}
+				fields={[
+					{
+						className: styles.circularValue,
+						value: value + '%',
+					},
+					{ className: styles.circularLabel, value: label },
+				]}
+				styles={styles}
+				variant={variant}
+				size={size}
+				orientation={orientation}
+				color={color}
+				cardProps={cardProps}
+				ariaLabel={`Circular Progress: ${label}`}
+			/>
+		);
+	},
+	status: (props: any) => {
+		const {
+			dataSeries,
+			styles,
+			size,
+			variant,
+			orientation,
+			...cardProps
+		} = props;
+		const status = getPrimaryStatus(dataSeries);
+		return (
+			<BaseWidget
+				cardClass={clsx(
+					styles.statusWidget,
+					styles[`statusWidget--${size}`],
+					styles[`statusWidget--${variant}`]
+				)}
+				fields={[
+					{ className: styles.statusValue, value: status },
+				]}
+				styles={styles}
+				variant={variant}
+				size={size}
+				orientation={orientation}
+				cardProps={cardProps}
+				ariaLabel='Status Widget'
+			/>
+		);
+	},
+	leaderboard: (props: any) => {
+		const {
+			dataSeries,
+			styles,
+			size,
+			variant,
+			...cardProps
+		} = props;
+		const entries = getLeaderboardEntries(dataSeries);
+		return (
+			<Card
+				className={clsx(
+					styles.leaderboardWidget,
+					styles[`leaderboardWidget--${size}`],
+					styles[`leaderboardWidget--${variant}`],
+					`card-size-${size}`
+				)}
+				variant={variant}
+				size={size}
+				style={{
+					minWidth: 0,
+					minHeight: 0,
+					...(cardProps?.style || {}),
+				}}
+				role='group'
+				aria-label='Leaderboard Widget'
+				{...cardProps}
+			>
+				<ul
+					className={styles.leaderboardList}
+					style={{ minWidth: 0, minHeight: 0 }}
+				>
+					{entries.map((entry: any, i: number) => (
+						<li
+							key={i}
+							className={styles.leaderboardEntry}
+							style={{
+								wordBreak: 'break-word',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+							}}
+						>
+							<span className={styles.leaderboardName}>
+								{entry.name}
+							</span>
+							<span className={styles.leaderboardValue}>
+								{entry.value}
+							</span>
+						</li>
+					))}
+				</ul>
+			</Card>
+		);
+	},
 };
 
-const widgetMap: Record<string, React.FC<any>> = {
-	kpi: KpiWidget,
-	scorecard: ScorecardWidget,
-	progress: ProgressWidget,
-	gauge: GaugeWidget,
-	delta: DeltaWidget,
-	circularProgress: CircularProgressWidget,
-	status: StatusWidget,
-	leaderboard: LeaderboardWidget,
-};
+// Single widget renderer (type-safe)
+type WidgetType = keyof typeof widgetConfig;
+function renderWidget(type: WidgetType, props: any) {
+	return widgetConfig[type] ?
+			widgetConfig[type](props)
+		:	widgetConfig['kpi'](props);
+}
 
 // Legend rendering now uses Card and passes Card props
 const ChartLegend = ({
@@ -469,10 +570,37 @@ const ChartLegend = ({
 		return items;
 	}, [dataSeries, search, sort, showSearch, showFilter]);
 
+	const legendClass = [
+		styles.legend,
+		legendOrientation === 'grid' ? styles.grid : '',
+		className,
+	]
+		.filter(Boolean)
+		.join(' ');
+
+	const legendListClass = clsx(
+		styles.legend,
+		styles.legend__items,
+		legendOrientation === 'grid' && styles.grid,
+		legendOrientation === 'horizontal' && styles.horizontal,
+		legendOrientation === 'vertical' && styles.vertical,
+		`legend ${legendOrientation}` // Add raw class for SCSS targeting
+	);
+
 	return (
-		<div className={className}>
+		<div
+			className={styles.legend}
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: 16,
+			}}
+		>
 			{(showSearch || showFilter) && (
-				<div className={styles.filter}>
+				<div
+					className={styles.filter}
+					style={{ marginBottom: 8 }}
+				>
 					{showSearch && (
 						<>
 							<label
@@ -481,7 +609,8 @@ const ChartLegend = ({
 							>
 								Search legend items
 							</label>
-							<input
+							<Input
+								kind='search'
 								id='chart-filter-search'
 								className={styles.filter__search}
 								type='search'
@@ -519,13 +648,27 @@ const ChartLegend = ({
 				</div>
 			)}
 			<Card
-				// ...existing Card props...
+				className={clsx(
+					styles.baseCard,
+					cardProps.className,
+					`card-size-${size}`
+				)}
 				{...cardProps}
 				size={size}
 				variant={variant}
-				className={clsx(styles.legend, cardProps.className)}
+				shape={
+					legendOrientation === 'vertical' ? 'vertical-rect'
+					:	cardProps.shape
+				}
 			>
-				<ul className={styles.legend__items}>
+				<ul
+					className={legendListClass}
+					style={
+						legendOrientation === 'vertical' ?
+							{ maxHeight: 240, overflowY: 'auto' }
+						:	undefined
+					}
+				>
 					{filteredSeries.map((series: any) => (
 						<li
 							key={series.id}
@@ -607,8 +750,6 @@ const Chart = forwardRef<HTMLDivElement, ChartProps>(
 		const [selectedSeries, setSelectedSeries] = useState(0);
 		const handleSelectSeries = (idx: number) =>
 			setSelectedSeries(idx);
-		const WidgetComponent =
-			widgetMap[chartType] || KpiWidget;
 		const widgetData =
 			dataSeries && dataSeries.length > 0 ?
 				[dataSeries[selectedSeries]]
@@ -644,19 +785,19 @@ const Chart = forwardRef<HTMLDivElement, ChartProps>(
 				data-chart-type={chartType}
 				{...restProps}
 			>
-				{WidgetComponent && (
-					<WidgetComponent
-						dataSeries={widgetData}
-						styles={styles}
-						color={color}
-						scorecardIcon={scorecardIcon}
-						deltaUpIcon={deltaUpIcon}
-						deltaDownIcon={deltaDownIcon}
-						widgetSize={size}
-						size={size}
-						variant={variant}
-					/>
-				)}
+				{renderWidget(chartType as WidgetType, {
+					dataSeries: widgetData,
+					styles,
+					color,
+					scorecardIcon,
+					deltaUpIcon,
+					deltaDownIcon,
+					widgetSize: size,
+					size,
+					variant,
+					orientation,
+					...restProps,
+				})}
 				{showLegend &&
 					dataSeries &&
 					dataSeries.length > 0 && (
@@ -679,7 +820,7 @@ const Chart = forwardRef<HTMLDivElement, ChartProps>(
 );
 
 Chart.displayName = 'Chart';
-export default memo(Chart);
+export default React.memo(Chart);
 
 export function createChart(
 	kind: ChartKind,

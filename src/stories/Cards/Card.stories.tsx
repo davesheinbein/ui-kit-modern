@@ -392,5 +392,50 @@ export const UserStatus: Story = {
 		},
 	},
 };
+// --- Size Variation Comparison Story ---
+export const SizeComparison: Story = {
+	render: (args) => (
+		<div
+			style={{
+				display: 'flex',
+				gap: 32,
+				alignItems: 'flex-start',
+			}}
+		>
+			<Card
+				size='small'
+				kind='default'
+				title='Small Card'
+				content='This is a small card.'
+				{...args}
+			/>
+			<Card
+				size='medium'
+				kind='default'
+				title='Medium Card'
+				content='This is a medium card.'
+				{...args}
+			/>
+			<Card
+				size='large'
+				kind='default'
+				title='Large Card'
+				content='This is a large card.'
+				{...args}
+			/>
+		</div>
+	),
+	args: {
+		// Default args for all
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'All size variations (small, medium, large) are shown side by side for easy visual comparison.',
+			},
+		},
+	},
+};
 
 // Custom card is already covered by default story

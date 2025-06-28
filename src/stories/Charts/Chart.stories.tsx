@@ -259,24 +259,6 @@ export const EmptyData: Story = {
 	args: {},
 };
 
-export const LoadingState: Story = {
-	render: (args) => (
-		<div
-			style={{
-				minHeight: 80,
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}
-		>
-			<span role='status' aria-live='polite'>
-				Loading...
-			</span>
-		</div>
-	),
-	args: {},
-};
-
 export const ErrorState: Story = {
 	render: (args) => (
 		<Charts
@@ -338,13 +320,11 @@ export const AccessibilityEdgeCase: Story = {
 export const AllPropVariations: Story = {
 	render: (args) => {
 		const sizes = ['small', 'medium', 'large'] as const;
+		// Only show the three core variants in Variant Variations
 		const variants = [
 			'default',
 			'minimal',
 			'modern',
-			'compact',
-			'glass',
-			'game-style',
 		] as const;
 		const legendOrientations = [
 			'horizontal',
@@ -401,14 +381,31 @@ export const AllPropVariations: Story = {
 					<h4>Size Variations</h4>
 					<div style={{ display: 'flex', gap: 24 }}>
 						{sizes.map((size) => (
-							<Charts
+							<div
 								key={size}
-								{...args}
-								chartId={`size-${size}`}
-								chartType={'kpi'}
-								size={size}
-								dataSeries={baseData}
-							/>
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+								}}
+							>
+								<Charts
+									{...args}
+									chartId={`size-${size}`}
+									chartType={'kpi'}
+									size={size}
+									dataSeries={baseData}
+								/>
+								<div
+									style={{
+										fontSize: 12,
+										color: '#666',
+										marginTop: 4,
+									}}
+								>
+									size="{size}" chartType="kpi"
+								</div>
+							</div>
 						))}
 					</div>
 				</section>
@@ -423,16 +420,36 @@ export const AllPropVariations: Story = {
 							flexWrap: 'wrap',
 						}}
 					>
-						{variants.map((variant) => (
-							<Charts
-								key={variant}
-								{...args}
-								chartId={`variant-${variant}`}
-								chartType={'scorecard'}
-								variant={variant}
-								dataSeries={baseData}
-							/>
-						))}
+						{['default', 'minimal', 'modern'].map(
+							(variant) => (
+								<div
+									key={variant}
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+									}}
+								>
+									<Charts
+										{...args}
+										chartId={`variant-${variant}`}
+										chartType={'scorecard'}
+										variant={variant}
+										dataSeries={baseData}
+									/>
+									<div
+										style={{
+											fontSize: 12,
+											color: '#666',
+											marginTop: 4,
+										}}
+									>
+										variant="{variant}"
+										chartType="scorecard"
+									</div>
+								</div>
+							)
+						)}
 					</div>
 				</section>
 
@@ -443,18 +460,90 @@ export const AllPropVariations: Story = {
 						{(
 							['horizontal', 'vertical', 'grid'] as const
 						).map((legendOrientation) => (
-							<Charts
+							<div
 								key={legendOrientation}
-								{...args}
-								chartId={`legend-${legendOrientation}`}
-								chartType={'progress'}
-								legendOrientation={
-									legendOrientation === 'grid' ?
-										'horizontal'
-									:	legendOrientation
-								}
-								dataSeries={baseData}
-							/>
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+								}}
+							>
+								{/* Use 8 items to clearly show grid/flex layouts */}
+								<Charts
+									{...args}
+									chartId={`legend-${legendOrientation}`}
+									chartType={'progress'}
+									legendOrientation={legendOrientation}
+									dataSeries={[
+										{
+											id: 'apples',
+											label: 'Apples',
+											color: '#f87171',
+											visible: true,
+											data: [{ name: 'Q1', value: 120 }],
+										},
+										{
+											id: 'bananas',
+											label: 'Bananas',
+											color: '#fbbf24',
+											visible: true,
+											data: [{ name: 'Q1', value: 80 }],
+										},
+										{
+											id: 'oranges',
+											label: 'Oranges',
+											color: '#34d399',
+											visible: true,
+											data: [{ name: 'Q1', value: 95 }],
+										},
+										{
+											id: 'grapes',
+											label: 'Grapes',
+											color: '#a78bfa',
+											visible: true,
+											data: [{ name: 'Q1', value: 60 }],
+										},
+										{
+											id: 'kiwi',
+											label: 'Kiwi',
+											color: '#10b981',
+											visible: true,
+											data: [{ name: 'Q1', value: 45 }],
+										},
+										{
+											id: 'lemon',
+											label: 'Lemon',
+											color: '#fde047',
+											visible: true,
+											data: [{ name: 'Q1', value: 30 }],
+										},
+										{
+											id: 'peach',
+											label: 'Peach',
+											color: '#f472b6',
+											visible: true,
+											data: [{ name: 'Q1', value: 55 }],
+										},
+										{
+											id: 'plum',
+											label: 'Plum',
+											color: '#8b5cf6',
+											visible: true,
+											data: [{ name: 'Q1', value: 40 }],
+										},
+									]}
+								/>
+								<div
+									style={{
+										fontSize: 12,
+										color: '#666',
+										marginTop: 4,
+									}}
+								>
+									legendOrientation="{legendOrientation}"
+									chartType="progress" (8 items)
+								</div>
+							</div>
 						))}
 					</div>
 				</section>
@@ -464,79 +553,133 @@ export const AllPropVariations: Story = {
 					<h4>Filters</h4>
 					<div style={{ display: 'flex', gap: 24 }}>
 						{/* No filters */}
-						<Charts
-							{...args}
-							chartId='filters-none'
-							chartType={'gauge'}
-							showFilter={false}
-							showSearch={false}
-							dataSeries={baseData}
-						/>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+							}}
+						>
+							<Charts
+								{...args}
+								chartId='filters-none'
+								chartType={'gauge'}
+								showFilter={false}
+								showSearch={false}
+								dataSeries={baseData}
+							/>
+							<div
+								style={{
+									fontSize: 12,
+									color: '#666',
+									marginTop: 4,
+								}}
+							>
+								showFilter="false" showSearch="false"
+								chartType="gauge"
+							</div>
+						</div>
 						{/* Only filters */}
-						<Charts
-							{...args}
-							chartId='filters-only'
-							chartType={'gauge'}
-							showFilter={true}
-							showSearch={false}
-							dataSeries={baseData}
-						/>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+							}}
+						>
+							<Charts
+								{...args}
+								chartId='filters-only'
+								chartType={'gauge'}
+								showFilter={true}
+								showSearch={false}
+								dataSeries={baseData}
+							/>
+							<div
+								style={{
+									fontSize: 12,
+									color: '#666',
+									marginTop: 4,
+								}}
+							>
+								showFilter="true" showSearch="false"
+								chartType="gauge"
+							</div>
+						</div>
 						{/* Filters + Search */}
-						<Charts
-							{...args}
-							chartId='filter-search-demo'
-							kind='chart-legend'
-							legendOrientation='horizontal'
-							showFilter={true}
-							showSearch={true}
-							dataSeries={[
-								{
-									id: 'apples',
-									label: 'Apples',
-									color: '#f87171',
-									visible: true,
-									data: [{ name: 'Q1', value: 120 }],
-								},
-								{
-									id: 'bananas',
-									label: 'Bananas',
-									color: '#fbbf24',
-									visible: true,
-									data: [{ name: 'Q1', value: 80 }],
-								},
-								{
-									id: 'oranges',
-									label: 'Oranges',
-									color: '#34d399',
-									visible: true,
-									data: [{ name: 'Q1', value: 95 }],
-								},
-								{
-									id: 'grapes',
-									label: 'Grapes',
-									color: '#a78bfa',
-									visible: true,
-									data: [{ name: 'Q1', value: 60 }],
-								},
-								{
-									id: 'kiwi',
-									label: 'Kiwi',
-									color: '#10b981',
-									visible: true,
-									data: [{ name: 'Q1', value: 45 }],
-								},
-								{
-									id: 'lemon',
-									label: 'Lemon',
-									color: '#fde047',
-									visible: true,
-									data: [{ name: 'Q1', value: 30 }],
-								},
-							]}
-							spacing='normal'
-							size='medium'
-							variant='default'
-						/>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+							}}
+						>
+							<Charts
+								chartId='filter-search-demo'
+								kind='chart-legend'
+								legendOrientation='horizontal'
+								showFilter={true}
+								showSearch={true}
+								dataSeries={[
+									{
+										id: 'apples',
+										label: 'Apples',
+										color: '#f87171',
+										visible: true,
+										data: [{ name: 'Q1', value: 120 }],
+									},
+									{
+										id: 'bananas',
+										label: 'Bananas',
+										color: '#fbbf24',
+										visible: true,
+										data: [{ name: 'Q1', value: 80 }],
+									},
+									{
+										id: 'oranges',
+										label: 'Oranges',
+										color: '#34d399',
+										visible: true,
+										data: [{ name: 'Q1', value: 95 }],
+									},
+									{
+										id: 'grapes',
+										label: 'Grapes',
+										color: '#a78bfa',
+										visible: true,
+										data: [{ name: 'Q1', value: 60 }],
+									},
+									{
+										id: 'kiwi',
+										label: 'Kiwi',
+										color: '#10b981',
+										visible: true,
+										data: [{ name: 'Q1', value: 45 }],
+									},
+									{
+										id: 'lemon',
+										label: 'Lemon',
+										color: '#fde047',
+										visible: true,
+										data: [{ name: 'Q1', value: 30 }],
+									},
+								]}
+								spacing='normal'
+								size='medium'
+								variant='default'
+							/>
+							<div
+								style={{
+									fontSize: 12,
+									color: '#666',
+									marginTop: 4,
+								}}
+							>
+								showFilter="true" showSearch="true"
+								kind="chart-legend"
+								legendOrientation="horizontal"
+							</div>
+						</div>
 					</div>
 				</section>
 
@@ -545,14 +688,31 @@ export const AllPropVariations: Story = {
 					<h4>Spacing Variations</h4>
 					<div style={{ display: 'flex', gap: 24 }}>
 						{spacings.map((spacing) => (
-							<Charts
+							<div
 								key={spacing}
-								{...args}
-								chartId={`spacing-${spacing}`}
-								chartType={'delta'}
-								spacing={spacing}
-								dataSeries={baseData}
-							/>
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+								}}
+							>
+								<Charts
+									{...args}
+									chartId={`spacing-${spacing}`}
+									chartType={'delta'}
+									spacing={spacing}
+									dataSeries={baseData}
+								/>
+								<div
+									style={{
+										fontSize: 12,
+										color: '#666',
+										marginTop: 4,
+									}}
+								>
+									spacing="{spacing}" chartType="delta"
+								</div>
+							</div>
 						))}
 					</div>
 				</section>
@@ -568,13 +728,30 @@ export const AllPropVariations: Story = {
 						}}
 					>
 						{chartTypes.map((chartType) => (
-							<Charts
+							<div
 								key={chartType}
-								{...args}
-								chartId={`type-${chartType}`}
-								chartType={chartType}
-								dataSeries={baseData}
-							/>
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+								}}
+							>
+								<Charts
+									{...args}
+									chartId={`type-${chartType}`}
+									chartType={chartType}
+									dataSeries={baseData}
+								/>
+								<div
+									style={{
+										fontSize: 12,
+										color: '#666',
+										marginTop: 4,
+									}}
+								>
+									chartType="{chartType}"
+								</div>
+							</div>
 						))}
 					</div>
 				</section>

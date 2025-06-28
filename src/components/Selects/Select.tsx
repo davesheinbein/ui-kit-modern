@@ -1,31 +1,49 @@
 import React, {
-	forwardRef,
 	useRef,
-	useEffect,
-	useMemo,
 	useId,
+	useEffect,
+	useCallback,
+	forwardRef,
 } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
-import styles from './Select.module.scss';
-import {
-	SELECT_CONFIGURATIONS,
-	ExtendedSelectKind,
-	SelectConfiguration,
-	SelectProps,
-} from './configurations';
-import {
-	setSelectState,
-	selectSelectState,
-	cleanupComponent,
-} from '../../store/slices/uiSlice';
-import type {
-	SelectOption,
-	SelectOptionGroup,
-} from './configurations';
+import { Wrapper } from '../Wrappers';
+import styles from './select.module.scss';
+import Loading from '../Loading/Loading';
 
-export interface SelectProps extends SelectProps {
+export interface SelectProps {
+	options: Array<{
+		label: string;
+		value: string;
+		numericValue?: number;
+	}>; // numericValue is optional for size-based sorting
+	value?: string | string[];
+	defaultValue?: string | string[];
+	onChange?: (value: string | string[]) => void;
+	onSearch?: (search: string) => void;
+	label?: string | React.ReactNode;
+	helpText?: string | React.ReactNode;
+	error?: string;
+	className?: string;
+	disabled?: boolean;
+	required?: boolean;
+	loading?: boolean;
+	name?: string;
+	id?: string;
+	variant?:
+		| 'dropdown'
+		| 'multiselect'
+		| 'searchable'
+		| 'custom';
+	size?: 'small' | 'medium' | 'large';
+	searchable?: boolean;
+	clearable?: boolean;
+	filter?: boolean; // filter dropdown
+	placeholder?: string;
+	searchPlaceholder?: string;
+	loadingMessage?: string;
 	componentId?: string;
+	// ...other native props
+	[key: string]: any;
 }
 
 export const Select = forwardRef<
@@ -49,8 +67,14 @@ export const Select = forwardRef<
 			loading,
 			name,
 			id,
-			configuration,
-			kind,
+			variant = 'dropdown',
+			size = 'medium',
+			searchable = false,
+			clearable = false,
+			filter = false,
+			placeholder,
+			searchPlaceholder,
+			loadingMessage,
 			...props
 		},
 		ref
@@ -58,398 +82,341 @@ export const Select = forwardRef<
 		const uniqueId = useId();
 		const selectComponentId =
 			componentId || `select-${uniqueId}`;
-		const dispatch = useDispatch();
-
-		// Local state setters for Redux-backed state
-		const setIsOpen = (isOpen: boolean) => {
-			dispatch(
-				setSelectState({
-					selectId: selectComponentId,
-					updates: { isOpen },
-				})
-			);
-		};
-		const setInternalValue = (
-			internalValue: string | string[]
-		) => {
-			dispatch(
-				setSelectState({
-					selectId: selectComponentId,
-					updates: { internalValue },
-				})
-			);
-		};
-		const setSearchValue = (searchValue: string) => {
-			dispatch(
-				setSelectState({
-					selectId: selectComponentId,
-					updates: { searchValue },
-				})
-			);
-		};
-		const setFocusedIndex = (focusedIndex: number) => {
-			dispatch(
-				setSelectState({
-					selectId: selectComponentId,
-					updates: { focusedIndex },
-				})
-			);
-		};
-
-		useEffect(() => {
-			dispatch(
-				setSelectState({
-					selectId: selectComponentId,
-					updates: {
-						internalValue:
-							controlledValue ||
-							defaultValue ||
-							(configuration?.multiple ? [] : ''),
-						isOpen: false,
-						searchValue: '',
-						focusedIndex: -1,
-					},
-				})
-			);
-			return () => {
-				dispatch(cleanupComponent(selectComponentId));
-			};
-		}, [
-			dispatch,
-			selectComponentId,
-			controlledValue,
-			defaultValue,
-			configuration?.multiple,
-		]);
-
-		const selectState = useSelector(
-			selectSelectState(selectComponentId)
-		);
-		const internalValue =
-			selectState?.internalValue ||
-			(configuration?.multiple ? [] : '');
-		const isOpen = selectState?.isOpen || false;
-		const searchValue = selectState?.searchValue || '';
-		const focusedIndex = selectState?.focusedIndex || -1;
-
+		// Remove redux/select state logic for simplicity
 		const containerRef = useRef<HTMLDivElement>(null);
 		const inputRef = useRef<HTMLInputElement>(null);
 		const menuRef = useRef<HTMLDivElement>(null);
-
+		const [isOpen, setIsOpen] = React.useState(false);
+		const [searchValue, setSearchValue] =
+			React.useState('');
+		const [internalValue, setInternalValue] =
+			React.useState(
+				defaultValue !== undefined ? defaultValue
+				: variant === 'multiselect' ? []
+				: ''
+			);
+		const [filterValue, setFilterValue] = React.useState<
+			'none' | 'az' | 'za' | 'largest' | 'smallest'
+		>('none');
 		const isControlled = controlledValue !== undefined;
 		const currentValue =
 			isControlled ? controlledValue : internalValue;
-
-		const flatOptions = useMemo(() => {
-			return options.reduce<SelectOption[]>((acc, item) => {
-				if ('options' in item) {
-					return [...acc, ...item.options];
-				} else {
-					return [...acc, item];
-				}
-			}, []);
-		}, [options]);
-
-		const filteredOptions = useMemo(() => {
-			if (!configuration?.searchable || !searchValue) {
-				return flatOptions;
+		const getFilteredOptions = useCallback(() => {
+			let filtered = options;
+			if (searchable && searchValue) {
+				filtered = filtered.filter(
+					(opt: { label: string; value: string }) =>
+						opt.label
+							.toLowerCase()
+							.includes(searchValue.toLowerCase())
+				);
 			}
-			return flatOptions.filter(
-				(option) =>
-					option.label
-						.toLowerCase()
-						.includes(searchValue.toLowerCase()) ||
-					option.description
-						?.toLowerCase()
-						.includes(searchValue.toLowerCase())
-			);
+			if (filter && filterValue !== 'none') {
+				if (filterValue === 'az') {
+					filtered = [...filtered].sort((a, b) =>
+						a.label.localeCompare(b.label)
+					);
+				} else if (filterValue === 'za') {
+					filtered = [...filtered].sort((a, b) =>
+						b.label.localeCompare(a.label)
+					);
+				} else if (filterValue === 'largest') {
+					filtered = [...filtered].sort(
+						(a, b) =>
+							(b.numericValue ?? 0) - (a.numericValue ?? 0)
+					);
+				} else if (filterValue === 'smallest') {
+					filtered = [...filtered].sort(
+						(a, b) =>
+							(a.numericValue ?? 0) - (b.numericValue ?? 0)
+					);
+				}
+			}
+			return filtered;
 		}, [
-			flatOptions,
+			options,
+			searchable,
 			searchValue,
-			configuration?.searchable,
+			filter,
+			filterValue,
 		]);
-
+		const filteredOptions = getFilteredOptions();
+		const getDisplayValue = () => {
+			if (
+				variant === 'multiselect' &&
+				Array.isArray(currentValue)
+			) {
+				return options
+					.filter((opt: { label: string; value: string }) =>
+						currentValue.includes(opt.value)
+					)
+					.map(
+						(opt: { label: string; value: string }) =>
+							opt.label
+					)
+					.join(', ');
+			}
+			const found = options.find(
+				(opt: { label: string; value: string }) =>
+					opt.value === currentValue
+			);
+			return found ? found.label : '';
+		};
+		const getContainerClasses = () =>
+			classNames(
+				styles.selectContainer,
+				styles[`variant-${variant}`],
+				styles[`size-${size}`],
+				{
+					[styles.open]: isOpen,
+					[styles.disabled]: disabled,
+					[styles.error]: !!error,
+					[styles.loading]: loading,
+					[styles.multiple]: variant === 'multiselect',
+					[styles.searchable]: searchable,
+				},
+				className
+			);
 		const handleToggle = () => {
 			if (disabled || loading) return;
 			setIsOpen(!isOpen);
-			if (!isOpen && configuration?.searchable) {
+			if (!isOpen && searchable) {
 				setTimeout(() => inputRef.current?.focus(), 0);
 			}
 		};
-
-		const handleSelect = (option: SelectOption) => {
-			if (option.disabled) return;
-			let newValue: string | string[];
-			if (configuration?.multiple) {
-				const currentArray =
-					Array.isArray(currentValue) ? currentValue : [];
-				if (currentArray.includes(option.value)) {
-					newValue = currentArray.filter(
-						(v) => v !== option.value
+		const handleSelect = (option: {
+			label: string;
+			value: string;
+		}) => {
+			if (variant === 'multiselect') {
+				let newValue: string[];
+				if (
+					Array.isArray(currentValue) &&
+					currentValue.includes(option.value)
+				) {
+					newValue = currentValue.filter(
+						(v: string) => v !== option.value
 					);
 				} else {
-					newValue = [...currentArray, option.value];
+					newValue =
+						Array.isArray(currentValue) ?
+							[...currentValue, option.value]
+						:	[option.value];
 				}
+				if (!isControlled) setInternalValue(newValue);
+				onChange?.(newValue);
 			} else {
-				newValue = option.value;
-				if (configuration?.closeOnSelect) {
-					setIsOpen(false);
-				}
+				if (!isControlled) setInternalValue(option.value);
+				onChange?.(option.value);
+				setIsOpen(false);
 			}
-			if (!isControlled) {
-				setInternalValue(newValue);
-			}
-			onChange?.(newValue);
 		};
-
 		const handleClear = () => {
-			const newValue = configuration?.multiple ? [] : '';
-			if (!isControlled) {
-				setInternalValue(newValue);
-			}
-			onChange?.(newValue);
+			if (!isControlled)
+				setInternalValue(
+					variant === 'multiselect' ? [] : ''
+				);
+			onChange?.(variant === 'multiselect' ? [] : '');
+			setSearchValue('');
 		};
-
 		const handleSearchChange = (
 			e: React.ChangeEvent<HTMLInputElement>
 		) => {
-			const value = e.target.value;
-			setSearchValue(value);
-			onSearch?.(value);
+			setSearchValue(e.target.value);
+			onSearch?.(e.target.value);
 		};
-
 		const handleKeyDown = (e: React.KeyboardEvent) => {
-			switch (e.key) {
-				case 'ArrowDown':
-					e.preventDefault();
-					const nextIndex =
-						focusedIndex < filteredOptions.length - 1 ?
-							focusedIndex + 1
-						:	0;
-					setFocusedIndex(nextIndex);
-					break;
-				case 'ArrowUp':
-					e.preventDefault();
-					const prevIndex =
-						focusedIndex > 0 ?
-							focusedIndex - 1
-						:	filteredOptions.length - 1;
-					setFocusedIndex(prevIndex);
-					break;
-				case 'Enter':
-					e.preventDefault();
-					if (
-						focusedIndex >= 0 &&
-						filteredOptions[focusedIndex]
-					) {
-						handleSelect(filteredOptions[focusedIndex]);
-					}
-					break;
-				case 'Escape':
-					setIsOpen(false);
-					break;
-			}
+			if (e.key === 'Escape') setIsOpen(false);
 		};
-
-		useEffect(() => {
-			const handleClickOutside = (event: MouseEvent) => {
-				if (
-					containerRef.current &&
-					!containerRef.current.contains(
-						event.target as Node
-					)
-				) {
-					setIsOpen(false);
-				}
-			};
-			if (isOpen) {
-				document.addEventListener(
-					'mousedown',
-					handleClickOutside
-				);
-				return () =>
-					document.removeEventListener(
-						'mousedown',
-						handleClickOutside
-					);
-			}
-		}, [isOpen]);
-
-		const getDisplayValue = () => {
-			if (!currentValue) return '';
-			if (
-				configuration?.multiple &&
-				Array.isArray(currentValue)
-			) {
-				const selectedOptions = currentValue
-					.map((val) =>
-						flatOptions.find((opt) => opt.value === val)
-					)
-					.filter(Boolean) as SelectOption[];
-				if (selectedOptions.length === 0) return '';
-				if (selectedOptions.length === 1)
-					return selectedOptions[0].label;
-				if (configuration?.showSelectedCount) {
-					return `${selectedOptions.length} selected`;
-				}
-				if (
-					selectedOptions.length <=
-					(configuration?.maxSelectedDisplay || 3)
-				) {
-					return selectedOptions
-						.map((opt) => opt.label)
-						.join(', ');
-				}
-				return `${selectedOptions
-					.slice(0, configuration?.maxSelectedDisplay || 3)
-					.map((opt) => opt.label)
-					.join(
-						', '
-					)} +${selectedOptions.length - (configuration?.maxSelectedDisplay || 3)}`;
-			}
-			const selectedOption = flatOptions.find(
-				(opt) => opt.value === currentValue
-			);
-			return selectedOption?.label || '';
-		};
-
-		// Use finalConfig as SelectConfiguration, and destructure with fallback to empty object to avoid type errors and redeclaration
-		let finalConfig = configuration;
-		if (kind) {
-			finalConfig = getFinalConfig(
-				kind,
-				configuration,
-				disabled,
-				error,
-				loading
-			);
-		}
-
-		// Fix destructuring from finalConfig: cast finalConfig as SelectConfiguration for destructuring, fallback to empty object if undefined
-		const {
-			variant,
-			size,
-			style,
-			borderRadius,
-			state,
-			customStyles,
-			...restConfiguration
-		} = (finalConfig || {}) as SelectConfiguration;
-
-		const mergedConfiguration = {
-			variant,
-			size,
-			style,
-			borderRadius,
-			state,
-			customStyles,
-			...restConfiguration,
-		};
-
-		const containerClasses = classNames(
-			styles.selectContainer,
-			styles[`variant-${variant}`],
-			styles[`size-${size}`],
-			styles[`style-${style}`],
-			styles[`radius-${borderRadius}`],
-			{
-				[styles.open]: isOpen,
-				[styles.disabled]: disabled || state === 'disabled',
-				[styles.error]: error || state === 'error',
-				[styles.loading]: loading || state === 'loading',
-				[styles.multiple]: (
-					finalConfig as SelectConfiguration
-				)?.multiple,
-				[styles.searchable]: (
-					finalConfig as SelectConfiguration
-				)?.searchable,
-			},
-			customStyles?.container,
-			className
-		);
-
 		return (
-			<div
-				ref={ref}
-				className={containerClasses}
-				{...props}
-			></div>
+			<Wrapper
+				kind='component-wrapper'
+				ref={containerRef}
+				className={getContainerClasses()}
+				data-testid='select-container'
+			>
+				{label && (
+					<label className={styles.fieldLabel} htmlFor={id}>
+						{label}
+						{required && (
+							<span className={styles.requiredMark}>*</span>
+						)}
+					</label>
+				)}
+				<div
+					className={styles.control}
+					onClick={handleToggle}
+					tabIndex={0}
+					role='button'
+					aria-haspopup='listbox'
+					aria-expanded={isOpen}
+					aria-disabled={disabled}
+					id={id}
+					onKeyDown={handleKeyDown}
+				>
+					<div className={styles.valueContainer}>
+						{searchable && isOpen ?
+							<input
+								ref={inputRef}
+								className={styles.searchInput}
+								type='text'
+								value={searchValue}
+								onChange={handleSearchChange}
+								placeholder={
+									searchPlaceholder || 'Search...'
+								}
+								disabled={disabled}
+								onKeyDown={handleKeyDown}
+							/>
+						:	<span className={styles.singleValue}>
+								{getDisplayValue() ||
+									placeholder ||
+									'Select...'}
+							</span>
+						}
+					</div>
+					<div className={styles.indicators}>
+						{!disabled &&
+							clearable &&
+							getDisplayValue() && (
+								<button
+									type='button'
+									className={styles.clearIndicator}
+									onClick={(e) => {
+										e.stopPropagation();
+										handleClear();
+									}}
+									aria-label='Clear selection'
+								>
+									×
+								</button>
+							)}
+						<span className={styles.dropdownIndicator}>
+							<svg
+								width='20'
+								height='20'
+								viewBox='0 0 20 20'
+								fill='none'
+								aria-hidden='true'
+							>
+								<path
+									d='M6 8l4 4 4-4'
+									stroke='currentColor'
+									strokeWidth='1.5'
+									strokeLinecap='round'
+									strokeLinejoin='round'
+								/>
+							</svg>
+						</span>
+					</div>
+				</div>
+				{isOpen && (
+					<div className={styles.menu} ref={menuRef}>
+						{filter && (
+							<div className={styles.filterToggle}>
+								<label
+									htmlFor='select-filter-dropdown'
+									style={{
+										fontWeight: 500,
+										marginRight: 8,
+									}}
+								>
+									Filter:
+								</label>
+								<select
+									id='select-filter-dropdown'
+									value={filterValue}
+									onChange={(e) =>
+										setFilterValue(e.target.value as any)
+									}
+									className={styles.filterDropdown}
+								>
+									<option value='none'>None</option>
+									<option value='az'>A to Z</option>
+									<option value='za'>Z to A</option>
+									<option value='largest'>
+										Largest to Smallest
+									</option>
+									<option value='smallest'>
+										Smallest to Largest
+									</option>
+								</select>
+							</div>
+						)}
+						{loading ?
+							<Loading
+								message={loadingMessage || 'Loading...'}
+							/>
+						: filteredOptions.length === 0 ?
+							<div className={styles.noOptionsMessage}>
+								No options
+							</div>
+						:	filteredOptions.map(
+								(
+									option: { label: string; value: string },
+									idx: number
+								) => {
+									const isSelected =
+										variant === 'multiselect' ?
+											Array.isArray(currentValue) &&
+											currentValue.includes(option.value)
+										:	currentValue === option.value;
+									return (
+										<div
+											key={option.value}
+											className={classNames(styles.option, {
+												[styles.selected]: isSelected,
+											})}
+											role='option'
+											aria-selected={isSelected}
+											onClick={() => handleSelect(option)}
+										>
+											{option.label}
+										</div>
+									);
+								}
+							)
+						}
+					</div>
+				)}
+				{error && (
+					<div className={styles.errorText}>{error}</div>
+				)}
+				{helpText && (
+					<div className={styles.helpText}>{helpText}</div>
+				)}
+			</Wrapper>
 		);
 	}
 );
 
 Select.displayName = 'Select';
 
-function getFinalConfig(
-	kind: ExtendedSelectKind | undefined,
-	configuration: Partial<SelectConfiguration> | undefined,
-	disabled?: boolean,
-	error?: string,
-	loading?: boolean
-): SelectConfiguration | undefined {
-	if (!kind)
-		return configuration as SelectConfiguration | undefined;
-	const baseConfig =
-		SELECT_CONFIGURATIONS[kind] ||
-		SELECT_CONFIGURATIONS.dropdown;
-	const finalConfig: SelectConfiguration = {
-		...baseConfig,
-		...configuration,
-	};
-	if (disabled) finalConfig.state = 'disabled';
-	if (error) finalConfig.state = 'error';
-	if (loading) finalConfig.state = 'loading';
-	return finalConfig;
-}
-
-export const Dropdown: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => <Select kind='dropdown' {...props} />;
-export const Multiselect: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => <Select kind='multiselect' {...props} />;
-export const Autocomplete: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => <Select kind='autocomplete' {...props} />;
-export const SearchableDropdown: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => (
-	<Select kind='searchable-dropdown' {...props} />
+export const FilterToggle = (props: {
+	checked: boolean;
+	onChange: (checked: boolean) => void;
+}) => (
+	<div
+		style={{
+			padding: '8px 16px',
+			borderBottom: '1px solid #eee',
+			background: '#f9fafb',
+		}}
+	>
+		<label
+			style={{
+				display: 'flex',
+				alignItems: 'center',
+				gap: 8,
+			}}
+		>
+			<input
+				type='checkbox'
+				checked={props.checked}
+				onChange={(e) => props.onChange(e.target.checked)}
+				style={{ marginRight: 8 }}
+			/>
+			<span>Enable Filter</span>
+		</label>
+	</div>
 );
-export const CountrySelector: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => (
-	<Select kind='country-selector' {...props} />
-);
-export const TimezoneSelector: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => (
-	<Select kind='timezone-selector' {...props} />
-);
-export const LanguageSelector: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => (
-	<Select kind='language-selector' {...props} />
-);
-export const CategoryFilter: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => <Select kind='category-filter' {...props} />;
-export const TagSelector: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => <Select kind='tag-selector' {...props} />;
-export const UserPicker: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => <Select kind='user-picker' {...props} />;
-export const DateRangeSelector: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => <Select kind='date-range' {...props} />;
-export const CustomSelect: React.FC<
-	Omit<SelectProps, 'kind'>
-> = (props) => <Select kind='custom' {...props} />;
-
-// Export types for consumers
-export type {
-	SelectProps,
-	ExtendedSelectKind as SelectKind,
-	SelectConfiguration,
-} from './configurations';

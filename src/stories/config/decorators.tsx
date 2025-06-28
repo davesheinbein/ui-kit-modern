@@ -18,3 +18,16 @@ export const commonDecorators = [
 		</Wrapper>
 	),
 ];
+
+export const selectDecorators = [
+	reduxProviderDecorator,
+	(Story: any) => (
+		<Wrapper
+			kind='flex-container'
+			direction='column'
+			style={{ overflow: 'visible' }}
+		>
+			<Story />
+		</Wrapper>
+	),
+];

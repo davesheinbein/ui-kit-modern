@@ -26,6 +26,7 @@ import {
 	ModalAnimation,
 } from './configurations';
 import Button from '../Button/Button';
+import { Input } from 'src/components/Inputs';
 
 export type ModalKind = ExtendedModalKind;
 
@@ -462,11 +463,13 @@ const Modal: React.FC<ModalProps> = ({
 					<Wrapper className={styles.vsRoomContent}>
 						<Wrapper className={styles.roomSection}>
 							<label htmlFor='room-code'>Room Code:</label>
-							<input
+							<Input
 								id='room-code'
-								type='text'
+								kind='text'
 								value={roomCode}
-								onChange={(e) =>
+								onChange={(
+									e: React.ChangeEvent<HTMLInputElement>
+								) =>
 									dispatch(
 										setModalForms({
 											id: finalModalId,

@@ -8,23 +8,7 @@
 export type SelectVariant =
 	| 'dropdown'
 	| 'multiselect'
-	| 'autocomplete'
 	| 'searchable'
-	| 'custom';
-
-// Extended select kinds for specific use cases
-export type ExtendedSelectKind =
-	| 'dropdown'
-	| 'multiselect'
-	| 'autocomplete'
-	| 'searchable-dropdown'
-	| 'country-selector'
-	| 'timezone-selector'
-	| 'language-selector'
-	| 'category-filter'
-	| 'tag-selector'
-	| 'user-picker'
-	| 'date-range'
 	| 'custom';
 
 // Select size variants
@@ -52,79 +36,14 @@ export type SelectPlacement = 'bottom' | 'top' | 'auto';
 
 // Select option structure
 export interface SelectOption {
-	value: string;
 	label: string;
-	description?: string;
-	icon?: React.ReactNode;
-	image?: string;
-	disabled?: boolean;
-	group?: string;
-	className?: string;
-	data?: Record<string, any>;
+	value: string;
 }
 
 // Select option group structure
 export interface SelectOptionGroup {
 	label: string;
 	options: SelectOption[];
-	disabled?: boolean;
-}
-
-// Core configuration interface
-export interface SelectConfiguration {
-	variant: SelectVariant;
-	size: SelectSize;
-	state: SelectState;
-	style: SelectStyle;
-	placement: SelectPlacement;
-	searchable: boolean;
-	clearable: boolean;
-	multiple: boolean;
-	closeOnSelect: boolean;
-	showSelectedCount: boolean;
-	maxHeight: number;
-	placeholder: string;
-	searchPlaceholder: string;
-	noOptionsMessage: string;
-	loadingMessage: string;
-	maxSelectedDisplay: number;
-	borderRadius:
-		| 'none'
-		| 'small'
-		| 'medium'
-		| 'large'
-		| 'full';
-	animationDuration: number;
-	virtualized: boolean;
-	required: boolean;
-	customStyles?: {
-		container?: string;
-		control?: string;
-		menu?: string;
-		option?: string;
-		multiValue?: string;
-		input?: string;
-		placeholder?: string;
-	};
-}
-
-export interface SelectProps {
-	kind: ExtendedSelectKind;
-	options: SelectOption[] | SelectOptionGroup[];
-	value?: string | string[];
-	defaultValue?: string | string[];
-	onChange?: (value: string | string[]) => void;
-	onSearch?: (searchValue: string) => void;
-	label?: string;
-	helpText?: string;
-	error?: string;
-	className?: string;
-	disabled?: boolean;
-	required?: boolean;
-	loading?: boolean;
-	name?: string;
-	id?: string;
-	configuration?: Partial<SelectConfiguration>;
 }
 
 // Predefined configurations
@@ -173,28 +92,6 @@ export const SELECT_CONFIGURATIONS: Record<
 		maxSelectedDisplay: 2,
 		borderRadius: 'medium',
 		animationDuration: 200,
-		virtualized: false,
-		required: false,
-	},
-	'autocomplete': {
-		variant: 'autocomplete',
-		size: 'medium',
-		state: 'default',
-		style: 'outlined',
-		placement: 'bottom',
-		searchable: true,
-		clearable: true,
-		multiple: false,
-		closeOnSelect: true,
-		showSelectedCount: false,
-		maxHeight: 200,
-		placeholder: 'Type to search...',
-		searchPlaceholder: 'Type to search...',
-		noOptionsMessage: 'No matches found',
-		loadingMessage: 'Searching...',
-		maxSelectedDisplay: 3,
-		borderRadius: 'medium',
-		animationDuration: 150,
 		virtualized: false,
 		required: false,
 	},

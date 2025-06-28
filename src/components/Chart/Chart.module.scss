@@ -127,8 +127,47 @@
 // ========================================
 
 .legend {
-	@include flex-wrap;
-	gap: var(--spacing-3);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+
+	&.grid {
+		display: grid;
+		gap: 12px 24px;
+		align-items: start;
+	}
+
+	&.horizontal {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: var(--spacing-3, 1rem);
+		align-items: center;
+		justify-content: flex-start;
+	}
+	&.vertical {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2, 0.5rem);
+		align-items: flex-start;
+		justify-content: flex-start;
+	}
+
+	@media (min-width: 400px) {
+		.legend.grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+	@media (min-width: 600px) {
+		.legend.grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+	@media (min-width: 900px) {
+		.legend.grid {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+	}
 }
 
 .legend__item {
@@ -267,6 +306,15 @@
 	justify-content: center;
 	min-width: 120px;
 	min-height: 80px;
+}
+
+.widgetContent {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
 }
 
 .widgetHeader {
@@ -1315,3 +1363,86 @@
 }
 
 // Note: All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss. No local animation logic here.
+
+// Responsive, flexible widget container overrides for all chart widgets
+.kpiWidget,
+.scorecardWidget,
+.progressWidget,
+.gaugeWidget,
+.deltaWidget,
+.circularProgressWidget,
+.statusWidget,
+.leaderboardWidget {
+	height: auto !important;
+	min-height: 0 !important;
+	width: 100% !important;
+	min-width: 0 !important;
+	max-width: 100% !important;
+	aspect-ratio: unset !important;
+	overflow: visible !important;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: clamp(0.75rem, 2vw, 1.5rem) !important;
+	font-size: clamp(1rem, 2vw, 1.5rem) !important;
+	box-sizing: border-box;
+}
+
+.gaugeValue,
+.gaugeLabel,
+.kpiValue,
+.kpiLabel,
+.scorecardValue,
+.scorecardLabel,
+.progressValue,
+.progressLabel,
+.deltaValue,
+.deltaLabel,
+.deltaDelta,
+.circularValue,
+.circularLabel,
+.statusValue,
+.leaderboardName,
+.leaderboardValue {
+	word-break: break-word;
+	overflow: visible;
+	text-overflow: ellipsis;
+	white-space: normal;
+	line-height: 1.2;
+	font-size: inherit;
+	text-align: center;
+	margin: 0.25em 0;
+}
+
+// Only apply overflow hidden to SVG or chart graphics if needed
+.circularProgressWidget svg {
+	overflow: visible;
+	display: block;
+	margin: 0 auto;
+}
+
+// Responsive font and padding for size prop
+.kpiWidget--small,
+.scorecardWidget--small,
+.progressWidget--small,
+.gaugeWidget--small,
+.deltaWidget--small,
+.circularProgressWidget--small,
+.statusWidget--small,
+.leaderboardWidget--small {
+	font-size: clamp(0.85rem, 1.5vw, 1.1rem) !important;
+	padding: clamp(0.5rem, 1vw, 1rem) !important;
+}
+
+.kpiWidget--large,
+.scorecardWidget--large,
+.progressWidget--large,
+.gaugeWidget--large,
+.deltaWidget--large,
+.circularProgressWidget--large,
+.statusWidget--large,
+.leaderboardWidget--large {
+	font-size: clamp(1.25rem, 3vw, 2rem) !important;
+	padding: clamp(1rem, 3vw, 2rem) !important;
+}

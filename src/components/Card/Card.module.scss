@@ -54,30 +54,42 @@ li {
 
 .card-small {
 	border-radius: var(--radius-sm);
+	width: 200px !important;
+	min-width: 200px !important;
+	max-width: 200px !important;
+	aspect-ratio: 16 / 9 !important;
+	font-size: 0.85rem !important;
+	padding: var(--spacing-2) var(--spacing-2) !important;
+	box-sizing: border-box;
 }
 
 .card-medium {
 	border-radius: var(--radius-md);
+	width: 300px !important;
+	min-width: 300px !important;
+	max-width: 300px !important;
+	aspect-ratio: 16 / 9 !important;
+	font-size: 1rem !important;
+	padding: var(--spacing-4) var(--spacing-4) !important;
+	box-sizing: border-box;
 }
 
 .card-large {
 	border-radius: var(--radius-lg);
+	width: 400px !important;
+	min-width: 400px !important;
+	max-width: 400px !important;
+	aspect-ratio: 16 / 9 !important;
+	font-size: 1.25rem !important;
+	padding: var(--spacing-6) var(--spacing-7) !important;
+	box-sizing: border-box;
 }
 
-.card-padding-none {
-	padding: 0;
-}
-
-.card-padding-small {
-	padding: var(--spacing-3);
-}
-
-.card-padding-medium {
-	padding: var(--spacing-4);
-}
-
-.card-padding-large {
-	padding: var(--spacing-6);
+.card-full {
+	width: 100% !important;
+	max-width: none !important;
+	min-width: 0 !important;
+	aspect-ratio: unset !important;
 }
 
 .cardHover {
@@ -311,7 +323,6 @@ li {
 }
 
 .card-shape-vertical-rect {
-	aspect-ratio: 3 / 4;
 	width: 100%;
 	max-width: 340px;
 	display: flex;
@@ -322,7 +333,6 @@ li {
 }
 
 .card-shape-square {
-	aspect-ratio: 1 / 1;
 	width: 100%;
 	max-width: 320px;
 	display: flex;
@@ -333,7 +343,6 @@ li {
 }
 
 .card-shape-circle {
-	aspect-ratio: 1 / 1;
 	width: 100%;
 	max-width: 320px;
 	border-radius: 50% !important;
@@ -343,31 +352,6 @@ li {
 	justify-content: center;
 	align-items: center;
 	min-height: unset;
-}
-
-// --- Card size variants ---
-.card-size-small {
-	width: 100%;
-	max-width: 220px;
-	min-width: 120px;
-}
-
-.card-size-medium {
-	width: 100%;
-	max-width: 340px;
-	min-width: 180px;
-}
-
-.card-size-large {
-	width: 100%;
-	max-width: 480px;
-	min-width: 240px;
-}
-
-.card-size-full {
-	width: 100% !important;
-	max-width: none !important;
-	min-width: 0 !important;
 }
 
 // Ensure shape classes do not override explicit size if both are present

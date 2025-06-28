@@ -12,6 +12,8 @@
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-2);
+	overflow: visible !important; // Ensure dropdown is not clipped by parent wrappers
+	// NOTE: If parent containers use overflow: hidden, consider using a portal for the dropdown menu.
 
 	&.disabled {
 		opacity: 0.6;
@@ -178,20 +180,26 @@
 	top: 100%;
 	left: 0;
 	right: 0;
-	z-index: 1000;
-	background: var(--color-background);
-	border: 1px solid var(--color-border);
+	z-index: 1002 !important; // Ensure dropdown is above all content
+	background: #fff;
+	border: 1px solid var(--color-border, #d1d5db);
 	border-top: none;
 	border-radius: 0 0 var(--border-radius-medium)
 		var(--border-radius-medium);
-	box-shadow: var(--shadow-lg);
+	box-shadow:
+		0 8px 24px rgba(0, 0, 0, 0.12),
+		0 1.5px 4px rgba(0, 0, 0, 0.08);
 	overflow-y: auto;
 	animation: menuSlideDown 0.2s ease;
+	min-width: 100%;
+	max-height: 240px;
+	color: var(--color-text-primary, #222);
+	// NOTE: If you still see clipping, check parent containers for overflow restrictions.
 
 	&.placement-top {
 		top: auto;
 		bottom: 100%;
-		border-top: 1px solid var(--color-border);
+		border-top: 1px solid var(--color-border, #d1d5db);
 		border-bottom: none;
 		border-radius: var(--border-radius-medium)
 			var(--border-radius-medium) 0 0;
@@ -228,24 +236,28 @@
 	gap: var(--spacing-2);
 	padding: var(--spacing-2) var(--spacing-3);
 	cursor: pointer;
-	transition: all 0.15s ease;
-	border-bottom: 1px solid var(--color-border-light);
+	transition:
+		background 0.15s,
+		color 0.15s;
+	border-bottom: 1px solid
+		var(--color-border-light, #f3f4f6);
+	background: #fff; // Ensures option is visible
+	color: #222; // Strong text color
 
 	&:last-child {
 		border-bottom: none;
 	}
 
-	&:hover:not(.disabled) {
-		background: var(--color-background-hover);
-	}
-
+	&:hover:not(.disabled),
 	&.focused {
-		background: var(--color-background-hover);
+		background: var(--color-background-hover, #f3f4f6);
+		color: #111;
 	}
 
 	&.selected {
-		background: var(--color-primary-light);
-		color: var(--color-primary);
+		background: var(--color-primary, #2563eb);
+		color: #fff;
+		font-weight: 600;
 	}
 
 	&.disabled {
@@ -514,17 +526,53 @@
 	}
 }
 
-// Help text
 .helpText {
 	color: var(--color-text-secondary);
 	margin-top: var(--spacing-1);
 }
 
-// Error text
 .errorText {
 	color: var(--color-error);
 	margin-top: var(--spacing-1);
 }
+.selectContainer {
+	overflow: visible !important;
+	z-index: 1;
+}
+
+.menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 1002 !important;
+	background: #fff;
+	border: 1px solid var(--color-border, #d1d5db);
+	border-top: none;
+	border-radius: 0 0 var(--border-radius-medium)
+		var(--border-radius-medium);
+	box-shadow:
+		0 8px 24px rgba(0, 0, 0, 0.12),
+		0 1.5px 4px rgba(0, 0, 0, 0.08);
+	overflow-y: auto;
+	animation: menuSlideDown 0.2s ease;
+	min-width: 100%;
+	max-height: 240px;
+	color: var(--color-text-primary, #222);
+	// NOTE: If you still see clipping, check parent containers for overflow restrictions.
+
+	&.placement-top {
+		top: auto;
+		bottom: 100%;
+		border-top: 1px solid var(--color-border, #d1d5db);
+		border-bottom: none;
+		border-radius: var(--border-radius-medium)
+			var(--border-radius-medium) 0 0;
+		animation: menuSlideUp 0.2s ease;
+	}
+}
+
+// NOTE: If you still see clipping, check parent containers for overflow:hidden. If unavoidable, consider rendering the menu in a portal.
 
 // Responsive design
 @media (max-width: 768px) {
@@ -538,4 +586,28 @@
 			var(--border-radius-large) 0 0;
 		max-height: 50vh;
 	}
+}
+
+.testClass {
+	background: red;
+}
+
+.filterToggle {
+	display: flex;
+	align-items: center;
+	padding: var(--spacing-2) var(--spacing-3);
+	border-bottom: 1px solid var(--color-border, #e5e7eb);
+	background: var(--color-background, #f9fafb);
+	font-size: 0.95em;
+	color: var(--color-text-secondary, #6b7280);
+	margin-bottom: 4px;
+	gap: 8px;
+}
+.filterDropdown {
+	padding: 4px 8px;
+	border-radius: 4px;
+	border: 1px solid var(--color-border, #d1d5db);
+	background: #fff;
+	font-size: 1em;
+	color: var(--color-text-primary, #111827);
 }

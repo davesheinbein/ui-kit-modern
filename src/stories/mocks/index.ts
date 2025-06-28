@@ -456,3 +456,105 @@ export const mockProfile = {
 	gamesPlayed: 156,
 	winRate: 0.68,
 };
+
+// === Select Option Sets (for Select stories) ===
+export const basicOptions = [
+	{ value: 'option1', label: 'Option 1' },
+	{ value: 'option2', label: 'Option 2' },
+	{ value: 'option3', label: 'Option 3' },
+	{ value: 'option4', label: 'Option 4' },
+];
+
+export const detailedOptions = [
+	{
+		value: 'frontend',
+		label: 'Frontend Developer',
+		description: 'HTML, CSS, JavaScript, React',
+	},
+	{
+		value: 'backend',
+		label: 'Backend Developer',
+		description: 'Node.js, Python, Java, Databases',
+	},
+	{
+		value: 'fullstack',
+		label: 'Full Stack Developer',
+		description: 'Frontend and Backend technologies',
+	},
+	{
+		value: 'mobile',
+		label: 'Mobile Developer',
+		description: 'iOS, Android, React Native, Flutter',
+	},
+	{
+		value: 'devops',
+		label: 'DevOps Engineer',
+		description: 'CI/CD, Docker, Kubernetes, Cloud',
+	},
+];
+
+export const countries = [
+	{ value: 'us', label: 'United States' },
+	{ value: 'ca', label: 'Canada' },
+	{ value: 'uk', label: 'United Kingdom' },
+	{ value: 'de', label: 'Germany' },
+	{ value: 'fr', label: 'France' },
+	{ value: 'jp', label: 'Japan' },
+	{ value: 'au', label: 'Australia' },
+	{ value: 'br', label: 'Brazil' },
+	{ value: 'in', label: 'India' },
+	{ value: 'cn', label: 'China' },
+];
+
+export const categories = [
+	{ value: 'tech', label: 'Technology' },
+	{ value: 'design', label: 'Design' },
+	{ value: 'business', label: 'Business' },
+	{ value: 'marketing', label: 'Marketing' },
+	{ value: 'sales', label: 'Sales' },
+	{ value: 'support', label: 'Support' },
+];
+
+export const tags = [
+	{ value: 'javascript', label: 'JavaScript' },
+	{ value: 'typescript', label: 'TypeScript' },
+	{ value: 'react', label: 'React' },
+	{ value: 'vue', label: 'Vue.js' },
+	{ value: 'angular', label: 'Angular' },
+	{ value: 'nodejs', label: 'Node.js' },
+	{ value: 'python', label: 'Python' },
+	{ value: 'css', label: 'CSS' },
+	{ value: 'html', label: 'HTML' },
+];
+
+export const users = [
+	{
+		value: 'john',
+		label: 'John Doe',
+		description: 'john.doe@example.com',
+	},
+	{
+		value: 'jane',
+		label: 'Jane Smith',
+		description: 'jane.smith@example.com',
+	},
+	{
+		value: 'bob',
+		label: 'Bob Johnson',
+		description: 'bob.johnson@example.com',
+	},
+	{
+		value: 'alice',
+		label: 'Alice Brown',
+		description: 'alice.brown@example.com',
+	},
+];
+
+export const dateRanges = [
+	{ value: 'today', label: 'Today' },
+	{ value: 'yesterday', label: 'Yesterday' },
+	{ value: 'last7days', label: 'Last 7 days' },
+	{ value: 'last30days', label: 'Last 30 days' },
+	{ value: 'last90days', label: 'Last 90 days' },
+	{ value: 'custom', label: 'Custom range' },
+];

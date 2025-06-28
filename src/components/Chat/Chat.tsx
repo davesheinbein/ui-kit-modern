@@ -6,6 +6,7 @@ import {
 	ChatKind,
 	CHAT_CONFIGURATIONS,
 } from './configurations';
+import { Input } from 'src/components/Inputs';
 
 export interface ChatProps {
 	kind?: ChatKind;
@@ -217,8 +218,8 @@ const Chat = forwardRef<HTMLDivElement, ChatProps>(
 					)}
 				{mergedShowInput !== false && (
 					<Wrapper className={styles.chatInput}>
-						<input
-							type='text'
+						<Input
+							kind='text'
 							className={styles.chatInputField}
 							placeholder='Type a message...'
 							value={input}

@@ -1,11 +1,18 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Select } from '../../components/Selects';
-import { commonDecorators } from '../config/decorators';
+import React from 'react';
+import { Meta, StoryObj } from '@storybook/react';
+import { Select } from '../../components/Selects/Select';
+import { selectDecorators } from '../config/decorators';
+import {
+	basicOptions,
+	categories,
+	detailedOptions,
+	dateRanges,
+} from '../mocks';
 
 const meta: Meta<typeof Select> = {
 	title: 'Selects/Select',
 	component: Select,
-	decorators: commonDecorators,
+	decorators: selectDecorators,
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -16,23 +23,23 @@ const meta: Meta<typeof Select> = {
 		},
 	},
 	argTypes: {
-		kind: {
+		variant: {
 			control: 'select',
 			options: [
 				'dropdown',
 				'multiselect',
-				'autocomplete',
-				'searchable-dropdown',
-				'country-selector',
-				'timezone-selector',
-				'language-selector',
-				'category-filter',
-				'tag-selector',
-				'user-picker',
-				'date-range',
+				'searchable',
 				'custom',
 			],
-			description: 'The type of select component to render',
+			description: 'The style/behavior of the select',
+		},
+		searchable: {
+			control: 'boolean',
+			description: 'Enable search input',
+		},
+		clearable: {
+			control: 'boolean',
+			description: 'Allow clearing the selection',
 		},
 		disabled: {
 			control: 'boolean',
@@ -58,219 +65,618 @@ const meta: Meta<typeof Select> = {
 			control: 'text',
 			description: 'Error message to display',
 		},
+		placeholder: {
+			control: 'text',
+			description: 'Placeholder text for the select',
+		},
+		searchPlaceholder: {
+			control: 'text',
+			description: 'Placeholder for the search input',
+		},
+		loadingMessage: {
+			control: 'text',
+			description: 'Message to show while loading',
+		},
 	},
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Sample options for stories
-const basicOptions = [
-	{ value: 'option1', label: 'Option 1' },
-	{ value: 'option2', label: 'Option 2' },
-	{ value: 'option3', label: 'Option 3' },
-	{ value: 'option4', label: 'Option 4' },
-];
-
-const detailedOptions = [
-	{
-		value: 'frontend',
-		label: 'Frontend Developer',
-		description: 'HTML, CSS, JavaScript, React',
-	},
-	{
-		value: 'backend',
-		label: 'Backend Developer',
-		description: 'Node.js, Python, Java, Databases',
-	},
-	{
-		value: 'fullstack',
-		label: 'Full Stack Developer',
-		description: 'Frontend and Backend technologies',
-	},
-	{
-		value: 'mobile',
-		label: 'Mobile Developer',
-		description: 'iOS, Android, React Native, Flutter',
-	},
-	{
-		value: 'devops',
-		label: 'DevOps Engineer',
-		description: 'CI/CD, Docker, Kubernetes, Cloud',
-	},
-];
-
-const countries = [
-	{ value: 'us', label: 'United States' },
-	{ value: 'ca', label: 'Canada' },
-	{ value: 'uk', label: 'United Kingdom' },
-	{ value: 'de', label: 'Germany' },
-	{ value: 'fr', label: 'France' },
-	{ value: 'jp', label: 'Japan' },
-	{ value: 'au', label: 'Australia' },
-	{ value: 'br', label: 'Brazil' },
-	{ value: 'in', label: 'India' },
-	{ value: 'cn', label: 'China' },
-];
-
-const categories = [
-	{ value: 'tech', label: 'Technology' },
-	{ value: 'design', label: 'Design' },
-	{ value: 'business', label: 'Business' },
-	{ value: 'marketing', label: 'Marketing' },
-	{ value: 'sales', label: 'Sales' },
-	{ value: 'support', label: 'Support' },
-];
-
-const tags = [
-	{ value: 'javascript', label: 'JavaScript' },
-	{ value: 'typescript', label: 'TypeScript' },
-	{ value: 'react', label: 'React' },
-	{ value: 'vue', label: 'Vue.js' },
-	{ value: 'angular', label: 'Angular' },
-	{ value: 'nodejs', label: 'Node.js' },
-	{ value: 'python', label: 'Python' },
-	{ value: 'css', label: 'CSS' },
-	{ value: 'html', label: 'HTML' },
-];
-
-const users = [
-	{
-		value: 'john',
-		label: 'John Doe',
-		description: 'john.doe@example.com',
-	},
-	{
-		value: 'jane',
-		label: 'Jane Smith',
-		description: 'jane.smith@example.com',
-	},
-	{
-		value: 'bob',
-		label: 'Bob Johnson',
-		description: 'bob.johnson@example.com',
-	},
-	{
-		value: 'alice',
-		label: 'Alice Brown',
-		description: 'alice.brown@example.com',
-	},
-];
+// DRY: Story factory
+const createStory = (
+	args: Partial<React.ComponentProps<typeof Select>>
+): Story => ({ args });
 
 export const Dropdown: Story = {
-	args: {
-		kind: 'dropdown',
-		options: basicOptions,
-		label: 'Choose an option',
-		helpText: 'Select one option from the dropdown',
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={basicOptions}
+					label='Dropdown'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={basicOptions}
+					label='Dropdown (Filter)'
+					filter
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={basicOptions}
+					label='Dropdown (Searchable)'
+					searchable
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={basicOptions}
+					label='Dropdown (Searchable + Filter)'
+					searchable
+					filter
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Dropdown Select variations side by side.',
+			},
+		},
 	},
 };
 
 export const Multiselect: Story = {
-	args: {
-		kind: 'multiselect',
-		options: categories,
-		label: 'Categories',
-		helpText: 'Select one or more categories',
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					variant='multiselect'
+					options={categories}
+					label='Multiselect'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='multiselect'
+					options={categories}
+					label='Multiselect (Filter)'
+					filter
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='multiselect'
+					options={categories}
+					label='Multiselect (Searchable)'
+					searchable
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='multiselect'
+					options={categories}
+					label='Multiselect (Searchable + Filter)'
+					searchable
+					filter
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Multiselect variations side by side.',
+			},
+		},
 	},
 };
 
-export const Autocomplete: Story = {
-	args: {
-		kind: 'autocomplete',
-		options: detailedOptions,
-		label: 'Job Role',
-		helpText: 'Type to search for job roles',
-	},
-};
-
-export const SearchableDropdown: Story = {
-	args: {
-		kind: 'searchable-dropdown',
-		options: detailedOptions,
-		label: 'Developer Role',
-		helpText: 'Search or select from the dropdown',
-	},
-};
-
-export const CountrySelector: Story = {
-	args: {
-		kind: 'country-selector',
-		options: countries,
-		label: 'Country',
-		required: true,
-	},
-};
-
-export const TagSelector: Story = {
-	args: {
-		kind: 'tag-selector',
-		options: tags,
-		label: 'Skills',
-		helpText: 'Add your programming skills',
-	},
-};
-
-export const UserPicker: Story = {
-	args: {
-		kind: 'user-picker',
-		options: users,
-		label: 'Assign to',
-		helpText: 'Search and select a user',
-	},
-};
-
-export const CategoryFilter: Story = {
-	args: {
-		kind: 'category-filter',
-		options: categories,
-		label: 'Filter by Categories',
-		helpText: 'Select categories to filter results',
+export const Searchable: Story = {
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={detailedOptions}
+					label='Searchable'
+					searchable
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={detailedOptions}
+					label='Searchable (Filter)'
+					searchable
+					filter
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Searchable Select variations side by side.',
+			},
+		},
 	},
 };
 
 export const WithError: Story = {
-	args: {
-		kind: 'dropdown',
-		options: basicOptions,
-		label: 'Required Selection',
-		error: 'Please select an option to continue',
-		required: true,
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={basicOptions}
+					label='Required Selection'
+					error='Please select an option to continue'
+					required
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={basicOptions}
+					label='Required Selection (Filter)'
+					error='Please select an option to continue'
+					required
+					filter
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Error state variations side by side.',
+			},
+		},
 	},
 };
 
 export const Loading: Story = {
-	args: {
-		kind: 'searchable-dropdown',
-		options: [],
-		label: 'Loading Options',
-		loading: true,
-		helpText: 'Options are being loaded...',
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={[]}
+					label='Loading Options'
+					loading
+					helpText='Options are being loaded...'
+					loadingMessage='Loading...'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={[]}
+					label='Loading Options (Filter)'
+					loading
+					helpText='Options are being loaded...'
+					loadingMessage='Loading...'
+					filter
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Loading state variations side by side.',
+			},
+		},
 	},
 };
 
 export const Disabled: Story = {
-	args: {
-		kind: 'dropdown',
-		options: basicOptions,
-		label: 'Disabled Select',
-		disabled: true,
-		value: 'option2',
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={basicOptions}
+					label='Disabled Select'
+					disabled
+					value='option2'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={basicOptions}
+					label='Disabled Select (Filter)'
+					disabled
+					value='option2'
+					filter
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Disabled state variations side by side.',
+			},
+		},
 	},
 };
 
 export const DateRange: Story = {
-	args: {
-		kind: 'date-range',
-		options: [
-			{ value: 'today', label: 'Today' },
-			{ value: 'yesterday', label: 'Yesterday' },
-			{ value: 'last7days', label: 'Last 7 days' },
-			{ value: 'last30days', label: 'Last 30 days' },
-			{ value: 'last90days', label: 'Last 90 days' },
-			{ value: 'custom', label: 'Custom range' },
-		],
-		label: 'Date Range',
-		defaultValue: 'last7days',
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={dateRanges}
+					label='Date Range'
+					defaultValue='last7days'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={dateRanges}
+					label='Date Range (Filter)'
+					defaultValue='last7days'
+					filter
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Date range variations side by side.',
+			},
+		},
+	},
+};
+
+export const WithFilter: Story = {
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={[
+						{
+							label: 'Apple',
+							value: 'apple',
+							numericValue: 5,
+						},
+						{
+							label: 'Banana',
+							value: 'banana',
+							numericValue: 2,
+						},
+						{
+							label: 'Cherry',
+							value: 'cherry',
+							numericValue: 8,
+						},
+						{
+							label: 'Date',
+							value: 'date',
+							numericValue: 1,
+						},
+						{
+							label: 'Elderberry',
+							value: 'elderberry',
+							numericValue: 10,
+						},
+					]}
+					label='With Filter'
+					filter
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={[
+						{
+							label: 'Apple',
+							value: 'apple',
+							numericValue: 5,
+						},
+						{
+							label: 'Banana',
+							value: 'banana',
+							numericValue: 2,
+						},
+						{
+							label: 'Cherry',
+							value: 'cherry',
+							numericValue: 8,
+						},
+						{
+							label: 'Date',
+							value: 'date',
+							numericValue: 1,
+						},
+						{
+							label: 'Elderberry',
+							value: 'elderberry',
+							numericValue: 10,
+						},
+					]}
+					label='With Filter (Searchable)'
+					filter
+					searchable
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Filter dropdown variations side by side.',
+			},
+		},
+	},
+};
+
+// === ALL VARIANTS SIDE-BY-SIDE ===
+const allOptions = {
+	basic: basicOptions,
+	detailed: detailedOptions,
+	categories,
+	dateRanges,
+};
+
+export const AllVariants: Story = {
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={basicOptions}
+					label='Dropdown'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='multiselect'
+					options={categories}
+					label='Multiselect'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={detailedOptions}
+					label='Searchable'
+					searchable
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={[
+						{
+							label: 'Apple',
+							value: 'apple',
+							numericValue: 5,
+						},
+						{
+							label: 'Banana',
+							value: 'banana',
+							numericValue: 2,
+						},
+						{
+							label: 'Cherry',
+							value: 'cherry',
+							numericValue: 8,
+						},
+						{
+							label: 'Date',
+							value: 'date',
+							numericValue: 1,
+						},
+						{
+							label: 'Elderberry',
+							value: 'elderberry',
+							numericValue: 10,
+						},
+					]}
+					label='With Filter'
+					filter
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={allOptions.basic}
+					label='With Error'
+					error='Please select an option to continue'
+					required
+					helpText='with error'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={[]}
+					label='Loading'
+					loading
+					helpText='loading'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={allOptions.basic}
+					label='Disabled'
+					disabled
+					value='option2'
+					helpText='disabled'
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					variant='dropdown'
+					options={allOptions.dateRanges}
+					label='Date Range'
+					defaultValue='last7days'
+					helpText='date range'
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'All Select variants rendered side-by-side for visual comparison.',
+			},
+		},
+	},
+};
+
+// Add CSS for the grid layout (for Storybook only)
+if (typeof document !== 'undefined') {
+	const style = document.createElement('style');
+	style.innerHTML = `
+		.all-variants-grid {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 32px;
+		}
+		.all-variants-cell {
+			min-width: 260px;
+			flex: 1 1 260px;
+			box-sizing: border-box;
+		}
+	`;
+	document.head.appendChild(style);
+}
+
+export const SizeComparison: Story = {
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Select
+					size='small'
+					variant='dropdown'
+					options={[
+						{
+							label: 'Apple',
+							value: 'apple',
+							numericValue: 5,
+						},
+						{
+							label: 'Banana',
+							value: 'banana',
+							numericValue: 2,
+						},
+						{
+							label: 'Cherry',
+							value: 'cherry',
+							numericValue: 8,
+						},
+						{
+							label: 'Date',
+							value: 'date',
+							numericValue: 1,
+						},
+						{
+							label: 'Elderberry',
+							value: 'elderberry',
+							numericValue: 10,
+						},
+					]}
+					label='Small'
+					filter
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					size='medium'
+					variant='dropdown'
+					options={[
+						{
+							label: 'Apple',
+							value: 'apple',
+							numericValue: 5,
+						},
+						{
+							label: 'Banana',
+							value: 'banana',
+							numericValue: 2,
+						},
+						{
+							label: 'Cherry',
+							value: 'cherry',
+							numericValue: 8,
+						},
+						{
+							label: 'Date',
+							value: 'date',
+							numericValue: 1,
+						},
+						{
+							label: 'Elderberry',
+							value: 'elderberry',
+							numericValue: 10,
+						},
+					]}
+					label='Medium'
+					filter
+				/>
+			</div>
+			<div className='all-variants-cell'>
+				<Select
+					size='large'
+					variant='dropdown'
+					options={[
+						{
+							label: 'Apple',
+							value: 'apple',
+							numericValue: 5,
+						},
+						{
+							label: 'Banana',
+							value: 'banana',
+							numericValue: 2,
+						},
+						{
+							label: 'Cherry',
+							value: 'cherry',
+							numericValue: 8,
+						},
+						{
+							label: 'Date',
+							value: 'date',
+							numericValue: 1,
+						},
+						{
+							label: 'Elderberry',
+							value: 'elderberry',
+							numericValue: 10,
+						},
+					]}
+					label='Large'
+					filter
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'All Select sizes (small, medium, large) rendered side-by-side for visual comparison.',
+			},
+		},
 	},
 };
