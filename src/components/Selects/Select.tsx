@@ -104,42 +104,51 @@ export const Select = forwardRef<
 		const getFilteredOptions = useCallback(() => {
 			let filtered = options;
 			if (searchable && searchValue) {
-				filtered = filtered.filter(
+				// Filter options by search term
+				filtered = options.filter(
 					(opt: { label: string; value: string }) =>
 						opt.label
 							.toLowerCase()
 							.includes(searchValue.toLowerCase())
 				);
-			}
-			if (filter && filterValue !== 'none') {
-				if (filterValue === 'az') {
-					filtered = [...filtered].sort((a, b) =>
-						a.label.localeCompare(b.label)
+				// Always include selected option(s) at the top, even if not matching search
+				let selected: { label: string; value: string }[] =
+					[];
+				if (
+					variant === 'multiselect' &&
+					Array.isArray(currentValue)
+				) {
+					selected = options.filter(
+						(opt: { label: string; value: string }) =>
+							currentValue.includes(opt.value)
 					);
-				} else if (filterValue === 'za') {
-					filtered = [...filtered].sort((a, b) =>
-						b.label.localeCompare(a.label)
+				} else if (currentValue) {
+					const found = options.find(
+						(opt: { label: string; value: string }) =>
+							opt.value === currentValue
 					);
-				} else if (filterValue === 'largest') {
-					filtered = [...filtered].sort(
-						(a, b) =>
-							(b.numericValue ?? 0) - (a.numericValue ?? 0)
-					);
-				} else if (filterValue === 'smallest') {
-					filtered = [...filtered].sort(
-						(a, b) =>
-							(a.numericValue ?? 0) - (b.numericValue ?? 0)
-					);
+					if (found) selected = [found];
 				}
+				// Remove selected from filtered (to avoid duplicates)
+				const filteredWithoutSelected = filtered.filter(
+					(opt: { value: string }) =>
+						!selected.some(
+							(sel: { value: string }) =>
+								sel.value === opt.value
+						)
+				);
+				return { selected, rest: filteredWithoutSelected };
 			}
-			return filtered;
+			// Not searching: just show all, no separation
+			return { selected: [], rest: filtered };
 		}, [
 			options,
 			searchable,
 			searchValue,
-			filter,
-			filterValue,
+			variant,
+			currentValue,
 		]);
+
 		const filteredOptions = getFilteredOptions();
 		const getDisplayValue = () => {
 			if (
@@ -255,25 +264,12 @@ export const Select = forwardRef<
 					onKeyDown={handleKeyDown}
 				>
 					<div className={styles.valueContainer}>
-						{searchable && isOpen ?
-							<input
-								ref={inputRef}
-								className={styles.searchInput}
-								type='text'
-								value={searchValue}
-								onChange={handleSearchChange}
-								placeholder={
-									searchPlaceholder || 'Search...'
-								}
-								disabled={disabled}
-								onKeyDown={handleKeyDown}
-							/>
-						:	<span className={styles.singleValue}>
-								{getDisplayValue() ||
-									placeholder ||
-									'Select...'}
-							</span>
-						}
+						{/* Only show value or placeholder in control area, never a search input */}
+						<span className={styles.singleValue}>
+							{getDisplayValue() ||
+								placeholder ||
+								'Select...'}
+						</span>
 					</div>
 					<div className={styles.indicators}>
 						{!disabled &&
@@ -343,15 +339,166 @@ export const Select = forwardRef<
 								</select>
 							</div>
 						)}
+						{variant === 'multiselect' &&
+							Array.isArray(currentValue) &&
+							currentValue.length > 0 && (
+								<div
+									className={styles.selectedChips}
+									style={{
+										display: 'flex',
+										flexWrap: 'wrap',
+										gap: 4,
+										padding: '8px 12px 0 12px',
+									}}
+								>
+									{currentValue.map((val: string) => {
+										const opt = options.find(
+											(o: { value: string }) =>
+												o.value === val
+										);
+										if (!opt) return null;
+										return (
+											<span
+												key={val}
+												className={styles.chip}
+												style={{
+													background: '#f3f4f6',
+													borderRadius: 12,
+													padding: '2px 8px',
+													marginRight: 4,
+													display: 'flex',
+													alignItems: 'center',
+												}}
+											>
+												{opt.label}
+												<button
+													type='button'
+													style={{
+														marginLeft: 4,
+														background: 'none',
+														border: 'none',
+														cursor: 'pointer',
+														color: '#888',
+													}}
+													onClick={(e) => {
+														e.stopPropagation();
+														handleSelect(opt);
+													}}
+													aria-label={`Remove ${opt.label}`}
+												>
+													&times;
+												</button>
+											</span>
+										);
+									})}
+								</div>
+							)}
+						{/* Search input always at the top, below chips if present */}
+						{searchable && (
+							<div style={{ padding: '8px 12px' }}>
+								<input
+									ref={inputRef}
+									type='text'
+									className={styles.searchInput}
+									placeholder={
+										searchPlaceholder || 'Search...'
+									}
+									value={searchValue}
+									onChange={handleSearchChange}
+									onKeyDown={handleKeyDown}
+									style={{ width: '100%' }}
+								/>
+							</div>
+						)}
 						{loading ?
 							<Loading
 								message={loadingMessage || 'Loading...'}
 							/>
-						: filteredOptions.length === 0 ?
-							<div className={styles.noOptionsMessage}>
-								No options
-							</div>
-						:	filteredOptions.map(
+						: searchable && searchValue ?
+							<>
+								{/* Selected options at top, visually separated */}
+								{filteredOptions.selected.length > 0 && (
+									<div
+										style={{
+											borderBottom: '1px solid #eee',
+											margin: '4px 0',
+										}}
+									>
+										{filteredOptions.selected.map(
+											(option: {
+												label: string;
+												value: string;
+											}) => {
+												const isSelected =
+													variant === 'multiselect' ?
+														Array.isArray(currentValue) &&
+														currentValue.includes(
+															option.value
+														)
+													:	currentValue === option.value;
+												return (
+													<div
+														key={option.value}
+														className={classNames(
+															styles.option,
+															styles.selected
+														)}
+														role='option'
+														aria-selected={isSelected}
+														onClick={() =>
+															handleSelect(option)
+														}
+													>
+														{option.label}
+													</div>
+												);
+											}
+										)}
+									</div>
+								)}
+								{/* Rest of filtered options */}
+								{filteredOptions.rest.length === 0 ?
+									<div className={styles.noOptionsMessage}>
+										No options
+									</div>
+								:	filteredOptions.rest.map(
+										(
+											option: {
+												label: string;
+												value: string;
+											},
+											idx: number
+										) => {
+											const isSelected =
+												variant === 'multiselect' ?
+													Array.isArray(currentValue) &&
+													currentValue.includes(
+														option.value
+													)
+												:	currentValue === option.value;
+											return (
+												<div
+													key={option.value}
+													className={classNames(
+														styles.option,
+														{
+															[styles.selected]: isSelected,
+														}
+													)}
+													role='option'
+													aria-selected={isSelected}
+													onClick={() =>
+														handleSelect(option)
+													}
+												>
+													{option.label}
+												</div>
+											);
+										}
+									)
+								}
+							</>
+						:	filteredOptions.rest.map(
 								(
 									option: { label: string; value: string },
 									idx: number
