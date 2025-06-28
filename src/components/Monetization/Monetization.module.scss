@@ -165,58 +165,6 @@
 }
 
 /* =============================================================================
-   ANIMATION VARIATIONS
-   ============================================================================= */
-
-.pulse {
-	animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-	0%,
-	100% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0.8;
-	}
-}
-
-.bounce {
-	animation: bounce 1s infinite;
-}
-
-@keyframes bounce {
-	0%,
-	20%,
-	50%,
-	80%,
-	100% {
-		transform: translateY(0);
-	}
-	40% {
-		transform: translateY(-5px);
-	}
-	60% {
-		transform: translateY(-3px);
-	}
-}
-
-.subtle {
-	animation: subtle 3s ease-in-out infinite;
-}
-
-@keyframes subtle {
-	0%,
-	100% {
-		transform: scale(1);
-	}
-	50% {
-		transform: scale(1.02);
-	}
-}
-
-/* =============================================================================
    PRICING CARD SPECIFIC STYLES
    ============================================================================= */
 
@@ -583,12 +531,6 @@
 	animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-	to {
-		transform: rotate(360deg);
-	}
-}
-
 .discountBanner {
 	text-align: center;
 	position: relative;
@@ -640,3 +582,10 @@
 .purchaseButtonFullWidth {
 	width: 100%;
 }
+
+/* Centralized animation keyframes & classes */
+
+@use '../../styles/Animations.scss' as *;
+
+// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes.

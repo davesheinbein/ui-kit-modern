@@ -1,4 +1,8 @@
 /* Progress.module.scss - Modern Progress Component with Design System */
+
+// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes.
+@use '../../styles/Animations.scss' as *;
 @use '../../styles/mixins' as *;
 
 .progress {
@@ -419,130 +423,11 @@
 	}
 
 	// Animations
-	&--pulse {
-		.progress__spinner_circle,
-		.progress__dot {
-			animation: pulse 2s infinite;
-		}
-	}
-
-	&--bounce {
-		.progress__dot {
-			animation: bounce 1.4s infinite ease-in-out both;
-		}
-	}
-
-	&--spin {
-		.progress__spinner_circle {
-			animation: spin 1s linear infinite;
-		}
-	}
-
-	&--slide {
-		.progress__fill {
-			animation: slide-in 0.3s ease;
-		}
-	}
-
-	&--fade {
-		.progress__content {
-			animation: fade-in 0.5s ease;
-		}
-	}
+	// (All animation keyframes and reusable classes have been moved to src/styles/Animations.scss)
 }
 
-// Keyframe animations
-@keyframes spin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-@keyframes bounce {
-	0%,
-	80%,
-	100% {
-		transform: scale(0);
-	}
-	40% {
-		transform: scale(1);
-	}
-}
-
-@keyframes pulse {
-	0%,
-	100% {
-		opacity: 0.6;
-		transform: scale(1);
-	}
-	50% {
-		opacity: 1;
-		transform: scale(1.1);
-	}
-}
-
-@keyframes progress-bar-stripes {
-	0% {
-		background-position: 1rem 0;
-	}
-	100% {
-		background-position: 0 0;
-	}
-}
-
-@keyframes progress-indeterminate {
-	0% {
-		left: -100%;
-		width: 30%;
-	}
-	50% {
-		left: 50%;
-		width: 40%;
-	}
-	100% {
-		left: 100%;
-		width: 30%;
-	}
-}
-
-@keyframes rotate {
-	0% {
-		transform: rotate(-90deg);
-	}
-	100% {
-		transform: rotate(270deg);
-	}
-}
-
-@keyframes skeleton-shimmer {
-	0% {
-		background-position: -200% 0;
-	}
-	100% {
-		background-position: 200% 0;
-	}
-}
-
-@keyframes slide-in {
-	from {
-		width: 0;
-	}
-	to {
-		width: var(--progress-width, 0%);
-	}
-}
-
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
+// Animations are now imported from the centralized Animations.scss
+// Removed keyframes and reusable animation classes
 
 // Responsive design
 @media (max-width: 768px) {

@@ -31,19 +31,6 @@ export const multiSeriesData = [
 	{ month: 'May', wins: 14, losses: 7, draws: 4 },
 ];
 
-export const mockUserData = {
-	id: '1',
-	name: 'John Doe',
-	email: 'john.doe@example.com',
-	avatar: '/api/placeholder/40/40',
-	status: 'online',
-	level: 15,
-	points: 2840,
-	achievements: 12,
-	gamesPlayed: 156,
-	winRate: 0.68,
-};
-
 export const mockFriends = [
 	{
 		id: '2',
@@ -456,3 +443,16 @@ export const DEFAULT_COLORS = [
 	'#8b5cf6',
 ];
 export const DEFAULT_PLUGINS = [];
+
+// === ENHANCED MOCK DATA FOR RICHER CARD STORIES ===
+export const mockProfile = {
+	id: '1',
+	name: 'John Doe',
+	avatar: '/api/placeholder/80/80',
+	bio: 'Puzzle enthusiast and chess master.',
+	level: 15,
+	points: 2840,
+	achievements: 12,
+	gamesPlayed: 156,
+	winRate: 0.68,
+};

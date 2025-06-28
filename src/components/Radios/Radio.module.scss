@@ -1,7 +1,5 @@
-/**
- * Radio Component Styles
- * Modern radio button styling with proper containment and accessibility
- */
+@use '../../styles/Animations.scss' as *;
+
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;

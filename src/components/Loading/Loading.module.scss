@@ -1,3 +1,8 @@
+// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes.
+
+@use '../../styles/Animations.scss' as *;
+
 .loading {
 	display: flex;
 	flex-direction: column;
@@ -12,11 +17,6 @@
 	border-top: 0.3em solid #0070f3;
 	border-radius: 50%;
 	animation: spin 1s linear infinite;
-}
-@keyframes spin {
-	to {
-		transform: rotate(360deg);
-	}
 }
 .dots span {
 	display: inline-block;
@@ -33,11 +33,6 @@
 .dots span:nth-child(3) {
 	animation-delay: 0.4s;
 }
-@keyframes bounce {
-	to {
-		transform: translateY(-0.5em);
-	}
-}
 .bar {
 	width: 4em;
 	height: 0.5em;
@@ -51,14 +46,6 @@
 	background: #0070f3;
 	animation: barMove 1.2s linear infinite;
 }
-@keyframes barMove {
-	0% {
-		transform: translateX(-100%);
-	}
-	100% {
-		transform: translateX(200%);
-	}
-}
 .skeleton {
 	width: 6em;
 	height: 1.2em;
@@ -71,14 +58,6 @@
 	background-size: 200% 100%;
 	animation: skeletonShimmer 1.5s infinite linear;
 	border-radius: 0.5em;
-}
-@keyframes skeletonShimmer {
-	0% {
-		background-position: 200% 0;
-	}
-	100% {
-		background-position: -200% 0;
-	}
 }
 .message {
 	margin-top: 0.5em;

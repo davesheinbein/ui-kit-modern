@@ -3,6 +3,7 @@
 // ========================================
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
+@use '../../styles/Animations.scss' as *;
 
 // Size map for DRYness
 $sidebar-sizes: (

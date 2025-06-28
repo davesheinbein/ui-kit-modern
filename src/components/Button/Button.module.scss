@@ -4,6 +4,10 @@
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
+@use '../../styles/Animations.scss' as *; // Centralized animation keyframes & classes
+
+// All animation keyframes and reusable animation classes are now centralized in Animations.scss
+// Reference .animated-* classes from Animations.scss for button animations
 
 // ========================================
 // Base Button Component

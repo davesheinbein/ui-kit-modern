@@ -1,3 +1,8 @@
+@use '../../styles/Animations.scss' as *; // Centralized animation keyframes & classes
+
+// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes.
+
 .map__container {
 	width: 100%;
 	height: 100%;

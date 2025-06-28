@@ -1,11 +1,15 @@
 /**
  * Grid.module.scss - Modern Grid System with Design System
  * Handles game grids, data grids, and layout grids with proper containment
+ *
+ * All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+ * Do not define animation logic here. Use only the centralized animation classes or keyframes.
  */
 
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
+@use '../../styles/Animations.scss' as *;
 
 // ===== BASE GRID STYLES =====
 

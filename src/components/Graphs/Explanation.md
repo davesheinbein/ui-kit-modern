@@ -1,10 +1,12 @@
 # Graphs Component Group
 
-Reusable graph components for visualizing data relationships, networks, and connections. Supports multiple graph types (bar, line, pie, network, etc.) and interactive features for analytics and dashboards.
+The Graph component is designed for **advanced data visualizations** such as relationships, time series, scatter, radar, and network graphs. It supports axes, grid, and spatial layouts for exploring complex data structures and connections.
+
+> For dashboard widgets, metrics, and business analytics (bar, pie, donut, KPI, etc.), use the **Chart** component instead.
 
 ## Folder Structure & File Responsibilities
 
-- `Graph.tsx`: Main Graph component. Handles rendering of different graph types and data series.
+- `Graph.tsx`: Main Graph component. Handles rendering of advanced graph types and data series using Recharts and custom layouts.
 - `Graph.module.scss`: SCSS module for graph styling and responsive layouts.
 - `configurations.ts`: Type definitions and configuration options for graph kinds, variants, and data formats.
 - `index.ts`: Barrel export for the component and types.
@@ -26,28 +28,22 @@ import { Graph } from 'ui-kit-modern';
 
 ## Supported Props
 
-| Prop          | Type    | Description                                | Default   |
-| ------------- | ------- | ------------------------------------------ | --------- |
-| `kind`        | string  | Graph type (bar, line, pie, network, etc.) | 'bar'     |
-| `data`        | array   | Data series to visualize                   | []        |
-| `dataKey`     | string  | Key for y-axis values                      | —         |
-| `labelKey`    | string  | Key for x-axis labels                      | —         |
-| `title`       | string  | Graph title                                | —         |
-| `subtitle`    | string  | Graph subtitle                             | —         |
-| `colorScheme` | string  | Color palette for graph elements           | 'primary' |
-| `showLegend`  | boolean | Show/hide graph legend                     | false     |
-| `showGrid`    | boolean | Show/hide grid lines                       | false     |
-| `className`   | string  | Additional CSS classes                     | —         |
+| Prop         | Type   | Description                                                         | Default |
+| ------------ | ------ | ------------------------------------------------------------------- | ------- |
+| `kind`       | string | Graph kind (time series, scatter, radar, network, etc.)             | 'line'  |
+| `dataSeries` | array  | Data series to visualize (see configurations.ts for format)         | []      |
+| `className`  | string | Additional CSS classes                                              | —       |
+| ...          |        | See `GraphProps` for more configuration (axes, grid, layouts, etc.) |         |
 
 ## Configuration
 
-- Use `configurations.ts` to define graph kinds, variants, and data formats.
+- Use `configurations.ts` to define graph kinds, variants, data formats, and advanced visualization options.
 - Customize styles in `Graph.module.scss` for branding and accessibility.
 
 ## Best Practices
 
-- Choose the appropriate graph type for your data.
-- Use clear labels and legends for readability.
-- Keep data series and color schemes consistent across graphs.
+- Use Graph for advanced data visualizations with axes, grid, and spatial layouts.
+- Use clear labels, legends, and tooltips for readability.
+- For dashboard widgets (bar, pie, donut, KPI, etc.), use the **Chart** component.
 
 ---

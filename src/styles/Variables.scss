@@ -145,19 +145,25 @@
 	--container-lg: 1024px;
 	--container-xl: 1280px;
 	--container-2xl: 1536px;
+
+	// Notification Background Colors
+	--notification-info-bg: #e6f0fa; // blue
+	--notification-warning-bg: #fffbe6; // yellow
+	--notification-error-bg: #ffeaea; // red
+	--notification-success-bg: #e6faea; // green
 }
 
 // SCSS Variables for backward compatibility
-$primary-color: var(--color-primary);
-$secondary-color: var(--color-secondary);
-$accent-color: var(--color-accent);
-$primary-red: var(--color-danger);
-$primary-blue: var(--color-primary);
-$primary-blue-light: var(--color-primary-light);
-$primary-cyan: var(--color-secondary);
-$primary-yellow: var(--color-warning);
-$primary-gray: var(--color-gray-100);
-$primary-gray-dark: var(--color-gray-300);
-$primary-white: var(--color-white);
-$primary-black: var(--color-black);
-$primary-dark: var(--color-gray-800);
+$primary-color: #2563eb;
+$secondary-color: #38bdf8;
+$accent-color: #a78bfa;
+$primary-red: #ef4444;
+$primary-blue: #2563eb;
+$primary-blue-light: #3b82f6;
+$primary-cyan: #38bdf8;
+$primary-yellow: #fbbf24;
+$primary-gray: #f3f4f6;
+$primary-gray-dark: #d1d5db;
+$primary-white: #ffffff;
+$primary-black: #000000;
+$primary-dark: #1f2937;

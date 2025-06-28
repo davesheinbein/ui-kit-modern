@@ -1,4 +1,5 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/Animations.scss' as *; // Centralized animation keyframes & classes
 
 .chat {
 	@include chat-window;
@@ -292,11 +293,4 @@
 	z-index: var(--z-modal);
 }
 
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
+// Note: All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss. No local animation logic here.

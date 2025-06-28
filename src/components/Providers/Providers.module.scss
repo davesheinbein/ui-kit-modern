@@ -1,3 +1,6 @@
+// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes.
+@use '../../styles/Animations.scss' as *;
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 

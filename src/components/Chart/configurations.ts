@@ -3,6 +3,7 @@
  */
 
 import { ReactNode } from 'react';
+import type { CardProps } from '../Card/Card';
 
 export type ChartKind =
 	// Legends
@@ -47,6 +48,12 @@ export type ChartPosition =
 	| 'overlay'
 	| 'floating';
 
+export type ChartType =
+	| 'kpi'
+	| 'scorecard'
+	| 'progress'
+	| 'gauge';
+
 export type ChartDataSeries = {
 	id: string;
 	label: string;
@@ -63,6 +70,14 @@ export interface ChartConfiguration {
 
 	// Data
 	dataSeries?: ChartDataSeries[];
+
+	// Dashboard widget chart type (bar, pie, donut, KPI, etc.)
+	/**
+	 * The type of chart visualization to render for dashboard widgets.
+	 * Supported: 'kpi', 'scorecard', 'progress', 'gauge'.
+	 * This is distinct from advanced data visualizations (see Graph).
+	 */
+	chartType?: ChartType;
 
 	// Legend specific
 	showIcons?: boolean;
@@ -93,6 +108,12 @@ export interface ChartConfiguration {
 	onTooltipShow?: (data: any) => void;
 	onTooltipHide?: () => void;
 }
+
+/**
+ * Chart is intended for dashboard widgets, metrics, and business analytics (bar, pie, donut, KPI, etc.)
+ * with built-in legends, filters, and tooltips. Use the chartType property to specify the visualization.
+ * For advanced data visualizations (relationships, time series, scatter, radar, network, etc.), use Graph.
+ */
 
 export const CHART_CONFIGURATIONS: Record<
 	ChartKind,
@@ -287,3 +308,38 @@ export const getChartConfig = (
 		CHART_CONFIGURATIONS['chart-legend']
 	);
 };
+
+// ChartProps: All CardProps, plus chart-specific fields, omitting Card's variant/size to avoid conflicts
+export interface ChartProps
+	extends Omit<
+		CardProps,
+		'variant' | 'size' | 'padding' | 'kind'
+	> {
+	// CardProps (except variant/size/padding/kind) are available
+	// Chart-specific props:
+	chartKind?: ChartKind;
+	chartVariant?: ChartVariant; // for chart-specific visual style, not Card's variant
+	chartType?: ChartType;
+	dataSeries?: ChartDataSeries[];
+	showIcons?: boolean;
+	showValues?: boolean;
+	interactive?: boolean;
+	orientation?: 'horizontal' | 'vertical';
+	followCursor?: boolean;
+	showArrow?: boolean;
+	multiValue?: boolean;
+	allowMultiSelect?: boolean;
+	showSelectAll?: boolean;
+	searchable?: boolean;
+	spacing?: 'tight' | 'normal' | 'loose';
+	onSeriesToggle?: (
+		seriesId: string,
+		visible: boolean
+	) => void;
+	onFilterChange?: (filters: string[]) => void;
+	onTooltipShow?: (data: any) => void;
+	onTooltipHide?: () => void;
+	showLegend?: boolean;
+	// For Card layout, use Card's 'variant', 'size', 'padding', 'kind' props directly
+	[key: string]: any;
+}

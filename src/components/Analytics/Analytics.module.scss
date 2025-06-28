@@ -2,6 +2,8 @@
 // ANALYTICS MODULE STYLES
 // =============================================================================
 
+@use '../../styles/Animations.scss' as *;
+
 .analytics {
 	// Base analytics container
 	&__container {
@@ -526,15 +528,8 @@
 	}
 }
 
-// Animations
-@keyframes spin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
-}
+// All animation keyframes and reusable animation classes should be referenced from src/styles/Animations.scss
+// No local animation logic is present in this file.
 
 // Dark mode support
 [data-theme='dark'] {

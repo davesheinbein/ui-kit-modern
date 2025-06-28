@@ -1,4 +1,8 @@
 @use '../../styles/mixins' as mixins;
+@use '../../styles/Animations.scss' as *; // Centralized animation keyframes & classes
+
+// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 
 // Modal overlay - intentionally extends beyond bounds for full screen coverage
 .modalOverlay {
@@ -82,19 +86,16 @@
 
 // === ANIMATION VARIANTS ===
 .modal-fade {
-	animation: fadeIn 0.2s ease-out;
+	@extend .animated-fade-in;
 }
-
 .modal-slide-up {
-	animation: slideUp 0.3s ease-out;
+	@extend .animated-slide-up;
 }
-
 .modal-slide-down {
-	animation: slideDown 0.3s ease-out;
+	@extend .animated-slide-down;
 }
-
 .modal-scale {
-	animation: scaleIn 0.2s ease-out;
+	@extend .animated-scale-in;
 }
 
 // === MODAL KIND STYLES ===
@@ -489,56 +490,4 @@
 .statValue {
 	font-weight: 600;
 	color: #1f2937;
-}
-
-// === ANIMATIONS ===
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-@keyframes slideUp {
-	from {
-		opacity: 0;
-		transform: translateY(2rem);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes slideDown {
-	from {
-		opacity: 0;
-		transform: translateY(-2rem);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes scaleIn {
-	from {
-		opacity: 0;
-		transform: scale(0.9);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
-}
-
-@keyframes spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
 }

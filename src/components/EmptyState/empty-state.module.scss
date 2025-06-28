@@ -1,5 +1,9 @@
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
+@use '../../styles/Animations.scss' as *;
+
+// All animation keyframes and reusable animation classes are now centralized in src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 
 /* EmptyState.module.scss - Modern Empty State Styles */
 
@@ -226,17 +230,6 @@
 	margin-right: var(--spacing-xs);
 	display: flex;
 	align-items: center;
-}
-
-// Modern animations
-@keyframes pulse {
-	0%,
-	100% {
-		opacity: 0.6;
-	}
-	50% {
-		opacity: 1;
-	}
 }
 
 // Responsive design with media queries

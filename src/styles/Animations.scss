@@ -1,0 +1,233 @@
+// Keyframe animations centralized from Progress.module.scss
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes bounce {
+	0%,
+	80%,
+	100% {
+		transform: scale(0);
+	}
+	40% {
+		transform: scale(1);
+	}
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 0.6;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+}
+
+@keyframes progress-bar-stripes {
+	0% {
+		background-position: 1rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes progress-indeterminate {
+	0% {
+		left: -100%;
+		width: 30%;
+	}
+	50% {
+		left: 50%;
+		width: 40%;
+	}
+	100% {
+		left: 100%;
+		width: 30%;
+	}
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(-90deg);
+	}
+	100% {
+		transform: rotate(270deg);
+	}
+}
+
+@keyframes skeleton-shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
+}
+
+@keyframes slide-in {
+	from {
+		width: 0;
+	}
+	to {
+		width: var(--progress-width, 0%);
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+// Additional generic keyframes from Checkbox, Monetization, Modal
+@keyframes swirl {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes subtle {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.02);
+	}
+}
+
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(2rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-2rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes scaleIn {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+// Admin-specific animation keyframes
+@keyframes fadeInAdmin {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes pulseAdmin {
+	0%,
+	100% {
+		border-color: #333;
+	}
+	50% {
+		border-color: #666;
+	}
+}
+
+@keyframes modal-appear {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+// Reusable animation classes
+.animated-spin {
+	animation: spin 1s linear infinite;
+}
+.animated-bounce {
+	animation: bounce 1.4s infinite ease-in-out both;
+}
+.animated-pulse {
+	animation: pulse 2s infinite;
+}
+.animated-stripes {
+	animation: progress-bar-stripes 1s linear infinite;
+}
+.animated-indeterminate {
+	animation: progress-indeterminate 2s linear infinite;
+}
+.animated-rotate {
+	animation: rotate 2s linear infinite;
+}
+.animated-skeleton {
+	animation: skeleton-shimmer 1.5s infinite;
+}
+.animated-slide-in {
+	animation: slide-in 0.3s ease;
+}
+.animated-fade-in {
+	animation: fade-in 0.5s ease;
+}
+.animated-swirl {
+	animation: swirl 1.5s infinite
+		cubic-bezier(0.4, 0, 0.2, 1);
+}
+.animated-subtle {
+	animation: subtle 3s ease-in-out infinite;
+}
+.animated-slide-up {
+	animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.animated-slide-down {
+	animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.animated-scale-in {
+	animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+// Reusable animation classes for Admin
+.animated-fade-in-admin {
+	animation: fadeInAdmin 0.3s ease-out;
+}
+.animated-pulse-admin {
+	animation: pulseAdmin 2s infinite;
+}
+.animated-modal-appear {
+	animation: modal-appear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,7 +1,11 @@
+// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes.
+@use '../../styles/Animations.scss' as *;
+@use '../../styles/mixins' as mixins;
+
 /**
  * Notification.module.scss - Modern Notification System with Design System
  */
-@use '../../styles/mixins' as mixins;
 
 .notification {
 	// Base styles with proper containment
@@ -320,136 +324,6 @@
 	width: 100%;
 	max-width: 400px;
 	min-width: 300px;
-}
-
-// Optimized animations
-@keyframes slideInRight {
-	from {
-		transform: translateX(100%);
-		opacity: 0;
-	}
-	to {
-		transform: translateX(0);
-		opacity: 1;
-	}
-}
-
-@keyframes slideOutRight {
-	from {
-		transform: translateX(0);
-		opacity: 1;
-	}
-	to {
-		transform: translateX(100%);
-		opacity: 0;
-	}
-}
-
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-@keyframes fadeOut {
-	from {
-		opacity: 1;
-	}
-	to {
-		opacity: 0;
-	}
-}
-
-@keyframes scaleIn {
-	from {
-		transform: scale(0.8);
-		opacity: 0;
-	}
-	to {
-		transform: scale(1);
-		opacity: 1;
-	}
-}
-
-@keyframes scaleOut {
-	from {
-		transform: scale(1);
-		opacity: 1;
-	}
-	to {
-		transform: scale(0.8);
-		opacity: 0;
-	}
-}
-
-@keyframes bounceIn {
-	from {
-		transform: scale(0.3);
-		opacity: 0;
-	}
-	50% {
-		transform: scale(1.05);
-	}
-	to {
-		transform: scale(1);
-		opacity: 1;
-	}
-}
-
-@keyframes shake {
-	0%,
-	100% {
-		transform: translateX(0);
-	}
-	10%,
-	30%,
-	50%,
-	70%,
-	90% {
-		transform: translateX(-10px);
-	}
-	20%,
-	40%,
-	60%,
-	80% {
-		transform: translateX(10px);
-	}
-}
-
-// Animation classes
-.notification--enter-slide {
-	animation: slideInRight 0.3s ease-out;
-}
-
-.notification--exit-slide {
-	animation: slideOutRight 0.3s ease-in;
-}
-
-.notification--enter-fade {
-	animation: fadeIn 0.3s ease-out;
-}
-
-.notification--exit-fade {
-	animation: fadeOut 0.3s ease-in;
-}
-
-.notification--enter-scale {
-	animation: scaleIn 0.3s ease-out;
-}
-
-.notification--exit-scale {
-	animation: scaleOut 0.3s ease-in;
-}
-
-.notification--enter-bounce {
-	animation: bounceIn 0.5s ease-out;
-}
-
-.notification--enter-shake {
-	animation: shake 0.5s ease-out;
 }
 
 // Responsive design with proper containment

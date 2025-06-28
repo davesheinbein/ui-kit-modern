@@ -381,34 +381,8 @@
    ANIMATION CLASSES
    ============================================================================= */
 
-.adminComponent.animated {
-	animation: fadeInAdmin 0.3s ease-out;
-}
-
-@keyframes fadeInAdmin {
-	from {
-		opacity: 0;
-		transform: translateY(-10px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-.adminComponent.pulse {
-	animation: pulseAdmin 2s infinite;
-}
-
-@keyframes pulseAdmin {
-	0%,
-	100% {
-		border-color: #333;
-	}
-	50% {
-		border-color: #666;
-	}
-}
+// Animation classes and keyframes have been moved to src/styles/Animations.scss
+// Use the centralized .animated-fade-in-admin or .animated-fade-in classes as needed.
 
 /* =============================================================================
    UTILITY CLASSES

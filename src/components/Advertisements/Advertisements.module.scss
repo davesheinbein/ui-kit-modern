@@ -1,6 +1,7 @@
 /* Advertisements.module.scss - Modern Advertisement Components */
 
 @use '../../styles/mixins.scss' as *;
+@use '../../styles/Animations.scss' as *;
 
 // ===== Base Advertisement Container =====
 .advertisement {
@@ -52,7 +53,7 @@
 	color: var(--color-primary-light, #3b82f6);
 	font-size: 1.1rem;
 	min-height: 40px;
-	animation: pulse 1.2s infinite;
+	@extend .animated-pulse;
 }
 
 .advertisement__modal {
@@ -71,7 +72,7 @@
 		0,
 		var(--ad-backdrop-opacity, 0.7)
 	);
-	animation: modalAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	@extend .animated-modal-appear, .animated-fade-in;
 }
 
 .advertisement__backdrop {
@@ -103,17 +104,6 @@
 	overflow-y: auto;
 	z-index: 1;
 	animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes modalAppear {
-	from {
-		opacity: 0;
-		transform: scale(0.96);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
 }
 
 .advertisement__close {
@@ -341,40 +331,6 @@
 		max-height: 40px;
 		margin-bottom: 4px;
 		margin-right: 0;
-	}
-}
-
-// ===== Animations =====
-@keyframes adFadeIn {
-	from {
-		opacity: 0;
-		transform: translateY(10px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes adSlideIn {
-	from {
-		opacity: 0;
-		transform: translateX(-20px);
-	}
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-
-@keyframes adModalAppear {
-	from {
-		opacity: 0;
-		transform: scale(0.96);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
 	}
 }
 

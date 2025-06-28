@@ -1,4 +1,8 @@
 @use '../../styles/mixins' as mixins;
+@use '../../styles/Animations.scss' as *; // Centralized animation keyframes & classes
+
+// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 
 .footer {
 	@include mixins.flex-row(0, center, nowrap);

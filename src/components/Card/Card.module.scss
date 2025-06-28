@@ -1,20 +1,29 @@
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
+@use '../../styles/Animations.scss' as *;
 
-// Base card styling
+ul,
+li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	margin-block-start: 0;
+	margin-block-end: 0;
+	padding-inline-start: 0;
+}
+
 .baseCard {
 	@include modern-card;
 	@include interactive-element;
 	position: relative;
 	outline: none;
-	overflow: hidden; // Prevent content overflow
+	overflow: hidden;
 
 	&:focus-visible {
 		@include focus-ring;
 	}
 }
 
-// Card variants using modern surface styles
 .card-default {
 	@include surface-elevated;
 	background: var(--surface-primary);
@@ -31,19 +40,18 @@
 
 .card-outlined {
 	@include surface-outlined;
-	background: transparent;
-	border: var(--border-thick) solid var(--gray-300);
+	background: #fff !important;
+	border: 2px solid #cbd5e1 !important;
 	box-shadow: none;
 }
 
 .card-filled {
 	@include surface-neutral;
-	background: var(--gray-50);
+	background: #e0e7ef !important;
 	border: none;
 	box-shadow: none;
 }
 
-// Card sizes
 .card-small {
 	border-radius: var(--radius-sm);
 }
@@ -56,7 +64,6 @@
 	border-radius: var(--radius-lg);
 }
 
-// Card padding variants
 .card-padding-none {
 	padding: 0;
 }
@@ -73,7 +80,6 @@
 	padding: var(--spacing-6);
 }
 
-// Card states
 .cardHover {
 	&:hover {
 		box-shadow: var(--shadow-lg);
@@ -85,9 +91,94 @@
 	@include interactive-card;
 }
 
-// ===== SPECIFIC CARD KIND STYLES =====
+.achievement-card {
+	background: var(--yellow-50);
+	border-left: 4px solid var(--yellow-400);
+	box-shadow: 0 2px 8px 0 rgba(255, 193, 7, 0.08);
+	padding: var(--spacing-4);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--spacing-2);
 
-// Friend card styles
+	h3 {
+		color: var(--yellow-900);
+		font-weight: 700;
+	}
+
+	p {
+		color: var(--gray-700);
+		font-size: 0.95em;
+	}
+}
+
+.puzzle-card {
+	background: var(--blue-50);
+	border: 2px dashed var(--blue-300);
+	box-shadow: 0 1px 6px 0 rgba(33, 150, 243, 0.07);
+	padding: var(--spacing-4);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--spacing-2);
+
+	h3 {
+		color: var(--blue-800);
+		font-weight: 600;
+	}
+}
+
+.match-summary-card {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+
+	font-size: 1.1em;
+	font-weight: 500;
+
+	background: none;
+	border: none;
+	padding: 0;
+}
+
+.user-status-card {
+	background: var(--gray-50);
+	border: 1px solid var(--gray-200);
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-3);
+	padding: var(--spacing-3);
+
+	h3 {
+		color: var(--gray-900);
+		font-weight: 600;
+	}
+}
+
+.shared-list-card {
+	background: var(--surface-primary);
+	border: 1px solid var(--gray-100);
+	box-shadow: var(--shadow-xs);
+	padding: var(--spacing-3);
+
+	h3 {
+		color: var(--primary-700);
+		font-weight: 600;
+	}
+
+	p {
+		color: var(--gray-600);
+		font-size: 0.95em;
+	}
+}
+
+.custom-card {
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	padding: 0;
+}
+
 .friend-card {
 	margin-block-end: var(--spacing-4);
 
@@ -138,14 +229,12 @@
 	flex-wrap: wrap;
 }
 
-// Game card styles
 .game-card {
 	&:hover {
 		box-shadow: 0 4px 16px var(--primary-200);
 	}
 }
 
-// Profile card styles
 .profile-card {
 	text-align: center;
 
@@ -154,40 +243,29 @@
 	}
 }
 
-// Notification card styles
-.notification-card {
+// Notification card styles moved to the end for higher specificity
+.card-outlined.notification-card,
+.notification-card.card-outlined {
+	background: var(--gray-50);
 	border-inline-start: 4px solid var(--primary-500);
-
-	&.notification-warning {
-		border-inline-start-color: var(--warning-500);
-	}
-
-	&.notification-error {
-		border-inline-start-color: var(--error-500);
-	}
-
-	&.notification-success {
-		border-inline-start-color: var(--success-500);
-	}
-
-	&.notification-info {
-		border-inline-start-color: var(--info-500);
-	}
+	border: none;
+	padding: var(--spacing-4);
+	margin-bottom: var(--spacing-3);
 }
 
-.notificationHeader {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-2);
-	margin-block-end: var(--spacing-3);
+.notification-card.notification-warning {
+	background: var(--notification-warning-bg, #fffbe6);
+}
+.notification-card.notification-error {
+	background: var(--notification-error-bg, #ffeaea);
+}
+.notification-card.notification-success {
+	background: var(--notification-success-bg, #e6faea);
+}
+.notification-card.notification-info {
+	background: var(--notification-info-bg, #e6f0fa);
 }
 
-.notificationIcon {
-	@include typography-lg;
-	flex-shrink: 0;
-}
-
-// Stats card styles
 .stats-card {
 	background: linear-gradient(
 		135deg,
@@ -195,6 +273,10 @@
 		var(--success-500) 100%
 	);
 	color: var(--surface-primary);
+	padding: var(--spacing-5) !important;
+	min-width: 0;
+	word-break: break-word;
+	text-align: center;
 
 	.card-title {
 		color: var(--surface-primary);
@@ -204,10 +286,127 @@
 	&__value {
 		font-size: 2rem;
 		font-weight: bold;
+		min-width: 0;
+		word-break: break-word;
+		text-align: center;
 	}
 
 	&__label {
 		font-size: 0.875rem;
 		opacity: 0.8;
 	}
+}
+
+// --- Card shape variants ---
+.card-shape-horizontal-rect {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	max-width: 480px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-start;
+	min-height: unset;
+	/* Remove min-height to allow content to dictate height */
+}
+
+.card-shape-vertical-rect {
+	aspect-ratio: 3 / 4;
+	width: 100%;
+	max-width: 340px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-start;
+	min-height: unset;
+}
+
+.card-shape-square {
+	aspect-ratio: 1 / 1;
+	width: 100%;
+	max-width: 320px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-start;
+	min-height: unset;
+}
+
+.card-shape-circle {
+	aspect-ratio: 1 / 1;
+	width: 100%;
+	max-width: 320px;
+	border-radius: 50% !important;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: unset;
+}
+
+// --- Card size variants ---
+.card-size-small {
+	width: 100%;
+	max-width: 220px;
+	min-width: 120px;
+}
+
+.card-size-medium {
+	width: 100%;
+	max-width: 340px;
+	min-width: 180px;
+}
+
+.card-size-large {
+	width: 100%;
+	max-width: 480px;
+	min-width: 240px;
+}
+
+.card-size-full {
+	width: 100% !important;
+	max-width: none !important;
+	min-width: 0 !important;
+}
+
+// Ensure shape classes do not override explicit size if both are present
+.card-shape-horizontal-rect.card-size-full,
+.card-shape-vertical-rect.card-size-full,
+.card-shape-square.card-size-full,
+.card-shape-circle.card-size-full {
+	width: 100% !important;
+	max-width: 100% !important;
+}
+
+.card-content,
+.card-title,
+.card-subtitle,
+.card-actions,
+.stats-card,
+.profile-card,
+.friend-card,
+.notification-card,
+.puzzle-card,
+.leaderboard-card,
+.room-info-card,
+.match-summary-card,
+.user-status-card,
+.shared-list-card {
+	word-break: break-word;
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+
+.card-header {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2);
+}
+
+.notificationHeader {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--spacing-2);
 }

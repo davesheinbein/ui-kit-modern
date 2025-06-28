@@ -1,5 +1,8 @@
-export { default as Chart } from './Chart';
-export type { ChartProps } from './Chart';
+import Chart, { ChartProps } from './Chart';
+export type { ChartProps };
 export * from './configurations';
-// Export named helpers for DRY chart creation
 export * from './Chart';
+
+// Alias Chart as Charts for a single entry point
+export const Charts = Chart;
+export default Charts;
