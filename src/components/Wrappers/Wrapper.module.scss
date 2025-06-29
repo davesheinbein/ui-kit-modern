@@ -1,18 +1,12 @@
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 @use '../../styles/Animations.scss' as *;
 @use '../../styles/mixins' as mixins;
-
-// ========================================
-// Base Wrapper Styles
-// ========================================
 
 .Wrapper {
 	position: relative;
 	display: block;
 	box-sizing: border-box;
 	overflow: hidden;
-	padding: var(--wrapper-padding, 1rem); // Default 16px
+	padding: var(--wrapper-padding, 1rem);
 	background: var(--wrapper-bg, var(--color-surface, #fff));
 	border-radius: var(
 		--wrapper-radius,
@@ -28,14 +22,10 @@
 		background 0.2s;
 
 	@media (max-width: 640px) {
-		padding: var(
-			--wrapper-padding-mobile,
-			0.5rem
-		); // Default 8px
+		padding: var(--wrapper-padding-mobile, 0.5rem);
 	}
 
 	&[data-wrapper-kind] {
-		// Debug styling in development only
 		&::before {
 			content: 'Wrapper: ' attr(data-wrapper-kind);
 			@include mixins.absolute-position(-20px, 0);
@@ -56,7 +46,6 @@
 	}
 }
 
-// Utility: elevated wrapper
 .wrapper--elevated {
 	box-shadow:
 		0 4px 16px rgba(0, 0, 0, 0.1),
@@ -64,18 +53,11 @@
 	background: var(--color-surface-elevated, #f9fafb);
 }
 
-// ========================================
-// Wrapper Variants
-// ========================================
-
 .wrapper--simplified-interface {
-	// Styles for simplified interface wrappers
-	// Usually no additional styling needed - maintains clean interface
 	position: relative;
 }
 
 .wrapper--enhanced-functionality {
-	// Styles for enhanced functionality wrappers
 	&::after {
 		content: '✨';
 		@include mixins.absolute-position(0, 0);
@@ -86,102 +68,74 @@
 }
 
 .wrapper--provider-wrapper {
-	// Styles for provider wrappers
-	// Usually invisible
 	display: contents;
 	padding: 0;
 }
 
 .wrapper--component-wrapper {
-	// Styles for component wrappers
-	// Usually minimal styling to maintain component integrity
 	position: relative;
-	overflow: hidden; // Ensure component content doesn't overflow
+	overflow: hidden;
 	box-sizing: border-box;
-	padding: var(
-		--wrapper-component-padding,
-		1rem
-	); // Default 16px
+	padding: var(--wrapper-component-padding, 1rem);
 
 	@media (max-width: 640px) {
 		padding: var(
 			--wrapper-component-padding-mobile,
 			0.5rem
-		); // Default 8px
+		);
 	}
 }
 
 .wrapper--layout-container {
-	// Base styles for layout containers
 	box-sizing: border-box;
-	padding: var(
-		--wrapper-layout-padding,
-		1.25rem
-	); // Default 20px
+	padding: var(--wrapper-layout-padding, 1.25rem);
 
 	@media (max-width: 640px) {
-		padding: var(
-			--wrapper-layout-padding-mobile,
-			0.75rem
-		); // Default 12px
+		padding: var(--wrapper-layout-padding-mobile, 0.75rem);
 	}
 
-	// Ensure containers take full available space
 	&[data-wrapper='flex-container'] {
 		width: 100%;
 
-		// Default flex container styles
 		&:not([style*='min-height']) {
-			min-height: 200px; // Default minimum height
+			min-height: 200px;
 		}
 	}
 
 	&[data-wrapper='grid-container'] {
 		width: 100%;
 
-		// Default grid container styles
 		&:not([style*='min-height']) {
-			min-height: 200px; // Default minimum height
+			min-height: 200px;
 		}
 	}
 
 	&[data-wrapper='center-container'] {
 		width: 100%;
 
-		// Default center container styles
 		&:not([style*='min-height']) {
-			min-height: 300px; // Taller default for centering
+			min-height: 300px;
 		}
 	}
 
 	&[data-wrapper='stack-container'] {
 		width: 100%;
-
-		// Default stack container styles - no minimum height needed
 	}
 }
 
-// ========================================
-// Wrapper Layouts
-// ========================================
-
 .wrapper--passthrough {
-	// Passthrough layout - transparent wrapper
 	display: contents;
 }
 
 .wrapper--enhanced {
-	// Enhanced layout - may add visual enhancements
 	position: relative;
 }
 
 .wrapper--simplified {
-	// Simplified layout - may hide complexity
 	overflow: hidden;
 }
 
 .wrapper--decorated {
-	// Decorated layout - adds visual decorations
 	position: relative;
 
 	&::before,
@@ -192,40 +146,30 @@
 	}
 }
 
-// ========================================
-// Component-Specific Wrapper Styles
-// ========================================
-
-// Button Wrappers
 .Wrapper[data-wrapper-kind*='button'] {
 	display: inline-block;
 }
 
-// Header Wrappers
 .Wrapper[data-wrapper-kind*='header'] {
 	display: block;
 	width: 100%;
 }
 
-// Modal Wrappers
 .Wrapper[data-wrapper-kind*='modal'] {
 	position: fixed;
 	inset: 0;
 	z-index: 1000;
 }
 
-// Grid Wrappers
 .Wrapper[data-wrapper-kind*='grid'] {
 	display: block;
 }
 
-// Page Wrappers
 .Wrapper[data-wrapper-kind*='page'] {
 	display: block;
 	min-height: 100vh;
 }
 
-// Sidebar Wrappers
 .Wrapper[data-wrapper-kind*='sidebar'] {
 	position: fixed;
 	top: 0;
@@ -233,31 +177,18 @@
 	z-index: 100;
 }
 
-// Provider Wrappers
 .Wrapper[data-wrapper-kind*='provider'] {
 	display: contents;
 }
 
-// ========================================
-// Responsive Wrapper Styles
-// ========================================
-
 @media (max-width: 768px) {
 	.Wrapper {
-		// Mobile-specific wrapper adjustments
-
 		&::before {
-			// Hide debug info on mobile
 			display: none;
 		}
 	}
 }
 
-// ========================================
-// Development vs Production Styles
-// ========================================
-
-// Development-only styles (when debug mode is on)
 .Wrapper[data-debug='true'] {
 	&::before {
 		opacity: 1;

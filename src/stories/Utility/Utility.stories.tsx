@@ -381,7 +381,7 @@ export const Stack: Story = {
 		kind: 'stack',
 		size: 'md',
 		children: (
-			<Wrapper>
+			<Wrapper direction='column' gap={2}>
 				<Wrapper>Stack item 1</Wrapper>
 				<Wrapper>Stack item 2</Wrapper>
 				<Wrapper>Stack item 3</Wrapper>
@@ -395,7 +395,7 @@ export const InlineStack: Story = {
 		kind: 'inline-stack',
 		size: 'md',
 		children: (
-			<Wrapper>
+			<Wrapper direction='row' gap={2}>
 				<span>Inline item 1</span>
 				<span>Inline item 2</span>
 				<span>Inline item 3</span>

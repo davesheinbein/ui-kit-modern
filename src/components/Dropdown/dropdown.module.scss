@@ -6,14 +6,12 @@
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
 
-// Base dropdown container
 .dropdownContainer {
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-2);
-	overflow: visible !important; // Ensure dropdown is not clipped by parent wrappers
-	// NOTE: If parent containers use overflow: hidden, consider using a portal for the dropdown menu.
+	overflow: visible !important;
 
 	&.disabled {
 		opacity: 0.6;
@@ -31,7 +29,6 @@
 	}
 }
 
-// Field label
 .fieldLabel {
 	color: var(--color-text-primary);
 	font-weight: 500;
@@ -42,7 +39,6 @@
 	}
 }
 
-// Control container (the main select button)
 .control {
 	position: relative;
 	display: flex;
@@ -54,6 +50,7 @@
 	background: var(--color-background);
 	cursor: pointer;
 	transition: all 0.2s ease;
+	width: 100%;
 
 	&:hover:not(.disabled) {
 		border-color: var(--color-primary);
@@ -71,7 +68,6 @@
 	}
 }
 
-// Value container
 .valueContainer {
 	flex: 1;
 	display: flex;
@@ -80,7 +76,6 @@
 	min-width: 0;
 }
 
-// Single value display
 .singleValue {
 	color: var(--color-text-primary);
 	white-space: nowrap;
@@ -88,12 +83,10 @@
 	text-overflow: ellipsis;
 }
 
-// Placeholder text
 .placeholder {
 	color: var(--color-text-placeholder);
 }
 
-// Search input
 .searchInput {
 	flex: 1;
 	border: none;
@@ -107,7 +100,6 @@
 	}
 }
 
-// Indicators container
 .indicators {
 	display: flex;
 	align-items: center;
@@ -115,51 +107,6 @@
 	margin-left: var(--spacing-2);
 }
 
-// Loading indicator
-.loadingIndicator {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 16px;
-	height: 16px;
-}
-
-.spinner {
-	width: 16px;
-	height: 16px;
-	border: 2px solid var(--color-border);
-	border-top-color: var(--color-primary);
-	border-radius: 50%;
-	animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-	to {
-		transform: rotate(360deg);
-	}
-}
-
-// Clear indicator
-.clearIndicator {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 20px;
-	height: 20px;
-	border: none;
-	background: none;
-	color: var(--color-text-secondary);
-	cursor: pointer;
-	border-radius: var(--border-radius-small);
-	transition: all 0.15s ease;
-
-	&:hover {
-		background: var(--color-background-hover);
-		color: var(--color-text-primary);
-	}
-}
-
-// Dropdown indicator
 .dropdownIndicator {
 	display: flex;
 	align-items: center;
@@ -174,13 +121,12 @@
 	}
 }
 
-// Dropdown menu
 .menu {
 	position: absolute;
 	top: 100%;
 	left: 0;
 	right: 0;
-	z-index: 1002 !important; // Ensure dropdown is above all content
+	z-index: 1002 !important;
 	background: #fff;
 	border: 1px solid var(--color-border, #d1d5db);
 	border-top: none;
@@ -194,7 +140,6 @@
 	min-width: 100%;
 	max-height: 240px;
 	color: var(--color-text-primary, #222);
-	// NOTE: If you still see clipping, check parent containers for overflow restrictions.
 
 	&.placement-top {
 		top: auto;
@@ -229,7 +174,6 @@
 	}
 }
 
-// Menu option
 .option {
 	display: flex;
 	align-items: center;
@@ -241,8 +185,8 @@
 		color 0.15s;
 	border-bottom: 1px solid
 		var(--color-border-light, #f3f4f6);
-	background: #fff; // Ensures option is visible
-	color: #222; // Strong text color
+	background: #fff;
+	color: #222;
 
 	&:last-child {
 		border-bottom: none;
@@ -266,106 +210,74 @@
 	}
 }
 
-// Option icon
-.optionIcon {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 20px;
-	height: 20px;
-	color: var(--color-text-secondary);
-	flex-shrink: 0;
+.menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 1002 !important;
+	background: #fff;
+	border: 1px solid var(--color-border, #d1d5db);
+	border-top: none;
+	border-radius: 0 0 var(--border-radius-medium)
+		var(--border-radius-medium);
+	box-shadow:
+		0 8px 24px rgba(0, 0, 0, 0.12),
+		0 1.5px 4px rgba(0, 0, 0, 0.08);
+	overflow-y: auto;
+	animation: menuSlideDown 0.2s ease;
+	min-width: 100%;
+	max-height: 240px;
+	color: var(--color-text-primary, #222);
 
-	.selected & {
-		color: var(--color-primary);
+	&.placement-top {
+		top: auto;
+		bottom: 100%;
+		border-top: 1px solid var(--color-border, #d1d5db);
+		border-bottom: none;
+		border-radius: var(--border-radius-medium)
+			var(--border-radius-medium) 0 0;
+		animation: menuSlideUp 0.2s ease;
 	}
 }
 
-// Option image
-.optionImage {
-	width: 24px;
-	height: 24px;
+.selectedChips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	padding: 8px 12px 0 12px;
+}
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	background: var(--color-background, #f3f4f6);
+	color: var(--color-text-primary, #222);
 	border-radius: var(--border-radius-small);
-	overflow: hidden;
-	flex-shrink: 0;
+	padding: 0 8px;
+	font-size: 0.95em;
+	height: 24px;
+	margin: 0 2px 4px 0;
+	border: 1px solid var(--color-border, #e5e7eb);
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		color 0.15s;
 
-	img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
+	&:hover {
+		background: var(--color-primary, #2563eb);
+		color: #fff;
 	}
 }
 
-// Option content
-.optionContent {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-1);
-	min-width: 0;
-}
-
-// Option label
-.optionLabel {
-	color: var(--color-text-primary);
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-// Option description
-.optionDescription {
-	color: var(--color-text-secondary);
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-// Checkmark for multiselect
-.checkmark {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 20px;
-	height: 20px;
-	color: var(--color-primary);
-	font-weight: bold;
-	flex-shrink: 0;
-}
-
-// Loading message
-.loadingMessage {
-	padding: var(--spacing-3);
-	text-align: center;
-
-	color: var(--color-text-secondary);
-}
-
-// No options message
-.noOptionsMessage {
-	padding: var(--spacing-3);
-	text-align: center;
-
-	color: var(--color-text-secondary);
-}
-
-// === SIZE VARIANTS ===
 .size-small {
 	.control {
 		min-height: 32px;
 		padding: var(--spacing-1) var(--spacing-2);
 	}
 
-	.singleValue,
-	.searchInput,
-	.placeholder {
-	}
-
 	.option {
 		padding: var(--spacing-1) var(--spacing-2);
-	}
-
-	.optionLabel {
 	}
 }
 
@@ -375,20 +287,11 @@
 		padding: var(--spacing-3) var(--spacing-4);
 	}
 
-	.singleValue,
-	.searchInput,
-	.placeholder {
-	}
-
 	.option {
 		padding: var(--spacing-3) var(--spacing-4);
 	}
-
-	.optionLabel {
-	}
 }
 
-// === STYLE VARIANTS ===
 .style-filled {
 	.control {
 		background: var(--color-background-secondary);
@@ -470,7 +373,6 @@
 	}
 }
 
-// === BORDER RADIUS VARIANTS ===
 .radius-none {
 	.control {
 		border-radius: 0;
@@ -559,7 +461,6 @@
 	min-width: 100%;
 	max-height: 240px;
 	color: var(--color-text-primary, #222);
-	// NOTE: If you still see clipping, check parent containers for overflow restrictions.
 
 	&.placement-top {
 		top: auto;
@@ -572,9 +473,6 @@
 	}
 }
 
-// NOTE: If you still see clipping, check parent containers for overflow:hidden. If unavoidable, consider rendering the menu in a portal.
-
-// Responsive design
 @media (max-width: 768px) {
 	.menu {
 		position: fixed;
@@ -586,10 +484,6 @@
 			var(--border-radius-large) 0 0;
 		max-height: 50vh;
 	}
-}
-
-.testClass {
-	background: red;
 }
 
 .filterToggle {

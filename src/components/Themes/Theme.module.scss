@@ -1,27 +1,13 @@
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 @use '../../styles/Animations.scss' as *;
-
-/**
- * Theme.module.scss - Modern Theme Component Styles with DRY Design System
- */
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
-
-// ========================================
-// Base Theme Component with Modern Containment
-// ========================================
 
 .themeBase {
 	font-family: var(--font-family);
 	position: relative;
 	transition: all var(--transition-standard);
 }
-
-// ========================================
-// Layout Variants with Modern Flexbox
-// ========================================
 
 .horizontal {
 	@include flex-center;
@@ -49,10 +35,6 @@
 	@include flex-center;
 	gap: var(--spacing-2);
 }
-
-// =============================================================================
-// DISPLAY TYPES
-// =============================================================================
 
 .swatches {
 	list-style: none;
@@ -281,10 +263,6 @@
 	}
 }
 
-// =============================================================================
-// SIZE VARIANTS
-// =============================================================================
-
 .small {
 	&.swatches .themeItem {
 		width: 36px;
@@ -394,12 +372,7 @@
 	}
 }
 
-// =============================================================================
-// SPECIALIZED VARIANTS
-// =============================================================================
-
 .themeSelector {
-	// Default theme selector styling (combines swatches + horizontal + medium)
 	@extend .swatches;
 	@extend .horizontal;
 	@extend .medium;
@@ -527,10 +500,6 @@
 	}
 }
 
-// =============================================================================
-// CONTEXTUAL VARIANTS
-// =============================================================================
-
 .paletteProvider {
 	@extend .swatches;
 	@extend .horizontal;
@@ -612,10 +581,6 @@
 	gap: 16px;
 }
 
-// =============================================================================
-// RESPONSIVE DESIGN
-// =============================================================================
-
 @media (max-width: 768px) {
 	.grid {
 		grid-template-columns: repeat(
@@ -680,10 +645,6 @@
 		}
 	}
 }
-
-// =============================================================================
-// THEME CONTAINER STYLES
-// =============================================================================
 
 .themeContainer {
 	display: flex;

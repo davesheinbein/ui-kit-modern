@@ -2,46 +2,46 @@ import React, {
 	forwardRef,
 	useMemo,
 	useState,
+	useRef,
 	useEffect,
 	useCallback,
-	useRef,
 } from 'react';
-import { Wrapper } from '../Wrappers';
-import { Button } from '../Button';
-import styles from './analytics.module.scss';
 import {
-	AnalyticsConfiguration,
-	AnalyticsDataPoint,
-	AnalyticsMetric,
-	AnalyticsQuery,
-	AnalyticsFilter,
+	DEFAULT_DATA,
+	DEFAULT_METRICS,
+	DEFAULT_FILTERS,
+	DEFAULT_COLORS,
+	DEFAULT_PLUGINS,
 	analyticsConfigurations,
+	AnalyticsMetric,
+	AnalyticsFilter,
+	AnalyticsDataPoint,
+	AnalyticsQuery,
+	AnalyticsConfiguration,
 } from './configurations';
-import { Dropdown } from '../Dropdown/Dropdown';
+import styles from './analytics.module.scss';
+import Wrapper from '../Wrappers/Wrapper';
 
 export interface AnalyticsProps {
-	// Basic props
+	/** Content to render inside the analytics component */
 	'children'?: React.ReactNode;
+	/** Additional CSS class names */
 	'className'?: string;
+	/** Inline style overrides */
 	'style'?: React.CSSProperties;
+	/** Accessible label for the analytics container */
 	'aria-label'?: string;
 
-	// Analytics type and configuration
-	'kind'?:
-		| 'dashboard'
-		| 'chart'
-		| 'metric'
-		| 'heatmap'
-		| 'funnel'
-		| 'cohort'
-		| 'report'
-		| 'realtime';
+	/** Analytics kind (dashboard, chart, metric, etc.) */
+	'kind'?: AnalyticsConfiguration['kind'];
+	/** Visual variant (dashboard, realtime, reports, etc.) */
 	'variant'?:
 		| 'dashboard'
 		| 'realtime'
 		| 'reports'
 		| 'metrics'
 		| 'performance';
+	/** Analytics type (chart, table, card, etc.) */
 	'type'?:
 		| 'chart'
 		| 'table'
@@ -49,18 +49,25 @@ export interface AnalyticsProps {
 		| 'gauge'
 		| 'counter'
 		| 'graph';
+	/** Size of the analytics widget */
 	'size'?: 'sm' | 'md' | 'lg';
 
-	// Content and data
+	/** Title for the analytics widget */
 	'title'?: string;
+	/** Subtitle for the analytics widget */
 	'subtitle'?: string;
+	/** Data points or metrics to display */
 	'data'?: AnalyticsDataPoint[] | AnalyticsMetric[] | any[];
+	/** Array of metric objects for metric displays */
 	'metrics'?: AnalyticsMetric[];
+	/** Query object for advanced analytics */
 	'query'?: AnalyticsQuery;
+	/** Array of filter objects for analytics filtering */
 	'filters'?: AnalyticsFilter[];
 
-	// Configuration
+	/** Additional configuration overrides */
 	'config'?: Partial<AnalyticsConfiguration>;
+	/** Time range for analytics data */
 	'timeRange'?:
 		| 'realtime'
 		| 'hour'
@@ -70,6 +77,7 @@ export interface AnalyticsProps {
 		| 'quarter'
 		| 'year'
 		| 'custom';
+	/** Layout mode for analytics ('grid', 'list', etc.) */
 	'layout'?:
 		| 'grid'
 		| 'list'
@@ -77,44 +85,66 @@ export interface AnalyticsProps {
 		| 'split'
 		| 'sidebar'
 		| 'fullscreen';
+	/** Enable/disable auto-refresh */
 	'autoRefresh'?: boolean;
+	/** Interval for auto-refresh (ms) */
 	'refreshInterval'?: number;
 
-	// States
+	/** Show loading state */
 	'loading'?: boolean;
+	/** Error message (if any) */
 	'error'?: string | null;
+	/** Show empty state */
 	'empty'?: boolean;
+	/** Message for empty state */
 	'emptyMessage'?: string;
 
-	// Interactivity
+	/** Enable/disable interactivity */
 	'interactive'?: boolean;
+	/** Enable/disable drilldown */
 	'drilldown'?: boolean;
+	/** Enable/disable export actions */
 	'exportable'?: boolean;
+	/** Enable/disable filters */
 	'filterable'?: boolean;
+	/** Enable/disable search */
 	'searchable'?: boolean;
+	/** Enable/disable refresh actions */
 	'refreshable'?: boolean;
 
-	// Event handlers
+	/** Callback for data point click */
 	'onDataPoint'?: (point: AnalyticsDataPoint) => void;
+	/** Callback for metric click */
 	'onMetricClick'?: (metric: AnalyticsMetric) => void;
+	/** Callback for filter changes */
 	'onFilter'?: (filters: AnalyticsFilter[]) => void;
+	/** Callback for export actions */
 	'onExport'?: (
 		format: 'csv' | 'json' | 'pdf' | 'png'
 	) => void;
+	/** Callback for refresh actions */
 	'onRefresh'?: () => void;
+	/** Callback for drilldown actions */
 	'onDrilldown'?: (dimension: string, value: any) => void;
+	/** Callback for time range changes */
 	'onTimeRangeChange'?: (timeRange: string) => void;
 
-	// Customization
+	/** Array of colors for charts/metrics */
 	'colors'?: string[];
+	/** Theme mode ('light', 'dark', 'auto') */
 	'theme'?: 'light' | 'dark' | 'auto';
+	/** Height of the analytics widget */
 	'height'?: number | string;
+	/** Show/hide header */
 	'showHeader'?: boolean;
+	/** Show/hide footer */
 	'showFooter'?: boolean;
+	/** Show/hide legend */
 	'showLegend'?: boolean;
+	/** Show/hide controls */
 	'showControls'?: boolean;
 
-	// Analytics-specific props
+	/** Chart type for chart analytics */
 	'chartType'?:
 		| 'line'
 		| 'bar'
@@ -122,7 +152,9 @@ export interface AnalyticsProps {
 		| 'area'
 		| 'scatter'
 		| 'heatmap';
+	/** Aggregation method */
 	'aggregation'?: 'sum' | 'avg' | 'count' | 'min' | 'max';
+	/** Data granularity */
 	'granularity'?:
 		| 'minute'
 		| 'hour'
@@ -130,27 +162,16 @@ export interface AnalyticsProps {
 		| 'week'
 		| 'month';
 
-	// Real-time
+	/** Enable/disable real-time mode */
 	'realtime'?: boolean;
+	/** Endpoint for real-time data */
 	'realtimeEndpoint'?: string;
 
-	// Advanced
+	/** Custom render function for content */
 	'customRenderer'?: (data: any) => React.ReactNode;
+	/** Array of plugin objects */
 	'plugins'?: any[];
 }
-
-// Stable default arrays to prevent infinite re-renders
-const DEFAULT_DATA: any[] = [];
-const DEFAULT_METRICS: AnalyticsMetric[] = [];
-const DEFAULT_FILTERS: AnalyticsFilter[] = [];
-const DEFAULT_COLORS = [
-	'#3b82f6',
-	'#10b981',
-	'#f59e0b',
-	'#ef4444',
-	'#8b5cf6',
-];
-const DEFAULT_PLUGINS: any[] = [];
 
 /**
  * Analytics component - provides comprehensive analytics functionality
@@ -330,14 +351,11 @@ const Analytics = forwardRef<
 		) => {
 			switch (format) {
 				case 'currency':
-					return new Intl.NumberFormat('en-US', {
-						style: 'currency',
-						currency: 'USD',
-					}).format(value);
+					return `$${value.toLocaleString()}`;
 				case 'percentage':
 					return `${value}%`;
 				case 'duration':
-					return `${value}ms`;
+					return `${value} ms`;
 				default:
 					return new Intl.NumberFormat().format(value);
 			}
@@ -346,10 +364,9 @@ const Analytics = forwardRef<
 		// Render methods
 		const renderHeader = () => {
 			if (!showHeader) return null;
-
 			return (
 				<Wrapper className={styles.analytics__header}>
-					<Wrapper>
+					<div>
 						{title && (
 							<h3
 								className={styles.analytics__header_title}
@@ -358,98 +375,49 @@ const Analytics = forwardRef<
 							</h3>
 						)}
 						{subtitle && (
-							<p
+							<div
 								className={
 									styles.analytics__header_subtitle
 								}
 							>
 								{subtitle}
-							</p>
+							</div>
 						)}
-					</Wrapper>
-					<Wrapper
-						className={styles.analytics__header_actions}
-					>
-						{refreshable && onRefresh && (
-							<Button
-								kind='ghost'
+					</div>
+					<div className={styles.analytics__header_actions}>
+						{refreshable && (
+							<button
 								onClick={handleRefresh}
 								disabled={isRefreshing}
-								title='Refresh data'
 							>
-								{isRefreshing ? '⟳' : '↻'}
-							</Button>
+								{isRefreshing ? 'Refreshing...' : 'Refresh'}
+							</button>
 						)}
 						{exportable && (
-							<Wrapper
-								className={styles.analytics__actions}
-							>
-								<Button
-									kind='secondary'
-									className={
-										styles.analytics__actions_button
-									}
-									onClick={() => handleExport('csv')}
-									title='Export as CSV'
-								>
-									CSV
-								</Button>
-								<Button
-									kind='secondary'
-									className={
-										styles.analytics__actions_button
-									}
-									onClick={() => handleExport('pdf')}
-									title='Export as PDF'
-								>
-									PDF
-								</Button>
-							</Wrapper>
+							<button onClick={() => handleExport('csv')}>
+								Export CSV
+							</button>
 						)}
-					</Wrapper>
+					</div>
 				</Wrapper>
 			);
 		};
 
 		const renderControls = () => {
 			if (!showControls) return null;
-
 			return (
 				<Wrapper className={styles.analytics__controls}>
-					<Wrapper
-						className={styles.analytics__controls_group}
-					>
-						<label
-							className={styles.analytics__controls_label}
-						>
-							Time Range:
-						</label>
-						<Dropdown
-							value={timeRange}
-							onChange={(value: string) =>
-								handleTimeRangeChange(value)
-							}
-							className={styles.analytics__controls_select}
-						>
-							<option value='hour'>Last Hour</option>
-							<option value='day'>Last Day</option>
-							<option value='week'>Last Week</option>
-							<option value='month'>Last Month</option>
-							<option value='quarter'>Last Quarter</option>
-							<option value='year'>Last Year</option>
-						</Dropdown>
-					</Wrapper>
 					{filterable && (
-						<Wrapper
+						<div
 							className={styles.analytics__controls_group}
 						>
-							<label
+							<span
 								className={styles.analytics__controls_label}
 							>
 								Filters:
-							</label>
-							{/* Filter controls would go here */}
-						</Wrapper>
+							</span>
+							{/* Render filter controls here */}
+						</div>
 					)}
 				</Wrapper>
 			);
@@ -459,76 +427,47 @@ const Analytics = forwardRef<
 			if (loading) {
 				return (
 					<Wrapper className={styles.analytics__loading}>
-						<Wrapper
+						<div
 							className={styles.analytics__loading_spinner}
 						/>
 						<span
 							className={styles.analytics__loading_text}
 						>
-							Loading analytics...
+							Loading...
 						</span>
 					</Wrapper>
 				);
 			}
-
 			if (error) {
 				return (
 					<Wrapper className={styles.analytics__error}>
-						<Wrapper
-							className={styles.analytics__error_icon}
-						>
+						<div className={styles.analytics__error_icon}>
 							⚠️
-						</Wrapper>
-						<Wrapper
+						</div>
+						<div
 							className={styles.analytics__error_message}
 						>
-							<strong>Error loading analytics:</strong>
-							<br />
 							{error}
-						</Wrapper>
-						{refreshable && onRefresh && (
-							<Wrapper
-								className={styles.analytics__error_actions}
-							>
-								<Button
-									kind='secondary'
-									onClick={handleRefresh}
-									className={styles.analytics__error_retry}
-								>
-									Retry
-								</Button>
-							</Wrapper>
-						)}
+						</div>
 					</Wrapper>
 				);
 			}
-
 			if (
 				empty ||
 				(!currentData.length && !metrics.length)
 			) {
 				return (
-					<Wrapper className={styles.analytics__error}>
-						<Wrapper
-							className={styles.analytics__error_message}
-						>
-							{emptyMessage}
-						</Wrapper>
+					<Wrapper className={styles.analytics__content}>
+						{emptyMessage}
 					</Wrapper>
 				);
 			}
-
-			// Custom renderer takes precedence
 			if (customRenderer) {
 				return customRenderer(currentData);
 			}
-
-			// If children are provided, render them
 			if (children) {
 				return children;
 			}
-
-			// Default renderers based on kind
 			switch (kind) {
 				case 'dashboard':
 					return renderDashboard();
@@ -552,42 +491,43 @@ const Analytics = forwardRef<
 		};
 
 		const renderDashboard = () => (
-			<Wrapper
-				kind='grid-container'
-				className={styles.analytics__dashboard_grid}
-			>
+			<Wrapper className={styles.analytics__dashboard_grid}>
 				{metrics.map((metric, index) => (
 					<Wrapper
 						key={metric.id || index}
 						className={styles.analytics__metric_container}
 						onClick={() => onMetricClick?.(metric)}
 					>
-						<Wrapper
-							className={styles.analytics__metric_value}
-						>
+						<div className={styles.analytics__metric_value}>
 							{formatMetricValue(
 								metric.value,
 								metric.format
 							)}
-						</Wrapper>
-						<Wrapper
-							className={styles.analytics__metric_label}
-						>
+						</div>
+						<div className={styles.analytics__metric_label}>
 							{metric.name}
-						</Wrapper>
+						</div>
 						{metric.change !== undefined && (
-							<Wrapper
-								className={`${styles.analytics__metric_change} ${
-									metric.trend ?
+							<div
+								className={
+									styles.analytics__metric_change +
+									' ' +
+									(metric.change > 0 ?
 										styles[
-											`analytics__metric_change--${metric.trend}`
+											'analytics__metric_change--positive'
 										]
-									:	''
-								}`}
+									: metric.change < 0 ?
+										styles[
+											'analytics__metric_change--negative'
+										]
+									:	styles[
+											'analytics__metric_change--neutral'
+										])
+								}
 							>
 								{metric.change > 0 ? '+' : ''}
 								{metric.change}%
-							</Wrapper>
+							</div>
 						)}
 					</Wrapper>
 				))}
@@ -619,29 +559,33 @@ const Analytics = forwardRef<
 				<Wrapper
 					className={styles.analytics__metric_container}
 				>
-					<Wrapper
-						className={styles.analytics__metric_value}
-					>
+					<div className={styles.analytics__metric_value}>
 						{formatMetricValue(metric.value, metric.format)}
-					</Wrapper>
-					<Wrapper
-						className={styles.analytics__metric_label}
-					>
+					</div>
+					<div className={styles.analytics__metric_label}>
 						{metric.name}
-					</Wrapper>
+					</div>
 					{metric.change !== undefined && (
-						<Wrapper
-							className={`${styles.analytics__metric_change} ${
-								metric.trend ?
+						<div
+							className={
+								styles.analytics__metric_change +
+								' ' +
+								(metric.change > 0 ?
 									styles[
-										`analytics__metric_change--${metric.trend}`
+										'analytics__metric_change--positive'
 									]
-								:	''
-							}`}
+								: metric.change < 0 ?
+									styles[
+										'analytics__metric_change--negative'
+									]
+								:	styles[
+										'analytics__metric_change--neutral'
+									])
+							}
 						>
 							{metric.change > 0 ? '+' : ''}
 							{metric.change}%
-						</Wrapper>
+						</div>
 					)}
 				</Wrapper>
 			);
@@ -652,13 +596,8 @@ const Analytics = forwardRef<
 				className={styles.analytics__heatmap_container}
 				style={{ height }}
 			>
-				{/* Heatmap implementation would go here */}
-				<Wrapper
-					className={styles.analytics__chart_loading}
-				>
-					🔥 Heatmap visualization - {currentData.length}{' '}
-					data points
-				</Wrapper>
+				{/* Heatmap implementation placeholder */}
+				Heatmap visualization
 			</Wrapper>
 		);
 
@@ -666,12 +605,12 @@ const Analytics = forwardRef<
 			<Wrapper
 				className={styles.analytics__funnel_container}
 			>
-				{currentData.map((step, index) => (
+				{currentData.map((step: any, index: number) => (
 					<Wrapper
 						key={index}
 						className={styles.analytics__funnel_step}
 					>
-						<Wrapper
+						<div
 							className={
 								styles.analytics__funnel_step_content
 							}
@@ -688,9 +627,18 @@ const Analytics = forwardRef<
 									styles.analytics__funnel_step_value
 								}
 							>
-								{step.value || 0}
+								{step.value}
 							</span>
-						</Wrapper>
+							{step.rate !== undefined && (
+								<span
+									className={
+										styles.analytics__funnel_step_rate
+									}
+								>
+									{step.rate}%
+								</span>
+							)}
+						</div>
 					</Wrapper>
 				))}
 			</Wrapper>
@@ -701,12 +649,8 @@ const Analytics = forwardRef<
 				className={styles.analytics__chart_container}
 				style={{ height }}
 			>
-				{/* Cohort table implementation would go here */}
-				<Wrapper
-					className={styles.analytics__chart_loading}
-				>
-					📋 Cohort analysis - {metrics.length} cohorts
-				</Wrapper>
+				{/* Cohort implementation placeholder */}
+				Cohort visualization
 			</Wrapper>
 		);
 
@@ -714,49 +658,57 @@ const Analytics = forwardRef<
 			<Wrapper
 				className={styles.analytics__chart_container}
 			>
-				{/* Report table implementation would go here */}
-				<Wrapper
-					className={styles.analytics__chart_loading}
-				>
-					📊 Report view - {currentData.length} rows
-				</Wrapper>
+				{/* Report implementation placeholder */}
+				Report visualization
 			</Wrapper>
 		);
 
 		const renderRealtime = () => (
-			<Wrapper
-				kind='grid-container'
-				className={styles.analytics__dashboard_grid}
-			>
-				{/* Real-time metrics grid */}
+			<Wrapper className={styles.analytics__dashboard_grid}>
 				{realtime && (
 					<Wrapper
-						className={styles.analytics__realtime_indicator}
+						className={styles.analytics__metric_container}
 					>
-						<span
-							className={styles.analytics__live_dot}
-						></span>
-						LIVE
+						Realtime data streaming...
 					</Wrapper>
 				)}
 				{metrics.map((metric, index) => (
 					<Wrapper
 						key={metric.id || index}
 						className={styles.analytics__metric_container}
+						onClick={() => onMetricClick?.(metric)}
 					>
-						<Wrapper
-							className={styles.analytics__metric_value}
-						>
+						<div className={styles.analytics__metric_value}>
 							{formatMetricValue(
 								metric.value,
 								metric.format
 							)}
-						</Wrapper>
-						<Wrapper
-							className={styles.analytics__metric_label}
-						>
+						</div>
+						<div className={styles.analytics__metric_label}>
 							{metric.name}
-						</Wrapper>
+						</div>
+						{metric.change !== undefined && (
+							<div
+								className={
+									styles.analytics__metric_change +
+									' ' +
+									(metric.change > 0 ?
+										styles[
+											'analytics__metric_change--positive'
+										]
+									: metric.change < 0 ?
+										styles[
+											'analytics__metric_change--negative'
+										]
+									:	styles[
+											'analytics__metric_change--neutral'
+										])
+								}
+							>
+								{metric.change > 0 ? '+' : ''}
+								{metric.change}%
+							</div>
+						)}
 					</Wrapper>
 				))}
 			</Wrapper>
@@ -765,46 +717,32 @@ const Analytics = forwardRef<
 		const renderLegend = () => (
 			<Wrapper className={styles.analytics__chart_legend}>
 				{colors.map((color, index) => (
-					<Wrapper
+					<div
 						key={index}
 						className={styles.analytics__chart_legend_item}
 					>
-						<Wrapper
+						<span
 							className={
 								styles.analytics__chart_legend_item_color
 							}
 							style={{ backgroundColor: color }}
 						/>
-						<span>Series </span>
-					</Wrapper>
+						Color {index + 1}
+					</div>
 				))}
 			</Wrapper>
 		);
 
 		const renderFooter = () => {
 			if (!showFooter) return null;
-
 			return (
 				<Wrapper className={styles.analytics__footer}>
-					<Wrapper>
-						{lastUpdated && (
-							<span
-								className={styles.analytics__last_updated}
-							>
-								Last updated:{' '}
-								{lastUpdated.toLocaleTimeString()}
-							</span>
-						)}
-					</Wrapper>
-					<Wrapper>
-						{autoRefresh && (
-							<span
-								className={styles.analytics__auto_refresh}
-							>
-								Auto-refresh: {refreshInterval / 1000}s
-							</span>
-						)}
-					</Wrapper>
+					<div>
+						Last updated:{' '}
+						{lastUpdated ?
+							lastUpdated.toLocaleString()
+						:	'N/A'}
+					</div>
 				</Wrapper>
 			);
 		};
@@ -831,13 +769,10 @@ const Analytics = forwardRef<
 				aria-label={ariaLabel || `${variant} analytics`}
 				data-analytics-kind={kind}
 				data-analytics-type={configuration.type}
-				{...props}
 			>
 				{renderHeader()}
 				{renderControls()}
-				<Wrapper className={styles.analytics__content}>
-					{renderContent()}
-				</Wrapper>
+				{renderContent()}
 				{renderFooter()}
 			</Wrapper>
 		);

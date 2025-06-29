@@ -127,19 +127,15 @@ export const AllModalTypesOverview: Story = {
 		>(null);
 
 		return (
-			<Wrapper
-				kind='flex-container'
-				direction='column'
-				style={{ padding: '2rem' }}
-			>
+			<Wrapper direction='column' gap={4} p={8}>
 				<h2>Modal System Overview</h2>
 				<p>Click any button to see the modal in action:</p>
 
 				<Wrapper
-					kind='grid-container'
+					layout='grid'
 					columns='repeat(auto-fit, minmax(200px, 1fr))'
-					gap='1rem'
-					style={{ marginTop: '2rem' }}
+					gap={4}
+					mt={8}
 				>
 					<Button
 						kind='secondary'

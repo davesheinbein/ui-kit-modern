@@ -1,14 +1,8 @@
-/**
- * Statistics.module.scss - Modern Statistics Component with Design System
- * Provides flexible statistics layouts, charts, and data visualization
- */
-
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
 @use '../../styles/Animations.scss' as *;
 
-// Base styles for all statistics variants with proper containment
 .statisticsBase {
 	@include contained-element();
 	@include flex-column();
@@ -23,7 +17,6 @@
 	}
 }
 
-// Layout variants using design system
 .compact {
 	padding: var(--spacing-sm);
 	gap: var(--spacing-xs);
@@ -33,13 +26,13 @@
 .standard {
 	padding: var(--spacing-md);
 	gap: var(--spacing-sm);
-	min-height: var(--size-30); // 120px
+	min-height: var(--size-30);
 }
 
 .expanded {
 	padding: var(--spacing-lg);
 	gap: var(--spacing-md);
-	min-height: var(--size-50); // 200px
+	min-height: var(--size-50);
 }
 
 .minimal {
@@ -50,7 +43,6 @@
 	background: transparent;
 }
 
-// Display types using design system
 .card {
 	@include card-base();
 	background: var(--color-background-secondary);
@@ -69,7 +61,7 @@
 	grid-template-columns: repeat(
 		auto-fit,
 		minmax(var(--size-30), 1fr)
-	); // 120px
+	);
 	gap: var(--spacing-md);
 }
 
@@ -82,11 +74,10 @@
 
 .chart {
 	@include contained-element();
-	min-height: var(--size-50); // 200px
+	min-height: var(--size-50);
 	padding: var(--spacing-md);
 }
 
-// Size variants using design system typography
 .small {
 	@include text-body-sm();
 
@@ -123,7 +114,6 @@
 	}
 }
 
-// Header section with design system
 .statisticsHeader {
 	@include flex-row();
 	align-items: center;
@@ -144,14 +134,12 @@
 	}
 }
 
-// Content section
 .statisticsContent {
 	flex: 1;
 	@include flex-column();
 	gap: var(--spacing-xs);
 }
 
-// Individual stat item with design system
 .statisticsItem {
 	@include flex-row();
 	align-items: center;
@@ -183,14 +171,13 @@
 	}
 }
 
-// Grid layout for stats with containment
 .statisticsGrid {
 	@include contained-element();
 	display: grid;
 	grid-template-columns: repeat(
 		auto-fit,
 		minmax(var(--size-37), 1fr)
-	); // 150px
+	);
 	gap: var(--spacing-md);
 
 	.statisticsGridItem {
@@ -214,7 +201,6 @@
 	}
 }
 
-// Comparison layout with design system
 .statisticsComparison {
 	@include flex-row();
 	gap: var(--spacing-md);
@@ -233,7 +219,6 @@
 	}
 }
 
-// Trends and charts with design system
 .statisticsTrends {
 	.trendItem {
 		@include flex-row();
@@ -260,7 +245,6 @@
 	}
 }
 
-// Color schemes using design system
 .defaultScheme {
 	--stat-primary: var(--color-primary);
 	--stat-secondary: var(--color-secondary);
@@ -291,7 +275,6 @@
 	--stat-accent: var(--color-purple-600);
 }
 
-// Special effects using design system
 .withBorders {
 	border: var(--border-width) solid var(--color-border);
 }
@@ -307,14 +290,12 @@
 		color-mix(in srgb, var(--stat-primary) 10%, transparent);
 }
 
-// Animation states
 .animating {
 	.statisticsValue {
 		transition: var(--transition-all-slow);
 	}
 }
 
-// Footer section with design system
 .statisticsFooter {
 	margin-top: var(--spacing-sm);
 	padding-top: var(--spacing-sm);
@@ -335,13 +316,12 @@
 	}
 }
 
-// Responsive design using design system breakpoints
 @include media-tablet-down {
 	.statisticsGrid {
 		grid-template-columns: repeat(
 			auto-fit,
 			minmax(var(--size-30), 1fr)
-		); // 120px
+		);
 		gap: var(--spacing-sm);
 	}
 

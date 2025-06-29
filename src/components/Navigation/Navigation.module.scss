@@ -1,28 +1,14 @@
-// ========================================
-// Modern Navigation Styles with Proper Containment
-// ========================================
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
-@use '../../styles/Animations.scss' as *; // Centralized animation keyframes & classes
+@use '../../styles/Animations.scss' as *;
 
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
-
-// Base navigation component
 .Navigation {
 	@include container-contained;
 	@include safe-area-padding;
 	position: relative;
 	width: 100%;
-
-	// Remove debug styling for cleaner production code
-	// Use browser dev tools instead for component inspection
 }
-
-// ========================================
-// Navigation Variants
-// ========================================
 
 .navigation--primary {
 	@include surface-elevated;
@@ -60,10 +46,6 @@
 	z-index: var(--z-overlay);
 }
 
-// ========================================
-// Navigation Layouts
-// ========================================
-
 .navigation--horizontal {
 	@include flex-row-center;
 	width: 100%;
@@ -77,10 +59,6 @@
 	@include grid-auto;
 	gap: var(--spacing-sm);
 }
-
-// ========================================
-// Navigation Positioning
-// ========================================
 
 .navigation--top {
 	top: 0;
@@ -122,10 +100,6 @@
 	@include safe-area-insets;
 }
 
-// ========================================
-// Mobile Navigation Styles
-// ========================================
-
 .navigation--mobile {
 	&.navigation--horizontal {
 		flex-wrap: wrap;
@@ -154,10 +128,6 @@
 		}
 	}
 }
-
-// ========================================
-// Navbar Component Styles
-// ========================================
 
 .navbarContainer {
 	@include flex-row-between;
@@ -234,10 +204,6 @@
 	color: var(--color-on-error);
 }
 
-// ========================================
-// Mobile Bottom Navigation
-// ========================================
-
 .mobileNavContainer {
 	@include flex-row-between;
 	@include container-padding;
@@ -297,10 +263,6 @@
 	right: 8px;
 }
 
-// ========================================
-// Breadcrumbs Styles
-// ========================================
-
 .breadcrumbsList {
 	display: flex;
 	align-items: center;
@@ -350,10 +312,6 @@
 	color: var(--color-on-surface-variant, #666);
 	font-size: 14px;
 }
-
-// ========================================
-// Pagination Styles
-// ========================================
 
 .paginationContainer {
 	display: flex;
@@ -411,10 +369,6 @@
 		}
 	}
 }
-
-// ========================================
-// Tabs Styles
-// ========================================
 
 .tabsContainer {
 	border-bottom: 1px solid var(--color-border, #e0e0e0);
@@ -477,10 +431,6 @@
 	@include text-truncate;
 }
 
-// ========================================
-// Segmented Controls Styles
-// ========================================
-
 .segmentedContainer {
 	display: flex;
 	justify-content: center;
@@ -526,10 +476,6 @@
 		}
 	}
 }
-
-// ========================================
-// Hamburger Menu Styles
-// ========================================
 
 .hamburgerContainer {
 	padding: 16px 0;
@@ -588,10 +534,6 @@
 .hamburgerLabel {
 	flex: 1;
 }
-
-// ========================================
-// Side Drawer Styles
-// ========================================
 
 .sideDrawerContainer {
 	height: 100%;
@@ -700,10 +642,6 @@
 	}
 }
 
-// ========================================
-// Generic Navigation Styles
-// ========================================
-
 .genericNavigation {
 	padding: 8px;
 }
@@ -761,10 +699,6 @@
 	@include text-truncate;
 }
 
-// ========================================
-// Responsive Design
-// ========================================
-
 @include breakpoint-tablet {
 	.navbarContainer {
 		@include container-padding-sm;
@@ -807,11 +741,6 @@
 	}
 }
 
-// ========================================
-// Navigation Kind Overrides
-// ========================================
-
-// Remove border-radius for navbar headers
 [data-navigation-kind='navbar'] {
 	&.navigation--primary,
 	&.navigation--secondary,
@@ -820,5 +749,3 @@
 		@include safe-area-insets;
 	}
 }
-
-// ========================================

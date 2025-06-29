@@ -19,7 +19,7 @@ const meta = {
 export default meta;
 
 const DemoContent = ({ label }: { label: string }) => (
-	<Wrapper style={{ padding: 20 }}>
+	<Wrapper p={5}>
 		<h3>{label} Sidebar</h3>
 		<p>
 			This is demo content for the {label.toLowerCase()}{' '}

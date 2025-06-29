@@ -180,45 +180,108 @@ type ChartSpecificConfig = {
 	lineKey?: string;
 };
 
+/**
+ * Props for the Graph component. All features and configuration are exposed via props.
+ *
+ * @property kind - Graph kind (e.g., 'bar', 'line', 'pie', etc.)
+ * @property data - Array of data points for the graph
+ * @property dataKey - Key for the primary data value
+ * @property labelKey - Key for the label value
+ * @property title - Title for the graph
+ * @property subtitle - Subtitle for the graph
+ * @property xAxisLabel - Label for the X axis
+ * @property yAxisLabel - Label for the Y axis
+ * @property label - Consolidated label for legend and tooltip
+ * @property emptyLabel - Label to show when data is empty
+ * @property colors - Array of colors for the graph
+ * @property colorScheme - Named color scheme
+ * @property className - Additional CSS class names
+ * @property style - Inline style overrides
+ * @property width - Width of the graph
+ * @property height - Height of the graph
+ * @property margin - Margin for the graph container
+ * @property showGrid - Show/hide grid lines
+ * @property showAxes - Show/hide axes
+ * @property showLegend - Show/hide legend
+ * @property showTooltip - Show/hide tooltip
+ * @property animation - Animation configuration
+ * @property onDataPointClick - Callback for data point click
+ * @property onLegendClick - Callback for legend click
+ * @property onExport - Callback for export actions
+ * @property ...rest - All other native div props
+ */
 export interface GraphProps {
+	/** Graph kind (bar, line, pie, etc.) */
 	kind: ExtendedGraphKind;
+	/** Array of data points for the graph */
 	data: any[];
+	/** Key for the primary data value */
 	dataKey?: string;
+	/** Key for the label value */
 	labelKey?: string;
+	/** Title for the graph */
 	title?: string;
+	/** Subtitle for the graph */
 	subtitle?: string;
+	/** Label for the X axis */
 	xAxisLabel?: string;
+	/** Label for the Y axis */
 	yAxisLabel?: string;
-	label?: string; // Consolidated label for legend and tooltip
+	/** Consolidated label for legend and tooltip */
+	label?: string;
+	/** Label to show when data is empty */
 	emptyLabel?: string;
+	/** Array of colors for the graph */
 	colors?: string[];
+	/** Named color scheme */
 	colorScheme?: keyof typeof COLOR_SCHEMES;
+	/** Additional CSS class names */
 	className?: string;
+	/** Inline style overrides */
 	style?: React.CSSProperties;
+	/** Width of the graph */
 	width?: number | string;
+	/** Height of the graph */
 	height?: number;
+	/** Margin for the graph container */
 	margin?: {
 		top?: number;
 		right?: number;
 		bottom?: number;
 		left?: number;
 	};
+	/** Show/hide grid lines */
 	showGrid?: boolean;
+	/** Show/hide axes */
 	showAxes?: boolean;
+	/** Show/hide legend */
 	showLegend?: boolean;
+	/** Show/hide tooltip */
 	showTooltip?: boolean;
-	showLabels?: boolean;
-	showValues?: boolean;
-	animationDuration?: number;
-	animationEnabled?: boolean;
-	configuration?: Partial<GraphConfiguration> &
-		ChartSpecificConfig;
-	onClick?: (data: any, index: number) => void;
-	onHover?: (data: any, index: number) => void;
-	ariaLabel?: string;
-	ariaDescription?: string;
-	backgroundColor?: string;
+	/** Animation configuration */
+	animation?: {
+		duration?: number;
+		easing?: string;
+	};
+	/** Callback for data point click */
+	onDataPointClick?: (data: any) => void;
+	/** Callback for legend click */
+	onLegendClick?: (item: any) => void;
+	/** Callback for export actions */
+	onExport?: (
+		format: 'csv' | 'json' | 'pdf' | 'png'
+	) => void;
+	/** All other native div props */
+	[key: string]: any;
 }
+
+// Fix colorScheme typing
+const getColorScheme = (
+	colorScheme: keyof typeof COLOR_SCHEMES
+) =>
+	Array.isArray(COLOR_SCHEMES[colorScheme]) ?
+		[...COLOR_SCHEMES[colorScheme]]
+	:	[];
 
 const Graph = forwardRef<HTMLDivElement, GraphProps>(
 	(props, ref) => {
@@ -258,10 +321,9 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 		} = props;
 
 		const colorList =
-			Array.isArray(colors) ? [...colors]
-			: Array.isArray(COLOR_SCHEMES[colorScheme]) ?
-				[...COLOR_SCHEMES[colorScheme]]
-			:	[...COLOR_SCHEMES.default];
+			Array.isArray(colors) ?
+				[...colors]
+			:	getColorScheme(colorScheme);
 
 		const defaultMargin = {
 			top: 24,
@@ -349,7 +411,7 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 									}
 									{...configuration?.barProps}
 								>
-									{data.map((entry, idx) => (
+									{data.map((entry: any, idx: number) => (
 										<Cell
 											key={`cell-${idx}`}
 											fill={
@@ -425,7 +487,7 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 								<ChartLegend showLegend={showLegend} />
 								{configuration?.series ?
 									configuration.series.map(
-										(series, idx) => (
+										(series: any, idx: number) => (
 											<Line
 												key={series.dataKey}
 												type={

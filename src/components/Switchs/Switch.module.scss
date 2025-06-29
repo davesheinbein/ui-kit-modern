@@ -1,6 +1,3 @@
-/**
- * Switch Component Styles
- */
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/Animations.scss' as *;
@@ -90,7 +87,6 @@
 	color: var(--color-error);
 }
 
-// Size variants
 .size-small {
 	.switchTrack {
 		width: 36px;
@@ -126,6 +122,3 @@
 		}
 	}
 }
-
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.

@@ -1,6 +1,7 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import Media from '../../components/Media/Media';
 import { Wrapper } from '../../components/Wrappers';
-import { Media } from '../../components/Media';
 import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Media> = {
@@ -218,13 +219,7 @@ export const AudioPlayer: Story = {
 
 export const AvatarSizes: Story = {
 	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				gap: '1rem',
-				alignItems: 'center',
-			}}
-		>
+		<Wrapper direction='row' gap={4} center>
 			<Media.UserAvatar
 				size='xs'
 				src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
@@ -251,14 +246,7 @@ export const AvatarSizes: Story = {
 
 export const MediaGallery: Story = {
 	render: () => (
-		<Wrapper
-			style={{
-				display: 'grid',
-				gridTemplateColumns: 'repeat(3, 1fr)',
-				gap: '1rem',
-				padding: '2rem',
-			}}
-		>
+		<Wrapper layout='grid' columns={3} gap={4} p={8}>
 			<Media.ImageCard
 				src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop'
 				title='Mountain View'

@@ -225,6 +225,8 @@
 
 .filter__search {
 	@include input-base;
+	padding-left: var(--spacing-3);
+	padding-right: var(--spacing-3);
 }
 
 .filter__select_all {

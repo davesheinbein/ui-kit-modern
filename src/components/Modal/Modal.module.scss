@@ -1,16 +1,10 @@
 @use '../../styles/mixins' as mixins;
-@use '../../styles/Animations.scss' as *; // Centralized animation keyframes & classes
+@use '../../styles/Animations.scss' as *;
 
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
-
-// Modal overlay - intentionally extends beyond bounds for full screen coverage
 .modalOverlay {
 	@include mixins.modal-overlay;
-	// Intentional overflow: Modal overlay needs to cover entire viewport
 }
 
-// Modal content - contained within overlay
 .modalContent {
 	@include mixins.modal-content;
 	@include mixins.contained-width(100%, 95vw, 200px);
@@ -18,7 +12,6 @@
 		var(--spacing-8) var(--spacing-6) var(--spacing-6)
 	);
 
-	// Ensure content doesn't overflow modal bounds
 	overflow: hidden auto;
 	max-height: calc(100vh - var(--spacing-8));
 
@@ -30,7 +23,6 @@
 	}
 }
 
-// === SIZE VARIANTS ===
 .modal-xs {
 	max-width: 280px;
 }
@@ -63,7 +55,6 @@
 	height: auto;
 }
 
-// === POSITION VARIANTS ===
 .modal-top {
 	align-self: flex-start;
 	margin-top: 2rem;
@@ -84,7 +75,6 @@
 	margin-right: 2rem;
 }
 
-// === ANIMATION VARIANTS ===
 .modal-fade {
 	@extend .animated-fade-in;
 }
@@ -98,7 +88,6 @@
 	@extend .animated-scale-in;
 }
 
-// === MODAL KIND STYLES ===
 .confirmation-modal {
 	text-align: center;
 
@@ -112,7 +101,7 @@
 	text-align: center;
 
 	.modalTitle {
-		color: #ef4444; // Error red
+		color: #ef4444;
 	}
 
 	.modalMessage {
@@ -232,7 +221,6 @@
 	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-// === MODAL COMPONENTS ===
 .modalHeader {
 	display: flex;
 	align-items: center;
@@ -268,7 +256,6 @@
 	border-top: 1px solid #e5e7eb;
 }
 
-// === CUSTOM BODY CONTENT STYLES ===
 .endGameContent {
 	text-align: center;
 
@@ -469,7 +456,6 @@
 	}
 }
 
-// === SHARED UTILITY STYLES ===
 .statRow {
 	display: flex;
 	justify-content: space-between;

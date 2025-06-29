@@ -1,18 +1,8 @@
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 @use '../../styles/Animations.scss' as *;
-
-/**
- * Range Component Styles
- * Modern range/slider styling with comprehensive design system integration
- */
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
 
-// ========================================
-// CSS Custom Properties
-// ========================================
 :root {
 	--range-track-height: 6px;
 	--range-thumb-size: 20px;
@@ -24,9 +14,6 @@
 	--range-border-radius: var(--border-radius);
 }
 
-// ========================================
-// Range Container
-// ========================================
 .range-container {
 	position: relative;
 	display: flex;
@@ -50,9 +37,6 @@
 	}
 }
 
-// ========================================
-// Label Styles
-// ========================================
 .range-label {
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-normal);
@@ -66,9 +50,6 @@
 	}
 }
 
-// ========================================
-// Range Wrapper
-// ========================================
 .range-wrapper {
 	position: relative;
 	display: flex;
@@ -77,9 +58,6 @@
 	padding: var(--spacing-2) 0;
 }
 
-// ========================================
-// Range Track
-// ========================================
 .range-track {
 	position: relative;
 	width: 100%;
@@ -89,9 +67,6 @@
 	overflow: hidden;
 }
 
-// ========================================
-// Range Input
-// ========================================
 .range-input {
 	position: absolute;
 	top: 50%;
@@ -107,12 +82,10 @@
 	transform: translateY(-50%);
 	z-index: 2;
 
-	// Remove default browser styling
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 
-	// Webkit (Chrome, Safari, Edge) thumb styling
 	&::-webkit-slider-thumb {
 		-webkit-appearance: none;
 		appearance: none;
@@ -136,7 +109,6 @@
 		}
 	}
 
-	// Firefox thumb styling
 	&::-moz-range-thumb {
 		width: var(--range-thumb-size);
 		height: var(--range-thumb-size);
@@ -158,14 +130,12 @@
 		}
 	}
 
-	// Firefox track styling
 	&::-moz-range-track {
 		background: transparent;
 		border: none;
 		height: var(--range-track-height);
 	}
 
-	// Focus styles
 	&:focus {
 		&::-webkit-slider-thumb {
 			outline: 2px solid var(--color-primary);
@@ -195,9 +165,6 @@
 	z-index: 3;
 }
 
-// ========================================
-// Range Marks
-// ========================================
 .range-marks {
 	position: absolute;
 	top: 100%;
@@ -230,9 +197,6 @@
 	white-space: nowrap;
 }
 
-// ========================================
-// Range Tooltip
-// ========================================
 .range-tooltip {
 	position: absolute;
 	top: -40px;
@@ -260,9 +224,6 @@
 	}
 }
 
-// ========================================
-// Range Value Display
-// ========================================
 .range-value {
 	margin-left: var(--spacing-3);
 	padding: var(--spacing-1) var(--spacing-2);
@@ -275,9 +236,6 @@
 	text-align: center;
 }
 
-// ========================================
-// Helper and Error Text
-// ========================================
 .range-help-text {
 	font-size: var(--font-size-sm);
 	line-height: 1.4;
@@ -292,9 +250,6 @@
 	margin-top: var(--spacing-1);
 }
 
-// ========================================
-// Size Variants
-// ========================================
 .range-small {
 	--range-track-height: 4px;
 	--range-thumb-size: 16px;
@@ -323,9 +278,6 @@
 	}
 }
 
-// ========================================
-// Style Variants
-// ========================================
 .range-modern {
 	--range-border-radius: var(--border-radius-lg);
 
@@ -386,9 +338,6 @@
 	}
 }
 
-// ========================================
-// Color Variants
-// ========================================
 .range-primary {
 	--range-active-color: var(--color-primary);
 	--range-thumb-color: var(--color-primary);
@@ -414,9 +363,6 @@
 	--range-thumb-color: var(--color-error);
 }
 
-// ========================================
-// Orientation Variants
-// ========================================
 .range-vertical {
 	.range-wrapper {
 		flex-direction: column;
@@ -442,9 +388,6 @@
 	}
 }
 
-// ========================================
-// State Variants
-// ========================================
 .range-dragging {
 	.range-input {
 		&::-webkit-slider-thumb {

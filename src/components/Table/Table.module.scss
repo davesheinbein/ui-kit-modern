@@ -1,17 +1,7 @@
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 @use '../../styles/Animations.scss' as *;
-
-// ========================================
-// Modern Table Styles with Proper Containment
-// ========================================
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
-
-// ========================================
-// Main Table Container
-// ========================================
 
 .table_container {
 	@include container-contained;
@@ -29,10 +19,6 @@
 	max-width: 100%;
 }
 
-// ========================================
-// Core Table Styles
-// ========================================
-
 .table {
 	@include table-base;
 	width: 100%;
@@ -43,7 +29,6 @@
 	color: var(--color-on-surface);
 	background: var(--color-surface);
 
-	// Layout variants
 	&--fixed {
 		table-layout: fixed;
 	}
@@ -60,10 +45,6 @@
 		}
 	}
 }
-
-// ========================================
-// Header Styles
-// ========================================
 
 .table__header {
 	background: var(--color-surface-variant);
@@ -113,10 +94,6 @@
 	flex-shrink: 0;
 }
 
-// ========================================
-// Body Styles
-// ========================================
-
 .table__body {
 	background: var(--color-surface);
 }
@@ -157,7 +134,7 @@
 	border-bottom: inherit;
 	transition: var(--transition-normal);
 	@include text-truncate;
-	max-width: 0; // Enable text truncation in table cells
+	max-width: 0;
 
 	&--skeleton {
 		opacity: 0.6;
@@ -172,10 +149,6 @@
 		font-style: italic;
 	}
 }
-
-// ========================================
-// Interactive Elements
-// ========================================
 
 .table__expand_button {
 	background: none;
@@ -194,10 +167,6 @@
 		border-color: var(--primary-color, #3b82f6);
 	}
 }
-
-// ========================================
-// Search Bar
-// ========================================
 
 .table__search {
 	padding: 1rem;
@@ -225,10 +194,6 @@
 		color: var(--text-color-muted, #6b7280);
 	}
 }
-
-// ========================================
-// Loading States
-// ========================================
 
 .skeleton_content {
 	height: 1rem;
@@ -259,17 +224,10 @@
 	}
 }
 
-// ========================================
-// Variant Styles
-// ========================================
-
-// Default variant - uses base styles
 .table--default {
-	// Base styles are applied by default
 	color: var(--table-text);
 }
 
-// Minimal variant
 .table--minimal {
 	box-shadow: none;
 
@@ -294,14 +252,12 @@
 	}
 }
 
-// Striped variant
 .table--striped {
 	.table__row:nth-child(even) {
 		background: rgba(0, 0, 0, 0.02);
 	}
 }
 
-// Bordered variant
 .table--bordered {
 	border: 1px solid var(--table-border);
 
@@ -315,7 +271,6 @@
 	}
 }
 
-// Compact variant
 .table--compact {
 	.table__header_cell,
 	.table__cell {
@@ -323,7 +278,6 @@
 	}
 }
 
-// Spacious variant
 .table--spacious {
 	.table__header_cell,
 	.table__cell {
@@ -331,7 +285,6 @@
 	}
 }
 
-// Modern variant
 .table--modern {
 	border-radius: 0.5rem;
 	overflow: hidden;
@@ -357,7 +310,6 @@
 	}
 }
 
-// Glass variant
 .table--glass {
 	background: rgba(255, 255, 255, 0.8);
 	backdrop-filter: blur(10px);
@@ -371,10 +323,6 @@
 		background: rgba(255, 255, 255, 0.9);
 	}
 }
-
-// ========================================
-// Border Styles
-// ========================================
 
 .table--border-none {
 	.table__header_cell,
@@ -399,15 +347,9 @@
 }
 
 .table--border-all {
-	// Uses default border styles from base table
 	border-collapse: collapse;
 }
 
-// ========================================
-// Table Kind Specific Styles
-// ========================================
-
-// Data Grid
 .table--data-grid {
 	.table__header {
 		background: var(--primary-color-light, #dbeafe);
@@ -415,7 +357,6 @@
 	}
 }
 
-// Pricing Table
 .table--pricing-table {
 	.table__header_cell {
 		text-align: center;
@@ -428,7 +369,6 @@
 	}
 }
 
-// Comparison Table
 .table--comparison-table {
 	.table__header_cell:first-child {
 		background: var(--table-bg);
@@ -442,14 +382,12 @@
 	}
 }
 
-// Stats Table
 .table--stats-table {
 	.table__cell {
 		font-variant-numeric: tabular-nums;
 	}
 }
 
-// Leaderboard Table
 .table--leaderboard-table {
 	.table__row:first-child {
 		.table__cell {
@@ -476,10 +414,6 @@
 	}
 }
 
-// ========================================
-// Responsive Design
-// ========================================
-
 @include breakpoint-tablet {
 	.table_container {
 		border-radius: 0;
@@ -503,7 +437,6 @@
 		}
 	}
 
-	// Hide non-essential columns on tablet
 	.table__header_cell:nth-child(n + 4),
 	.table__cell:nth-child(n + 4) {
 		display: none;
@@ -520,12 +453,8 @@
 		padding: var(--spacing-xs);
 	}
 
-	// Show only first 2 columns on mobile
 	.table__header_cell:nth-child(n + 3),
 	.table__cell:nth-child(n + 3) {
 		display: none;
 	}
 }
-
-// Dark mode support is handled by the design system variables
-// No explicit dark mode overrides needed

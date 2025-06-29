@@ -92,7 +92,12 @@ export const CustomContent: Story = {
 	},
 	render: (args) => (
 		<Admin {...args}>
-			<Wrapper>
+			<Wrapper
+				p={16}
+				radius={10}
+				bg='#f0fdf4'
+				shadow='0 2px 8px rgba(0,0,0,0.04)'
+			>
 				<h3
 					style={{ margin: '0 0 10px 0', color: '#4ade80' }}
 				>

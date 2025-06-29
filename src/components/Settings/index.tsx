@@ -6,6 +6,7 @@ import Settings, {
 	AccessibilitySettings,
 	PrivacySettings,
 } from './Settings';
+export { defaultThemes } from './configurations';
 
 export type {
 	SettingsKind,

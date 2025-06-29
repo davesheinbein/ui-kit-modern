@@ -1,87 +1,66 @@
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 @use '../../styles/Animations.scss' as *;
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 
-// Base provider component - modernized with containment
 .provider {
-	// Most providers are invisible/logic-only, so minimal base styles
 	position: relative;
 	contain: layout;
 
-	// Provider variants using semantic naming
 	&.provider--context {
-		// Context providers typically don't need visual styles
 		display: contents;
 	}
 
 	&.provider--socket {
-		// Socket providers are logic-only
 		display: contents;
 	}
 
 	&.provider--listener {
-		// Listeners render nothing but should be accessible
 		@include visually-hidden;
 	}
 
 	&.provider--settings {
-		// Settings providers are typically context-only
 		display: contents;
 	}
 
 	&.provider--theme {
-		// Theme providers affect global styling
 		display: contents;
 	}
 
 	&.provider--custom {
-		// Custom provider styling
 		display: contents;
 	}
 }
 
-// Position variants with modern sizing
 .provider {
 	&.provider--root {
-		// Root-level providers typically wrap the entire app
 		@include full-viewport;
 	}
 
 	&.provider--app {
-		// App-level providers
 		@include full-width;
 	}
 
 	&.provider--component {
-		// Component-level providers
 		display: contents;
 	}
 
 	&.provider--inline {
-		// Inline providers
 		display: inline-block;
 	}
 }
 
-// Provider-specific styles (most providers don't need visual styling)
 .socketProvider {
-	// SocketProvider is context-only, no visual styles needed
 	display: contents;
 }
 
 .userSettingsProvider {
-	// UserSettingsProvider is context-only, no visual styles needed
 	display: contents;
 }
 
 .achievementSocketListener {
-	// AchievementSocketListener is logic-only but accessible
 	@include visually-hidden;
 }
 
 .ThemeProvider {
-	// ThemeProvider affects global theming
 	display: contents;
 }

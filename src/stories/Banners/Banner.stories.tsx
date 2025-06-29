@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Banner } from '../../components/Banner';
+import Banner from '../../components/Banner/Banner';
 import { Wrapper } from '../../components/Wrappers';
 import { commonDecorators } from '../config/decorators';
 
@@ -8,7 +8,7 @@ const action = (label: string) => () =>
 	console.log(`${label} clicked`);
 
 const meta: Meta<typeof Banner> = {
-	title: 'Components/Banner',
+	title: 'Banners/Banner',
 	component: Banner,
 	decorators: commonDecorators,
 	tags: ['autodocs'],
@@ -433,13 +433,7 @@ export const UsingPresets: Story = {
 	name: 'Using Presets',
 	render: () => {
 		return (
-			<Wrapper
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					gap: '16px',
-				}}
-			>
+			<Wrapper direction='column' gap={2}>
 				<Banner
 					kind='feedback'
 					message='Congratulations! Perfect score achieved!'

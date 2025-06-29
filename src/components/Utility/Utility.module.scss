@@ -1,12 +1,4 @@
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 @use '../../styles/Animations.scss' as *;
-
-/**
- * Utility.module.scss - Modern Utility Components with Design System
- * Provides reusable utility components like badges, dividers, tooltips, ratings, etc.
- */
-
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
@@ -19,7 +11,6 @@
 	align-items: center;
 	gap: var(--spacing-xs);
 
-	// Sizes using design system
 	&--xs {
 		@include text-caption();
 		padding: var(--spacing-xs);
@@ -50,7 +41,6 @@
 		gap: var(--spacing-md);
 	}
 
-	// Variants using design system
 	&--default {
 		background: var(--color-background-secondary);
 		color: var(--color-text-primary);
@@ -93,7 +83,6 @@
 		border: var(--border-width) solid var(--color-info);
 	}
 
-	// States using design system
 	&--active {
 		background: var(--color-primary);
 		color: white;
@@ -118,13 +107,11 @@
 		padding-right: var(--spacing-lg);
 	}
 
-	// Component type specifics
 	&--tooltip,
 	&--popover {
 		display: inline-block;
 	}
 
-	// Tag/Chip/Badge specific with design system
 	&--tag,
 	&--chip,
 	&--badge,
@@ -139,7 +126,7 @@
 	&--badge {
 		@include badge-style();
 		@include flex-center();
-		min-width: var(--size-6); // 24px
+		min-width: var(--size-6);
 		height: var(--size-6);
 	}
 
@@ -147,7 +134,6 @@
 		border-radius: var(--border-radius-full);
 	}
 
-	// Divider/Separator with containment
 	&--divider,
 	&--separator {
 		@include contained-element();
@@ -212,7 +198,6 @@
 		}
 	}
 
-	// Layout utilities with containment
 	&--container {
 		@include container();
 
@@ -237,7 +222,6 @@
 		padding: 0;
 	}
 
-	// Rating specific
 	&--rating-stars,
 	&--rating-hearts,
 	&--thumbs-rating {
@@ -246,7 +230,6 @@
 		padding: 0;
 	}
 
-	// Stepper specific
 	&--stepper,
 	&--wizard-steps {
 		background: transparent;
@@ -256,7 +239,6 @@
 		max-width: 100%;
 	}
 
-	// Element styles
 	&__icon {
 		@include flex-center();
 		flex-shrink: 0;
@@ -272,7 +254,7 @@
 	&__dismiss {
 		@include absolute-center-y();
 		right: var(--spacing-xs);
-		@include size(var(--size-4)); // 16px
+		@include size(var(--size-4));
 		@include interactive-element();
 		@include flex-center();
 		border: none;
@@ -289,7 +271,6 @@
 		}
 	}
 
-	// Tooltip/Popover overlay with intentional positioning
 	&__overlay {
 		/* Intentional absolute positioning for overlay effect */
 		position: absolute;
@@ -363,8 +344,8 @@
 	}
 
 	&__popover {
-		min-width: var(--size-50); // 200px
-		max-width: var(--size-75); // 300px
+		min-width: var(--size-50);
+		max-width: var(--size-75);
 		white-space: normal;
 	}
 
@@ -378,7 +359,6 @@
 		color: var(--color-text-secondary);
 	}
 
-	// Rating components with design system
 	&__rating {
 		@include flex-row();
 		align-items: center;
@@ -425,7 +405,6 @@
 		color: var(--color-text-secondary);
 	}
 
-	// Stepper components with design system
 	&__stepper {
 		@include flex-row();
 		align-items: center;
@@ -440,7 +419,7 @@
 	}
 
 	&__step_marker {
-		@include size(var(--size-8)); // 32px
+		@include size(var(--size-8));
 		border-radius: var(--border-radius-full);
 		background: var(--color-background-secondary);
 		color: var(--color-text-secondary);
@@ -453,7 +432,7 @@
 	}
 
 	&__step_connector {
-		width: var(--size-12); // 48px
+		width: var(--size-12);
 		height: 2px;
 		background: var(--color-border);
 		margin: 0 var(--spacing-sm);
@@ -485,7 +464,6 @@
 		}
 	}
 
-	// Divider label
 	&__divider_label {
 		background: var(--color-background);
 		padding: 0 var(--spacing-md);
@@ -494,7 +472,6 @@
 	}
 }
 
-// Responsive design
 @include media-tablet-down {
 	.utility {
 		&__stepper {
@@ -509,7 +486,7 @@
 
 		&__step_connector {
 			width: 2px;
-			height: var(--size-4); // 16px
+			height: var(--size-4);
 			margin: var(--spacing-xs) 0;
 		}
 

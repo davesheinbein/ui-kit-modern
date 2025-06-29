@@ -129,6 +129,19 @@ export interface CardProps
 		| 'vertical-rect'
 		| 'square'
 		| 'circle';
+
+	/** Width of the card (CSS value, e.g. '100%', '300px') */
+	w?: string | number;
+	/** Height of the card (CSS value, e.g. '100%', '200px') */
+	h?: string | number;
+	/** Minimum width of the card */
+	minW?: string | number;
+	/** Minimum height of the card */
+	minH?: string | number;
+	/** Maximum width of the card */
+	maxW?: string | number;
+	/** Maximum height of the card */
+	maxH?: string | number;
 }
 
 /**
@@ -169,6 +182,12 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 			matchSummary,
 			userStatus,
 			shape = 'horizontal-rect', // default shape
+			w,
+			h,
+			minW,
+			minH,
+			maxW,
+			maxH,
 			...props
 		},
 		ref
@@ -826,6 +845,12 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 				className={combinedClassName}
 				onClick={handleClick}
 				style={style}
+				w={w}
+				h={h}
+				minW={minW}
+				minH={minH}
+				maxW={maxW}
+				maxH={maxH}
 				role={isInteractive ? 'button' : undefined}
 				aria-label={isInteractive ? ariaLabel : undefined}
 				aria-pressed={isInteractive ? pressed : undefined}

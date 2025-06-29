@@ -1,12 +1,6 @@
-/**
- * Textarea Component Styles
- */
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/Animations.scss' as *;
-
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 
 .textarea-container {
 	display: flex;
@@ -24,7 +18,6 @@ textarea {
 	resize: vertical;
 
 	&.textarea {
-		// BEM-style class for explicit textarea usage
 	}
 
 	&:focus {

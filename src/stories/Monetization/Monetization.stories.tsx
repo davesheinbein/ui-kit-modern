@@ -2,12 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import { Wrapper } from '../../components/Wrappers';
-import {
-	Monetization,
-	PricingPlan,
-	UsageData,
-	PaymentData,
-} from '../../components/Monetization';
+import { Monetization } from '../../components/Monetization/Monetization';
 import { commonDecorators } from '../config/decorators';
 
 // =============================================================================
@@ -327,15 +322,12 @@ export const SubscriptionPlans: Story = {
 export const PricingCardVariants: Story = {
 	render: () => (
 		<Wrapper
-			style={{
-				display: 'grid',
-				gridTemplateColumns:
-					'repeat(auto-fit, minmax(300px, 1fr))',
-				gap: '2rem',
-				padding: '2rem',
-			}}
+			layout='grid'
+			columns='repeat(auto-fit, minmax(300px, 1fr))'
+			gap={8}
+			p={8}
 		>
-			<Wrapper style={{ textAlign: 'center' }}>
+			<Wrapper center>
 				<h3>Default</h3>
 				<Monetization
 					kind='pricing-card'
@@ -343,7 +335,7 @@ export const PricingCardVariants: Story = {
 					config={{ variant: 'default' }}
 				/>
 			</Wrapper>
-			<Wrapper style={{ textAlign: 'center' }}>
+			<Wrapper center>
 				<h3>Premium</h3>
 				<Monetization
 					kind='pricing-card'
@@ -354,7 +346,7 @@ export const PricingCardVariants: Story = {
 					}}
 				/>
 			</Wrapper>
-			<Wrapper style={{ textAlign: 'center' }}>
+			<Wrapper center>
 				<h3>Featured</h3>
 				<Monetization
 					kind='pricing-card'

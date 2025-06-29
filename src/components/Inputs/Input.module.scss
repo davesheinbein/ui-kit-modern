@@ -1,18 +1,8 @@
-/**
- * Input Component Styles
- * Modern input styling with proper containment and design system integration
- *
- * All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
- * Do not define animation logic here. Use only the centralized animation classes or keyframes.
- */
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
 @use '../../styles/Animations.scss' as *;
 
-// ========================================
-// Input Container
-// ========================================
 .inputContainer {
 	position: relative;
 	display: flex;
@@ -26,9 +16,6 @@
 	}
 }
 
-// ========================================
-// Label Styles
-// ========================================
 .label {
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-normal);
@@ -43,9 +30,6 @@
 	}
 }
 
-// ========================================
-// Input Wrapper
-// ========================================
 .inputWrapper {
 	position: relative;
 	display: flex;
@@ -55,9 +39,6 @@
 	transition: all 0.2s ease;
 }
 
-// ========================================
-// Input Element
-// ========================================
 .input {
 	flex: 1;
 	padding: var(--spacing-3);
@@ -81,7 +62,6 @@
 		color: var(--color-text-secondary);
 	}
 
-	// Adjustments for icons and affixes
 	&.hasIcon {
 		padding-left: var(--spacing-10);
 	}
@@ -95,9 +75,6 @@
 	}
 }
 
-// ========================================
-// Size Variants
-// ========================================
 .size-small {
 	.input {
 		padding: var(--spacing-2);
@@ -131,9 +108,6 @@
 	}
 }
 
-// ========================================
-// Style Variants
-// ========================================
 .style-outlined {
 	.inputWrapper {
 		border: 1px solid var(--color-border);
@@ -200,9 +174,6 @@
 	}
 }
 
-// ========================================
-// State Variants
-// ========================================
 .state-error {
 	.inputWrapper {
 		border-color: var(--color-error) !important;
@@ -232,9 +203,6 @@
 	}
 }
 
-// ========================================
-// Icon and Affixes
-// ========================================
 .icon {
 	position: absolute;
 	left: var(--spacing-3);
@@ -257,9 +225,6 @@
 	white-space: nowrap;
 }
 
-// ========================================
-// Action Buttons
-// ========================================
 .passwordToggle,
 .clearButton {
 	position: absolute;
@@ -287,9 +252,6 @@
 	right: var(--spacing-8);
 }
 
-// ========================================
-// Helper Text
-// ========================================
 .helperText {
 	font-size: var(--font-size-sm);
 	line-height: 1.4;
@@ -297,9 +259,6 @@
 	margin-top: var(--spacing-1);
 }
 
-// ========================================
-// Responsive Design
-// ========================================
 @media (max-width: 768px) {
 	.size-large {
 		.input {
@@ -309,9 +268,6 @@
 	}
 }
 
-// ========================================
-// Accessibility Improvements
-// ========================================
 @media (prefers-reduced-motion: reduce) {
 	.inputWrapper,
 	.passwordToggle,
@@ -320,7 +276,6 @@
 	}
 }
 
-// High contrast mode support
 @media (prefers-contrast: high) {
 	.inputWrapper {
 		border-width: 2px;

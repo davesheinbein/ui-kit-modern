@@ -1,5 +1,6 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Checkbox } from '../../components/Checkbox';
+import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { Wrapper } from '../../components/Wrappers';
 import { ThemeProvider } from '../../components/Providers';
 import { commonDecorators } from '../config/decorators';
@@ -144,13 +145,7 @@ export const Default: Story = {
 
 export const AllVariants: Story = {
 	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '1rem',
-			}}
-		>
+		<Wrapper direction='column' gap={4}>
 			<h3>Checkboxes</h3>
 			<StatefulCheckbox kind='checkbox' label='Default' />
 			<StatefulCheckbox
@@ -293,10 +288,7 @@ export const AllVariants: Story = {
 						marginBottom: '1.25rem', // add spacing below
 					}}
 				>
-					<StatefulCheckbox
-						kind='Nebula'
-						size='large'
-					/>
+					<StatefulCheckbox kind='Nebula' size='large' />
 					<span>Dark Mode (Nebula)</span>
 				</div>
 			</ThemeProvider>

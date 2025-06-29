@@ -4,6 +4,7 @@ import { Button } from '../../components/Button';
 import { Wrapper } from '../../components/Wrappers';
 import type { WrapperProps } from '../../components/Wrappers';
 import { commonDecorators } from '../config/decorators';
+import * as mocks from '../mocks';
 
 const meta: Meta<typeof Wrapper> = {
 	title: 'Wrappers/Wrapper',
@@ -14,122 +15,48 @@ const meta: Meta<typeof Wrapper> = {
 		docs: {
 			description: {
 				component:
-					'The ultimate DRY wrapper component. Single component handles ALL wrapper types through the "kind" prop. Supports component, provider, and legacy wrapper kinds with configuration-driven approach.',
+					'Flexible, prop-driven wrapper for layout, spacing, and style. All demo data is sourced from mocks.',
 			},
 		},
 	},
 	argTypes: {
-		kind: {
-			control: 'select',
-			options: [
-				'component',
-				'provider',
-				'flex-container',
-				'grid-container',
-				'center-container',
-				'stack-container',
-				'socket-provider-wrapper',
-				'user-settings-provider-wrapper',
-				'theme-palette-provider-wrapper',
-				'achievement-socket-listener-wrapper',
-			],
-			description: 'The type of wrapper to render',
-		},
-		children: {
-			control: 'text',
-			description: 'Content to wrap',
-		},
-		className: {
-			control: 'text',
-			description: 'Additional CSS classes',
-		},
-		configuration: {
-			control: 'object',
-			description: 'Custom wrapper configuration',
-		},
 		layout: {
 			control: 'select',
-			options: [
-				'flex',
-				'grid',
-				'block',
-				'inline',
-				'inline-block',
-			],
+			options: ['flex', 'grid', undefined],
 			description: 'Layout display type',
 		},
 		direction: {
 			control: 'select',
-			options: [
-				'row',
-				'column',
-				'row-reverse',
-				'column-reverse',
-			],
-			description: 'Flex direction',
+			options: ['row', 'column'],
+			description: 'Flex/Grid direction',
 		},
-		align: {
-			control: 'select',
-			options: [
-				'start',
-				'center',
-				'end',
-				'stretch',
-				'baseline',
-			],
-			description: 'Alignment',
-		},
-		justify: {
-			control: 'select',
-			options: [
-				'start',
-				'center',
-				'end',
-				'between',
-				'around',
-				'evenly',
-			],
-			description: 'Justification',
-		},
-		gap: {
-			control: 'select',
-			options: ['xs', 'sm', 'md', 'lg', 'xl', 'none'],
-			description: 'Gap between items',
-		},
-		padding: {
-			control: 'select',
-			options: ['xs', 'sm', 'md', 'lg', 'xl', 'none'],
-			description: 'Internal padding',
-		},
-		margin: {
-			control: 'select',
-			options: ['xs', 'sm', 'md', 'lg', 'xl', 'none'],
-			description: 'External margin',
-		},
-		fullWidth: {
-			control: 'boolean',
-			description: 'Take full width',
-		},
-		fullHeight: {
-			control: 'boolean',
-			description: 'Take full height',
-		},
-		centered: {
+		center: {
 			control: 'boolean',
 			description: 'Center content',
 		},
-		scrollable: {
-			control: 'boolean',
-			description: 'Enable scrolling',
+		gap: {
+			control: 'number',
+			description: 'Gap between items',
 		},
-		bordered: {
-			control: 'boolean',
-			description: 'Show border',
+		columns: {
+			control: 'number',
+			description: 'Grid columns',
 		},
-		elevated: {
-			control: 'boolean',
-			description: 'Add elevation/shadow',
+		rows: { control: 'number', description: 'Grid rows' },
+		p: { control: 'number', description: 'Padding' },
+		border: { control: 'text', description: 'Border' },
+		radius: {
+			control: 'number',
+			description: 'Border radius',
 		},
+		bg: { control: 'text', description: 'Background' },
+		shadow: { control: 'text', description: 'Box shadow' },
+		w: { control: 'number', description: 'Width' },
+		h: { control: 'number', description: 'Height' },
+		minW: { control: 'number', description: 'Min width' },
+		maxW: { control: 'number', description: 'Max width' },
+		minH: { control: 'number', description: 'Min height' },
+		maxH: { control: 'number', description: 'Max height' },
 	},
 };
 
@@ -137,511 +64,242 @@ export default meta;
 type Story = StoryObj<typeof Wrapper>;
 
 // ========================================
-// Basic Wrapper Stories
+// Basic Wrapper Stories (using mock data)
 // ========================================
 
-export const ComponentWrapper: Story = {
+export const BasicFlex: Story = {
 	args: {
-		kind: 'component',
-		children:
-			'This content is wrapped in a component wrapper',
-	},
-};
-
-export const ProviderWrapper: Story = {
-	args: {
-		kind: 'provider',
-		children:
-			'This content is wrapped in a provider wrapper',
-	},
-};
-
-// ========================================
-// Specific Provider Wrapper Stories
-// ========================================
-
-export const SocketProviderWrapper: Story = {
-	args: {
-		kind: 'socket-provider-wrapper',
-		children: 'Socket provider wrapper content',
-	},
-};
-
-export const UserSettingsProviderWrapper: Story = {
-	args: {
-		kind: 'user-settings-provider-wrapper',
-		children: 'User settings provider wrapper content',
-	},
-};
-
-export const ThemeProviderWrapper: Story = {
-	args: {
-		kind: 'theme-palette-provider-wrapper',
-		children: 'Theme palette provider wrapper content',
-	},
-};
-
-export const AchievementSocketListenerWrapper: Story = {
-	args: {
-		kind: 'achievement-socket-listener-wrapper',
-		children: 'Achievement socket listener wrapper content',
-	},
-};
-
-// ========================================
-// Layout Container Stories
-// ========================================
-
-export const FlexContainer: Story = {
-	args: {
-		kind: 'flex-container',
+		layout: 'flex',
 		direction: 'row',
-		justify: 'center',
-		align: 'center',
-		gap: '1rem',
-		children: (
-			<>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#e3f2fd',
-						borderRadius: '4px',
-					}}
-				>
-					Item 1
-				</Wrapper>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#f3e5f5',
-						borderRadius: '4px',
-					}}
-				>
-					Item 2
-				</Wrapper>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#e8f5e8',
-						borderRadius: '4px',
-					}}
-				>
-					Item 3
-				</Wrapper>
-			</>
-		),
-	},
-};
-
-export const GridContainer: Story = {
-	args: {
-		kind: 'grid-container',
-		columns: 'repeat(auto-fit, minmax(150px, 1fr))',
-		gap: '1rem',
-		children: (
-			<>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#ffecb3',
-						borderRadius: '4px',
-					}}
-				>
-					Grid Item 1
-				</Wrapper>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#ffcdd2',
-						borderRadius: '4px',
-					}}
-				>
-					Grid Item 2
-				</Wrapper>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#c8e6c9',
-						borderRadius: '4px',
-					}}
-				>
-					Grid Item 3
-				</Wrapper>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#dcedc8',
-						borderRadius: '4px',
-					}}
-				>
-					Grid Item 4
-				</Wrapper>
-			</>
-		),
-	},
-};
-
-export const CenterContainer: Story = {
-	args: {
-		kind: 'center-container',
-		method: 'flex',
-		children: (
+		gap: 16,
+		p: 16,
+		border: '1px solid #e0e0e0',
+		radius: 8,
+		bg: '#f5f7fa',
+		shadow: '0 2px 8px rgba(0,0,0,0.06)',
+		children: mocks.gridWords3x3.slice(0, 3).map((word) => (
 			<Wrapper
-				style={{
-					padding: '2rem',
-					background: '#f5f5f5',
-					borderRadius: '8px',
-					border: '2px dashed #ccc',
-					textAlign: 'center',
-				}}
+				key={word}
+				p={8}
+				bg='#fff'
+				border='1px solid #eee'
+				radius={6}
 			>
-				<h3>Centered Content</h3>
-				<p>
-					This content is perfectly centered both
-					horizontally and vertically
-				</p>
+				{word}
 			</Wrapper>
-		),
+		)),
 	},
 };
 
-export const StackContainer: Story = {
+export const BasicGrid: Story = {
 	args: {
-		kind: 'stack-container',
-		direction: 'column',
-		gap: '0.5rem',
-		align: 'stretch',
-		children: (
-			<>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#e1f5fe',
-						borderRadius: '4px',
-					}}
-				>
-					Stack Item 1
-				</Wrapper>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#f3e5f5',
-						borderRadius: '4px',
-					}}
-				>
-					Stack Item 2
-				</Wrapper>
-				<Wrapper
-					style={{
-						padding: '1rem',
-						background: '#fff3e0',
-						borderRadius: '4px',
-					}}
-				>
-					Stack Item 3
-				</Wrapper>
-			</>
-		),
+		layout: 'grid',
+		columns: 3,
+		gap: 20,
+		p: 20,
+		border: '2px solid #90caf9',
+		radius: 16,
+		bg: '#e3f2fd',
+		children: mocks.gridWords3x3.map((word) => (
+			<Wrapper
+				key={word}
+				p={8}
+				bg='#fff'
+				border='1px solid #eee'
+				radius={6}
+			>
+				{word}
+			</Wrapper>
+		)),
 	},
 };
 
-export const Component: Story = {
+export const ProfileCard: Story = {
 	render: () => (
-		<Wrapper>
-			<h3>Wrapper Examples (No)</h3>
-			<Wrapper
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					gap: '2rem',
-				}}
-			>
-				<Wrapper>
-					<h4>Generic Wrappers</h4>
-					<Wrapper
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '1rem',
-						}}
-					>
-						<Wrapper kind='component'>
-							component wrapper
-						</Wrapper>
-						<Wrapper kind='provider'>
-							provider wrapper
-						</Wrapper>
-					</Wrapper>
-				</Wrapper>
-
-				<Wrapper>
-					<h4>Layout Containers</h4>
-					<Wrapper
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '1rem',
-						}}
-					>
-						<Wrapper kind='flex-container' gap='0.5rem'>
-							<span
-								style={{
-									padding: '0.5rem',
-									background: '#e3f2fd',
-								}}
-							>
-								Flex Item 1
-							</span>
-							<span
-								style={{
-									padding: '0.5rem',
-									background: '#f3e5f5',
-								}}
-							>
-								Flex Item 2
-							</span>
-						</Wrapper>
-						<Wrapper
-							kind='center-container'
-							style={{
-								height: '100px',
-								background: '#f5f5f5',
-								border: '1px dashed #ccc',
-							}}
-						>
-							Centered content via
-						</Wrapper>
-						<Wrapper kind='stack-container'>
-							<Wrapper
-								style={{
-									padding: '0.5rem',
-									background: '#ffecb3',
-								}}
-							>
-								Stack Item 1
-							</Wrapper>
-							<Wrapper
-								style={{
-									padding: '0.5rem',
-									background: '#ffcdd2',
-								}}
-							>
-								Stack Item 2
-							</Wrapper>
-						</Wrapper>
-					</Wrapper>
-				</Wrapper>
-			</Wrapper>
+		<Wrapper
+			w={320}
+			p={24}
+			radius={16}
+			shadow='0 4px 16px rgba(0,0,0,0.08)'
+			bg='#fff'
+		>
+			<img
+				src={mocks.mockProfile.avatar}
+				alt={mocks.mockProfile.name}
+				style={{ width: 80, borderRadius: '50%' }}
+			/>
+			<h3 style={{ margin: '12px 0 4px' }}>
+				{mocks.mockProfile.name}
+			</h3>
+			<p style={{ color: '#888', marginBottom: 8 }}>
+				{mocks.mockProfile.bio}
+			</p>
+			<div>
+				Level: {mocks.mockProfile.level} | Points:{' '}
+				{mocks.mockProfile.points}
+			</div>
+			<div>
+				Achievements: {mocks.mockProfile.achievements}
+			</div>
 		</Wrapper>
 	),
 };
 
-// ========================================
-// Advanced Configuration Examples
-// ========================================
-
-export const WithCustomConfiguration: Story = {
-	args: {
-		kind: 'component',
-		children: 'Custom configured wrapper',
-		configuration: {
-			deprecationMessage:
-				'This is a custom deprecation message',
-			enableConsoleWarning: true,
-		},
-	},
-};
-
-export const WithClassName: Story = {
-	args: {
-		kind: 'component',
-		children: 'Wrapper with custom styling',
-		className: 'custom-wrapper-class',
-		style: {
-			border: '2px solid #007acc',
-			padding: '1rem',
-			borderRadius: '8px',
-			backgroundColor: '#f5f5f5',
-		},
-	},
-};
-
-// ========================================
-// Complex Content Examples
-// ========================================
-
-export const WithComplexContent: Story = {
-	args: {
-		kind: 'component',
-		children: (
-			<Wrapper>
-				<h4>Complex Wrapped Content</h4>
-				<p>This wrapper contains multiple elements:</p>
-				<ul>
-					<li>List item 1</li>
-					<li>List item 2</li>
-					<li>List item 3</li>
-				</ul>
-				<Button kind='primary'>
-					A button inside the wrapper
-				</Button>
-			</Wrapper>
-		),
-	},
-};
-
-export const NestedWrappers: Story = {
+export const FriendsList: Story = {
 	render: () => (
-		<Wrapper kind='component'>
-			<h4>Outer Wrapper</h4>
-			<Wrapper kind='provider'>
-				<h5>Inner Provider Wrapper</h5>
-				<Wrapper>
-					<span>Deeply nested wrapper content</span>
+		<Wrapper
+			layout='flex'
+			direction='column'
+			gap={12}
+			p={16}
+			radius={12}
+			bg='#f9f9f9'
+			w={280}
+		>
+			{mocks.mockFriends.map((friend) => (
+				<Wrapper
+					key={friend.id}
+					layout='flex'
+					direction='row'
+					gap={8}
+					p={8}
+					bg='#fff'
+					border='1px solid #eee'
+					radius={8}
+				>
+					<img
+						src={friend.avatar}
+						alt={friend.name}
+						style={{
+							width: 32,
+							height: 32,
+							borderRadius: '50%',
+						}}
+					/>
+					<div>
+						<div style={{ fontWeight: 500 }}>
+							{friend.name}
+						</div>
+						<div style={{ fontSize: 12, color: '#888' }}>
+							{friend.status} • {friend.lastSeen}
+						</div>
+					</div>
 				</Wrapper>
-			</Wrapper>
+			))}
 		</Wrapper>
 	),
 };
 
-// ========================================
-// Sidebar Overlay Example
-// ========================================
+export const AllVariations: Story = {
+	render: () => {
+		const variations = [
+			{
+				title: 'Flex Row Centered',
+				props: {
+					layout: 'flex' as const,
+					direction: 'row' as const,
+					center: true,
+					gap: 16,
+					p: 16,
+					border: '1px solid #e0e0e0',
+					radius: 8,
+					bg: '#f5f7fa',
+					shadow: '0 2px 8px rgba(0,0,0,0.06)',
+				},
+			},
+			{
+				title: 'Flex Column',
+				props: {
+					layout: 'flex' as const,
+					direction: 'column' as const,
+					gap: 12,
+					p: 12,
+					border: '1px dashed #bdbdbd',
+					radius: 12,
+					bg: '#fffde7',
+				},
+			},
+			{
+				title: 'Grid 3 Columns',
+				props: {
+					layout: 'grid' as const,
+					columns: 3,
+					gap: 20,
+					p: 20,
+					border: '2px solid #90caf9',
+					radius: 16,
+					bg: '#e3f2fd',
+				},
+			},
+			{
+				title: 'Grid 2 Rows',
+				props: {
+					layout: 'grid' as const,
+					rows: 2,
+					columns: 2,
+					gap: 8,
+					p: 8,
+					border: '1px solid #c8e6c9',
+					radius: 6,
+					bg: '#f1f8e9',
+				},
+			},
+			{
+				title: 'Box with Sizing',
+				props: {
+					w: 200,
+					h: 100,
+					p: 16,
+					border: '1px solid #ffb300',
+					radius: 20,
+					bg: '#fff8e1',
+					shadow: '0 4px 12px rgba(255,193,7,0.12)',
+				},
+			},
+			{
+				title: 'Min/Max Sizing',
+				props: {
+					minW: 120,
+					maxW: 300,
+					minH: 60,
+					maxH: 120,
+					p: 10,
+					border: '1px solid #b39ddb',
+					radius: 10,
+					bg: '#ede7f6',
+				},
+			},
+			{
+				title: 'Shadow Only',
+				props: {
+					p: 24,
+					shadow: '0 8px 24px rgba(0,0,0,0.12)',
+					bg: '#fff',
+				},
+			},
+		];
 
-export const SidebarWithOverlay: Story = {
-	render: (args) => {
-		const [open, setOpen] = React.useState(false);
 		return (
-			<div
-				style={{ position: 'relative', minHeight: '300px' }}
-			>
-				<Button
-					kind='primary'
-					size='small'
-					onClick={() => setOpen(true)}
-				>
-					Open Sidebar With Overlay
-				</Button>
-				{open && (
-					<>
-						{/* Overlay covers the whole screen */}
+			<div style={{ display: 'grid', gap: 24 }}>
+				{variations.map((variation, idx) => (
+					<div key={variation.title}>
 						<div
-							style={{
-								position: 'fixed',
-								top: 0,
-								left: 0,
-								width: '100vw',
-								height: '100vh',
-								background: 'rgba(0,0,0,0.2)',
-								zIndex: 99,
-							}}
-							onClick={() => setOpen(false)}
-							aria-label='Close sidebar overlay'
-						/>
-						<Wrapper
-							kind='sidebar-wrapper'
-							style={{
-								position: 'fixed',
-								top: 0,
-								right: 0,
-								height: '100vh',
-								width: 320,
-								background: '#fff',
-								zIndex: 100,
-								boxShadow: '0 0 16px rgba(0,0,0,0.15)',
-								padding: 24,
-							}}
-							onClose={() => setOpen(false)}
+							style={{ fontWeight: 600, marginBottom: 8 }}
 						>
-							<div>
-								<h3>Sidebar With Overlay</h3>
-								<p>
-									This sidebar closes when you click the
-									overlay or outside the sidebar.
-								</p>
-								<Button
-									kind='secondary'
-									size='small'
-									onClick={() => setOpen(false)}
-								>
-									Close
-								</Button>
-							</div>
+							{variation.title}
+						</div>
+						<Wrapper {...variation.props}>
+							{mocks.gridWords
+								.slice(idx * 3, idx * 3 + 3)
+								.join(', ')}
 						</Wrapper>
-					</>
-				)}
+					</div>
+				))}
 			</div>
 		);
 	},
 };
 
 // ========================================
-// Sidebar Wrapper Stories with Overlay (All Sidebar Stories)
+// End of stories
 // ========================================
-
-export const SidebarWrapperWithOverlay: Story = {
-	render: (args) => {
-		const [open, setOpen] = React.useState(false);
-		return (
-			<div style={{ position: 'relative', minHeight: 300 }}>
-				<Button
-					kind='primary'
-					size='small'
-					onClick={() => setOpen(true)}
-				>
-					Open Sidebar With Overlay
-				</Button>
-				{open && (
-					<>
-						{/* Overlay covers the whole screen */}
-						<div
-							style={{
-								position: 'fixed',
-								top: 0,
-								left: 0,
-								width: '100vw',
-								height: '100vh',
-								background: 'rgba(0,0,0,0.2)',
-								zIndex: 99,
-							}}
-							onClick={() => setOpen(false)}
-							aria-label='Close sidebar overlay'
-						/>
-						<Wrapper
-							kind='sidebar-wrapper'
-							style={{
-								position: 'fixed',
-								top: 0,
-								right: 0,
-								height: '100vh',
-								width: 320,
-								background: '#fff',
-								zIndex: 100,
-								boxShadow: '0 0 16px rgba(0,0,0,0.15)',
-								padding: 24,
-							}}
-							onClose={() => setOpen(false)}
-						>
-							<div>
-								<h3>Sidebar With Overlay</h3>
-								<p>
-									This sidebar closes when you click the
-									overlay or outside the sidebar.
-								</p>
-								<Button
-									kind='secondary'
-									size='small'
-									onClick={() => setOpen(false)}
-								>
-									Close
-								</Button>
-							</div>
-						</Wrapper>
-					</>
-				)}
-			</div>
-		);
-	},
-};
-
-// If you have other sidebar stories, repeat the overlay pattern for each variant as needed.

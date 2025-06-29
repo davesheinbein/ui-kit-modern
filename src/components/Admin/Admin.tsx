@@ -262,7 +262,13 @@ const Admin: React.FC<AdminProps> = ({
 		.filter(Boolean)
 		.join(' ');
 	return (
-		<Wrapper className={panelClass} style={{ zIndex }}>
+		<Wrapper
+			p={3}
+			radius='md'
+			shadow='md'
+			className={panelClass}
+			style={{ zIndex }}
+		>
 			{config.renderer ?
 				config.renderer(
 					panelData,

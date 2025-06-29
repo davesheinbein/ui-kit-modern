@@ -1,11 +1,8 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Page, PagePresets } from '../../components/Pages';
-import { Wrapper } from '../../components/Wrappers';
-import type { PageProps } from '../../components/Pages';
+import { Page } from '../../components/Pages/Page';
 import { commonDecorators } from '../config/decorators';
 
-// Meta configuration for the DRY Page system
 const meta: Meta<typeof Page> = {
 	title: 'Pages/Page',
 	component: Page,
@@ -280,23 +277,13 @@ export const FullSize: Story = {
 export const Pattern: Story = {
 	name: ' Pattern Example',
 	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '2rem',
-				padding: '1rem',
-			}}
-		>
+		<Wrapper direction='column' gap={8} p={4}>
 			<Wrapper>
 				<h3>Page Examples:</h3>
 				<Wrapper
-					style={{
-						display: 'grid',
-						gap: '1rem',
-						gridTemplateColumns:
-							'repeat(auto-fit, minmax(300px, 1fr))',
-					}}
+					layout='grid'
+					columns='repeat(auto-fit, minmax(300px, 1fr))'
+					gap={4}
 				>
 					{Page({
 						kind: 'startup',

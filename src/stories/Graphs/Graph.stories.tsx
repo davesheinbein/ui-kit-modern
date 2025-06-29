@@ -99,15 +99,15 @@ export const Pie = (args: Partial<GraphProps>) => (
 		dataKey='score'
 		labelKey='category'
 		title='Pie Chart Example'
-		subtitle='Scores by category (subtitle)'
-		label='Categories'
-		ariaLabel='Pie chart of scores by category'
+		subtitle='Category breakdown (subtitle)'
+		label='Category'
+		ariaLabel='Pie chart of category breakdown'
+		showLegend={true}
+		showTooltip={true}
 		{...args}
 	/>
 );
 Pie.args = {
-	showLegend: true,
-	showTooltip: true,
 	colorScheme: 'rainbow',
 };
 Pie.storyName = 'Pie Chart';
@@ -144,13 +144,6 @@ export const MultiLine = (args: Partial<GraphProps>) => (
 		subtitle='Wins, losses, and draws by month (subtitle)'
 		ariaLabel='Multi-line chart of wins, losses, and draws by month'
 		{...args}
-		configuration={{
-			series: [
-				{ dataKey: 'wins', name: 'Wins' },
-				{ dataKey: 'losses', name: 'Losses' },
-				{ dataKey: 'draws', name: 'Draws' },
-			],
-		}}
 	/>
 );
 MultiLine.args = {
@@ -199,6 +192,75 @@ CustomColors.args = {
 	showTooltip: true,
 };
 CustomColors.storyName = 'Custom Colors';
+
+// --- All Variants Gallery ---
+const graphKinds = [
+	'bar',
+	'horizontalBar',
+	'pie',
+	'doughnut',
+	'line',
+	'area',
+	'radar',
+	'scatter',
+	'composed',
+	'treemap',
+	'funnel',
+];
+const colorSchemes = ['primary', 'rainbow', 'pastel'];
+
+export const GraphGallery = () => (
+	<div
+		style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}
+	>
+		{graphKinds.map((kind) =>
+			colorSchemes.map((colorScheme) => (
+				<div
+					key={`${kind}-${colorScheme}`}
+					style={{ minWidth: 320 }}
+				>
+					<Graph
+						kind={kind}
+						data={
+							kind === 'pie' ? pieChartData
+							: kind === 'line' ?
+								timeSeriesData
+							:	sampleChartData
+						}
+						dataKey={
+							kind === 'pie' ? 'score'
+							: kind === 'line' ?
+								'value'
+							:	'score'
+						}
+						labelKey={
+							kind === 'pie' ? 'category'
+							: kind === 'line' ?
+								'date'
+							:	'match'
+						}
+						title={`${kind} (${colorScheme})`}
+						colorScheme={colorScheme}
+						showGrid
+						showAxes
+						showLegend
+						ariaLabel={`${kind} chart`}
+					/>
+					<div
+						style={{
+							fontSize: 12,
+							marginTop: 4,
+							textAlign: 'center',
+						}}
+					>
+						{kind} / {colorScheme}
+					</div>
+				</div>
+			))
+		)}
+	</div>
+);
+GraphGallery.storyName = 'All Variants Gallery';
 
 // --- Docs/Usage Note ---
 /**

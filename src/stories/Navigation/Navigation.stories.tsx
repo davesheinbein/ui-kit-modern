@@ -1,121 +1,13 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Navigation } from '../../components/Navigation';
-import { Wrapper } from '../../components/Wrappers';
+import { Navigation } from '../../components/Navigation/Navigation';
 import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Navigation> = {
 	title: 'Navigation/Navigation',
 	component: Navigation,
 	decorators: commonDecorators,
-	parameters: {
-		layout: 'fullscreen',
-	},
-	argTypes: {
-		kind: {
-			control: 'select',
-			options: [
-				'navbar',
-				'mobile-nav',
-				'hamburger-menu',
-				'side-drawer',
-				'breadcrumbs',
-				'pagination',
-				'tabs',
-				'segmented-controls',
-				'back-navigation',
-				'step-navigation',
-				'filter-navigation',
-				'quick-navigation',
-			],
-			description: 'Navigation component type',
-		},
-		layout: {
-			control: 'select',
-			options: ['horizontal', 'vertical', 'responsive'],
-			description: 'Navigation layout',
-		},
-		variant: {
-			control: 'select',
-			options: [
-				'default',
-				'minimal',
-				'filled',
-				'outlined',
-				'glass',
-				'floating',
-			],
-			description: 'Navigation variant/style',
-		},
-		items: {
-			control: 'object',
-			description: 'Navigation items array',
-		},
-		currentPath: {
-			control: 'text',
-			description: 'Current active path',
-		},
-		responsive: {
-			control: 'boolean',
-			description: 'Enable responsive behavior',
-		},
-		mobileBreakpoint: {
-			control: {
-				type: 'range',
-				min: 320,
-				max: 1024,
-				step: 16,
-			},
-			description: 'Mobile breakpoint (px)',
-		},
-		closeOnSelect: {
-			control: 'boolean',
-			description: 'Close navigation on item select',
-		},
-		showIcons: {
-			control: 'boolean',
-			description: 'Show navigation icons',
-		},
-		showLabels: {
-			control: 'boolean',
-			description: 'Show navigation labels',
-		},
-		showBadges: {
-			control: 'boolean',
-			description: 'Show notification badges',
-		},
-		totalPages: {
-			control: { type: 'range', min: 1, max: 20, step: 1 },
-			description: 'Total pages (for pagination)',
-		},
-		currentPage: {
-			control: { type: 'range', min: 1, max: 20, step: 1 },
-			description: 'Current page (for pagination)',
-		},
-		activeTab: {
-			control: 'text',
-			description: 'Active tab ID (for tabs)',
-		},
-		isOpen: {
-			control: 'boolean',
-			description: 'Drawer open state (for drawers)',
-		},
-		stickyTop: {
-			control: 'boolean',
-			description: 'Stick to top of viewport',
-		},
-		animated: {
-			control: 'boolean',
-			description: 'Enable animations',
-		},
-		shadow: {
-			control: 'boolean',
-			description: 'Show shadow/elevation',
-		},
-		border: {
-			control: 'boolean',
-			description: 'Show border',
-		},
-	},
+	tags: ['autodocs'],
 };
 
 export default meta;
@@ -254,13 +146,7 @@ export const StepNavigation: Story = {
 
 export const AllVariants: Story = {
 	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '2rem',
-			}}
-		>
+		<Wrapper direction='column' gap={8}>
 			<Wrapper>
 				<h3>Default Navbar</h3>
 				<Navigation

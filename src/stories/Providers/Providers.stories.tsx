@@ -1,28 +1,26 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '../../components/Button';
-import { Wrapper } from '../../components/Wrappers';
-import {
-	Provider,
-	useSocket,
-	useUserSettings,
-	useThemePalette,
-} from '../../components/Providers';
-import type { ProviderProps } from '../../components/Providers';
+import { Providers } from '../../components/Providers';
 import { commonDecorators } from '../config/decorators';
 
-// Example component that uses the provider context
-const ProviderDemo: React.FC<{ providerType: string }> = ({
-	providerType,
-}) => (
+const meta: Meta<typeof Providers> = {
+	title: 'Providers/Providers',
+	component: Providers,
+	decorators: commonDecorators,
+	tags: ['autodocs'],
+};
+
+export default meta;
+
+export const ProviderDemo: React.FC<{
+	providerType: string;
+}> = ({ providerType }) => (
 	<Wrapper
-		style={{
-			padding: '2rem',
-			border: '1px solid #e5e7eb',
-			borderRadius: '8px',
-			background: '#f9fafb',
-			margin: '1rem 0',
-		}}
+		p={8}
+		border='1px solid #e5e7eb'
+		radius={8}
+		bg='#f9fafb'
+		m={4}
 	>
 		<h3>Provider Demo: {providerType}</h3>
 		<p>
@@ -30,10 +28,10 @@ const ProviderDemo: React.FC<{ providerType: string }> = ({
 			the {providerType}.
 		</p>
 		<Wrapper
+			bg='#fff'
+			p={4}
+			radius={4}
 			style={{
-				background: '#fff',
-				padding: '1rem',
-				borderRadius: '4px',
 				fontFamily: 'monospace',
 				fontSize: '0.875rem',
 			}}
@@ -44,8 +42,7 @@ const ProviderDemo: React.FC<{ providerType: string }> = ({
 	</Wrapper>
 );
 
-// Specific demo components for each provider type
-const SocketDemo: React.FC = () => {
+export const SocketDemo: React.FC = () => {
 	const socketContext = useSocket();
 
 	if (!socketContext) {
@@ -99,7 +96,7 @@ const SocketDemo: React.FC = () => {
 	);
 };
 
-const UserSettingsDemo: React.FC = () => {
+export const UserSettingsDemo: React.FC = () => {
 	const userSettingsContext = useUserSettings();
 
 	if (!userSettingsContext) {
@@ -186,7 +183,7 @@ const UserSettingsDemo: React.FC = () => {
 	);
 };
 
-const ThemePaletteDemo: React.FC = () => {
+export const ThemePaletteDemo: React.FC = () => {
 	const themePaletteContext = useThemePalette();
 
 	if (!themePaletteContext) {
@@ -235,7 +232,7 @@ const ThemePaletteDemo: React.FC = () => {
 	);
 };
 
-const AchievementListenerDemo: React.FC = () => (
+export const AchievementListenerDemo: React.FC = () => (
 	<Wrapper
 		style={{
 			padding: '1rem',
@@ -260,74 +257,6 @@ const AchievementListenerDemo: React.FC = () => (
 		</Wrapper>
 	</Wrapper>
 );
-
-// Meta configuration for the DRY Provider system
-const meta: Meta<typeof Provider> = {
-	title: 'Providers/Provider',
-	component: Provider,
-	decorators: commonDecorators,
-	tags: ['autodocs'],
-	parameters: {
-		docs: {
-			description: {
-				component: `### Provider (DRY System)
-
-The new  Provider system provides a single component that can render any provider type through configuration:
-
-- **Provider**: Main component with kind prop
-
-### Usage Examples:
-
-Using Provider with kind prop:
-\`\`\`tsx
-<Provider kind="socket-provider" autoConnect url="/api/socket" />
-<Provider kind="user-settings-provider" initialSettings={settings} />
-<Provider kind="achievement-socket-listener" />
-\`\`\`
-
-
-
-Available Provider Kinds: socket-provider, user-settings-provider, achievement-socket-listener, theme-palette-provider`,
-			},
-		},
-	},
-	argTypes: {
-		kind: {
-			control: 'select',
-			options: [
-				'socket-provider',
-				'user-settings-provider',
-				'achievement-socket-listener',
-				'theme-palette-provider',
-			],
-			description: 'Provider type/kind',
-		},
-		autoConnect: {
-			control: 'boolean',
-			description: 'Auto-connect for socket provider',
-		},
-		url: {
-			control: 'text',
-			description: 'Socket URL (for socket provider)',
-		},
-		initialSettings: {
-			control: 'object',
-			description:
-				'Initial settings (for settings provider)',
-		},
-		session: {
-			control: 'object',
-			description: 'Session object (for socket provider)',
-		},
-		className: {
-			control: 'text',
-			description: 'Additional CSS classes',
-		},
-	},
-};
-
-export default meta;
-type Story = StoryObj<typeof Provider>;
 
 // ===== BASIC PROVIDER VARIANTS =====
 
@@ -409,15 +338,15 @@ export const NestedProviders: Story = {
 	render: () => (
 		<Wrapper style={{ padding: '1rem' }}>
 			<h3>Nested Provider Setup:</h3>
-			<Provider kind='theme-palette-provider'>
-				<Provider
+			<Providers kind='theme-palette-provider'>
+				<Providers
 					kind='user-settings-provider'
 					initialSettings={{
 						theme: 'dark',
 						notifications: true,
 					}}
 				>
-					<Provider
+					<Providers
 						kind='socket-provider'
 						autoConnect={true}
 						url='/api/socket'
@@ -442,9 +371,9 @@ export const NestedProviders: Story = {
 							</ul>
 							<p>Perfect for a complete app setup!</p>
 						</Wrapper>
-					</Provider>
-				</Provider>
-			</Provider>
+					</Providers>
+				</Providers>
+			</Providers>
 		</Wrapper>
 	),
 	parameters: {
@@ -480,18 +409,18 @@ export const AllVariantsShowcase: Story = {
 						gap: '1rem',
 					}}
 				>
-					<Provider kind='socket-provider' autoConnect>
+					<Providers kind='socket-provider' autoConnect>
 						<ProviderDemo providerType='DRY System Socket' />
-					</Provider>
-					<Provider
+					</Providers>
+					<Providers
 						kind='user-settings-provider'
 						initialSettings={{ theme: 'light' }}
 					>
 						<ProviderDemo providerType='DRY System Settings' />
-					</Provider>
-					<Provider kind='theme-palette-provider'>
+					</Providers>
+					<Providers kind='theme-palette-provider'>
 						<ProviderDemo providerType='DRY System Theme' />
-					</Provider>
+					</Providers>
 				</Wrapper>
 			</Wrapper>
 		</Wrapper>

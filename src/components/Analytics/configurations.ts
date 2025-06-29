@@ -307,6 +307,19 @@ export const analyticsConfigurations: Record<
 	'realtime-traffic': realtimeTraffic,
 };
 
+// Default arrays/constants for Analytics
+export const DEFAULT_DATA: any[] = [];
+export const DEFAULT_METRICS: AnalyticsMetric[] = [];
+export const DEFAULT_FILTERS: AnalyticsFilter[] = [];
+export const DEFAULT_COLORS = [
+	'#3b82f6',
+	'#10b981',
+	'#f59e0b',
+	'#ef4444',
+	'#8b5cf6',
+];
+export const DEFAULT_PLUGINS: any[] = [];
+
 // Type exports
 export type AnalyticsKind = AnalyticsConfiguration['kind'];
 export type AnalyticsVariant =

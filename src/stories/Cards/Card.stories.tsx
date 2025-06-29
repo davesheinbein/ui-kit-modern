@@ -7,6 +7,8 @@ import {
 	mockProfile,
 } from '../mocks';
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ExtendedCardKind } from '../../components/Card/configurations';
+import type { CardProps } from '../../components/Card/Card';
 
 const { children, className, variant, ...cardArgTypes } =
 	baseCardArgTypes;
@@ -439,3 +441,103 @@ export const SizeComparison: Story = {
 };
 
 // Custom card is already covered by default story
+
+// Helper: convert mockFriends to correct shape for friend card
+const friendMock = {
+	id: '1',
+	username: 'Alice Smith',
+	avatar: '/api/placeholder/40/40',
+	online: true,
+	division: 'Gold',
+	tier: 'III',
+	inMatch: false,
+	idle: false,
+};
+// Helper: leaderboard mock
+const leaderboardMock = [
+	{
+		id: '1',
+		name: 'Alice',
+		score: 120,
+		avatar: '/api/placeholder/32/32',
+	},
+	{
+		id: '2',
+		name: 'Bob',
+		score: 110,
+		avatar: '/api/placeholder/32/32',
+	},
+	{
+		id: '3',
+		name: 'Carol',
+		score: 105,
+		avatar: '/api/placeholder/32/32',
+	},
+];
+
+const cardKinds = [
+	'default',
+	'elevated',
+	'outlined',
+	'filled',
+	'friend',
+	'game',
+	'profile',
+	'notification',
+	'stats',
+	'settings',
+	'achievement',
+	'puzzle',
+	'leaderboard',
+	'chat-preview',
+	'room-info',
+	'match-summary',
+	'user-status',
+	'custom',
+] as ExtendedCardKind[];
+const cardSizes = [
+	'small',
+	'medium',
+	'large',
+] as CardProps['size'][];
+
+export const CardGallery = () => (
+	<div
+		style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}
+	>
+		{cardKinds.map((kind) =>
+			cardSizes.map((size) => (
+				<div
+					key={`${kind}-${size}`}
+					style={{ minWidth: 280 }}
+				>
+					<Card
+						kind={kind}
+						size={size}
+						title={`${kind} (${size})`}
+						content={`This is a ${kind} card.`}
+						friend={
+							kind === 'friend' ? friendMock : undefined
+						}
+						leaderboard={
+							kind === 'leaderboard' ? leaderboardMock : (
+								undefined
+							)
+						}
+						// ...add more mock props as needed...
+					/>
+					<div
+						style={{
+							fontSize: 12,
+							marginTop: 4,
+							textAlign: 'center',
+						}}
+					>
+						{kind} / {size}
+					</div>
+				</div>
+			))
+		)}
+	</div>
+);
+CardGallery.storyName = 'All Variants Gallery';

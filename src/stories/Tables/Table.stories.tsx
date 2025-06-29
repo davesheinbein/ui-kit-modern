@@ -479,13 +479,7 @@ export const StatsTable: Story = {
 
 export const AllVariants: Story = {
 	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '2rem',
-			}}
-		>
+		<Wrapper direction='column' gap={8}>
 			<Wrapper>
 				<h3>Default</h3>
 				<Table

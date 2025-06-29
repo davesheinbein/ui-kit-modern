@@ -9,6 +9,7 @@ import {
 	timeSeriesData,
 	multiSeriesData,
 } from '../mocks/index';
+import type { AnalyticsProps } from '../../components/Analytics/Analytics';
 
 const meta: Meta<typeof Analytics> = {
 	title: 'Analytics/Analytics',
@@ -97,34 +98,23 @@ type Story = StoryObj<typeof meta>;
 export const Dashboard: Story = {
 	args: {
 		kind: 'dashboard',
-		title: 'Performance Dashboard',
-		metrics: [
-			{
-				id: '1',
-				name: 'Total Users',
-				value: 1234,
-				change: 12.5,
-				trend: 'up',
-			},
-			{
-				id: '2',
-				name: 'Active Sessions',
-				value: 321,
-				change: -3.2,
-				trend: 'down',
-			},
-			{
-				id: '3',
-				name: 'Conversion Rate',
-				value: 0.18,
-				change: 0.01,
-				trend: 'up',
-				format: 'percentage',
-			},
-		],
-		data: sampleChartData,
 		variant: 'dashboard',
-		size: 'lg',
+		size: 'md',
+		title: 'Dashboard Analytics',
+		data: sampleChartData,
+		metrics: [
+			{ id: '1', name: 'Users', value: 1200 },
+			{ id: '2', name: 'Sessions', value: 3400 },
+		],
+		loading: false,
+		error: null,
+		interactive: true,
+		exportable: true,
+		filterable: true,
+		showHeader: true,
+		showFooter: false,
+		showLegend: true,
+		showControls: true,
 	},
 	parameters: {
 		docs: {
@@ -319,3 +309,61 @@ export const Error: Story = {
 		},
 	},
 };
+
+const analyticsKinds: AnalyticsProps['kind'][] = [
+	'dashboard',
+	'chart',
+	'metric',
+	'heatmap',
+	'funnel',
+	'cohort',
+	'report',
+	'realtime',
+];
+const analyticsVariants: AnalyticsProps['variant'][] = [
+	'dashboard',
+	'realtime',
+	'reports',
+	'metrics',
+	'performance',
+];
+const analyticsSizes: AnalyticsProps['size'][] = [
+	'sm',
+	'md',
+	'lg',
+];
+
+export const AnalyticsGallery = () => (
+	<div
+		style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}
+	>
+		{analyticsKinds.map((kind) =>
+			analyticsVariants.map((variant) =>
+				analyticsSizes.map((size) => (
+					<div
+						key={`${kind}-${variant}-${size}`}
+						style={{ minWidth: 340 }}
+					>
+						<Analytics
+							kind={kind}
+							variant={variant}
+							size={size}
+							title={`${kind} (${variant}, ${size})`}
+							// Add mock data as needed for each kind
+						/>
+						<div
+							style={{
+								fontSize: 12,
+								marginTop: 4,
+								textAlign: 'center',
+							}}
+						>
+							{kind} / {variant} / {size}
+						</div>
+					</div>
+				))
+			)
+		)}
+	</div>
+);
+AnalyticsGallery.storyName = 'All Variants Gallery';

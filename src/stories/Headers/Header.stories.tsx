@@ -60,14 +60,14 @@ const NotificationBar = ({ text }: { text: string }) => (
 );
 const LanguageSelector = () => (
 	<Dropdown>
-		<option>EN</option>
-		<option>ES</option>
+		<option data-value='en'>EN</option>
+		<option data-value='es'>ES</option>
 	</Dropdown>
 );
 const CurrencySelector = () => (
 	<Dropdown>
-		<option>USD</option>
-		<option>EUR</option>
+		<option data-value='usd'>USD</option>
+		<option data-value='eur'>EUR</option>
 	</Dropdown>
 );
 const CTAButton = ({

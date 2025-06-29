@@ -12,7 +12,12 @@ export const reduxProviderDecorator = (Story: any) => (
 export const commonDecorators = [
 	reduxProviderDecorator,
 	(Story: any) => (
-		<Wrapper kind='flex-container' direction='column'>
+		<Wrapper
+			direction='column'
+			p={4}
+			gap={3}
+			bg='transparent'
+		>
 			<Story />
 		</Wrapper>
 	),
@@ -22,8 +27,10 @@ export const selectDecorators = [
 	reduxProviderDecorator,
 	(Story: any) => (
 		<Wrapper
-			kind='flex-container'
 			direction='column'
+			p={4}
+			gap={3}
+			bg='transparent'
 			style={{ overflow: 'visible' }}
 		>
 			<Story />
@@ -35,8 +42,10 @@ export const dropdownDecorators = [
 	reduxProviderDecorator,
 	(Story: any) => (
 		<Wrapper
-			kind='flex-container'
 			direction='column'
+			p={4}
+			gap={3}
+			bg='transparent'
 			style={{ overflow: 'visible' }}
 		>
 			<Story />

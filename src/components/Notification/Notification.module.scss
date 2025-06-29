@@ -1,14 +1,7 @@
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 @use '../../styles/Animations.scss' as *;
 @use '../../styles/mixins' as mixins;
 
-/**
- * Notification.module.scss - Modern Notification System with Design System
- */
-
 .notification {
-	// Base styles with proper containment
 	display: flex;
 	align-items: flex-start;
 	gap: var(--spacing-3);
@@ -23,16 +16,14 @@
 	font-size: var(--text-sm);
 	line-height: 1.25;
 	transition: all var(--transition-normal);
-	overflow: hidden; // Prevent content overflow
+	overflow: hidden;
 
-	// States
 	&--hidden {
 		opacity: 0;
 		pointer-events: none;
 	}
 }
 
-// Content sections with proper containment
 .notification__icon {
 	@include mixins.flex-center;
 	width: var(--spacing-5);
@@ -47,8 +38,8 @@
 
 .notification__content {
 	flex: 1;
-	min-width: 0; // Allow text truncation
-	overflow: hidden; // Prevent text overflow
+	min-width: 0;
+	overflow: hidden;
 }
 
 .notification__title {
@@ -60,9 +51,7 @@
 
 .notification__message {
 	opacity: 0.9;
-	@include mixins.text-truncate-lines(
-		3
-	); // Limit to 3 lines
+	@include mixins.text-truncate-lines(3);
 }
 
 .notification__children {
@@ -96,7 +85,7 @@
 	display: flex;
 	gap: var(--spacing-2);
 	margin-top: var(--spacing-3);
-	flex-wrap: wrap; // Allow wrapping on small screens
+	flex-wrap: wrap;
 }
 
 .notification__action {
@@ -162,10 +151,9 @@
 	background: currentColor;
 	transition: width 0.1s linear;
 	border-radius: inherit;
-	will-change: width; // Optimize for animation
+	will-change: width;
 }
 
-// Severity variants using design system
 .notification--success {
 	background: var(--semantic-success-50);
 	border-color: var(--semantic-success-500);
@@ -207,11 +195,9 @@
 }
 
 .notification--neutral {
-	// Uses default notification styles
 	color: var(--text-primary);
 }
 
-// Variant styles
 .notification--filled {
 	&.notification--success {
 		background: var(--semantic-success-500);
@@ -271,11 +257,9 @@
 	box-shadow: 0 0 20px var(--accent-blue-200);
 }
 
-// Position styles - some extend beyond bounds intentionally for overlays
 %notification-positioned {
 	position: fixed;
 	z-index: var(--z-notification);
-	// Intentional overflow: Notifications need to appear over other content
 }
 
 .notification--top_left {
@@ -326,7 +310,6 @@
 	min-width: 300px;
 }
 
-// Responsive design with proper containment
 @include mixins.mobile-only {
 	.notification {
 		margin: var(--spacing-1);

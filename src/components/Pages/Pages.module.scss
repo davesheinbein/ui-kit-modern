@@ -1,16 +1,8 @@
-/**
- * Pages.module.scss - Modern Page Layout System with Design System
- * Provides consistent page layouts, headers, footers, and responsive design
- */
-
-// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
 @use '../../styles/Animations.scss' as *;
 @use '../../styles/Variables.scss' as *;
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
 
-// Base page styles with proper containment
 .page {
 	@include contained-element();
 	width: 100%;
@@ -19,7 +11,6 @@
 	background: var(--color-background);
 }
 
-// === PAGE VARIANTS ===
 .page-default {
 	background: var(--color-background);
 }
@@ -46,13 +37,10 @@
 	);
 }
 
-// Custom styles are provided via configuration - placeholder for dynamic styles
 .page-custom {
-	/* Intentionally empty - accepts dynamic styles via CSS-in-JS or configuration */
-	color: inherit; /* Placeholder to avoid empty ruleset warning */
+	color: inherit;
 }
 
-// === PAGE LAYOUTS ===
 .page-layout-standard {
 	@include container();
 }
@@ -67,7 +55,7 @@
 .page-layout-sidebar {
 	@include contained-element();
 	display: grid;
-	grid-template-columns: var(--size-70) 1fr; // 280px
+	grid-template-columns: var(--size-70) 1fr;
 	gap: var(--spacing-xl);
 
 	@include media-tablet-down {
@@ -92,7 +80,7 @@
 	grid-template-columns: repeat(
 		auto-fit,
 		minmax(var(--size-75), 1fr)
-	); // 300px
+	);
 	gap: var(--spacing-xl);
 }
 
@@ -101,14 +89,13 @@
 	display: block; /* Placeholder to avoid empty ruleset warning */
 }
 
-// === PAGE SIZES ===
 .page-size-compact {
-	max-width: var(--size-150); // 600px
+	max-width: var(--size-150);
 	margin: 0 auto;
 }
 
 .page-size-medium {
-	max-width: var(--size-200); // 800px
+	max-width: var(--size-200);
 	margin: 0 auto;
 }
 
@@ -127,7 +114,6 @@
 	width: auto; /* Placeholder to avoid empty ruleset warning */
 }
 
-// === PAGE STRUCTURE ===
 .pageHeader {
 	padding: var(--spacing-md) var(--spacing-xl);
 	border-bottom: var(--border-width) solid
@@ -228,7 +214,6 @@
 	@include button-primary();
 }
 
-// === STARTUP PAGE SPECIFIC STYLES ===
 .startupPageContent {
 	@include flex-column();
 	align-items: center;
@@ -261,11 +246,10 @@
 	@include button-primary();
 	@include text-body-base();
 	font-weight: var(--font-weight-semibold);
-	min-width: var(--size-35); // 140px
+	min-width: var(--size-35);
 	@include hover-lift();
 }
 
-// === RESPONSIVE DESIGN ===
 @include media-tablet-down {
 	.pageMain {
 		padding: var(--spacing-md);
@@ -278,7 +262,7 @@
 	.startupActions {
 		@include flex-column();
 		width: 100%;
-		max-width: var(--size-75); // 300px
+		max-width: var(--size-75);
 	}
 
 	.startupButton {
@@ -292,7 +276,6 @@
 	}
 }
 
-// === ACCESSIBILITY ===
 .page {
 	&:focus-within {
 		.backButton,

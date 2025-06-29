@@ -2,7 +2,6 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
 	Settings,
-	QuickSettings,
 	defaultThemes,
 } from '../../components/Settings';
 import { Wrapper } from '../../components/Wrappers';
@@ -299,27 +298,6 @@ export const SettingsShowcase: Story = {
 			description: {
 				story:
 					'Demonstrates Settings component handling different settings types through the kind prop.',
-			},
-		},
-	},
-};
-
-export const QuickSettingsPatterns: Story = {
-	name: '🚀 QuickSettings',
-	render: (args) => (
-		<Wrapper className='space-y-4'>
-			<h3>Quick Settings Patterns</h3>
-			<Wrapper className='grid gap-4'>
-				{QuickSettings.themes(mockThemeItems)}
-				{QuickSettings.customization(mockEmoteItems)}
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Demonstrates QuickSettings for rapid creation of common settings patterns.',
 			},
 		},
 	},

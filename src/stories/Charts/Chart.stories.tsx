@@ -1,6 +1,5 @@
 import React from 'react';
 import { Charts } from '../../components/Chart';
-import { chartArgTypes as baseChartArgTypes } from '../config/argTypes';
 import { commonDecorators } from '../config/decorators';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -825,3 +824,106 @@ export const LegendWithFilterAndSearch: Story = {
 		variant: 'default',
 	},
 };
+
+export const KPI: Story = {
+	args: {
+		kind: 'chart-legend',
+		chartType: 'kpi',
+		dataSeries: [
+			{
+				id: 'kpi-1',
+				label: 'Revenue',
+				color: '#3b82f6',
+				visible: true,
+				data: [{ name: 'Value', value: 10000 }],
+			},
+		],
+		variant: 'default',
+		size: 'medium',
+		showLegend: true,
+		showTooltip: true,
+		interactive: true,
+	},
+};
+
+// --- Gallery of all chart variants, sizes, and legend orientations ---
+const chartKinds = [
+	'chart-legend',
+	'legend-horizontal',
+	'legend-vertical',
+	'legend-grid',
+	'legend-minimal',
+	'chart-tooltip',
+	'tooltip-simple',
+	'tooltip-detailed',
+	'tooltip-custom',
+	'chart-filter-controls',
+	'filter-checkboxes',
+	'filter-buttons',
+	'filter-dropdown',
+	'filter-multi-select',
+	'chart-controls',
+	'zoom-controls',
+	'time-range-selector',
+	'data-series-toggle',
+];
+const chartSizes = ['small', 'medium', 'large'];
+const legendOrientations = ['horizontal', 'vertical'];
+
+export const ChartGallery = () => (
+	<div
+		style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}
+	>
+		{chartKinds.map((kind) =>
+			chartSizes.map((size) =>
+				legendOrientations.map((legendOrientation) => (
+					<div
+						key={`${kind}-${size}-${legendOrientation}`}
+						style={{ minWidth: 320 }}
+					>
+						<Charts
+							kind={kind}
+							size={size}
+							legendOrientation={legendOrientation}
+							chartId={`${kind}-${size}-${legendOrientation}`}
+							dataSeries={[
+								{
+									id: 'apples',
+									label: 'Apples',
+									color: '#f87171',
+									visible: true,
+									data: [{ name: 'Q1', value: 120 }],
+								},
+								{
+									id: 'bananas',
+									label: 'Bananas',
+									color: '#fbbf24',
+									visible: true,
+									data: [{ name: 'Q1', value: 80 }],
+								},
+								{
+									id: 'oranges',
+									label: 'Oranges',
+									color: '#34d399',
+									visible: true,
+									data: [{ name: 'Q1', value: 95 }],
+								},
+							]}
+							spacing='normal'
+						/>
+						<div
+							style={{
+								fontSize: 12,
+								marginTop: 4,
+								textAlign: 'center',
+							}}
+						>
+							{kind} / {size} / {legendOrientation}
+						</div>
+					</div>
+				))
+			)
+		)}
+	</div>
+);
+ChartGallery.storyName = 'All Variants Gallery';

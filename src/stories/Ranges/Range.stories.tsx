@@ -1,80 +1,14 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Range } from '../../components/Ranges';
+import { Range } from '../../components/Ranges/Range';
 import { Wrapper } from '../../components/Wrappers';
 import { commonDecorators } from '../config/decorators';
 import { commonArgTypes } from '../config/argTypes';
 
 const meta: Meta<typeof Range> = {
-	title: 'Range/Range',
+	title: 'Ranges/Range',
 	component: Range,
 	decorators: commonDecorators,
-	parameters: {
-		layout: 'centered',
-		docs: {
-			description: {
-				component:
-					'A versatile range/slider component with multiple variants, sizes, and interactive features including tooltips, marks, and dual-range support.',
-			},
-		},
-	},
-	argTypes: {
-		kind: {
-			control: { type: 'select' },
-			options: [
-				'range',
-				'slider',
-				'dual-range',
-				'stepped-range',
-				'color-picker',
-				'volume-control',
-				'brightness-control',
-				'progress-slider',
-				'temperature-control',
-				'custom',
-			],
-			description: 'Range type/variant',
-		},
-		value: {
-			control: { type: 'number' },
-			description: 'Current value of the range',
-		},
-		min: {
-			control: { type: 'number' },
-			description: 'Minimum value',
-		},
-		max: {
-			control: { type: 'number' },
-			description: 'Maximum value',
-		},
-		step: {
-			control: { type: 'number' },
-			description: 'Step increment',
-		},
-		label: {
-			control: 'text',
-			description: 'Label for the range',
-		},
-		helpText: {
-			control: 'text',
-			description: 'Helper text to display',
-		},
-		error: {
-			control: 'text',
-			description: 'Error message to display',
-		},
-		disabled: {
-			control: 'boolean',
-			description: 'Disable the component',
-		},
-		readOnly: {
-			control: 'boolean',
-			description: 'Make the component read-only',
-		},
-		required: {
-			control: 'boolean',
-			description: 'Whether the field is required',
-		},
-	},
 	tags: ['autodocs'],
 };
 
@@ -241,13 +175,10 @@ export const LargeSize: Story = {
 export const AllRangeTypes: Story = {
 	render: () => (
 		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '3rem',
-				width: '100%',
-				maxWidth: '600px',
-			}}
+			direction='column'
+			gap={12}
+			w='100%'
+			maxW={600}
 		>
 			<Range
 				kind='range'
@@ -298,13 +229,7 @@ export const AllRangeTypes: Story = {
 
 export const InteractivePlayground: Story = {
 	render: (args) => (
-		<Wrapper
-			style={{
-				width: '100%',
-				maxWidth: '500px',
-				padding: '2rem',
-			}}
-		>
+		<Wrapper w='100%' maxW={500} p={8}>
 			<Range {...args} />
 			<Wrapper
 				style={{

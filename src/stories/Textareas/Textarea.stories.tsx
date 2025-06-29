@@ -139,15 +139,7 @@ export const DescriptionStyle: Story = {
 
 export const AllKinds: Story = {
 	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '2rem',
-				width: '100%',
-				maxWidth: '600px',
-			}}
-		>
+		<Wrapper direction='column' gap={8} w='100%' maxW={600}>
 			<Textarea
 				kind='standard'
 				label='Standard Textarea'

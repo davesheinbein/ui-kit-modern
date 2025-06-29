@@ -2,7 +2,6 @@
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/Animations.scss' as *;
 
-// Base settings component - modern container with containment
 .settings {
 	@include contained-component;
 	@include modern-card;
@@ -11,7 +10,6 @@
 	flex-direction: column;
 }
 
-// Position variants - using utility patterns
 .settings--modal {
 	@include constrained-width(600px);
 	@include spacing-padding(lg);
@@ -39,7 +37,6 @@
 	z-index: var(--z-floating);
 }
 
-// Settings variants - semantic classes with modern properties
 .settings--panel {
 	@include surface-elevated;
 	border: var(--border-thin) solid var(--gray-300);
@@ -75,8 +72,6 @@
 	border: var(--border-thin) solid var(--gray-300);
 }
 
-// Settings header
-// Settings header
 .settingsHeader {
 	@include header-section;
 
@@ -101,14 +96,12 @@
 	inset: auto;
 }
 
-// Settings content
 .settingsContent {
 	flex: 1;
 	overflow-y: auto;
 	@include scroll-area;
 }
 
-// Settings footer
 .settingsFooter {
 	@include footer-section;
 
@@ -121,7 +114,6 @@
 	justify-content: flex-end;
 }
 
-// Settings sections
 .settingsSection {
 	@include section-spacing;
 
@@ -142,7 +134,6 @@
 	margin-block-end: var(--spacing-md);
 }
 
-// Settings fields
 .settingsField {
 	@include form-field;
 	@include interactive-element;
@@ -197,7 +188,6 @@
 	}
 }
 
-// Customization category specific styles
 .customizationCategory {
 	@include full-width;
 	margin-block-end: var(--spacing-xl);
@@ -324,7 +314,6 @@
 		padding: var(--spacing-xl) var(--spacing-lg);
 	}
 
-	// Theme-specific styles
 	.themePreview {
 		@include preview-container;
 		inline-size: 60px;
@@ -356,7 +345,6 @@
 		}
 	}
 
-	// Emote-specific styles
 	.emotePreview {
 		@include preview-container;
 		inline-size: 50px;
@@ -372,7 +360,6 @@
 		}
 	}
 
-	// Font-specific styles
 	.fontPreview {
 		@include preview-text;
 		font-size: var(--text-lg);
@@ -385,7 +372,6 @@
 		}
 	}
 
-	// Border-specific styles
 	.borderPreview {
 		@include preview-container;
 		inline-size: 50px;
@@ -402,7 +388,6 @@
 		}
 	}
 
-	// Background-specific styles
 	.backgroundPreview {
 		@include preview-container;
 		inline-size: 60px;
@@ -418,7 +403,6 @@
 		}
 	}
 
-	// Responsive design using modern media queries
 	@media (max-width: 768px) {
 		.settings--modal {
 			padding: var(--spacing-md);

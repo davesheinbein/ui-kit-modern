@@ -1,8 +1,8 @@
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState, useCallback } from 'react';
+import { Wrapper } from '../../components/Wrappers';
 import { Button } from '../../components/Button';
 import { Advertisements } from '../../components/Advertisements/Advertisements';
-import { Wrapper } from '../../components/Wrappers';
 import {
 	AdContent,
 	AdAnalyticsEvent,
@@ -337,19 +337,14 @@ const enhancedAdPool = [
 export const SystemOverview: Story = {
 	render: () => (
 		<Wrapper
-			style={{
-				padding: '40px',
-				maxWidth: '1200px',
-				margin: '0 auto',
-				fontFamily:
-					'-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-			}}
+			p={40}
+			maxW={1200}
+			center
+			direction='column'
+			gap={4}
 		>
 			<header
-				style={{
-					textAlign: 'center',
-					marginBottom: '60px',
-				}}
+				style={{ textAlign: 'center', marginBottom: 60 }}
 			>
 				<h1
 					style={{
@@ -364,14 +359,7 @@ export const SystemOverview: Story = {
 				>
 					Advertisement System
 				</h1>
-				<p
-					style={{
-						fontSize: '20px',
-						color: '#666',
-						margin: 0,
-						lineHeight: 1.5,
-					}}
-				>
+				<p style={{ fontSize: 20, color: '#666' }}>
 					A comprehensive, type-safe advertisement component
 					library for modern React applications
 				</p>

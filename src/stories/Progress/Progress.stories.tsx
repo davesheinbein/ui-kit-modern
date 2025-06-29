@@ -198,23 +198,10 @@ const HealthBarDemo = (props: Partial<ProgressProps>) => (
 
 export const Components: Story = {
 	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '2rem',
-				padding: '2rem',
-			}}
-		>
+		<Wrapper direction='column' gap={8} p={8}>
 			<Wrapper>
 				<h3>Loading Indicators</h3>
-				<Wrapper
-					style={{
-						display: 'flex',
-						gap: '1rem',
-						alignItems: 'center',
-					}}
-				>
+				<Wrapper direction='row' gap={4} center>
 					<Progress kind='loading-spinner' />
 					<DotsLoaderDemo />
 					<PulseLoaderDemo />
@@ -224,14 +211,7 @@ export const Components: Story = {
 
 			<Wrapper>
 				<h3>Progress Bars</h3>
-				<Wrapper
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: '1rem',
-						width: '300px',
-					}}
-				>
+				<Wrapper direction='column' gap={4} w={300}>
 					<Progress kind='linear-progress' value={65} />
 					<Progress kind='upload-progress' value={45} />
 					<DownloadProgressDemo value={75} />
@@ -240,14 +220,7 @@ export const Components: Story = {
 
 			<Wrapper>
 				<h3>Game Progress</h3>
-				<Wrapper
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: '1rem',
-						width: '300px',
-					}}
-				>
+				<Wrapper direction='column' gap={4} w={300}>
 					<Progress kind='level-progress' value={820} />
 					<ExperienceBarDemo value={1250} />
 					<HealthBarDemo value={68} />

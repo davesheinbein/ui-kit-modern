@@ -12,47 +12,23 @@ import {
 	getPrimaryStatus,
 	getLeaderboardEntries,
 } from './chartHelpers';
-import type { ChartProps } from './configurations';
-import { Wrapper } from '../Wrappers';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '../Button';
 import {
 	ChartKind,
-	ChartConfiguration,
+	ChartType,
+	ChartVariant,
 	ChartDataSeries,
 } from './configurations';
-import {
-	initializeChart,
-	setChartSelectedSeries,
-	setChartSearchTerm,
-	toggleChartSeries,
-	selectAllChartSeries,
-	cleanupChart,
-	selectChartSelectedSeries,
-	selectChartSearchTerm,
-} from '../../store/slices/uiSlice';
-import { RootState } from '../../store';
+import { Wrapper } from '../Wrappers';
+import { Dropdown } from '../Dropdown/Dropdown';
+import { Button } from '../Button';
 import styles from './chart.module.scss';
 import Input from '../Inputs/Input';
-import { Dropdown } from '../Dropdown/Dropdown';
 
-// SVG/Widget constants
-const DEFAULT_GAUGE_RADIUS = 40;
-const DEFAULT_GAUGE_WIDTH = 100;
-const DEFAULT_GAUGE_HEIGHT = 60;
-const DEFAULT_CIRCULAR_RADIUS = 24;
-const DEFAULT_CIRCULAR_SIZE = 60;
-
-// --- WIDGETS ---
-// Add word-break and ellipsis to all value/label containers, and ensure Card allows content to grow
-// (SCSS changes required, but add inline style fallback for now)
-
-// Helper to render value/label/extra fields
 function renderFields(
 	fields: Array<{ className: string; value: any }>
 ) {
 	return fields.map((f, i) => (
-		<div
+		<Wrapper
 			key={i}
 			className={f.className}
 			style={{
@@ -62,7 +38,7 @@ function renderFields(
 			}}
 		>
 			{f.value}
-		</div>
+		</Wrapper>
 	));
 }
 
@@ -105,10 +81,10 @@ const BaseWidget = ({
 		aria-label={ariaLabel}
 		{...cardProps}
 	>
-		<div className={styles.widgetContent}>
+		<Wrapper className={styles.widgetContent}>
 			{renderFields(fields)}
 			{extraContent}
-		</div>
+		</Wrapper>
 	</Card>
 );
 
@@ -151,9 +127,9 @@ const BaseWidgetWithSVG = ({
 		{...cardProps}
 	>
 		{svg}
-		<div className={styles.widgetContent}>
+		<Wrapper className={styles.widgetContent}>
 			{renderFields(fields)}
-		</div>
+		</Wrapper>
 	</Card>
 );
 
@@ -589,7 +565,7 @@ const ChartLegend = ({
 	);
 
 	return (
-		<div
+		<Wrapper
 			className={styles.legend}
 			style={{
 				display: 'flex',
@@ -598,7 +574,7 @@ const ChartLegend = ({
 			}}
 		>
 			{(showSearch || showFilter) && (
-				<div
+				<Wrapper
 					className={styles.filter}
 					style={{ marginBottom: 8 }}
 				>
@@ -634,19 +610,26 @@ const ChartLegend = ({
 								id='chart-filter-sort'
 								className={styles.filter__item}
 								value={sort}
-								onChange={(e) => setSort(e.target.value)}
+								onChange={(
+									e: React.ChangeEvent<HTMLSelectElement>
+								) => setSort(e.target.value)}
 								aria-label='Sort legend items'
-							>
-								<option value='alpha'>A-Z</option>
-								<option value='reverse-alpha'>Z-A</option>
-								<option value='value-asc'>Value Asc</option>
-								<option value='value-desc'>
-									Value Desc
-								</option>
-							</Dropdown>
+								data={[
+									{ label: 'A-Z', value: 'alpha' },
+									{ label: 'Z-A', value: 'reverse-alpha' },
+									{
+										label: 'Value Asc',
+										value: 'value-asc',
+									},
+									{
+										label: 'Value Desc',
+										value: 'value-desc',
+									},
+								]}
+							/>
 						</>
 					)}
-				</div>
+				</Wrapper>
 			)}
 			<Card
 				className={clsx(
@@ -704,7 +687,7 @@ const ChartLegend = ({
 					))}
 				</ul>
 			</Card>
-		</div>
+		</Wrapper>
 	);
 };
 
@@ -756,23 +739,8 @@ const Chart = forwardRef<HTMLDivElement, ChartProps>(
 				[dataSeries[selectedSeries]]
 			:	[];
 
-		// Legend rendering
-		const renderLegend = () => {
-			if (!props.dataSeries || !props.dataSeries.length)
-				return null;
-			return (
-				<ChartLegend
-					dataSeries={props.dataSeries}
-					legendOrientation={props.legendOrientation}
-					size={props.size}
-					variant={props.variant}
-					{...props}
-				/>
-			);
-		};
-
 		return (
-			<div
+			<Wrapper
 				ref={ref}
 				className={clsx(
 					'chart',
@@ -784,6 +752,31 @@ const Chart = forwardRef<HTMLDivElement, ChartProps>(
 					className
 				)}
 				data-chart-type={chartType}
+				style={{
+					backgroundColor: props.backgroundColor,
+					borderColor: props.borderColor,
+					borderWidth: props.borderWidth,
+					borderRadius: props.borderRadius,
+					boxShadow: props.boxShadow,
+					padding: props.padding,
+					margin: props.margin,
+					width: props.width,
+					height: props.height,
+					minWidth: props.minWidth,
+					minHeight: props.minHeight,
+					maxWidth: props.maxWidth,
+					maxHeight: props.maxHeight,
+					fontSize: props.fontSize,
+					fontFamily: props.fontFamily,
+					color: props.color,
+					...(props.style || {}),
+				}}
+				w={props.w}
+				h={props.h}
+				minW={props.minW}
+				minH={props.minH}
+				maxW={props.maxW}
+				maxH={props.maxH}
 				{...restProps}
 			>
 				{renderWidget(chartType as WidgetType, {
@@ -815,7 +808,7 @@ const Chart = forwardRef<HTMLDivElement, ChartProps>(
 						/>
 					)}
 				{children}
-			</div>
+			</Wrapper>
 		);
 	}
 );
@@ -910,3 +903,92 @@ export const GameStatsFilter = (
 		{...props}
 	/>
 );
+export interface ChartProps {
+	/** Chart kind (legend, tooltip, controls, etc.) */
+	kind?: ChartKind;
+	/** Type of chart visualization */
+	chartType?: ChartType;
+	/** Array of data series for the chart */
+	dataSeries?: ChartDataSeries[];
+	/** Visual style or layout variant */
+	variant?: ChartVariant;
+	/** Size of the chart */
+	size?: 'small' | 'medium' | 'large';
+	/** Spacing between chart elements */
+	spacing?: 'tight' | 'normal' | 'loose';
+	/** Orientation of the chart */
+	orientation?: 'horizontal' | 'vertical';
+	/** Show/hide legend */
+	showLegend?: boolean;
+	/** Show/hide tooltip */
+	showTooltip?: boolean;
+	/** Show/hide controls */
+	showControls?: boolean;
+	/** Enable/disable interactivity */
+	interactive?: boolean;
+	/** Callback for series click */
+	onSeriesClick?: (series: ChartDataSeries) => void;
+	/** Callback for legend click */
+	onLegendClick?: (series: ChartDataSeries) => void;
+	/** Callback for filter changes */
+	onFilterChange?: (filters: any[]) => void;
+	/** Callback for export actions */
+	onExport?: (
+		format: 'csv' | 'json' | 'pdf' | 'png'
+	) => void;
+	/** Additional CSS class names */
+	className?: string;
+	/** Inline style overrides */
+	style?: React.CSSProperties;
+
+	// --- Style-based props ---
+	/** Chart background color */
+	backgroundColor?: string;
+	/** Chart border color */
+	borderColor?: string;
+	/** Chart border width */
+	borderWidth?: number | string;
+	/** Chart border radius */
+	borderRadius?: number | string;
+	/** Chart box shadow */
+	boxShadow?: string;
+	/** Chart padding */
+	padding?: number | string;
+	/** Chart margin */
+	margin?: number | string;
+	/** Chart width (CSS, e.g. '100%', '300px') */
+	width?: number | string;
+	/** Chart height (CSS, e.g. '100%', '200px') */
+	height?: number | string;
+	/** Chart min width */
+	minWidth?: number | string;
+	/** Chart min height */
+	minHeight?: number | string;
+	/** Chart max width */
+	maxWidth?: number | string;
+	/** Chart max height */
+	maxHeight?: number | string;
+	/** Short-form width (passed to Wrapper as w) */
+	w?: string | number;
+	/** Short-form height (passed to Wrapper as h) */
+	h?: string | number;
+	/** Short-form min width (passed to Wrapper as minW) */
+	minW?: string | number;
+	/** Short-form min height (passed to Wrapper as minH) */
+	minH?: string | number;
+	/** Short-form max width (passed to Wrapper as maxW) */
+	maxW?: string | number;
+	/** Short-form max height (passed to Wrapper as maxH) */
+	maxH?: string | number;
+	/** Chart font size */
+	fontSize?: number | string;
+	/** Chart font family */
+	fontFamily?: string;
+	/** Chart text color */
+	color?: string;
+	/** Legend position */
+	legendPosition?: 'top' | 'bottom' | 'left' | 'right';
+
+	/** All other native div props */
+	[key: string]: any;
+}
