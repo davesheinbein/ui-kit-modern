@@ -283,8 +283,6 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(
 Radio.displayName = 'Radio';
 export default Radio;
 
-// Remove the duplicate RadioProps interface and update helpers to use the main RadioProps type
-
 function createRadio({
 	kind = 'standard',
 	configuration = {},

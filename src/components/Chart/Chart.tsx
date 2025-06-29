@@ -34,6 +34,7 @@ import {
 import { RootState } from '../../store';
 import styles from './chart.module.scss';
 import Input from '../Inputs/Input';
+import { Dropdown } from '../Dropdown/Dropdown';
 
 // SVG/Widget constants
 const DEFAULT_GAUGE_RADIUS = 40;
@@ -629,7 +630,7 @@ const ChartLegend = ({
 							>
 								Sort legend items
 							</label>
-							<select
+							<Dropdown
 								id='chart-filter-sort'
 								className={styles.filter__item}
 								value={sort}
@@ -642,7 +643,7 @@ const ChartLegend = ({
 								<option value='value-desc'>
 									Value Desc
 								</option>
-							</select>
+							</Dropdown>
 						</>
 					)}
 				</div>

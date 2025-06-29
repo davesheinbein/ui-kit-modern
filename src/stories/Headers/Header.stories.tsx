@@ -2,6 +2,7 @@ import React from 'react';
 import { Header } from '../../components/Header';
 import type { Meta, StoryObj } from '@storybook/react';
 import { commonDecorators } from '../config/decorators';
+import { Dropdown } from '../../components/Dropdown/Dropdown';
 
 const meta: Meta<typeof Header> = {
 	title: 'Headers/Header',
@@ -58,16 +59,16 @@ const NotificationBar = ({ text }: { text: string }) => (
 	</div>
 );
 const LanguageSelector = () => (
-	<select>
+	<Dropdown>
 		<option>EN</option>
 		<option>ES</option>
-	</select>
+	</Dropdown>
 );
 const CurrencySelector = () => (
-	<select>
+	<Dropdown>
 		<option>USD</option>
 		<option>EUR</option>
-	</select>
+	</Dropdown>
 );
 const CTAButton = ({
 	children,

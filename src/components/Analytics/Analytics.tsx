@@ -17,6 +17,7 @@ import {
 	AnalyticsFilter,
 	analyticsConfigurations,
 } from './configurations';
+import { Dropdown } from '../Dropdown/Dropdown';
 
 export interface AnalyticsProps {
 	// Basic props
@@ -253,7 +254,8 @@ const Analytics = forwardRef<
 		const [isRefreshing, setIsRefreshing] = useState(false);
 		const [lastUpdated, setLastUpdated] =
 			useState<Date | null>(null);
-		const refreshIntervalRef = useRef<number | null>(null);
+		const refreshIntervalRef =
+			useRef<NodeJS.Timeout | null>(null);
 		const onRefreshRef = useRef(onRefresh);
 
 		// Keep the ref up to date
@@ -422,10 +424,10 @@ const Analytics = forwardRef<
 						>
 							Time Range:
 						</label>
-						<select
+						<Dropdown
 							value={timeRange}
-							onChange={(e) =>
-								handleTimeRangeChange(e.target.value)
+							onChange={(value: string) =>
+								handleTimeRangeChange(value)
 							}
 							className={styles.analytics__controls_select}
 						>
@@ -435,7 +437,7 @@ const Analytics = forwardRef<
 							<option value='month'>Last Month</option>
 							<option value='quarter'>Last Quarter</option>
 							<option value='year'>Last Year</option>
-						</select>
+						</Dropdown>
 					</Wrapper>
 					{filterable && (
 						<Wrapper

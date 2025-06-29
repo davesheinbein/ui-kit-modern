@@ -346,3 +346,6 @@ Checkbox.displayName = 'Checkbox';
 
 export { Checkbox };
 export default Checkbox;
+
+// TODO: Replace all native <input type="checkbox"> usages with <Checkbox {...props} /> from Checkbox.tsx.
+// Replace all native <input>, <select>, <option> with custom components as per the rules above.

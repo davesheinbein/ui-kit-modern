@@ -12,6 +12,7 @@ import {
 	THEME_GROUPS,
 	QUICK_THEMES,
 } from './configurations';
+import { Dropdown } from '../Dropdown/Dropdown';
 
 export interface ThemesProps
 	extends Partial<ThemeConfiguration> {
@@ -176,7 +177,7 @@ const Themes: React.FC<ThemesProps> = ({
 					{title || 'Theme:'}
 				</label>
 			)}
-			<select
+			<Dropdown
 				className={styles.themeSelect}
 				value={activeTheme}
 				onChange={(e) => handleThemeChange(e.target.value)}
@@ -186,7 +187,7 @@ const Themes: React.FC<ThemesProps> = ({
 						{theme.label}
 					</option>
 				))}
-			</select>
+			</Dropdown>
 		</Wrapper>
 	);
 

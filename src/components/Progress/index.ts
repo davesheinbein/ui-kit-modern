@@ -1,4 +1,3 @@
-// src/components/Progress/index.ts
 export type {
 	ProgressKind,
 	ProgressSize,

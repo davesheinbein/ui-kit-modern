@@ -10,6 +10,11 @@ import {
 	SettingsSection,
 } from './configurations';
 import type { SettingsKind } from './configurations';
+import { Dropdown } from '../Dropdown/Dropdown';
+import { Input } from '../Inputs/Input';
+import { Checkbox } from '../Checkbox/Checkbox';
+import { Range } from '../Ranges/Range';
+import { Radio } from '../Radios/Radio';
 
 // ========== Settings Layout (Internal) ========== //
 interface SettingsLayoutProps {
@@ -431,9 +436,8 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 					</label>
 					<Wrapper className={styles.fieldInput}>
 						{field.type === 'checkbox' && (
-							<input
+							<Checkbox
 								id={field.id}
-								type='checkbox'
 								checked={field.value}
 								onChange={(e) =>
 									handleFieldChange(e.target.checked)
@@ -441,7 +445,7 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 							/>
 						)}
 						{field.type === 'select' && (
-							<select
+							<Dropdown
 								id={field.id}
 								value={field.value}
 								onChange={(e) =>
@@ -449,32 +453,33 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 								}
 							>
 								{field.options?.map((option: any) => (
-									<option
+									<Radio
 										key={option.value}
 										value={option.value}
+										onChange={() =>
+											handleFieldChange(option.value)
+										}
 									>
 										{option.label}
-									</option>
+									</Radio>
 								))}
-							</select>
+							</Dropdown>
 						)}
 						{field.type === 'range' && (
-							<input
+							<Range
 								id={field.id}
-								type='range'
 								value={field.value}
 								min={field.min || 0}
 								max={field.max || 100}
 								step={field.step || 1}
-								onChange={(e) =>
-									handleFieldChange(Number(e.target.value))
+								onChange={(value) =>
+									handleFieldChange(Number(value))
 								}
 							/>
 						)}
 						{field.type === 'text' && (
-							<input
+							<Input
 								id={field.id}
-								type='text'
 								value={field.value}
 								onChange={(e) =>
 									handleFieldChange(e.target.value)

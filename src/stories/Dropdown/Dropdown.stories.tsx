@@ -4,7 +4,7 @@ import { Dropdown } from '../../components/Dropdown/Dropdown';
 import {
 	basicOptions,
 	detailedOptions,
-	categories
+	categories,
 } from '../mocks';
 
 const meta: Meta<typeof Dropdown> = {
@@ -114,14 +114,14 @@ export const DropdownVariants: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={basicOptions}
+					data={basicOptions}
 					label='Dropdown'
 				/>
 			</div>
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={basicOptions}
+					data={basicOptions}
 					label='Dropdown (Filter)'
 					filter
 				/>
@@ -129,7 +129,7 @@ export const DropdownVariants: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={basicOptions}
+					data={basicOptions}
 					label='Dropdown (Searchable)'
 					searchable
 				/>
@@ -137,7 +137,7 @@ export const DropdownVariants: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={basicOptions}
+					data={basicOptions}
 					label='Dropdown (Searchable + Filter)'
 					searchable
 					filter
@@ -154,20 +154,47 @@ export const DropdownVariants: Story = {
 	},
 };
 
+export const DropdownWithChildren: Story = {
+	render: () => (
+		<div className='all-variants-grid'>
+			<div className='all-variants-cell'>
+				<Dropdown label='Dropdown (Children)'>
+					<div className='custom-option' data-value='one'>
+						Option One
+					</div>
+					<div className='custom-option' data-value='two'>
+						Option Two
+					</div>
+					<div className='custom-option' data-value='three'>
+						Option Three
+					</div>
+				</Dropdown>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Dropdown using children for options.',
+			},
+		},
+	},
+};
+
 export const Multiselect: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='multiselect'
-					options={categories}
+					data={categories}
 					label='Multiselect'
 				/>
 			</div>
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='multiselect'
-					options={categories}
+					data={categories}
 					label='Multiselect (Filter)'
 					filter
 				/>
@@ -175,7 +202,7 @@ export const Multiselect: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='multiselect'
-					options={categories}
+					data={categories}
 					label='Multiselect (Searchable)'
 					searchable
 				/>
@@ -183,7 +210,7 @@ export const Multiselect: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='multiselect'
-					options={categories}
+					data={categories}
 					label='Multiselect (Searchable + Filter)'
 					searchable
 					filter
@@ -206,7 +233,7 @@ export const Searchable: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={detailedOptions}
+					data={detailedOptions}
 					label='Searchable'
 					searchable
 				/>
@@ -214,7 +241,7 @@ export const Searchable: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={detailedOptions}
+					data={detailedOptions}
 					label='Searchable (Filter)'
 					searchable
 					filter
@@ -237,7 +264,7 @@ export const WithError: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={basicOptions}
+					data={basicOptions}
 					label='Required Selection'
 					error='Please select an option to continue'
 					required
@@ -246,7 +273,7 @@ export const WithError: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={basicOptions}
+					data={basicOptions}
 					label='Required Selection (Filter)'
 					error='Please select an option to continue'
 					required
@@ -270,7 +297,7 @@ export const Loading: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={[]}
+					data={[]}
 					label='Loading Options'
 					loading
 					helpText='Options are being loaded...'
@@ -280,7 +307,7 @@ export const Loading: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={[]}
+					data={[]}
 					label='Loading Options (Filter)'
 					loading
 					helpText='Options are being loaded...'
@@ -305,7 +332,7 @@ export const Disabled: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={basicOptions}
+					data={basicOptions}
 					label='Disabled Select'
 					disabled
 					value='option2'
@@ -314,7 +341,7 @@ export const Disabled: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={basicOptions}
+					data={basicOptions}
 					label='Disabled Select (Filter)'
 					disabled
 					value='option2'
@@ -338,7 +365,7 @@ export const WithFilter: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={[
+					data={[
 						{
 							label: 'Apple',
 							value: 'apple',
@@ -372,7 +399,7 @@ export const WithFilter: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={[
+					data={[
 						{
 							label: 'Apple',
 							value: 'apple',
@@ -427,21 +454,21 @@ export const AllVariants: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={basicOptions}
+					data={basicOptions}
 					label='Dropdown'
 				/>
 			</div>
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='multiselect'
-					options={categories}
+					data={categories}
 					label='Multiselect'
 				/>
 			</div>
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={detailedOptions}
+					data={detailedOptions}
 					label='Searchable'
 					searchable
 				/>
@@ -449,7 +476,7 @@ export const AllVariants: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={[
+					data={[
 						{
 							label: 'Apple',
 							value: 'apple',
@@ -483,7 +510,7 @@ export const AllVariants: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={allOptions.basic}
+					data={allOptions.basic}
 					label='With Error'
 					error='Please select an option to continue'
 					required
@@ -493,7 +520,7 @@ export const AllVariants: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={[]}
+					data={[]}
 					label='Loading'
 					loading
 					helpText='loading'
@@ -502,7 +529,7 @@ export const AllVariants: Story = {
 			<div className='all-variants-cell'>
 				<Dropdown
 					variant='dropdown'
-					options={allOptions.basic}
+					data={allOptions.basic}
 					label='Disabled'
 					disabled
 					value='option2'
@@ -528,7 +555,7 @@ export const SizeComparison: Story = {
 				<Dropdown
 					size='small'
 					variant='dropdown'
-					options={[
+					data={[
 						{
 							label: 'Apple',
 							value: 'apple',
@@ -563,7 +590,7 @@ export const SizeComparison: Story = {
 				<Dropdown
 					size='medium'
 					variant='dropdown'
-					options={[
+					data={[
 						{
 							label: 'Apple',
 							value: 'apple',
@@ -598,7 +625,7 @@ export const SizeComparison: Story = {
 				<Dropdown
 					size='large'
 					variant='dropdown'
-					options={[
+					data={[
 						{
 							label: 'Apple',
 							value: 'apple',

@@ -13,44 +13,27 @@ import {
 	selectRangeState,
 	cleanupComponent,
 } from '../../store/slices/uiSlice';
+import Input from '../Inputs/Input';
 
 export interface RangeProps {
+	'value': number;
+	'onChange': (value: number) => void;
+	'min'?: number;
+	'max'?: number;
+	'step'?: number;
 	'variant'?:
 		| 'default'
 		| 'primary'
 		| 'secondary'
 		| 'success'
 		| 'warning'
-		| 'danger';
+		| 'danger'
+		| 'custom';
 	'size'?: 'small' | 'medium' | 'large';
-	'style'?:
-		| 'default'
-		| 'modern'
-		| 'minimal'
-		| 'rounded'
-		| 'flat';
-	'componentId'?: string;
-	'value'?: number | number[];
-	'defaultValue'?: number | number[];
-	'onChange'?: (value: number | number[]) => void;
-	'onChangeComplete'?: (value: number | number[]) => void;
-	'label'?: string;
-	'placeholder'?: string;
-	'helpText'?: string;
-	'error'?: string;
 	'className'?: string;
-	'disabled'?: boolean;
-	'readOnly'?: boolean;
-	'required'?: boolean;
-	'min'?: number;
-	'max'?: number;
-	'step'?: number;
-	'marks'?: Record<number, string> | boolean;
-	'name'?: string;
-	'id'?: string;
+	'style'?: React.CSSProperties;
 	'aria-label'?: string;
-	'aria-describedby'?: string;
-	'configuration'?: Partial<RangeConfiguration>;
+	[key: string]: any;
 }
 
 export const Range = forwardRef<
@@ -331,10 +314,11 @@ export const Range = forwardRef<
 						className='range-track'
 						style={getTrackStyle()}
 					>
-						<input
+						<Input
 							ref={ref}
 							type='range'
 							className='range-input'
+							kind='number'
 							value={
 								Array.isArray(currentValue) ?
 									currentValue[0]
@@ -358,9 +342,10 @@ export const Range = forwardRef<
 
 						{finalConfig.range &&
 							Array.isArray(currentValue) && (
-								<input
+								<Input
 									type='range'
 									className='range-input range-input-high'
+									kind='number'
 									value={currentValue[1]}
 									onChange={(e) => {
 										const newHigh = parseFloat(
@@ -412,31 +397,6 @@ export const Range = forwardRef<
 
 Range.displayName = 'Range';
 
-import type { ExtendedRangeKind } from './configurations';
-
-export interface RangeProps
-	extends Omit<RangeProps, 'configuration'> {
-	kind: ExtendedRangeKind;
-	configuration?: Partial<RangeConfiguration>;
-}
-
-function createRange({
-	kind,
-	configuration,
-	...props
-}: RangeProps) {
-	const baseConfig =
-		RANGE_CONFIGURATIONS[kind] ||
-		RANGE_CONFIGURATIONS.range;
-	const finalConfig: RangeConfiguration = {
-		...baseConfig,
-		...configuration,
-	};
-	return <Range {...props} configuration={finalConfig} />;
-}
-
-// Attach helper to Range
-(Range as any).createRange = createRange;
-export { createRange };
+// TODO: Replace all native <input type="range"> usages with <Range {...props} /> from Range.tsx.
 
 export default Range;

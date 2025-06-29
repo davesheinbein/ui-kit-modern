@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import {
 	Progress,
-	ProgressComponents,
+	ProgressProps,
 } from '../../components/Progress';
 import { Wrapper } from '../../components/Wrappers';
 import { commonDecorators } from '../config/decorators';
@@ -70,15 +70,6 @@ const meta: Meta<typeof Progress> = {
 			control: { type: 'range', min: 0, max: 100, step: 1 },
 			description: 'Progress value (0-100)',
 		},
-		max: {
-			control: {
-				type: 'number',
-				min: 1,
-				max: 1000,
-				step: 1,
-			},
-			description: 'Maximum value',
-		},
 		label: {
 			control: 'text',
 			description: 'Progress label text',
@@ -145,7 +136,6 @@ export const LinearProgress: Story = {
 		variant: 'primary',
 		size: 'md',
 		value: 65,
-		max: 100,
 		label: 'Progress',
 		showPercentage: true,
 	},
@@ -157,7 +147,6 @@ export const CircularProgress: Story = {
 		variant: 'primary',
 		size: 'lg',
 		value: 75,
-		max: 100,
 		showPercentage: true,
 	},
 };
@@ -168,7 +157,6 @@ export const UploadProgress: Story = {
 		variant: 'success',
 		size: 'md',
 		value: 45,
-		max: 100,
 		label: 'Uploading file.pdf',
 		showPercentage: true,
 		showValue: true,
@@ -183,11 +171,30 @@ export const LevelProgress: Story = {
 		variant: 'warning',
 		size: 'md',
 		value: 820,
-		max: 1000,
 		label: 'Level 15 Progress',
 		showValue: true,
 	},
 };
+
+// Local demo components for grid
+const DotsLoaderDemo = (props: Partial<ProgressProps>) => (
+	<Progress kind='dots-loader' {...props} />
+);
+const PulseLoaderDemo = (props: Partial<ProgressProps>) => (
+	<Progress kind='pulse-loader' {...props} />
+);
+const BounceLoaderDemo = (
+	props: Partial<ProgressProps>
+) => <Progress kind='bounce-loader' {...props} />;
+const DownloadProgressDemo = (
+	props: Partial<ProgressProps>
+) => <Progress kind='download-progress' {...props} />;
+const ExperienceBarDemo = (
+	props: Partial<ProgressProps>
+) => <Progress kind='experience-bar' {...props} />;
+const HealthBarDemo = (props: Partial<ProgressProps>) => (
+	<Progress kind='health-bar' {...props} />
+);
 
 export const Components: Story = {
 	render: () => (
@@ -208,9 +215,10 @@ export const Components: Story = {
 						alignItems: 'center',
 					}}
 				>
-					<ProgressComponents.LoadingSpinner />
-					<ProgressComponents.DotsLoader />
-					<ProgressComponents.PulseLoader />
+					<Progress kind='loading-spinner' />
+					<DotsLoaderDemo />
+					<PulseLoaderDemo />
+					<BounceLoaderDemo />
 				</Wrapper>
 			</Wrapper>
 
@@ -224,9 +232,9 @@ export const Components: Story = {
 						width: '300px',
 					}}
 				>
-					<ProgressComponents.LinearProgress value={65} />
-					<ProgressComponents.UploadProgress value={45} />
-					<ProgressComponents.DownloadProgress value={75} />
+					<Progress kind='linear-progress' value={65} />
+					<Progress kind='upload-progress' value={45} />
+					<DownloadProgressDemo value={75} />
 				</Wrapper>
 			</Wrapper>
 
@@ -240,20 +248,91 @@ export const Components: Story = {
 						width: '300px',
 					}}
 				>
-					<ProgressComponents.LevelProgress
-						value={820}
-						max={1000}
-					/>
-					<ProgressComponents.ExperienceBar
-						value={1250}
-						max={2000}
-					/>
-					<ProgressComponents.HealthBar
-						value={68}
-						max={100}
-					/>
+					<Progress kind='level-progress' value={820} />
+					<ExperienceBarDemo value={1250} />
+					<HealthBarDemo value={68} />
 				</Wrapper>
 			</Wrapper>
 		</Wrapper>
 	),
 };
+
+// List of all ProgressKind values
+const allKinds = [
+	'loading-spinner',
+	'dots-loader',
+	'pulse-loader',
+	'bounce-loader',
+	'skeleton-loader',
+	'linear-progress',
+	'circular-progress',
+	'radial-progress',
+	'step-progress',
+	'multi-step',
+	'upload-progress',
+	'download-progress',
+	'sync-progress',
+	'level-progress',
+	'achievement-progress',
+	'completion-progress',
+	'health-bar',
+	'experience-bar',
+	'installation-progress',
+	'backup-progress',
+	'processing-progress',
+	'battery-indicator',
+] as const;
+
+export const AllKinds = () => (
+	<Wrapper
+		aria-label='All Progress Kinds Grid'
+		style={{
+			display: 'grid',
+			gridTemplateColumns: 'repeat(3, 1fr)',
+			gap: 32,
+			alignItems: 'flex-start',
+			padding: 24,
+			background: '#f5f7fa',
+			borderRadius: 12,
+		}}
+	>
+		{allKinds.map((kind) => (
+			<div
+				key={kind}
+				style={{
+					width: '100%',
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					padding: 16,
+					border: '1px solid #e0e4ea',
+					borderRadius: 8,
+					background: '#fff',
+					boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+				}}
+				aria-label={`Progress kind: ${kind}`}
+			>
+				<Progress
+					kind={kind}
+					value={60}
+					label={kind
+						.replace(/-/g, ' ')
+						.replace(/\b\w/g, (l) => l.toUpperCase())}
+					showPercentage
+					style={{ marginBottom: 8, width: '80%' }}
+				/>
+				<span
+					style={{
+						fontSize: 13,
+						color: '#555',
+						textAlign: 'center',
+						wordBreak: 'break-all',
+						marginTop: 4,
+					}}
+				>
+					{kind}
+				</span>
+			</div>
+		))}
+	</Wrapper>
+);

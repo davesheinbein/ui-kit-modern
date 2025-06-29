@@ -4,21 +4,28 @@ import React, {
 	useEffect,
 	useCallback,
 	forwardRef,
+	ReactNode,
 } from 'react';
 import classNames from 'classnames';
 import { Wrapper } from '../Wrappers';
 import styles from './dropdown.module.scss';
 import Loading from '../Loading/Loading';
+import { Input } from '../Inputs/Input';
+import { Checkbox } from '../Checkbox/Checkbox';
+
+export interface DropdownOption {
+	label: string;
+	value: string;
+	numericValue?: number;
+	className?: string;
+}
 
 export interface DropdownProps {
-	options: Array<{
-		label: string;
-		value: string;
-		numericValue?: number;
-	}>; // numericValue is optional for size-based sorting
+	data?: DropdownOption[]; // New: options as data prop
+	children?: ReactNode; // New: options as children
 	value?: string | string[];
 	defaultValue?: string | string[];
-	onChange?: (value: string | string[]) => void;
+	onChange: (value: string | string[]) => void;
 	onSearch?: (search: string) => void;
 	label?: string | React.ReactNode;
 	helpText?: string | React.ReactNode;
@@ -37,12 +44,11 @@ export interface DropdownProps {
 	size?: 'small' | 'medium' | 'large';
 	searchable?: boolean;
 	clearable?: boolean;
-	filter?: boolean; // filter dropdown
+	filter?: boolean;
 	placeholder?: string;
 	searchPlaceholder?: string;
 	loadingMessage?: string;
 	componentId?: string;
-	// ...other native props
 	[key: string]: any;
 }
 
@@ -53,7 +59,8 @@ export const Dropdown = forwardRef<
 	(
 		{
 			componentId,
-			options,
+			data,
+			children,
 			value: controlledValue,
 			defaultValue,
 			onChange,
@@ -100,6 +107,10 @@ export const Dropdown = forwardRef<
 		const isControlled = controlledValue !== undefined;
 		const currentValue =
 			isControlled ? controlledValue : internalValue;
+		// Use data prop if present, otherwise fallback to children
+		const options: DropdownOption[] = data || [];
+		const hasData = !!data && data.length > 0;
+		const hasChildren = !!children;
 		const getFilteredOptions = useCallback(() => {
 			let filtered = options;
 
@@ -317,24 +328,25 @@ export const Dropdown = forwardRef<
 								>
 									Filter:
 								</label>
-								<select
+								<Dropdown
 									id='dropdown-filter-dropdown'
+									data={[
+										{ label: 'None', value: 'none' },
+										{ label: 'A to Z', value: 'az' },
+										{ label: 'Z to A', value: 'za' },
+										{
+											label: 'Largest to Smallest',
+											value: 'largest',
+										},
+										{
+											label: 'Smallest to Largest',
+											value: 'smallest',
+										},
+									]}
 									value={filterValue}
-									onChange={(e) =>
-										setFilterValue(e.target.value as any)
-									}
+									onChange={setFilterValue}
 									className={styles.filterDropdown}
-								>
-									<option value='none'>None</option>
-									<option value='az'>A to Z</option>
-									<option value='za'>Z to A</option>
-									<option value='largest'>
-										Largest to Smallest
-									</option>
-									<option value='smallest'>
-										Smallest to Largest
-									</option>
-								</select>
+								/>
 							</div>
 						)}
 						{variant === 'multiselect' &&
@@ -394,9 +406,9 @@ export const Dropdown = forwardRef<
 						{/* Search input always at the top, below chips if present */}
 						{searchable && (
 							<div style={{ padding: '8px 12px' }}>
-								<input
+								<Input
+									kind='search'
 									ref={inputRef}
-									type='text'
 									className={styles.searchInput}
 									placeholder={
 										searchPlaceholder || 'Search...'
@@ -459,14 +471,9 @@ export const Dropdown = forwardRef<
 									<div className={styles.noOptionsMessage}>
 										No options
 									</div>
-								:	filteredOptions.rest.map(
-										(
-											option: {
-												label: string;
-												value: string;
-											},
-											idx: number
-										) => {
+								: hasData ?
+									filteredOptions.rest.map(
+										(option, idx) => {
 											const isSelected =
 												variant === 'multiselect' ?
 													Array.isArray(currentValue) &&
@@ -479,6 +486,7 @@ export const Dropdown = forwardRef<
 													key={option.value}
 													className={classNames(
 														styles.option,
+														option.className,
 														{
 															[styles.selected]: isSelected,
 														}
@@ -494,7 +502,8 @@ export const Dropdown = forwardRef<
 											);
 										}
 									)
-								}
+									// Render children if no data prop
+								:	children}
 							</>
 						:	filteredOptions.rest.map(
 								(
@@ -555,8 +564,7 @@ export const FilterToggle = (props: {
 				gap: 8,
 			}}
 		>
-			<input
-				type='checkbox'
+			<Checkbox
 				checked={props.checked}
 				onChange={(e) => props.onChange(e.target.checked)}
 				style={{ marginRight: 8 }}

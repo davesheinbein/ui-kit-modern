@@ -138,7 +138,7 @@ type Story = StoryObj<typeof Page>;
 // ===== BASIC PAGE VARIANTS =====
 
 export const Startup: Story = {
-	name: '🚀 Startup Page',
+	name: 'Startup Page',
 	args: {
 		kind: 'startup',
 		title: 'Welcome to UI Kit',
@@ -148,7 +148,7 @@ export const Startup: Story = {
 };
 
 export const Landing: Story = {
-	name: '🎯 Landing Page',
+	name: 'Landing Page',
 	args: {
 		kind: 'landing',
 		title: 'Modern UI Kit',
@@ -157,7 +157,7 @@ export const Landing: Story = {
 };
 
 export const Dashboard: Story = {
-	name: '📊 Dashboard Page',
+	name: 'Dashboard Page',
 	args: {
 		kind: 'dashboard',
 		layout: 'grid',
@@ -166,7 +166,7 @@ export const Dashboard: Story = {
 };
 
 export const Settings: Story = {
-	name: '⚙️ Settings Page',
+	name: 'Settings Page',
 	args: {
 		kind: 'settings',
 		layout: 'sidebar',
@@ -175,7 +175,7 @@ export const Settings: Story = {
 };
 
 export const Profile: Story = {
-	name: '👤 Profile Page',
+	name: 'Profile Page',
 	args: {
 		kind: 'profile',
 		layout: 'centered',
@@ -184,7 +184,7 @@ export const Profile: Story = {
 };
 
 export const Game: Story = {
-	name: '🎮 Game Page',
+	name: 'Game Page',
 	args: {
 		kind: 'game',
 		title: 'Game Arena',
@@ -192,7 +192,7 @@ export const Game: Story = {
 };
 
 export const Browse: Story = {
-	name: '📂 Browse Page',
+	name: 'Browse Page',
 	args: {
 		kind: 'browse',
 		layout: 'grid',
@@ -203,7 +203,7 @@ export const Browse: Story = {
 // ===== LAYOUT VARIANTS =====
 
 export const CenteredLayout: Story = {
-	name: '🎯 Centered Layout',
+	name: 'Centered Layout',
 	args: {
 		kind: 'custom',
 		layout: 'centered',
@@ -214,7 +214,7 @@ export const CenteredLayout: Story = {
 };
 
 export const SidebarLayout: Story = {
-	name: '📑 Sidebar Layout',
+	name: 'Sidebar Layout',
 	args: {
 		kind: 'custom',
 		layout: 'sidebar',
@@ -224,7 +224,7 @@ export const SidebarLayout: Story = {
 };
 
 export const GridLayout: Story = {
-	name: '📐 Grid Layout',
+	name: 'Grid Layout',
 	args: {
 		kind: 'custom',
 		layout: 'grid',
@@ -234,7 +234,7 @@ export const GridLayout: Story = {
 };
 
 export const SplitLayout: Story = {
-	name: '⚡ Split Layout',
+	name: 'Split Layout',
 	args: {
 		kind: 'custom',
 		layout: 'split',
@@ -246,7 +246,7 @@ export const SplitLayout: Story = {
 // ===== SIZE VARIANTS =====
 
 export const CompactSize: Story = {
-	name: '📦 Compact Size',
+	name: 'Compact Size',
 	args: {
 		kind: 'custom',
 		size: 'compact',
@@ -256,7 +256,7 @@ export const CompactSize: Story = {
 };
 
 export const LargeSize: Story = {
-	name: '🔍 Large Size',
+	name: 'Large Size',
 	args: {
 		kind: 'custom',
 		size: 'large',
@@ -266,7 +266,7 @@ export const LargeSize: Story = {
 };
 
 export const FullSize: Story = {
-	name: '🖥️ Full Size',
+	name: 'Full Size',
 	args: {
 		kind: 'custom',
 		size: 'full',
@@ -278,7 +278,7 @@ export const FullSize: Story = {
 // =====  PATTERN EXAMPLES =====
 
 export const Pattern: Story = {
-	name: '🏭  Pattern Example',
+	name: ' Pattern Example',
 	render: () => (
 		<Wrapper
 			style={{
@@ -322,7 +322,7 @@ export const Pattern: Story = {
 };
 
 export const PresetPatterns: Story = {
-	name: '🎯 Preset Patterns',
+	name: 'Preset Patterns',
 	render: () => (
 		<Wrapper
 			style={{
@@ -363,7 +363,7 @@ export const PresetPatterns: Story = {
 // ===== COMPREHENSIVE SHOWCASE =====
 
 export const AllVariantsShowcase: Story = {
-	name: '🎯 Complete DRY System Showcase',
+	name: 'Complete DRY System Showcase',
 	render: () => (
 		<Wrapper
 			style={{
@@ -456,7 +456,7 @@ This system eliminates code duplication and provides a consistent API for all pa
 // ===== DETAILED STARTUP PAGE VARIANTS =====
 
 export const StartupWithCallbacks: Story = {
-	name: '🚀 Startup with Callbacks',
+	name: 'Startup with Callbacks',
 	args: {
 		kind: 'startup',
 		title: 'Game Title',
@@ -476,7 +476,7 @@ export const StartupWithCallbacks: Story = {
 };
 
 export const StartupWithCustomTitle: Story = {
-	name: '🚀 Startup with Custom Title',
+	name: 'Startup with Custom Title',
 	args: {
 		kind: 'startup',
 		title: 'My Custom Game',
@@ -497,7 +497,7 @@ export const StartupWithCustomTitle: Story = {
 };
 
 export const StartupWithoutShare: Story = {
-	name: '🚀 Startup without Share',
+	name: 'Startup without Share',
 	args: {
 		kind: 'startup',
 		title: 'Puzzle Challenge',
@@ -517,7 +517,7 @@ export const StartupWithoutShare: Story = {
 };
 
 export const StartupMinimal: Story = {
-	name: '🚀 Startup Minimal',
+	name: 'Startup Minimal',
 	args: {
 		kind: 'startup',
 		title: 'Quick Start',
@@ -536,7 +536,7 @@ export const StartupMinimal: Story = {
 };
 
 export const StartupCustomStyling: Story = {
-	name: '🚀 Startup Custom Styling',
+	name: 'Startup Custom Styling',
 	args: {
 		kind: 'startup',
 		title: 'Premium Game Experience',
@@ -564,7 +564,7 @@ export const StartupCustomStyling: Story = {
 };
 
 export const StartupDRYExample: Story = {
-	name: '🚀 Startup  Pattern',
+	name: 'Startup  Pattern',
 	render: () => (
 		<Wrapper
 			style={{
@@ -599,7 +599,7 @@ export const StartupDRYExample: Story = {
 };
 
 export const StartupPresetExample: Story = {
-	name: '🚀 Startup Preset Pattern',
+	name: 'Startup Preset Pattern',
 	render: () => (
 		<Wrapper
 			style={{

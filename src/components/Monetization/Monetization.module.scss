@@ -1,3 +1,4 @@
+@use '../../styles/Animations.scss' as *;
 /* Monetization Component Styles */
 
 .monetizationWrapper {
@@ -584,8 +585,6 @@
 }
 
 /* Centralized animation keyframes & classes */
-
-@use '../../styles/Animations.scss' as *;
 
 // All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
 // Do not define animation logic here. Use only the centralized animation classes or keyframes.

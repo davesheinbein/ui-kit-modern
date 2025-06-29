@@ -17,7 +17,6 @@ const meta: Meta<typeof Range> = {
 			},
 		},
 	},
-	decorators: commonDecorators,
 	argTypes: {
 		kind: {
 			control: { type: 'select' },

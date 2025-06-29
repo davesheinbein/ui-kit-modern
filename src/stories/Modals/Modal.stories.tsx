@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { commonDecorators } from '../config/decorators';
+import { Dropdown } from '../../components/Dropdown/Dropdown';
 
 // Types for different modal configurations
 interface UserStats {
@@ -726,17 +727,19 @@ export const AllModalTypesOverview: Story = {
 							>
 								Grid Size:
 							</label>
-							<select
+							<Dropdown
 								style={{
 									padding: '0.5rem',
 									borderRadius: '4px',
 									border: '1px solid #ccc',
 								}}
-							>
-								<option value='4x4'>4x4</option>
-								<option value='5x5'>5x5</option>
-								<option value='6x6'>6x6</option>
-							</select>
+								data={[
+									{ label: '4x4', value: '4x4' },
+									{ label: '5x5', value: '5x5' },
+									{ label: '6x6', value: '6x6' },
+								]}
+								onChange={() => {}}
+							/>
 						</Wrapper>
 						<Wrapper style={{ marginBottom: '1rem' }}>
 							<label
@@ -747,17 +750,18 @@ export const AllModalTypesOverview: Story = {
 							>
 								Difficulty:
 							</label>
-							<select
+							<Dropdown
 								style={{
 									padding: '0.5rem',
 									borderRadius: '4px',
 									border: '1px solid #ccc',
 								}}
+								onChange={() => {}}
 							>
-								<option value='easy'>Easy</option>
-								<option value='medium'>Medium</option>
-								<option value='hard'>Hard</option>
-							</select>
+								<div data-value='easy'>Easy</div>
+								<div data-value='medium'>Medium</div>
+								<div data-value='hard'>Hard</div>
+							</Dropdown>
 						</Wrapper>
 					</Wrapper>
 				</Modal>
@@ -1254,8 +1258,6 @@ export const VSRoomModal: Story = {
 							borderRadius: '6px',
 							fontSize: '1rem',
 							textAlign: 'center',
-							letterSpacing: '0.1em',
-							fontFamily: 'monospace',
 						}}
 						maxLength={6}
 					/>
@@ -1569,17 +1571,19 @@ export const CustomPuzzleModal: Story = {
 					>
 						Grid Size:
 					</label>
-					<select
+					<Dropdown
 						style={{
 							padding: '0.5rem',
 							borderRadius: '4px',
 							border: '1px solid #ccc',
 						}}
-					>
-						<option value='4x4'>4x4</option>
-						<option value='5x5'>5x5</option>
-						<option value='6x6'>6x6</option>
-					</select>
+						data={[
+							{ label: '4x4', value: '4x4' },
+							{ label: '5x5', value: '5x5' },
+							{ label: '6x6', value: '6x6' },
+						]}
+						onChange={() => {}}
+					/>
 				</Wrapper>
 				<Wrapper style={{ marginBottom: '1rem' }}>
 					<label
@@ -1590,17 +1594,18 @@ export const CustomPuzzleModal: Story = {
 					>
 						Difficulty:
 					</label>
-					<select
+					<Dropdown
 						style={{
 							padding: '0.5rem',
 							borderRadius: '4px',
 							border: '1px solid #ccc',
 						}}
+						onChange={() => {}}
 					>
-						<option value='easy'>Easy</option>
-						<option value='medium'>Medium</option>
-						<option value='hard'>Hard</option>
-					</select>
+						<div data-value='easy'>Easy</div>
+						<div data-value='medium'>Medium</div>
+						<div data-value='hard'>Hard</div>
+					</Dropdown>
 				</Wrapper>
 			</Wrapper>
 		),
@@ -2029,7 +2034,7 @@ export const ModalSystemDemo: Story = {
 								>
 									Grid Size:
 								</label>
-								<select
+								<Dropdown
 									style={{
 										width: '100%',
 										padding: '0.5rem',
@@ -2037,10 +2042,10 @@ export const ModalSystemDemo: Story = {
 										border: '1px solid #ccc',
 									}}
 								>
-									<option value='4x4'>4x4</option>
-									<option value='5x5'>5x5</option>
-									<option value='6x6'>6x6</option>
-								</select>
+									<option data-value='4x4'>4x4</option>
+									<option data-value='5x5'>5x5</option>
+									<option data-value='6x6'>6x6</option>
+								</Dropdown>
 							</Wrapper>
 							<Wrapper>
 								<label
@@ -2051,7 +2056,7 @@ export const ModalSystemDemo: Story = {
 								>
 									Difficulty:
 								</label>
-								<select
+								<Dropdown
 									style={{
 										width: '100%',
 										padding: '0.5rem',
@@ -2059,10 +2064,12 @@ export const ModalSystemDemo: Story = {
 										border: '1px solid #ccc',
 									}}
 								>
-									<option value='easy'>Easy</option>
-									<option value='medium'>Medium</option>
-									<option value='hard'>Hard</option>
-								</select>
+									<option data-value='easy'>Easy</option>
+									<option data-value='medium'>
+										Medium
+									</option>
+									<option data-value='hard'>Hard</option>
+								</Dropdown>
 							</Wrapper>
 						</Wrapper>
 					</Wrapper>
