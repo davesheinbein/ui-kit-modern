@@ -6,8 +6,8 @@
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/utilities.scss' as *;
 
-// Base select container
-.selectContainer {
+// Base dropdown container
+.dropdownContainer {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -535,7 +535,7 @@
 	color: var(--color-error);
 	margin-top: var(--spacing-1);
 }
-.selectContainer {
+.dropdownContainer {
 	overflow: visible !important;
 	z-index: 1;
 }

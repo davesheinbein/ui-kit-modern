@@ -15,7 +15,7 @@ A set of accessible, styled input fields for forms and data entry. Supports mult
 **Local:**
 
 ```tsx
-import { Input } from 'src/components/Inputs';
+import { Input } from '../components/Inputs';
 ```
 
 **NPM:**

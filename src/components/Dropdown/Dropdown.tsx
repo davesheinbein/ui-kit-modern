@@ -7,10 +7,10 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import { Wrapper } from '../Wrappers';
-import styles from './select.module.scss';
+import styles from './dropdown.module.scss';
 import Loading from '../Loading/Loading';
 
-export interface SelectProps {
+export interface DropdownProps {
 	options: Array<{
 		label: string;
 		value: string;
@@ -46,9 +46,9 @@ export interface SelectProps {
 	[key: string]: any;
 }
 
-export const Select = forwardRef<
+export const Dropdown = forwardRef<
 	HTMLDivElement,
-	SelectProps
+	DropdownProps
 >(
 	(
 		{
@@ -80,9 +80,8 @@ export const Select = forwardRef<
 		ref
 	) => {
 		const uniqueId = useId();
-		const selectComponentId =
-			componentId || `select-${uniqueId}`;
-		// Remove redux/select state logic for simplicity
+		const dropdownComponentId =
+			componentId || `dropdown-${uniqueId}`;
 		const containerRef = useRef<HTMLDivElement>(null);
 		const inputRef = useRef<HTMLInputElement>(null);
 		const menuRef = useRef<HTMLDivElement>(null);
@@ -103,41 +102,38 @@ export const Select = forwardRef<
 			isControlled ? controlledValue : internalValue;
 		const getFilteredOptions = useCallback(() => {
 			let filtered = options;
+
+			// Apply filter dropdown logic
+			if (filter && filterValue !== 'none') {
+				if (filterValue === 'az') {
+					filtered = [...filtered].sort((a, b) =>
+						a.label.localeCompare(b.label)
+					);
+				} else if (filterValue === 'za') {
+					filtered = [...filtered].sort((a, b) =>
+						b.label.localeCompare(a.label)
+					);
+				} else if (filterValue === 'largest') {
+					filtered = [...filtered].sort(
+						(a, b) =>
+							(b.numericValue ?? 0) - (a.numericValue ?? 0)
+					);
+				} else if (filterValue === 'smallest') {
+					filtered = [...filtered].sort(
+						(a, b) =>
+							(a.numericValue ?? 0) - (b.numericValue ?? 0)
+					);
+				}
+			}
+
+			// Apply search logic
 			if (searchable && searchValue) {
-				// Filter options by search term
-				filtered = options.filter(
+				filtered = filtered.filter(
 					(opt: { label: string; value: string }) =>
 						opt.label
 							.toLowerCase()
 							.includes(searchValue.toLowerCase())
 				);
-				// Always include selected option(s) at the top, even if not matching search
-				let selected: { label: string; value: string }[] =
-					[];
-				if (
-					variant === 'multiselect' &&
-					Array.isArray(currentValue)
-				) {
-					selected = options.filter(
-						(opt: { label: string; value: string }) =>
-							currentValue.includes(opt.value)
-					);
-				} else if (currentValue) {
-					const found = options.find(
-						(opt: { label: string; value: string }) =>
-							opt.value === currentValue
-					);
-					if (found) selected = [found];
-				}
-				// Remove selected from filtered (to avoid duplicates)
-				const filteredWithoutSelected = filtered.filter(
-					(opt: { value: string }) =>
-						!selected.some(
-							(sel: { value: string }) =>
-								sel.value === opt.value
-						)
-				);
-				return { selected, rest: filteredWithoutSelected };
 			}
 			// Not searching: just show all, no separation
 			return { selected: [], rest: filtered };
@@ -147,6 +143,8 @@ export const Select = forwardRef<
 			searchValue,
 			variant,
 			currentValue,
+			filter,
+			filterValue,
 		]);
 
 		const filteredOptions = getFilteredOptions();
@@ -173,7 +171,7 @@ export const Select = forwardRef<
 		};
 		const getContainerClasses = () =>
 			classNames(
-				styles.selectContainer,
+				styles.dropdownContainer,
 				styles[`variant-${variant}`],
 				styles[`size-${size}`],
 				{
@@ -242,7 +240,7 @@ export const Select = forwardRef<
 				kind='component-wrapper'
 				ref={containerRef}
 				className={getContainerClasses()}
-				data-testid='select-container'
+				data-testid='dropdown-container'
 			>
 				{label && (
 					<label className={styles.fieldLabel} htmlFor={id}>
@@ -268,7 +266,7 @@ export const Select = forwardRef<
 						<span className={styles.singleValue}>
 							{getDisplayValue() ||
 								placeholder ||
-								'Select...'}
+								'Dropdown...'}
 						</span>
 					</div>
 					<div className={styles.indicators}>
@@ -311,7 +309,7 @@ export const Select = forwardRef<
 						{filter && (
 							<div className={styles.filterToggle}>
 								<label
-									htmlFor='select-filter-dropdown'
+									htmlFor='dropdown-filter-dropdown'
 									style={{
 										fontWeight: 500,
 										marginRight: 8,
@@ -320,7 +318,7 @@ export const Select = forwardRef<
 									Filter:
 								</label>
 								<select
-									id='select-filter-dropdown'
+									id='dropdown-filter-dropdown'
 									value={filterValue}
 									onChange={(e) =>
 										setFilterValue(e.target.value as any)
@@ -537,7 +535,7 @@ export const Select = forwardRef<
 	}
 );
 
-Select.displayName = 'Select';
+Dropdown.displayName = 'Dropdown';
 
 export const FilterToggle = (props: {
 	checked: boolean;

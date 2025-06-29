@@ -3,7 +3,7 @@ import { Wrapper } from '../Wrappers';
 import styles from './Forms.module.scss';
 import Input from '../Inputs/Input';
 import Textarea from '../Textareas/Textarea';
-import { Select } from '../Selects/Select';
+import { Dropdown } from '../Dropdown/Dropdown';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Radio } from '../Radios/Radio';
 import { Switch } from '../Switchs/Switch';
@@ -12,7 +12,7 @@ import { Range } from '../Ranges/Range';
 export type FieldKind =
 	| 'input'
 	| 'textarea'
-	| 'select'
+	| 'dropdown'
 	| 'checkbox'
 	| 'radio'
 	| 'radio-group'
@@ -103,12 +103,11 @@ const Forms = forwardRef<any, FormsProps>(
 							/>
 						);
 					}
-					if (kind === 'select') {
+					if (kind === 'dropdown') {
 						return (
-							<Select
+							<Dropdown
 								key={name}
-								kind='dropdown'
-								options={options || []}
+								options={options}
 								{...commonProps}
 							/>
 						);

@@ -26,7 +26,7 @@ import {
 	ModalAnimation,
 } from './configurations';
 import Button from '../Button/Button';
-import { Input } from 'src/components/Inputs';
+import { Input } from '../components/Inputs';
 
 export type ModalKind = ExtendedModalKind;
 

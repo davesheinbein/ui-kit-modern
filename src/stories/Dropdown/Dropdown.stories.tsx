@@ -1,24 +1,22 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { Select } from '../../components/Selects/Select';
-import { selectDecorators } from '../config/decorators';
+import { Dropdown } from '../../components/Dropdown/Dropdown';
 import {
 	basicOptions,
-	categories,
 	detailedOptions,
+	categories,
 	dateRanges,
 } from '../mocks';
 
-const meta: Meta<typeof Select> = {
-	title: 'Selects/Select',
-	component: Select,
-	decorators: selectDecorators,
+const meta: Meta<typeof Dropdown> = {
+	title: 'Dropdown/Dropdown',
+	component: Dropdown,
 	parameters: {
 		layout: 'centered',
 		docs: {
 			description: {
 				component:
-					'A comprehensive select dropdown component with search, multiselect, and various specialized configurations.',
+					'A comprehensive dropdown component with search, multiDropdown, and various specialized configurations. Migrated from Selects, prioritizing Selects story structure and prop coverage.',
 			},
 		},
 	},
@@ -27,11 +25,11 @@ const meta: Meta<typeof Select> = {
 			control: 'select',
 			options: [
 				'dropdown',
-				'multiselect',
+				'multiDropdown',
 				'searchable',
 				'custom',
 			],
-			description: 'The style/behavior of the select',
+			description: 'The style/behavior of the dropdown',
 		},
 		searchable: {
 			control: 'boolean',
@@ -43,23 +41,25 @@ const meta: Meta<typeof Select> = {
 		},
 		disabled: {
 			control: 'boolean',
-			description: 'Whether the select is disabled',
+			description: 'Whether the dropdown is disabled',
 		},
 		loading: {
 			control: 'boolean',
-			description: 'Whether the select is in loading state',
+			description:
+				'Whether the dropdown is in loading state',
 		},
 		required: {
 			control: 'boolean',
-			description: 'Whether the select is required',
+			description: 'Whether the dropdown is required',
 		},
 		label: {
 			control: 'text',
-			description: 'The label for the select',
+			description: 'The label for the dropdown',
 		},
 		helpText: {
 			control: 'text',
-			description: 'Help text to display below the select',
+			description:
+				'Help text to display below the dropdown',
 		},
 		error: {
 			control: 'text',
@@ -67,7 +67,7 @@ const meta: Meta<typeof Select> = {
 		},
 		placeholder: {
 			control: 'text',
-			description: 'Placeholder text for the select',
+			description: 'Placeholder text for the dropdown',
 		},
 		searchPlaceholder: {
 			control: 'text',
@@ -77,29 +77,50 @@ const meta: Meta<typeof Select> = {
 			control: 'text',
 			description: 'Message to show while loading',
 		},
+		options: {
+			control: 'object',
+			description: 'Dropdown options',
+		},
+		value: {
+			control: 'object',
+			description: 'Selected value(s)',
+		},
+		defaultValue: {
+			control: 'object',
+			description: 'Default value(s)',
+		},
+		filter: {
+			control: 'boolean',
+			description: 'Enable filter dropdown',
+		},
+		size: {
+			control: 'select',
+			options: ['small', 'medium', 'large'],
+			description: 'Dropdown size',
+		},
 	},
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Dropdown>;
 
 // DRY: Story factory
 const createStory = (
-	args: Partial<React.ComponentProps<typeof Select>>
+	args: Partial<React.ComponentProps<typeof Dropdown>>
 ): Story => ({ args });
 
-export const Dropdown: Story = {
+export const DropdownVariants: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={basicOptions}
 					label='Dropdown'
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={basicOptions}
 					label='Dropdown (Filter)'
@@ -107,7 +128,7 @@ export const Dropdown: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={basicOptions}
 					label='Dropdown (Searchable)'
@@ -115,7 +136,7 @@ export const Dropdown: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={basicOptions}
 					label='Dropdown (Searchable + Filter)'
@@ -138,14 +159,14 @@ export const Multiselect: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='multiselect'
 					options={categories}
 					label='Multiselect'
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='multiselect'
 					options={categories}
 					label='Multiselect (Filter)'
@@ -153,7 +174,7 @@ export const Multiselect: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='multiselect'
 					options={categories}
 					label='Multiselect (Searchable)'
@@ -161,7 +182,7 @@ export const Multiselect: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='multiselect'
 					options={categories}
 					label='Multiselect (Searchable + Filter)'
@@ -184,7 +205,7 @@ export const Searchable: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={detailedOptions}
 					label='Searchable'
@@ -192,7 +213,7 @@ export const Searchable: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={detailedOptions}
 					label='Searchable (Filter)'
@@ -215,7 +236,7 @@ export const WithError: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={basicOptions}
 					label='Required Selection'
@@ -224,7 +245,7 @@ export const WithError: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={basicOptions}
 					label='Required Selection (Filter)'
@@ -248,7 +269,7 @@ export const Loading: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={[]}
 					label='Loading Options'
@@ -258,7 +279,7 @@ export const Loading: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={[]}
 					label='Loading Options (Filter)'
@@ -283,7 +304,7 @@ export const Disabled: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={basicOptions}
 					label='Disabled Select'
@@ -292,7 +313,7 @@ export const Disabled: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={basicOptions}
 					label='Disabled Select (Filter)'
@@ -316,7 +337,7 @@ export const DateRange: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={dateRanges}
 					label='Date Range'
@@ -324,7 +345,7 @@ export const DateRange: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={dateRanges}
 					label='Date Range (Filter)'
@@ -347,7 +368,7 @@ export const WithFilter: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={[
 						{
@@ -381,7 +402,7 @@ export const WithFilter: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={[
 						{
@@ -426,7 +447,6 @@ export const WithFilter: Story = {
 	},
 };
 
-// === ALL VARIANTS SIDE-BY-SIDE ===
 const allOptions = {
 	basic: basicOptions,
 	detailed: detailedOptions,
@@ -438,21 +458,21 @@ export const AllVariants: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={basicOptions}
 					label='Dropdown'
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='multiselect'
 					options={categories}
 					label='Multiselect'
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={detailedOptions}
 					label='Searchable'
@@ -460,7 +480,7 @@ export const AllVariants: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={[
 						{
@@ -494,7 +514,7 @@ export const AllVariants: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={allOptions.basic}
 					label='With Error'
@@ -504,7 +524,7 @@ export const AllVariants: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={[]}
 					label='Loading'
@@ -513,7 +533,7 @@ export const AllVariants: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={allOptions.basic}
 					label='Disabled'
@@ -523,7 +543,7 @@ export const AllVariants: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					variant='dropdown'
 					options={allOptions.dateRanges}
 					label='Date Range'
@@ -537,35 +557,17 @@ export const AllVariants: Story = {
 		docs: {
 			description: {
 				story:
-					'All Select variants rendered side-by-side for visual comparison.',
+					'All Dropdown variants rendered side-by-side for visual comparison.',
 			},
 		},
 	},
 };
 
-// Add CSS for the grid layout (for Storybook only)
-if (typeof document !== 'undefined') {
-	const style = document.createElement('style');
-	style.innerHTML = `
-		.all-variants-grid {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 32px;
-		}
-		.all-variants-cell {
-			min-width: 260px;
-			flex: 1 1 260px;
-			box-sizing: border-box;
-		}
-	`;
-	document.head.appendChild(style);
-}
-
 export const SizeComparison: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					size='small'
 					variant='dropdown'
 					options={[
@@ -600,7 +602,7 @@ export const SizeComparison: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					size='medium'
 					variant='dropdown'
 					options={[
@@ -635,7 +637,7 @@ export const SizeComparison: Story = {
 				/>
 			</div>
 			<div className='all-variants-cell'>
-				<Select
+				<Dropdown
 					size='large'
 					variant='dropdown'
 					options={[
@@ -675,8 +677,26 @@ export const SizeComparison: Story = {
 		docs: {
 			description: {
 				story:
-					'All Select sizes (small, medium, large) rendered side-by-side for visual comparison.',
+					'All Dropdown sizes (small, medium, large) rendered side-by-side for visual comparison.',
 			},
 		},
 	},
 };
+
+// Add CSS for the grid layout (for Storybook only)
+if (typeof document !== 'undefined') {
+	const style = document.createElement('style');
+	style.innerHTML = `
+		.all-variants-grid {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 32px;
+		}
+		.all-variants-cell {
+			min-width: 260px;
+			flex: 1 1 260px;
+			box-sizing: border-box;
+		}
+	`;
+	document.head.appendChild(style);
+}

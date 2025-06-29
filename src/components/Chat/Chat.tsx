@@ -6,7 +6,7 @@ import {
 	ChatKind,
 	CHAT_CONFIGURATIONS,
 } from './configurations';
-import { Input } from 'src/components/Inputs';
+import { Input } from '../Inputs';
 
 export interface ChatProps {
 	kind?: ChatKind;

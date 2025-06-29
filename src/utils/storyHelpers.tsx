@@ -6,8 +6,8 @@ import {
 } from '../components/Radios/Radio';
 import { Switch } from '../components/Switchs';
 import type { SwitchProps } from '../components/Switchs/configurations';
-import { Select } from '../components/Selects/Select';
-import type { SelectProps } from '../components/Selects/Select';
+import { Dropdown } from '../components/Dropdown/Dropdown';
+import type { DropdownProps } from '../components/Dropdown/Dropdown';
 import Textarea from '../components/Textareas/Textarea';
 import type { TextareaProps } from '../components/Textareas/Textarea';
 
@@ -85,21 +85,23 @@ export const StatefulSwitch: React.FC<SwitchProps> = ({
 };
 
 /**
- * StatefulSelect
- * A helper for Storybook that manages its own value state.
+ * StatefulDropdown
+ * A helper for Storybook that manages its own value state for Dropdown.
  */
-export const StatefulSelect: React.FC<SelectProps> = ({
+export const StatefulDropdown: React.FC<DropdownProps> = ({
 	value: _value,
 	onChange,
 	...props
 }) => {
-	const [value, setValue] = useState(_value ?? '');
-	const handleChange = (val: string | string[]) => {
+	const [value, setValue] = useState(
+		_value ?? (props.variant === 'multiDropdown' ? [] : '')
+	);
+	const handleChange = (val: any) => {
 		setValue(val);
 		onChange?.(val);
 	};
 	return (
-		<Select
+		<Dropdown
 			{...props}
 			value={value}
 			onChange={handleChange}
