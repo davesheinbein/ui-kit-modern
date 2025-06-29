@@ -4,8 +4,7 @@ import { Dropdown } from '../../components/Dropdown/Dropdown';
 import {
 	basicOptions,
 	detailedOptions,
-	categories,
-	dateRanges,
+	categories
 } from '../mocks';
 
 const meta: Meta<typeof Dropdown> = {
@@ -333,37 +332,6 @@ export const Disabled: Story = {
 	},
 };
 
-export const DateRange: Story = {
-	render: () => (
-		<div className='all-variants-grid'>
-			<div className='all-variants-cell'>
-				<Dropdown
-					variant='dropdown'
-					options={dateRanges}
-					label='Date Range'
-					defaultValue='last7days'
-				/>
-			</div>
-			<div className='all-variants-cell'>
-				<Dropdown
-					variant='dropdown'
-					options={dateRanges}
-					label='Date Range (Filter)'
-					defaultValue='last7days'
-					filter
-				/>
-			</div>
-		</div>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story: 'Date range variations side by side.',
-			},
-		},
-	},
-};
-
 export const WithFilter: Story = {
 	render: () => (
 		<div className='all-variants-grid'>
@@ -451,7 +419,6 @@ const allOptions = {
 	basic: basicOptions,
 	detailed: detailedOptions,
 	categories,
-	dateRanges,
 };
 
 export const AllVariants: Story = {
@@ -540,15 +507,6 @@ export const AllVariants: Story = {
 					disabled
 					value='option2'
 					helpText='disabled'
-				/>
-			</div>
-			<div className='all-variants-cell'>
-				<Dropdown
-					variant='dropdown'
-					options={allOptions.dateRanges}
-					label='Date Range'
-					defaultValue='last7days'
-					helpText='date range'
 				/>
 			</div>
 		</div>
