@@ -26,7 +26,7 @@ import { Radio } from 'ui-kit-modern';
 
 ## Supported Props
 
-- `variant`: 'standard' | 'button' | 'card' | 'switch' | 'custom' (default: 'standard')
+- `variant`: 'standard' | 'button' | 'card' | 'custom' (default: 'standard')
 - `name`: string (radio group name)
 - `value`: string (radio value)
 - `checked`: boolean (controlled checked state)
@@ -44,4 +44,5 @@ import { Radio } from 'ui-kit-modern';
 
 - Group radios by `name` for exclusive selection.
 - Use the appropriate `variant` for your UI context.
+- **Do not use Radio for boolean/toggle/checkbox use cases. Use the Switch component for those.**
 - See Storybook for radio group and variant examples.

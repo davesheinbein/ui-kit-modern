@@ -291,61 +291,6 @@ const Page: React.FC<PageProps> = ({
 	);
 };
 
-const Presets = {
-	Startup: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='startup' {...props} />
-	),
-	Landing: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='landing' {...props} />
-	),
-	Dashboard: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='dashboard' {...props} />
-	),
-	Settings: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='settings' {...props} />
-	),
-	Profile: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='profile' {...props} />
-	),
-	Game: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='game' {...props} />
-	),
-	Browse: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='browse' {...props} />
-	),
-	Results: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='results' {...props} />
-	),
-	About: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='about' {...props} />
-	),
-	Help: (props: Omit<PageProps, 'kind'>) => (
-		<Page kind='help' {...props} />
-	),
-};
-
-// Utility function to create page with custom configuration
-function createPage(
-	kind: ExtendedPageKind,
-	props?: Omit<PageProps, 'kind'>,
-	configOverrides?: any
-) {
-	const config =
-		configOverrides ?
-			createPageConfig(kind, configOverrides)
-		:	getPageConfiguration(kind);
-
-	return (
-		<Page kind={kind} configuration={config} {...props} />
-	);
-}
-
-// Attach helpers to Page
-(Page as any).Presets = Presets;
-(Page as any).createPage = createPage;
-
-export { Presets as PagePresets, createPage };
-
 Page.displayName = 'Page';
 
 export default Page;

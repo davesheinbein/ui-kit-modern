@@ -7,14 +7,21 @@ import {
 	BANNER_CONFIGURATIONS,
 	BannerKind,
 	BannerConfiguration,
+	BannerAction,
 } from './configurations';
 
+export interface BannerAction {
+	label: string;
+	onClick: () => void;
+	variant?: 'primary' | 'secondary' | 'text';
+	disabled?: boolean;
+}
+
 export interface BannerProps {
-	// General
 	'kind'?: BannerKind;
 	'message'?: string;
 	'className'?: string;
-	// Status bar specific props
+
 	'player'?: {
 		username: string;
 		avatarUrl?: string;
@@ -33,7 +40,7 @@ export interface BannerProps {
 	'showMistakes'?: boolean;
 	'showTimer'?: boolean;
 	'onEmoteClick'?: () => void;
-	// Notification specific props
+
 	'type'?:
 		| 'burn'
 		| 'achievement'
@@ -44,12 +51,12 @@ export interface BannerProps {
 		| 'info'
 		| 'warning';
 	'index'?: number;
-	// Toast specific props
+
 	'icon'?: React.ReactNode;
 	'duration'?: number;
-	// Override any configuration
+
 	'configuration'?: Partial<BannerConfiguration>;
-	// Core banner props
+
 	'variant'?:
 		| 'feedback'
 		| 'notification'
@@ -62,18 +69,14 @@ export interface BannerProps {
 		| 'fixed'
 		| 'relative'
 		| 'center';
-	'onClose'?: () => void;
+	'close'?: () => void;
 	'autoClose'?: boolean;
 	'aria-live'?: 'polite' | 'assertive' | 'off';
 	'children'?: React.ReactNode;
+	'actions'?: BannerAction[];
 	[key: string]: any;
 }
 
-/**
- * Base Banner component - provides consistent styling and layout
- * Use this as the foundation for all banner types
- * Similar to the Modal and Forms base components
- */
 const Banner = forwardRef<HTMLDivElement, BannerProps>(
 	(
 		{
@@ -94,23 +97,22 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 			className = '',
 			variant,
 			position,
-			onClose,
+			close,
 			autoClose,
 			'aria-live': ariaLive,
 			children,
+			actions,
 			...props
 		},
 		ref
 	) => {
-		// Get config for kind
 		const config =
 			BANNER_CONFIGURATIONS[
 				kind as keyof typeof BANNER_CONFIGURATIONS
 			] || {};
-		// Merge configuration with overrides
+
 		const finalConfig = { ...config, ...configOverride };
 
-		// Determine effective props
 		const effectiveVariant =
 			variant || finalConfig.variant || 'notification';
 		const effectiveType =
@@ -131,20 +133,16 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 				'polite'
 			:	'assertive');
 
-		// Auto-close functionality
 		React.useEffect(() => {
 			if (
 				effectiveAutoClose &&
-				onClose &&
+				close &&
 				effectiveDuration
 			) {
-				const timer = setTimeout(
-					onClose,
-					effectiveDuration
-				);
+				const timer = setTimeout(close, effectiveDuration);
 				return () => clearTimeout(timer);
 			}
-		}, [effectiveAutoClose, onClose, effectiveDuration]);
+		}, [effectiveAutoClose, close, effectiveDuration]);
 
 		const bannerClasses = [
 			styles.banner,
@@ -156,7 +154,6 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 			.filter(Boolean)
 			.join(' ');
 
-		// Render content based on kind
 		let content: React.ReactNode = null;
 		const renderIcon = (icon: any) => {
 			if (!icon) return null;
@@ -191,25 +188,49 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 			global: styles['banner__message--global'],
 		};
 
+		const renderActions = () => {
+			if (!actions || !actions.length) return null;
+			return (
+				<div className={styles.bannerActions}>
+					{actions.map(
+						(action: BannerAction, idx: number) => (
+							<button
+								key={action.label + idx}
+								type='button'
+								className={
+									styles[
+										`bannerAction--${action.variant || 'primary'}`
+									]
+								}
+								disabled={action.disabled}
+								onClick={action.onClick}
+							>
+								{action.label}
+							</button>
+						)
+					)}
+				</div>
+			);
+		};
+
 		if (SIMPLE_BANNER_KINDS.includes(finalConfig.kind)) {
 			content = (
-				<Wrapper
-					className={contentClassMap[finalConfig.kind]}
-				>
+				<div className={contentClassMap[finalConfig.kind]}>
 					{renderIcon(effectiveIcon)}
 					<span
 						className={messageClassMap[finalConfig.kind]}
 					>
 						{message}
 					</span>
-				</Wrapper>
+					{renderActions()}
+					{children}
+				</div>
 			);
 		} else if (finalConfig.kind === 'status') {
 			content = (
 				<Wrapper
 					className={styles['banner__content--status']}
 				>
-					{/* Left: Player info */}
 					<Wrapper className={styles['banner__status-row']}>
 						{renderIcon(effectiveIcon)}
 						{player?.avatarUrl && (
@@ -240,7 +261,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 							</Wrapper>
 						)}
 					</Wrapper>
-					{/* Center: Timer */}
+
 					{showTimer && timer && (
 						<Wrapper
 							className={styles['banner__status-timer']}
@@ -248,7 +269,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 							{timer}
 						</Wrapper>
 					)}
-					{/* Right: Opponent info */}
+
 					{opponent && (
 						<Wrapper
 							className={styles['banner__status-row']}
@@ -285,7 +306,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 							)}
 						</Wrapper>
 					)}
-					{/* Emote button */}
+
 					{onEmoteClick && (
 						<Button
 							kind='vs-status-emote'
@@ -308,14 +329,13 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 			content = message || children || 'Banner content';
 		}
 
-		// Internal open/close state if onClose is not provided
 		const [isOpen, setIsOpen] = React.useState(true);
+
 		const handleClose = () => {
-			if (onClose) {
-				onClose();
-			} else {
-				setIsOpen(false);
+			if (typeof close === 'function') {
+				close();
 			}
+			setIsOpen(false);
 		};
 
 		if (!isOpen) return null;
@@ -327,9 +347,125 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
 				aria-live={effectiveAriaLive}
 				{...props}
 			>
-				{content}
-				{(onClose !== undefined ||
-					finalConfig.showCloseButton) && (
+				{finalConfig.kind === 'status' ?
+					<Wrapper
+						className={styles['banner__content--status']}
+					>
+						<Wrapper
+							className={styles['banner__status-row']}
+						>
+							{renderIcon(effectiveIcon)}
+							{player?.avatarUrl && (
+								<img
+									src={player.avatarUrl}
+									alt={player.username}
+									className={
+										styles['banner__status-avatar']
+									}
+								/>
+							)}
+							<Wrapper
+								className={
+									styles['banner__status-username']
+								}
+							>
+								{player?.username}
+								{player?.isYou && ' (You)'}
+							</Wrapper>
+							<Wrapper
+								className={styles['banner__status-groups']}
+							>
+								{player?.groupsSolved || 0}/{totalGroups}
+							</Wrapper>
+							{showMistakes && (
+								<Wrapper
+									className={
+										styles['banner__status-mistakes']
+									}
+								>
+									{player?.mistakes || 0} mistakes
+								</Wrapper>
+							)}
+						</Wrapper>
+						{showTimer && timer && (
+							<Wrapper
+								className={styles['banner__status-timer']}
+							>
+								{timer}
+							</Wrapper>
+						)}
+						{opponent && (
+							<Wrapper
+								className={styles['banner__status-row']}
+							>
+								{showMistakes && (
+									<Wrapper
+										className={
+											styles['banner__status-mistakes']
+										}
+									>
+										{opponent.mistakes} mistakes
+									</Wrapper>
+								)}
+								<Wrapper
+									className={
+										styles['banner__status-groups']
+									}
+								>
+									{opponent.groupsSolved}/{totalGroups}
+								</Wrapper>
+								<Wrapper
+									className={
+										styles['banner__status-username']
+									}
+								>
+									{opponent.username}
+								</Wrapper>
+								{opponent.avatarUrl && (
+									<img
+										src={opponent.avatarUrl}
+										alt={opponent.username}
+										className={
+											styles['banner__status-avatar']
+										}
+									/>
+								)}
+							</Wrapper>
+						)}
+
+						{onEmoteClick && (
+							<Button
+								kind='vs-status-emote'
+								className={
+									styles['banner__status-emote-btn']
+								}
+								onClick={onEmoteClick}
+								aria-label='Send emote'
+							>
+								<Wrapper
+									className={
+										styles['banner__status-emote-icon']
+									}
+								>
+									😀
+								</Wrapper>
+							</Button>
+						)}
+					</Wrapper>
+				:	<div
+						className={styles['banner__content--unified']}
+					>
+						{renderIcon(effectiveIcon)}
+						<span
+							className={styles['banner__message--unified']}
+						>
+							{message}
+						</span>
+						{renderActions()}
+						{children}
+					</div>
+				}
+				{close && (
 					<Button
 						kind='close'
 						className={styles.bannerCloseButton}

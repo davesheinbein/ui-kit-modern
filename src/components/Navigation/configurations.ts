@@ -104,6 +104,16 @@ export interface NavigationConfiguration {
 	enableKeyboardNav?: boolean;
 	enableSwipeGestures?: boolean;
 
+	// Breadcrumbs
+	/** Separator string for breadcrumbs */
+	separator?: string;
+
+	// Pagination
+	/** Show previous/next buttons */
+	showPrevNext?: boolean;
+	/** Show first/last buttons */
+	showFirstLast?: boolean;
+
 	// Documentation
 	description?: string;
 	examples?: string[];
@@ -355,107 +365,4 @@ export function createNavigationConfig(
 ): NavigationConfiguration {
 	const baseConfig = getNavigationConfig(baseKind);
 	return { ...baseConfig, ...overrides };
-}
-
-/**
- * Navigation presets for common use cases
- */
-export const NAVIGATION_PRESETS = {
-	// App Navigation
-	primaryApp: () =>
-		createNavigationConfig('navbar', {
-			variant: 'primary',
-			showIcons: true,
-			showLabels: true,
-			responsive: true,
-		}),
-
-	mobileApp: () =>
-		createNavigationConfig('mobile-nav', {
-			variant: 'mobile-optimized',
-			position: 'bottom',
-			showIcons: true,
-			showLabels: false,
-		}),
-
-	// Content Navigation
-	contentTabs: () =>
-		createNavigationConfig('tabs', {
-			variant: 'primary',
-			showIcons: false,
-			showLabels: true,
-		}),
-
-	// Data Navigation
-	tablePagination: () =>
-		createNavigationConfig('pagination', {
-			variant: 'detailed',
-			enableKeyboardNav: true,
-		}),
-
-	// Quick Actions
-	floatingNav: () =>
-		createNavigationConfig('quick-navigation', {
-			variant: 'floating',
-			position: 'right',
-			showIcons: true,
-			showLabels: false,
-		}),
-};
-
-/**
- * Quick navigation builders
- */
-export const QUICK_NAVIGATION = {
-	navbar: (items: NavigationItem[]) =>
-		createNavigationConfig('navbar', { items }),
-	tabs: (items: NavigationItem[]) =>
-		createNavigationConfig('tabs', { items }),
-	breadcrumbs: (items: NavigationItem[]) =>
-		createNavigationConfig('breadcrumbs', { items }),
-	pagination: (totalPages: number, currentPage: number) =>
-		createNavigationConfig('pagination', {
-			items: generatePaginationItems(
-				totalPages,
-				currentPage
-			),
-		}),
-};
-
-/**
- * Helper function to generate pagination items
- */
-function generatePaginationItems(
-	totalPages: number,
-	currentPage: number
-): NavigationItem[] {
-	const items: NavigationItem[] = [];
-
-	// Previous button
-	items.push({
-		id: 'prev',
-		label: 'Previous',
-		disabled: currentPage <= 1,
-		path: `page-${currentPage - 1}`,
-	});
-
-	// Page numbers
-	for (let i = 1; i <= totalPages; i++) {
-		items.push({
-			id: `page-${i}`,
-			label: i.toString(),
-			active: i === currentPage,
-			path: `page-${i}`,
-		});
-	}
-
-	// Next button
-	items.push({
-		id: 'next',
-		label: 'Next',
-		disabled: currentPage >= totalPages,
-		path: `page-${currentPage + 1}`,
-	});
-
-	return items;
 }

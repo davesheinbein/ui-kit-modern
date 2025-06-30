@@ -2,6 +2,18 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Providers } from '../../components/Providers';
 import { commonDecorators } from '../config/decorators';
+import Wrapper from '../../components/Wrappers/Wrapper';
+import Button from '../../components/Button/Button';
+import {
+	useUserSettings,
+	useThemePalette,
+} from '../../components/Providers';
+import { useAppSelector } from '../../store/hooks';
+import {
+	mockUserSettings,
+	mockThemePalette,
+	mockSocketSession,
+} from '../mocks';
 
 const meta: Meta<typeof Providers> = {
 	title: 'Providers/Providers',
@@ -11,6 +23,19 @@ const meta: Meta<typeof Providers> = {
 };
 
 export default meta;
+
+const codeExamples: Record<string, string> = {
+	UserSettings: `import { useUserSettings } from 'components/Providers';
+const settings = useUserSettings();
+console.log(settings.language, settings.theme);`,
+	Theme: `import { useThemePalette } from 'components/Providers';
+const { palette, setTheme } = useThemePalette();
+console.log(palette.primary);`,
+	Socket: `// If using Redux:
+import { useAppSelector } from 'store/hooks';
+const socket = useAppSelector(state => state.socket);
+console.log(socket.isConnected);`,
+};
 
 export const ProviderDemo: React.FC<{
 	providerType: string;
@@ -39,17 +64,35 @@ export const ProviderDemo: React.FC<{
 			{providerType} context is active and available to
 			child components.
 		</Wrapper>
+		<Wrapper style={{ marginTop: 16 }}>
+			<strong>Example usage:</strong>
+			<pre
+				style={{
+					background: '#f4f4f4',
+					padding: 12,
+					borderRadius: 6,
+				}}
+			>
+				<code>
+					{codeExamples[providerType] ||
+						'// Example coming soon'}
+				</code>
+			</pre>
+		</Wrapper>
 	</Wrapper>
 );
 
+// Use Redux selector for socket state
 export const SocketDemo: React.FC = () => {
-	const socketContext = useSocket();
+	const socketContext = useAppSelector(
+		(state) => state.socket
+	);
 
 	if (!socketContext) {
 		return <Wrapper>No socket context available</Wrapper>;
 	}
 
-	const { isConnected, socket, emit, on } = socketContext;
+	const { isConnected, socket } = socketContext;
 
 	return (
 		<Wrapper
@@ -64,33 +107,17 @@ export const SocketDemo: React.FC = () => {
 			<p>
 				Socket: {socket ? 'Available' : 'Not available'}
 			</p>
-			<Wrapper
-				style={{
-					marginTop: '1rem',
-					display: 'flex',
-					gap: '0.5rem',
-				}}
-			>
-				<Button
-					kind='primary'
-					onClick={() =>
-						emit('test-event', { message: 'Hello' })
-					}
-					disabled={!isConnected}
+			<Wrapper style={{ marginTop: 16 }}>
+				<strong>Example usage:</strong>
+				<pre
+					style={{
+						background: '#f4f4f4',
+						padding: 12,
+						borderRadius: 6,
+					}}
 				>
-					Send Test Event
-				</Button>
-				<Button
-					kind='secondary'
-					onClick={() =>
-						on('test-response', (data: any) =>
-							console.log('Received:', data)
-						)
-					}
-					disabled={!isConnected}
-				>
-					Listen for Response
-				</Button>
+					<code>{codeExamples.Socket}</code>
+				</pre>
 			</Wrapper>
 		</Wrapper>
 	);
@@ -260,8 +287,8 @@ export const AchievementListenerDemo: React.FC = () => (
 
 // ===== BASIC PROVIDER VARIANTS =====
 
-export const SocketProvider: Story = {
-	name: '🔌 Socket Provider',
+export const SocketProvider: StoryObj<typeof Providers> = {
+	name: 'Socket Provider',
 	args: {
 		kind: 'socket-provider',
 		autoConnect: false,
@@ -270,61 +297,61 @@ export const SocketProvider: Story = {
 	},
 };
 
-export const UserSettingsProvider: Story = {
-	name: '⚙️ User Settings Provider',
+export const UserSettingsProvider: StoryObj<
+	typeof Providers
+> = {
+	name: 'User Settings Provider',
 	args: {
 		kind: 'user-settings-provider',
-		initialSettings: {
-			theme: 'light',
-			notifications: true,
-			language: 'en',
-		},
+		initialSettings: mockUserSettings,
 		children: <UserSettingsDemo />,
 	},
 };
 
-export const AchievementSocketListener: Story = {
-	name: '🏆 Achievement Socket Listener',
+export const AchievementSocketListener: StoryObj<
+	typeof Providers
+> = {
+	name: 'Achievement Socket Listener',
 	args: {
 		kind: 'achievement-socket-listener',
 		children: <AchievementListenerDemo />,
 	},
 };
 
-export const ThemeProvider: Story = {
-	name: '🎨 Theme Palette Provider',
+export const ThemeProvider: StoryObj<typeof Providers> = {
+	name: 'Theme Palette Provider',
 	args: {
 		kind: 'theme-palette-provider',
+		initialTheme: 'light',
+		initialPalette: mockThemePalette,
 		children: <ThemePaletteDemo />,
 	},
 };
 
 // ===== PROVIDER CONFIGURATIONS =====
 
-export const SocketWithAutoConnect: Story = {
-	name: '🔌 Socket (Auto-Connect)',
+export const SocketWithAutoConnect: StoryObj<
+	typeof Providers
+> = {
+	name: 'Socket (Auto-Connect)',
 	args: {
 		kind: 'socket-provider',
 		autoConnect: true,
 		url: '/api/socket',
-		session: { userId: '123', token: 'abc123' },
+		session: mockSocketSession,
 		children: (
 			<ProviderDemo providerType='Auto-Connect Socket Provider' />
 		),
 	},
 };
 
-export const UserSettingsWithDefaults: Story = {
-	name: '⚙️ User Settings (With Defaults)',
+export const UserSettingsWithDefaults: StoryObj<
+	typeof Providers
+> = {
+	name: 'User Settings (With Defaults)',
 	args: {
 		kind: 'user-settings-provider',
-		initialSettings: {
-			theme: 'dark',
-			notifications: false,
-			language: 'en',
-			soundEnabled: true,
-			difficulty: 'medium',
-		},
+		initialSettings: mockUserSettings,
 		children: (
 			<ProviderDemo providerType='User Settings Provider with Defaults' />
 		),
@@ -333,45 +360,21 @@ export const UserSettingsWithDefaults: Story = {
 
 // ===== NESTED PROVIDERS EXAMPLE =====
 
-export const NestedProviders: Story = {
-	name: '🔗 Nested Providers',
+export const NestedProviders: StoryObj<typeof Providers> = {
+	name: 'Nested Providers',
 	render: () => (
 		<Wrapper style={{ padding: '1rem' }}>
 			<h3>Nested Provider Setup:</h3>
-			<Providers kind='theme-palette-provider'>
+			<Providers
+				kind='theme-palette-provider'
+				initialTheme='dark'
+				initialPalette={mockThemePalette}
+			>
 				<Providers
 					kind='user-settings-provider'
-					initialSettings={{
-						theme: 'dark',
-						notifications: true,
-					}}
+					initialSettings={mockUserSettings}
 				>
-					<Providers
-						kind='socket-provider'
-						autoConnect={true}
-						url='/api/socket'
-					>
-						<Wrapper
-							style={{
-								padding: '2rem',
-								border: '2px dashed #d1d5db',
-								borderRadius: '8px',
-								background: '#f9fafb',
-							}}
-						>
-							<h4>App Component</h4>
-							<p>
-								This component has access to all three
-								provider contexts:
-							</p>
-							<ul>
-								<li>Theme Palette Provider</li>
-								<li>User Settings Provider</li>
-								<li>Socket Provider</li>
-							</ul>
-							<p>Perfect for a complete app setup!</p>
-						</Wrapper>
-					</Providers>
+					<UserSettingsDemo />
 				</Providers>
 			</Providers>
 		</Wrapper>
@@ -388,8 +391,10 @@ export const NestedProviders: Story = {
 
 // ===== COMPREHENSIVE SHOWCASE =====
 
-export const AllVariantsShowcase: Story = {
-	name: '🎯 Complete DRY System Showcase',
+export const AllVariantsShowcase: StoryObj<
+	typeof Providers
+> = {
+	name: 'Complete DRY System Showcase',
 	render: () => (
 		<Wrapper
 			style={{
@@ -409,17 +414,31 @@ export const AllVariantsShowcase: Story = {
 						gap: '1rem',
 					}}
 				>
-					<Providers kind='socket-provider' autoConnect>
-						<ProviderDemo providerType='DRY System Socket' />
+					<Providers
+						kind='socket-provider'
+						url='/api/socket'
+						autoConnect={false}
+					>
+						<SocketDemo />
 					</Providers>
 					<Providers
 						kind='user-settings-provider'
-						initialSettings={{ theme: 'light' }}
+						initialSettings={{
+							chatEnabled: true,
+							notificationsEnabled: true,
+						}}
 					>
-						<ProviderDemo providerType='DRY System Settings' />
+						<UserSettingsDemo />
 					</Providers>
-					<Providers kind='theme-palette-provider'>
-						<ProviderDemo providerType='DRY System Theme' />
+					<Providers
+						kind='theme-palette-provider'
+						initialTheme='light'
+						initialPalette={{ primary: '#0070f3' }}
+					>
+						<ThemePaletteDemo />
+					</Providers>
+					<Providers kind='achievement-socket-listener'>
+						<AchievementListenerDemo />
 					</Providers>
 				</Wrapper>
 			</Wrapper>
@@ -428,12 +447,7 @@ export const AllVariantsShowcase: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: `Complete showcase of the DRY Provider system demonstrating all patterns:
-
-1. **Provider**: Single component with kind prop
-2. **Preset Patterns**: Pre-configured common patterns
-
-This system eliminates code duplication and provides a consistent API for all provider variants.`,
+				story: `Complete showcase of the DRY Provider system demonstrating all patterns:\n\n1. **Provider**: Single component with kind prop\n2. **Preset Patterns**: Pre-configured common patterns\n\nThis system eliminates code duplication and provides a consistent API for all provider variants.`,
 			},
 		},
 	},
@@ -441,8 +455,10 @@ This system eliminates code duplication and provides a consistent API for all pr
 
 // ===== DETAILED PROVIDER VARIANTS =====
 
-export const SocketProviderDetailed: Story = {
-	name: '🔌 Socket Provider (Detailed)',
+export const SocketProviderDetailed: StoryObj<
+	typeof Providers
+> = {
+	name: 'Socket Provider (Detailed)',
 	args: {
 		kind: 'socket-provider',
 		autoConnect: false,
@@ -459,50 +475,60 @@ export const SocketProviderDetailed: Story = {
 	},
 };
 
-export const SocketAutoConnect: Story = {
-	name: '🔌 Socket (Auto-Connect)',
-	args: {
-		kind: 'socket-provider',
-		autoConnect: true,
-		url: 'ws://localhost:3000',
-		children: <SocketDemo />,
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Socket provider that automatically connects on mount.',
+export const SocketAutoConnect: StoryObj<typeof Providers> =
+	{
+		name: 'Socket (Auto-Connect)',
+		args: {
+			kind: 'socket-provider',
+			autoConnect: true,
+			url: 'ws://localhost:3000',
+			children: <SocketDemo />,
+		},
+		parameters: {
+			docs: {
+				description: {
+					story:
+						'Socket provider that automatically connects on mount.',
+				},
 			},
 		},
-	},
-};
+	};
 
-export const SocketWithSession: Story = {
-	name: '🔌 Socket (With Session)',
-	args: {
-		kind: 'socket-provider',
-		autoConnect: false,
-		url: 'ws://localhost:3000',
-		session: {
-			user: { id: '123', name: 'Test User' },
-			token: 'abc123',
+export const SocketWithSession: StoryObj<typeof Providers> =
+	{
+		name: 'Socket (With Session)',
+		args: {
+			kind: 'socket-provider',
+			autoConnect: false,
+			url: 'ws://localhost:3000',
+			session: {
+				user: { id: '123', name: 'st User' },
+				token: 'abc123',
+			},
+			children: <SocketDemo />,
 		},
-		children: <SocketDemo />,
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Socket provider with session data for authentication.',
+		parameters: {
+			docs: {
+				description: {
+					story:
+						'Socket provider with session data for authentication.',
+				},
 			},
 		},
-	},
-};
+	};
 
-export const UserSettingsDetailed: Story = {
-	name: '⚙️ User Settings (Detailed)',
+export const UserSettingsDetailed: StoryObj<
+	typeof Providers
+> = {
+	name: 'User Settings (Detailed)',
 	args: {
 		kind: 'user-settings-provider',
+		initialSettings: {
+			chatEnabled: true,
+			profanityFilter: false,
+			notificationsEnabled: true,
+			language: 'en',
+		},
 		children: <UserSettingsDemo />,
 	},
 	parameters: {
@@ -515,8 +541,10 @@ export const UserSettingsDetailed: Story = {
 	},
 };
 
-export const UserSettingsWithInitial: Story = {
-	name: '⚙️ User Settings (With Initial)',
+export const UserSettingsWithInitial: StoryObj<
+	typeof Providers
+> = {
+	name: 'User Settings (With Initial)',
 	args: {
 		kind: 'user-settings-provider',
 		initialSettings: {
@@ -536,10 +564,14 @@ export const UserSettingsWithInitial: Story = {
 	},
 };
 
-export const ThemePaletteDetailed: Story = {
-	name: '🎨 Theme Palette (Detailed)',
+export const ThemePaletteDetailed: StoryObj<
+	typeof Providers
+> = {
+	name: 'Theme Palette (Detailed)',
 	args: {
 		kind: 'theme-palette-provider',
+		initialTheme: 'dark',
+		initialPalette: { primary: '#222', secondary: '#fff' },
 		children: <ThemePaletteDemo />,
 	},
 	parameters: {
@@ -552,8 +584,10 @@ export const ThemePaletteDetailed: Story = {
 	},
 };
 
-export const AchievementListenerDetailed: Story = {
-	name: '🏆 Achievement Listener (Detailed)',
+export const AchievementListenerDetailed: StoryObj<
+	typeof Providers
+> = {
+	name: 'Achievement Listener (Detailed)',
 	args: {
 		kind: 'achievement-socket-listener',
 		children: <AchievementListenerDemo />,

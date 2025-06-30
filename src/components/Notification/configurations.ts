@@ -65,7 +65,10 @@ export type NotificationPosition =
 	| 'bottom-left'
 	| 'bottom-center'
 	| 'bottom-right'
-	| 'center';
+	| 'center'
+	| 'fixed'
+	| 'global'
+	| 'inline';
 
 export type NotificationSeverity =
 	| 'success'

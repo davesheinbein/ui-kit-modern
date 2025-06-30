@@ -8,6 +8,7 @@ const meta = {
 	title: 'Sidebar/Sidebar',
 	component: Sidebar,
 	decorators: commonDecorators,
+	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {

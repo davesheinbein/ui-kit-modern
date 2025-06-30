@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Radio } from '../../components/Radios';
+import { StatefulRadio } from '../../utils/storyHelpers';
 import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Radio> = {
 	title: 'Radios/Radio',
 	component: Radio,
 	decorators: commonDecorators,
+	tags: ['autodocs'],
 	parameters: {
 		layout: 'centered',
 		docs: {
@@ -22,7 +24,6 @@ const meta: Meta<typeof Radio> = {
 				'standard',
 				'button-group',
 				'card-selection',
-				'toggle-switch',
 				'image-radio',
 				'color-picker',
 				'size-selector',
@@ -36,14 +37,10 @@ const meta: Meta<typeof Radio> = {
 			control: 'text',
 			description: 'The name attribute for the radio group',
 		},
-		value: {
+		selected: {
 			control: 'text',
 			description:
 				'The controlled value of the radio group',
-		},
-		defaultValue: {
-			control: 'text',
-			description: 'The default value of the radio group',
 		},
 		disabled: {
 			control: 'boolean',
@@ -57,14 +54,20 @@ const meta: Meta<typeof Radio> = {
 			control: 'text',
 			description: 'The label for the radio group',
 		},
-		helpText: {
+		footerText: {
 			control: 'text',
 			description:
-				'Help text to display below the radio group',
+				'Footer text (help or error) to display below the radio group',
 		},
-		error: {
-			control: 'text',
-			description: 'Error message to display',
+		footerType: {
+			control: 'select',
+			options: ['help', 'error'],
+			description: 'Type of footer text',
+		},
+		configuration: {
+			control: 'object',
+			description:
+				'Advanced configuration for layout, style, etc.',
 		},
 	},
 };
@@ -72,297 +75,480 @@ const meta: Meta<typeof Radio> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Sample options for stories
-const basicOptions = [
-	{ value: 'option1', label: 'Option 1' },
-	{ value: 'option2', label: 'Option 2' },
-	{ value: 'option3', label: 'Option 3' },
-];
-
-const detailedOptions = [
-	{
-		value: 'basic',
-		label: 'Basic Plan',
-		description: 'Perfect for individuals getting started',
-	},
-	{
-		value: 'pro',
-		label: 'Pro Plan',
-		description: 'For professionals who need more features',
-	},
-	{
-		value: 'enterprise',
-		label: 'Enterprise Plan',
-		description: 'For large teams and organizations',
-		disabled: true,
-	},
-];
-
-const colorOptions = [
-	{ value: 'red', label: 'Red' },
-	{ value: 'blue', label: 'Blue' },
-	{ value: 'green', label: 'Green' },
-	{ value: 'yellow', label: 'Yellow' },
-];
-
-const sizeOptions = [
-	{ value: 'xs', label: 'XS' },
-	{ value: 's', label: 'S' },
-	{ value: 'm', label: 'M' },
-	{ value: 'l', label: 'L' },
-	{ value: 'xl', label: 'XL' },
-];
-
+// --- One story per variant ---
 export const Standard: Story = {
+	render: (args) => <StatefulRadio {...args} />,
 	args: {
 		kind: 'standard',
 		name: 'standard-radio',
-		options: basicOptions,
-		label: 'Choose an option',
-		helpText: 'Select one of the available options',
+		selected: 'option1',
+		options: [
+			{
+				value: 'option1',
+				label: 'Option 1',
+				meta: { description: 'First option', icon: '🔵' },
+			},
+			{
+				value: 'option2',
+				label: 'Option 2',
+				meta: { description: 'Second option', icon: '🟢' },
+			},
+			{
+				value: 'option3',
+				label: 'Option 3',
+				meta: { description: 'Third option', icon: '🟣' },
+			},
+		],
+		label: 'Standard Radio',
+		footerText: 'Select one of the available options',
+		footerType: 'help',
+		configuration: {
+			variant: 'standard',
+			size: 'medium',
+			alignment: 'vertical',
+			showLabels: true,
+			showDescriptions: true,
+			labelPosition: 'right',
+		},
 	},
 };
 
 export const ButtonGroup: Story = {
+	render: (args) => <StatefulRadio {...args} />,
 	args: {
 		kind: 'button-group',
 		name: 'button-radio',
-		options: basicOptions,
-		label: 'Selection Type',
-		defaultValue: 'option1',
+		selected: 'option1',
+		options: [
+			{
+				value: 'option1',
+				label: 'Button 1',
+				meta: { icon: '🔘' },
+			},
+			{
+				value: 'option2',
+				label: 'Button 2',
+				meta: { icon: '🔘' },
+			},
+		],
+		label: 'Button Group',
+		footerText: 'Choose a button',
+		configuration: {
+			variant: 'button',
+			size: 'medium',
+			alignment: 'horizontal',
+			showLabels: true,
+			labelPosition: 'right',
+		},
 	},
 };
 
 export const CardSelection: Story = {
+	render: (args) => <StatefulRadio {...args} />,
 	args: {
 		kind: 'card-selection',
-		name: 'plan-radio',
-		options: detailedOptions,
-		label: 'Choose Your Plan',
-		helpText: 'Select the plan that best fits your needs',
+		name: 'card-radio',
+		selected: 'card1',
+		options: [
+			{
+				value: 'card1',
+				label: 'Card 1',
+				meta: {
+					description: 'Card one',
+					image: 'https://picsum.photos/40/40?random=1',
+				},
+			},
+			{
+				value: 'card2',
+				label: 'Card 2',
+				meta: {
+					description: 'Card two',
+					image: 'https://picsum.photos/40/40?random=2',
+				},
+			},
+			{
+				value: 'card3',
+				label: 'Card 3',
+				meta: {
+					image: 'https://picsum.photos/40/40?random=3',
+				},
+			},
+		],
+		label: 'Card Selection',
+		footerText: 'Pick a card',
+		configuration: {
+			variant: 'card',
+			size: 'large',
+			alignment: 'grid',
+			showLabels: true,
+			showDescriptions: true,
+			labelPosition: 'right',
+		},
 	},
 };
 
-export const ToggleSwitch: Story = {
+export const ImageRadio: Story = {
+	render: (args) => <StatefulRadio {...args} />,
 	args: {
-		kind: 'toggle-switch',
-		name: 'toggle-radio',
+		kind: 'image-radio',
+		name: 'image-radio',
+		selected: 'cat',
 		options: [
-			{ value: 'enabled', label: 'Enabled' },
-			{ value: 'disabled', label: 'Disabled' },
+			{
+				value: 'cat',
+				label: 'Cat',
+				meta: {
+					image: 'https://picsum.photos/40/40?random=3',
+				},
+			},
+			{
+				value: 'dog',
+				label: 'Dog',
+				meta: {
+					image: 'https://picsum.photos/40/40?random=4',
+				},
+			},
 		],
-		label: 'Feature Status',
+		label: 'Image Radio',
+		footerText: 'Pick a pet',
+		configuration: {
+			variant: 'card',
+			alignment: 'horizontal',
+			showLabels: true,
+			labelPosition: 'right',
+		},
 	},
 };
 
 export const ColorPicker: Story = {
+	render: (args) => <StatefulRadio {...args} />,
 	args: {
 		kind: 'color-picker',
 		name: 'color-radio',
-		options: colorOptions,
-		label: 'Choose Color',
-		defaultValue: 'blue',
+		selected: 'red',
+		options: [
+			{
+				value: 'red',
+				label: 'Red',
+				meta: { color: '#ef4444' },
+			},
+			{
+				value: 'blue',
+				label: 'Blue',
+				meta: { color: '#3b82f6' },
+			},
+			{
+				value: 'green',
+				label: 'Green',
+				meta: { color: '#22c55e' },
+			},
+			{
+				value: 'yellow',
+				label: 'Yellow',
+				meta: { color: '#eab308' },
+			},
+		],
+		label: 'Color Picker',
+		footerText: 'Pick a color',
+		configuration: {
+			variant: 'button',
+			style: 'filled',
+			showLabels: true,
+			labelPosition: 'right',
+		},
 	},
 };
 
 export const SizeSelector: Story = {
+	render: (args) => <StatefulRadio {...args} />,
 	args: {
 		kind: 'size-selector',
 		name: 'size-radio',
-		options: sizeOptions,
-		label: 'Size',
-		defaultValue: 'm',
+		selected: 'm',
+		options: [
+			{ value: 'xs', label: 'XS' },
+			{ value: 's', label: 'S' },
+			{ value: 'm', label: 'M' },
+			{ value: 'l', label: 'L' },
+			{ value: 'xl', label: 'XL' },
+		],
+		label: 'Size Selector',
+		footerText: 'Pick a size',
+		configuration: {
+			variant: 'button',
+			size: 'small',
+			labelPosition: 'right',
+		},
 	},
 };
 
 export const PlanSelector: Story = {
+	render: (args) => <StatefulRadio {...args} />,
 	args: {
 		kind: 'plan-selector',
 		name: 'plan-radio',
-		options: detailedOptions,
-		label: 'Subscription Plan',
-		required: true,
-	},
-};
-
-export const WithError: Story = {
-	args: {
-		kind: 'standard',
-		name: 'error-radio',
-		options: basicOptions,
-		label: 'Required Selection',
-		error: 'Please select an option to continue',
-		required: true,
-	},
-};
-
-export const Disabled: Story = {
-	args: {
-		kind: 'standard',
-		name: 'disabled-radio',
-		options: basicOptions,
-		label: 'Disabled Radio Group',
-		disabled: true,
-		defaultValue: 'option2',
+		selected: 'pro',
+		options: [
+			{
+				value: 'basic',
+				label: 'Basic',
+				meta: { description: 'Basic plan' },
+			},
+			{
+				value: 'pro',
+				label: 'Pro',
+				meta: { description: 'Pro plan' },
+			},
+			{
+				value: 'enterprise',
+				label: 'Enterprise',
+				meta: { description: 'Enterprise plan' },
+				disabled: true,
+			},
+		],
+		label: 'Plan Selector',
+		footerText: 'Choose your plan',
+		configuration: {
+			variant: 'card',
+			showDescriptions: true,
+			required: true,
+			labelPosition: 'right',
+		},
 	},
 };
 
 export const Preference: Story = {
+	render: (args) => <StatefulRadio {...args} />,
 	args: {
 		kind: 'preference',
 		name: 'preference-radio',
+		selected: 'email',
 		options: [
 			{
 				value: 'email',
-				label: 'Email Notifications',
-				description: 'Receive updates via email',
+				label: 'Email',
+				meta: { description: 'Receive updates via email' },
 			},
 			{
 				value: 'sms',
-				label: 'SMS Notifications',
-				description: 'Receive updates via text message',
+				label: 'SMS',
+				meta: { description: 'Receive updates via SMS' },
 			},
 			{
 				value: 'push',
-				label: 'Push Notifications',
-				description: 'Receive updates in the app',
+				label: 'Push',
+				meta: { description: 'Receive updates in the app' },
 			},
 			{
 				value: 'none',
-				label: 'No Notifications',
-				description: 'Disable all notifications',
+				label: 'None',
+				meta: { description: 'Disable all notifications' },
 			},
 		],
 		label: 'Notification Preferences',
-		helpText:
+		footerText:
 			'Choose how you would like to receive notifications',
+		configuration: {
+			showDescriptions: true,
+			labelPosition: 'right',
+		},
 	},
 };
 
-// 4. Image Radio Options
-export const ImageRadio: Story = {
+export const Custom: Story = {
+	render: (args) => <StatefulRadio {...args} />,
 	args: {
-		kind: 'image-radio',
-		name: 'image-radio',
-		options: [
-			{ value: 'cat', label: 'Cat', image: '/cat.png' },
-			{ value: 'dog', label: 'Dog', image: '/dog.png' },
-		],
-		label: 'Choose a pet',
-	},
-};
-
-// 5. Icon Radio Options
-import { FaSun, FaMoon } from 'react-icons/fa';
-export const IconRadio: Story = {
-	args: {
-		kind: 'standard',
-		name: 'icon-radio',
-		options: [
-			{ value: 'light', label: 'Light', icon: <FaSun /> },
-			{ value: 'dark', label: 'Dark', icon: <FaMoon /> },
-		],
-		label: 'Theme',
-	},
-};
-
-// 10. Radios with Badges
-export const BadgedRadio: Story = {
-	args: {
-		kind: 'standard',
-		name: 'badged-radio',
-		options: [
-			{ value: 'standard', label: 'Standard' },
-			{
-				value: 'premium',
-				label: (
-					<>
-						<span>Premium</span>{' '}
-						<span
-							style={{
-								background: '#ffd700',
-								borderRadius: 4,
-								padding: '2px 6px',
-								marginLeft: 4,
-							}}
-						>
-							Recommended
-						</span>
-					</>
-				),
-			},
-		],
-		label: 'Choose a plan',
-	},
-};
-
-// 12. Two-Column Grid Layout
-export const GridRadio: Story = {
-	args: {
-		kind: 'card-selection',
-		name: 'grid-radio',
-		options: [
-			{ value: 'a', label: 'A' },
-			{ value: 'b', label: 'B' },
-			{ value: 'c', label: 'C' },
-			{ value: 'd', label: 'D' },
-		],
-		label: 'Grid Layout',
-	},
-};
-
-// 15. Image-only Radios
-export const ImageOnlyRadio: Story = {
-	args: {
-		kind: 'image-radio',
-		name: 'image-only-radio',
+		kind: 'custom',
+		name: 'custom-radio',
+		selected: 'blue',
 		options: [
 			{
-				value: 'pattern1',
-				label: '',
-				image: '/pattern1.png',
+				value: 'red',
+				label: 'Red',
+				meta: { color: '#ef4444' },
 			},
 			{
-				value: 'pattern2',
-				label: '',
-				image: '/pattern2.png',
+				value: 'blue',
+				label: 'Blue',
+				meta: { color: '#3b82f6' },
+			},
+			{
+				value: 'green',
+				label: 'Green',
+				meta: { color: '#22c55e' },
+			},
+			{
+				value: 'yellow',
+				label: 'Yellow',
+				meta: { color: '#eab308' },
 			},
 		],
-		label: 'Choose a pattern',
+		label: 'Custom Colored Radio',
+		footerText: 'Pick a color',
+		configuration: {
+			variant: 'custom',
+			labelPosition: 'right',
+		},
 	},
 };
 
-// 16. Radios with Inline Price or Value
-export const PriceRadio: Story = {
-	args: {
-		kind: 'standard',
-		name: 'price-radio',
-		options: [
-			{
-				value: 'standard',
-				label: 'Standard',
-				description: '$5',
+// --- Variants Gallery ---
+export const VariantsGallery: Story = {
+	render: () => (
+		<div
+			style={{
+				display: 'grid',
+				gridTemplateColumns:
+					'repeat(auto-fit, minmax(340px, 1fr))',
+				gap: 32,
+				alignItems: 'flex-start',
+				width: '100%',
+				padding: 24,
+			}}
+		>
+			<StatefulRadio
+				key='standard'
+				{...(Standard.args as any)}
+			/>
+			<StatefulRadio
+				key='button-group'
+				{...(ButtonGroup.args as any)}
+			/>
+			<StatefulRadio
+				key='card-selection'
+				{...(CardSelection.args as any)}
+			/>
+			<StatefulRadio
+				key='image-radio'
+				{...(ImageRadio.args as any)}
+			/>
+			<StatefulRadio
+				key='color-picker'
+				{...(ColorPicker.args as any)}
+			/>
+			<StatefulRadio
+				key='size-selector'
+				{...(SizeSelector.args as any)}
+			/>
+			<StatefulRadio
+				key='plan-selector'
+				{...(PlanSelector.args as any)}
+			/>
+			<StatefulRadio
+				key='preference'
+				{...(Preference.args as any)}
+			/>
+			<StatefulRadio
+				key='custom'
+				{...(Custom.args as any)}
+			/>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Gallery of all Radio variants for side-by-side comparison.',
 			},
-			{
-				value: 'premium',
-				label: 'Premium',
-				description: '$10',
-			},
-		],
-		label: 'Pricing',
+		},
 	},
 };
 
-// 17. Step-by-Step Wizard Radio (single step example)
-export const WizardRadio: Story = {
-	args: {
-		kind: 'standard',
-		name: 'wizard-radio',
-		options: [
-			{ value: 'step1', label: 'Step 1' },
-			{ value: 'step2', label: 'Step 2' },
-		],
-		label: 'Wizard Step',
-		helpText: 'Select to continue to the next step',
-	},
-};
+// --- Card Image Shapes Demo ---
+export const CardImageShapes = () => (
+	<>
+		<StatefulRadio
+			kind='card-selection'
+			name='card-image-shape-circle'
+			label='Card Image Shape: Circle'
+			options={[
+				{
+					value: 'card1',
+					label: 'Card 1',
+					meta: {
+						image: 'https://picsum.photos/40/40?random=1',
+						imageShape: 'circle',
+						description: 'Card one',
+					},
+				},
+				{
+					value: 'card2',
+					label: 'Card 2',
+					meta: {
+						image: 'https://picsum.photos/40/40?random=2',
+						imageShape: 'circle',
+						description: 'Card two',
+					},
+				},
+			]}
+			configuration={{
+				alignment: 'grid',
+				size: 'large',
+				variant: 'card',
+			}}
+			footerText='Pick a card (circle)'
+		/>
+		<StatefulRadio
+			kind='card-selection'
+			name='card-image-shape-rounded'
+			label='Card Image Shape: Rounded'
+			options={[
+				{
+					value: 'card1',
+					label: 'Card 1',
+					meta: {
+						image: 'https://picsum.photos/40/40?random=3',
+						imageShape: 'rounded',
+						description: 'Card one',
+					},
+				},
+				{
+					value: 'card2',
+					label: 'Card 2',
+					meta: {
+						image: 'https://picsum.photos/40/40?random=4',
+						imageShape: 'rounded',
+						description: 'Card two',
+					},
+				},
+			]}
+			configuration={{
+				alignment: 'grid',
+				size: 'large',
+				variant: 'card',
+			}}
+			footerText='Pick a card (rounded)'
+		/>
+		<StatefulRadio
+			kind='card-selection'
+			name='card-image-shape-square'
+			label='Card Image Shape: Square'
+			options={[
+				{
+					value: 'card1',
+					label: 'Card 1',
+					meta: {
+						image: 'https://picsum.photos/40/40?random=5',
+						imageShape: 'square',
+						description: 'Card one',
+					},
+				},
+				{
+					value: 'card2',
+					label: 'Card 2',
+					meta: {
+						image: 'https://picsum.photos/40/40?random=6',
+						imageShape: 'square',
+						description: 'Card two',
+					},
+				},
+			]}
+			configuration={{
+				alignment: 'grid',
+				size: 'large',
+				variant: 'card',
+			}}
+			footerText='Pick a card (square)'
+		/>
+	</>
+);

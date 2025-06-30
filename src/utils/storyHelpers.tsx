@@ -39,21 +39,32 @@ export const StatefulInput: React.FC<InputProps> = ({
 /**
  * StatefulRadio
  * A helper for Storybook that manages its own value state.
+ * Supports both 'selected' (new API) and 'value' (legacy) for maximum compatibility.
  */
-export const StatefulRadio: React.FC<RadioProps> = ({
+export const StatefulRadio: React.FC<
+	RadioProps & { value?: string }
+> = ({
+	selected: _selected,
 	value: _value,
 	onChange,
 	...props
 }) => {
-	const [value, setValue] = useState(_value ?? '');
+	const controlledValue = _selected ?? _value ?? '';
+	const [selected, setSelected] = useState(controlledValue);
+
+	// Sync local state with incoming prop
+	React.useEffect(() => {
+		setSelected(controlledValue);
+	}, [controlledValue]);
+
 	const handleChange = (val: string) => {
-		setValue(val);
+		setSelected(val);
 		onChange?.(val);
 	};
 	return (
 		<Radio
 			{...props}
-			value={value}
+			selected={selected}
 			onChange={handleChange}
 		/>
 	);

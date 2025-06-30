@@ -3,7 +3,7 @@
 
 .banner {
 	@include flex-center;
-	@include contained-width(100%, 420px, 260px);
+	@include contained-width(100%, fit-content, 260px);
 	@include smooth-transition(all);
 	padding: var(--spacing-4) var(--spacing-6);
 	border-radius: var(--radius-xl);
@@ -94,7 +94,7 @@
 
 // Banner style variants
 .banner--feedback {
-	@include contained-width(100%, 420px);
+	@include contained-width(100%, fit-content);
 	margin: var(--spacing-5) auto 0 auto;
 	text-align: center;
 	background: linear-gradient(

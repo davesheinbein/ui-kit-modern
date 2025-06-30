@@ -1,5 +1,12 @@
 import React from 'react';
 
+export type BannerAction = {
+	label: string;
+	onClick: () => void;
+	variant?: 'primary' | 'secondary' | 'text';
+	disabled?: boolean;
+};
+
 export interface BannerConfiguration {
 	kind:
 		| 'feedback'
@@ -30,7 +37,6 @@ export interface BannerConfiguration {
 		| 'center';
 	autoClose?: boolean;
 	duration?: number;
-	showCloseButton?: boolean;
 	icon?: React.ReactNode;
 	[key: string]: any;
 }
@@ -41,7 +47,6 @@ export const feedbackBanner: BannerConfiguration = {
 	type: 'info',
 	position: 'center',
 	autoClose: false,
-	showCloseButton: false,
 };
 
 export const notificationBanner: BannerConfiguration = {
@@ -51,7 +56,6 @@ export const notificationBanner: BannerConfiguration = {
 	position: 'fixed',
 	autoClose: true,
 	duration: 2500,
-	showCloseButton: true,
 };
 
 export const toastBanner: BannerConfiguration = {
@@ -61,7 +65,6 @@ export const toastBanner: BannerConfiguration = {
 	position: 'fixed',
 	autoClose: true,
 	duration: 3200,
-	showCloseButton: true,
 	icon: '🎉',
 };
 
@@ -71,7 +74,6 @@ export const statusBanner: BannerConfiguration = {
 	type: 'info',
 	position: 'relative',
 	autoClose: false,
-	showCloseButton: false,
 };
 
 export const globalToastBanner: BannerConfiguration = {
@@ -81,7 +83,6 @@ export const globalToastBanner: BannerConfiguration = {
 	position: 'fixed',
 	autoClose: true,
 	duration: 3200,
-	showCloseButton: true,
 };
 
 export const burnNotification: BannerConfiguration = {

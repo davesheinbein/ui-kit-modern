@@ -1,23 +1,19 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Page } from '../../components/Pages/Page';
-import { commonDecorators } from '../config/decorators';
+import { Page } from '../../components/Pages';
 
 const meta: Meta<typeof Page> = {
 	title: 'Pages/Page',
 	component: Page,
-	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			description: {
 				component: `### Page (DRY System)
 
-The new  Page system provides a single component that can render any page type through configuration:
+The new Page system provides a single component that can render any page type through configuration:
 
 - **Page**: Main component with kind prop
-- **Page**:  function for programmatic creation  
-- **PagePresets**: Pre-configured page patterns
 
 ### Usage Examples:
 
@@ -26,19 +22,6 @@ Using Page with kind prop:
 <Page kind="startup" title="Welcome" />
 <Page kind="dashboard" layout="grid" />
 <Page kind="landing" />
-\`\`\`
-
-Using Page:
-\`\`\`tsx
-{Page({ kind: "settings", title: "Settings" })}
-{Page({ kind: "profile", layout: "sidebar" })}
-\`\`\`
-
-
-Using presets:
-\`\`\`tsx
-{PagePresets.Startup({ title: "Welcome" })}
-{PagePresets.Dashboard({ title: "Dashboard" })}
 \`\`\`
 
 Available Page Kinds: startup, landing, dashboard, settings, profile, game, browse, results, about, help, custom`,
@@ -98,26 +81,10 @@ Available Page Kinds: startup, landing, dashboard, settings, profile, game, brow
 			control: 'text',
 			description: 'Additional CSS classes',
 		},
-		onStartDaily: {
-			action: 'startDaily',
-			description:
-				'Function called when starting daily mode (startup pages)',
-		},
-		onStartCustom: {
-			action: 'startCustom',
-			description:
-				'Function called when starting custom mode (startup pages)',
-		},
-		onBrowseCustom: {
-			action: 'browseCustom',
-			description:
-				'Function called when browsing custom puzzles (startup pages)',
-		},
-		onShare: {
-			action: 'share',
-			description:
-				'Function called when sharing (startup pages)',
-		},
+		onStartDaily: { action: 'startDaily' },
+		onStartCustom: { action: 'startCustom' },
+		onBrowseCustom: { action: 'browseCustom' },
+		onShare: { action: 'share' },
 		configuration: {
 			control: 'object',
 			description: 'Page configuration object',
@@ -272,81 +239,6 @@ export const FullSize: Story = {
 	},
 };
 
-// =====  PATTERN EXAMPLES =====
-
-export const Pattern: Story = {
-	name: ' Pattern Example',
-	render: () => (
-		<Wrapper direction='column' gap={8} p={4}>
-			<Wrapper>
-				<h3>Page Examples:</h3>
-				<Wrapper
-					layout='grid'
-					columns='repeat(auto-fit, minmax(300px, 1fr))'
-					gap={4}
-				>
-					{Page({
-						kind: 'startup',
-						title: ' Startup',
-					})}
-					{Page({
-						kind: 'dashboard',
-						title: ' Dashboard',
-						layout: 'grid',
-					})}
-				</Wrapper>
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Demonstrates the Page function for programmatic page creation.',
-			},
-		},
-	},
-};
-
-export const PresetPatterns: Story = {
-	name: 'Preset Patterns',
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '1rem',
-				padding: '1rem',
-			}}
-		>
-			<Wrapper>
-				<h3>PagePresets Examples:</h3>
-				<Wrapper
-					style={{
-						display: 'grid',
-						gap: '1rem',
-						gridTemplateColumns:
-							'repeat(auto-fit, minmax(300px, 1fr))',
-					}}
-				>
-					{PagePresets.Startup({ title: 'Preset Startup' })}
-					{PagePresets.Dashboard({
-						title: 'Preset Dashboard',
-					})}
-				</Wrapper>
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Pre-configured page patterns for common use cases.',
-			},
-		},
-	},
-};
-
 // ===== COMPREHENSIVE SHOWCASE =====
 
 export const AllVariantsShowcase: Story = {
@@ -403,26 +295,6 @@ export const AllVariantsShowcase: Story = {
 					})}
 				</Wrapper>
 			</Wrapper>
-
-			<Wrapper>
-				<h2>🎯 Preset Patterns</h2>
-				<p>
-					Pre-configured page patterns for common use cases:
-				</p>
-				<Wrapper
-					style={{
-						display: 'grid',
-						gap: '1rem',
-						gridTemplateColumns:
-							'repeat(auto-fit, minmax(300px, 1fr))',
-					}}
-				>
-					{PagePresets.Startup({ title: 'Preset Startup' })}
-					{PagePresets.Dashboard({
-						title: 'Preset Dashboard',
-					})}
-				</Wrapper>
-			</Wrapper>
 		</Wrapper>
 	),
 	parameters: {
@@ -432,7 +304,6 @@ export const AllVariantsShowcase: Story = {
 
 1. **Page**: Single component with kind prop
 2. **Page**:  function pattern  
-4. **Preset Patterns**: Pre-configured common patterns
 
 This system eliminates code duplication and provides a consistent API for all page variants.`,
 			},
@@ -580,40 +451,6 @@ export const StartupDRYExample: Story = {
 			description: {
 				story:
 					'Startup page created using the Page pattern with callbacks.',
-			},
-		},
-	},
-};
-
-export const StartupPresetExample: Story = {
-	name: 'Startup Preset Pattern',
-	render: () => (
-		<Wrapper
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '2rem',
-				padding: '1rem',
-			}}
-		>
-			<Wrapper>
-				<h3>PagePresets.Startup:</h3>
-				{PagePresets.Startup({
-					title: 'Preset Startup Page',
-					subtitle: 'Pre-configured startup pattern',
-					onStartDaily: () => console.log('Daily mode'),
-					onStartCustom: () => console.log('Custom mode'),
-					onBrowseCustom: () => console.log('Browse'),
-					onShare: () => console.log('Share'),
-				})}
-			</Wrapper>
-		</Wrapper>
-	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Startup page using the preset pattern for common startup configurations.',
 			},
 		},
 	},

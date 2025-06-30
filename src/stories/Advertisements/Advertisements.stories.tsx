@@ -773,10 +773,11 @@ export const RewardedModal: Story = {
 
 export const ProgrammaticAd: Story = {
 	render: () => {
-		const adProps = Advertisements.create('native-card', {
-			title: 'Dynamic Ad (Programmatic)',
-			ctaText: 'Go',
-		});
+		// Replace legacy static helper usage with direct prop-driven API
+		const adProps = {
+			kind: 'native-card',
+			content: { title: 'Dynamic Ad', ctaText: 'Go' },
+		};
 		return <Advertisements {...adProps} />;
 	},
 };

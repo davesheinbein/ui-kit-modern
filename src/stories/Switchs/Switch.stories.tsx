@@ -15,6 +15,7 @@ const meta: Meta<typeof Switch> = {
 			},
 		},
 	},
+	tags: ['autodocs'],
 	argTypes: {
 		kind: {
 			control: 'select',

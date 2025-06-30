@@ -1,7 +1,6 @@
 import React, {
 	createContext,
 	useContext,
-	useEffect,
 	forwardRef,
 } from 'react';
 import styles from './Providers.module.scss';
@@ -11,8 +10,30 @@ import {
 	ProviderKind,
 	ProviderConfiguration,
 } from './configurations';
-
-// ===== CONTEXTS AND INTERFACES =====
+import {
+	useAppSelector,
+	useAppDispatch,
+} from '../../store/hooks';
+import {
+	selectSettings,
+	updateNotificationSettings,
+	updatePrivacySettings,
+	updateAccessibilitySettings,
+	updatePerformanceSettings,
+	updateSecuritySettings,
+} from '../../store/slices/settingsSlice';
+import {
+	selectCurrentTheme,
+	selectCurrentPalette,
+	setTheme,
+	setPalette,
+} from '../../store/slices/themeSlice';
+import {
+	selectSocket,
+	selectIsConnected,
+	registerEvent,
+	unregisterEvent,
+} from '../../store/slices/socketSlice';
 
 export type { ProviderKind };
 
@@ -26,6 +47,7 @@ export interface SocketContextType {
 		handler?: (data: any) => void
 	) => void;
 }
+
 export const SocketContext =
 	createContext<SocketContextType | null>(null);
 export const useSocket = () => useContext(SocketContext);
@@ -36,22 +58,23 @@ export interface ThemePaletteContextType {
 	currentTheme: string;
 	setTheme: (theme: string) => void;
 }
+
 export const ThemePaletteContext =
 	createContext<ThemePaletteContextType | null>(null);
+
 export const useThemePalette = () =>
 	useContext(ThemePaletteContext);
-
 export interface UserSettingsContextType {
 	settings: any;
 	setSettings: (settings: any) => void;
 	updateSetting: (key: string, value: any) => void;
 }
+
 export const UserSettingsContext =
 	createContext<UserSettingsContextType | null>(null);
+
 export const useUserSettings = () =>
 	useContext(UserSettingsContext);
-
-// ===== MAIN COMPONENT INTERFACE =====
 
 export interface ProviderProps
 	extends React.HTMLAttributes<HTMLDivElement> {
@@ -65,6 +88,7 @@ export interface ProviderProps
 	initialPalette?: any;
 	onAchievement?: (achievement: any) => void;
 	configuration?: Partial<ProviderConfiguration>;
+	className?: string;
 	[key: string]: any;
 }
 
@@ -81,7 +105,7 @@ const Providers = forwardRef<HTMLDivElement, ProviderProps>(
 			initialPalette = {},
 			onAchievement,
 			configuration: configOverride,
-			className,
+			className = '',
 			...props
 		},
 		ref
@@ -95,6 +119,16 @@ const Providers = forwardRef<HTMLDivElement, ProviderProps>(
 			return <>{children}</>;
 		}
 		const finalConfig = { ...config, ...configOverride };
+
+		const providerClassName = [
+			styles.provider,
+			styles[`provider--${finalConfig.variant}`],
+			styles[`provider--${finalConfig.position}`],
+			finalConfig.className,
+			className,
+		]
+			.filter(Boolean)
+			.join(' ');
 		switch (kind) {
 			case 'socket-provider':
 				return (
@@ -103,7 +137,7 @@ const Providers = forwardRef<HTMLDivElement, ProviderProps>(
 						autoConnect={autoConnect}
 						url={url}
 						ref={ref}
-						className={className}
+						className={providerClassName}
 						{...props}
 					>
 						{children}
@@ -114,7 +148,7 @@ const Providers = forwardRef<HTMLDivElement, ProviderProps>(
 					<UserSettingsProviderComponent
 						initialSettings={initialSettings}
 						ref={ref}
-						className={className}
+						className={providerClassName}
 						{...props}
 					>
 						{children}
@@ -126,7 +160,7 @@ const Providers = forwardRef<HTMLDivElement, ProviderProps>(
 						initialTheme={initialTheme}
 						initialPalette={initialPalette}
 						ref={ref}
-						className={className}
+						className={providerClassName}
 						{...props}
 					>
 						{children}
@@ -137,7 +171,7 @@ const Providers = forwardRef<HTMLDivElement, ProviderProps>(
 					<AchievementSocketListenerComponent
 						onAchievement={onAchievement}
 						ref={ref}
-						className={className}
+						className={providerClassName}
 						{...props}
 					>
 						{children}
@@ -148,8 +182,6 @@ const Providers = forwardRef<HTMLDivElement, ProviderProps>(
 		}
 	}
 );
-
-// ===== INDIVIDUAL PROVIDER COMPONENTS =====
 
 const SocketProviderComponent = forwardRef<
 	HTMLDivElement,
@@ -167,32 +199,37 @@ const SocketProviderComponent = forwardRef<
 			autoConnect,
 			url,
 			children,
-			className,
+			className = '',
 			...props
 		},
 		ref
 	) => {
-		// Stubbed logic for consolidation
+		const socketState = useAppSelector(selectSocket);
+		const isConnected = useAppSelector(selectIsConnected);
+		const dispatch = useAppDispatch();
+
 		const contextValue: SocketContextType = {
-			socket: null,
-			isConnected: !!autoConnect,
+			socket: socketState.socketId || null,
+			isConnected: isConnected,
 			emit: (event: string, data?: any) => {},
-			on: (
-				event: string,
-				handler: (data: any) => void
-			) => {},
+			on: (event: string, handler: (data: any) => void) => {
+				dispatch(
+					registerEvent({
+						type: event,
+						handler: handler.name || 'anonymous',
+					})
+				);
+			},
 			off: (
 				event: string,
 				handler?: (data: any) => void
-			) => {},
+			) => {
+				dispatch(unregisterEvent(event));
+			},
 		};
 		return (
 			<SocketContext.Provider value={contextValue}>
-				<Wrapper
-					ref={ref}
-					className={`${styles.provider} ${styles['provider-socket']} ${className || ''}`}
-					{...props}
-				>
+				<Wrapper ref={ref} className={className} {...props}>
 					{children}
 				</Wrapper>
 			</SocketContext.Provider>
@@ -209,22 +246,53 @@ const UserSettingsProviderComponent = forwardRef<
 	} & React.HTMLAttributes<HTMLDivElement>
 >(
 	(
-		{ initialSettings, children, className, ...props },
+		{ initialSettings, children, className = '', ...props },
 		ref
 	) => {
-		// Stubbed logic for consolidation
+		const settings = useAppSelector(selectSettings);
+		const dispatch = useAppDispatch();
+
 		const contextValue: UserSettingsContextType = {
-			settings: initialSettings || {},
-			setSettings: () => {},
-			updateSetting: () => {},
+			settings: settings || initialSettings || {},
+			setSettings: (newSettings: any) => {
+				dispatch(
+					updateNotificationSettings(
+						newSettings.notifications || {}
+					)
+				);
+				dispatch(
+					updatePrivacySettings(newSettings.privacy || {})
+				);
+				dispatch(
+					updateAccessibilitySettings(
+						newSettings.accessibility || {}
+					)
+				);
+				dispatch(
+					updatePerformanceSettings(
+						newSettings.performance || {}
+					)
+				);
+				dispatch(
+					updateSecuritySettings(newSettings.security || {})
+				);
+			},
+			updateSetting: (key: string, value: any) => {
+				if (key === 'notifications')
+					dispatch(updateNotificationSettings(value));
+				else if (key === 'privacy')
+					dispatch(updatePrivacySettings(value));
+				else if (key === 'accessibility')
+					dispatch(updateAccessibilitySettings(value));
+				else if (key === 'performance')
+					dispatch(updatePerformanceSettings(value));
+				else if (key === 'security')
+					dispatch(updateSecuritySettings(value));
+			},
 		};
 		return (
 			<UserSettingsContext.Provider value={contextValue}>
-				<Wrapper
-					ref={ref}
-					className={`${styles.provider} ${styles['provider-settings']} ${className || ''}`}
-					{...props}
-				>
+				<Wrapper ref={ref} className={className} {...props}>
 					{children}
 				</Wrapper>
 			</UserSettingsContext.Provider>
@@ -232,7 +300,7 @@ const UserSettingsProviderComponent = forwardRef<
 	}
 );
 
-const ThemeProvider = forwardRef<
+export const ThemeProvider = forwardRef<
 	HTMLDivElement,
 	{
 		initialTheme?: string;
@@ -246,25 +314,27 @@ const ThemeProvider = forwardRef<
 			initialTheme,
 			initialPalette,
 			children,
-			className,
+			className = '',
 			...props
 		},
 		ref
 	) => {
-		// Stubbed logic for consolidation
+		const currentTheme = useAppSelector(selectCurrentTheme);
+		const palette = useAppSelector(selectCurrentPalette);
+		const dispatch = useAppDispatch();
+
 		const contextValue: ThemePaletteContextType = {
-			palette: initialPalette || {},
-			setPalette: () => {},
-			currentTheme: initialTheme || 'default',
-			setTheme: () => {},
+			palette: palette || initialPalette || {},
+			setPalette: (newPalette: any) =>
+				dispatch(setPalette(newPalette)),
+			currentTheme:
+				currentTheme || initialTheme || 'default',
+			setTheme: (theme: string) =>
+				dispatch(setTheme(theme)),
 		};
 		return (
 			<ThemePaletteContext.Provider value={contextValue}>
-				<Wrapper
-					ref={ref}
-					className={`${styles.provider} ${styles['provider-theme']} ${className || ''}`}
-					{...props}
-				>
+				<Wrapper ref={ref} className={className} {...props}>
 					{children}
 				</Wrapper>
 			</ThemePaletteContext.Provider>
@@ -281,150 +351,16 @@ const AchievementSocketListenerComponent = forwardRef<
 	} & React.HTMLAttributes<HTMLDivElement>
 >(
 	(
-		{ onAchievement, children, className, ...props },
+		{ onAchievement, children, className = '', ...props },
 		ref
 	) => {
-		// Stubbed logic for consolidation
 		return (
-			<Wrapper
-				ref={ref}
-				className={`${styles.provider} ${styles['provider-listener']} ${className || ''}`}
-				{...props}
-			>
+			<Wrapper ref={ref} className={className} {...props}>
 				{children}
 			</Wrapper>
 		);
 	}
 );
-
-const ProviderPresets = {
-	SOCKET_CONNECTION: (
-		session?: any,
-		autoConnect = true,
-		url?: string
-	) => (
-		<Providers
-			kind='socket-provider'
-			session={session}
-			autoConnect={autoConnect}
-			url={url}
-		/>
-	),
-	USER_SETTINGS: (initialSettings?: any) => (
-		<Providers
-			kind='user-settings-provider'
-			initialSettings={initialSettings}
-		/>
-	),
-	ACHIEVEMENT_LISTENER: () => (
-		<Providers kind='achievement-socket-listener' />
-	),
-	THEME_PALETTE: () => (
-		<Providers kind='theme-palette-provider' />
-	),
-	FULL_SETUP: (session?: any, initialSettings?: any) => (
-		<>
-			<Providers
-				kind='socket-provider'
-				session={session}
-				autoConnect={true}
-			/>
-			<Providers
-				kind='user-settings-provider'
-				initialSettings={initialSettings}
-			/>
-			<Providers kind='achievement-socket-listener' />
-		</>
-	),
-};
-
-// Quick providers for ultra-rapid development
-const QuickProviders = {
-	socket: ProviderPresets.SOCKET_CONNECTION,
-	settings: ProviderPresets.USER_SETTINGS,
-	achievements: ProviderPresets.ACHIEVEMENT_LISTENER,
-	theme: ProviderPresets.THEME_PALETTE,
-	full: ProviderPresets.FULL_SETUP,
-};
-
-class Provider {
-	static create(
-		kind: ProviderKind,
-		props: Partial<ProviderProps> = {}
-	) {
-		return <Providers kind={kind} {...props} />;
-	}
-	static socket(props: Partial<ProviderProps> = {}) {
-		return this.create('socket-provider', props);
-	}
-	static userSettings(props: Partial<ProviderProps> = {}) {
-		return this.create('user-settings-provider', props);
-	}
-	static themePalette(props: Partial<ProviderProps> = {}) {
-		return this.create('theme-palette-provider', props);
-	}
-	static achievementListener(
-		props: Partial<ProviderProps> = {}
-	) {
-		return this.create(
-			'achievement-socket-listener',
-			props
-		);
-	}
-}
-
-// Extended Provider Presets
-const ExtendedProviderPresets = {
-	SOCKET_CONNECTED: (session: any) =>
-		Provider.socket({
-			session,
-			autoConnect: true,
-		}),
-	SOCKET_MANUAL: (session: any) =>
-		Provider.socket({
-			session,
-			autoConnect: false,
-		}),
-	USER_SETTINGS: (initialSettings?: any) =>
-		Provider.userSettings({ initialSettings }),
-	EMPTY_SETTINGS: () =>
-		Provider.userSettings({
-			initialSettings: {},
-		}),
-	THEME_LIGHT: () =>
-		Provider.themePalette({
-			initialTheme: 'light',
-		}),
-	THEME_DARK: () =>
-		Provider.themePalette({
-			initialTheme: 'dark',
-		}),
-	THEME_AUTO: () =>
-		Provider.themePalette({
-			initialTheme: 'auto',
-		}),
-	ACHIEVEMENT_LISTENER: (
-		onAchievement?: (achievement: any) => void
-	) =>
-		Provider.achievementListener({
-			onAchievement,
-		}),
-};
-
-// Attach helpers to Providers
-(Providers as any).Presets = ProviderPresets;
-(Providers as any).Quick = QuickProviders;
-(Providers as any).Simple = Provider;
-(Providers as any).ExtendedPresets =
-	ExtendedProviderPresets;
-
-export {
-	ProviderPresets,
-	QuickProviders,
-	Provider,
-	ExtendedProviderPresets,
-	ThemeProvider,
-};
 
 Providers.displayName = 'Providers';
 export default Providers;

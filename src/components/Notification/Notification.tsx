@@ -9,28 +9,21 @@ import {
 	getDefaultIcon,
 } from './configurations';
 
-// =============================================================================
-// NOTIFICATION PROPS
-// =============================================================================
-
 export interface NotificationProps {
 	kind: NotificationKind;
-	componentId?: string; // For Redux state identification
+	componentId?: string;
 	children?: React.ReactNode;
 	className?: string;
 
-	// Content
 	title?: string;
 	message?: string | React.ReactNode;
 	icon?: React.ReactNode | string;
 	image?: string;
 
-	// Configuration overrides
 	variant?: NotificationConfiguration['variant'];
 	severity?: NotificationConfiguration['severity'];
 	position?: NotificationConfiguration['position'];
 
-	// Behavior
 	visible?: boolean;
 	autoHide?: boolean;
 	duration?: number;
@@ -38,32 +31,27 @@ export interface NotificationProps {
 	dismissible?: boolean;
 	pauseOnHover?: boolean;
 
-	// Actions
 	actions?: NotificationAction[];
 	confirmText?: string;
 	cancelText?: string;
 
-	// Styling
 	showIcon?: boolean;
 	showCloseButton?: boolean;
 	showProgress?: boolean;
 
-	// Animation
 	enterAnimation?: NotificationConfiguration['enterAnimation'];
 	exitAnimation?: NotificationConfiguration['exitAnimation'];
 
-	// Callbacks
 	onShow?: () => void;
 	onHide?: () => void;
 	onClick?: () => void;
 	onConfirm?: () => void;
 	onCancel?: () => void;
 	onAction?: (action: NotificationAction) => void;
-}
 
-// =============================================================================
-// MAIN  NOTIFICATION COMPONENT
-// =============================================================================
+	/** Placement for persistent notifications (fixed, global, inline, center) */
+	placement?: 'fixed' | 'global' | 'inline' | 'center';
+}
 
 const Notification = forwardRef<
 	HTMLDivElement,
@@ -74,46 +62,44 @@ const Notification = forwardRef<
 		componentId,
 		children,
 		className,
-		// Content
+
 		title,
 		message,
 		icon,
 		image,
-		// Configuration overrides
+
 		variant,
 		severity,
 		position,
-		// Behavior
+
 		visible = true,
 		autoHide,
 		duration,
 		persistent,
 		dismissible,
 		pauseOnHover,
-		// Actions
+
 		actions,
 		confirmText,
 		cancelText,
-		// Styling
+
 		showIcon,
 		showCloseButton,
 		showProgress,
-		// Animation
+
 		enterAnimation,
 		exitAnimation,
-		// Callbacks
+
 		onShow,
 		onHide,
 		onClick,
 		onConfirm,
 		onCancel,
 		onAction,
+		placement,
 		...restProps
 	} = props;
 
-	// ========================================
-	// Configuration Resolution
-	// ========================================
 	const baseConfig = getNotificationConfig(kind);
 	const config: NotificationConfiguration = {
 		...baseConfig,
@@ -163,16 +149,10 @@ const Notification = forwardRef<
 			exitAnimation || baseConfig.exitAnimation,
 	};
 
-	// ========================================
-	// Redux State Management (stubbed for consolidation)
-	// ========================================
-	// In a real implementation, use Redux hooks for state management.
-	// For consolidation, we will use local state for visibility and progress.
 	const [isVisible, setIsVisible] = React.useState(visible);
 	const [isPaused, setIsPaused] = React.useState(false);
 	const [progress, setProgress] = React.useState(100);
 
-	// Auto-hide effect
 	React.useEffect(() => {
 		if (!config.autoHide || !isVisible || isPaused) return;
 		const timer = setTimeout(() => {
@@ -186,7 +166,6 @@ const Notification = forwardRef<
 		isPaused,
 	]);
 
-	// Progress bar effect
 	React.useEffect(() => {
 		if (
 			!config.autoHide ||
@@ -212,9 +191,6 @@ const Notification = forwardRef<
 		isPaused,
 	]);
 
-	// ========================================
-	// Event Handlers
-	// ========================================
 	const handleHide = () => {
 		setIsVisible(false);
 		onHide?.();
@@ -237,9 +213,6 @@ const Notification = forwardRef<
 		}
 	};
 
-	// ========================================
-	// CSS Classes
-	// ========================================
 	const notificationClasses = [
 		styles.notification,
 		styles[`notification--${config.kind}`],
@@ -249,6 +222,7 @@ const Notification = forwardRef<
 			styles[
 				`notification--${config.position.replace('-', '_')}`
 			],
+		placement && styles[`notification--${placement}`],
 		config.enterAnimation &&
 			styles[
 				`notification--enter-${config.enterAnimation}`
@@ -262,9 +236,6 @@ const Notification = forwardRef<
 		.filter(Boolean)
 		.join(' ');
 
-	// ========================================
-	// Render Functions
-	// ========================================
 	const renderIcon = () => {
 		if (!config.showIcon) return null;
 		const iconContent =
@@ -294,7 +265,6 @@ const Notification = forwardRef<
 		);
 	};
 	const renderActions = () => {
-		// Handle confirmation dialogs
 		if (config.kind.includes('confirm')) {
 			return (
 				<Wrapper className={styles.notification__actions}>
@@ -321,7 +291,7 @@ const Notification = forwardRef<
 				</Wrapper>
 			);
 		}
-		// Handle custom actions
+
 		if (!config.actions?.length) return null;
 		return (
 			<Wrapper className={styles.notification__actions}>
@@ -359,9 +329,6 @@ const Notification = forwardRef<
 		);
 	};
 
-	// ========================================
-	// Early Return for Hidden
-	// ========================================
 	if (!isVisible && config.exitAnimation) {
 		setTimeout(() => {
 			setIsVisible(false);
@@ -371,9 +338,6 @@ const Notification = forwardRef<
 		return null;
 	}
 
-	// ========================================
-	// Main Render
-	// ========================================
 	return (
 		<Wrapper
 			{...restProps}
@@ -420,93 +384,5 @@ const Notification = forwardRef<
 });
 
 Notification.displayName = 'Notification';
-
-(Notification as any).Presets = {
-	toast: (props: Partial<NotificationProps> = {}) => (
-		<Notification kind='toast' {...props} />
-	),
-	toastSuccess: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='toast-success' {...props} />,
-	toastError: (props: Partial<NotificationProps> = {}) => (
-		<Notification kind='toast-error' {...props} />
-	),
-	toastWarning: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='toast-warning' {...props} />,
-	toastInfo: (props: Partial<NotificationProps> = {}) => (
-		<Notification kind='toast-info' {...props} />
-	),
-	snackbar: (props: Partial<NotificationProps> = {}) => (
-		<Notification kind='snackbar' {...props} />
-	),
-	snackbarAction: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='snackbar-action' {...props} />,
-	snackbarPersistent: (
-		props: Partial<NotificationProps> = {}
-	) => (
-		<Notification kind='snackbar-persistent' {...props} />
-	),
-	alert: (props: Partial<NotificationProps> = {}) => (
-		<Notification kind='alert' {...props} />
-	),
-	alertSuccess: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='alert-success' {...props} />,
-	alertError: (props: Partial<NotificationProps> = {}) => (
-		<Notification kind='alert-error' {...props} />
-	),
-	alertWarning: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='alert-warning' {...props} />,
-	alertInfo: (props: Partial<NotificationProps> = {}) => (
-		<Notification kind='alert-info' {...props} />
-	),
-	banner: (props: Partial<NotificationProps> = {}) => (
-		<Notification kind='banner' {...props} />
-	),
-	bannerAnnouncement: (
-		props: Partial<NotificationProps> = {}
-	) => (
-		<Notification kind='banner-announcement' {...props} />
-	),
-	bannerPromotion: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='banner-promotion' {...props} />,
-	bannerUpdate: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='banner-update' {...props} />,
-	confirmDialog: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='confirm-dialog' {...props} />,
-	confirmDelete: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='confirm-delete' {...props} />,
-	confirmAction: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='confirm-action' {...props} />,
-	confirmNavigation: (
-		props: Partial<NotificationProps> = {}
-	) => (
-		<Notification kind='confirm-navigation' {...props} />
-	),
-	achievementToast: (
-		props: Partial<NotificationProps> = {}
-	) => <Notification kind='achievement-toast' {...props} />,
-	gameAlert: (props: Partial<NotificationProps> = {}) => (
-		<Notification kind='game-alert' {...props} />
-	),
-	matchNotification: (
-		props: Partial<NotificationProps> = {}
-	) => (
-		<Notification kind='match-notification' {...props} />
-	),
-	socialNotification: (
-		props: Partial<NotificationProps> = {}
-	) => (
-		<Notification kind='social-notification' {...props} />
-	),
-};
 
 export default memo(Notification);

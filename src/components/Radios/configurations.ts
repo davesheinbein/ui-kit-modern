@@ -9,7 +9,6 @@ export type RadioVariant =
 	| 'standard'
 	| 'button'
 	| 'card'
-	| 'switch'
 	| 'custom';
 
 // Extended radio kinds for specific use cases
@@ -17,7 +16,6 @@ export type ExtendedRadioKind =
 	| 'standard'
 	| 'button-group'
 	| 'card-selection'
-	| 'toggle-switch'
 	| 'image-radio'
 	| 'color-picker'
 	| 'size-selector'
@@ -59,6 +57,7 @@ export interface RadioOption {
 	image?: string;
 	disabled?: boolean;
 	className?: string;
+	color?: string; // Optional color for custom variant
 }
 
 // Core configuration interface
@@ -186,20 +185,5 @@ export const RADIO_CONFIGURATIONS: Record<
 		...baseCard,
 		showDescriptions: true,
 		required: true,
-	},
-
-	'toggle-switch': {
-		variant: 'switch',
-		size: 'medium',
-		state: 'default',
-		style: 'filled',
-		alignment: 'horizontal',
-		showLabels: true,
-		showDescriptions: false,
-		allowDeselect: true,
-		required: false,
-		spacing: 'normal',
-		borderRadius: 'full',
-		animationDuration: 300,
 	},
 };

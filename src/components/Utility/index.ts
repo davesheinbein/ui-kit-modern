@@ -11,3 +11,4 @@ export type {
 export type { UtilityProps } from './Utility';
 export { default as Utility } from './Utility';
 export { getUtilityConfig } from './configurations';
+export { default as Tooltip } from './Tooltip';

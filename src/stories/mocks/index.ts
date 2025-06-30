@@ -558,3 +558,90 @@ export const dateRanges = [
 	{ value: 'last90days', label: 'Last 90 days' },
 	{ value: 'custom', label: 'Custom range' },
 ];
+
+// Provider context demo mock data for Storybook
+export const mockUserSettings = {
+	chatEnabled: true,
+	profanityFilter: false,
+	notificationsEnabled: true,
+	language: 'en',
+	soundEnabled: true,
+	difficulty: 'medium',
+};
+
+export const mockThemePalette = {
+	primary: '#0070f3',
+	secondary: '#1c1c1e',
+	background: '#fff',
+	text: '#333',
+};
+
+export const mockSocketSession = {
+	userId: '123',
+	token: 'abc123',
+};
+
+export const sampleTableColumns = [
+	{ key: 'id', label: 'ID' },
+	{ key: 'name', label: 'Name' },
+	{ key: 'age', label: 'Age', sortable: true },
+	{ key: 'status', label: 'Status', filterable: true },
+];
+
+export const sampleTableData = [
+	{ id: 1, name: 'Alice', age: 28, status: 'Active' },
+	{ id: 2, name: 'Bob', age: 34, status: 'Inactive' },
+	{ id: 3, name: 'Charlie', age: 22, status: 'Pending' },
+	{ id: 4, name: 'Diana', age: 41, status: 'Active' },
+];
+
+export const leaderboardTableColumns = [
+	{ key: 'rank', label: 'Rank', align: 'center' },
+	{ key: 'player', label: 'Player' },
+	{ key: 'score', label: 'Score', sortable: true },
+	{ key: 'games', label: 'Games' },
+	{ key: 'winRate', label: 'Win Rate' },
+];
+
+export const leaderboardTableData = [
+	{
+		id: 1,
+		rank: 1,
+		player: 'GridMaster',
+		score: 15420,
+		games: 87,
+		winRate: '94.3%',
+	},
+	{
+		id: 2,
+		rank: 2,
+		player: 'PuzzleKing',
+		score: 14850,
+		games: 92,
+		winRate: '91.2%',
+	},
+	{
+		id: 3,
+		rank: 3,
+		player: 'WordWizard',
+		score: 14200,
+		games: 78,
+		winRate: '89.7%',
+	},
+	{
+		id: 4,
+		rank: 4,
+		player: 'QuickSolver',
+		score: 13980,
+		games: 95,
+		winRate: '87.4%',
+	},
+	{
+		id: 5,
+		rank: 5,
+		player: 'BrainAce',
+		score: 13750,
+		games: 83,
+		winRate: '86.1%',
+	},
+];

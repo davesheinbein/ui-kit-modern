@@ -1,247 +1,30 @@
+import React, { useState, useMemo } from 'react';
+import { Table } from '../../components/Table';
+import { Filters } from '../../components/Filters';
+import { Searchbar } from '../../components/Searchbars';
+import {
+	sampleTableColumns,
+	sampleTableData,
+	leaderboardTableColumns,
+	leaderboardTableData,
+	mockFriends,
+} from '../mocks';
+import { commonDecorators } from '../config/decorators';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Wrapper } from '../../components/Wrappers';
-import {
-	Table,
-	createTable,
-	TablePresets,
+import type {
+	TableProps,
+	TableColumn,
 } from '../../components/Table';
-import { commonDecorators } from '../config/decorators';
 
-const meta: Meta<typeof Table> = {
-	title: 'Tables/Table',
-	component: Table,
-	decorators: commonDecorators,
-	parameters: {
-		layout: 'fullscreen',
-	},
-	argTypes: {
-		kind: {
-			control: 'select',
-			options: [
-				'data-table',
-				'simple-table',
-				'sortable-table',
-				'filterable-table',
-				'data-grid',
-				'editable-grid',
-				'selectable-grid',
-				'expandable-grid',
-				'skeleton-table',
-				'loading-table',
-				'pricing-table',
-				'comparison-table',
-				'stats-table',
-				'leaderboard-table',
-			],
-			description: 'Table component type',
-		},
-		variant: {
-			control: 'select',
-			options: [
-				'default',
-				'minimal',
-				'striped',
-				'bordered',
-				'compact',
-				'spacious',
-				'modern',
-				'glass',
-			],
-			description: 'Table visual variant',
-		},
-		layout: {
-			control: 'select',
-			options: ['fixed', 'auto', 'responsive'],
-			description: 'Table layout behavior',
-		},
-		columns: {
-			control: 'object',
-			description: 'Table columns configuration',
-		},
-		data: {
-			control: 'object',
-			description: 'Table data array',
-		},
-		sortable: {
-			control: 'boolean',
-			description: 'Enable column sorting',
-		},
-		filterable: {
-			control: 'boolean',
-			description: 'Enable data filtering',
-		},
-		selectable: {
-			control: 'boolean',
-			description: 'Enable row selection',
-		},
-		editable: {
-			control: 'boolean',
-			description: 'Enable inline editing',
-		},
-		expandable: {
-			control: 'boolean',
-			description: 'Enable row expansion',
-		},
-		pagination: {
-			control: 'object',
-			description: 'Pagination configuration object',
-		},
-		stickyHeader: {
-			control: 'boolean',
-			description: 'Sticky table header',
-		},
-		loading: {
-			control: 'boolean',
-			description: 'Loading state',
-		},
-	},
-};
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-// Sample data for stories
-const sampleColumns = [
-	{ key: 'name', label: 'Name', sortable: true },
-	{ key: 'email', label: 'Email', sortable: true },
-	{ key: 'role', label: 'Role', sortable: true },
-	{ key: 'status', label: 'Status', sortable: true },
-	{
-		key: 'lastLogin',
-		label: 'Last Login',
-		sortable: true,
-		type: 'date' as const,
-	},
-];
-
-const sampleData = [
-	{
-		id: 1,
-		name: 'John Doe',
-		email: 'john@example.com',
-		role: 'Admin',
-		status: 'Active',
-		lastLogin: '2024-01-15',
-	},
-	{
-		id: 2,
-		name: 'Jane Smith',
-		email: 'jane@example.com',
-		role: 'User',
-		status: 'Active',
-		lastLogin: '2024-01-14',
-	},
-	{
-		id: 3,
-		name: 'Bob Johnson',
-		email: 'bob@example.com',
-		role: 'Moderator',
-		status: 'Inactive',
-		lastLogin: '2024-01-10',
-	},
-	{
-		id: 4,
-		name: 'Alice Wilson',
-		email: 'alice@example.com',
-		role: 'User',
-		status: 'Active',
-		lastLogin: '2024-01-16',
-	},
-	{
-		id: 5,
-		name: 'Charlie Brown',
-		email: 'charlie@example.com',
-		role: 'User',
-		status: 'Pending',
-		lastLogin: '2024-01-12',
-	},
-];
-
-const gameLeaderboardColumns = [
-	{
-		key: 'rank',
-		label: '#',
-		width: '60px',
-		align: 'center' as const,
-	},
-	{ key: 'player', label: 'Player', sortable: true },
-	{
-		key: 'score',
-		label: 'Score',
-		sortable: true,
-		type: 'number' as const,
-		align: 'right' as const,
-	},
-	{
-		key: 'games',
-		label: 'Games',
-		sortable: true,
-		type: 'number' as const,
-		align: 'center' as const,
-	},
-	{
-		key: 'winRate',
-		label: 'Win Rate',
-		sortable: true,
-		align: 'center' as const,
-	},
-];
-
-const leaderboardData = [
-	{
-		id: 1,
-		rank: 1,
-		player: 'GridMaster',
-		score: 15420,
-		games: 87,
-		winRate: '94.3%',
-	},
-	{
-		id: 2,
-		rank: 2,
-		player: 'PuzzleKing',
-		score: 14850,
-		games: 92,
-		winRate: '91.2%',
-	},
-	{
-		id: 3,
-		rank: 3,
-		player: 'WordWizard',
-		score: 14200,
-		games: 78,
-		winRate: '89.7%',
-	},
-	{
-		id: 4,
-		rank: 4,
-		player: 'QuickSolver',
-		score: 13980,
-		games: 95,
-		winRate: '87.4%',
-	},
-	{
-		id: 5,
-		rank: 5,
-		player: 'BrainAce',
-		score: 13750,
-		games: 83,
-		winRate: '86.1%',
-	},
-];
-
-const pricingColumns = [
+const pricingColumns: TableColumn[] = [
 	{ key: 'feature', label: 'Feature' },
-	{
-		key: 'basic',
-		label: 'Basic',
-		align: 'center' as const,
-	},
-	{ key: 'pro', label: 'Pro', align: 'center' as const },
+	{ key: 'basic', label: 'Basic', align: 'center' },
+	{ key: 'pro', label: 'Pro', align: 'center' },
 	{
 		key: 'enterprise',
 		label: 'Enterprise',
-		align: 'center' as const,
+		align: 'center',
 	},
 ];
 
@@ -283,287 +66,207 @@ const pricingData = [
 	},
 ];
 
-// ========================================
-// Basic Table Stories
-// ========================================
+// leaderboardTableColumns from mocks may have align: string, but TableColumn expects 'center' | 'left' | 'right' | undefined
+// Patch the columns to cast align as the correct type
+const fixedLeaderboardTableColumns: TableColumn[] =
+	leaderboardTableColumns.map((col) =>
+		(
+			col.align &&
+			(col.align === 'center' ||
+				col.align === 'left' ||
+				col.align === 'right')
+		) ?
+			{
+				...col,
+				align: col.align as 'center' | 'left' | 'right',
+			}
+		:	{ ...col, align: undefined }
+	);
 
-export const Default: Story = {
-	args: {
-		kind: 'data-table',
-		columns: sampleColumns,
-		data: sampleData,
+const meta: Meta<typeof Table> = {
+	title: 'Tables/Table',
+	component: Table,
+	decorators: commonDecorators,
+	tags: ['autodocs'],
+	argTypes: {
+		kind: {
+			control: 'select',
+			options: [
+				'data-table',
+				'leaderboard-table',
+				'pricing-table',
+			],
+		},
+		variant: {
+			control: 'select',
+			options: [
+				'default',
+				'minimal',
+				'striped',
+				'bordered',
+				'compact',
+				'spacious',
+				'modern',
+				'glass',
+			],
+		},
+		layout: {
+			control: 'select',
+			options: ['auto', 'fixed', 'responsive'],
+		},
+		sortable: { control: 'boolean' },
+		filterable: { control: 'boolean' },
+		selectable: { control: 'boolean' },
+		editable: { control: 'boolean' },
+		showColumnFilter: { control: 'boolean' },
 	},
 };
+export default meta;
+type Story = StoryObj<typeof Table>;
 
-export const DataTable: Story = {
-	args: {
-		kind: 'data-table',
-		columns: sampleColumns,
-		data: sampleData,
-		variant: 'default',
-		sortable: true,
-		hoverEffects: true,
-	},
-};
+// DRY Template
+const Template = (args: TableProps) => <Table {...args} />;
 
-export const SimpleTable: Story = {
-	args: {
-		kind: 'simple-table',
-		columns: sampleColumns,
-		data: sampleData,
-		variant: 'minimal',
-	},
-};
-
-export const SortableTable: Story = {
-	args: {
-		kind: 'sortable-table',
-		columns: sampleColumns,
-		data: sampleData,
-		defaultSort: { column: 'name', direction: 'asc' },
-	},
-};
-
-export const FilterableTable: Story = {
-	args: {
-		kind: 'filterable-table',
-		columns: sampleColumns,
-		data: sampleData,
-		searchable: true,
-		searchPlaceholder: 'Search users...',
-	},
-};
-
-export const DataGrid: Story = {
-	args: {
-		kind: 'data-grid',
-		columns: sampleColumns,
-		data: sampleData,
-		variant: 'modern',
-		selectable: true,
-		selectionMode: 'multiple',
-		pagination: {
-			page: 1,
-			pageSize: 3,
-			total: sampleData.length,
-			showSizeSelector: true,
+// Consolidated Variants Story
+export const Variants: Story = {
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: 32,
+			}}
+		>
+			<div>
+				<h4>Default</h4>
+				<Table
+					kind='data-table'
+					columns={sampleTableColumns}
+					data={sampleTableData}
+					variant='default'
+					layout='auto'
+				/>
+			</div>
+			<div>
+				<h4>Sortable</h4>
+				<Table
+					kind='data-table'
+					columns={sampleTableColumns}
+					data={sampleTableData}
+					variant='default'
+					layout='auto'
+					sortable
+				/>
+			</div>
+			<div>
+				<h4>Filterable</h4>
+				<Table
+					kind='data-table'
+					columns={sampleTableColumns}
+					data={sampleTableData}
+					variant='default'
+					layout='auto'
+					filterable
+					showColumnFilter
+				/>
+			</div>
+			<div>
+				<h4>Striped</h4>
+				<Table
+					kind='data-table'
+					columns={sampleTableColumns}
+					data={sampleTableData}
+					variant='striped'
+					layout='auto'
+				/>
+			</div>
+			<div>
+				<h4>Bordered</h4>
+				<Table
+					kind='data-table'
+					columns={sampleTableColumns}
+					data={sampleTableData}
+					variant='bordered'
+					layout='auto'
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Common table variants (default, sortable, filterable, striped, bordered) shown together for comparison.',
+			},
 		},
 	},
 };
 
-export const SelectableGrid: Story = {
+// Playground (interactive)
+export const Playground: Story = {
+	render: Template,
 	args: {
-		kind: 'selectable-grid',
-		columns: sampleColumns,
-		data: sampleData,
-		variant: 'striped',
-		selectable: true,
-		selectionMode: 'multiple',
+		kind: 'data-table',
+		columns: sampleTableColumns,
+		data: sampleTableData,
+		variant: 'default',
+		layout: 'auto',
+		sortable: false,
+		filterable: false,
+		selectable: false,
+		editable: false,
+		showColumnFilter: false,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Fully interactive table. Use controls to change props.',
+			},
+		},
 	},
 };
 
-export const EditableGrid: Story = {
-	args: {
-		kind: 'editable-grid',
-		columns: sampleColumns,
-		data: sampleData,
-		variant: 'bordered',
-		editable: true,
-		selectable: true,
-		selectionMode: 'single',
-	},
-};
-
-export const SkeletonTable: Story = {
-	args: {
-		kind: 'skeleton-table',
-		columns: sampleColumns,
-		loading: true,
-		loadingRows: 5,
-	},
-};
-
-// ========================================
-// Specialized Table Stories
-// ========================================
-
-export const GameLeaderboard: Story = {
-	args: {
-		kind: 'leaderboard-table',
-		columns: gameLeaderboardColumns,
-		data: leaderboardData,
-		variant: 'modern',
-		sortable: true,
-		searchable: true,
-		searchPlaceholder: 'Search players...',
+// Special Tables
+export const LeaderboardTable: Story = {
+	render: () => (
+		<Table
+			kind='leaderboard-table'
+			columns={fixedLeaderboardTableColumns}
+			data={leaderboardTableData}
+			variant='modern'
+			layout='auto'
+			sortable
+			showColumnFilter
+		/>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Leaderboard table with ranking, player, and win rate.',
+			},
+		},
 	},
 };
 
 export const PricingTable: Story = {
-	args: {
-		kind: 'pricing-table',
-		columns: pricingColumns,
-		data: pricingData,
-		variant: 'modern',
-		layout: 'fixed',
-	},
-};
-
-export const ComparisonTable: Story = {
-	args: {
-		kind: 'comparison-table',
-		columns: pricingColumns,
-		data: pricingData,
-		variant: 'bordered',
-		stickyHeader: true,
-	},
-};
-
-export const StatsTable: Story = {
-	args: {
-		kind: 'stats-table',
-		columns: [
-			{ key: 'metric', label: 'Metric' },
-			{
-				key: 'current',
-				label: 'Current',
-				type: 'number',
-				align: 'right',
-			},
-			{
-				key: 'previous',
-				label: 'Previous',
-				type: 'number',
-				align: 'right',
-			},
-			{ key: 'change', label: 'Change', align: 'center' },
-		],
-		data: [
-			{
-				id: 1,
-				metric: 'Daily Users',
-				current: 1234,
-				previous: 1180,
-				change: '+4.6%',
-			},
-			{
-				id: 2,
-				metric: 'Games Played',
-				current: 5678,
-				previous: 5420,
-				change: '+4.8%',
-			},
-			{
-				id: 3,
-				metric: 'Avg. Session',
-				current: '12:34',
-				previous: '11:58',
-				change: '+5.0%',
-			},
-			{
-				id: 4,
-				metric: 'Completion Rate',
-				current: '87.2%',
-				previous: '85.1%',
-				change: '+2.5%',
-			},
-		],
-		variant: 'compact',
-		zebraStripes: true,
-	},
-};
-
-// ========================================
-// Variant Stories
-// ========================================
-
-export const AllVariants: Story = {
 	render: () => (
-		<Wrapper direction='column' gap={8}>
-			<Wrapper>
-				<h3>Default</h3>
-				<Table
-					kind='data-table'
-					columns={sampleColumns.slice(0, 3)}
-					data={sampleData.slice(0, 3)}
-					variant='default'
-				/>
-			</Wrapper>
-			<Wrapper>
-				<h3>Minimal</h3>
-				<Table
-					kind='data-table'
-					columns={sampleColumns.slice(0, 3)}
-					data={sampleData.slice(0, 3)}
-					variant='minimal'
-				/>
-			</Wrapper>
-			<Wrapper>
-				<h3>Striped</h3>
-				<Table
-					kind='data-table'
-					columns={sampleColumns.slice(0, 3)}
-					data={sampleData.slice(0, 3)}
-					variant='striped'
-				/>
-			</Wrapper>
-			<Wrapper>
-				<h3>Bordered</h3>
-				<Table
-					kind='data-table'
-					columns={sampleColumns.slice(0, 3)}
-					data={sampleData.slice(0, 3)}
-					variant='bordered'
-				/>
-			</Wrapper>
-			<Wrapper>
-				<h3>Modern</h3>
-				<Table
-					kind='data-table'
-					columns={sampleColumns.slice(0, 3)}
-					data={sampleData.slice(0, 3)}
-					variant='modern'
-				/>
-			</Wrapper>
-		</Wrapper>
+		<Table
+			kind='pricing-table'
+			columns={pricingColumns}
+			data={pricingData}
+			variant='glass'
+			layout='auto'
+		/>
 	),
-};
-
-export const Shorthand: Story = {
-	render: () => {
-		const GridComponent = createTable('data-grid');
-		return (
-			<GridComponent
-				columns={sampleColumns}
-				data={sampleData}
-				selectable={true}
-				selectionMode='multiple'
-			/>
-		);
-	},
-};
-
-export const Presets: Story = {
-	render: () => {
-		const DashboardGrid = TablePresets.dashboardGrid;
-		return (
-			<DashboardGrid
-				columns={sampleColumns}
-				data={sampleData}
-			/>
-		);
-	},
-};
-
-export const AdminTable: Story = {
-	render: () => {
-		const AdminTable = TablePresets.adminTable;
-		return (
-			<AdminTable
-				columns={sampleColumns}
-				data={sampleData}
-			/>
-		);
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Pricing comparison table for product tiers.',
+			},
+		},
 	},
 };
 
@@ -574,8 +277,8 @@ export const AdminTable: Story = {
 export const WithInteractions: Story = {
 	args: {
 		kind: 'data-grid',
-		columns: sampleColumns,
-		data: sampleData,
+		columns: sampleTableColumns,
+		data: sampleTableData,
 		variant: 'modern',
 		sortable: true,
 		filterable: true,
@@ -603,8 +306,8 @@ export const WithInteractions: Story = {
 export const ResponsiveTable: Story = {
 	args: {
 		kind: 'data-table',
-		columns: sampleColumns,
-		data: sampleData,
+		columns: sampleTableColumns,
+		data: sampleTableData,
 		layout: 'responsive',
 		variant: 'modern',
 		sortable: true,
@@ -613,6 +316,196 @@ export const ResponsiveTable: Story = {
 	parameters: {
 		viewport: {
 			defaultViewport: 'mobile1',
+		},
+	},
+};
+
+const filterConfig = [
+	{
+		key: 'status',
+		label: 'Status',
+		options: [
+			{ label: 'Active', value: 'active' },
+			{ label: 'Inactive', value: 'inactive' },
+			{ label: 'Pending', value: 'pending' },
+		],
+		mode: 'single' as const,
+		placeholder: 'Filter by status',
+	},
+];
+
+export const FilterAndSearch = () => {
+	// Example columns for the table
+	const columns = [
+		{ key: 'name', label: 'Name', filterable: true },
+		{ key: 'status', label: 'Status', filterable: true },
+		{ key: 'lastSeen', label: 'Last Seen' },
+	];
+
+	const [search, setSearch] = React.useState('');
+	const [filters, setFilters] = React.useState({
+		status: '',
+	});
+
+	// Dynamically get unique status options from the data
+	const statusOptions = React.useMemo(() => {
+		const all = mockFriends.map((row) => row.status);
+		return Array.from(new Set(all));
+	}, []);
+
+	// Filter and search logic
+	const filteredData = React.useMemo(() => {
+		let data = mockFriends;
+		if (filters.status) {
+			data = data.filter(
+				(row) => row.status === filters.status
+			);
+		}
+		if (search) {
+			const s = search.toLowerCase();
+			data = data.filter(
+				(row) =>
+					row.name.toLowerCase().includes(s) ||
+					row.status.toLowerCase().includes(s) ||
+					(row.lastSeen &&
+						row.lastSeen.toLowerCase().includes(s))
+			);
+		}
+		return data;
+	}, [search, filters]);
+
+	return (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: 16,
+			}}
+		>
+			<div
+				style={{
+					display: 'flex',
+					gap: 16,
+					alignItems: 'center',
+				}}
+			>
+				<Searchbar
+					value={search}
+					onChange={(value) => setSearch(value)}
+					placeholder='Search friends...'
+					debounce={200}
+					clearable
+					style={{ minWidth: 240 }}
+				/>
+				{/* Dynamic status filter */}
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						gap: 2,
+					}}
+				>
+					<label>Status</label>
+					<select
+						value={filters.status}
+						onChange={(e) =>
+							setFilters({
+								...filters,
+								status: e.target.value,
+							})
+						}
+					>
+						<option value=''>All statuses</option>
+						{statusOptions.map((opt) => (
+							<option key={opt} value={opt as string}>
+								{opt.charAt(0).toUpperCase() + opt.slice(1)}
+							</option>
+						))}
+					</select>
+				</div>
+			</div>
+			<div style={{ minWidth: 400 }}>
+				<Table
+					kind='filterable-table'
+					columns={columns}
+					data={filteredData}
+					filterable
+					searchable
+					variant='modern'
+					layout='auto'
+					showColumnFilter
+				/>
+			</div>
+		</div>
+	);
+};
+
+// Example usage in a story
+export const FilteredTable: Story = {
+	render: () => {
+		const [filters, setFilters] = useState<
+			Record<string, string | string[]>
+		>({ status: 'active' });
+		const [search, setSearch] = useState('');
+		const filteredData = useMemo(() => {
+			return mockFriends.filter((row) => {
+				const statusMatch =
+					!filters.status || row.status === filters.status;
+				const searchMatch =
+					!search ||
+					row.name
+						.toLowerCase()
+						.includes(search.toLowerCase()) ||
+					row.status
+						.toLowerCase()
+						.includes(search.toLowerCase());
+				return statusMatch && searchMatch;
+			});
+		}, [filters, search]);
+		return (
+			<div style={{ maxWidth: 600 }}>
+				<Filters
+					filters={filterConfig}
+					value={filters}
+					onChange={(value) => setFilters(value)}
+				/>
+				<Searchbar
+					value={search}
+					onChange={setSearch}
+					placeholder='Search by name or status'
+					clearable
+				/>
+				<Table
+					kind='filterable-table'
+					columns={[
+						{
+							key: 'name',
+							label: 'Name',
+							filterable: true,
+						},
+						{
+							key: 'status',
+							label: 'Status',
+							filterable: true,
+						},
+						{ key: 'lastSeen', label: 'Last Seen' },
+					]}
+					data={filteredData}
+					filterable
+					searchable
+					zebraStripes
+					variant='default'
+					showColumnFilter
+				/>
+			</div>
+		);
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Table with integrated Filter and Searchbar. Filter by status and search by any field.',
+			},
 		},
 	},
 };

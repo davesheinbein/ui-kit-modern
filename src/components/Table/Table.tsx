@@ -15,7 +15,6 @@ import {
 	TableSorting,
 	TableFilter,
 	getTableConfig,
-	TABLE_CONFIGURATIONS,
 } from './configurations';
 import {
 	initializeComponentState,
@@ -35,6 +34,7 @@ import {
 } from '../../store/slices/tableSlice';
 import type { RootState } from '../../store';
 import { Button } from '../Button';
+import Tooltip from '../Utility/Tooltip';
 import styles from './Table.module.scss';
 
 export interface TableProps {
@@ -120,6 +120,11 @@ export interface TableProps {
 				row: TableRow,
 				column: TableColumn
 		  ) => string);
+
+	/**
+	 * If true, show a filter triangle icon in each filterable column header
+	 */
+	showColumnFilter?: boolean;
 }
 
 const Table = forwardRef<HTMLTableElement, TableProps>(
@@ -190,6 +195,9 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
 			bodyClassName,
 			rowClassName,
 			cellClassName,
+
+			// Show column filter triangle
+			showColumnFilter = false,
 
 			...restProps
 		} = props;
@@ -690,6 +698,50 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
 												:	'')}
 										</span>
 									)}
+								{/* Filter triangle icon */}
+								{showColumnFilter && column.filterable && (
+									<Tooltip
+										content={
+											<div style={{ minWidth: 180 }}>
+												<strong>
+													Filter {column.label}
+												</strong>
+												{/* TODO: Render filter UI for this column here */}
+												<div style={{ marginTop: 8 }}>
+													<em>
+														Custom filter UI goes here.
+													</em>
+												</div>
+											</div>
+										}
+										placement='bottom'
+									>
+										<button
+											type='button'
+											className={
+												styles.table__filter_triangle
+											}
+											aria-label={`Filter ${column.label}`}
+											// onClick handled by Tooltip
+										>
+											<svg
+												width='10'
+												height='6'
+												viewBox='0 0 10 6'
+												fill='none'
+												xmlns='http://www.w3.org/2000/svg'
+											>
+												<path
+													d='M1 1L5 5L9 1'
+													stroke='currentColor'
+													strokeWidth='1.5'
+													strokeLinecap='round'
+													strokeLinejoin='round'
+												/>
+											</svg>
+										</button>
+									</Tooltip>
+								)}
 							</span>
 						</th>
 					))}
@@ -957,90 +1009,3 @@ export function createTable(
 		return React.createElement(Table, mergedProps);
 	};
 }
-
-export const TablePresets = {
-	// Basic Tables
-	dataTable: createTable('data-table'),
-	simpleTable: createTable('simple-table'),
-	sortableTable: createTable('sortable-table'),
-	filterableTable: createTable('filterable-table'),
-
-	// Advanced Tables
-	dataGrid: createTable('data-grid'),
-	editableGrid: createTable('editable-grid'),
-	selectableGrid: createTable('selectable-grid'),
-	expandableGrid: createTable('expandable-grid'),
-
-	// Loading States
-	skeletonTable: createTable('skeleton-table'),
-	loadingTable: createTable('loading-table'),
-
-	// Specialized Tables
-	pricingTable: createTable('pricing-table'),
-	comparisonTable: createTable('comparison-table'),
-	statsTable: createTable('stats-table'),
-	leaderboardTable: createTable('leaderboard-table'),
-
-	// Advanced Presets
-	dashboardGrid: createTable({
-		kind: 'data-grid',
-		variant: 'modern',
-		sortable: true,
-		filterable: true,
-		searchable: true,
-		pagination: true,
-		stickyHeader: true,
-	}),
-
-	adminTable: createTable({
-		kind: 'data-grid',
-		variant: 'bordered',
-		sortable: true,
-		filterable: true,
-		selectable: true,
-		selectionMode: 'multiple',
-		editable: true,
-		pagination: true,
-	}),
-
-	reportTable: createTable({
-		kind: 'stats-table',
-		variant: 'striped',
-		sortable: true,
-		filterable: true,
-		searchable: true,
-		zebraStripes: true,
-		stickyHeader: true,
-	}),
-
-	quickList: createTable({
-		kind: 'simple-table',
-		variant: 'minimal',
-		hoverEffects: true,
-		clickableRows: true,
-	}),
-
-	gameLeaderboard: createTable({
-		kind: 'leaderboard-table',
-		variant: 'modern',
-		sortable: true,
-		searchable: true,
-		pagination: {
-			page: 1,
-			pageSize: 10,
-			total: 0,
-			showSizeSelector: true,
-			pageSizeOptions: [10, 25, 50, 100],
-		},
-	}),
-};
-
-// Export types for external usage
-export type {
-	TableKind,
-	TableConfiguration,
-	TableColumn,
-	TableRow,
-	TableSorting,
-	TableFilter,
-} from './configurations';

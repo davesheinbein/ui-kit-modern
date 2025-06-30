@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button } from '../../components/Button';
 import type { Meta, StoryObj } from '@storybook/react';
 import Banner from '../../components/Banner/Banner';
 import { Wrapper } from '../../components/Wrappers';
@@ -110,7 +111,7 @@ A comprehensive banner system with multiple variants and a DRY configuration pat
 			action: 'close clicked',
 			description: 'Callback when banner is closed',
 		},
-		// Player props for status banners
+
 		'player.username': {
 			control: 'text',
 			description: 'Player username',
@@ -145,22 +146,23 @@ A comprehensive banner system with multiple variants and a DRY configuration pat
 export default meta;
 type Story = StoryObj<typeof Banner>;
 
-// Helper for closeable banners in stories
-const CloseableBannerStory = (args: any) => {
-	const [open, setOpen] = React.useState(true);
-	if (!open) return null;
+const BannerDemo = (args: any) => {
+	const [open, setOpen] = React.useState(false);
 	return (
-		<Banner {...args} onClose={() => setOpen(false)} />
+		<>
+			<button onClick={() => setOpen(true)}>
+				Show Banner
+			</button>
+			{open && (
+				<Banner {...args} close={() => setOpen(false)} />
+			)}
+		</>
 	);
 };
 
-// ============================================================================
-// BASIC BANNER TYPES
-// ============================================================================
-
 export const Playground: Story = {
 	name: 'Playground',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'success-toast',
 		message: 'This is a customizable banner!',
@@ -169,7 +171,7 @@ export const Playground: Story = {
 		docs: {
 			description: {
 				story:
-					'Use the controls below to experiment with different banner configurations.',
+					'Use the button below to show the banner. Only one banner is visible at a time.',
 			},
 		},
 	},
@@ -177,6 +179,7 @@ export const Playground: Story = {
 
 export const FeedbackBanner: Story = {
 	name: 'Feedback Banner',
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'feedback',
 		message:
@@ -186,7 +189,7 @@ export const FeedbackBanner: Story = {
 		docs: {
 			description: {
 				story:
-					'Feedback banners are used for game completion messages and user feedback. They are centered and non-dismissible by default.',
+					'Click the button to show a feedback banner. Only one banner is visible at a time.',
 			},
 		},
 	},
@@ -194,7 +197,7 @@ export const FeedbackBanner: Story = {
 
 export const NotificationBanner: Story = {
 	name: 'Notification Banner',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'notification',
 		message: 'System maintenance will begin in 15 minutes.',
@@ -211,7 +214,7 @@ export const NotificationBanner: Story = {
 
 export const ToastBanner: Story = {
 	name: 'Toast Banner',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'toast',
 		message: 'Achievement unlocked: First Victory!',
@@ -228,7 +231,7 @@ export const ToastBanner: Story = {
 
 export const GlobalToast: Story = {
 	name: 'Global Toast',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'global',
 		message: 'Welcome to the new game mode!',
@@ -243,13 +246,9 @@ export const GlobalToast: Story = {
 	},
 };
 
-// ============================================================================
-// NOTIFICATION TYPES (Game-specific)
-// ============================================================================
-
 export const BurnNotification: Story = {
 	name: 'Burn Notification',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'burn-notification',
 		message: 'Player got burned! -50 points',
@@ -266,7 +265,7 @@ export const BurnNotification: Story = {
 
 export const AchievementNotification: Story = {
 	name: 'Achievement Notification',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'achievement-notification',
 		message: 'Achievement Unlocked: Perfect Game!',
@@ -283,7 +282,7 @@ export const AchievementNotification: Story = {
 
 export const SystemNotification: Story = {
 	name: 'System Notification',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'system-notification',
 		message: 'Game rules have been updated',
@@ -300,7 +299,7 @@ export const SystemNotification: Story = {
 
 export const TauntNotification: Story = {
 	name: 'Taunt Notification',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'taunt-notification',
 		message: 'Player sent a taunt: "Too easy!"',
@@ -315,13 +314,9 @@ export const TauntNotification: Story = {
 	},
 };
 
-// ============================================================================
-// TOAST TYPES (Status messages)
-// ============================================================================
-
 export const SuccessToast: Story = {
 	name: 'Success Toast',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'success-toast',
 		message: 'Data saved successfully!',
@@ -338,7 +333,7 @@ export const SuccessToast: Story = {
 
 export const ErrorToast: Story = {
 	name: 'Error Toast',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'error-toast',
 		message: 'Failed to connect to server',
@@ -355,7 +350,7 @@ export const ErrorToast: Story = {
 
 export const WarningToast: Story = {
 	name: 'Warning Toast',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'warning-toast',
 		message:
@@ -373,7 +368,7 @@ export const WarningToast: Story = {
 
 export const InfoToast: Story = {
 	name: 'Info Toast',
-	render: (args) => <CloseableBannerStory {...args} />, // use stateful close
+	render: (args) => <BannerDemo {...args} />,
 	args: {
 		kind: 'info-toast',
 		message: 'New update available - restart to apply',
@@ -387,10 +382,6 @@ export const InfoToast: Story = {
 		},
 	},
 };
-
-// ============================================================================
-// VS GAME STATUS BAR
-// ============================================================================
 
 export const VSStatusBar: Story = {
 	name: 'VS Status Bar',
@@ -414,6 +405,8 @@ export const VSStatusBar: Story = {
 		timer: '02:45',
 		totalGroups: 4,
 		onEmoteClick: action('emote clicked'),
+		// Ensure close button is hidden
+		showCloseButton: false,
 	},
 	parameters: {
 		docs: {
@@ -424,10 +417,6 @@ export const VSStatusBar: Story = {
 		},
 	},
 };
-
-// ============================================================================
-// USAGE EXAMPLES WITH DIFFERENT PATTERNS
-// ============================================================================
 
 export const UsingPresets: Story = {
 	name: 'Using Presets',
@@ -532,10 +521,6 @@ Examples using the base \`Banner\` component with custom JSX content:
 	},
 };
 
-// ============================================================================
-// INTERACTIVE EXAMPLES
-// ============================================================================
-
 export const AutoCloseDemo: Story = {
 	name: 'Auto-Close Demo',
 	args: {
@@ -554,88 +539,130 @@ export const AutoCloseDemo: Story = {
 	},
 };
 
+const ALL_BANNER_VARIANTS = [
+	{
+		label: 'Feedback',
+		args: {
+			kind: 'feedback',
+			message: 'Feedback banner: Game completed! 🎉',
+		},
+	},
+	{
+		label: 'Notification',
+		args: {
+			kind: 'notification',
+			message: 'Notification banner: System alert!',
+		},
+	},
+	{
+		label: 'Toast',
+		args: {
+			kind: 'toast',
+			message: 'Toast banner: Saved successfully!',
+		},
+	},
+	{
+		label: 'Status',
+		args: {
+			kind: 'status',
+			player: {
+				username: 'You',
+				groupsSolved: 2,
+				mistakes: 1,
+			},
+			opponent: {
+				username: 'Opponent',
+				groupsSolved: 1,
+				mistakes: 2,
+			},
+			timer: '01:23',
+			showMistakes: true,
+			showTimer: true,
+		},
+	},
+	{
+		label: 'Global',
+		args: {
+			kind: 'global',
+			message: 'Global banner: App-wide notification!',
+		},
+	},
+];
+
 export const AllBannerTypes: Story = {
 	name: 'All Banner Types',
 	render: () => {
+		const [openIdx, setOpenIdx] = React.useState<
+			number | null
+		>(null);
 		return (
-			<Wrapper
+			<div
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
-					gap: '16px',
-					padding: '20px',
+					gap: 24,
 				}}
 			>
-				<h3
+				<div
 					style={{
-						margin: 0,
-						color: 'var(--text-primary)',
+						display: 'flex',
+						gap: 16,
+						flexWrap: 'wrap',
 					}}
 				>
-					Feedback Banners
-				</h3>
-				<Banner
-					kind='feedback'
-					message='Game completed successfully!'
-				/>
-
-				<h3
-					style={{
-						margin: '20px 0 0 0',
-						color: 'var(--text-primary)',
-					}}
-				>
-					Notification Types
-				</h3>
-				<Banner
-					kind='burn-notification'
-					message='Player got burned!'
-				/>
-				<Banner
-					kind='achievement-notification'
-					message='Achievement unlocked!'
-				/>
-				<Banner
-					kind='system-notification'
-					message='System update available'
-				/>
-				<Banner
-					kind='taunt-notification'
-					message='Player sent a taunt!'
-				/>
-
-				<h3
-					style={{
-						margin: '20px 0 0 0',
-						color: 'var(--text-primary)',
-					}}
-				>
-					Toast Messages
-				</h3>
-				<Banner
-					kind='success-toast'
-					message='Operation completed successfully'
-				/>
-				<Banner
-					kind='error-toast'
-					message='Something went wrong'
-				/>
-				<Banner
-					kind='warning-toast'
-					message='Please check your connection'
-				/>
-				<Banner
-					kind='info-toast'
-					message='New features available'
-				/>
-			</Wrapper>
+					{ALL_BANNER_VARIANTS.map((variant, idx) => (
+						<Button
+							key={variant.label}
+							onClick={() => setOpenIdx(idx)}
+						>
+							Show {variant.label}
+						</Button>
+					))}
+				</div>
+				{openIdx !== null && (
+					<div style={{ marginTop: 24 }}>
+						<Banner
+							{...ALL_BANNER_VARIANTS[openIdx].args}
+							onClose={() => setOpenIdx(null)}
+						/>
+					</div>
+				)}
+			</div>
 		);
 	},
 	parameters: {
 		docs: {
 			description: {
 				story:
-					'Overview of all available banner types and their default styling.',
+					'Click a button to show each banner type. Only one banner is visible at a time, preventing overlap.',
+			},
+		},
+	},
+};
+
+export const BannerWithActions: Story = {
+	name: 'Banner with Actions',
+	args: {
+		kind: 'notification',
+		message: 'This banner has action buttons!',
+		actions: [
+			{
+				label: 'Accept',
+				onClick: () => alert('Accepted!'),
+				variant: 'primary',
+			},
+			{
+				label: 'Decline',
+				onClick: () => alert('Declined!'),
+				variant: 'secondary',
+			},
+		],
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Demonstrates the new actions prop for Banner, rendering action buttons.',
 			},
 		},
 	},

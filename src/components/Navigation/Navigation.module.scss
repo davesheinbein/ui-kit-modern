@@ -152,7 +152,7 @@
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	gap: var(--spacing-xs);
+	gap: 16px; // Increased gap for better visual separation
 }
 
 .navbarItem {
