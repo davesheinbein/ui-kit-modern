@@ -35,21 +35,21 @@ export const mockFriends = [
 	{
 		id: '2',
 		name: 'Alice Smith',
-		avatar: '/api/placeholder/40/40',
+		avatar: 'https://picsum.photos/40/40',
 		status: 'online',
 		lastSeen: 'Now',
 	},
 	{
 		id: '3',
 		name: 'Bob Johnson',
-		avatar: '/api/placeholder/40/40',
+		avatar: 'https://picsum.photos/40/40',
 		status: 'away',
 		lastSeen: '5 minutes ago',
 	},
 	{
 		id: '4',
 		name: 'Carol Williams',
-		avatar: '/api/placeholder/40/40',
+		avatar: 'https://picsum.photos/40/40',
 		status: 'offline',
 		lastSeen: '2 hours ago',
 	},
@@ -447,14 +447,23 @@ export const DEFAULT_PLUGINS = [];
 // === ENHANCED MOCK DATA FOR RICHER CARD STORIES ===
 export const mockProfile = {
 	id: '1',
-	name: 'John Doe',
-	avatar: '/api/placeholder/80/80',
-	bio: 'Puzzle enthusiast and chess master.',
-	level: 15,
-	points: 2840,
-	achievements: 12,
+	name: 'Alice Smith',
+	avatar: 'https://picsum.photos/40/40',
+	bio: 'Puzzle enthusiast and code lover.',
+	level: 12,
+	points: 2340,
+	achievements: 8,
 	gamesPlayed: 156,
 	winRate: 0.68,
+};
+
+// There is no puzzleData in mocks. Add a minimal mock for puzzle card usage.
+export const cardPuzzleData = {
+	id: 'puzzle-1',
+	title: 'Sample Puzzle',
+	date: '2024-06-01',
+	creator: 'PuzzleMaster',
+	image: 'https://picsum.photos/40/40',
 };
 
 // === Select Option Sets (for Select stories) ===
@@ -645,3 +654,44 @@ export const leaderboardTableData = [
 		winRate: '86.1%',
 	},
 ];
+
+export const leaderboardMock = [
+	{
+		id: '1',
+		name: 'Alice',
+		score: 3200,
+		avatar: 'https://picsum.photos/40/40?1',
+	},
+	{
+		id: '2',
+		name: 'Bob',
+		score: 2950,
+		avatar: 'https://picsum.photos/40/40?2',
+	},
+	{
+		id: '3',
+		name: 'Carol',
+		score: 2780,
+		avatar: 'https://picsum.photos/40/40?3',
+	},
+	{
+		id: '4',
+		name: 'David',
+		score: 2600,
+		avatar: 'https://picsum.photos/40/40?4',
+	},
+	{
+		id: '5',
+		name: 'Eve',
+		score: 2500,
+		avatar: 'https://picsum.photos/40/40?5',
+	},
+];
+
+// --- Card-specific mock data for Card.stories.tsx ---
+export const userStatusMock = {
+	name: 'John Doe',
+	avatar: 'https://picsum.photos/40/40',
+	status: 'online',
+	statusMessage: 'Ready to play!',
+};

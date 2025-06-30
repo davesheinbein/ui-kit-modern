@@ -3,8 +3,11 @@ import { Card } from '../../components/Card';
 import { cardArgTypes as baseCardArgTypes } from '../config/argTypes';
 import {
 	mockFriends,
-	mockGameStats,
 	mockProfile,
+	mockGameStats,
+	leaderboardMock,
+	cardPuzzleData,
+	userStatusMock,
 } from '../mocks';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ExtendedCardKind } from '../../components/Card/configurations';
@@ -291,38 +294,7 @@ export const Leaderboard: Story = {
 	render: (args) => (
 		<Card
 			kind='leaderboard'
-			leaderboard={[
-				{
-					id: '1',
-					name: 'Alice',
-					score: 3200,
-					avatar: 'https://picsum.photos/40/40?1',
-				},
-				{
-					id: '2',
-					name: 'Bob',
-					score: 2950,
-					avatar: 'https://picsum.photos/40/40?2',
-				},
-				{
-					id: '3',
-					name: 'Carol',
-					score: 2780,
-					avatar: 'https://picsum.photos/40/40?3',
-				},
-				{
-					id: '4',
-					name: 'David',
-					score: 2600,
-					avatar: 'https://picsum.photos/40/40?4',
-				},
-				{
-					id: '5',
-					name: 'Eve',
-					score: 2500,
-					avatar: 'https://picsum.photos/40/40?5',
-				},
-			]}
+			leaderboard={leaderboardMock}
 			{...args}
 		/>
 	),
@@ -342,17 +314,7 @@ export const Leaderboard: Story = {
 
 export const Puzzle: Story = {
 	render: (args) => (
-		<Card
-			kind='puzzle'
-			puzzle={{
-				id: 'p1',
-				title: 'Logic Grid',
-				img: 'https://picsum.photos/40/40',
-				dateCreated: '2025-06-27',
-				creator: 'PuzzleMaster',
-			}}
-			{...args}
-		/>
+		<Card kind='puzzle' puzzle={cardPuzzleData} {...args} />
 	),
 	args: {
 		kind: 'puzzle',
@@ -372,12 +334,7 @@ export const UserStatus: Story = {
 	render: (args) => (
 		<Card
 			kind='user-status'
-			userStatus={{
-				name: 'John Doe',
-				avatar: 'https://picsum.photos/40/40',
-				status: 'online',
-				statusMessage: 'Ready to play!',
-			}}
+			userStatus={userStatusMock}
 			{...args}
 		/>
 	),
@@ -446,34 +403,13 @@ export const SizeComparison: Story = {
 const friendMock = {
 	id: '1',
 	username: 'Alice Smith',
-	avatar: '/api/placeholder/40/40',
+	avatar: 'https://picsum.photos/40/40',
 	online: true,
 	division: 'Gold',
 	tier: 'III',
 	inMatch: false,
 	idle: false,
 };
-// Helper: leaderboard mock
-const leaderboardMock = [
-	{
-		id: '1',
-		name: 'Alice',
-		score: 120,
-		avatar: '/api/placeholder/32/32',
-	},
-	{
-		id: '2',
-		name: 'Bob',
-		score: 110,
-		avatar: '/api/placeholder/32/32',
-	},
-	{
-		id: '3',
-		name: 'Carol',
-		score: 105,
-		avatar: '/api/placeholder/32/32',
-	},
-];
 
 const cardKinds = [
 	'default',
