@@ -125,25 +125,20 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 				}
 			}
 
-			const gridStyle: React.CSSProperties = {
-				display: 'grid',
-				gridTemplateColumns: `repeat(${cols}, 1fr)`,
-				gridTemplateRows: `repeat(${rows}, 1fr)`,
-				gap: layout.gap,
-				maxWidth: layout.maxWidth,
-				minHeight: layout.minHeight,
-				...{},
-			};
-
 			return (
-				<Wrapper
+				<div
 					ref={ref}
-					kind='grid-container'
-					className={gridClasses}
-					columns={`repeat(${cols}, 1fr)`}
-					rows={`repeat(${rows}, 1fr)`}
-					style={gridStyle}
 					{...props}
+					className={`${styles.Grid} ${className}`}
+					style={{
+						display: 'grid',
+						gridTemplateRows: `repeat(${rows}, 1fr)`,
+						gridTemplateColumns: `repeat(${cols}, 1fr)`,
+						gap: layout.gap,
+						maxWidth: layout.maxWidth,
+						minHeight: layout.minHeight,
+						...props.style,
+					}}
 				>
 					{words.map((word, i) => {
 						const isSelected = selected.includes(word);
@@ -160,7 +155,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 						}
 
 						const cellClasses = [
-							styles.gridCell,
+							styles['grid-cell'],
 							'',
 							isInteractive ? styles.interactive : '',
 							isSelected ? styles.selected : '',
@@ -168,10 +163,10 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 							isWildcard ? styles.wildcard : '',
 							isOpponent ? styles.opponent : '',
 							solvedByPlayer === playerId ?
-								styles.solvedByPlayer
+								styles['solved-by-player']
 							:	'',
 							solvedByPlayer === opponentId ?
-								styles.solvedByOpponent
+								styles['solved-by-opponent']
 							:	'',
 							cellClassName,
 						]
@@ -179,22 +174,18 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 							.join(' ');
 
 						return (
-							<Wrapper
+							<div
 								key={word}
+								className={cellClasses}
 								style={{ position: 'relative' }}
+								onClick={
+									isInteractive ?
+										() => onSelect?.(word)
+									:	undefined
+								}
+								tabIndex={isInteractive ? 0 : -1}
 							>
-								{/* Replace Button with a div or your word cell component as needed */}
-								<div
-									className={cellClasses}
-									onClick={
-										isInteractive ?
-											() => onSelect?.(word)
-										:	undefined
-									}
-									tabIndex={isInteractive ? 0 : -1}
-								>
-									{word}
-								</div>
+								{word}
 								{/* VS Mode Overlays */}
 								{renderVSOverlays(
 									isVSMode || false,
@@ -207,10 +198,10 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 									botDifficulty,
 									isPreview
 								)}
-							</Wrapper>
+							</div>
 						);
 					})}
-				</Wrapper>
+				</div>
 			);
 		} else if (kind === 'pregame') {
 			const rows = gridSize?.rows ?? 4;
@@ -253,24 +244,21 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 				};
 
 				return (
-					<Wrapper
+					<div
 						ref={ref}
-						className={gridClasses}
-						kind='grid-container'
-						columns={`repeat(${layout.cols}, 1fr)`}
-						rows={`repeat(${layout.rows}, 1fr)`}
-						style={gridStyle}
+						className={`${styles.Grid} ${gridClasses}`}
 						{...props}
+						style={{ ...props.style, ...gridStyle }}
 					>
 						{words.map((word, idx) => (
-							<Wrapper
+							<div
 								key={idx}
-								className={styles.pregameCellLockout}
+								className={styles['pregame-cell-lockout']}
 							>
 								<span>×</span>
-							</Wrapper>
+							</div>
 						))}
-					</Wrapper>
+					</div>
 				);
 			};
 
@@ -312,14 +300,15 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 				return (
 					<Wrapper
 						ref={ref}
-						className={`${styles.boardContainer} ${gridClasses}`}
+						className={`${styles['boardContainer']} ${gridClasses}`}
 						{...props}
+						style={{ ...props.style }}
 					>
-						<p className={styles.visuallyHidden}>
+						<p className={styles['visuallyHidden']}>
 							{foundGroups} categories solved
 						</p>
 						<ol
-							className={styles.solvedCategories}
+							className={styles['solvedCategories']}
 							style={solvedCategoriesStyle}
 						>
 							{pendingSolvedGroups
@@ -339,21 +328,23 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 									return (
 										<li
 											key={groupIdx}
-											className={styles.categoryGroup}
+											className={styles['categoryGroup']}
 											style={{
 												display: 'flex',
 												flexDirection: categoryDirection,
 											}}
 										>
-											<div className={styles.categoryTitle}>
+											<div
+												className={styles['categoryTitle']}
+											>
 												{fullTitle}
 											</div>
-											<ul className={styles.cardList}>
+											<ul className={styles['cardList']}>
 												{wordsArray.map(
 													(w: string, idx: number) => (
 														<li
 															key={idx}
-															className={styles.cardItem}
+															className={styles['cardItem']}
 														>
 															{w}
 														</li>
@@ -413,7 +404,7 @@ const renderVSOverlays = (
 		overlays.push(
 			<span
 				key='opponent'
-				className={styles.vsGhostOverlay}
+				className={styles['vsGhostOverlay']}
 			>
 				Opponent
 			</span>
@@ -430,7 +421,7 @@ const renderVSOverlays = (
 		overlays.push(
 			<span
 				key='solved'
-				className={styles.vsSolvedBadge}
+				className={styles['vsSolvedBadge']}
 				style={{
 					background:
 						isPlayerSolved ? playerColor : opponentColor,

@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid } from '../../components/Grid';
 import type { Meta, StoryObj } from '@storybook/react';
 import { commonDecorators } from '../config/decorators';
+import { gridArgTypes } from '../config/argTypes';
 import {
 	gridWords3x3,
 	gridWords4x4,
@@ -20,6 +21,15 @@ const meta: Meta<typeof Grid> = {
 	component: Grid,
 	decorators: commonDecorators,
 	tags: ['autodocs'],
+	argTypes: gridArgTypes,
+	parameters: {
+		docs: {
+			description: {
+				component:
+					'A flexible grid component that supports different display modes: interactive game grids, pregame preview grids, and solved category displays. Fully configurable through props with no hardcoded behaviors.',
+			},
+		},
+	},
 };
 export default meta;
 type Story = StoryObj<typeof Grid>;

@@ -15,7 +15,7 @@
 
 .Grid {
 	@include contained-element();
-	@include grid-container();
+	display: grid; /* Keep display: grid but remove the template override */
 	gap: var(--spacing-sm);
 	margin: 0 auto;
 	max-width: 100%;

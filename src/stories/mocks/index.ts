@@ -220,3 +220,63 @@ export const userStatusMock = {
 	status: 'online',
 	statusMessage: 'Ready to play!',
 };
+
+// === Added for Grid stories ===
+export const gridWords3x3 = [
+	'Apple',
+	'Banana',
+	'Cherry',
+	'Date',
+	'Elderberry',
+	'Fig',
+	'Grape',
+	'Honeydew',
+	'Kiwi',
+];
+
+export const gridWords4x4 = [
+	'Alpha',
+	'Bravo',
+	'Charlie',
+	'Delta',
+	'Echo',
+	'Foxtrot',
+	'Golf',
+	'Hotel',
+	'India',
+	'Juliet',
+	'Kilo',
+	'Lima',
+	'Mike',
+	'November',
+	'Oscar',
+	'Papa',
+];
+
+export const gridWords5x5 = [
+	'Ant',
+	'Bee',
+	'Cat',
+	'Dog',
+	'Eel',
+	'Frog',
+	'Goat',
+	'Horse',
+	'Iguana',
+	'Jaguar',
+	'Koala',
+	'Lion',
+	'Moose',
+	'Newt',
+	'Owl',
+	'Pig',
+	'Quail',
+	'Rat',
+	'Sheep',
+	'Tiger',
+	'Urial',
+	'Vole',
+	'Wolf',
+	'Xerus',
+	'Yak',
+];
