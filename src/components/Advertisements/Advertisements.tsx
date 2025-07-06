@@ -276,8 +276,6 @@ export interface AdContentProps {
 export interface AdItem {
 	kind: AdKind;
 	content: AdContentProps;
-	size?: AdSize;
-	variant?: AdVariant;
 	weight?: number;
 	style?: AdStyleProps;
 	behavior?: AdBehaviorProps;
