@@ -29,10 +29,18 @@ const meta: Meta<typeof Admin> = {
 				'custom',
 			],
 			description: 'The type of admin component to render',
+			table: {
+				type: { summary: 'AdminKind' },
+				defaultValue: { summary: 'custom' },
+			},
 		},
 		enabled: {
 			control: 'boolean',
 			description: 'Whether the admin component is visible',
+			table: {
+				type: { summary: 'boolean' },
+				defaultValue: { summary: 'false' },
+			},
 		},
 		position: {
 			control: 'select',
@@ -45,10 +53,126 @@ const meta: Meta<typeof Admin> = {
 			],
 			description:
 				'Position of the admin component on screen',
+			table: {
+				type: { summary: 'AdminPosition' },
+				defaultValue: { summary: 'top-left' },
+			},
+		},
+		theme: {
+			control: 'select',
+			options: ['light', 'dark', 'auto'],
+			description: 'Visual theme of the admin component',
+			table: {
+				type: { summary: 'AdminTheme' },
+				defaultValue: { summary: 'dark' },
+			},
+		},
+		size: {
+			control: 'select',
+			options: ['compact', 'default', 'expanded'],
+			description: 'Size variant of the admin component',
+			table: {
+				type: { summary: 'AdminSize' },
+				defaultValue: { summary: 'default' },
+			},
+		},
+		opacity: {
+			control: 'select',
+			options: ['translucent', 'opaque'],
+			description:
+				'Background opacity of the admin component',
+			table: {
+				type: { summary: 'AdminOpacity' },
+				defaultValue: { summary: 'translucent' },
+			},
+		},
+		title: {
+			control: 'text',
+			description:
+				'Title to display in the header (if showHeader is true)',
+			table: {
+				type: { summary: 'string' },
+				defaultValue: { summary: 'undefined' },
+			},
+		},
+		showHeader: {
+			control: 'boolean',
+			description: 'Whether to show the component header',
+			table: {
+				type: { summary: 'boolean' },
+				defaultValue: { summary: 'true' },
+			},
+		},
+		closable: {
+			control: 'boolean',
+			description:
+				'Whether to show a close button in the header',
+			table: {
+				type: { summary: 'boolean' },
+				defaultValue: { summary: 'false' },
+			},
 		},
 		zIndex: {
 			control: 'number',
 			description: 'Z-index for stacking order',
+			table: {
+				type: { summary: 'number' },
+				defaultValue: { summary: '9999' },
+			},
+		},
+		maxHeight: {
+			control: 'text',
+			description:
+				'Maximum height (number in px or string with units)',
+			table: {
+				type: { summary: 'number | string' },
+				defaultValue: { summary: 'undefined' },
+			},
+		},
+		maxWidth: {
+			control: 'text',
+			description:
+				'Maximum width (number in px or string with units)',
+			table: {
+				type: { summary: 'number | string' },
+				defaultValue: { summary: 'undefined' },
+			},
+		},
+		className: {
+			control: 'text',
+			description: 'Additional CSS class names',
+			table: {
+				type: { summary: 'string' },
+				defaultValue: { summary: 'undefined' },
+			},
+		},
+		data: {
+			control: 'object',
+			description:
+				'Data object to display in the admin component',
+			table: {
+				type: { summary: 'AdminData' },
+				defaultValue: { summary: '{}' },
+			},
+		},
+		fields: {
+			control: 'object',
+			description: 'Custom field configuration for display',
+			table: {
+				type: { summary: 'AdminFieldConfig[]' },
+				defaultValue: {
+					summary: 'Default fields per kind',
+				},
+			},
+		},
+		children: {
+			control: 'text',
+			description:
+				'Custom content to render (overrides default renderers)',
+			table: {
+				type: { summary: 'ReactNode' },
+				defaultValue: { summary: 'undefined' },
+			},
 		},
 	},
 };
