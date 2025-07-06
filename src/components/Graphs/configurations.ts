@@ -14,7 +14,6 @@ export type GraphVariant =
 // Graph shape types - the actual chart types
 export type GraphShape =
 	| 'bar'
-	| 'horizontalBar'
 	| 'pie'
 	| 'doughnut'
 	| 'line'
@@ -170,8 +169,6 @@ export type ExtendedGraphKind =
 	| 'bar'
 	| 'bar-stacked'
 	| 'bar-grouped'
-	| 'bar-horizontal'
-	| 'bar-horizontal-stacked'
 
 	// Line charts
 	| 'line'
@@ -193,8 +190,21 @@ export type ExtendedGraphKind =
 	| 'radar'
 	| 'scatter'
 	| 'composed-bar-line'
+	| 'composed-line-area'
+	| 'composed-multi'
 	| 'treemap'
 	| 'funnel'
+	| 'sunburst'
+	| 'candlestick'
+	| 'waterfall'
+	| 'heatmap'
+	| 'violin'
+	| 'boxplot'
+	| 'gauge'
+	| 'error-bar'
+	| 'reference-line'
+	| 'reference-area'
+	| 'brush-zoom'
 
 	// Analytics specific
 	| 'analytics-trend'
@@ -281,6 +291,18 @@ export const COLOR_SCHEMES = {
 		'#f3f4f6',
 		'#f9fafb',
 	],
+	pastel: [
+		'#fecaca', // soft red
+		'#fed7a1', // soft orange
+		'#fef3c7', // soft yellow
+		'#d9f99d', // soft green
+		'#a7f3d0', // soft teal
+		'#bfdbfe', // soft blue
+		'#ddd6fe', // soft purple
+		'#fbcfe8', // soft pink
+		'#f3e8ff', // soft lavender
+		'#fde68a', // soft amber
+	],
 	custom: [
 		'#2563eb',
 		'#38bdf8',
@@ -352,39 +374,6 @@ export const GRAPH_CONFIGURATIONS: Record<
 		tooltip: { show: true, format: 'default' },
 		legend: { show: true, position: 'top' },
 		animation: { enabled: true, duration: 600 },
-	},
-	'bar-horizontal': {
-		variant: 'chart',
-		shape: 'horizontalBar',
-		colorScheme: 'default',
-		height: 160,
-		className: styles.horizontalBarChart,
-		showGrid: true,
-		showAxes: true,
-		responsive: true,
-		barRadius: [0, 6, 6, 0],
-		xAxis: { show: true, fontSize: 12, type: 'number' },
-		yAxis: { show: true, fontSize: 12, type: 'category' },
-		tooltip: { show: true, format: 'default' },
-		animation: { enabled: true, duration: 500 },
-		margin: { top: 8, right: 8, left: 8, bottom: 8 },
-	},
-	'bar-horizontal-stacked': {
-		variant: 'analytics',
-		shape: 'horizontalBar',
-		colorScheme: 'rainbow',
-		height: 180,
-		className: styles.horizontalStackedBarChart,
-		showGrid: true,
-		showAxes: true,
-		responsive: true,
-		barRadius: [0, 4, 4, 0],
-		xAxis: { show: true, fontSize: 12, type: 'number' },
-		yAxis: { show: true, fontSize: 12, type: 'category' },
-		tooltip: { show: true, format: 'default' },
-		legend: { show: true, position: 'top' },
-		animation: { enabled: true, duration: 600 },
-		margin: { top: 8, right: 8, left: 20, bottom: 8 },
 	},
 
 	// Line charts
@@ -847,6 +836,194 @@ export const GRAPH_CONFIGURATIONS: Record<
 		yAxis: { show: true, fontSize: 10 },
 		tooltip: { show: true, format: 'default' },
 		animation: { enabled: true, duration: 800 },
+	},
+
+	// Advanced chart types
+	'sunburst': {
+		variant: 'chart',
+		shape: 'custom',
+		colorScheme: 'rainbow',
+		height: 400,
+		className: styles.sunburstChart,
+		responsive: true,
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 1000 },
+	},
+	'candlestick': {
+		variant: 'chart',
+		shape: 'custom',
+		colorScheme: 'default',
+		height: 300,
+		className: styles.candlestickChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12, type: 'date' },
+		yAxis: { show: true, fontSize: 12, type: 'number' },
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 600 },
+	},
+	'waterfall': {
+		variant: 'chart',
+		shape: 'bar',
+		colorScheme: 'default',
+		height: 300,
+		className: styles.waterfallChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 800 },
+	},
+	'heatmap': {
+		variant: 'chart',
+		shape: 'custom',
+		colorScheme: 'default',
+		height: 300,
+		className: styles.heatmapChart,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 600 },
+	},
+	'violin': {
+		variant: 'chart',
+		shape: 'custom',
+		colorScheme: 'primary',
+		height: 300,
+		className: styles.violinChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 800 },
+	},
+	'boxplot': {
+		variant: 'chart',
+		shape: 'custom',
+		colorScheme: 'secondary',
+		height: 300,
+		className: styles.boxplotChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 600 },
+	},
+	'gauge': {
+		variant: 'chart',
+		shape: 'custom',
+		colorScheme: 'primary',
+		height: 250,
+		className: styles.gaugeChart,
+		responsive: true,
+		tooltip: { show: true, format: 'percentage' },
+		animation: { enabled: true, duration: 1000 },
+	},
+
+	// Additional composed charts
+	'composed-line-area': {
+		variant: 'analytics',
+		shape: 'composed',
+		colorScheme: 'default',
+		height: 180,
+		className: styles.composedChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		legend: { show: true, position: 'top' },
+		animation: { enabled: true, duration: 800 },
+	},
+	'composed-multi': {
+		variant: 'dashboard',
+		shape: 'composed',
+		colorScheme: 'rainbow',
+		height: 200,
+		className: styles.composedChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		legend: { show: true, position: 'top' },
+		animation: { enabled: true, duration: 800 },
+	},
+
+	// Error bar chart
+	'error-bar': {
+		variant: 'analytics',
+		shape: 'bar',
+		colorScheme: 'default',
+		height: 160,
+		className: styles.barChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 600 },
+	},
+
+	// Reference line chart
+	'reference-line': {
+		variant: 'analytics',
+		shape: 'line',
+		colorScheme: 'primary',
+		height: 160,
+		className: styles.lineChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 600 },
+	},
+
+	// Reference area chart
+	'reference-area': {
+		variant: 'analytics',
+		shape: 'area',
+		colorScheme: 'secondary',
+		height: 160,
+		className: styles.areaChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 600 },
+	},
+
+	// Brush zoom chart
+	'brush-zoom': {
+		variant: 'analytics',
+		shape: 'line',
+		colorScheme: 'primary',
+		height: 200,
+		className: styles.lineChart,
+		showGrid: true,
+		showAxes: true,
+		responsive: true,
+		brushable: true,
+		xAxis: { show: true, fontSize: 12 },
+		yAxis: { show: true, fontSize: 12 },
+		tooltip: { show: true, format: 'default' },
+		animation: { enabled: true, duration: 600 },
 	},
 
 	// Custom fallback

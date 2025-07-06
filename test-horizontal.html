@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Test Horizontal Bar Chart</title>
+		<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+		<script
+			src="https://unpkg.com/recharts@2.8.0/esm/index.js"
+			type="module"
+		></script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module">
+			import {
+				BarChart,
+				Bar,
+				XAxis,
+				YAxis,
+				CartesianGrid,
+				Tooltip,
+				ResponsiveContainer,
+			} from 'https://unpkg.com/recharts@2.8.0/esm/index.js';
+
+			const data = [
+				{ match: 'Game 1', score: 85 },
+				{ match: 'Game 2', score: 92 },
+				{ match: 'Game 3', score: 78 },
+				{ match: 'Game 4', score: 96 },
+				{ match: 'Game 5', score: 89 },
+			];
+
+			function HorizontalBarTest() {
+				return React.createElement(
+					'div',
+					{ style: { width: '100%', height: '400px' } },
+					React.createElement(
+						ResponsiveContainer,
+						{ width: '100%', height: '100%' },
+						React.createElement(
+							BarChart,
+							{
+								layout: 'horizontal',
+								data: data,
+								margin: {
+									top: 20,
+									right: 30,
+									left: 20,
+									bottom: 5,
+								},
+							},
+							React.createElement(CartesianGrid, {
+								strokeDasharray: '3 3',
+							}),
+							React.createElement(XAxis, {
+								type: 'number',
+							}),
+							React.createElement(YAxis, {
+								dataKey: 'match',
+								type: 'category',
+							}),
+							React.createElement(Tooltip),
+							React.createElement(Bar, {
+								dataKey: 'score',
+								fill: '#8884d8',
+							})
+						)
+					)
+				);
+			}
+
+			ReactDOM.render(
+				React.createElement(HorizontalBarTest),
+				document.getElementById('root')
+			);
+		</script>
+	</body>
+</html>

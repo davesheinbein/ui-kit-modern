@@ -78,21 +78,6 @@
 	}
 }
 
-.horizontalBarChart {
-	.recharts-bar {
-		transition: opacity var(--transition-fast);
-		&:hover {
-			opacity: 0.9;
-		}
-	}
-}
-
-.horizontalStackedBarChart {
-	.recharts-bar {
-		transition: all var(--transition-standard);
-	}
-}
-
 // Line Charts
 .lineChart {
 	.recharts-line {
@@ -189,6 +174,176 @@
 	.recharts-line,
 	.recharts-area {
 		transition: all var(--transition-fast);
+	}
+}
+
+// Treemap Charts
+.treemapChart {
+	.recharts-treemap-depth-1 {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+			stroke-width: 2;
+		}
+	}
+}
+
+// Funnel Charts
+.funnelChart {
+	.recharts-funnel-sector {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+			transform: scale(1.02);
+			transform-origin: center;
+		}
+	}
+}
+
+// Advanced Chart Types
+.sankeyChart {
+	.recharts-sankey-node {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+	.recharts-sankey-link {
+		transition: all var(--transition-fast);
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+}
+
+.sunburstChart {
+	.recharts-sunburst-sector {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.candlestickChart {
+	.recharts-candlestick {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.waterfallChart {
+	.recharts-bar {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.heatmapChart {
+	.recharts-heatmap-cell {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.2);
+		}
+	}
+}
+
+.violinChart {
+	.recharts-violin {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.boxplotChart {
+	.recharts-boxplot {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.gaugeChart {
+	.recharts-gauge {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+// Additional Chart Types
+.bubbleChart {
+	.recharts-scatter {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+
+	.recharts-scatter-dot {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.2);
+			transform: scale(1.1);
+		}
+	}
+}
+
+.errorBarChart {
+	.recharts-error-bar {
+		stroke: var(--color-text-muted);
+		stroke-width: 1.5;
+		transition: all var(--transition-fast);
+	}
+
+	.recharts-bar {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.referenceLineChart {
+	.recharts-reference-line {
+		stroke: var(--color-danger);
+		stroke-width: 2;
+		stroke-dasharray: '5 5';
+		opacity: 0.8;
+	}
+}
+
+.referenceAreaChart {
+	.recharts-reference-area {
+		fill: var(--color-warning-light);
+		opacity: 0.3;
+		transition: opacity var(--transition-fast);
+
+		&:hover {
+			opacity: 0.5;
+		}
+	}
+}
+
+.brushZoomChart {
+	.recharts-brush {
+		.recharts-brush-slide {
+			fill: var(--color-primary-light);
+			opacity: 0.1;
+		}
+
+		.recharts-brush-texts {
+			fill: var(--color-text-primary);
+			font-size: 12px;
+		}
 	}
 }
 

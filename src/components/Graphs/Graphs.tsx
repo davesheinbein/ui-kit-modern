@@ -17,12 +17,21 @@ import {
 	ScatterChart,
 	Scatter,
 	ComposedChart,
+	Treemap,
+	FunnelChart,
+	Funnel,
+	Brush,
+	ReferenceLine,
+	ReferenceArea,
+	ErrorBar,
 	CartesianGrid,
 	XAxis,
 	YAxis,
+	ZAxis,
 	Tooltip as RechartsTooltip,
 	Legend as RechartsLegend,
 	ResponsiveContainer,
+	LabelList,
 } from 'recharts';
 import styles from './Graphs.module.scss';
 import {
@@ -36,31 +45,38 @@ const ChartGrid = ({ showGrid }: { showGrid?: boolean }) =>
 	showGrid ? <CartesianGrid strokeDasharray='3 3' /> : null;
 const ChartLegend = ({
 	showLegend,
+	legendLabels,
 }: {
 	showLegend?: boolean;
-}) => (showLegend ? <RechartsLegend /> : null);
+	legendLabels?: string[] | Record<string, string>;
+}) =>
+	showLegend ?
+		<RechartsLegend
+			payload={
+				legendLabels ?
+					Array.isArray(legendLabels) ?
+						legendLabels.map((label, i) => ({
+							value: label,
+							type: 'line',
+							id: String(i),
+						}))
+					:	Object.entries(legendLabels).map(
+							([key, value]) => ({
+								value,
+								id: String(key),
+								type: 'line',
+							})
+						)
+
+				:	undefined
+			}
+		/>
+	:	null;
 const ChartTooltip = ({
 	showTooltip,
 }: {
 	showTooltip?: boolean;
 }) => (showTooltip ? <RechartsTooltip /> : null);
-const ChartXAxis = ({
-	showAxes,
-	dataKey,
-	type,
-}: {
-	showAxes?: boolean;
-	dataKey?: string;
-	type?: 'number' | 'category';
-}) =>
-	showAxes ? <XAxis dataKey={dataKey} type={type} /> : null;
-const ChartYAxis = ({
-	showAxes,
-	type,
-}: {
-	showAxes?: boolean;
-	type?: 'number' | 'category';
-}) => (showAxes ? <YAxis type={type} /> : null);
 
 // --- Custom Tooltip Component ---
 const CustomTooltip = ({
@@ -172,6 +188,8 @@ type ChartSpecificConfig = {
 	pieProps?: Record<string, any>;
 	radarProps?: Record<string, any>;
 	scatterProps?: Record<string, any>;
+	treemapProps?: Record<string, any>;
+	funnelProps?: Record<string, any>;
 	series?: Array<{
 		dataKey: string;
 		name?: string;
@@ -227,6 +245,8 @@ export interface GraphProps {
 	xAxisLabel?: string;
 	/** Label for the Y axis */
 	yAxisLabel?: string;
+	/** Label for the Z axis (for 3D/scatter) */
+	zAxisLabel?: string;
 	/** Consolidated label for legend and tooltip */
 	label?: string;
 	/** Label to show when data is empty */
@@ -254,6 +274,12 @@ export interface GraphProps {
 	showGrid?: boolean;
 	/** Show/hide axes */
 	showAxes?: boolean;
+	/** Show/hide X axis */
+	showXAxis?: boolean;
+	/** Show/hide Y axis */
+	showYAxis?: boolean;
+	/** Show/hide Z axis (for 3D/scatter) */
+	showZAxis?: boolean;
 	/** Show/hide legend */
 	showLegend?: boolean;
 	/** Show/hide tooltip */
@@ -271,6 +297,8 @@ export interface GraphProps {
 	onExport?: (
 		format: 'csv' | 'json' | 'pdf' | 'png'
 	) => void;
+	/** Custom legend labels (array or object) */
+	legendLabels?: string[] | Record<string, string>;
 	/** All other native div props */
 	[key: string]: any;
 }
@@ -281,7 +309,7 @@ const getColorScheme = (
 ) =>
 	Array.isArray(COLOR_SCHEMES[colorScheme]) ?
 		[...COLOR_SCHEMES[colorScheme]]
-	:	[];
+	:	COLOR_SCHEMES.default;
 
 const Graph = forwardRef<HTMLDivElement, GraphProps>(
 	(props, ref) => {
@@ -294,6 +322,7 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 			subtitle,
 			xAxisLabel,
 			yAxisLabel,
+			zAxisLabel,
 			label, // Use consolidated label
 			emptyLabel = 'No data available',
 			colors,
@@ -311,8 +340,11 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 			animationDuration = 400,
 			animationEnabled = true,
 			configuration = {},
-			onClick,
-			onHover,
+			// NEW axis/legend props
+			showXAxis,
+			showYAxis,
+			showZAxis,
+			legendLabels,
 			ariaLabel,
 			ariaDescription,
 			margin,
@@ -323,15 +355,42 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 		const colorList =
 			Array.isArray(colors) ?
 				[...colors]
-			:	getColorScheme(colorScheme);
+			:	getColorScheme(colorScheme) || COLOR_SCHEMES.default;
 
-		const defaultMargin = {
-			top: 24,
-			right: 24,
-			bottom: 24,
-			left: 24,
-		};
 		const minSize = 120;
+		const defaultMargin = {
+			top: 0,
+			right: 34,
+			bottom: 0,
+			left: 0,
+		};
+		const wideMinWidth = 480;
+		const usesXAxis = (kind: string) =>
+			[
+				'bar',
+				'bar-stacked',
+				'bar-grouped',
+				'line',
+				'line-smooth',
+				'line-multi',
+				'line-stepped',
+				'area',
+				'area-stacked',
+				'area-smooth',
+				'scatter',
+				'composed-bar-line',
+				'composed-line-area',
+				'composed-multi',
+				'waterfall',
+				'heatmap',
+				'boxplot',
+				'error-bar',
+				'reference-line',
+				'reference-area',
+				'brush-zoom',
+				'treemap',
+				'funnel',
+			].includes(kind);
 
 		let chart = null;
 
@@ -351,14 +410,16 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 							width='100%'
 							height={height || 320}
 							minHeight={minSize}
-							minWidth={minSize}
+							minWidth={
+								usesXAxis(kind) ? wideMinWidth : minSize
+							}
 						>
 							<BarChart
 								data={data}
 								margin={margin || defaultMargin}
 							>
 								<ChartGrid showGrid={showGrid} />
-								{xAxisLabel ?
+								{showAxes !== false && showXAxis !== false ?
 									<XAxis
 										dataKey={labelKey}
 										type='category'
@@ -369,13 +430,8 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartXAxis
-										showAxes={showAxes}
-										dataKey={labelKey}
-										type='category'
-									/>
-								}
-								{yAxisLabel ?
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
 									<YAxis
 										type='number'
 										label={{
@@ -386,11 +442,7 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartYAxis
-										showAxes={showAxes}
-										type='number'
-									/>
-								}
+								:	null}
 								<ChartTooltip showTooltip={false} />
 								{showTooltip && (
 									<RechartsTooltip
@@ -402,7 +454,10 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 										)}
 									/>
 								)}
-								<ChartLegend showLegend={showLegend} />
+								<ChartLegend
+									showLegend={showLegend}
+									legendLabels={legendLabels}
+								/>
 								<Bar
 									dataKey={dataKey}
 									fill={colorList[0]}
@@ -433,14 +488,16 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 							width='100%'
 							height={height || 320}
 							minHeight={minSize}
-							minWidth={minSize}
+							minWidth={
+								usesXAxis(kind) ? wideMinWidth : minSize
+							}
 						>
 							<LineChart
 								data={data}
 								margin={margin || defaultMargin}
 							>
 								<ChartGrid showGrid={showGrid} />
-								{xAxisLabel ?
+								{showAxes !== false && showXAxis !== false ?
 									<XAxis
 										dataKey={labelKey}
 										type='category'
@@ -451,13 +508,8 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartXAxis
-										showAxes={showAxes}
-										dataKey={labelKey}
-										type='category'
-									/>
-								}
-								{yAxisLabel ?
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
 									<YAxis
 										type='number'
 										label={{
@@ -468,12 +520,8 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartYAxis
-										showAxes={showAxes}
-										type='number'
-									/>
-								}
-								<ChartTooltip showTooltip={false} />
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
 								{showTooltip && (
 									<RechartsTooltip
 										content={(props) => (
@@ -484,7 +532,10 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 										)}
 									/>
 								)}
-								<ChartLegend showLegend={showLegend} />
+								<ChartLegend
+									showLegend={showLegend}
+									legendLabels={legendLabels}
+								/>
 								{configuration?.series ?
 									configuration.series.map(
 										(series: any, idx: number) => (
@@ -541,14 +592,16 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 							width='100%'
 							height={height || 320}
 							minHeight={minSize}
-							minWidth={minSize}
+							minWidth={
+								usesXAxis(kind) ? wideMinWidth : minSize
+							}
 						>
 							<AreaChart
 								data={data}
 								margin={margin || defaultMargin}
 							>
 								<ChartGrid showGrid={showGrid} />
-								{xAxisLabel ?
+								{showAxes !== false && showXAxis !== false ?
 									<XAxis
 										dataKey={labelKey}
 										type='category'
@@ -559,13 +612,8 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartXAxis
-										showAxes={showAxes}
-										dataKey={labelKey}
-										type='category'
-									/>
-								}
-								{yAxisLabel ?
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
 									<YAxis
 										type='number'
 										label={{
@@ -576,12 +624,8 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartYAxis
-										showAxes={showAxes}
-										type='number'
-									/>
-								}
-								<ChartTooltip showTooltip={false} />
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
 								{showTooltip && (
 									<RechartsTooltip
 										content={(props) => (
@@ -592,7 +636,10 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 										)}
 									/>
 								)}
-								<ChartLegend showLegend={showLegend} />
+								<ChartLegend
+									showLegend={showLegend}
+									legendLabels={legendLabels}
+								/>
 								<Area
 									type='monotone'
 									dataKey={dataKey}
@@ -616,7 +663,9 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 							width='100%'
 							height={height || 320}
 							minHeight={minSize}
-							minWidth={minSize}
+							minWidth={
+								usesXAxis(kind) ? wideMinWidth : minSize
+							}
 						>
 							<PieChart>
 								<Pie
@@ -639,7 +688,7 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 									}
 									{...configuration?.pieProps}
 								>
-									{data.map((entry, idx) => (
+									{data.map((entry: any, idx: number) => (
 										<Cell
 											key={`cell-${idx}`}
 											fill={
@@ -708,16 +757,21 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 							width='100%'
 							height={height || 320}
 							minHeight={minSize}
-							minWidth={minSize}
+							minWidth={
+								usesXAxis(kind) ? wideMinWidth : minSize
+							}
 						>
+							{/* For scatter/treemap, use wider margin */}
 							<ScatterChart
+								data={data}
 								margin={margin || defaultMargin}
 							>
 								<ChartGrid showGrid={showGrid} />
-								{xAxisLabel ?
+								{showAxes !== false && showXAxis !== false ?
 									<XAxis
-										dataKey={labelKey}
-										type='category'
+										dataKey='x'
+										type='number'
+										domain={['dataMin', 'dataMax']}
 										label={{
 											value: xAxisLabel,
 											position: 'insideBottom',
@@ -725,15 +779,17 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartXAxis
-										showAxes={showAxes}
-										dataKey={labelKey}
-										type='category'
+								:	<XAxis
+										dataKey='x'
+										type='number'
+										domain={['dataMin', 'dataMax']}
 									/>
 								}
-								{yAxisLabel ?
+								{showAxes !== false && showYAxis !== false ?
 									<YAxis
+										dataKey='y'
 										type='number'
+										domain={['dataMin', 'dataMax']}
 										label={{
 											value: yAxisLabel,
 											angle: -90,
@@ -742,9 +798,10 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartYAxis
-										showAxes={showAxes}
+								:	<YAxis
+										dataKey='y'
 										type='number'
+										domain={['dataMin', 'dataMax']}
 									/>
 								}
 								<ChartTooltip showTooltip={showTooltip} />
@@ -767,14 +824,16 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 							width='100%'
 							height={height || 320}
 							minHeight={minSize}
-							minWidth={minSize}
+							minWidth={
+								usesXAxis(kind) ? wideMinWidth : minSize
+							}
 						>
 							<ComposedChart
 								data={data}
 								margin={margin || defaultMargin}
 							>
 								<ChartGrid showGrid={showGrid} />
-								{xAxisLabel ?
+								{showAxes !== false && showXAxis !== false ?
 									<XAxis
 										dataKey={labelKey}
 										type='category'
@@ -785,13 +844,8 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartXAxis
-										showAxes={showAxes}
-										dataKey={labelKey}
-										type='category'
-									/>
-								}
-								{yAxisLabel ?
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
 									<YAxis
 										type='number'
 										label={{
@@ -802,13 +856,12 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 											className: styles.graphsAxisLabel,
 										}}
 									/>
-								:	<ChartYAxis
-										showAxes={showAxes}
-										type='number'
-									/>
-								}
+								:	null}
 								<ChartTooltip showTooltip={showTooltip} />
-								<ChartLegend showLegend={showLegend} />
+								<ChartLegend
+									showLegend={showLegend}
+									legendLabels={legendLabels}
+								/>
 								<Bar
 									dataKey={dataKey}
 									fill={colorList[0]}
@@ -830,6 +883,533 @@ const Graph = forwardRef<HTMLDivElement, GraphProps>(
 								/>
 							</ComposedChart>
 						</ResponsiveContainer>
+					);
+					break;
+				case 'treemap':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={
+								usesXAxis(kind) ? wideMinWidth : minSize
+							}
+						>
+							{/* For scatter/treemap, use wider margin */}
+							<Treemap
+								data={data}
+								dataKey={dataKey}
+								aspectRatio={4 / 3}
+								stroke='#fff'
+								fill={colorList[0]}
+								animationDuration={
+									animationEnabled ? animationDuration : 0
+								}
+								{...configuration?.treemapProps}
+							>
+								{data.map((entry: any, idx: number) => (
+									<Cell
+										key={`cell-${idx}`}
+										fill={colorList[idx % colorList.length]}
+									/>
+								))}
+								{showTooltip && (
+									<RechartsTooltip
+										content={(props) => (
+											<CustomTooltip
+												{...props}
+												labelKey={labelKey}
+											/>
+										)}
+									/>
+								)}
+							</Treemap>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'funnel':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<FunnelChart>
+								<Funnel
+									dataKey={dataKey}
+									data={data}
+									cx='50%'
+									cy='50%'
+									labelLine={false}
+									label={
+										showLabels ? renderPieLabel : false
+									}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+									{...configuration?.funnelProps}
+								>
+									{data.map((entry: any, idx: number) => (
+										<Cell
+											key={`cell-${idx}`}
+											fill={
+												colorList[idx % colorList.length]
+											}
+										/>
+									))}
+								</Funnel>
+								{showTooltip && (
+									<RechartsTooltip
+										content={(props) => (
+											<CustomTooltip
+												{...props}
+												labelKey={labelKey}
+											/>
+										)}
+									/>
+								)}
+								<ChartLegend showLegend={showLegend} />
+							</FunnelChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'gauge':
+					// Simple gauge using PieChart with half circle
+					const gaugeValue = data[0]?.[dataKey] || 0;
+					const gaugeData = [
+						{ name: 'value', value: gaugeValue },
+						{ name: 'remaining', value: 100 - gaugeValue },
+					];
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<PieChart>
+								<Pie
+									data={gaugeData}
+									dataKey='value'
+									cx='50%'
+									cy='50%'
+									startAngle={180}
+									endAngle={0}
+									innerRadius='60%'
+									outerRadius='80%'
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+								>
+									<Cell fill={colorList[0]} />
+									<Cell fill='#f0f0f0' />
+								</Pie>
+								{showTooltip && (
+									<RechartsTooltip
+										content={(props) => (
+											<CustomTooltip
+												{...props}
+												labelKey={labelKey}
+											/>
+										)}
+									/>
+								)}
+							</PieChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'waterfall':
+					// Waterfall chart using BarChart with cumulative data
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<BarChart
+								data={data}
+								margin={margin || defaultMargin}
+							>
+								<ChartGrid showGrid={showGrid} />
+								{showAxes !== false && showXAxis !== false ?
+									<XAxis
+										dataKey={labelKey}
+										type='category'
+										label={{
+											value: xAxisLabel,
+											position: 'insideBottom',
+											offset: -5,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
+									<YAxis
+										type='number'
+										label={{
+											value: yAxisLabel,
+											angle: -90,
+											position: 'insideLeft',
+											offset: 10,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
+								<ChartLegend
+									showLegend={showLegend}
+									legendLabels={legendLabels}
+								/>
+								<Bar
+									dataKey={dataKey}
+									fill={colorList[0]}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+								>
+									{data.map((entry: any, idx: number) => (
+										<Cell
+											key={`cell-${idx}`}
+											fill={
+												entry.value > 0 ?
+													colorList[0]
+												:	colorList[1]
+											}
+										/>
+									))}
+								</Bar>
+							</BarChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'heatmap':
+					// Heatmap using scatter plot with sized dots
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<ScatterChart
+								data={data}
+								margin={margin || defaultMargin}
+							>
+								<ChartGrid showGrid={showGrid} />
+								{showAxes !== false && showXAxis !== false ?
+									<XAxis
+										dataKey='x'
+										type='number'
+										domain={['dataMin', 'dataMax']}
+										label={{
+											value: xAxisLabel,
+											position: 'insideBottom',
+											offset: -5,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<XAxis
+										dataKey='x'
+										type='number'
+										domain={['dataMin', 'dataMax']}
+									/>
+								}
+								{showAxes !== false && showYAxis !== false ?
+									<YAxis
+										dataKey='y'
+										type='number'
+										domain={['dataMin', 'dataMax']}
+										label={{
+											value: yAxisLabel,
+											angle: -90,
+											position: 'insideLeft',
+											offset: 10,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	<YAxis
+										dataKey='y'
+										type='number'
+										domain={['dataMin', 'dataMax']}
+									/>
+								}
+								<ChartTooltip showTooltip={showTooltip} />
+								<ChartLegend showLegend={showLegend} />
+								<Scatter
+									data={data}
+									fill={colorList[0]}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+								/>
+							</ScatterChart>
+						</ResponsiveContainer>
+					);
+					break;
+				case 'boxplot':
+					// Box plot approximation using error bars (placeholder)
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height || 320}
+							minHeight={minSize}
+							minWidth={minSize}
+						>
+							<BarChart
+								data={data}
+								margin={margin || defaultMargin}
+							>
+								<ChartGrid showGrid={showGrid} />
+								{showAxes !== false && showXAxis !== false ?
+									<XAxis
+										dataKey={labelKey}
+										type='category'
+										label={{
+											value: xAxisLabel,
+											position: 'insideBottom',
+											offset: -5,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
+									<YAxis
+										type='number'
+										label={{
+											value: yAxisLabel,
+											angle: -90,
+											position: 'insideLeft',
+											offset: 10,
+											className: styles.graphsAxisLabel,
+										}}
+									/>
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
+								<ChartLegend showLegend={showLegend} />
+								<Bar
+									dataKey={dataKey}
+									fill={colorList[0]}
+									animationDuration={
+										animationEnabled ? animationDuration : 0
+									}
+								/>
+							</BarChart>
+						</ResponsiveContainer>
+					);
+					break;
+
+				// Additional composed charts
+				case 'composed-line-area':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height}
+						>
+							<ComposedChart data={data}>
+								<ChartGrid showGrid={showGrid} />
+								{showAxes !== false && showXAxis !== false ?
+									<XAxis dataKey={labelKey} />
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
+									<YAxis />
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
+								<ChartLegend showLegend={showLegend} />
+								<Line
+									type='monotone'
+									dataKey={dataKey}
+									stroke={colorList[0]}
+									strokeWidth={2}
+								/>
+								<Area
+									dataKey={`${dataKey}_area`}
+									fill={colorList[1]}
+									fillOpacity={0.3}
+								/>
+							</ComposedChart>
+						</ResponsiveContainer>
+					);
+					break;
+
+				case 'composed-multi':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height}
+						>
+							<ComposedChart data={data}>
+								<ChartGrid showGrid={showGrid} />
+								{showAxes !== false && showXAxis !== false ?
+									<XAxis dataKey={labelKey} />
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
+									<YAxis />
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
+								<ChartLegend showLegend={showLegend} />
+								<Bar
+									dataKey={dataKey}
+									fill={colorList[0]}
+								/>
+								<Line
+									type='monotone'
+									dataKey={`${dataKey}_line`}
+									stroke={colorList[1]}
+									strokeWidth={2}
+								/>
+								<Area
+									dataKey={`${dataKey}_area`}
+									fill={colorList[2]}
+									fillOpacity={0.2}
+								/>
+							</ComposedChart>
+						</ResponsiveContainer>
+					);
+					break;
+
+				// Error bar chart
+				case 'error-bar':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height}
+						>
+							<BarChart data={data}>
+								<ChartGrid showGrid={showGrid} />
+								{showAxes !== false && showXAxis !== false ?
+									<XAxis dataKey={labelKey} />
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
+									<YAxis />
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
+								<Bar dataKey={dataKey} fill={colorList[0]}>
+									<ErrorBar
+										dataKey='error'
+										width={4}
+										stroke={colorList[1] || '#666'}
+									/>
+								</Bar>
+							</BarChart>
+						</ResponsiveContainer>
+					);
+					break;
+
+				// Reference line chart
+				case 'reference-line':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height}
+						>
+							<LineChart data={data}>
+								<ChartGrid showGrid={showGrid} />
+								{showAxes !== false && showXAxis !== false ?
+									<XAxis dataKey={labelKey} />
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
+									<YAxis />
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
+								<Line
+									type='monotone'
+									dataKey={dataKey}
+									stroke={colorList[0]}
+									strokeWidth={2}
+								/>
+								<ReferenceLine
+									y={50}
+									stroke='red'
+									strokeDasharray='5 5'
+									label='Target'
+								/>
+							</LineChart>
+						</ResponsiveContainer>
+					);
+					break;
+
+				// Reference area chart
+				case 'reference-area':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height}
+						>
+							<AreaChart data={data}>
+								<ChartGrid showGrid={showGrid} />
+								{showAxes !== false && showXAxis !== false ?
+									<XAxis dataKey={labelKey} />
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
+									<YAxis />
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
+								<Area
+									type='monotone'
+									dataKey={dataKey}
+									stroke={colorList[0]}
+									fill={colorList[0]}
+									fillOpacity={0.3}
+								/>
+								<ReferenceArea
+									x1='2024-02'
+									x2='2024-04'
+									fill={colorList[1] || '#ffcc00'}
+									fillOpacity={0.3}
+									label='Peak Period'
+								/>
+							</AreaChart>
+						</ResponsiveContainer>
+					);
+					break;
+
+				// Brush zoom chart
+				case 'brush-zoom':
+					chart = (
+						<ResponsiveContainer
+							width='100%'
+							height={height}
+						>
+							<LineChart data={data}>
+								<ChartGrid showGrid={showGrid} />
+								{showAxes !== false && showXAxis !== false ?
+									<XAxis dataKey={labelKey} />
+								:	null}
+								{showAxes !== false && showYAxis !== false ?
+									<YAxis />
+								:	null}
+								<ChartTooltip showTooltip={showTooltip} />
+								<Line
+									type='monotone'
+									dataKey={dataKey}
+									stroke={colorList[0]}
+									strokeWidth={2}
+								/>
+								<Brush
+									dataKey={labelKey}
+									height={30}
+									stroke={colorList[0]}
+								/>
+							</LineChart>
+						</ResponsiveContainer>
+					);
+					break;
+
+				case 'sunburst':
+				case 'candlestick':
+				case 'violin':
+					// Placeholder for advanced chart types not natively supported by Recharts
+					chart = (
+						<div className={styles.graphs__unsupportedKind}>
+							<b>{kind}</b> chart type coming soon!
+							<br />
+							<small>
+								This chart type requires additional
+								libraries.
+							</small>
+						</div>
 					);
 					break;
 				default:

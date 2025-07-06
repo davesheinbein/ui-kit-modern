@@ -31,661 +31,186 @@ export const multiSeriesData = [
 	{ month: 'May', wins: 14, losses: 7, draws: 4 },
 ];
 
-export const mockFriends = [
+export const scatterPlotData = [
+	{ x: 10, y: 20, name: 'Point A' },
+	{ x: 15, y: 35, name: 'Point B' },
+	{ x: 20, y: 15, name: 'Point C' },
+	{ x: 25, y: 40, name: 'Point D' },
+	{ x: 30, y: 25, name: 'Point E' },
+	{ x: 35, y: 50, name: 'Point F' },
+	{ x: 40, y: 30, name: 'Point G' },
+	{ x: 45, y: 45, name: 'Point H' },
+];
+
+export const gaugeData = [{ name: 'Progress', value: 75 }];
+
+export const waterfallData = [
+	{ name: 'Start', value: 100 },
+	{ name: 'Increase', value: 20 },
+	{ name: 'Decrease', value: -15 },
+	{ name: 'Another Increase', value: 10 },
+	{ name: 'Final', value: 115 },
+];
+
+export const heatmapData = [
+	{ x: 1, y: 1, value: 10 },
+	{ x: 1, y: 2, value: 20 },
+	{ x: 1, y: 3, value: 15 },
+	{ x: 2, y: 1, value: 25 },
+	{ x: 2, y: 2, value: 30 },
+	{ x: 2, y: 3, value: 35 },
+	{ x: 3, y: 1, value: 12 },
+	{ x: 3, y: 2, value: 18 },
+	{ x: 3, y: 3, value: 22 },
+];
+
+export const boxplotData = [
 	{
-		id: '2',
-		name: 'Alice Smith',
-		avatar: 'https://picsum.photos/40/40',
-		status: 'online',
-		lastSeen: 'Now',
+		category: 'A',
+		min: 10,
+		q1: 15,
+		median: 20,
+		q3: 25,
+		max: 30,
 	},
 	{
-		id: '3',
-		name: 'Bob Johnson',
-		avatar: 'https://picsum.photos/40/40',
-		status: 'away',
-		lastSeen: '5 minutes ago',
+		category: 'B',
+		min: 12,
+		q1: 18,
+		median: 22,
+		q3: 28,
+		max: 35,
 	},
 	{
-		id: '4',
-		name: 'Carol Williams',
-		avatar: 'https://picsum.photos/40/40',
-		status: 'offline',
-		lastSeen: '2 hours ago',
+		category: 'C',
+		min: 8,
+		q1: 12,
+		median: 18,
+		q3: 22,
+		max: 28,
+	},
+	{
+		category: 'D',
+		min: 15,
+		q1: 20,
+		median: 25,
+		q3: 30,
+		max: 38,
 	},
 ];
 
-export const mockChatMessages = [
+// Additional chart type mock data
+export const errorBarData = [
+	{ category: 'Q1', value: 100, error: 10 },
+	{ category: 'Q2', value: 120, error: 15 },
+	{ category: 'Q3', value: 110, error: 8 },
+	{ category: 'Q4', value: 140, error: 12 },
+];
+
+export const referenceLineData = [
+	{ month: 'Jan', sales: 45 },
+	{ month: 'Feb', sales: 52 },
+	{ month: 'Mar', sales: 48 },
+	{ month: 'Apr', sales: 61 },
+	{ month: 'May', sales: 55 },
+	{ month: 'Jun', sales: 67 },
+];
+
+export const referenceAreaData = [
+	{ date: '2024-01', value: 120 },
+	{ date: '2024-02', value: 132 },
+	{ date: '2024-03', value: 145 },
+	{ date: '2024-04', value: 155 },
+	{ date: '2024-05', value: 140 },
+	{ date: '2024-06', value: 130 },
+];
+
+export const brushZoomData = [
+	{ day: 1, visitors: 120 },
+	{ day: 2, visitors: 132 },
+	{ day: 3, visitors: 101 },
+	{ day: 4, visitors: 134 },
+	{ day: 5, visitors: 90 },
+	{ day: 6, visitors: 230 },
+	{ day: 7, visitors: 210 },
+	{ day: 8, visitors: 180 },
+	{ day: 9, visitors: 195 },
+	{ day: 10, visitors: 165 },
+	{ day: 11, visitors: 220 },
+	{ day: 12, visitors: 240 },
+	{ day: 13, visitors: 200 },
+	{ day: 14, visitors: 190 },
+	{ day: 15, visitors: 175 },
+];
+
+export const composedMultiData = [
 	{
-		id: '1',
-		user: 'Alice',
-		message: 'Good luck everyone!',
-		timestamp: new Date(Date.now() - 300000),
-		type: 'message',
+		month: 'Jan',
+		sales: 100,
+		sales_line: 110,
+		sales_area: 90,
 	},
 	{
-		id: '2',
-		user: 'Bob',
-		message: 'Thanks! This puzzle looks tricky',
-		timestamp: new Date(Date.now() - 240000),
-		type: 'message',
+		month: 'Feb',
+		sales: 120,
+		sales_line: 125,
+		sales_area: 115,
 	},
 	{
-		id: '3',
-		user: 'System',
-		message: 'Alice found a connection!',
-		timestamp: new Date(Date.now() - 180000),
-		type: 'system',
+		month: 'Mar',
+		sales: 110,
+		sales_line: 105,
+		sales_area: 100,
+	},
+	{
+		month: 'Apr',
+		sales: 140,
+		sales_line: 135,
+		sales_area: 130,
+	},
+	{
+		month: 'May',
+		sales: 130,
+		sales_line: 140,
+		sales_area: 125,
 	},
 ];
 
-export const mockGameStats = {
-	totalGames: 156,
-	wins: 106,
-	losses: 50,
-	winRate: 0.68,
-	averageTime: 145,
-	bestTime: 42,
-	currentStreak: 8,
-	longestStreak: 15,
-	perfectGames: 23,
-	achievements: [
-		{
-			id: 'speed_demon',
-			name: 'Speed Demon',
-			unlocked: true,
-		},
-		{
-			id: 'perfectionist',
-			name: 'Perfectionist',
-			unlocked: true,
-		},
-		{
-			id: 'streak_master',
-			name: 'Streak Master',
-			unlocked: false,
-		},
-	],
-};
-
-export const radarChartData = [
-	{ category: 'Speed', score: 120 },
-	{ category: 'Accuracy', score: 98 },
-	{ category: 'Strategy', score: 86 },
-	{ category: 'Knowledge', score: 99 },
-	{ category: 'Focus', score: 85 },
-	{ category: 'Consistency', score: 65 },
-];
-
-// === GRID MOCK DATA ===
-export const gridWords3x3 = [
-	'Apple',
-	'Banana',
-	'Cherry',
-	'Date',
-	'Elderberry',
-	'Fig',
-	'Grape',
-	'Honeydew',
-	'Kiwi',
-];
-
-export const gridWords4x4 = [
-	'Lion',
-	'Tiger',
-	'Bear',
-	'Wolf',
-	'Fox',
-	'Eagle',
-	'Shark',
-	'Whale',
-	'Frog',
-	'Snake',
-	'Lizard',
-	'Turtle',
-	'Crab',
-	'Octopus',
-	'Seal',
-	'Penguin',
-];
-
-export const gridWords5x5 = [
-	'Paris',
-	'London',
-	'Berlin',
-	'Rome',
-	'Madrid',
-	'Vienna',
-	'Prague',
-	'Budapest',
-	'Warsaw',
-	'Dublin',
-	'Oslo',
-	'Stockholm',
-	'Copenhagen',
-	'Helsinki',
-	'Reykjavik',
-	'Athens',
-	'Lisbon',
-	'Brussels',
-	'Amsterdam',
-	'Zurich',
-	'Moscow',
-	'Istanbul',
-	'Kiev',
-	'Belgrade',
-	'Bucharest',
-];
-
-export const gridWords = [
-	'Alpha',
-	'Beta',
-	'Gamma',
-	'Delta',
-	'Epsilon',
-	'Zeta',
-	'Eta',
-	'Theta',
-	'Iota',
-	'Kappa',
-	'Lambda',
-	'Mu',
-	'Nu',
-	'Xi',
-	'Omicron',
-	'Pi',
-	'Rho',
-	'Sigma',
-	'Tau',
-	'Upsilon',
-	'Phi',
-	'Chi',
-	'Psi',
-	'Omega',
-	'Andromeda',
-	'Centaurus',
-	'Draco',
-	'Orion',
-	'Phoenix',
-	'Cygnus',
-	'Cassiopeia',
-	'Ursa Major',
-	'Ursa Minor',
-	'Leo',
-	'Virgo',
-	'Libra',
-	'Aquila',
-	'Scorpius',
-	'Capricornus',
-	'Aquarius',
-	'Pisces',
-	'Aries',
-	'Taurus',
-	'Gemini',
-	'Cancer',
-	'Leo Minor',
-	'Monoceros',
-];
-
-// =====================
-// Header Stories Mocks
-// =====================
-
-export const navItemsMain = [
-	'Home',
-	'About',
-	'Features',
-	'Contact',
-];
-export const navItemsLeft = ['Home', 'About'];
-export const navItemsRight = ['Shop', 'Contact'];
-export const navItemsMega = [
-	'Products ▼',
-	'Services ▼',
-	'Resources ▼',
-];
-export const navItemsGallery = [
-	'Gallery',
-	'Portfolio',
-	'Contact',
-];
-export const navItemsSidebar = [
-	'Home',
-	'About',
-	'Contact',
-	'Profile',
-];
-export const navItemsShop = ['Shop', 'Cart', 'Profile'];
-export const navItemsHelp = ['Help', 'Sign In'];
-export const navItemsBottom = [
-	'Home',
-	'Features',
-	'Shop',
-	'Contact',
-];
-export const navItemsBlog = ['Home', 'Blog', 'About'];
-export const navItemsShopDeals = ['Shop', 'Deals'];
-export const navItemsFeatures = ['Features', 'Pricing'];
-export const navItemsIconOnly = ['🏠', '🛒', '❤️', '👤'];
-export const navItemsCart = ['Shop', 'About', 'Cart'];
-export const navItemsBottomNav = ['🏠', '🛒', '❤️', '☰'];
-export const navItemsShopContact = [
-	'Home',
-	'About',
-	'Shop',
-	'Contact',
-];
-
-export const breadcrumbsCategory = [
-	'Home',
-	'Category',
-	'Page',
-];
-
-export const notificationTextShipping =
-	'Free Shipping Today Only!';
-
-export const ctaSubscribe = 'Subscribe Now';
-export const ctaSignUp = 'Sign Up';
-export const ctaLogIn = 'Log In';
-export const ctaBuyNow = 'Buy Now';
-
-import type { ThemeDefinition } from '../../components/Themes/configurations';
-
-export const mockThemes: ThemeDefinition[] = [
+// Missing mock data for existing chart types
+export const treemapData = [
 	{
-		name: 'light',
-		label: 'Light',
-		color: '#f8f5ec',
-		bg: '#f8f5ec',
-		font: '#222',
-		swatchType: 'solid',
-		vsMode: {
-			player: '#2563eb',
-			enemy: '#ef4444',
-			playerBg: '#e0e7ff',
-			enemyBg: '#fee2e2',
-			boardBg: '#fff',
-			font: '#222',
-			border: '#e0e7ef',
-		},
+		name: 'Frontend',
+		size: 300,
+		children: [
+			{ name: 'React', size: 120 },
+			{ name: 'Vue', size: 80 },
+			{ name: 'Angular', size: 100 },
+		],
 	},
 	{
-		name: 'dark',
-		label: 'Dark',
-		color: '#181a1b',
-		bg: '#23272a',
-		font: '#f8f5ec',
-		swatchType: 'solid',
-		vsMode: {
-			player: '#3b82f6',
-			enemy: '#ef4444',
-			playerBg: '#1e293b',
-			enemyBg: '#3b1e1e',
-			boardBg: '#23272a',
-			font: '#f8f5ec',
-			border: '#334155',
-		},
+		name: 'Backend',
+		size: 250,
+		children: [
+			{ name: 'Node.js', size: 100 },
+			{ name: 'Python', size: 90 },
+			{ name: 'Java', size: 60 },
+		],
 	},
 	{
-		name: 'oceanic',
-		label: 'Oceanic',
-		color: '#174ea6',
-		bg: '#0a2540',
-		font: '#a7f3f7',
-		swatchType: 'solid',
-		vsMode: {
-			player: '#3b82f6',
-			enemy: '#ef4444',
-			playerBg: '#1e293b',
-			enemyBg: '#3b1e1e',
-			boardBg: '#0a2540',
-			font: '#a7f3f7',
-			border: '#1e40af',
-		},
-	},
-	{
-		name: 'sunset',
-		label: 'Sunset',
-		color: '#ffb347',
-		bg: 'linear-gradient(135deg, #ffb347 0%, #ff5e62 100%)',
-		font: '#fff',
-		swatchType: 'gradient',
-		vsMode: {
-			player: '#2563eb',
-			enemy: '#ef4444',
-			playerBg: '#e0e7ff',
-			enemyBg: '#fee2e2',
-			boardBg: '#fff',
-			font: '#222',
-			border: '#e0e7ef',
-		},
-	},
-	{
-		name: 'forest',
-		label: 'Forest',
-		color: '#22c55e',
-		bg: '#0f172a',
-		font: '#dcfce7',
-		swatchType: 'solid',
-		vsMode: {
-			player: '#22c55e',
-			enemy: '#ef4444',
-			playerBg: '#052e16',
-			enemyBg: '#3b1e1e',
-			boardBg: '#0f172a',
-			font: '#dcfce7',
-			border: '#166534',
-		},
-	},
-	{
-		name: 'purple',
-		label: 'Purple',
-		color: '#8b5cf6',
-		bg: '#1e1b4b',
-		font: '#e5d5ff',
-		swatchType: 'solid',
-		vsMode: {
-			player: '#8b5cf6',
-			enemy: '#ef4444',
-			playerBg: '#312e81',
-			enemyBg: '#3b1e1e',
-			boardBg: '#1e1b4b',
-			font: '#e5d5ff',
-			border: '#6d28d9',
-		},
-	},
-	{
-		name: 'cherry',
-		label: 'Cherry',
-		color: '#f97316',
-		bg: 'linear-gradient(135deg, #fbbf24 0%, #f97316 50%, #ef4444 100%)',
-		font: '#fff',
-		swatchType: 'gradient',
-		vsMode: {
-			player: '#f97316',
-			enemy: '#ef4444',
-			playerBg: '#fed7aa',
-			enemyBg: '#fee2e2',
-			boardBg: '#fff',
-			font: '#222',
-			border: '#fb923c',
-		},
-	},
-	{
-		name: 'midnight',
-		label: 'Midnight',
-		color: '#0f172a',
-		bg: '#0f172a',
-		font: '#f1f5f9',
-		swatchType: 'solid',
-		vsMode: {
-			player: '#3b82f6',
-			enemy: '#ef4444',
-			playerBg: '#1e293b',
-			enemyBg: '#3b1e1e',
-			boardBg: '#0f172a',
-			font: '#f1f5f9',
-			border: '#334155',
-		},
+		name: 'Database',
+		size: 150,
+		children: [
+			{ name: 'MongoDB', size: 70 },
+			{ name: 'PostgreSQL', size: 80 },
+		],
 	},
 ];
 
-// === Analytics Defaults (for use in Analytics component and stories) ===
-export const DEFAULT_DATA = [];
-export const DEFAULT_METRICS = [];
-export const DEFAULT_FILTERS = [];
-export const DEFAULT_COLORS = [
-	'#3b82f6',
-	'#10b981',
-	'#f59e0b',
-	'#ef4444',
-	'#8b5cf6',
-];
-export const DEFAULT_PLUGINS = [];
-
-// === ENHANCED MOCK DATA FOR RICHER CARD STORIES ===
-export const mockProfile = {
-	id: '1',
-	name: 'Alice Smith',
-	avatar: 'https://picsum.photos/40/40',
-	bio: 'Puzzle enthusiast and code lover.',
-	level: 12,
-	points: 2340,
-	achievements: 8,
-	gamesPlayed: 156,
-	winRate: 0.68,
-};
-
-// There is no puzzleData in mocks. Add a minimal mock for puzzle card usage.
-export const cardPuzzleData = {
-	id: 'puzzle-1',
-	title: 'Sample Puzzle',
-	date: '2024-06-01',
-	creator: 'PuzzleMaster',
-	image: 'https://picsum.photos/40/40',
-};
-
-// === Select Option Sets (for Select stories) ===
-export const basicOptions = [
-	{ value: 'option1', label: 'Option 1' },
-	{ value: 'option2', label: 'Option 2' },
-	{ value: 'option3', label: 'Option 3' },
-	{ value: 'option4', label: 'Option 4' },
-];
-
-export const detailedOptions = [
-	{
-		value: 'frontend',
-		label: 'Frontend Developer',
-		description: 'HTML, CSS, JavaScript, React',
-	},
-	{
-		value: 'backend',
-		label: 'Backend Developer',
-		description: 'Node.js, Python, Java, Databases',
-	},
-	{
-		value: 'fullstack',
-		label: 'Full Stack Developer',
-		description: 'Frontend and Backend technologies',
-	},
-	{
-		value: 'mobile',
-		label: 'Mobile Developer',
-		description: 'iOS, Android, React Native, Flutter',
-	},
-	{
-		value: 'devops',
-		label: 'DevOps Engineer',
-		description: 'CI/CD, Docker, Kubernetes, Cloud',
-	},
-];
-
-export const countries = [
-	{ value: 'us', label: 'United States' },
-	{ value: 'ca', label: 'Canada' },
-	{ value: 'uk', label: 'United Kingdom' },
-	{ value: 'de', label: 'Germany' },
-	{ value: 'fr', label: 'France' },
-	{ value: 'jp', label: 'Japan' },
-	{ value: 'au', label: 'Australia' },
-	{ value: 'br', label: 'Brazil' },
-	{ value: 'in', label: 'India' },
-	{ value: 'cn', label: 'China' },
-];
-
-export const categories = [
-	{ value: 'tech', label: 'Technology' },
-	{ value: 'design', label: 'Design' },
-	{ value: 'business', label: 'Business' },
-	{ value: 'marketing', label: 'Marketing' },
-	{ value: 'sales', label: 'Sales' },
-	{ value: 'support', label: 'Support' },
-];
-
-export const tags = [
-	{ value: 'javascript', label: 'JavaScript' },
-	{ value: 'typescript', label: 'TypeScript' },
-	{ value: 'react', label: 'React' },
-	{ value: 'vue', label: 'Vue.js' },
-	{ value: 'angular', label: 'Angular' },
-	{ value: 'nodejs', label: 'Node.js' },
-	{ value: 'python', label: 'Python' },
-	{ value: 'css', label: 'CSS' },
-	{ value: 'html', label: 'HTML' },
-];
-
-export const users = [
-	{
-		value: 'john',
-		label: 'John Doe',
-		description: 'john.doe@example.com',
-	},
-	{
-		value: 'jane',
-		label: 'Jane Smith',
-		description: 'jane.smith@example.com',
-	},
-	{
-		value: 'bob',
-		label: 'Bob Johnson',
-		description: 'bob.johnson@example.com',
-	},
-	{
-		value: 'alice',
-		label: 'Alice Brown',
-		description: 'alice.brown@example.com',
-	},
-];
-
-export const dateRanges = [
-	{ value: 'today', label: 'Today' },
-	{ value: 'yesterday', label: 'Yesterday' },
-	{ value: 'last7days', label: 'Last 7 days' },
-	{ value: 'last30days', label: 'Last 30 days' },
-	{ value: 'last90days', label: 'Last 90 days' },
-	{ value: 'custom', label: 'Custom range' },
-];
-
-// Provider context demo mock data for Storybook
-export const mockUserSettings = {
-	chatEnabled: true,
-	profanityFilter: false,
-	notificationsEnabled: true,
-	language: 'en',
-	soundEnabled: true,
-	difficulty: 'medium',
-};
-
-export const mockThemePalette = {
-	primary: '#0070f3',
-	secondary: '#1c1c1e',
-	background: '#fff',
-	text: '#333',
-};
-
-export const mockSocketSession = {
-	userId: '123',
-	token: 'abc123',
-};
-
-export const sampleTableColumns = [
-	{ key: 'id', label: 'ID' },
-	{ key: 'name', label: 'Name' },
-	{ key: 'age', label: 'Age', sortable: true },
-	{ key: 'status', label: 'Status', filterable: true },
-];
-
-export const sampleTableData = [
-	{ id: 1, name: 'Alice', age: 28, status: 'Active' },
-	{ id: 2, name: 'Bob', age: 34, status: 'Inactive' },
-	{ id: 3, name: 'Charlie', age: 22, status: 'Pending' },
-	{ id: 4, name: 'Diana', age: 41, status: 'Active' },
-];
-
-export const leaderboardTableColumns = [
-	{ key: 'rank', label: 'Rank', align: 'center' },
-	{ key: 'player', label: 'Player' },
-	{ key: 'score', label: 'Score', sortable: true },
-	{ key: 'games', label: 'Games' },
-	{ key: 'winRate', label: 'Win Rate' },
-];
-
-export const leaderboardTableData = [
-	{
-		id: 1,
-		rank: 1,
-		player: 'GridMaster',
-		score: 15420,
-		games: 87,
-		winRate: '94.3%',
-	},
-	{
-		id: 2,
-		rank: 2,
-		player: 'PuzzleKing',
-		score: 14850,
-		games: 92,
-		winRate: '91.2%',
-	},
-	{
-		id: 3,
-		rank: 3,
-		player: 'WordWizard',
-		score: 14200,
-		games: 78,
-		winRate: '89.7%',
-	},
-	{
-		id: 4,
-		rank: 4,
-		player: 'QuickSolver',
-		score: 13980,
-		games: 95,
-		winRate: '87.4%',
-	},
-	{
-		id: 5,
-		rank: 5,
-		player: 'BrainAce',
-		score: 13750,
-		games: 83,
-		winRate: '86.1%',
-	},
-];
-
-export const leaderboardMock = [
-	{
-		id: '1',
-		name: 'Alice',
-		score: 3200,
-		avatar: 'https://picsum.photos/40/40?1',
-	},
-	{
-		id: '2',
-		name: 'Bob',
-		score: 2950,
-		avatar: 'https://picsum.photos/40/40?2',
-	},
-	{
-		id: '3',
-		name: 'Carol',
-		score: 2780,
-		avatar: 'https://picsum.photos/40/40?3',
-	},
-	{
-		id: '4',
-		name: 'David',
-		score: 2600,
-		avatar: 'https://picsum.photos/40/40?4',
-	},
-	{
-		id: '5',
-		name: 'Eve',
-		score: 2500,
-		avatar: 'https://picsum.photos/40/40?5',
-	},
+export const funnelData = [
+	{ name: 'Visitors', value: 1000, fill: '#8884d8' },
+	{ name: 'Leads', value: 300, fill: '#83a6ed' },
+	{ name: 'Prospects', value: 150, fill: '#8dd1e1' },
+	{ name: 'Customers', value: 50, fill: '#82ca9d' },
 ];
 
 // --- Card-specific mock data for Card.stories.tsx ---
