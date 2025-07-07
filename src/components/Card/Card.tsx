@@ -1,5 +1,7 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Wrapper } from '../Wrappers';
+import { Button } from '../Button';
+import { Icons } from '../Icons';
 import styles from './card.module.scss';
 import {
 	ExtendedCardKind,
@@ -54,6 +56,8 @@ export interface CardProps
 		| 'warning'
 		| 'error'
 		| 'success';
+	dismissible?: boolean;
+	onDismiss?: () => void;
 
 	// Stats card props
 	statValue?: string | number;
@@ -94,6 +98,12 @@ export interface CardProps
 		name: string;
 		score: number;
 		avatar?: string;
+		rank?: number;
+		level?: number;
+		streak?: number;
+		winRate?: number;
+		country?: string;
+		gamesPlayed?: number;
 	}>;
 
 	// Puzzle card props
@@ -101,6 +111,11 @@ export interface CardProps
 		id: string;
 		title: string;
 		img?: string;
+		description?: string;
+		difficulty?: string;
+		category?: string;
+		completionRate?: number;
+		averageTime?: number;
 		dateCreated?: string;
 		creator?: string;
 	};
@@ -172,6 +187,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 			onRemove,
 			unreadCount = 0,
 			notificationType = 'info',
+			dismissible = false,
+			onDismiss,
 			statValue,
 			statLabel,
 			additionalStats,
@@ -192,6 +209,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 		},
 		ref
 	) => {
+		// State for controlling card visibility when dismissible
+		const [isVisible, setIsVisible] = useState(true);
+
 		// Get configuration from kind if provided
 		const config = kind ? CARD_CONFIGURATIONS[kind] : null;
 
@@ -215,6 +235,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 			styles[`card-padding-${finalPadding}`],
 			finalHover && styles.cardHover,
 			finalClickable && styles.cardClickable,
+			dismissible && styles.dismissible,
 			config?.className, // Add kind-specific styling
 			shape && styles[`card-shape-${shape}`], // Add shape class
 			className,
@@ -341,22 +362,30 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 						{profile.bio && <p>{profile.bio}</p>}
 						<div className={styles.profileStats}>
 							{profile.level !== undefined && (
-								<span>Level: {profile.level}</span>
+								<span>
+									<strong>Level:</strong> {profile.level}
+								</span>
 							)}
 							{profile.points !== undefined && (
-								<span>Points: {profile.points}</span>
+								<span>
+									<strong>Points:</strong> {profile.points}
+								</span>
 							)}
 							{profile.achievements !== undefined && (
 								<span>
-									Achievements: {profile.achievements}
+									<strong>Achievements:</strong>{' '}
+									{profile.achievements}
 								</span>
 							)}
 							{profile.gamesPlayed !== undefined && (
-								<span>Games: {profile.gamesPlayed}</span>
+								<span>
+									<strong>Games:</strong>{' '}
+									{profile.gamesPlayed}
+								</span>
 							)}
 							{profile.winRate !== undefined && (
 								<span>
-									Win Rate:{' '}
+									<strong>Win Rate:</strong>{' '}
 									{Math.round(profile.winRate * 100)}%
 								</span>
 							)}
@@ -477,66 +506,252 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 		// Render leaderboard card content
 		const renderLeaderboardCardContent = () => {
 			if (!leaderboard) return null;
+
+			const getRankStyle = (
+				rank: number,
+				isTopFive: boolean
+			) => {
+				// Adjust sizes based on card size
+				const sizeMultiplier = size === 'small' ? 0.8 : 1;
+				const rankSize =
+					isTopFive ?
+						36 * sizeMultiplier
+					:	28 * sizeMultiplier;
+				const fontSize =
+					isTopFive ?
+						14 * sizeMultiplier
+					:	11 * sizeMultiplier;
+
+				const baseStyle = {
+					width: `${rankSize}px`,
+					height: `${rankSize}px`,
+					borderRadius: '50%',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					fontWeight: 'bold',
+					fontSize: `${fontSize}px`,
+					color: '#FFFFFF',
+					boxShadow:
+						isTopFive ?
+							'0 4px 8px rgba(0, 0, 0, 0.25)'
+						:	'0 2px 4px rgba(0, 0, 0, 0.15)',
+					border: `${isTopFive ? 3 : 2}px solid #FFFFFF`,
+					flexShrink: 0,
+				};
+
+				if (rank === 1)
+					return {
+						...baseStyle,
+						backgroundColor: '#FFD700',
+					}; // Gold
+				if (rank === 2)
+					return {
+						...baseStyle,
+						backgroundColor: '#C0C0C0',
+					}; // Silver
+				if (rank === 3)
+					return {
+						...baseStyle,
+						backgroundColor: '#CD7F32',
+					}; // Bronze
+				if (isTopFive)
+					return {
+						...baseStyle,
+						backgroundColor: '#3B82F6',
+					}; // Blue for top 5
+				return { ...baseStyle, backgroundColor: '#6B7280' }; // Gray for others
+			};
+
 			return (
-				<Wrapper
-					className={styles['leaderboard-card']}
-					style={{
-						maxHeight: 260,
-						overflowY: 'auto',
-						width: '100%',
-					}}
-				>
-					<h3 style={{ marginBottom: 12 }}>Leaderboard</h3>
-					<ul
-						style={{
-							listStyle: 'none',
-							padding: 0,
-							margin: 0,
-						}}
-					>
-						{leaderboard.map((entry, idx) => (
-							<li
+				<Wrapper className={styles['leaderboard-card']}>
+					{leaderboard.map((entry, idx) => {
+						const rank = entry.rank || idx + 1;
+						const isTopFive = rank <= 5;
+
+						return (
+							<div
 								key={entry.id}
-								className={styles.leaderboardEntry}
 								style={{
 									display: 'flex',
-									alignItems: 'center',
-									gap: 12,
-									marginBottom: 8,
+									flexDirection: 'column',
+									padding: isTopFive ? '24px' : '16px 20px',
+									borderRadius: isTopFive ? '16px' : '12px',
+									marginBottom: isTopFive ? '12px' : '8px',
+									backgroundColor:
+										isTopFive ?
+											'rgba(59, 130, 246, 0.08)'
+										:	'rgba(0, 0, 0, 0.015)',
+									border:
+										isTopFive ?
+											'2px solid rgba(59, 130, 246, 0.25)'
+										:	'1px solid rgba(0, 0, 0, 0.06)',
+									position: 'relative',
+									transition:
+										'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+									boxShadow:
+										isTopFive ?
+											'0 4px 16px rgba(59, 130, 246, 0.12)'
+										:	'0 2px 8px rgba(0, 0, 0, 0.04)',
+									cursor: 'pointer',
+								}}
+								onMouseEnter={(e) => {
+									e.currentTarget.style.backgroundColor =
+										isTopFive ?
+											'rgba(59, 130, 246, 0.12)'
+										:	'rgba(0, 0, 0, 0.04)';
+									e.currentTarget.style.transform =
+										'translateY(-3px) scale(1.01)';
+									e.currentTarget.style.boxShadow =
+										isTopFive ?
+											'0 8px 24px rgba(59, 130, 246, 0.2)'
+										:	'0 4px 16px rgba(0, 0, 0, 0.08)';
+								}}
+								onMouseLeave={(e) => {
+									e.currentTarget.style.backgroundColor =
+										isTopFive ?
+											'rgba(59, 130, 246, 0.08)'
+										:	'rgba(0, 0, 0, 0.015)';
+									e.currentTarget.style.transform =
+										'translateY(0) scale(1)';
+									e.currentTarget.style.boxShadow =
+										isTopFive ?
+											'0 4px 16px rgba(59, 130, 246, 0.12)'
+										:	'0 2px 8px rgba(0, 0, 0, 0.04)';
 								}}
 							>
-								<span
+								{/* Top section with rank and name/score */}
+								<div
 									style={{
-										fontWeight: 600,
-										width: 24,
-										textAlign: 'right',
+										display: 'flex',
+										alignItems: 'flex-start',
+										gap: '12px',
+										marginBottom: '8px',
 									}}
 								>
-									{idx + 1}.
-								</span>
-								{entry.avatar && (
-									<img
-										src={entry.avatar}
-										alt={entry.name}
-										width={32}
-										height={32}
-										style={{ borderRadius: '50%' }}
-									/>
-								)}
-								<span style={{ flex: 1 }}>
-									{entry.name}
-								</span>
-								<strong
+									<div
+										style={getRankStyle(rank, isTopFive)}
+									>
+										#{rank}
+									</div>
+									<div
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											gap: '4px',
+											flex: 1,
+										}}
+									>
+										<div
+											style={{
+												fontWeight: '600',
+												fontSize: '16px',
+												color: '#1F2937',
+												lineHeight: 1.3,
+												marginBottom: '4px',
+											}}
+										>
+											{entry.name}
+										</div>
+										<div
+											style={{
+												fontWeight: 'bold',
+												fontSize: '16px',
+												color: '#3B82F6',
+												textAlign: 'left',
+											}}
+										>
+											{entry.score?.toLocaleString()}
+										</div>
+									</div>
+								</div>
+
+								{/* Bottom section with avatar and meta info */}
+								<div
 									style={{
-										minWidth: 40,
-										textAlign: 'right',
+										display: 'flex',
+										alignItems: 'center',
+										gap: '16px',
 									}}
 								>
-									{entry.score}
-								</strong>
-							</li>
-						))}
-					</ul>
+									<div
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											flexShrink: 0,
+										}}
+									>
+										{entry.avatar && (
+											<img
+												src={entry.avatar}
+												alt={entry.name}
+												style={{
+													width:
+														size === 'small' ?
+															isTopFive ? '44px'
+															:	'36px'
+														: isTopFive ? '56px'
+														: '44px',
+													height:
+														size === 'small' ?
+															isTopFive ? '44px'
+															:	'36px'
+														: isTopFive ? '56px'
+														: '44px',
+													borderRadius: '50%',
+													border: `${isTopFive ? 4 : 3}px solid ${isTopFive ? '#3B82F6' : '#E5E7EB'}`,
+													objectFit: 'cover',
+													boxShadow:
+														isTopFive ?
+															'0 4px 12px rgba(59, 130, 246, 0.3)'
+														:	'0 2px 6px rgba(0, 0, 0, 0.1)',
+												}}
+											/>
+										)}
+									</div>
+									<div
+										style={{
+											flex: 1,
+											display: 'flex',
+											flexDirection: 'column',
+											gap: '4px',
+										}}
+									>
+										<div
+											style={{
+												fontSize:
+													size === 'small' ?
+														isTopFive ? '11px'
+														:	'10px'
+													: isTopFive ? '13px'
+													: '12px',
+												color: '#6B7280',
+												display: 'flex',
+												gap: isTopFive ? '12px' : '8px',
+												flexWrap: 'wrap',
+											}}
+										>
+											{entry.level && (
+												<span>🏆 Level {entry.level}</span>
+											)}
+											{entry.streak !== undefined && (
+												<span>
+													🔥 {entry.streak} streak
+												</span>
+											)}
+											{entry.winRate && (
+												<span>
+													📊{' '}
+													{Math.round(entry.winRate * 100)}%
+													win rate
+												</span>
+											)}
+										</div>
+									</div>
+								</div>
+							</div>
+						);
+					})}
 				</Wrapper>
 			);
 		};
@@ -547,36 +762,113 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 			return (
 				<Wrapper
 					className={styles['puzzle-card']}
-					style={{ width: '100%', alignItems: 'center' }}
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						textAlign: 'center',
+					}}
 				>
+					{/* Image */}
 					{puzzle.img && (
 						<img
 							src={puzzle.img}
 							alt={puzzle.title}
-							width={240}
-							height={240}
 							style={{
-								borderRadius: 12,
-								marginBottom: 12,
+								width: '100%',
+								height: '180px',
 								objectFit: 'cover',
+								borderRadius: '8px',
+								marginBottom: '16px',
 							}}
 						/>
 					)}
-					<h3>{puzzle.title}</h3>
-					{puzzle.dateCreated && (
-						<span
-							style={{ color: '#888', fontSize: '0.95em' }}
+
+					{/* Title */}
+					<h3
+						style={{
+							margin: '0 0 8px 0',
+							fontSize: '1.5rem',
+							fontWeight: '600',
+							color: 'var(--blue-800)',
+						}}
+					>
+						{puzzle.title}
+					</h3>
+
+					{/* Subtitle (Description) */}
+					{puzzle.description && (
+						<p
+							style={{
+								margin: '0 0 12px 0',
+								fontSize: '0.95rem',
+								color: 'var(--gray-600)',
+								lineHeight: '1.4',
+							}}
 						>
-							{puzzle.dateCreated}
-						</span>
+							{puzzle.description}
+						</p>
 					)}
-					{puzzle.creator && (
-						<span
-							style={{ color: '#555', fontSize: '0.95em' }}
-						>
-							By {puzzle.creator}
-						</span>
-					)}
+
+					{/* Labels (Difficulty and Category) */}
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							gap: '8px',
+							marginBottom: '16px',
+						}}
+					>
+						{puzzle.difficulty && (
+							<span
+								style={{
+									padding: '4px 12px',
+									backgroundColor: 'var(--blue-100)',
+									color: 'var(--blue-700)',
+									borderRadius: '12px',
+									fontSize: '0.85rem',
+									fontWeight: '500',
+								}}
+							>
+								{puzzle.difficulty}
+							</span>
+						)}
+						{puzzle.category && (
+							<span
+								style={{
+									padding: '4px 12px',
+									backgroundColor: 'var(--gray-100)',
+									color: 'var(--gray-700)',
+									borderRadius: '12px',
+									fontSize: '0.85rem',
+									fontWeight: '500',
+								}}
+							>
+								{puzzle.category}
+							</span>
+						)}
+					</div>
+
+					{/* Play Button */}
+					<Button
+						kind='primary'
+						contentType='textIcon'
+						icon={<Icons name='play' size={16} />}
+						iconPosition='left'
+						fullWidth
+						onClick={() =>
+							console.log(
+								`Starting puzzle: ${puzzle.title}`
+							)
+						}
+						style={{
+							padding: '12px 24px',
+							fontSize: '1rem',
+							fontWeight: '600',
+						}}
+					>
+						Play
+					</Button>
 				</Wrapper>
 			);
 		};
@@ -777,7 +1069,43 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 				case 'room-info':
 					return renderRoomInfoCardContent();
 				case 'leaderboard':
-					return renderLeaderboardCardContent();
+					return (
+						<>
+							{title && (
+								<div
+									style={{
+										padding: '20px 20px 16px 20px',
+										borderBottom: '1px solid #E5E7EB',
+									}}
+								>
+									<h3
+										style={{
+											margin: 0,
+											fontSize: '1.5rem',
+											fontWeight: '700',
+											color: '#1F2937',
+											lineHeight: '1.3',
+										}}
+									>
+										{title}
+									</h3>
+									{subtitle && (
+										<p
+											style={{
+												margin: '4px 0 0 0',
+												fontSize: '0.95rem',
+												color: '#6B7280',
+												lineHeight: '1.4',
+											}}
+										>
+											{subtitle}
+										</p>
+									)}
+								</div>
+							)}
+							{renderLeaderboardCardContent()}
+						</>
+					);
 				case 'puzzle':
 					return renderPuzzleCardContent();
 				case 'match-summary':
@@ -839,6 +1167,11 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 			}
 		};
 
+		// Don't render the card if it's been dismissed
+		if (!isVisible) {
+			return null;
+		}
+
 		return (
 			<Wrapper
 				ref={ref}
@@ -861,6 +1194,19 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 				onKeyUp={isInteractive ? handleKeyUp : undefined}
 				{...props}
 			>
+				{dismissible && (
+					<Button
+						kind='close-icon-only'
+						size='small'
+						className={styles.closeButton}
+						onClick={(e: React.MouseEvent) => {
+							e.stopPropagation();
+							setIsVisible(false);
+							onDismiss?.();
+						}}
+						aria-label='Close card'
+					/>
+				)}
 				{renderCardContent()}
 			</Wrapper>
 		);

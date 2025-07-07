@@ -122,7 +122,7 @@ export const BUTTON_CONFIGURATIONS: Record<
 	'close': {
 		variant: 'danger',
 		size: 'small',
-		icon: '✕',
+		icon: 'close',
 		iconPosition: 'left',
 		defaultText: 'Close',
 		behavior: 'close',
@@ -132,7 +132,7 @@ export const BUTTON_CONFIGURATIONS: Record<
 	'close-icon-only': {
 		variant: 'danger',
 		size: 'small',
-		icon: '✕',
+		icon: 'close',
 		iconPosition: 'only',
 		behavior: 'close',
 		ariaLabel: 'Close',

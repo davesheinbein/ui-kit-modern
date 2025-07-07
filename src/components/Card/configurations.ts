@@ -142,6 +142,7 @@ export const CARD_CONFIGURATIONS: Record<
 		hover: true,
 		clickable: true,
 		behavior: 'clickable',
+		className: styles['puzzle-card'],
 	},
 	'leaderboard': {
 		variant: 'default',

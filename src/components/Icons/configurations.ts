@@ -19,4 +19,5 @@ export const ICONS_LIST: IconName[] = [
 	'warning',
 	'success',
 	'danger',
+	'play',
 ];

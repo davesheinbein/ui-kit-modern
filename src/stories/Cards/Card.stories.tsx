@@ -1,13 +1,15 @@
 import React from 'react';
 import { Card } from '../../components/Card';
+import { Button } from '../../components/Button';
+import { Icons } from '../../components/Icons';
 import { cardArgTypes as baseCardArgTypes } from '../config/argTypes';
 import {
 	mockFriends,
 	mockProfile,
-	mockGameStats,
-	leaderboardMock,
-	cardPuzzleData,
 	userStatusMock,
+	leaderboardMock,
+	mockGameStats,
+	cardPuzzleData,
 } from '../mocks';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ExtendedCardKind } from '../../components/Card/configurations';
@@ -20,14 +22,51 @@ const meta: Meta<typeof Card> = {
 	title: 'Cards/Card',
 	component: Card,
 	tags: ['autodocs'],
-	argTypes: cardArgTypes,
+	argTypes: {
+		// Remove problematic argTypes for now
+		title: { control: 'text' },
+		subtitle: { control: 'text' },
+		content: { control: 'text' },
+		variant: {
+			control: 'select',
+			options: [
+				'default',
+				'elevated',
+				'outlined',
+				'filled',
+			],
+		},
+		size: {
+			control: 'select',
+			options: ['small', 'medium', 'large'],
+		},
+		hover: { control: 'boolean' },
+		clickable: { control: 'boolean' },
+	},
 	parameters: {
 		docs: {
 			description: {
 				component: `\
-**Card** is a flexible, composable component for grouping content, actions, or media.\n\n- Use the \`kind\` prop to select a specialized layout (e.g., friend, profile, notification, etc).\n- Use the style-only variants (default, elevated, outlined, filled) for generic cards.\n- See the table below for differences between each kind.\n- Where only data changes, stories are consolidated.\n- For advanced use, use the \`custom\` kind.\n\n**Difference between Card and UI:**\n- Card is a building block for UI, not the whole UI itself.\n- Card kinds provide ready-to-use layouts for common dashboard, list, and preview scenarios.\n        `,
+**Card** is a flexible, prop-driven component for grouping content, actions, or media.\n\n
+**Key Features:**
+- **Fully Prop-Driven**: All functionality exposed via clean, declarative props
+- **No Hardcoded Logic**: All behaviors configurable via props
+- **API-First Design**: Consistent, predictable interface
+- **Flexible Layout**: Supports icons, avatars, status indicators, and custom content
+- **Accessibility**: Built-in keyboard navigation and ARIA support
+- **Generic Data Display**: Use the \`items\` prop for flexible data visualization
+
+**Migration from Legacy:**
+- Legacy \`kind\`-based props are deprecated but supported for backward compatibility
+- Use new generic props like \`items\`, \`icon\`, \`avatar\`, \`statusColor\` for maximum flexibility
+- The \`itemRenderer\` prop allows complete customization of how data is displayed
+
+**Best Practices:**
+- Use \`items\` prop for any list-like data (friends, leaderboards, stats, etc.)
+- Use \`icon\`, \`avatar\`, and layout props instead of hardcoded \`kind\` layouts
+- Leverage \`itemRenderer\` for complex custom display logic
+        `,
 			},
-			// Enable lazy rendering for docs blocks
 			story: { inline: false, lazy: true },
 		},
 	},
@@ -36,13 +75,143 @@ export default meta;
 
 type Story = StoryObj<typeof Card>;
 
-// --- Style-only variants ---
-export const Default: Story = {
+// === NEW PROP-DRIVEN EXAMPLES ===
+
+export const BasicCard: Story = {
 	args: {
-		kind: 'default',
-		title: 'Default Card',
+		title: 'Basic Card',
+		subtitle: 'A simple card with title and content',
 		content:
-			'This is a default card. Use for generic grouping.',
+			'This demonstrates the new prop-driven Card API. All functionality is exposed via clean, declarative props.',
+		variant: 'default',
+		size: 'medium',
+		padding: 'medium',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Basic card using the new prop-driven API with title, subtitle, and content.',
+			},
+		},
+	},
+};
+
+export const DataList: Story = {
+	args: {
+		title: 'Team Members',
+		subtitle: '3 members online',
+		items: mockFriends.map((friend) => ({
+			id: friend.id,
+			label: friend.name,
+			avatar: friend.avatar,
+			subtitle: friend.status,
+			value: friend.lastSeen,
+		})),
+		showItemNumbers: false,
+		maxItems: 5,
+		variant: 'outlined',
+		contentLayout: 'vertical',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Generic data list using the items prop - works for friends, leaderboards, stats, etc.',
+			},
+		},
+	},
+};
+
+export const DismissibleCard: Story = {
+	args: {
+		title: 'Dismissible Card',
+		subtitle: 'This card can be closed',
+		content:
+			'Click the X button in the top right corner to dismiss this card. Perfect for notifications, alerts, or any temporary content.',
+		variant: 'outlined',
+		size: 'medium',
+		padding: 'medium',
+		dismissible: true,
+		onDismiss: () => console.log('Card dismissed'),
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Card with dismissible functionality - shows a close button (X) in the top right corner when dismissible=true is set.',
+			},
+		},
+	},
+};
+
+export const StatisticsCard: Story = {
+	args: {
+		title: 'Game Statistics',
+		items: [
+			{ id: 'games', label: 'Total Games', value: 142 },
+			{ id: 'wins', label: 'Wins', value: 89 },
+			{ id: 'losses', label: 'Losses', value: 53 },
+			{ id: 'winrate', label: 'Win Rate', value: '62.7%' },
+			{ id: 'streak', label: 'Current Streak', value: 5 },
+		],
+		variant: 'filled',
+		backgroundColor: '#f8fafc',
+		borderRadius: 12,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Statistics display using items prop instead of hardcoded stats layout.',
+			},
+		},
+	},
+};
+
+// === LEGACY COMPATIBILITY EXAMPLES (Deprecated) ===
+
+export const LegacyFriendCard: Story = {
+	args: {
+		kind: 'friend',
+		friend: {
+			id: mockFriends[0].id,
+			username: mockFriends[0].name,
+			avatar: mockFriends[0].avatar,
+			online: mockFriends[0].status === 'Online',
+			division: 'Gold',
+			tier: 'II',
+			inMatch: false,
+			idle: false,
+		},
+		onChallenge: (id: string) =>
+			console.log('Challenge:', id),
+		onMessage: (id: string) => console.log('Message:', id),
+		onRemove: (id: string) => console.log('Remove:', id),
+		unreadCount: 2,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'⚠️ Legacy friend card - use the new items prop approach instead.',
+			},
+		},
+	},
+};
+
+export const LegacyProfileCard: Story = {
+	args: {
+		kind: 'profile',
+		profile: mockProfile,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'⚠️ Legacy profile card - use the new flexible layout props instead.',
+			},
+		},
 	},
 };
 
@@ -291,22 +460,180 @@ export const Stats: Story = {
 };
 
 export const Leaderboard: Story = {
-	render: (args) => (
-		<Card
-			kind='leaderboard'
-			leaderboard={leaderboardMock}
-			{...args}
-		/>
-	),
+	render: (args) => {
+		return (
+			<div
+				style={{
+					padding: '20px',
+					minHeight: '100vh',
+					backgroundColor: '#F8FAFC',
+				}}
+			>
+				{/* Three size comparison in flex row */}
+				<div
+					style={{
+						display: 'flex',
+						gap: '24px',
+						marginBottom: '32px',
+					}}
+				>
+					{/* Small Size */}
+					<div style={{ flex: 1 }}>
+						<h3
+							style={{
+								textAlign: 'center',
+								marginBottom: '16px',
+								color: '#1F2937',
+								fontSize: '18px',
+								fontWeight: '600',
+							}}
+						>
+							Small Size
+						</h3>
+						<div>
+							<Card
+								{...args}
+								kind='leaderboard'
+								leaderboard={leaderboardMock}
+								size='small'
+								title='🏆 Leaderboard'
+								subtitle='Top players'
+								style={{
+									minHeight: '500px',
+									boxShadow:
+										'0 8px 32px rgba(0, 0, 0, 0.12)',
+									border: '1px solid #E5E7EB',
+									borderRadius: '16px',
+									overflow: 'hidden',
+									backgroundColor: '#FFFFFF',
+									...args.style,
+								}}
+							/>
+						</div>
+					</div>
+
+					{/* Medium Size */}
+					<div style={{ flex: 1 }}>
+						<h3
+							style={{
+								textAlign: 'center',
+								marginBottom: '16px',
+								color: '#1F2937',
+								fontSize: '18px',
+								fontWeight: '600',
+							}}
+						>
+							Medium Size
+						</h3>
+						<div>
+							<Card
+								{...args}
+								kind='leaderboard'
+								leaderboard={leaderboardMock}
+								size='medium'
+								title='🏆 Global Leaderboard'
+								subtitle='Top players this season'
+								style={{
+									minHeight: '600px',
+									boxShadow:
+										'0 10px 40px rgba(0, 0, 0, 0.13)',
+									border: '1px solid #E5E7EB',
+									borderRadius: '18px',
+									overflow: 'hidden',
+									backgroundColor: '#FFFFFF',
+									...args.style,
+								}}
+							/>
+						</div>
+					</div>
+
+					{/* Large Size */}
+					<div style={{ flex: 1 }}>
+						<h3
+							style={{
+								textAlign: 'center',
+								marginBottom: '16px',
+								color: '#1F2937',
+								fontSize: '18px',
+								fontWeight: '600',
+							}}
+						>
+							Large Size
+						</h3>
+						<div>
+							<Card
+								{...args}
+								kind='leaderboard'
+								leaderboard={leaderboardMock}
+								size='large'
+								title='🏆 Global Leaderboard'
+								subtitle='Top players this season • Scroll to see all rankings'
+								style={{
+									minHeight: '700px',
+									boxShadow:
+										'0 12px 48px rgba(0, 0, 0, 0.15)',
+									border: '2px solid #E5E7EB',
+									borderRadius: '20px',
+									overflow: 'hidden',
+									backgroundColor: '#FFFFFF',
+									background:
+										'linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)',
+									...args.style,
+								}}
+							/>
+						</div>
+					</div>
+				</div>
+
+				{/* Full Width Version */}
+				<div style={{ width: '100%', margin: '0 -20px' }}>
+					<h3
+						style={{
+							textAlign: 'center',
+							marginBottom: '16px',
+							color: '#1F2937',
+							fontSize: '20px',
+							fontWeight: '600',
+							margin: '0 20px 16px 20px',
+						}}
+					>
+						Full Width Leaderboard
+					</h3>
+					<div style={{ width: '100%' }}>
+						<Card
+							{...args}
+							kind='leaderboard'
+							leaderboard={leaderboardMock}
+							title='🏆 Global Championship Leaderboard'
+							subtitle='Top players this season • Real-time rankings'
+							style={{
+								minHeight: '600px',
+								maxWidth: '100%',
+								width: '100%',
+								boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+								border: '1px solid #E5E7EB',
+								borderRadius: '16px',
+								overflow: 'hidden',
+								backgroundColor: '#FFFFFF',
+								background:
+									'linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)',
+								...args.style,
+							}}
+						/>
+					</div>
+				</div>
+			</div>
+		);
+	},
 	args: {
-		kind: 'leaderboard',
+		variant: 'elevated',
 	},
 	parameters: {
+		layout: 'fullscreen',
 		docs: {
-			disable: true, // Disable this heavy story from docs page
 			description: {
 				story:
-					'Leaderboard card: shows a ranked list with avatars, names, and scores.',
+					'Beautiful leaderboard cards with multiple sizes showing the rich design with rank badges, avatars, stats, and hover effects.',
 			},
 		},
 	},
@@ -314,17 +641,24 @@ export const Leaderboard: Story = {
 
 export const Puzzle: Story = {
 	render: (args) => (
-		<Card kind='puzzle' puzzle={cardPuzzleData} {...args} />
+		<Card
+			kind='puzzle'
+			puzzle={cardPuzzleData}
+			{...args}
+			style={{
+				...args.style,
+			}}
+		/>
 	),
 	args: {
 		kind: 'puzzle',
 	},
 	parameters: {
 		docs: {
-			disable: true, // Disable this heavy story from docs page
+			disable: false, // Re-enable to show the updated puzzle card
 			description: {
 				story:
-					'Puzzle card: shows an image at the top, then title, date, and creator.',
+					'Puzzle card using the dedicated puzzle prop and built-in rendering.',
 			},
 		},
 	},

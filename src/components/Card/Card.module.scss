@@ -18,6 +18,9 @@ li {
 	position: relative;
 	outline: none;
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
 
 	&:focus-visible {
 		@include focus-ring;
@@ -90,6 +93,14 @@ li {
 	max-width: none !important;
 	min-width: 0 !important;
 	aspect-ratio: unset !important;
+}
+
+/* Override size constraints for cards with inline width: 100% */
+.baseCard[style*='width: 100%'],
+.baseCard[style*='width:100%'] {
+	width: 100% !important;
+	max-width: none !important;
+	min-width: 0 !important;
 }
 
 .cardHover {
@@ -250,12 +261,41 @@ li {
 .profile-card {
 	text-align: center;
 
+	/* Override aspect ratio for profile cards to allow flexible height */
+	aspect-ratio: unset !important;
+	height: auto !important;
+	min-height: auto !important;
+
 	&:hover {
 		box-shadow: 0 4px 16px var(--success-200);
 	}
 }
 
-// Notification card styles moved to the end for higher specificity
+.profileStats {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-2, 8px);
+	margin-top: var(--spacing-3, 12px);
+
+	span {
+		font-size: 0.875rem;
+		color: var(--text-secondary, #6b7280);
+		padding: var(--spacing-1, 4px) 0;
+		display: block;
+
+		&:not(:last-child) {
+			border-bottom: 1px solid var(--gray-200, #e5e7eb);
+			padding-bottom: var(--spacing-2, 8px);
+			margin-bottom: var(--spacing-1, 4px);
+		}
+
+		strong {
+			color: var(--text-primary, #111827);
+			margin-right: 4px;
+		}
+	}
+}
+
 .card-outlined.notification-card,
 .notification-card.card-outlined {
 	background: var(--gray-50);
@@ -309,7 +349,6 @@ li {
 	}
 }
 
-// --- Card shape variants ---
 .card-shape-horizontal-rect {
 	aspect-ratio: 16 / 9;
 	width: 100%;
@@ -354,7 +393,6 @@ li {
 	min-height: unset;
 }
 
-// Ensure shape classes do not override explicit size if both are present
 .card-shape-horizontal-rect.card-size-full,
 .card-shape-vertical-rect.card-size-full,
 .card-shape-square.card-size-full,
@@ -393,4 +431,151 @@ li {
 	flex-direction: row;
 	align-items: center;
 	gap: var(--spacing-2);
+}
+
+.leaderboard-card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-2);
+	overflow-y: auto;
+	flex: 1;
+	min-height: 0;
+	padding: 0;
+	margin: 0;
+
+	scroll-behavior: smooth;
+
+	scrollbar-width: thin;
+	scrollbar-color: var(--primary-500, #3b82f6)
+		var(--gray-100, #f3f4f6);
+
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: var(--gray-100, #f3f4f6);
+		border-radius: 4px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: var(--primary-500, #3b82f6);
+		border-radius: 4px;
+		border: 1px solid var(--gray-100, #f3f4f6);
+
+		&:hover {
+			background: var(--primary-600, #2563eb);
+		}
+	}
+}
+
+// Size-specific leaderboard-card height constraints for leaderboard
+.card-small .leaderboard-card {
+	max-height: 365px;
+}
+
+.card-medium .leaderboard-card {
+	max-height: 454px;
+}
+
+.card-large .leaderboard-card {
+	max-height: 570px;
+}
+
+// Full width cards (when width is 100%)
+.baseCard[style*='width: 100%'] .leaderboard-card,
+.baseCard[style*='width:100%'] .leaderboard-card {
+	max-height: 670px;
+}
+
+// Puzzle cards should not have height constraints to show all content
+.puzzle-card .leaderboard-card {
+	max-height: none !important;
+	overflow-y: visible !important;
+}
+
+// Puzzle cards should not be constrained by aspect ratio
+.puzzle-card {
+	aspect-ratio: unset !important;
+	height: auto !important;
+}
+
+.itemNumber {
+	font-weight: var(--font-weight-medium, 500);
+	color: var(--gray-600, #6b7280);
+	min-width: 1.5rem;
+}
+
+.itemAvatar {
+	border-radius: 50%;
+	object-fit: cover;
+	flex-shrink: 0;
+}
+
+.itemIcon {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.itemContent {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-1, 4px);
+	min-width: 0;
+}
+
+.itemLabel {
+	font-weight: var(--font-weight-medium, 500);
+	color: var(--gray-900, #111827);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.itemSubtitle {
+	font-size: 0.875rem;
+	color: var(--gray-600, #6b7280);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.itemValue {
+	font-weight: var(--font-weight-semibold, 600);
+	color: var(--primary-600, #2563eb);
+	flex-shrink: 0;
+}
+
+// Close button for dismissible cards
+.closeButton {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 10;
+	min-width: 24px !important;
+	width: 24px !important;
+	height: 24px !important;
+	padding: 0 !important;
+	border-radius: 4px !important;
+	background: rgba(255, 255, 255, 0.9) !important;
+	border: 1px solid var(--gray-200, #e5e7eb) !important;
+	color: var(--gray-600, #6b7280) !important;
+
+	&:hover {
+		background: rgba(255, 255, 255, 1) !important;
+		color: var(--gray-800, #1f2937) !important;
+		border-color: var(--gray-300, #d1d5db) !important;
+	}
+
+	&:active {
+		background: var(--gray-100, #f3f4f6) !important;
+	}
+}
+
+// Ensure dismissible cards don't have overflow issues with close button
+.baseCard.dismissible {
+	padding-top: calc(var(--spacing-4) + 8px);
 }

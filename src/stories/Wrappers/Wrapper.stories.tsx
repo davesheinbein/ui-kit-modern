@@ -4,6 +4,7 @@ import { Button } from '../../components/Button';
 import { Wrapper } from '../../components/Wrappers';
 import type { WrapperProps } from '../../components/Wrappers';
 import { commonDecorators } from '../config/decorators';
+import { wrapperArgTypes } from '../config/argTypes';
 import * as mocks from '../mocks';
 
 const meta: Meta<typeof Wrapper> = {
@@ -11,52 +12,14 @@ const meta: Meta<typeof Wrapper> = {
 	component: Wrapper,
 	decorators: commonDecorators,
 	tags: ['autodocs'],
+	argTypes: wrapperArgTypes,
 	parameters: {
 		docs: {
 			description: {
 				component:
-					'Flexible, prop-driven wrapper for layout, spacing, and style. All demo data is sourced from mocks.',
+					'Flexible, prop-driven wrapper for layout, spacing, and style. All functionality is exposed via props with no hardcoded logic or external CSS dependencies. Supports both abbreviated (p, m, w, h) and full-name (padding, margin, width, height) prop aliases.',
 			},
 		},
-	},
-	argTypes: {
-		layout: {
-			control: 'select',
-			options: ['flex', 'grid', undefined],
-			description: 'Layout display type',
-		},
-		direction: {
-			control: 'select',
-			options: ['row', 'column'],
-			description: 'Flex/Grid direction',
-		},
-		center: {
-			control: 'boolean',
-			description: 'Center content',
-		},
-		gap: {
-			control: 'number',
-			description: 'Gap between items',
-		},
-		columns: {
-			control: 'number',
-			description: 'Grid columns',
-		},
-		rows: { control: 'number', description: 'Grid rows' },
-		p: { control: 'number', description: 'Padding' },
-		border: { control: 'text', description: 'Border' },
-		radius: {
-			control: 'number',
-			description: 'Border radius',
-		},
-		bg: { control: 'text', description: 'Background' },
-		shadow: { control: 'text', description: 'Box shadow' },
-		w: { control: 'number', description: 'Width' },
-		h: { control: 'number', description: 'Height' },
-		minW: { control: 'number', description: 'Min width' },
-		maxW: { control: 'number', description: 'Max width' },
-		minH: { control: 'number', description: 'Min height' },
-		maxH: { control: 'number', description: 'Max height' },
 	},
 };
 

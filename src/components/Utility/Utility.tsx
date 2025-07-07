@@ -1,73 +1,147 @@
 import React, {
 	forwardRef,
 	memo,
-	useEffect,
+	useState,
 	useRef,
+	useCallback,
+	useEffect,
 	useId,
 } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Wrapper } from '../Wrappers';
-import {
-	setComponentState,
-	cleanupComponent,
-	selectComponentState,
-} from '../../store/slices/uiSlice';
 import { Button } from '../Button';
-import styles from './Utility.module.scss';
 import {
-	UtilityKind,
-	UtilitySize,
-	UtilityVariant,
-	UtilityPlacement,
-	UtilityAction,
-	UtilityConfiguration,
 	getUtilityConfig,
+	type UtilityKind,
+	type UtilitySize,
+	type UtilityVariant,
+	type UtilityPlacement,
+	type UtilityConfiguration,
 } from './configurations';
+import styles from './Utility.module.scss';
 
-export interface UtilityProps {
-	kind: UtilityKind;
+// ==========================================
+// Comprehensive Utility Props Interface
+// ==========================================
+
+export interface UtilityAction {
+	id?: string;
+	label: string;
+	onClick?: () => void;
+	icon?: React.ReactNode;
+	disabled?: boolean;
+	variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+}
+
+export interface UtilityProps
+	extends React.HTMLAttributes<HTMLDivElement> {
+	// === CORE PROPS ===
+	/** Type of utility component */
+	kind?: UtilityKind;
+
+	/** Content */
 	children?: React.ReactNode;
-	className?: string;
-	componentId?: string;
-
-	// Content overrides
+	/** Label text */
 	label?: string;
+	/** Description text */
 	description?: string;
+	/** Icon element */
 	icon?: React.ReactNode;
 
-	// Behavior overrides
-	placement?: UtilityConfiguration['placement'];
-	trigger?: UtilityConfiguration['trigger'];
-	delay?: number;
-	dismissible?: boolean;
-	interactive?: boolean;
+	// === LAYOUT PROPS ===
+	/** Size variant */
+	size?: UtilitySize;
+	/** Visual variant */
+	variant?: UtilityVariant;
+	/** Placement/position */
+	placement?: UtilityPlacement;
 
-	// State overrides
+	// === BEHAVIOR PROPS ===
+	/** Show/hide trigger */
+	trigger?: 'hover' | 'click' | 'focus' | 'manual';
+	/** Delay before showing (ms) */
+	delay?: number;
+	/** Is dismissible */
+	dismissible?: boolean;
+	/** Is interactive */
+	interactive?: boolean;
+	/** Is active/open */
 	active?: boolean;
+	/** Visible state */
+	visible?: boolean;
+	/** Disabled state */
 	disabled?: boolean;
+	/** Loading state */
 	loading?: boolean;
 
-	// Rating/Stepper specific
+	// === RATING PROPS ===
+	/** Current rating value */
 	value?: number;
+	/** Maximum rating value */
 	maxValue?: number;
+	/** Allow half ratings */
+	allowHalf?: boolean;
+	/** Read-only rating */
+	readOnly?: boolean;
+
+	// === STEPPER PROPS ===
+	/** Current step */
 	currentStep?: number;
+	/** Total steps */
 	totalSteps?: number;
+	/** Step labels */
+	stepLabels?: string[];
+	/** Completed steps */
+	completedSteps?: number[];
 
-	// Actions overrides
-	actions?: UtilityAction[];
-
-	// Styling overrides
-	variant?: UtilityConfiguration['variant'];
-	size?: UtilityConfiguration['size'];
+	// === STYLING PROPS ===
+	/** Text color */
 	color?: string;
+	/** Background color */
 	backgroundColor?: string;
-	borderRadius?: string;
+	/** Border radius */
+	borderRadius?: string | number;
+	/** Custom CSS classes */
+	className?: string;
+	/** Custom styles */
+	style?: React.CSSProperties;
 
-	// Events
+	// === ACTION PROPS ===
+	/** Action buttons */
+	actions?: UtilityAction[];
+	/** Show close button */
+	showCloseButton?: boolean;
+
+	// === EVENT PROPS ===
+	/** Click handler */
 	onClick?: () => void;
+	/** Dismiss handler */
 	onDismiss?: () => void;
+	/** Value change handler (for ratings) */
 	onValueChange?: (value: number) => void;
+	/** Step change handler */
 	onStepChange?: (step: number) => void;
+	/** Visibility change handler */
+	onVisibilityChange?: (visible: boolean) => void;
+
+	// === ACCESSIBILITY PROPS ===
+	/** ARIA label */
+	ariaLabel?: string;
+	/** ARIA described by */
+	ariaDescribedBy?: string;
+	/** Role override */
+	role?: string;
+
+	// === RESPONSIVE PROPS ===
+	/** Hide on mobile */
+	hideOnMobile?: boolean;
+	/** Hide on tablet */
+	hideOnTablet?: boolean;
+	/** Hide on desktop */
+	hideOnDesktop?: boolean;
+
+	// === TEST PROPS ===
+	/** Test ID */
+	testId?: string;
 }
 
 const Utility = forwardRef<HTMLDivElement, UtilityProps>(
@@ -76,16 +150,16 @@ const Utility = forwardRef<HTMLDivElement, UtilityProps>(
 			kind = 'tooltip',
 			children,
 			className = '',
-			componentId,
 			label,
 			description,
 			icon,
 			placement,
-			trigger,
-			delay,
+			trigger = 'hover',
+			delay = 0,
 			dismissible,
 			interactive,
 			active,
+			visible,
 			disabled,
 			loading,
 			value = 0,
@@ -102,58 +176,31 @@ const Utility = forwardRef<HTMLDivElement, UtilityProps>(
 			onDismiss,
 			onValueChange,
 			onStepChange,
+			onVisibilityChange,
 			...rest
 		},
 		ref
 	) => {
 		const config = getUtilityConfig(kind);
 
-		// Generate unique component ID for Redux state isolation
-		const uniqueId = useId();
-		const utilityComponentId =
-			componentId || `utility-${uniqueId}`;
+		// Local state management (replacing Redux)
+		const [isVisible, setIsVisible] = useState(
+			visible ?? active ?? false
+		);
+		const [isHovered, setIsHovered] = useState(false);
 
-		// Redux state management
-		const dispatch = useDispatch();
-
-		// Initialize component state on mount
-		useEffect(() => {
-			dispatch(
-				setComponentState({
-					componentId: utilityComponentId,
-					updates: {
-						isLoading: false,
-						isVisible: false,
-						isExpanded: false,
-						isDragging: false,
-						isHovered: false,
-						isFocused: false,
-						error: null,
-						data: null,
-					},
-				})
-			);
-
-			// Cleanup on unmount
-			return () => {
-				dispatch(cleanupComponent(utilityComponentId));
-			};
-		}, [dispatch, utilityComponentId]);
-
-		// Get state from Redux
-		const componentState =
-			useSelector(
-				selectComponentState(utilityComponentId)
-			) || {};
-
-		const isVisible = componentState?.isVisible || false;
-		const isHovered = componentState?.isHovered || false;
-
-		// Handle hover timeout locally (since it's ephemeral)
+		// Handle hover timeout locally
 		const hoverTimeoutRef = useRef<ReturnType<
 			typeof setTimeout
 		> | null>(null);
 		const containerRef = useRef<HTMLDivElement>(null);
+
+		// Update visibility when prop changes
+		useEffect(() => {
+			if (visible !== undefined) {
+				setIsVisible(visible);
+			}
+		}, [visible]);
 
 		// Merge configuration with props
 		const finalConfig = {
@@ -205,49 +252,36 @@ const Utility = forwardRef<HTMLDivElement, UtilityProps>(
 				if (hoverTimeoutRef.current)
 					clearTimeout(hoverTimeoutRef.current);
 				const timeout = setTimeout(() => {
-					dispatch(
-						setComponentState({
-							componentId: utilityComponentId,
-							updates: { isVisible: true },
-						})
-					);
+					setIsVisible(true);
+					onVisibilityChange?.(true);
 				}, finalConfig.delay || 0);
 				hoverTimeoutRef.current = timeout;
 			}
+			setIsHovered(true);
 		};
 
 		const handleMouseLeave = () => {
 			if (finalConfig.trigger === 'hover') {
 				if (hoverTimeoutRef.current)
 					clearTimeout(hoverTimeoutRef.current);
-				dispatch(
-					setComponentState({
-						componentId: utilityComponentId,
-						updates: { isVisible: false },
-					})
-				);
+				setIsVisible(false);
+				onVisibilityChange?.(false);
 			}
+			setIsHovered(false);
 		};
 
 		const handleClick = () => {
 			if (finalConfig.trigger === 'click') {
-				dispatch(
-					setComponentState({
-						componentId: utilityComponentId,
-						updates: { isVisible: !isVisible },
-					})
-				);
+				const newVisible = !isVisible;
+				setIsVisible(newVisible);
+				onVisibilityChange?.(newVisible);
 			}
 			onClick?.();
 		};
 
 		const handleDismiss = () => {
-			dispatch(
-				setComponentState({
-					componentId: utilityComponentId,
-					updates: { isVisible: false },
-				})
-			);
+			setIsVisible(false);
+			onVisibilityChange?.(false);
 			onDismiss?.();
 		};
 
@@ -415,7 +449,8 @@ const Utility = forwardRef<HTMLDivElement, UtilityProps>(
 						</Wrapper>
 					);
 
-				case kind === 'stepper' || kind === 'wizard-steps':
+				case kind === 'stepper':
+				case kind === 'wizard-steps':
 					return (
 						<Wrapper className={styles.utility__stepper}>
 							{renderStepper()}
@@ -478,65 +513,11 @@ const Utility = forwardRef<HTMLDivElement, UtilityProps>(
 Utility.displayName = 'Utility';
 export default memo(Utility);
 
-// DRY helper to create a Utility component with a config object
-export function createUtility(
-	config: UtilityConfiguration & Partial<UtilityProps>
-) {
-	return React.forwardRef<
-		HTMLDivElement,
-		Partial<UtilityProps>
-	>((props, ref) => (
-		<Utility ref={ref} {...config} {...props} />
-	));
-}
-
-// DRY helper to create a Utility component from a kind
-export function createUtilityFromKind(kind: UtilityKind) {
-	const config = getUtilityConfig(kind);
-	return createUtility(config);
-}
-
-// Pre-configured utility components (static helpers)
-export const UtilityComponents = {
-	Tooltip: createUtilityFromKind('tooltip'),
-	Popover: createUtilityFromKind('popover'),
-	DropdownMenu: createUtilityFromKind('dropdown-menu'),
-	ContextMenu: createUtilityFromKind('context-menu'),
-	ModalOverlay: createUtilityFromKind('modal-overlay'),
-	Divider: createUtilityFromKind('divider'),
-	Separator: createUtilityFromKind('separator'),
-	Spacer: createUtilityFromKind('spacer'),
-	SectionBreak: createUtilityFromKind('section-break'),
-	Tag: createUtilityFromKind('tag'),
-	Chip: createUtilityFromKind('chip'),
-	Badge: createUtilityFromKind('badge'),
-	Label: createUtilityFromKind('label'),
-	Pill: createUtilityFromKind('pill'),
-	StatusIndicator: createUtilityFromKind(
-		'status-indicator'
-	),
-	Stepper: createUtilityFromKind('stepper'),
-	Breadcrumb: createUtilityFromKind('breadcrumb'),
-	Pagination: createUtilityFromKind('pagination'),
-	WizardSteps: createUtilityFromKind('wizard-steps'),
-	RatingStars: createUtilityFromKind('rating-stars'),
-	RatingHearts: createUtilityFromKind('rating-hearts'),
-	ThumbsRating: createUtilityFromKind('thumbs-rating'),
-	NumericRating: createUtilityFromKind('numeric-rating'),
-	FeedbackScale: createUtilityFromKind('feedback-scale'),
-	Container: createUtilityFromKind('container'),
-	GridItem: createUtilityFromKind('grid-item'),
-	FlexItem: createUtilityFromKind('flex-item'),
-	Stack: createUtilityFromKind('stack'),
-	InlineStack: createUtilityFromKind('inline-stack'),
-};
-
 // Export types for external usage
 export type {
 	UtilityKind,
 	UtilitySize,
 	UtilityVariant,
 	UtilityPlacement,
-	UtilityAction,
 	UtilityConfiguration,
 };

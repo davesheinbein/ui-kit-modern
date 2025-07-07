@@ -105,6 +105,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 		const iconPosition =
 			iconPositionProp || config.iconPosition || 'left';
 
+		// Auto-adjust contentType for icon-only buttons
+		const finalContentType =
+			iconPosition === 'only' ? 'icon' : contentType;
+
 		// Determine content with priority: explicit props > config defaults
 		let displayIcon = icon || config.icon;
 		if (typeof displayIcon === 'string') {
@@ -240,10 +244,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 		// Content layout based on contentType
 		const renderContent = () => {
-			if (contentType === 'icon') {
+			if (finalContentType === 'icon') {
 				return displayIcon;
 			}
-			if (contentType === 'textIcon') {
+			if (finalContentType === 'textIcon') {
 				if (
 					(iconPosition === 'top' ||
 						iconPosition === 'bottom') &&
@@ -278,7 +282,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 					</>
 				);
 			}
-			// contentType === 'text' (default)
+			// finalContentType === 'text' (default)
 			return displayText;
 		};
 
@@ -298,7 +302,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 		}
 
 		// Handle icon-only buttons
-		if (contentType === 'icon') {
+		if (finalContentType === 'icon') {
 			return (
 				<button
 					ref={ref}

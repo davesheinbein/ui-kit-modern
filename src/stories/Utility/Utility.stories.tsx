@@ -3,6 +3,7 @@ import { Wrapper } from '../../components/Wrappers';
 import { Utility } from '../../components/Utility';
 import { UtilityKind } from '../../components/Utility/configurations';
 import { commonDecorators } from '../config/decorators';
+import { utilityArgTypes } from '../config/argTypes';
 
 const meta: Meta<typeof Utility> = {
 	title: 'Utility/Utility',
@@ -13,138 +14,12 @@ const meta: Meta<typeof Utility> = {
 		docs: {
 			description: {
 				component:
-					'A comprehensive utility component system with helpers for spacing, typography, layout, and common UI patterns.',
+					'A comprehensive utility component system with helpers for spacing, typography, layout, and common UI patterns. Fully prop-driven with no Redux dependencies.',
 			},
 		},
 	},
 	tags: ['autodocs'],
-	argTypes: {
-		kind: {
-			control: 'select',
-			options: [
-				'tooltip',
-				'popover',
-				'dropdown-menu',
-				'context-menu',
-				'modal-overlay',
-				'divider',
-				'separator',
-				'spacer',
-				'section-break',
-				'tag',
-				'chip',
-				'badge',
-				'label',
-				'pill',
-				'status-indicator',
-				'stepper',
-				'breadcrumb',
-				'pagination',
-				'wizard-steps',
-				'rating-stars',
-				'rating-hearts',
-				'thumbs-rating',
-				'numeric-rating',
-				'feedback-scale',
-				'container',
-				'grid-item',
-				'flex-item',
-				'stack',
-				'inline-stack',
-			] as UtilityKind[],
-			description: 'Utility component kind/type',
-		},
-		variant: {
-			control: 'select',
-			options: [
-				'default',
-				'primary',
-				'secondary',
-				'success',
-				'warning',
-				'error',
-				'info',
-				'ghost',
-				'outline',
-			],
-			description: 'Utility variant/style',
-		},
-		size: {
-			control: 'select',
-			options: ['xs', 'sm', 'md', 'lg', 'xl'],
-			description: 'Utility size',
-		},
-		placement: {
-			control: 'select',
-			options: [
-				'top',
-				'bottom',
-				'left',
-				'right',
-				'top-start',
-				'top-end',
-				'bottom-start',
-				'bottom-end',
-			],
-			description:
-				'Placement position (for tooltips/popovers)',
-		},
-		label: {
-			control: 'text',
-			description: 'Component label text',
-		},
-		description: {
-			control: 'text',
-			description: 'Component description',
-		},
-		icon: {
-			control: 'text',
-			description: 'Icon (emoji or text)',
-		},
-		active: {
-			control: 'boolean',
-			description: 'Active state',
-		},
-		disabled: {
-			control: 'boolean',
-			description: 'Disabled state',
-		},
-		dismissible: {
-			control: 'boolean',
-			description: 'Can be dismissed',
-		},
-		interactive: {
-			control: 'boolean',
-			description: 'Enable interactions',
-		},
-		value: {
-			control: {
-				type: 'range',
-				min: 0,
-				max: 10,
-				step: 0.1,
-			},
-			description: 'Current value (for ratings/steppers)',
-		},
-		maxValue: {
-			control: { type: 'range', min: 1, max: 10, step: 1 },
-			description: 'Maximum value',
-		},
-		trigger: {
-			control: 'select',
-			options: ['hover', 'click', 'focus', 'manual'],
-			description: 'Trigger event',
-		},
-		delay: {
-			control: {
-				type: 'range',
-				min: 0,
-				max: 2000,
-				step: 100,
-			},
-			description: 'Delay before showing (ms)',
-		},
-	},
+	argTypes: utilityArgTypes as any,
 };
 
 export default meta;
@@ -154,7 +29,11 @@ type Story = StoryObj<typeof meta>;
 export const Tooltip: Story = {
 	args: {
 		kind: 'tooltip',
+		label: 'This is a helpful tooltip',
 		size: 'md',
+		trigger: 'hover',
+		delay: 200,
+		placement: 'top',
 		children: 'Hover over me for tooltip',
 	},
 };
@@ -162,7 +41,13 @@ export const Tooltip: Story = {
 export const Popover: Story = {
 	args: {
 		kind: 'popover',
+		label: 'Popover Title',
+		description:
+			'This is the detailed content of the popover with additional information.',
 		size: 'md',
+		trigger: 'click',
+		dismissible: true,
+		interactive: true,
 		children: 'Click for popover content',
 	},
 };
@@ -226,36 +111,40 @@ export const SectionBreak: Story = {
 export const Tag: Story = {
 	args: {
 		kind: 'tag',
+		label: 'Technology',
 		variant: 'primary',
 		size: 'md',
-		children: 'Tag content',
+		dismissible: true,
+		icon: '🏷️',
 	},
 };
 
 export const Chip: Story = {
 	args: {
 		kind: 'chip',
+		label: 'React',
 		variant: 'secondary',
 		size: 'sm',
-		children: 'Chip content',
+		dismissible: true,
+		icon: '⚛️',
 	},
 };
 
 export const Badge: Story = {
 	args: {
 		kind: 'badge',
+		label: '42',
 		variant: 'success',
 		size: 'sm',
-		children: '3',
 	},
 };
 
 export const Label: Story = {
 	args: {
 		kind: 'label',
+		label: 'Form Label',
 		variant: 'default',
 		size: 'md',
-		children: 'Label text',
 	},
 };
 
@@ -281,8 +170,12 @@ export const StatusIndicator: Story = {
 export const Stepper: Story = {
 	args: {
 		kind: 'stepper',
+		currentStep: 1,
+		totalSteps: 4,
 		size: 'md',
-		children: 'Step 1 of 3',
+		interactive: true,
+		onStepChange: (step: number) =>
+			console.log('Step:', step),
 	},
 };
 
@@ -314,24 +207,36 @@ export const WizardSteps: Story = {
 export const RatingStars: Story = {
 	args: {
 		kind: 'rating-stars',
+		value: 3.5,
+		maxValue: 5,
 		size: 'md',
-		children: '★★★★☆',
+		interactive: true,
+		onValueChange: (value: number) =>
+			console.log('Rating:', value),
 	},
 };
 
 export const RatingHearts: Story = {
 	args: {
 		kind: 'rating-hearts',
+		value: 4,
+		maxValue: 5,
 		size: 'md',
-		children: '♥♥♥♡♡',
+		interactive: true,
+		onValueChange: (value: number) =>
+			console.log('Heart rating:', value),
 	},
 };
 
 export const ThumbsRating: Story = {
 	args: {
 		kind: 'thumbs-rating',
+		value: 1,
+		maxValue: 2,
 		size: 'md',
-		children: '👍 👎',
+		interactive: true,
+		onValueChange: (value: number) =>
+			console.log('Thumbs rating:', value),
 	},
 };
 
