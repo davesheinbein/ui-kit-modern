@@ -1,15 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Analytics } from '../../components/Analytics';
-import { Chart } from '../../components/Chart';
-import { Graph } from '../../components/Graphs';
 import { commonDecorators } from '../config/decorators';
 import {
 	sampleChartData,
 	pieChartData,
-	timeSeriesData,
-	multiSeriesData,
+	leaderboardMock,
+	mockGameStats,
 } from '../mocks/index';
-import type { AnalyticsProps } from '../../components/Analytics/Analytics';
 
 const meta: Meta<typeof Analytics> = {
 	title: 'Analytics/Analytics',
@@ -20,350 +17,293 @@ const meta: Meta<typeof Analytics> = {
 		docs: {
 			description: {
 				component:
-					'Analytics system that can create any analytics type through configuration. Supports dashboards, real-time metrics, reports, performance monitoring, and data visualization.',
+					'Comprehensive analytics system supporting dashboards, charts, metrics, and more. All chart rendering is delegated to the Graph component. Interactive legend supported for multi-series and pie/donut charts.',
 			},
 		},
 	},
-	argTypes: {
-		kind: {
-			control: 'select',
-			options: [
-				'dashboard',
-				'chart',
-				'metric',
-				'heatmap',
-				'funnel',
-				'cohort',
-				'report',
-				'realtime',
-			],
-			description: 'Analytics kind/type to use',
-		},
-		title: {
-			control: 'text',
-			description: 'Analytics title',
-		},
-		variant: {
-			control: 'select',
-			options: [
-				'dashboard',
-				'realtime',
-				'reports',
-				'metrics',
-				'performance',
-			],
-			description: 'Analytics variant/style',
-		},
-		size: {
-			control: 'select',
-			options: ['sm', 'md', 'lg'],
-			description: 'Analytics size',
-		},
-		timeRange: {
-			control: 'select',
-			options: [
-				'realtime',
-				'hour',
-				'day',
-				'week',
-				'month',
-				'quarter',
-				'year',
-				'custom',
-			],
-			description: 'Time range for data',
-		},
-		loading: {
-			control: 'boolean',
-			description: 'Show loading state',
-		},
-		error: {
-			control: 'text',
-			description: 'Error message to display',
-		},
-		onRefresh: {
-			action: 'refresh',
-			description: 'Refresh data callback',
-		},
-		onExport: {
-			action: 'export',
-			description: 'Export data callback',
-		},
-	},
 };
-
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Analytics>;
 
-export const Dashboard: Story = {
+export const DashboardWithLineChart: Story = {
 	args: {
 		kind: 'dashboard',
-		variant: 'dashboard',
-		size: 'md',
-		title: 'Dashboard Analytics',
-		data: sampleChartData,
-		metrics: [
-			{ id: '1', name: 'Users', value: 1200 },
-			{ id: '2', name: 'Sessions', value: 3400 },
-		],
-		loading: false,
-		error: null,
-		interactive: true,
-		exportable: true,
-		filterable: true,
-		showHeader: true,
-		showFooter: false,
-		showLegend: true,
-		showControls: true,
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'A dashboard with multiple metrics and a chart.',
-			},
-		},
-	},
-};
-
-export const ChartWithCustomRenderer: Story = {
-	args: {
-		kind: 'chart',
-		title: 'Custom Bar Chart',
-		data: multiSeriesData,
-		showLegend: true,
-		chartType: 'bar',
-		variant: 'dashboard',
-		size: 'md',
-		customRenderer: () => (
-			<Chart
-				kind='legend-horizontal'
-				chartId='analytics-bar-demo'
-				dataSeries={[
-					{
-						id: 'wins',
-						label: 'Wins',
-						color: '#3b82f6',
-						visible: true,
-						data: multiSeriesData.map((d) => ({
-							x: d.month,
-							y: d.wins,
-						})),
-					},
-					{
-						id: 'losses',
-						label: 'Losses',
-						color: '#ef4444',
-						visible: true,
-						data: multiSeriesData.map((d) => ({
-							x: d.month,
-							y: d.losses,
-						})),
-					},
-					{
-						id: 'draws',
-						label: 'Draws',
-						color: '#f59e0b',
-						visible: true,
-						data: multiSeriesData.map((d) => ({
-							x: d.month,
-							y: d.draws,
-						})),
-					},
-				]}
-				variant='modern'
-				showIcons
-			/>
-		),
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Analytics with a custom Chart (legend-horizontal) as its content.',
-			},
-		},
-	},
-};
-
-export const PieChartWithCustomRenderer: Story = {
-	args: {
-		kind: 'chart',
-		title: 'Custom Pie Chart',
-		data: pieChartData,
-		showLegend: true,
-		chartType: 'pie',
-		variant: 'dashboard',
-		size: 'md',
-		customRenderer: () => (
-			<Chart
-				kind='legend-grid'
-				chartId='analytics-pie-demo'
-				dataSeries={pieChartData.map((d, i) => ({
-					id: d.category,
-					label: d.category,
-					color: [
-						'#3b82f6',
-						'#10b981',
-						'#f59e0b',
-						'#ef4444',
-					][i],
-					visible: true,
-					data: [{ x: d.category, y: d.score }],
-				}))}
-				variant='modern'
-				showIcons
-			/>
-		),
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Analytics with a custom Chart (legend-grid) as its content.',
-			},
-		},
-	},
-};
-
-export const GraphWithCustomRenderer: Story = {
-	args: {
-		kind: 'report',
-		title: 'Custom Graph Report',
-		data: timeSeriesData,
-		variant: 'reports',
-		size: 'lg',
-		customRenderer: () => (
-			<Graph
-				kind='line'
-				data={timeSeriesData}
-				dataKey='date'
-				title='Time Series Line Graph'
-			/>
-		),
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Analytics with a custom Graph (line) as its content.',
-			},
-		},
-	},
-};
-
-// Keep a few core stories for reference
-export const Metric: Story = {
-	args: {
-		kind: 'metric',
-		title: 'Uptime',
+		title: 'Dashboard – With Line Chart',
 		metrics: [
 			{
 				id: '1',
-				name: 'Uptime',
-				value: 98.5,
-				change: 0.2,
-				trend: 'up',
-				format: 'percentage',
+				name: 'Users',
+				value: 1200,
+				change: 2.5,
+				format: 'number',
+			},
+			{
+				id: '2',
+				name: 'Sessions',
+				value: 3400,
+				change: -1.2,
+				format: 'number',
 			},
 		],
-		variant: 'metrics',
-		size: 'md',
+		data: sampleChartData,
+		chartType: 'line',
+		showLegend: true,
+		interactive: true,
+		dataKey: 'score',
+		labelKey: 'name',
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'A single key metric with trend.',
+				story: 'Dashboard with metrics and a line chart.',
 			},
 		},
 	},
 };
 
-export const Loading: Story = {
+export const DashboardWithBarChart: Story = {
 	args: {
 		kind: 'dashboard',
-		title: 'Loading State',
-		loading: true,
-		variant: 'dashboard',
-		size: 'md',
+		title: 'Dashboard – With Bar Chart',
+		metrics: [
+			{
+				id: '1',
+				name: 'Wins',
+				value: 89,
+				change: 3.1,
+				format: 'number',
+			},
+			{
+				id: '2',
+				name: 'Losses',
+				value: 38,
+				change: -2.2,
+				format: 'number',
+			},
+		],
+		data: leaderboardMock.map((entry) => ({
+			match: entry.name,
+			score: entry.score,
+		})),
+		chartType: 'bar',
+		showLegend: true,
+		interactive: true,
+		dataKey: 'score',
+		labelKey: 'match',
 	},
 	parameters: {
 		docs: {
-			description: { story: 'Shows the loading state.' },
+			description: {
+				story: 'Dashboard with metrics and a bar chart.',
+			},
 		},
 	},
 };
 
-export const Error: Story = {
+export const DashboardWithPieChart: Story = {
 	args: {
 		kind: 'dashboard',
-		title: 'Error State',
-		error:
-			'Failed to load analytics data. Please try again.',
-		variant: 'dashboard',
-		size: 'md',
+		title: 'Dashboard – With Pie Chart',
+		metrics: [
+			{
+				id: '1',
+				name: 'Perfect Games',
+				value: 23,
+				change: 1.5,
+				format: 'number',
+			},
+			{
+				id: '2',
+				name: 'Speed Bonus',
+				value: 20,
+				change: 0.8,
+				format: 'number',
+			},
+		],
+		data: pieChartData,
+		chartType: 'pie',
+		showLegend: true,
+		interactive: true,
+		dataKey: 'score',
+		labelKey: 'name',
 	},
 	parameters: {
 		docs: {
-			description: { story: 'Shows the error state.' },
+			description: {
+				story: 'Dashboard with metrics and a pie chart.',
+			},
 		},
 	},
 };
 
-const analyticsKinds: AnalyticsProps['kind'][] = [
-	'dashboard',
-	'chart',
-	'metric',
-	'heatmap',
-	'funnel',
-	'cohort',
-	'report',
-	'realtime',
-];
-const analyticsVariants: AnalyticsProps['variant'][] = [
-	'dashboard',
-	'realtime',
-	'reports',
-	'metrics',
-	'performance',
-];
-const analyticsSizes: AnalyticsProps['size'][] = [
-	'sm',
-	'md',
-	'lg',
-];
+export const DashboardWithDonutChart: Story = {
+	args: {
+		kind: 'dashboard',
+		title: 'Dashboard – With Donut Chart',
+		metrics: [
+			{
+				id: '1',
+				name: 'Connections',
+				value: 40,
+				change: 2.0,
+				format: 'number',
+			},
+			{
+				id: '2',
+				name: 'Red Herrings',
+				value: 30,
+				change: -1.1,
+				format: 'number',
+			},
+		],
+		data: pieChartData,
+		chartType: 'doughnut', // changed from 'donut' to 'doughnut'
+		showLegend: true,
+		interactive: true,
+		dataKey: 'score',
+		labelKey: 'name',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Dashboard with metrics and a donut chart.',
+			},
+		},
+	},
+};
 
-export const AnalyticsGallery = () => (
-	<div
-		style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}
-	>
-		{analyticsKinds.map((kind) =>
-			analyticsVariants.map((variant) =>
-				analyticsSizes.map((size) => (
-					<div
-						key={`${kind}-${variant}-${size}`}
-						style={{ minWidth: 340 }}
-					>
-						<Analytics
-							kind={kind}
-							variant={variant}
-							size={size}
-							title={`${kind} (${variant}, ${size})`}
-							// Add mock data as needed for each kind
-						/>
-						<div
-							style={{
-								fontSize: 12,
-								marginTop: 4,
-								textAlign: 'center',
-							}}
-						>
-							{kind} / {variant} / {size}
-						</div>
-					</div>
-				))
-			)
-		)}
-	</div>
-);
-AnalyticsGallery.storyName = 'All Variants Gallery';
+export const MetricSingle: Story = {
+	args: {
+		kind: 'metric',
+		title: 'Single Metric',
+		metrics: [
+			{
+				id: '1',
+				name: 'Total Games',
+				value: mockGameStats.totalGames,
+				format: 'number',
+			},
+		],
+	},
+	parameters: {
+		docs: {
+			description: { story: 'Single metric (basic).' },
+		},
+	},
+};
+
+export const MetricMultiple: Story = {
+	args: {
+		kind: 'metric',
+		title: 'Multiple Metrics',
+		metrics: [
+			{
+				id: '1',
+				name: 'Wins',
+				value: mockGameStats.wins,
+				change: 3.1,
+				format: 'number',
+			},
+			{
+				id: '2',
+				name: 'Losses',
+				value: mockGameStats.losses,
+				change: -2.2,
+				format: 'number',
+			},
+			{
+				id: '3',
+				name: 'Win Rate',
+				value: mockGameStats.winRate * 100,
+				change: 1.2,
+				format: 'percentage',
+			},
+		],
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Multiple metrics for comparison.',
+			},
+		},
+	},
+};
+
+export const ChartLine: Story = {
+	args: {
+		kind: 'chart',
+		title: 'Line Chart',
+		data: sampleChartData,
+		chartType: 'line',
+		showLegend: true,
+		interactive: true,
+		dataKey: 'score',
+		labelKey: 'name',
+	},
+	parameters: {
+		docs: {
+			description: { story: 'Line chart with legend.' },
+		},
+	},
+};
+
+export const ChartBar: Story = {
+	args: {
+		kind: 'chart',
+		title: 'Bar Chart',
+		data: leaderboardMock.map((entry) => ({
+			match: entry.name,
+			score: entry.score,
+		})),
+		chartType: 'bar',
+		showLegend: true,
+		interactive: true,
+		dataKey: 'score',
+		labelKey: 'match',
+	},
+	parameters: {
+		docs: {
+			description: { story: 'Bar chart with legend.' },
+		},
+	},
+};
+
+export const ChartPie: Story = {
+	args: {
+		kind: 'chart',
+		title: 'Pie Chart',
+		data: pieChartData,
+		chartType: 'pie',
+		showLegend: true,
+		interactive: true,
+		dataKey: 'score',
+		labelKey: 'name',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Pie chart with interactive legend.',
+			},
+		},
+	},
+};
+
+export const ChartDonut: Story = {
+	args: {
+		kind: 'chart',
+		title: 'Donut Chart',
+		data: pieChartData,
+		chartType: 'doughnut',
+		showLegend: true,
+		interactive: true,
+		dataKey: 'score',
+		labelKey: 'name',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Donut chart with interactive legend.',
+			},
+		},
+	},
+};

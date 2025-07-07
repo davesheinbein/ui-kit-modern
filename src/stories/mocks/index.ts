@@ -1,17 +1,17 @@
 // Shared mock data for Storybook stories
 export const sampleChartData = [
-	{ match: 'Game 1', score: 85 },
-	{ match: 'Game 2', score: 92 },
-	{ match: 'Game 3', score: 78 },
-	{ match: 'Game 4', score: 96 },
-	{ match: 'Game 5', score: 89 },
+	{ name: 'Game 1', score: 85 },
+	{ name: 'Game 2', score: 92 },
+	{ name: 'Game 3', score: 78 },
+	{ name: 'Game 4', score: 96 },
+	{ name: 'Game 5', score: 89 },
 ];
 
 export const pieChartData = [
-	{ category: 'Connections', score: 40 },
-	{ category: 'Red Herrings', score: 30 },
-	{ category: 'Speed Bonus', score: 20 },
-	{ category: 'Perfect Games', score: 10 },
+	{ name: 'Connections', score: 40 },
+	{ name: 'Red Herrings', score: 30 },
+	{ name: 'Speed Bonus', score: 20 },
+	{ name: 'Perfect Games', score: 10 },
 ];
 
 export const timeSeriesData = [
@@ -598,4 +598,73 @@ export const cardPuzzleData = {
 		'Find the connections between major technology companies',
 	dateCreated: '2024-12-15',
 	creator: 'PuzzleMaster',
+};
+
+// === Dropdown stories mocks ===
+export const basicOptions = [
+	{ label: 'Option 1', value: 'option1' },
+	{ label: 'Option 2', value: 'option2' },
+	{ label: 'Option 3', value: 'option3' },
+];
+
+export const detailedOptions = [
+	{
+		label: 'Alpha',
+		value: 'alpha',
+		description: 'First letter of Greek alphabet',
+	},
+	{
+		label: 'Beta',
+		value: 'beta',
+		description: 'Second letter of Greek alphabet',
+	},
+	{
+		label: 'Gamma',
+		value: 'gamma',
+		description: 'Third letter of Greek alphabet',
+	},
+];
+
+export const categories = [
+	{ id: 1, name: 'Fruits' },
+	{ id: 2, name: 'Vegetables' },
+	{ id: 3, name: 'Dairy' },
+];
+
+// === Provider/Theme/Socket mocks ===
+export const mockUserSettings = {
+	language: 'en',
+	notifications: true,
+	darkMode: false,
+	privacy: 'public',
+	timezone: 'America/New_York',
+};
+
+export const mockThemePalette = {
+	primary: '#3b82f6',
+	secondary: '#10b981',
+	accent: '#f59e0b',
+	background: '#f9fafb',
+	surface: '#ffffff',
+	error: '#ef4444',
+	text: '#111827',
+};
+
+export const mockSocketSession = {
+	id: 'session-123',
+	user: 'user-001',
+	connected: true,
+	lastPing: Date.now(),
+	messages: [
+		{
+			id: 1,
+			text: 'Welcome!',
+			timestamp: Date.now() - 10000,
+		},
+		{
+			id: 2,
+			text: 'Socket connected.',
+			timestamp: Date.now() - 5000,
+		},
+	],
 };

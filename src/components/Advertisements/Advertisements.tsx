@@ -927,7 +927,7 @@ const Advertisements = forwardRef<
 										}
 										closeStyle={singleProps.closeStyle}
 										closeText={singleProps.closeText}
-										closePosition="top-right"
+										closePosition='top-right'
 									/>
 								</div>
 							)}
@@ -1026,7 +1026,7 @@ const Advertisements = forwardRef<
 									}
 									closeStyle={singleProps.closeStyle}
 									closeText={singleProps.closeText}
-									closePosition="top-right"
+									closePosition='top-right'
 								/>
 							</div>
 						)}

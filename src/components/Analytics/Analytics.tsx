@@ -21,6 +21,13 @@ import {
 } from './configurations';
 import styles from './analytics.module.scss';
 import Wrapper from '../Wrappers/Wrapper';
+// Subcomponents
+import AnalyticsHeader from './Sub/AnalyticsHeader';
+import AnalyticsControls from './Sub/AnalyticsControls';
+import AnalyticsFooter from './Sub/AnalyticsFooter';
+import AnalyticsDashboard from './Sub/AnalyticsDashboard';
+import AnalyticsMetricComponent from './Sub/AnalyticsMetric';
+import AnalyticsChart from './Sub/AnalyticsChart';
 
 export interface AnalyticsProps {
 	/** Content to render inside the analytics component */
@@ -149,6 +156,8 @@ export interface AnalyticsProps {
 		| 'line'
 		| 'bar'
 		| 'pie'
+		| 'donut'
+		| 'doughnut'
 		| 'area'
 		| 'scatter'
 		| 'heatmap';
@@ -171,6 +180,11 @@ export interface AnalyticsProps {
 	'customRenderer'?: (data: any) => React.ReactNode;
 	/** Array of plugin objects */
 	'plugins'?: any[];
+
+	/** Key for the primary data value (for charts) */
+	'dataKey'?: string;
+	/** Key for the label/category (for charts) */
+	'labelKey'?: string;
 }
 
 /**
@@ -254,6 +268,10 @@ const Analytics = forwardRef<
 			// Advanced
 			customRenderer,
 			plugins = DEFAULT_PLUGINS,
+
+			// New props
+			dataKey,
+			labelKey,
 
 			...props
 		},
@@ -361,68 +379,7 @@ const Analytics = forwardRef<
 			}
 		};
 
-		// Render methods
-		const renderHeader = () => {
-			if (!showHeader) return null;
-			return (
-				<Wrapper className={styles.analytics__header}>
-					<div>
-						{title && (
-							<h3
-								className={styles.analytics__header_title}
-							>
-								{title}
-							</h3>
-						)}
-						{subtitle && (
-							<div
-								className={
-									styles.analytics__header_subtitle
-								}
-							>
-								{subtitle}
-							</div>
-						)}
-					</div>
-					<div className={styles.analytics__header_actions}>
-						{refreshable && (
-							<button
-								onClick={handleRefresh}
-								disabled={isRefreshing}
-							>
-								{isRefreshing ? 'Refreshing...' : 'Refresh'}
-							</button>
-						)}
-						{exportable && (
-							<button onClick={() => handleExport('csv')}>
-								Export CSV
-							</button>
-						)}
-					</div>
-				</Wrapper>
-			);
-		};
-
-		const renderControls = () => {
-			if (!showControls) return null;
-			return (
-				<Wrapper className={styles.analytics__controls}>
-					{filterable && (
-						<div
-							className={styles.analytics__controls_group}
-						>
-							<span
-								className={styles.analytics__controls_label}
-							>
-								Filters:
-							</span>
-							{/* Render filter controls here */}
-						</div>
-					)}
-				</Wrapper>
-			);
-		};
-
+		// Render content using subcomponents
 		const renderContent = () => {
 			if (loading) {
 				return (
@@ -470,281 +427,55 @@ const Analytics = forwardRef<
 			}
 			switch (kind) {
 				case 'dashboard':
-					return renderDashboard();
-				case 'chart':
-					return renderChart();
-				case 'metric':
-					return renderMetric();
-				case 'heatmap':
-					return renderHeatmap();
-				case 'funnel':
-					return renderFunnel();
-				case 'cohort':
-					return renderCohort();
-				case 'report':
-					return renderReport();
-				case 'realtime':
-					return renderRealtime();
-				default:
-					return renderChart();
-			}
-		};
-
-		const renderDashboard = () => (
-			<Wrapper className={styles.analytics__dashboard_grid}>
-				{metrics.map((metric, index) => (
-					<Wrapper
-						key={metric.id || index}
-						className={styles.analytics__metric_container}
-						onClick={() => onMetricClick?.(metric)}
-					>
-						<div className={styles.analytics__metric_value}>
-							{formatMetricValue(
-								metric.value,
-								metric.format
-							)}
-						</div>
-						<div className={styles.analytics__metric_label}>
-							{metric.name}
-						</div>
-						{metric.change !== undefined && (
-							<div
-								className={
-									styles.analytics__metric_change +
-									' ' +
-									(metric.change > 0 ?
-										styles[
-											'analytics__metric_change--positive'
-										]
-									: metric.change < 0 ?
-										styles[
-											'analytics__metric_change--negative'
-										]
-									:	styles[
-											'analytics__metric_change--neutral'
-										])
-								}
-							>
-								{metric.change > 0 ? '+' : ''}
-								{metric.change}%
-							</div>
-						)}
-					</Wrapper>
-				))}
-			</Wrapper>
-		);
-
-		const renderChart = () => (
-			<Wrapper
-				className={styles.analytics__chart_container}
-				style={{ height }}
-			>
-				{/* Chart implementation would go here - using placeholder */}
-				<Wrapper
-					className={styles.analytics__chart_loading}
-				>
-					📊 Chart visualization ({chartType}) -{' '}
-					{currentData.length} data points
-				</Wrapper>
-				{showLegend && renderLegend()}
-			</Wrapper>
-		);
-
-		const renderMetric = () => {
-			const metric = metrics[0] || {
-				name: 'Metric',
-				value: 0,
-			};
-			return (
-				<Wrapper
-					className={styles.analytics__metric_container}
-				>
-					<div className={styles.analytics__metric_value}>
-						{formatMetricValue(metric.value, metric.format)}
-					</div>
-					<div className={styles.analytics__metric_label}>
-						{metric.name}
-					</div>
-					{metric.change !== undefined && (
-						<div
-							className={
-								styles.analytics__metric_change +
-								' ' +
-								(metric.change > 0 ?
-									styles[
-										'analytics__metric_change--positive'
-									]
-								: metric.change < 0 ?
-									styles[
-										'analytics__metric_change--negative'
-									]
-								:	styles[
-										'analytics__metric_change--neutral'
-									])
-							}
-						>
-							{metric.change > 0 ? '+' : ''}
-							{metric.change}%
-						</div>
-					)}
-				</Wrapper>
-			);
-		};
-
-		const renderHeatmap = () => (
-			<Wrapper
-				className={styles.analytics__heatmap_container}
-				style={{ height }}
-			>
-				{/* Heatmap implementation placeholder */}
-				Heatmap visualization
-			</Wrapper>
-		);
-
-		const renderFunnel = () => (
-			<Wrapper
-				className={styles.analytics__funnel_container}
-			>
-				{currentData.map((step: any, index: number) => (
-					<Wrapper
-						key={index}
-						className={styles.analytics__funnel_step}
-					>
-						<div
-							className={
-								styles.analytics__funnel_step_content
-							}
-						>
-							<span
-								className={
-									styles.analytics__funnel_step_label
-								}
-							>
-								{step.label || `Step ${index + 1}`}
-							</span>
-							<span
-								className={
-									styles.analytics__funnel_step_value
-								}
-							>
-								{step.value}
-							</span>
-							{step.rate !== undefined && (
-								<span
-									className={
-										styles.analytics__funnel_step_rate
-									}
-								>
-									{step.rate}%
-								</span>
-							)}
-						</div>
-					</Wrapper>
-				))}
-			</Wrapper>
-		);
-
-		const renderCohort = () => (
-			<Wrapper
-				className={styles.analytics__chart_container}
-				style={{ height }}
-			>
-				{/* Cohort implementation placeholder */}
-				Cohort visualization
-			</Wrapper>
-		);
-
-		const renderReport = () => (
-			<Wrapper
-				className={styles.analytics__chart_container}
-			>
-				{/* Report implementation placeholder */}
-				Report visualization
-			</Wrapper>
-		);
-
-		const renderRealtime = () => (
-			<Wrapper className={styles.analytics__dashboard_grid}>
-				{realtime && (
-					<Wrapper
-						className={styles.analytics__metric_container}
-					>
-						Realtime data streaming...
-					</Wrapper>
-				)}
-				{metrics.map((metric, index) => (
-					<Wrapper
-						key={metric.id || index}
-						className={styles.analytics__metric_container}
-						onClick={() => onMetricClick?.(metric)}
-					>
-						<div className={styles.analytics__metric_value}>
-							{formatMetricValue(
-								metric.value,
-								metric.format
-							)}
-						</div>
-						<div className={styles.analytics__metric_label}>
-							{metric.name}
-						</div>
-						{metric.change !== undefined && (
-							<div
-								className={
-									styles.analytics__metric_change +
-									' ' +
-									(metric.change > 0 ?
-										styles[
-											'analytics__metric_change--positive'
-										]
-									: metric.change < 0 ?
-										styles[
-											'analytics__metric_change--negative'
-										]
-									:	styles[
-											'analytics__metric_change--neutral'
-										])
-								}
-							>
-								{metric.change > 0 ? '+' : ''}
-								{metric.change}%
-							</div>
-						)}
-					</Wrapper>
-				))}
-			</Wrapper>
-		);
-
-		const renderLegend = () => (
-			<Wrapper className={styles.analytics__chart_legend}>
-				{colors.map((color, index) => (
-					<div
-						key={index}
-						className={styles.analytics__chart_legend_item}
-					>
-						<span
-							className={
-								styles.analytics__chart_legend_item_color
-							}
-							style={{ backgroundColor: color }}
+					return (
+						<AnalyticsDashboard
+							metrics={metrics}
+							onMetricClick={onMetricClick}
+							data={currentData}
+							chartType={chartType}
+							colors={colors}
+							showLegend={showLegend}
+							chartHeight={height}
+							dataKey={dataKey}
+							labelKey={labelKey}
 						/>
-						Color {index + 1}
-					</div>
-				))}
-			</Wrapper>
-		);
-
-		const renderFooter = () => {
-			if (!showFooter) return null;
-			return (
-				<Wrapper className={styles.analytics__footer}>
-					<div>
-						Last updated:{' '}
-						{lastUpdated ?
-							lastUpdated.toLocaleString()
-						:	'N/A'}
-					</div>
-				</Wrapper>
-			);
+					);
+				case 'chart':
+					return (
+						<AnalyticsChart
+							chartType={chartType}
+							data={currentData}
+							colors={colors}
+							showLegend={showLegend}
+							height={height}
+							dataKey={dataKey}
+							labelKey={labelKey}
+						/>
+					);
+				case 'metric':
+					return (
+						<AnalyticsMetricComponent
+							metric={
+								metrics[0] || {
+									name: 'Metric',
+									value: 0,
+								}
+							}
+						/>
+					);
+				default:
+					return (
+						<AnalyticsChart
+							chartType={chartType}
+							data={currentData}
+							colors={colors}
+							showLegend={showLegend}
+							height={height}
+							dataKey={dataKey}
+							labelKey={labelKey}
+						/>
+					);
+			}
 		};
 
 		// Compute CSS classes
@@ -770,10 +501,26 @@ const Analytics = forwardRef<
 				data-analytics-kind={kind}
 				data-analytics-type={configuration.type}
 			>
-				{renderHeader()}
-				{renderControls()}
+				<AnalyticsHeader
+					title={title}
+					subtitle={subtitle}
+					refreshable={refreshable}
+					exportable={exportable}
+					isRefreshing={isRefreshing}
+					onRefresh={handleRefresh}
+					onExport={handleExport}
+				/>
+				<AnalyticsControls
+					showControls={showControls}
+					filterable={filterable}
+					filters={currentFilters}
+					onFilter={handleFilter}
+				/>
 				{renderContent()}
-				{renderFooter()}
+				<AnalyticsFooter
+					showFooter={showFooter}
+					lastUpdated={lastUpdated}
+				/>
 			</Wrapper>
 		);
 	}
