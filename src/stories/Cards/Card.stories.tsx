@@ -1,7 +1,5 @@
 import React from 'react';
 import { Card } from '../../components/Card';
-import { Button } from '../../components/Button';
-import { Icons } from '../../components/Icons';
 import { cardArgTypes as baseCardArgTypes } from '../config/argTypes';
 import {
 	mockFriends,

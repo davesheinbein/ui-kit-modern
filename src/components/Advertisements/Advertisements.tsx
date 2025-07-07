@@ -17,6 +17,13 @@ import type {
 	AdProvider,
 	AdProviderType,
 } from './configurations';
+import AdTitle from './Sub/AdTitle';
+import AdDescription from './Sub/AdDescription';
+import AdCTAButton from './Sub/AdCTAButton';
+import AdCloseButton from './Sub/AdCloseButton';
+import AdImage from './Sub/AdImage';
+import AdSponsoredLabel from './Sub/AdSponsoredLabel';
+import MultiAdContainer from './Sub/MultiAdContainer';
 
 // ===== CORE TYPES =====
 
@@ -605,334 +612,6 @@ const generateClassName = (
 
 // ===== COMPONENTS =====
 
-const AdImage: React.FC<{
-	imageUrl?: string;
-	imageAlt?: string;
-	imageClassName?: string;
-	imageStyle?: React.CSSProperties;
-	imageWidth?: string | number;
-	imageHeight?: string | number;
-	imageBorderRadius?: string | number;
-}> = ({
-	imageUrl,
-	imageAlt = 'Advertisement',
-	imageClassName = '',
-	imageStyle = {},
-	imageWidth,
-	imageHeight,
-	imageBorderRadius,
-}) => {
-	if (!imageUrl) return null;
-
-	const styles: React.CSSProperties = {
-		...imageStyle,
-		...(imageWidth && { width: imageWidth }),
-		...(imageHeight && { height: imageHeight }),
-		...(imageBorderRadius !== undefined && {
-			borderRadius: imageBorderRadius,
-		}),
-	};
-
-	const className = [
-		classNames.advertisement__image,
-		imageClassName,
-	]
-		.filter(Boolean)
-		.join(' ');
-
-	return (
-		<img
-			src={imageUrl}
-			alt={imageAlt}
-			className={className}
-			style={styles}
-		/>
-	);
-};
-
-const AdTitle: React.FC<{
-	title?: string;
-	titleTag?: keyof JSX.IntrinsicElements;
-	titleClassName?: string;
-	titleStyle?: React.CSSProperties;
-	titleColor?: string;
-	titleSize?: string | number;
-	titleWeight?: string | number;
-}> = ({
-	title,
-	titleTag = 'h3',
-	titleClassName = '',
-	titleStyle = {},
-	titleColor,
-	titleSize,
-	titleWeight,
-}) => {
-	if (!title) return null;
-
-	const styles: React.CSSProperties = {
-		...titleStyle,
-		...(titleColor && { color: titleColor }),
-		...(titleSize && { fontSize: titleSize }),
-		...(titleWeight && { fontWeight: titleWeight }),
-	};
-
-	const className = [
-		classNames.advertisement__title,
-		titleClassName,
-	]
-		.filter(Boolean)
-		.join(' ');
-
-	return React.createElement(
-		titleTag,
-		{
-			className,
-			style: styles,
-		},
-		title
-	);
-};
-
-const AdDescription: React.FC<{
-	description?: string;
-	descriptionClassName?: string;
-	descriptionStyle?: React.CSSProperties;
-	descriptionColor?: string;
-	descriptionSize?: string | number;
-}> = ({
-	description,
-	descriptionClassName = '',
-	descriptionStyle = {},
-	descriptionColor,
-	descriptionSize,
-}) => {
-	if (!description) return null;
-
-	const styles: React.CSSProperties = {
-		...descriptionStyle,
-		...(descriptionColor && { color: descriptionColor }),
-		...(descriptionSize && { fontSize: descriptionSize }),
-	};
-
-	const className = [
-		classNames.advertisement__description,
-		descriptionClassName,
-	]
-		.filter(Boolean)
-		.join(' ');
-
-	return (
-		<p className={className} style={styles}>
-			{description}
-		</p>
-	);
-};
-
-const AdCTAButton: React.FC<{
-	ctaText?: string;
-	onClick?: () => void;
-	ctaClassName?: string;
-	ctaStyle?: React.CSSProperties;
-	ctaVariant?:
-		| 'primary'
-		| 'secondary'
-		| 'ghost'
-		| 'outline';
-	ctaBackground?: string;
-	ctaColor?: string;
-	ctaPadding?: string | number;
-	ctaBorderRadius?: string | number;
-}> = ({
-	ctaText,
-	onClick,
-	ctaClassName = '',
-	ctaStyle = {},
-	ctaVariant = 'primary',
-	ctaBackground,
-	ctaColor,
-	ctaPadding,
-	ctaBorderRadius,
-}) => {
-	if (!ctaText) return null;
-
-	const styles: React.CSSProperties = {
-		...ctaStyle,
-		...(ctaBackground && { background: ctaBackground }),
-		...(ctaColor && { color: ctaColor }),
-		...(ctaPadding !== undefined && {
-			padding: ctaPadding,
-		}),
-		...(ctaBorderRadius !== undefined && {
-			borderRadius: ctaBorderRadius,
-		}),
-	};
-
-	// Map CTA variant to Button kind
-	const mapCtaVariantToButtonKind = (variant: string) => {
-		switch (variant) {
-			case 'outline':
-				return 'ghost'; // Map outline to ghost as it's similar
-			case 'primary':
-			case 'secondary':
-			case 'ghost':
-				return variant as 'primary' | 'secondary' | 'ghost';
-			default:
-				return 'primary';
-		}
-	};
-
-	return (
-		<Button
-			kind={mapCtaVariantToButtonKind(ctaVariant)}
-			className={[
-				classNames.advertisement__cta,
-				ctaClassName,
-			]
-				.filter(Boolean)
-				.join(' ')}
-			style={styles}
-			onClick={onClick}
-		>
-			{ctaText}
-		</Button>
-	);
-};
-
-const AdCloseButton: React.FC<{
-	onClose?: () => void;
-	closeClassName?: string;
-	closeStyle?: React.CSSProperties;
-	closeText?: string;
-	closeBackground?: string;
-	closeColor?: string;
-	closeSize?: string | number;
-	closable?: boolean;
-	closePosition?:
-		| 'top-right'
-		| 'top-left'
-		| 'bottom-right'
-		| 'bottom-left'
-		| 'custom';
-}> = ({
-	onClose,
-	closeClassName = '',
-	closeStyle = {},
-	closeText = '×',
-	closeBackground,
-	closeColor,
-	closeSize,
-	closable = false,
-	closePosition = 'top-right',
-}) => {
-	if (!closable || !onClose) return null;
-
-	const styles: React.CSSProperties = {
-		...closeStyle,
-		...(closeBackground && { background: closeBackground }),
-		...(closeColor && { color: closeColor }),
-		...(closeSize && { fontSize: closeSize }),
-	};
-
-	// Build the CSS class based on position
-	const getPositionClass = () => {
-		let classes = [classNames.advertisement__close];
-
-		switch (closePosition) {
-			case 'top-left':
-				classes.push(
-					classNames['advertisement__close--top-left']
-				);
-				break;
-			case 'bottom-right':
-				classes.push(
-					classNames['advertisement__close--bottom-right']
-				);
-				break;
-			case 'bottom-left':
-				classes.push(
-					classNames['advertisement__close--bottom-left']
-				);
-				break;
-			case 'top-right':
-			default:
-				// Default position is top-right, which is the base .advertisement__close class
-				break;
-		}
-
-		return classes.join(' ');
-	};
-
-	return (
-		<div
-			className={getPositionClass()}
-			onClick={(e) => {
-				// Stop propagation to prevent triggering parent click handlers (like ad redirect)
-				e.stopPropagation();
-				e.preventDefault();
-			}}
-		>
-			<Button
-				kind='ghost'
-				className={[
-					classNames.advertisement__close_button,
-					closeClassName,
-				]
-					.filter(Boolean)
-					.join(' ')}
-				style={styles}
-				onClick={(e) => {
-					// Stop propagation and prevent default behavior
-					e.stopPropagation();
-					e.preventDefault();
-					// Then call the close handler
-					onClose();
-				}}
-				aria-label='Close advertisement'
-			>
-				{closeText}
-			</Button>
-		</div>
-	);
-};
-
-const AdSponsoredLabel: React.FC<{
-	sponsored?: boolean;
-	sponsoredText?: string;
-	sponsoredClassName?: string;
-	sponsoredStyle?: React.CSSProperties;
-	sponsoredColor?: string;
-	sponsoredSize?: string | number;
-}> = ({
-	sponsored,
-	sponsoredText = 'Sponsored',
-	sponsoredClassName = '',
-	sponsoredStyle = {},
-	sponsoredColor,
-	sponsoredSize,
-}) => {
-	if (!sponsored) return null;
-
-	const styles: React.CSSProperties = {
-		...sponsoredStyle,
-		...(sponsoredColor && { color: sponsoredColor }),
-		...(sponsoredSize && { fontSize: sponsoredSize }),
-	};
-
-	return (
-		<span
-			className={[
-				classNames.advertisement__sponsored,
-				sponsoredClassName,
-			]
-				.filter(Boolean)
-				.join(' ')}
-			style={styles}
-		>
-			{sponsoredText}
-		</span>
-	);
-};
-
 // ===== MAIN COMPONENT =====
 
 const Advertisements = forwardRef<
@@ -1232,19 +911,26 @@ const Advertisements = forwardRef<
 								}
 							/>
 
-							<AdCloseButton
-								onClose={handleAdClose}
-								closeClassName={singleProps.closeClassName}
-								closeStyle={singleProps.closeStyle}
-								closeText={singleProps.closeText}
-								closeBackground={
-									singleProps.closeBackground
-								}
-								closeColor={singleProps.closeColor}
-								closeSize={singleProps.closeSize}
-								closable={singleProps.closable}
-								closePosition={singleProps.closePosition}
-							/>
+							{singleProps.closable && (
+								<div
+									style={{
+										position: 'absolute',
+										top: 8,
+										right: 8,
+										zIndex: 2,
+									}}
+								>
+									<AdCloseButton
+										onClick={handleAdClose}
+										closeClassName={
+											singleProps.closeClassName
+										}
+										closeStyle={singleProps.closeStyle}
+										closeText={singleProps.closeText}
+										closePosition="top-right"
+									/>
+								</div>
+							)}
 
 							{singleProps.footerContent}
 						</div>
@@ -1324,17 +1010,26 @@ const Advertisements = forwardRef<
 							ctaBorderRadius={singleProps.ctaBorderRadius}
 						/>
 
-						<AdCloseButton
-							onClose={handleAdClose}
-							closeClassName={singleProps.closeClassName}
-							closeStyle={singleProps.closeStyle}
-							closeText={singleProps.closeText}
-							closeBackground={singleProps.closeBackground}
-							closeColor={singleProps.closeColor}
-							closeSize={singleProps.closeSize}
-							closable={singleProps.closable}
-							closePosition={singleProps.closePosition}
-						/>
+						{singleProps.closable && (
+							<div
+								style={{
+									position: 'absolute',
+									top: 8,
+									right: 8,
+									zIndex: 2,
+								}}
+							>
+								<AdCloseButton
+									onClick={handleAdClose}
+									closeClassName={
+										singleProps.closeClassName
+									}
+									closeStyle={singleProps.closeStyle}
+									closeText={singleProps.closeText}
+									closePosition="top-right"
+								/>
+							</div>
+						)}
 
 						{singleProps.footerContent}
 					</Wrapper>
@@ -1373,114 +1068,9 @@ const Advertisements = forwardRef<
 	);
 });
 
-// ===== MULTI-AD CONTAINER =====
-
-const MultiAdContainer = forwardRef<
-	HTMLDivElement,
-	MultiAdProps
->(
-	(
-		{
-			ads,
-			maxAds = 3,
-			layout = 'stack',
-			spacing = 16,
-			...props
-		},
-		ref
-	) => {
-		const [currentAds, setCurrentAds] = useState<AdItem[]>(
-			[]
-		);
-		const [rotationIndex, setRotationIndex] = useState(0);
-
-		// Initialize ads
-		useEffect(() => {
-			const limitedAds = ads.slice(0, maxAds);
-			setCurrentAds(limitedAds);
-		}, [ads, maxAds]);
-
-		// Auto-rotation
-		useEffect(() => {
-			if (
-				props.autoRotate &&
-				props.rotationInterval &&
-				currentAds.length > 1
-			) {
-				const timer = setInterval(() => {
-					setRotationIndex(
-						(prev) => (prev + 1) % currentAds.length
-					);
-				}, props.rotationInterval);
-
-				return () => clearInterval(timer);
-			}
-		}, [
-			props.autoRotate,
-			props.rotationInterval,
-			currentAds.length,
-		]);
-
-		// Layout styles
-		const containerStyles: React.CSSProperties = {
-			display: layout === 'grid' ? 'grid' : 'flex',
-			...(layout === 'stack' && {
-				flexDirection: 'column',
-			}),
-			...(layout === 'carousel' && {
-				flexDirection: 'row',
-				overflowX: 'auto',
-			}),
-			...(layout === 'grid' && {
-				gridTemplateColumns:
-					'repeat(auto-fit, minmax(250px, 1fr))',
-			}),
-			gap: spacing,
-			alignItems: props.alignItems,
-			justifyContent: props.justifyContent,
-			...props.style,
-		};
-
-		if (!currentAds.length) {
-			return (
-					props.showFallbackOnError && props.fallbackContent
-				) ?
-					<Wrapper ref={ref}>
-						{props.fallbackContent}
-					</Wrapper>
-				:	null;
-		}
-
-		return (
-			<Wrapper
-				ref={ref}
-				className={props.className}
-				style={containerStyles}
-				data-testid={props['data-testid']}
-			>
-				{currentAds.map((ad, index) => (
-					<Advertisements
-						key={`${ad.kind}-${index}`}
-						{...ad.content}
-						{...ad.style}
-						{...ad.behavior}
-						kind={ad.kind}
-						count='one'
-						onAdLoad={props.onAdLoad}
-						onAdClick={props.onAdClick}
-						onAdImpression={props.onAdImpression}
-						onAdClose={props.onAdClose}
-						onAdError={props.onAdError}
-						onRewardEarned={props.onRewardEarned}
-					/>
-				))}
-			</Wrapper>
-		);
-	}
-);
+// ===== COMPONENTS =====
 
 Advertisements.displayName = 'Advertisements';
-MultiAdContainer.displayName = 'MultiAdContainer';
 
 export { Advertisements };
 export default Advertisements;
