@@ -2,6 +2,7 @@ import React from 'react';
 import { Icons } from '../../components/Icons';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ICONS_LIST } from '../../components/Icons/configurations';
+import { ICONS_ALL_LIST } from '../../components/Icons/Sub/IconMap';
 import { commonDecorators } from '../config/decorators';
 
 const meta: Meta<typeof Icons> = {
@@ -26,6 +27,12 @@ const meta: Meta<typeof Icons> = {
 		className: {
 			control: 'text',
 			description: 'Custom className',
+		},
+		sizeVariant: {
+			control: 'select',
+			options: ['small', 'medium', 'large', 's', 'm', 'l'],
+			description:
+				'Icon size variant (uses CSS class, not inline size)',
 		},
 	},
 };
@@ -53,7 +60,7 @@ export const AllIcons: Story = {
 		<div
 			style={{ display: 'flex', flexWrap: 'wrap', gap: 32 }}
 		>
-			{ICONS_LIST.map((name) => (
+			{ICONS_ALL_LIST.map((name) => (
 				<div
 					key={name}
 					style={{
@@ -64,7 +71,14 @@ export const AllIcons: Story = {
 					}}
 				>
 					<Icons name={name} size={32} color='#2563eb' />
-					<span style={{ fontSize: 12, marginTop: 8 }}>
+					<span
+						style={{
+							fontSize: 12,
+							marginTop: 8,
+							textAlign: 'center',
+							wordBreak: 'break-all',
+						}}
+					>
 						{name}
 					</span>
 				</div>
@@ -74,7 +88,53 @@ export const AllIcons: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'All available icons in the system.',
+				story:
+					'All available icons in the system, each labeled by name.',
+			},
+		},
+	},
+};
+
+export const SizeVariants: Story = {
+	render: (args) => (
+		<div
+			style={{
+				display: 'flex',
+				gap: 40,
+				alignItems: 'center',
+			}}
+		>
+			{(['small', 'medium', 'large'] as const).map(
+				(sizeVariant) => (
+					<div
+						key={sizeVariant}
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+						}}
+					>
+						<Icons
+							name={args.name || 'check'}
+							sizeVariant={sizeVariant}
+							color='#2563eb'
+						/>
+						<span style={{ fontSize: 12, marginTop: 8 }}>
+							{sizeVariant}
+						</span>
+					</div>
+				)
+			)}
+		</div>
+	),
+	args: {
+		name: 'check',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Showcases the visual difference between small, medium, and large sizeVariant (with no size prop).',
 			},
 		},
 	},
