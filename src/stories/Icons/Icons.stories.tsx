@@ -139,3 +139,98 @@ export const SizeVariants: Story = {
 		},
 	},
 };
+
+export const CustomSVG: Story = {
+	render: (args) => (
+		<div
+			style={{
+				display: 'flex',
+				gap: 40,
+				alignItems: 'center',
+			}}
+		>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				<Icons
+					svg={
+						<svg
+							width='32'
+							height='32'
+							viewBox='0 0 32 32'
+							fill='none'
+						>
+							<circle
+								cx='16'
+								cy='16'
+								r='14'
+								stroke='#2563eb'
+								strokeWidth='4'
+							/>
+							<path
+								d='M10 16l4 4 8-8'
+								stroke='#2563eb'
+								strokeWidth='3'
+								fill='none'
+							/>
+						</svg>
+					}
+					aria-label='Custom checkmark circle'
+				/>
+				<span style={{ fontSize: 12, marginTop: 8 }}>
+					React SVG Element
+				</span>
+			</div>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				<Icons
+					svg={`<svg width='32' height='32' viewBox='0 0 32 32' fill='none'><rect x='4' y='4' width='24' height='24' rx='6' fill='white' stroke='#2563eb' stroke-width='4'/><circle cx='16' cy='16' r='6' fill='#2563eb'/></svg>`}
+					title='Custom SVG string'
+				/>
+				<span style={{ fontSize: 12, marginTop: 8 }}>
+					SVG String
+				</span>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'You can render custom SVGs by passing a React element to the `svg` prop, or an SVG string. Accessibility is supported via `aria-label` or `title`. For decorative icons, omit these props to set `aria-hidden`.',
+			},
+		},
+	},
+};
+
+// Add expanded docs after meta definition
+const docsDescription = `
+**Accessibility**
+
+- If you provide \`aria-label\` or \`title\`, the icon will have \`role="img"\` and be announced by screen readers.
+- If neither is provided, the icon is marked \`aria-hidden="true"\` and ignored by assistive tech.
+- For decorative icons, omit \`aria-label\` and \`title\`.
+- For semantic icons, always provide a label or title.
+
+**Custom SVGs**
+
+- Pass a React element to the \`svg\` prop for custom icons.
+- Or pass an SVG string to the \`svg\` prop.
+- Both approaches support accessibility props.
+- See the \`CustomSVG\` story for examples.
+`;
+if (!meta.parameters) meta.parameters = {};
+if (!meta.parameters.docs) meta.parameters.docs = {};
+if (!meta.parameters.docs.description)
+	meta.parameters.docs.description = {};
+meta.parameters.docs.description.component =
+	docsDescription;

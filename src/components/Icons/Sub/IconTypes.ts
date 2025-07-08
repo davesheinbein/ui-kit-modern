@@ -13,6 +13,7 @@ export interface IconProps
 		| 'warning'
 		| 'danger';
 	sizeVariant?: 'small' | 'medium' | 'large';
+	title?: string; // Optional title for accessibility
 }
 
 export type IconName =

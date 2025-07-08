@@ -1,5 +1,5 @@
-import React from 'react';
-import { icons } from './IconMap';
+import React, { Suspense, useMemo } from 'react';
+import { iconImporters } from './IconMap';
 import type { IconProps } from './IconTypes';
 import styles from '../Icons.module.scss';
 
@@ -24,6 +24,17 @@ function normalizeSizeVariant(sizeVariant?: string) {
 	}
 }
 
+function getA11yProps(props: IconProps) {
+	const { 'aria-label': ariaLabel, title } = props;
+	if (ariaLabel || title) {
+		return {
+			'role': 'img',
+			'aria-label': ariaLabel || title,
+		};
+	}
+	return { 'aria-hidden': 'true' };
+}
+
 const IconBase: React.FC<IconProps> = ({
 	name,
 	svg,
@@ -36,7 +47,15 @@ const IconBase: React.FC<IconProps> = ({
 	children,
 	...props
 }) => {
-	const IconComponent = name ? icons[name] : undefined;
+	let LazyIconComponent:
+		| React.LazyExoticComponent<React.ComponentType<any>>
+		| undefined;
+	if (name && iconImporters[name]) {
+		LazyIconComponent = useMemo(
+			() => React.lazy(iconImporters[name]),
+			[name]
+		);
+	}
 	let normalizedSizeVariant =
 		normalizeSizeVariant(sizeVariant);
 
@@ -62,14 +81,16 @@ const IconBase: React.FC<IconProps> = ({
 		size !== undefined ?
 			{ fontSize: size, width: size, height: size, color }
 		:	{ color };
+	const a11yProps = getA11yProps(props);
 
 	if (imgSrc) {
 		return (
 			<img
 				src={imgSrc}
-				alt={name || 'icon'}
+				alt={props['aria-label'] || name || 'icon'}
 				className={classes}
 				style={style}
+				{...a11yProps}
 				{...(props as any)}
 			/>
 		);
@@ -80,6 +101,7 @@ const IconBase: React.FC<IconProps> = ({
 			<span
 				className={classes}
 				style={style}
+				{...a11yProps}
 				{...filterSpanProps(props)}
 			>
 				{children}
@@ -88,10 +110,22 @@ const IconBase: React.FC<IconProps> = ({
 	}
 
 	if (svg) {
+		if (typeof svg === 'string') {
+			return (
+				<span
+					className={classes}
+					style={style}
+					{...a11yProps}
+					{...filterSpanProps(props)}
+					dangerouslySetInnerHTML={{ __html: svg }}
+				/>
+			);
+		}
 		return (
 			<span
 				className={classes}
 				style={style}
+				{...a11yProps}
 				{...filterSpanProps(props)}
 			>
 				{svg}
@@ -99,21 +133,24 @@ const IconBase: React.FC<IconProps> = ({
 		);
 	}
 
-	if (IconComponent) {
+	if (LazyIconComponent) {
 		// If size is provided, pass it; otherwise, let SVG use 1em for width/height
 		const iconProps =
 			size !== undefined ?
 				{ width: size, height: size }
 			:	{ width: '1em', height: '1em' };
 		return (
-			<IconComponent
-				size={undefined} // Don't pass size prop down
-				color={color}
-				className={classes}
-				style={style}
-				{...iconProps}
-				{...props}
-			/>
+			<Suspense fallback={null}>
+				<LazyIconComponent
+					size={undefined} // Don't pass size prop down
+					color={color}
+					className={classes}
+					style={style}
+					{...iconProps}
+					{...a11yProps}
+					{...props}
+				/>
+			</Suspense>
 		);
 	}
 
