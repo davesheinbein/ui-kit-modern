@@ -1448,3 +1448,1534 @@
 	font-size: clamp(1.25rem, 3vw, 2rem) !important;
 	padding: clamp(1rem, 3vw, 2rem) !important;
 }
+
+.legend__sortWrapper {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 12px;
+	position: relative;
+}
+
+.legend__sortLabel {
+	font-weight: 500;
+	font-size: 14px;
+	color: var(--chart-accent, #555);
+	margin-right: 4px;
+}
+
+.legend__sort {
+	padding: 6px 32px 6px 10px;
+	border-radius: 6px;
+	border: 1px solid #d1d5db;
+	background: var(--chart-legend-bg, #fff);
+	color: #222;
+	font-size: 14px;
+	appearance: none;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+	min-width: 110px;
+	cursor: pointer;
+	transition:
+		border-color 0.2s,
+		box-shadow 0.2s;
+}
+
+.legend__sort:focus {
+	outline: none;
+	border-color: var(--chart-accent, #3b82f6);
+	box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.legend__sortWrapper .legend__sortCaret {
+	position: absolute;
+	right: 12px;
+	pointer-events: none;
+	color: #888;
+	font-size: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.chart {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 1.5rem; // Adds vertical space between widget and legend
+
+	// Layout variants
+	&--top {
+		flex-direction: column;
+	}
+	&--bottom {
+		flex-direction: column-reverse;
+	}
+	&--left {
+		flex-direction: row;
+	}
+	&--right {
+		flex-direction: row-reverse;
+	}
+	&--overlay {
+		position: absolute;
+		top: var(--spacing-4);
+		right: var(--spacing-4);
+	}
+
+	&--horizontal {
+		flex-direction: row;
+	}
+	&--vertical {
+		flex-direction: column;
+	}
+
+	// Spacing variants
+	&--spacing-tight {
+		gap: var(--spacing-1);
+	}
+	&--spacing-normal {
+		gap: var(--spacing-2);
+	}
+	&--spacing-loose {
+		gap: var(--spacing-4);
+	}
+
+	// Size variants
+	&--size-small {
+		padding: var(--spacing-2);
+		font-size: var(--font-size-sm);
+	}
+	&--size-medium {
+		padding: var(--spacing-3);
+		font-size: var(--font-size-base);
+	}
+	&--size-large {
+		padding: var(--spacing-4);
+		font-size: var(--font-size-lg);
+	}
+
+	// Style variants
+	&--modern {
+		@include elevated-surface;
+		border: 1px solid var(--color-border);
+	}
+
+	&--minimal {
+		padding: var(--spacing-2);
+		background: transparent;
+	}
+
+	&--compact {
+		padding: var(--spacing-1);
+		gap: var(--spacing-1);
+	}
+
+	&--glass {
+		@include glass-surface;
+	}
+
+	&--game-style {
+		background: linear-gradient(
+			135deg,
+			var(--color-primary-dark),
+			var(--color-primary)
+		);
+		color: var(--color-text-inverse);
+		border: 2px solid var(--color-warning);
+	}
+
+	// Legend variants
+	&--legend-vertical {
+		display: flex;
+		flex-direction: column;
+	}
+
+	// Filter control variants
+	&--with-filters {
+		// styles for charts with filter controls
+	}
+
+	// Sizing variants
+	&--small {
+		font-size: 0.85em;
+	}
+	&--medium {
+		font-size: 1em;
+	}
+	&--large {
+		font-size: 1.15em;
+	}
+}
+
+// ========================================
+// Legend Component with Proper Containment
+// ========================================
+
+.legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+
+	&.grid {
+		display: grid;
+		gap: 12px 24px;
+		align-items: start;
+	}
+
+	&.horizontal {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: var(--spacing-3, 1rem);
+		align-items: center;
+		justify-content: flex-start;
+	}
+	&.vertical {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2, 0.5rem);
+		align-items: flex-start;
+		justify-content: flex-start;
+	}
+
+	@media (min-width: 400px) {
+		.legend.grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+	@media (min-width: 600px) {
+		.legend.grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+	@media (min-width: 900px) {
+		.legend.grid {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+	}
+}
+
+.legend__item {
+	@include flex-center;
+	@include interactive-element;
+	gap: var(--spacing-2);
+	padding: var(--spacing-1) var(--spacing-2);
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+	opacity: 0.7;
+
+	&:hover {
+		opacity: 1;
+		background: var(--color-gray-100);
+	}
+
+	&.active {
+		opacity: 1;
+		font-weight: var(--font-weight-medium);
+	}
+}
+
+.legend__marker {
+	@include contained-size(12px);
+	border-radius: var(--radius-sm);
+	flex-shrink: 0;
+}
+
+.legend__icon {
+	@include contained-size(var(--spacing-3));
+	@include flex-center;
+	border-radius: var(--radius-xs);
+	font-size: var(--font-size-xs);
+}
+
+.legend__label {
+	font-size: var(--font-size-sm);
+	color: var(--color-text-primary);
+}
+
+.legend__value {
+	font-size: var(--font-size-xs);
+	color: var(--color-text-muted);
+	margin-left: auto;
+}
+
+// ========================================
+// Chart Controls and Filters
+// ========================================
+
+.filter {
+	@include flex-column;
+	gap: var(--spacing-2);
+}
+
+.filter__search {
+	@include input-base;
+	padding-left: var(--spacing-3);
+	padding-right: var(--spacing-3);
+}
+
+.filter__select_all {
+	@include button-base;
+	@include button-primary;
+	padding: var(--spacing-1) var(--spacing-2);
+	font-size: var(--font-size-xs);
+}
+
+.filter__items {
+	@include flex-column;
+	gap: var(--spacing-1);
+}
+
+.filter__item {
+	@include flex-center;
+	@include interactive-element;
+	gap: var(--spacing-2);
+	cursor: pointer;
+}
+
+.tooltip {
+	@include elevated-surface;
+	position: absolute;
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	padding: var(--spacing-2);
+	z-index: var(--z-tooltip);
+}
+
+.tooltip__arrow {
+	position: absolute;
+	bottom: -5px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid var(--color-border);
+}
+
+.tooltip__content {
+	font-size: var(--font-size-sm);
+	color: var(--color-text-primary);
+}
+
+.controls {
+	@include flex-center;
+	gap: var(--spacing-2);
+}
+
+.controls__button {
+	@include button-base;
+	@include button-secondary;
+	padding: var(--spacing-1) var(--spacing-2);
+}
+
+.controls__select {
+	@include input-base;
+	padding: var(--spacing-1) var(--spacing-2);
+}
+
+// ========================================
+// Shared Widget Base Styles
+// ========================================
+
+.widgetBase {
+	@include flex-column;
+	background: var(--color-surface, #fff);
+	border-radius: var(--radius-md, 12px);
+	box-shadow: var(
+		--shadow-sm,
+		0 1px 2px 0 rgba(0, 0, 0, 0.05)
+	);
+	padding: var(--spacing-4, 1rem);
+	align-items: center;
+	justify-content: center;
+	min-width: 120px;
+	min-height: 80px;
+}
+
+.widgetContent {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+.widgetHeader {
+	@include flex-row-center;
+	gap: var(--spacing-2, 0.5rem);
+	font-weight: 600;
+	font-size: 1rem;
+	margin-bottom: var(--spacing-2, 0.5rem);
+}
+
+.widgetValue {
+	font-size: 2rem;
+	font-weight: 700;
+	color: var(--color-primary, #2563eb);
+	margin-bottom: var(--spacing-1, 0.25rem);
+}
+
+.widgetLabel {
+	font-size: 1rem;
+	color: var(--color-text-secondary, #6b7280);
+	margin-top: var(--spacing-1, 0.25rem);
+}
+
+// ========================================
+// Chart Controls Story
+// ========================================
+.chartControlsStory {
+	@include flex-row;
+	gap: var(--spacing-3, 0.75rem);
+	background: var(--color-surface-alt, #f9fafb);
+	border-radius: var(--radius-md, 12px);
+	box-shadow: var(
+		--shadow-md,
+		0 2px 4px -1px rgba(0, 0, 0, 0.06)
+	);
+	padding: var(--spacing-3, 0.75rem);
+}
+
+// ========================================
+// Default Chart Style
+// ========================================
+.defaultChart {
+	@extend .widgetBase;
+	border: 1px solid var(--color-border, #e5e7eb);
+}
+
+// ========================================
+// KPI Widget Styles
+// ========================================
+.kpiWidget {
+	@extend .widgetBase;
+	background: var(--color-surface, #fff);
+	border: 2px solid var(--color-primary-light, #3b82f6);
+	color: var(--color-primary, #2563eb);
+	.kpiValue {
+		font-size: 2.5rem;
+		color: var(--color-primary, #2563eb);
+		font-weight: 800;
+		letter-spacing: -0.02em;
+	}
+	.kpiLabel {
+		color: var(--color-text-secondary, #6b7280);
+		font-size: 1.1rem;
+		font-weight: 500;
+	}
+	&--small {
+		font-size: 1.1rem;
+		.kpiValue {
+			font-size: 1.5rem;
+		}
+		.kpiLabel {
+			font-size: 0.85rem;
+		}
+		padding: 0.5rem 0.75rem;
+		min-width: 80px;
+		min-height: 48px;
+	}
+	&--medium {
+		font-size: 1.3rem;
+		.kpiValue {
+			font-size: 2.1rem;
+		}
+		.kpiLabel {
+			font-size: 1.05rem;
+		}
+		padding: 0.75rem 1.25rem;
+		min-width: 120px;
+		min-height: 64px;
+	}
+	&--large {
+		font-size: 1.7rem;
+		.kpiValue {
+			font-size: 2.8rem;
+		}
+		.kpiLabel {
+			font-size: 1.25rem;
+		}
+		padding: 1.25rem 2rem;
+		min-width: 180px;
+		min-height: 96px;
+	}
+
+	&--default {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		box-shadow: none;
+		color: var(--color-text-primary);
+	}
+	&--minimal {
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		color: var(--color-text-secondary);
+		.widgetLabel {
+			opacity: 0.7;
+		}
+	}
+	&--modern {
+		background: linear-gradient(
+			90deg,
+			var(--color-primary-light),
+			var(--color-secondary-light)
+		);
+		border: none;
+		box-shadow: 0 2px 12px 0 rgba(59, 130, 246, 0.1);
+		color: var(--color-white);
+	}
+	&--compact {
+		background: var(--color-surface-alt);
+		border: 1px solid var(--color-border-subtle);
+		box-shadow: none;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.95em;
+	}
+	&--glass {
+		background: rgba(255, 255, 255, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+		backdrop-filter: blur(8px);
+		color: var(--color-text-primary);
+	}
+	&--game-style {
+		background: linear-gradient(
+			135deg,
+			#fbbf24 0%,
+			#a78bfa 100%
+		);
+		border: 2px solid #a78bfa;
+		box-shadow: 0 0 0 4px #fbbf2433;
+		color: #fff;
+		font-family:
+			'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+		text-shadow: 1px 1px 2px #0003;
+	}
+}
+
+// ========================================
+// Scorecard Widget Styles
+// ========================================
+.scorecardWidget {
+	@extend .widgetBase;
+	background: var(--color-secondary-light, #7dd3fc);
+	border: 2px solid var(--color-secondary, #38bdf8);
+	.scorecardHeader {
+		@include flex-row-center;
+		gap: var(--spacing-1, 0.25rem);
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+	.scorecardIcon {
+		font-size: 1.5rem;
+		color: var(--color-secondary, #38bdf8);
+	}
+	.scorecardValue {
+		font-size: 2rem;
+		font-weight: 700;
+		color: var(--color-secondary, #38bdf8);
+	}
+	.scorecardLabel {
+		color: var(--color-text-secondary, #6b7280);
+		font-size: 1rem;
+	}
+	&--small {
+		font-size: 1rem;
+		.scorecardValue {
+			font-size: 1.3rem;
+		}
+		.scorecardLabel {
+			font-size: 0.8rem;
+		}
+		padding: 0.5rem 0.75rem;
+		min-width: 90px;
+		min-height: 48px;
+	}
+	&--medium {
+		font-size: 1.2rem;
+		.scorecardValue {
+			font-size: 1.8rem;
+		}
+		.scorecardLabel {
+			font-size: 1rem;
+		}
+		padding: 0.75rem 1.25rem;
+		min-width: 130px;
+		min-height: 64px;
+	}
+	&--large {
+		font-size: 1.5rem;
+		.scorecardValue {
+			font-size: 2.4rem;
+		}
+		.scorecardLabel {
+			font-size: 1.2rem;
+		}
+		padding: 1.25rem 2rem;
+		min-width: 200px;
+		min-height: 96px;
+	}
+
+	&--default {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		box-shadow: none;
+		color: var(--color-text-primary);
+	}
+	&--minimal {
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		color: var(--color-text-secondary);
+		.widgetLabel {
+			opacity: 0.7;
+		}
+	}
+	&--modern {
+		background: linear-gradient(
+			90deg,
+			var(--color-primary-light),
+			var(--color-secondary-light)
+		);
+		border: none;
+		box-shadow: 0 2px 12px 0 rgba(59, 130, 246, 0.1);
+		color: var(--color-white);
+	}
+	&--compact {
+		background: var(--color-surface-alt);
+		border: 1px solid var(--color-border-subtle);
+		box-shadow: none;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.95em;
+	}
+	&--glass {
+		background: rgba(255, 255, 255, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+		backdrop-filter: blur(8px);
+		color: var(--color-text-primary);
+	}
+	&--game-style {
+		background: linear-gradient(
+			135deg,
+			#fbbf24 0%,
+			#a78bfa 100%
+		);
+		border: 2px solid #a78bfa;
+		box-shadow: 0 0 0 4px #fbbf2433;
+		color: #fff;
+		font-family:
+			'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+		text-shadow: 1px 1px 2px #0003;
+	}
+}
+
+// ========================================
+// Progress Widget Styles
+// ========================================
+.progressWidget {
+	@extend .widgetBase;
+	background: var(--color-warning-light, #fef3c7);
+	border: 2px solid var(--color-warning, #fbbf24);
+	.progressLabel {
+		color: var(--color-warning, #fbbf24);
+		font-weight: 600;
+		font-size: 1rem;
+	}
+	.progressBarContainer {
+		width: 100%;
+		background: var(--color-warning-light, #fef3c7);
+		border-radius: 8px;
+		margin: var(--spacing-2, 0.5rem) 0;
+		height: 12px;
+		overflow: hidden;
+	}
+	.progressBar {
+		height: 100%;
+		background: var(--color-warning, #fbbf24);
+		border-radius: 8px;
+		transition: width 0.3s;
+	}
+	.progressValue {
+		font-size: 1.2rem;
+		color: var(--color-warning, #fbbf24);
+		font-weight: 700;
+	}
+	&--small {
+		height: 8px;
+		.widgetValue {
+			font-size: 0.9rem;
+		}
+		.widgetLabel {
+			font-size: 0.8rem;
+		}
+		margin-bottom: 0.25rem;
+	}
+	&--medium {
+		height: 16px;
+		.widgetValue {
+			font-size: 1.2rem;
+		}
+		.widgetLabel {
+			font-size: 1rem;
+		}
+		margin-bottom: 0.5rem;
+	}
+	&--large {
+		height: 28px;
+		.widgetValue {
+			font-size: 1.7rem;
+		}
+		.widgetLabel {
+			font-size: 1.2rem;
+		}
+		margin-bottom: 0.75rem;
+	}
+
+	&--default {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		box-shadow: none;
+		color: var(--color-text-primary);
+	}
+	&--minimal {
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		color: var(--color-text-secondary);
+		.widgetLabel {
+			opacity: 0.7;
+		}
+	}
+	&--modern {
+		background: linear-gradient(
+			90deg,
+			var(--color-primary-light),
+			var(--color-secondary-light)
+		);
+		border: none;
+		box-shadow: 0 2px 12px 0 rgba(59, 130, 246, 0.1);
+		color: var(--color-white);
+	}
+	&--compact {
+		background: var(--color-surface-alt);
+		border: 1px solid var(--color-border-subtle);
+		box-shadow: none;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.95em;
+	}
+	&--glass {
+		background: rgba(255, 255, 255, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+		backdrop-filter: blur(8px);
+		color: var(--color-text-primary);
+	}
+	&--game-style {
+		background: linear-gradient(
+			135deg,
+			#fbbf24 0%,
+			#a78bfa 100%
+		);
+		border: 2px solid #a78bfa;
+		box-shadow: 0 0 0 4px #fbbf2433;
+		color: #fff;
+		font-family:
+			'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+		text-shadow: 1px 1px 2px #0003;
+	}
+}
+
+// ========================================
+// Gauge Widget Styles
+// ========================================
+.gaugeWidget {
+	@extend .widgetBase;
+	background: var(--color-accent, #a78bfa);
+	border: 2px solid var(--color-accent-hover, #8b5cf6);
+	.gaugeValue {
+		font-size: 2rem;
+		color: var(--color-accent-hover, #8b5cf6);
+		font-weight: 700;
+	}
+	.gaugeLabel {
+		color: var(--color-text-inverse, #fff);
+		font-size: 1rem;
+	}
+	&--small {
+		width: 60px;
+		height: 36px;
+		.widgetValue {
+			font-size: 1.1rem;
+		}
+		.widgetLabel {
+			font-size: 0.8rem;
+		}
+	}
+	&--medium {
+		width: 100px;
+		height: 60px;
+		.widgetValue {
+			font-size: 1.7rem;
+		}
+		.widgetLabel {
+			font-size: 1.1rem;
+		}
+	}
+	&--large {
+		width: 180px;
+		height: 108px;
+		.widgetValue {
+			font-size: 2.5rem;
+		}
+		.widgetLabel {
+			font-size: 1.4rem;
+		}
+	}
+
+	&--default {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		box-shadow: none;
+		color: var(--color-text-primary);
+	}
+	&--minimal {
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		color: var(--color-text-secondary);
+		.widgetLabel {
+			opacity: 0.7;
+		}
+	}
+	&--modern {
+		background: linear-gradient(
+			90deg,
+			var(--color-primary-light),
+			var(--color-secondary-light)
+		);
+		border: none;
+		box-shadow: 0 2px 12px 0 rgba(59, 130, 246, 0.1);
+		color: var(--color-white);
+	}
+	&--compact {
+		background: var(--color-surface-alt);
+		border: 1px solid var(--color-border-subtle);
+		box-shadow: none;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.95em;
+	}
+	&--glass {
+		background: rgba(255, 255, 255, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+		backdrop-filter: blur(8px);
+		color: var(--color-text-primary);
+	}
+	&--game-style {
+		background: linear-gradient(
+			135deg,
+			#fbbf24 0%,
+			#a78bfa 100%
+		);
+		border: 2px solid #a78bfa;
+		box-shadow: 0 0 0 4px #fbbf2433;
+		color: #fff;
+		font-family:
+			'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+		text-shadow: 1px 1px 2px #0003;
+	}
+}
+
+// ========================================
+// Delta Widget Styles
+// ========================================
+.deltaWidget {
+	@extend .widgetBase;
+	background: var(--color-surface-alt, #f9fafb);
+	border: 2px solid var(--color-info, #3b82f6);
+	.deltaValue {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--color-info, #3b82f6);
+	}
+	.deltaUp {
+		color: var(--color-success, #22c55e);
+	}
+	.deltaDown {
+		color: var(--color-danger, #ef4444);
+	}
+	.deltaLabel {
+		color: var(--color-text-secondary, #6b7280);
+		font-size: 0.95rem;
+	}
+	&--small {
+		font-size: 1rem;
+		.widgetValue {
+			font-size: 1.2rem;
+		}
+		.widgetLabel {
+			font-size: 0.8rem;
+		}
+		.deltaIcon {
+			font-size: 1rem;
+		}
+	}
+	&--medium {
+		font-size: 1.3rem;
+		.widgetValue {
+			font-size: 1.7rem;
+		}
+		.widgetLabel {
+			font-size: 1.05rem;
+		}
+		.deltaIcon {
+			font-size: 1.3rem;
+		}
+	}
+	&--large {
+		font-size: 1.7rem;
+		.widgetValue {
+			font-size: 2.3rem;
+		}
+		.widgetLabel {
+			font-size: 1.25rem;
+		}
+		.deltaIcon {
+			font-size: 1.7rem;
+		}
+	}
+
+	&--default {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		box-shadow: none;
+		color: var(--color-text-primary);
+	}
+	&--minimal {
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		color: var(--color-text-secondary);
+		.widgetLabel {
+			opacity: 0.7;
+		}
+	}
+	&--modern {
+		background: linear-gradient(
+			90deg,
+			var(--color-primary-light),
+			var(--color-secondary-light)
+		);
+		border: none;
+		box-shadow: 0 2px 12px 0 rgba(59, 130, 246, 0.1);
+		color: var(--color-white);
+	}
+	&--compact {
+		background: var(--color-surface-alt);
+		border: 1px solid var(--color-border-subtle);
+		box-shadow: none;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.95em;
+	}
+	&--glass {
+		background: rgba(255, 255, 255, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+		backdrop-filter: blur(8px);
+		color: var(--color-text-primary);
+	}
+	&--game-style {
+		background: linear-gradient(
+			135deg,
+			#fbbf24 0%,
+			#a78bfa 100%
+		);
+		border: 2px solid #a78bfa;
+		box-shadow: 0 0 0 4px #fbbf2433;
+		color: #fff;
+		font-family:
+			'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+		text-shadow: 1px 1px 2px #0003;
+	}
+}
+
+// ========================================
+// Circular Progress Widget Styles
+// ========================================
+.circularProgressWidget {
+	@extend .widgetBase;
+	background: var(--color-primary-lightest, #dbeafe);
+	border: 2px solid var(--color-primary, #2563eb);
+	.circularValue {
+		font-size: 1.5rem;
+		color: var(--color-primary, #2563eb);
+		font-weight: 700;
+	}
+	.circularLabel {
+		color: var(--color-text-secondary, #6b7280);
+		font-size: 0.95rem;
+	}
+	&--small {
+		width: 32px;
+		height: 32px;
+		.widgetValue {
+			font-size: 1rem;
+		}
+	}
+	&--medium {
+		width: 60px;
+		height: 60px;
+		.widgetValue {
+			font-size: 1.5rem;
+		}
+	}
+	&--large {
+		width: 100px;
+		height: 100px;
+		.widgetValue {
+			font-size: 2.2rem;
+		}
+	}
+
+	&--default {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		box-shadow: none;
+		color: var(--color-text-primary);
+	}
+	&--minimal {
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		color: var(--color-text-secondary);
+		.widgetLabel {
+			opacity: 0.7;
+		}
+	}
+	&--modern {
+		background: linear-gradient(
+			90deg,
+			var(--color-primary-light),
+			var(--color-secondary-light)
+		);
+		border: none;
+		box-shadow: 0 2px 12px 0 rgba(59, 130, 246, 0.1);
+		color: var(--color-white);
+	}
+	&--compact {
+		background: var(--color-surface-alt);
+		border: 1px solid var(--color-border-subtle);
+		box-shadow: none;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.95em;
+	}
+	&--glass {
+		background: rgba(255, 255, 255, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+		backdrop-filter: blur(8px);
+		color: var(--color-text-primary);
+	}
+	&--game-style {
+		background: linear-gradient(
+			135deg,
+			#fbbf24 0%,
+			#a78bfa 100%
+		);
+		border: 2px solid #a78bfa;
+		box-shadow: 0 0 0 4px #fbbf2433;
+		color: #fff;
+		font-family:
+			'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+		text-shadow: 1px 1px 2px #0003;
+	}
+}
+
+// ========================================
+// Status Widget Styles
+// ========================================
+.statusWidget {
+	@extend .widgetBase;
+	background: var(--color-success-light, #dcfce7);
+	border: 2px solid var(--color-success, #22c55e);
+	.statusValue {
+		font-size: 1.2rem;
+		color: var(--color-success, #22c55e);
+		font-weight: 700;
+	}
+	.statusLabel {
+		color: var(--color-text-secondary, #6b7280);
+		font-size: 0.95rem;
+	}
+	&--small {
+		font-size: 0.9rem;
+		.widgetLabel {
+			font-size: 0.7rem;
+		}
+		.statusIndicator {
+			width: 10px;
+			height: 10px;
+		}
+	}
+	&--medium {
+		font-size: 1.2rem;
+		.widgetLabel {
+			font-size: 1rem;
+		}
+		.statusIndicator {
+			width: 16px;
+			height: 16px;
+		}
+	}
+	&--large {
+		font-size: 1.6rem;
+		.widgetLabel {
+			font-size: 1.3rem;
+		}
+		.statusIndicator {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	&--default {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		box-shadow: none;
+		color: var(--color-text-primary);
+	}
+	&--minimal {
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		color: var(--color-text-secondary);
+		.widgetLabel {
+			opacity: 0.7;
+		}
+	}
+	&--modern {
+		background: linear-gradient(
+			90deg,
+			var(--color-primary-light),
+			var(--color-secondary-light)
+		);
+		border: none;
+		box-shadow: 0 2px 12px 0 rgba(59, 130, 246, 0.1);
+		color: var(--color-white);
+	}
+	&--compact {
+		background: var(--color-surface-alt);
+		border: 1px solid var(--color-border-subtle);
+		box-shadow: none;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.95em;
+	}
+	&--glass {
+		background: rgba(255, 255, 255, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+		backdrop-filter: blur(8px);
+		color: var(--color-text-primary);
+	}
+	&--game-style {
+		background: linear-gradient(
+			135deg,
+			#fbbf24 0%,
+			#a78bfa 100%
+		);
+		border: 2px solid #a78bfa;
+		box-shadow: 0 0 0 4px #fbbf2433;
+		color: #fff;
+		font-family:
+			'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+		text-shadow: 1px 1px 2px #0003;
+	}
+}
+
+// ========================================
+// Leaderboard Widget Styles
+// ========================================
+.leaderboardWidget {
+	@extend .widgetBase;
+	background: var(--color-surface-alt, #f9fafb);
+	border: 2px solid var(--color-primary, #2563eb);
+	.leaderboardRow {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2, 0.5rem);
+		font-size: 1rem;
+		font-weight: 500;
+		padding: var(--spacing-1, 0.25rem) 0;
+		border-bottom: 1px solid
+			var(--color-border-subtle, #f3f4f6);
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+	.leaderboardRank {
+		font-weight: 700;
+		color: var(--color-primary, #2563eb);
+		min-width: 2rem;
+		text-align: right;
+	}
+	.leaderboardName {
+		flex: 1;
+		color: var(--color-text-primary, #111827);
+	}
+	.leaderboardScore {
+		font-weight: 700;
+		color: var(--color-success, #22c55e);
+	}
+	&--small {
+		font-size: 0.95rem;
+		.leaderboardEntry {
+			font-size: 0.85rem;
+		}
+		.leaderboardRank {
+			font-size: 0.8rem;
+		}
+		padding: 0.5rem 0.75rem;
+	}
+	&--medium {
+		font-size: 1.15rem;
+		.leaderboardEntry {
+			font-size: 1.05rem;
+		}
+		.leaderboardRank {
+			font-size: 1rem;
+		}
+		padding: 0.75rem 1.25rem;
+	}
+	&--large {
+		font-size: 1.4rem;
+		.leaderboardEntry {
+			font-size: 1.25rem;
+		}
+		.leaderboardRank {
+			font-size: 1.2rem;
+		}
+		padding: 1.25rem 2rem;
+	}
+
+	&--default {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		box-shadow: none;
+		color: var(--color-text-primary);
+	}
+	&--minimal {
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		color: var(--color-text-secondary);
+		.widgetLabel {
+			opacity: 0.7;
+		}
+	}
+	&--modern {
+		background: linear-gradient(
+			90deg,
+			var(--color-primary-light),
+			var(--color-secondary-light)
+		);
+		border: none;
+		box-shadow: 0 2px 12px 0 rgba(59, 130, 246, 0.1);
+		color: var(--color-white);
+	}
+	&--compact {
+		background: var(--color-surface-alt);
+		border: 1px solid var(--color-border-subtle);
+		box-shadow: none;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.95em;
+	}
+	&--glass {
+		background: rgba(255, 255, 255, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+		backdrop-filter: blur(8px);
+		color: var(--color-text-primary);
+	}
+	&--game-style {
+		background: linear-gradient(
+			135deg,
+			#fbbf24 0%,
+			#a78bfa 100%
+		);
+		border: 2px solid #a78bfa;
+		box-shadow: 0 0 0 4px #fbbf2433;
+		color: #fff;
+		font-family:
+			'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+		text-shadow: 1px 1px 2px #0003;
+	}
+}
+
+// ========================================
+// Legend Styles (Vertical, etc.)
+// ========================================
+.legendVertical {
+	@extend .widgetBase;
+	background: var(--color-surface-alt, #f9fafb);
+	border: 1.5px dashed var(--color-border, #e5e7eb);
+	.legend__item {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2, 0.5rem);
+		margin-bottom: var(--spacing-1, 0.25rem);
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	.legend__marker {
+		width: 1.2em;
+		height: 1.2em;
+		border-radius: 50%;
+		background: var(--color-primary, #2563eb);
+		border: 2px solid var(--color-primary-light, #3b82f6);
+	}
+	.legend__label {
+		color: var(--color-text-secondary, #6b7280);
+		font-size: 1rem;
+	}
+	.legend__value {
+		color: var(--color-text-primary, #111827);
+		font-weight: 600;
+		margin-left: auto;
+	}
+}
+
+// ========================================
+// Filter Controls Styles
+// ========================================
+.filterControlsWidget {
+	@extend .widgetBase;
+	background: var(--color-surface, #fff);
+	border: 2px solid var(--color-info, #3b82f6);
+	.filter__item {
+		background: var(--color-info-light, #dbeafe);
+		border-radius: 6px;
+		padding: var(--spacing-1, 0.25rem)
+			var(--spacing-2, 0.5rem);
+		margin-bottom: var(--spacing-1, 0.25rem);
+		color: var(--color-info, #3b82f6);
+		font-weight: 500;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	.filter__search {
+		margin-bottom: var(--spacing-2, 0.5rem);
+	}
+}
+
+// ========================================
+// Widget States: Empty, Loading, Error, Long Labels, Accessibility
+// ========================================
+.emptyState {
+	@extend .widgetBase;
+	background: var(--color-surface-alt, #f9fafb);
+	color: var(--color-text-muted, #9ca3af);
+	border: 1.5px dashed var(--color-border, #e5e7eb);
+	.emptyIcon {
+		font-size: 2.5rem;
+		color: var(--color-border, #e5e7eb);
+		margin-bottom: var(--spacing-2, 0.5rem);
+	}
+	.emptyLabel {
+		font-size: 1rem;
+		color: var(--color-text-muted, #9ca3af);
+	}
+}
+
+.loadingState {
+	@extend .widgetBase;
+	background: var(--color-surface, #fff);
+	color: var(--color-text-secondary, #6b7280);
+	opacity: 0.7;
+	.loadingSpinner {
+		@extend .animated-spin;
+		font-size: 2rem;
+		color: var(--color-primary, #2563eb);
+		margin-bottom: var(--spacing-2, 0.5rem);
+	}
+	.loadingLabel {
+		font-size: 1rem;
+		color: var(--color-text-secondary, #6b7280);
+	}
+}
+
+.errorState {
+	@extend .widgetBase;
+	background: var(--color-danger-light, #fee2e2);
+	color: var(--color-danger, #ef4444);
+	border: 2px solid var(--color-danger, #ef4444);
+	.errorIcon {
+		font-size: 2rem;
+		color: var(--color-danger, #ef4444);
+		margin-bottom: var(--spacing-2, 0.5rem);
+	}
+	.errorLabel {
+		font-size: 1rem;
+		color: var(--color-danger, #ef4444);
+	}
+}
+
+.longLabel {
+	.widgetLabel,
+	.kpiLabel,
+	.scorecardLabel,
+	.progressLabel,
+	.gaugeLabel,
+	.deltaLabel,
+	.circularLabel,
+	.statusLabel {
+		font-size: 0.95rem;
+		word-break: break-word;
+		max-width: 180px;
+		white-space: normal;
+	}
+}
+
+.accessibilityEdgeCase {
+	outline: 3px solid var(--color-accent, #a78bfa);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px var(--color-accent-hover, #8b5cf6);
+}
+
+// Note: All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss. No local animation logic here.
+
+// Responsive, flexible widget container overrides for all chart widgets
+.kpiWidget,
+.scorecardWidget,
+.progressWidget,
+.gaugeWidget,
+.deltaWidget,
+.circularProgressWidget,
+.statusWidget,
+.leaderboardWidget {
+	height: auto !important;
+	min-height: 0 !important;
+	width: 100% !important;
+	min-width: 0 !important;
+	max-width: 100% !important;
+	aspect-ratio: unset !important;
+	overflow: visible !important;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: clamp(0.75rem, 2vw, 1.5rem) !important;
+	font-size: clamp(1rem, 2vw, 1.5rem) !important;
+	box-sizing: border-box;
+}
+
+.gaugeValue,
+.gaugeLabel,
+.kpiValue,
+.kpiLabel,
+.scorecardValue,
+.scorecardLabel,
+.progressValue,
+.progressLabel,
+.deltaValue,
+.deltaLabel,
+.deltaDelta,
+.circularValue,
+.circularLabel,
+.statusValue,
+.leaderboardName,
+.leaderboardValue {
+	word-break: break-word;
+	overflow: visible;
+	text-overflow: ellipsis;
+	white-space: normal;
+	line-height: 1.2;
+	font-size: inherit;
+	text-align: center;
+	margin: 0.25em 0;
+}
+
+// Only apply overflow hidden to SVG or chart graphics if needed
+.circularProgressWidget svg {
+	overflow: visible;
+	display: block;
+	margin: 0 auto;
+}
+
+// Responsive font and padding for size prop
+.kpiWidget--small,
+.scorecardWidget--small,
+.progressWidget--small,
+.gaugeWidget--small,
+.deltaWidget--small,
+.circularProgressWidget--small,
+.statusWidget--small,
+.leaderboardWidget--small {
+	font-size: clamp(0.85rem, 1.5vw, 1.1rem) !important;
+	padding: clamp(0.5rem, 1vw, 1rem) !important;
+}
+
+.kpiWidget--large,
+.scorecardWidget--large,
+.progressWidget--large,
+.gaugeWidget--large,
+.deltaWidget--large,
+.circularProgressWidget--large,
+.statusWidget--large,
+.leaderboardWidget--large {
+	font-size: clamp(1.25rem, 3vw, 2rem) !important;
+	padding: clamp(1rem, 3vw, 2rem) !important;
+}
+
+.legend__sortWrapper {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 12px;
+	position: relative;
+}
+
+.legend__sortLabel {
+	font-weight: 500;
+	font-size: 14px;
+	color: var(--chart-accent, #555);
+	margin-right: 4px;
+}
+
+.legend__sort {
+	padding: 6px 32px 6px 10px;
+	border-radius: 6px;
+	border: 1px solid #d1d5db;
+	background: var(--chart-legend-bg, #fff);
+	color: #222;
+	font-size: 14px;
+	appearance: none;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+	min-width: 110px;
+	cursor: pointer;
+	transition:
+		border-color 0.2s,
+		box-shadow 0.2s;
+}
+
+.legend__sort:focus {
+	outline: none;
+	border-color: var(--chart-accent, #3b82f6);
+	box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.legend__sortWrapper .legend__sortCaret {
+	position: absolute;
+	right: 12px;
+	pointer-events: none;
+	color: #888;
+	font-size: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+}
