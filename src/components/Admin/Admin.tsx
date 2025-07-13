@@ -80,6 +80,19 @@ const Admin: React.FC<AdminProps> = (props) => {
 		style
 	);
 
+	// ARIA attributes for accessibility
+	const ariaProps: React.AriaAttributes &
+		React.HTMLAttributes<HTMLElement> = {
+		'role': 'region',
+		'aria-label': title || kind.replace(/-/g, ' '),
+		'aria-labelledby':
+			showHeader && title ? `${kind}-header` : undefined,
+		'aria-live':
+			kind === 'error-logger' ? 'polite' : undefined,
+		'aria-modal': kind === 'debug-panel' ? true : undefined,
+		'tabIndex': 0, // Make region focusable
+	};
+
 	// Render content based on kind and customRenderer
 	const renderContent = () => {
 		if (customRenderer) {
@@ -122,16 +135,21 @@ const Admin: React.FC<AdminProps> = (props) => {
 			className={panelClass}
 			style={inlineStyles}
 			onClick={onClick}
+			{...ariaProps}
 			{...restProps}
 		>
 			{showHeader && title && (
-				<div className={styles.panelHeaderTitle}>
+				<div
+					className={styles.panelHeaderTitle}
+					id={`${kind}-header`}
+				>
 					{title}
 					{closable && onClose && (
 						<button
 							onClick={onClose}
 							className={styles.closeButton}
-							aria-label='Close'
+							aria-label='Close admin panel'
+							aria-controls={kind + '-header'}
 						>
 							×
 						</button>

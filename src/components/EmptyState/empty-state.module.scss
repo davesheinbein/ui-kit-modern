@@ -2,11 +2,6 @@
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/Animations.scss' as *;
 
-// All animation keyframes and reusable animation classes are now centralized in src/styles/Animations.scss.
-// Do not define animation logic here. Use only the centralized animation classes or keyframes.
-
-/* EmptyState.module.scss - Modern Empty State Styles */
-
 .empty_state {
 	display: flex;
 	flex-direction: column;
@@ -17,7 +12,6 @@
 	min-block-size: 300px;
 	color: var(--text-secondary);
 
-	// Sizes with modern containment
 	&--small {
 		min-block-size: 200px;
 		padding: var(--spacing-md);
@@ -39,7 +33,6 @@
 		padding: var(--spacing-xl);
 	}
 
-	// Icon/Image container
 	&__icon {
 		margin-block-end: var(--spacing-md);
 		opacity: 0.6;
@@ -57,7 +50,6 @@
 		}
 	}
 
-	// Content area
 	&__content {
 		max-inline-size: 400px;
 		margin-block-end: var(--spacing-md);
@@ -123,7 +115,6 @@
 		}
 	}
 
-	// Loading state with modern animation
 	&--loading {
 		.empty_state__icon {
 			animation: pulse var(--animation-duration-slow)
@@ -131,7 +122,6 @@
 		}
 	}
 
-	// Compact layout
 	&--compact {
 		flex-direction: row;
 		text-align: start;
@@ -232,7 +222,6 @@
 	align-items: center;
 }
 
-// Responsive design with media queries
 @media (max-width: 768px) {
 	.empty_state {
 		padding: var(--spacing-md);

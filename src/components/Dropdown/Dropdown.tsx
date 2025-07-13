@@ -1,61 +1,36 @@
 import React, {
+	forwardRef,
 	useRef,
 	useId,
-	useEffect,
 	useCallback,
-	forwardRef,
-	ReactNode,
+	useState,
 } from 'react';
-import classNames from 'classnames';
-import { Wrapper } from '../Wrappers';
+import {
+	DropdownLabel,
+	DropdownHelper,
+	DropdownLoading,
+	DropdownClearButton,
+	DropdownInput,
+	DropdownMenu,
+	FilterToggle,
+	SelectedChips,
+	getContainerClasses,
+	useDropdownState,
+	useDropdownKeyboard,
+	useDropdownOutsideClick,
+	handleOptionSelect,
+	handleClearSelection,
+	handleDropdownToggle,
+	handleSearchChange,
+	isMultiSelect,
+	normalizeValue,
+	getFilteredOptions,
+	getDisplayValue,
+} from './Sub';
 import styles from './dropdown.module.scss';
-import Loading from '../Loading/Loading';
-import { Input } from '../Inputs/Input';
-import { Checkbox } from '../Checkbox/Checkbox';
+import classNames from 'classnames';
 
-export interface DropdownOption {
-	label: string;
-	value: string;
-	numericValue?: number;
-	className?: string;
-}
-
-export interface DropdownProps {
-	data?: DropdownOption[]; // New: options as data prop
-	children?: ReactNode; // New: options as children
-	value?: string | string[];
-	defaultValue?: string | string[];
-	onChange: (value: string | string[]) => void;
-	onSearch?: (search: string) => void;
-	label?: string | React.ReactNode;
-	helpText?: string | React.ReactNode;
-	error?: string;
-	className?: string;
-	disabled?: boolean;
-	required?: boolean;
-	loading?: boolean;
-	name?: string;
-	id?: string;
-	variant?:
-		| 'dropdown'
-		| 'multiselect'
-		| 'searchable'
-		| 'custom';
-	size?: 'small' | 'medium' | 'large';
-	searchable?: boolean;
-	clearable?: boolean;
-	filter?: boolean;
-	placeholder?: string;
-	searchPlaceholder?: string;
-	loadingMessage?: string;
-	componentId?: string;
-	[key: string]: any;
-}
-
-export const Dropdown = forwardRef<
-	HTMLDivElement,
-	DropdownProps
->(
+export const Dropdown = forwardRef<HTMLDivElement, any>(
 	(
 		{
 			componentId,
@@ -90,212 +65,153 @@ export const Dropdown = forwardRef<
 		const dropdownComponentId =
 			componentId || `dropdown-${uniqueId}`;
 		const containerRef = useRef<HTMLDivElement>(null);
-		const inputRef = useRef<HTMLInputElement>(null);
 		const menuRef = useRef<HTMLDivElement>(null);
-		const [isOpen, setIsOpen] = React.useState(false);
-		const [searchValue, setSearchValue] =
-			React.useState('');
-		const [internalValue, setInternalValue] =
-			React.useState(
-				defaultValue !== undefined ? defaultValue
-				: variant === 'multiselect' ? []
-				: ''
-			);
-		const [filterValue, setFilterValue] = React.useState<
+		const multi = isMultiSelect(variant);
+
+		// Use modular state hook
+		const {
+			open,
+			setOpen,
+			value,
+			search,
+			setSearch,
+			handleSelect,
+			handleClear,
+		} = useDropdownState({
+			value: controlledValue,
+			defaultValue,
+			data,
+			onChange,
+			onSearch,
+			searchable,
+			multi,
+		});
+
+		// Filter state (local, since not in hook)
+		const [filterValue, setFilterValue] = useState<
 			'none' | 'az' | 'za' | 'largest' | 'smallest'
 		>('none');
-		const isControlled = controlledValue !== undefined;
-		const currentValue =
-			isControlled ? controlledValue : internalValue;
-		// Use data prop if present, otherwise fallback to children
-		const options: DropdownOption[] = data || [];
-		const hasData = !!data && data.length > 0;
-		const hasChildren = !!children;
-		const getFilteredOptions = useCallback(() => {
-			let filtered = options;
 
-			// Apply filter dropdown logic
-			if (filter && filterValue !== 'none') {
-				if (filterValue === 'az') {
-					filtered = [...filtered].sort((a, b) =>
-						a.label.localeCompare(b.label)
-					);
-				} else if (filterValue === 'za') {
-					filtered = [...filtered].sort((a, b) =>
-						b.label.localeCompare(a.label)
-					);
-				} else if (filterValue === 'largest') {
-					filtered = [...filtered].sort(
-						(a, b) =>
-							(b.numericValue ?? 0) - (a.numericValue ?? 0)
-					);
-				} else if (filterValue === 'smallest') {
-					filtered = [...filtered].sort(
-						(a, b) =>
-							(a.numericValue ?? 0) - (b.numericValue ?? 0)
-					);
-				}
-			}
-
-			// Apply search logic
-			if (searchable && searchValue) {
-				filtered = filtered.filter(
-					(opt: { label: string; value: string }) =>
-						opt.label
-							.toLowerCase()
-							.includes(searchValue.toLowerCase())
-				);
-			}
-			// Not searching: just show all, no separation
-			return { selected: [], rest: filtered };
-		}, [
-			options,
-			searchable,
-			searchValue,
-			variant,
-			currentValue,
+		// Keyboard navigation
+		const [highlightedIndex, setHighlightedIndex] =
+			useState(0);
+		const filteredOptionsArr = getFilteredOptions({
+			options: Array.isArray(data) ? data : [],
 			filter,
 			filterValue,
-		]);
+			searchable,
+			searchValue: search,
+		});
+		const filteredOptions =
+			Array.isArray(filteredOptionsArr) ?
+				filteredOptionsArr
+			:	[];
 
-		const filteredOptions = getFilteredOptions();
-		const getDisplayValue = () => {
-			if (
-				variant === 'multiselect' &&
-				Array.isArray(currentValue)
-			) {
-				return options
-					.filter((opt: { label: string; value: string }) =>
-						currentValue.includes(opt.value)
-					)
-					.map(
-						(opt: { label: string; value: string }) =>
-							opt.label
-					)
-					.join(', ');
-			}
-			const found = options.find(
-				(opt: { label: string; value: string }) =>
-					opt.value === currentValue
-			);
-			return found ? found.label : '';
-		};
-		const getContainerClasses = () =>
-			classNames(
-				styles.dropdownContainer,
-				styles[`variant-${variant}`],
-				styles[`size-${size}`],
-				{
-					[styles.open]: isOpen,
-					[styles.disabled]: disabled,
-					[styles.error]: !!error,
-					[styles.loading]: loading,
-					[styles.multiple]: variant === 'multiselect',
-					[styles.searchable]: searchable,
-				},
-				className
-			);
-		const handleToggle = () => {
-			if (disabled || loading) return;
-			setIsOpen(!isOpen);
-			if (!isOpen && searchable) {
-				setTimeout(() => inputRef.current?.focus(), 0);
-			}
-		};
-		const handleSelect = (option: {
-			label: string;
-			value: string;
-		}) => {
-			if (variant === 'multiselect') {
-				let newValue: string[];
-				if (
-					Array.isArray(currentValue) &&
-					currentValue.includes(option.value)
-				) {
-					newValue = currentValue.filter(
-						(v: string) => v !== option.value
-					);
-				} else {
-					newValue =
-						Array.isArray(currentValue) ?
-							[...currentValue, option.value]
-						:	[option.value];
+		const { handleKeyDown } = useDropdownKeyboard({
+			open,
+			setOpen,
+			optionsLength: filteredOptions.length,
+			highlightedIndex,
+			setHighlightedIndex,
+			onSelect: (idx: number) => {
+				const option = filteredOptions[idx];
+				if (option) {
+					handleSelect(option.value);
+					setOpen(false);
 				}
-				if (!isControlled) setInternalValue(newValue);
-				onChange?.(newValue);
-			} else {
-				if (!isControlled) setInternalValue(option.value);
-				onChange?.(option.value);
-				setIsOpen(false);
-			}
+			},
+		});
+
+		// Close on outside click
+		useDropdownOutsideClick(
+			containerRef,
+			() => setOpen(false),
+			open
+		);
+
+		// Display value
+		const displayValue = getDisplayValue({
+			variant,
+			currentValue: value || (multi ? [] : ''),
+			options: Array.isArray(data) ? data : [],
+		});
+
+		// Event handlers
+		const onDropdownToggle = () =>
+			handleDropdownToggle({ open, setOpen, disabled });
+		const onClear = () =>
+			handleClearSelection({
+				multi,
+				onChange: handleClear,
+			});
+		const onSearchInput = (val: string) =>
+			handleSearchChange({
+				value: val,
+				setSearch,
+				onSearch,
+			});
+		const onOptionSelect = (val: string) => {
+			handleSelect(val);
+			setOpen(false);
 		};
-		const handleClear = () => {
-			if (!isControlled)
-				setInternalValue(
-					variant === 'multiselect' ? [] : ''
-				);
-			onChange?.(variant === 'multiselect' ? [] : '');
-			setSearchValue('');
-		};
-		const handleSearchChange = (
-			e: React.ChangeEvent<HTMLInputElement>
-		) => {
-			setSearchValue(e.target.value);
-			onSearch?.(e.target.value);
-		};
-		const handleKeyDown = (e: React.KeyboardEvent) => {
-			if (e.key === 'Escape') setIsOpen(false);
-		};
+
+		// Render
 		return (
-			<Wrapper
-				kind='component-wrapper'
+			<div
 				ref={containerRef}
-				className={getContainerClasses()}
+				className={getContainerClasses({
+					isOpen: open,
+					disabled,
+					error,
+					loading,
+					variant,
+					size,
+					searchable,
+					className,
+				})}
 				data-testid='dropdown-container'
+				{...props}
 			>
-				{label && (
-					<label className={styles.fieldLabel} htmlFor={id}>
-						{label}
-						{required && (
-							<span className={styles.requiredMark}>*</span>
-						)}
-					</label>
-				)}
+				<DropdownLabel
+					label={label}
+					required={required}
+					disabled={disabled}
+				/>
 				<div
 					className={styles.control}
-					onClick={handleToggle}
 					tabIndex={0}
 					role='button'
 					aria-haspopup='listbox'
-					aria-expanded={isOpen}
-					aria-disabled={disabled}
-					id={id}
+					aria-expanded={open}
+					onClick={onDropdownToggle}
 					onKeyDown={handleKeyDown}
+					ref={ref}
 				>
 					<div className={styles.valueContainer}>
-						{/* Only show value or placeholder in control area, never a search input */}
-						<span className={styles.singleValue}>
-							{getDisplayValue() ||
-								placeholder ||
-								'Dropdown...'}
-						</span>
+						{(
+							multi &&
+							Array.isArray(value) &&
+							value.length > 0
+						) ?
+							<SelectedChips
+								values={normalizeValue(value, multi)}
+								options={Array.isArray(data) ? data : []}
+								onRemove={onOptionSelect}
+							/>
+						:	<span className={styles.singleValue}>
+								{displayValue ||
+									placeholder ||
+									'Dropdown...'}
+							</span>
+						}
 					</div>
+					{clearable && !disabled && value && (
+						<DropdownClearButton
+							onClick={onClear}
+							disabled={disabled}
+						/>
+					)}
 					<div className={styles.indicators}>
-						{!disabled &&
-							clearable &&
-							getDisplayValue() && (
-								<button
-									type='button'
-									className={styles.clearIndicator}
-									onClick={(e) => {
-										e.stopPropagation();
-										handleClear();
-									}}
-									aria-label='Clear selection'
-								>
-									×
-								</button>
-							)}
 						<span className={styles.dropdownIndicator}>
 							<svg
 								width='20'
@@ -315,261 +231,47 @@ export const Dropdown = forwardRef<
 						</span>
 					</div>
 				</div>
-				{isOpen && (
+				{open && (
 					<div className={styles.menu} ref={menuRef}>
 						{filter && (
-							<div className={styles.filterToggle}>
-								<label
-									htmlFor='dropdown-filter-dropdown'
-									style={{
-										fontWeight: 500,
-										marginRight: 8,
-									}}
-								>
-									Filter:
-								</label>
-								<Dropdown
-									id='dropdown-filter-dropdown'
-									data={[
-										{ label: 'None', value: 'none' },
-										{ label: 'A to Z', value: 'az' },
-										{ label: 'Z to A', value: 'za' },
-										{
-											label: 'Largest to Smallest',
-											value: 'largest',
-										},
-										{
-											label: 'Smallest to Largest',
-											value: 'smallest',
-										},
-									]}
-									value={filterValue}
-									onChange={setFilterValue}
-									className={styles.filterDropdown}
-								/>
-							</div>
+							<FilterToggle
+								checked={filterValue !== 'none'}
+								onChange={(checked) =>
+									setFilterValue(checked ? 'az' : 'none')
+								}
+							/>
 						)}
-						{variant === 'multiselect' &&
-							Array.isArray(currentValue) &&
-							currentValue.length > 0 && (
-								<div
-									className={styles.selectedChips}
-									style={{
-										display: 'flex',
-										flexWrap: 'wrap',
-										gap: 4,
-										padding: '8px 12px 0 12px',
-									}}
-								>
-									{currentValue.map((val: string) => {
-										const opt = options.find(
-											(o: { value: string }) =>
-												o.value === val
-										);
-										if (!opt) return null;
-										return (
-											<span
-												key={val}
-												className={styles.chip}
-												style={{
-													background: '#f3f4f6',
-													borderRadius: 12,
-													padding: '2px 8px',
-													marginRight: 4,
-													display: 'flex',
-													alignItems: 'center',
-												}}
-											>
-												{opt.label}
-												<button
-													type='button'
-													style={{
-														marginLeft: 4,
-														background: 'none',
-														border: 'none',
-														cursor: 'pointer',
-														color: '#888',
-													}}
-													onClick={(e) => {
-														e.stopPropagation();
-														handleSelect(opt);
-													}}
-													aria-label={`Remove ${opt.label}`}
-												>
-													&times;
-												</button>
-											</span>
-										);
-									})}
-								</div>
-							)}
-						{/* Search input always at the top, below chips if present */}
 						{searchable && (
-							<div style={{ padding: '8px 12px' }}>
-								<Input
-									kind='search'
-									ref={inputRef}
-									className={styles.searchInput}
-									placeholder={
-										searchPlaceholder || 'Search...'
-									}
-									value={searchValue}
-									onChange={handleSearchChange}
-									onKeyDown={handleKeyDown}
-									style={{ width: '100%' }}
-								/>
-							</div>
+							<DropdownInput
+								value={search}
+								onChange={onSearchInput}
+								placeholder={
+									searchPlaceholder || 'Search...'
+								}
+								disabled={disabled}
+							/>
 						)}
 						{loading ?
-							<Loading
-								message={loadingMessage || 'Loading...'}
+							<DropdownLoading
+								loadingMessage={loadingMessage}
 							/>
-						: searchable && searchValue ?
-							<>
-								{/* Selected options at top, visually separated */}
-								{filteredOptions.selected.length > 0 && (
-									<div
-										style={{
-											borderBottom: '1px solid #eee',
-											margin: '4px 0',
-										}}
-									>
-										{filteredOptions.selected.map(
-											(option: {
-												label: string;
-												value: string;
-											}) => {
-												const isSelected =
-													variant === 'multiselect' ?
-														Array.isArray(currentValue) &&
-														currentValue.includes(
-															option.value
-														)
-													:	currentValue === option.value;
-												return (
-													<div
-														key={option.value}
-														className={classNames(
-															styles.option,
-															styles.selected
-														)}
-														role='option'
-														aria-selected={isSelected}
-														onClick={() =>
-															handleSelect(option)
-														}
-													>
-														{option.label}
-													</div>
-												);
-											}
-										)}
-									</div>
+						:	<DropdownMenu
+								options={filteredOptions}
+								selectedValues={normalizeValue(
+									value,
+									multi
 								)}
-								{/* Rest of filtered options */}
-								{filteredOptions.rest.length === 0 ?
-									<div className={styles.noOptionsMessage}>
-										No options
-									</div>
-								: hasData ?
-									filteredOptions.rest.map(
-										(option, idx) => {
-											const isSelected =
-												variant === 'multiselect' ?
-													Array.isArray(currentValue) &&
-													currentValue.includes(
-														option.value
-													)
-												:	currentValue === option.value;
-											return (
-												<div
-													key={option.value}
-													className={classNames(
-														styles.option,
-														option.className,
-														{
-															[styles.selected]: isSelected,
-														}
-													)}
-													role='option'
-													aria-selected={isSelected}
-													onClick={() =>
-														handleSelect(option)
-													}
-												>
-													{option.label}
-												</div>
-											);
-										}
-									)
-									// Render children if no data prop
-								:	children}
-							</>
-						:	filteredOptions.rest.map(
-								(
-									option: { label: string; value: string },
-									idx: number
-								) => {
-									const isSelected =
-										variant === 'multiselect' ?
-											Array.isArray(currentValue) &&
-											currentValue.includes(option.value)
-										:	currentValue === option.value;
-									return (
-										<div
-											key={option.value}
-											className={classNames(styles.option, {
-												[styles.selected]: isSelected,
-											})}
-											role='option'
-											aria-selected={isSelected}
-											onClick={() => handleSelect(option)}
-										>
-											{option.label}
-										</div>
-									);
-								}
-							)
+								multi={multi}
+								onSelect={onOptionSelect}
+								disabled={disabled}
+							/>
 						}
 					</div>
 				)}
-				{error && (
-					<div className={styles.errorText}>{error}</div>
-				)}
-				{helpText && (
-					<div className={styles.helpText}>{helpText}</div>
-				)}
-			</Wrapper>
+				<DropdownHelper error={error} helpText={helpText} />
+			</div>
 		);
 	}
 );
 
 Dropdown.displayName = 'Dropdown';
-
-export const FilterToggle = (props: {
-	checked: boolean;
-	onChange: (checked: boolean) => void;
-}) => (
-	<div
-		style={{
-			padding: '8px 16px',
-			borderBottom: '1px solid #eee',
-			background: '#f9fafb',
-		}}
-	>
-		<label
-			style={{
-				display: 'flex',
-				alignItems: 'center',
-				gap: 8,
-			}}
-		>
-			<Checkbox
-				checked={props.checked}
-				onChange={(e) => props.onChange(e.target.checked)}
-				style={{ marginRight: 8 }}
-			/>
-			<span>Enable Filter</span>
-		</label>
-	</div>
-);

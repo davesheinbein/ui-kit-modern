@@ -4,14 +4,15 @@ export type {
 	CheckboxKind,
 	CheckboxProps,
 	BaseCheckboxProps,
-} from './Checkbox';
+} from './Sub/types';
 
 // Configuration exports
 export * from './configurations';
 
 // Specialized wrapper for dark mode toggle checkbox
 import React, { forwardRef } from 'react';
-import Checkbox, { CheckboxProps } from './Checkbox';
+import Checkbox from './Checkbox';
+import type { CheckboxProps } from './Sub/types';
 
 export interface DarkModeToggleProps
 	extends Omit<CheckboxProps, 'kind'> {}

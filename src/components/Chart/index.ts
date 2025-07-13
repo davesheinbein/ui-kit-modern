@@ -1,7 +1,8 @@
-import Chart, { ChartProps } from './Chart';
-export type { ChartProps };
+import Chart from './Chart';
+export type { ChartProps } from './Chart';
 export * from './configurations';
 export * from './Chart';
 
-export { Chart, Chart as Charts };
+// Only export as Charts for consumers
+export { Chart as Charts };
 export default Chart;

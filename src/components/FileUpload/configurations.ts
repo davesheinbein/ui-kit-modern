@@ -1,8 +1,3 @@
-/**
- * FileUpload Component Configurations
- * Defines all possible file upload component types and their properties
- */
-
 import React from 'react';
 
 // =============================================================================

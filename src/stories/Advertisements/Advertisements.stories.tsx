@@ -4,7 +4,6 @@ import { Advertisements } from '../../components/Advertisements';
 import type {
 	AdvertisementProps,
 	AdVariant,
-	AdTheme,
 } from '../../components/Advertisements';
 import { commonDecorators } from '../config/decorators';
 
@@ -793,7 +792,7 @@ export const GoogleVideoAd: Story = {
 	args: {
 		count: 'one',
 		kind: 'video-ad',
-		variant: 'youtube-skippable',
+		variant: 'google-video',
 		title: 'New Electric Vehicle - Zero Emissions',
 		description:
 			'Experience the future of driving with our latest electric vehicle featuring 400-mile range and 15-minute fast charging.',
@@ -847,7 +846,7 @@ export const MetaImageAd: Story = {
 		count: 'one',
 		kind: 'image-ad',
 		size: 'fit-content',
-		variant: 'facebook-feed',
+		variant: 'meta-image',
 		title: 'Transform Your Home with Smart Lighting',
 		description:
 			'Control your lights from anywhere with our smart lighting system. Easy installation, voice control, and energy savings.',
@@ -874,7 +873,7 @@ export const MetaStoryAd: Story = {
 		count: 'one',
 		kind: 'story-ad',
 		size: 'fit-content',
-		variant: 'instagram-story',
+		variant: 'meta-story',
 		title: 'Limited Time Offer',
 		imageUrl:
 			'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=700&fit=crop',
@@ -904,7 +903,7 @@ export const MetaReelsAd: Story = {
 		count: 'one',
 		kind: 'reels-ad',
 		size: 'fit-content',
-		variant: 'instagram-reels',
+		variant: 'meta-reels',
 		title: 'Master cooking with our new app! 👨‍🍳✨',
 		imageUrl:
 			'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=700&fit=crop',
@@ -930,7 +929,7 @@ export const MetaCarouselAd: Story = {
 		count: 'one',
 		kind: 'carousel-ad',
 		size: 'fit-content',
-		variant: 'facebook-carousel',
+		variant: 'meta-carousel',
 		title: 'Explore Our Product Range',
 		brand: 'TechGadgets',
 		ctaText: 'View All Products',
@@ -981,7 +980,7 @@ export const MetaCollectionAd: Story = {
 		count: 'one',
 		kind: 'collection-ad',
 		size: 'fit-content',
-		variant: 'instagram-collection',
+		variant: 'meta-collection',
 		title: 'Shop the Look',
 		imageUrl:
 			'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&h=300&fit=crop',
@@ -1192,7 +1191,6 @@ export const FloatingAdComparison: Story = {
 		ads: [
 			{
 				kind: 'floating',
-				size: 'small',
 				content: {
 					title: 'Persistent Ad',
 					description: 'Stays until manually closed',
@@ -1211,7 +1209,6 @@ export const FloatingAdComparison: Story = {
 			},
 			{
 				kind: 'floating',
-				size: 'small',
 				content: {
 					title: 'Auto-Disappearing Ad',
 					description:

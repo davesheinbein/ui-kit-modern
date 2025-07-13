@@ -15,7 +15,7 @@ const meta: Meta<typeof Dropdown> = {
 		docs: {
 			description: {
 				component:
-					'A comprehensive dropdown component with search, multiDropdown, and various specialized configurations. Migrated from Selects, prioritizing Selects story structure and prop coverage.',
+					'A comprehensive dropdown component with search, multiselect, and various specialized configurations. Migrated from Selects, prioritizing Selects story structure and prop coverage.',
 			},
 		},
 	},
@@ -24,7 +24,7 @@ const meta: Meta<typeof Dropdown> = {
 			control: 'select',
 			options: [
 				'dropdown',
-				'multiDropdown',
+				'multiselect', // changed from 'multiDropdown'
 				'searchable',
 				'custom',
 			],
@@ -76,7 +76,8 @@ const meta: Meta<typeof Dropdown> = {
 			control: 'text',
 			description: 'Message to show while loading',
 		},
-		options: {
+		// Remove 'options' argType, use 'data' instead
+		data: {
 			control: 'object',
 			description: 'Dropdown options',
 		},
