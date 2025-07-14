@@ -11,16 +11,17 @@ import {
 	scatterPlotData,
 	gaugeData,
 	waterfallData,
-	heatmapData,
-	boxplotData,
-	bubbleData,
 	errorBarData,
 	referenceLineData,
 	referenceAreaData,
 	brushZoomData,
 	composedMultiData,
-} from '../mocks';
+} from '../mocks/charts';
 import { commonDecorators } from '../config/decorators';
+import type {
+	Props as TooltipProps,
+	Payload as LegendPayload,
+} from 'recharts/types/component/DefaultTooltipContent';
 
 export default {
 	title: 'Graphs/Graph',
@@ -44,11 +45,10 @@ export const Bar = (args: Partial<GraphProps>) => (
 		kind='bar'
 		data={sampleChartData}
 		dataKey='score'
-		labelKey='match'
+		labelKey='name'
 		title='Bar Chart Example'
-		subtitle='Scores by match (subtitle)'
-		label='Match Results'
-		ariaLabel='Bar chart of scores by match'
+		subtitle='Scores by game (subtitle)'
+		ariaLabel='Bar chart of scores by game'
 		{...args}
 	/>
 );
@@ -57,10 +57,9 @@ Bar.args = {
 	showAxes: true,
 	showXAxis: true,
 	showYAxis: true,
-	xAxisLabel: 'Match',
+	xAxisLabel: 'Game',
 	yAxisLabel: 'Score',
-	showLegend: true,
-	legendLabels: ['Wins', 'Losses'],
+	showLegend: false,
 	colorScheme: 'primary',
 };
 Bar.storyName = 'Bar Chart';
@@ -74,7 +73,6 @@ export const Line = (args: Partial<GraphProps>) => (
 		labelKey='date'
 		title='Line Chart Example'
 		subtitle='Values over time (subtitle)'
-		label='Value Series'
 		ariaLabel='Line chart of values over time'
 		{...args}
 	/>
@@ -86,8 +84,7 @@ Line.args = {
 	showYAxis: true,
 	xAxisLabel: 'Date',
 	yAxisLabel: 'Value',
-	showLegend: true,
-	legendLabels: ['Value'],
+	showLegend: false,
 	colorScheme: 'rainbow',
 };
 Line.storyName = 'Line Chart';
@@ -101,7 +98,6 @@ export const Area = (args: Partial<GraphProps>) => (
 		labelKey='date'
 		title='Area Chart Example'
 		subtitle='Area under curve (subtitle)'
-		label='Area Series'
 		ariaLabel='Area chart of values over time'
 		{...args}
 	/>
@@ -113,9 +109,8 @@ Area.args = {
 	showYAxis: true,
 	xAxisLabel: 'Date',
 	yAxisLabel: 'Value',
-	showLegend: true,
-	legendLabels: ['Area'],
-	colorScheme: 'secondary',
+	showLegend: false,
+	colorScheme: 'teal',
 };
 Area.storyName = 'Area Chart';
 
@@ -125,24 +120,17 @@ export const Pie = (args: Partial<GraphProps>) => (
 		kind='pie'
 		data={pieChartData}
 		dataKey='score'
-		labelKey='category'
+		labelKey='name'
 		title='Pie Chart Example'
-		subtitle='Category breakdown (subtitle)'
-		label='Category'
-		ariaLabel='Pie chart of category breakdown'
-		showLegend={true}
-		legendLabels={[
-			'Connections',
-			'Red Herrings',
-			'Speed Bonus',
-			'Perfect Games',
-		]}
-		showTooltip={true}
+		subtitle='Distribution of scores (subtitle)'
+		ariaLabel='Pie chart of score distribution'
 		{...args}
 	/>
 );
 Pie.args = {
-	colorScheme: 'rainbow',
+	showTooltip: true,
+	showLegend: true,
+	colorScheme: 'pastel',
 };
 Pie.storyName = 'Pie Chart';
 
@@ -150,27 +138,19 @@ Pie.storyName = 'Pie Chart';
 export const Radar = (args: Partial<GraphProps>) => (
 	<Graph
 		kind='radar'
-		data={pieChartData}
-		dataKey='score'
-		labelKey='category'
+		data={multiSeriesData}
+		dataKey='wins'
+		labelKey='month'
 		title='Radar Chart Example'
-		subtitle='Scores by category (subtitle)'
-		label='Radar Categories'
-		ariaLabel='Radar chart of scores by category'
-		showLegend={true}
-		legendLabels={[
-			'Connections',
-			'Red Herrings',
-			'Speed Bonus',
-			'Perfect Games',
-		]}
+		subtitle='Wins by month (subtitle)'
+		ariaLabel='Radar chart of wins by month'
 		{...args}
 	/>
 );
 Radar.args = {
+	showGrid: true,
 	showLegend: true,
-	showTooltip: true,
-	colorScheme: 'default',
+	colorScheme: 'rainbow',
 };
 Radar.storyName = 'Radar Chart';
 
@@ -179,85 +159,47 @@ export const Scatter = (args: Partial<GraphProps>) => (
 	<Graph
 		kind='scatter'
 		data={scatterPlotData}
+		dataKey='y'
+		labelKey='x'
 		title='Scatter Plot Example'
-		subtitle='Scatter plot (subtitle)'
-		label='Scatter Points'
-		ariaLabel='Scatter plot of points'
-		showXAxis={true}
-		showYAxis={true}
-		showZAxis={true}
-		xAxisLabel='X Value'
-		yAxisLabel='Y Value'
-		zAxisLabel='Z Value'
-		showLegend={true}
-		legendLabels={['Points']}
+		subtitle='Scatter plot of X vs Y (subtitle)'
+		ariaLabel='Scatter plot of X vs Y'
 		{...args}
 	/>
 );
 Scatter.args = {
-	colorScheme: 'default',
+	showGrid: true,
+	showLegend: false,
+	colorScheme: 'blue',
 };
 Scatter.storyName = 'Scatter Plot';
 
-// --- Multi-Series Line Chart ---
+// --- Multi-Line Chart ---
 export const MultiLine = (args: Partial<GraphProps>) => (
 	<Graph
-		kind='line-multi'
+		kind='line'
 		data={multiSeriesData}
 		dataKey='wins'
 		labelKey='month'
 		title='Multi-Line Chart Example'
-		subtitle='Wins, losses, and draws by month (subtitle)'
-		ariaLabel='Multi-line chart of wins, losses, and draws by month'
+		subtitle='Wins, Losses, Draws by month'
+		ariaLabel='Multi-line chart of results by month'
+		configuration={{
+			series: [
+				{ dataKey: 'wins', name: 'Wins' },
+				{ dataKey: 'losses', name: 'Losses' },
+				{ dataKey: 'draws', name: 'Draws' },
+			],
+		}}
 		{...args}
 	/>
 );
 MultiLine.args = {
 	showGrid: true,
-	showAxes: true,
 	showLegend: true,
 	colorScheme: 'rainbow',
 };
 MultiLine.storyName = 'Multi-Line Chart';
-
-// --- Accessibility/Edge Case Example ---
-export const EmptyState = (args: Partial<GraphProps>) => (
-	<Graph
-		kind='bar'
-		data={[]}
-		dataKey='score'
-		labelKey='match'
-		title='Empty State Example'
-		subtitle='No data available (subtitle)'
-		ariaLabel='Empty bar chart (no data)'
-		{...args}
-	/>
-);
-EmptyState.args = {
-	showGrid: true,
-	showAxes: true,
-	showLegend: false,
-};
-EmptyState.storyName = 'Empty State';
-
-// --- Custom Colors Example ---
-export const CustomColors = (args: Partial<GraphProps>) => (
-	<Graph
-		kind='pie'
-		data={pieChartData}
-		dataKey='score'
-		labelKey='category'
-		title='Custom Colors Example'
-		ariaLabel='Pie chart with custom colors'
-		colors={['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']}
-		{...args}
-	/>
-);
-CustomColors.args = {
-	showLegend: true,
-	showTooltip: true,
-};
-CustomColors.storyName = 'Custom Colors';
 
 // --- Treemap Chart ---
 export const Treemap = (args: Partial<GraphProps>) => (
@@ -267,15 +209,13 @@ export const Treemap = (args: Partial<GraphProps>) => (
 		dataKey='size'
 		labelKey='name'
 		title='Treemap Chart Example'
-		subtitle='Hierarchical data visualization (subtitle)'
-		label='Project Areas'
-		ariaLabel='Treemap chart of project areas'
+		subtitle='Tech stack breakdown'
+		ariaLabel='Treemap chart of tech stack'
 		{...args}
 	/>
 );
 Treemap.args = {
-	showTooltip: true,
-	colorScheme: 'rainbow',
+	colorScheme: 'teal',
 };
 Treemap.storyName = 'Treemap Chart';
 
@@ -287,38 +227,52 @@ export const Funnel = (args: Partial<GraphProps>) => (
 		dataKey='value'
 		labelKey='name'
 		title='Funnel Chart Example'
-		subtitle='Conversion funnel visualization (subtitle)'
-		label='Funnel Stages'
-		ariaLabel='Funnel chart of conversion stages'
+		subtitle='Sales funnel'
+		ariaLabel='Funnel chart of sales'
 		{...args}
 	/>
 );
 Funnel.args = {
-	showLegend: true,
-	showTooltip: true,
-	colorScheme: 'primary',
+	colorScheme: 'purple',
 };
 Funnel.storyName = 'Funnel Chart';
 
 // --- Composed Chart ---
 export const Composed = (args: Partial<GraphProps>) => (
 	<Graph
-		kind='composed-bar-line'
-		data={multiSeriesData}
-		dataKey='wins'
+		kind='composed'
+		data={composedMultiData}
+		dataKey='sales'
 		labelKey='month'
 		title='Composed Chart Example'
-		subtitle='Bar and line combination (subtitle)'
-		label='Performance Data'
-		ariaLabel='Composed chart showing wins as bars with trend line'
+		subtitle='Sales, Line, and Area by month'
+		ariaLabel='Composed chart of sales by month'
+		configuration={{
+			series: [
+				{
+					dataKey: 'sales',
+					name: 'Sales',
+					type: 'bar',
+				},
+				{
+					dataKey: 'sales_line',
+					name: 'Sales Line',
+					type: 'line',
+				},
+				{
+					dataKey: 'sales_area',
+					name: 'Sales Area',
+					type: 'area',
+				},
+			],
+		}}
 		{...args}
 	/>
 );
 Composed.args = {
 	showGrid: true,
-	showAxes: true,
 	showLegend: true,
-	colorScheme: 'default',
+	colorScheme: 'rainbow',
 };
 Composed.storyName = 'Composed Chart';
 
@@ -330,17 +284,15 @@ export const ErrorBar = (args: Partial<GraphProps>) => (
 		dataKey='value'
 		labelKey='category'
 		title='Error Bar Chart Example'
-		subtitle='Quarterly results with error margins'
-		label='Quarterly Performance'
-		ariaLabel='Bar chart with error bars showing quarterly performance'
+		subtitle='Values with error bars'
+		ariaLabel='Error bar chart'
 		{...args}
 	/>
 );
 ErrorBar.args = {
 	showGrid: true,
-	showAxes: true,
-	showTooltip: true,
-	colorScheme: 'primary',
+	showLegend: false,
+	colorScheme: 'red',
 };
 ErrorBar.storyName = 'Error Bar Chart';
 
@@ -354,17 +306,15 @@ export const ReferenceLine = (
 		dataKey='sales'
 		labelKey='month'
 		title='Reference Line Chart Example'
-		subtitle='Sales performance with target line'
-		label='Sales Tracking'
-		ariaLabel='Line chart with reference line showing sales tracking'
+		subtitle='Sales with reference line'
+		ariaLabel='Reference line chart'
 		{...args}
 	/>
 );
 ReferenceLine.args = {
 	showGrid: true,
-	showAxes: true,
-	showTooltip: true,
-	colorScheme: 'secondary',
+	showLegend: false,
+	colorScheme: 'blue',
 };
 ReferenceLine.storyName = 'Reference Line Chart';
 
@@ -378,17 +328,15 @@ export const ReferenceArea = (
 		dataKey='value'
 		labelKey='date'
 		title='Reference Area Chart Example'
-		subtitle='Values over time with highlighted period'
-		label='Time Series with Highlights'
-		ariaLabel='Area chart with reference area highlighting peak period'
+		subtitle='Values with reference area'
+		ariaLabel='Reference area chart'
 		{...args}
 	/>
 );
 ReferenceArea.args = {
 	showGrid: true,
-	showAxes: true,
-	showTooltip: true,
-	colorScheme: 'rainbow',
+	showLegend: false,
+	colorScheme: 'green',
 };
 ReferenceArea.storyName = 'Reference Area Chart';
 
@@ -400,173 +348,194 @@ export const BrushZoom = (args: Partial<GraphProps>) => (
 		dataKey='visitors'
 		labelKey='day'
 		title='Brush Zoom Chart Example'
-		subtitle='Daily visitors with zoom brush'
-		label='Visitor Analytics'
-		ariaLabel='Line chart with brush control for zooming'
+		subtitle='Visitors by day with zoom'
+		ariaLabel='Brush zoom chart'
 		{...args}
 	/>
 );
 BrushZoom.args = {
 	showGrid: true,
-	showAxes: true,
-	showTooltip: true,
-	colorScheme: 'primary',
+	showLegend: false,
+	colorScheme: 'orange',
 };
 BrushZoom.storyName = 'Brush Zoom Chart';
-
-// --- Composed Line Area Chart ---
-export const ComposedLineArea = (
-	args: Partial<GraphProps>
-) => (
-	<Graph
-		kind='composed-line-area'
-		data={composedMultiData}
-		dataKey='sales'
-		labelKey='month'
-		title='Composed Line-Area Chart'
-		subtitle='Multiple data series combined'
-		label='Sales Analysis'
-		ariaLabel='Composed chart with line and area series'
-		{...args}
-	/>
-);
-ComposedLineArea.args = {
-	showGrid: true,
-	showAxes: true,
-	showLegend: true,
-	showTooltip: true,
-	colorScheme: 'default',
-};
-ComposedLineArea.storyName = 'Composed Line-Area Chart';
 
 // --- Composed Multi Chart ---
 export const ComposedMulti = (
 	args: Partial<GraphProps>
 ) => (
 	<Graph
-		kind='composed-multi'
+		kind='composed'
 		data={composedMultiData}
 		dataKey='sales'
 		labelKey='month'
-		title='Composed Multi Chart'
-		subtitle='Bar, line, and area combined'
-		label='Comprehensive Sales View'
-		ariaLabel='Composed chart with multiple chart types'
+		title='Composed Multi Chart Example'
+		subtitle='Multiple series composed chart'
+		ariaLabel='Composed multi chart'
+		configuration={{
+			series: [
+				{
+					dataKey: 'sales',
+					name: 'Sales',
+					type: 'bar',
+				},
+				{
+					dataKey: 'sales_line',
+					name: 'Sales Line',
+					type: 'line',
+				},
+				{
+					dataKey: 'sales_area',
+					name: 'Sales Area',
+					type: 'area',
+				},
+			],
+		}}
 		{...args}
 	/>
 );
 ComposedMulti.args = {
 	showGrid: true,
-	showAxes: true,
 	showLegend: true,
-	showTooltip: true,
 	colorScheme: 'rainbow',
 };
 ComposedMulti.storyName = 'Composed Multi Chart';
 
 // --- All Variants Gallery ---
-const graphKinds = [
-	'bar',
-	'pie',
-	'doughnut',
-	'line',
-	'area',
-	'radar',
-	'scatter',
-	'composed-bar-line',
-	'composed-line-area',
-	'composed-multi',
-	'treemap',
-	'funnel',
-	'error-bar',
-	'reference-line',
-	'reference-area',
-	'brush-zoom',
-];
-const colorSchemes = ['primary', 'rainbow', 'pastel'];
-
-export const GraphGallery = () => (
-	<div
-		style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}
-	>
-		{graphKinds.map((kind) =>
-			colorSchemes.map((colorScheme) => (
-				<div
-					key={`${kind}-${colorScheme}`}
-					style={{ minWidth: 320 }}
-				>
-					<Graph
-						kind={kind}
-						data={
-							kind === 'pie' || kind === 'doughnut' ?
-								pieChartData
-							: kind === 'line' || kind === 'area' ?
-								timeSeriesData
-							: kind === 'scatter' ?
-								scatterPlotData
-							: kind === 'treemap' ?
-								treemapData
-							: kind === 'funnel' ?
-								funnelData
-							: kind === 'composed-bar-line' ?
-								multiSeriesData
-							:	sampleChartData
-						}
-						dataKey={
-							kind === 'pie' || kind === 'doughnut' ?
-								'score'
-							: kind === 'line' || kind === 'area' ?
-								'value'
-							: kind === 'scatter' ?
-								'y'
-							: kind === 'treemap' ?
-								'size'
-							: kind === 'funnel' ?
-								'value'
-							: kind === 'composed-bar-line' ?
-								'wins'
-							:	'score'
-						}
-						labelKey={
-							kind === 'pie' || kind === 'doughnut' ?
-								'category'
-							: kind === 'line' || kind === 'area' ?
-								'date'
-							: kind === 'scatter' ?
-								'name'
-							: kind === 'treemap' ?
-								'name'
-							: kind === 'funnel' ?
-								'name'
-							: kind === 'composed-bar-line' ?
-								'month'
-							:	'match'
-						}
-						title={`${kind} (${colorScheme})`}
-						colorScheme={colorScheme}
-						showGrid
-						showAxes
-						showLegend
-						ariaLabel={`${kind} chart`}
-					/>
-					<div
-						style={{
-							fontSize: 12,
-							marginTop: 4,
-							textAlign: 'center',
-						}}
-					>
-						{kind} / {colorScheme}
-					</div>
-				</div>
-			))
-		)}
+export const AllVariantsGallery = () => (
+	<div style={{ display: 'grid', gap: 32 }}>
+		<Bar />
+		<Line />
+		<Area />
+		<Pie />
+		<Radar />
+		<Scatter />
+		<MultiLine />
+		<Treemap />
+		<Funnel />
+		<Composed />
+		<ErrorBar />
+		<ReferenceLine />
+		<ReferenceArea />
+		<BrushZoom />
+		<ComposedMulti />
 	</div>
 );
-GraphGallery.storyName = 'All Variants Gallery';
+AllVariantsGallery.storyName = 'All Variants Gallery';
 
-// --- Docs/Usage Note ---
-/**
- * All stories use the <Graph {...props}> API. See args for customization.
- * For more advanced configuration, use the `configuration` prop.
- */
+// --- Empty State ---
+export const EmptyState = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='bar'
+		data={[]}
+		dataKey='score'
+		labelKey='name'
+		title='Empty State Example'
+		subtitle='No data available'
+		ariaLabel='Empty state bar chart'
+		{...args}
+	/>
+);
+EmptyState.storyName = 'Empty State';
+
+// --- Custom Colors ---
+export const CustomColors = (args: Partial<GraphProps>) => (
+	<Graph
+		kind='pie'
+		data={pieChartData}
+		dataKey='score'
+		labelKey='name'
+		title='Custom Colors Example'
+		ariaLabel='Pie chart with custom colors'
+		colors={['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']}
+		{...args}
+	/>
+);
+CustomColors.storyName = 'Custom Colors';
+
+// --- Bar (Custom Tooltip) ---
+export const CustomTooltip = (args: GraphProps) => (
+	<Graph
+		{...args}
+		kind='bar'
+		data={sampleChartData}
+		dataKey='score'
+		labelKey='name'
+		title='Bar (Custom Tooltip)'
+		subtitle='Bar chart with custom tooltip'
+		showGrid
+		showAxes
+		showLegend={false}
+		colorScheme='primary'
+		tooltipRenderer={(props: import('recharts/types/component/Tooltip').TooltipProps<any, any>) => {
+			const { active, payload, label } = props;
+			if (active && payload && payload.length) {
+				return (
+					<div
+						style={{
+							background: '#222',
+							color: '#fff',
+							padding: 8,
+							borderRadius: 4,
+						}}
+					>
+						<b>Custom Tooltip</b>
+						<div>Label: {label}</div>
+						<div>Value: {payload[0].value}</div>
+					</div>
+				);
+			}
+			return null;
+		}}
+	/>
+);
+CustomTooltip.storyName = 'Bar (Custom Tooltip)';
+
+// --- Line (Custom Legend) ---
+export const CustomLegend = (args: GraphProps) => (
+	<Graph
+		{...args}
+		kind='line'
+		data={multiSeriesData}
+		dataKey='wins'
+		labelKey='month'
+		title='Line (Custom Legend)'
+		subtitle='Line chart with custom legend'
+		showGrid
+		showAxes
+		showLegend
+		colorScheme='rainbow'
+		legendRenderer={({ payload }: { payload?: LegendPayload<any, any>[] }) => (
+			<div style={{ display: 'flex', gap: 12 }}>
+				{payload &&
+					payload.map((entry, i) => (
+						<span
+							key={entry.value || i}
+							style={{ color: entry.color }}
+						>
+							● {entry.value}
+						</span>
+					))}
+			</div>
+		)}
+	/>
+);
+CustomLegend.storyName = 'Line (Custom Legend)';
+
+// --- Pie (Custom Empty State) ---
+export const CustomEmpty = (args: GraphProps) => (
+	<Graph
+		{...args}
+		kind='pie'
+		data={[]}
+		title='Pie (Custom Empty State)'
+		subtitle='Pie chart with custom empty state'
+		colorScheme='pastel'
+		emptyRenderer={() => (
+			<div style={{ color: 'red', fontWeight: 'bold' }}>
+				No chart data! (Custom Empty State)
+			</div>
+		)}
+	/>
+);
+CustomEmpty.storyName = 'Pie (Custom Empty State)';

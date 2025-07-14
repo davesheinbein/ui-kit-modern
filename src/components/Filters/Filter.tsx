@@ -8,6 +8,10 @@ import type {
 } from './configurations';
 import { Wrapper } from '../Wrappers';
 import { Button } from '../Button';
+import FilterItem from './Sub/FilterItem';
+import FilterModal from './Sub/FilterModal';
+import FilterCollapse from './Sub/FilterCollapse';
+import FilterAddRemove from './Sub/FilterAddRemove';
 
 export interface FiltersProps {
 	filters: FilterConfig[];
@@ -75,78 +79,30 @@ const Filters: React.FC<FiltersProps> = ({
 		onChange(newValue);
 	};
 
-	const renderFilter = (filter: FilterConfig) => {
-		const {
-			key,
-			label,
-			options,
-			mode = 'single',
-			placeholder,
-			...rest
-		} = filter;
-		const filterValue =
-			value[key] ?? (mode === 'multi' ? [] : '');
-		return (
-			<Wrapper
-				key={key}
-				direction='column'
-				gap={2}
-				className={styles.filterItem}
-			>
-				<label className={styles.filterLabel}>
-					{label}
-				</label>
-				{mode === 'multi' ?
-					<select
-						multiple
-						value={filterValue as string[]}
-						onChange={(e) => {
-							const vals = Array.from(
-								e.target.selectedOptions
-							).map((o) => o.value);
-							handleChange(key, vals);
-						}}
-						className={styles.filterSelect}
-					>
-						{options.map((opt) => (
-							<option key={opt.value} value={opt.value}>
-								{opt.label}
-							</option>
-						))}
-					</select>
-				:	<select
-						value={filterValue as string}
-						onChange={(e) =>
-							handleChange(key, e.target.value)
-						}
-						className={styles.filterSelect}
-					>
-						<option value=''>{placeholder || 'All'}</option>
-						{options.map((opt) => (
-							<option key={opt.value} value={opt.value}>
-								{opt.label}
-							</option>
-						))}
-					</select>
-				}
-				{dynamic && (
-					<Button
-						kind='danger'
-						size='small'
-						onClick={() => handleRemoveFilter(key)}
-						style={{ marginTop: 4 }}
-					>
-						Remove
-					</Button>
-				)}
-			</Wrapper>
-		);
-	};
-
 	const filterList = useMemo(
-		() => filters.map(renderFilter),
+		() =>
+			filters.map((filter) => (
+				<FilterItem
+					key={filter.key}
+					filter={filter}
+					value={
+						value[filter.key] ??
+						(filter.mode === 'multi' ? [] : '')
+					}
+					onChange={(val) => handleChange(filter.key, val)}
+				/>
+			)),
 		[filters, value]
 	);
+
+	const addRemove =
+		dynamic ?
+			<FilterAddRemove
+				onAdd={handleAddFilter}
+				onRemove={handleRemoveFilter}
+				filterKeys={Object.keys(value)}
+			/>
+		:	null;
 
 	const content = (
 		<Wrapper
@@ -156,16 +112,7 @@ const Filters: React.FC<FiltersProps> = ({
 			style={style}
 		>
 			{filterList}
-			{dynamic && (
-				<Button
-					kind='primary'
-					size='small'
-					onClick={handleAddFilter}
-					style={{ alignSelf: 'flex-end' }}
-				>
-					Add Filter
-				</Button>
-			)}
+			{addRemove}
 		</Wrapper>
 	);
 
@@ -179,23 +126,26 @@ const Filters: React.FC<FiltersProps> = ({
 				>
 					Open Filters
 				</button>
-				{(onModalToggle ? modalOpen : (
-					internalModalOpen
-				)) && (
-					<div className={styles.modalOverlay}>
-						<div className={styles.modalContent}>
-							<button
-								type='button'
-								className={styles.closeModalBtn}
-								onClick={handleModalToggle}
-							>
-								Close
-							</button>
-							{content}
-						</div>
-					</div>
-				)}
+				<FilterModal
+					open={
+						onModalToggle ? modalOpen : internalModalOpen
+					}
+					onToggle={handleModalToggle}
+				>
+					{content}
+				</FilterModal>
 			</>
+		);
+	}
+
+	if (collapsible) {
+		return (
+			<FilterCollapse
+				collapsed={internalCollapsed}
+				onToggle={handleCollapseToggle}
+			>
+				{content}
+			</FilterCollapse>
 		);
 	}
 
