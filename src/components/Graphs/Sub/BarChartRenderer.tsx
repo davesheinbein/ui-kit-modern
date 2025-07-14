@@ -76,8 +76,14 @@ const BarChartRenderer: React.FC<BarChartRendererProps> = ({
 				)}
 				<XAxis dataKey={labelKey} />
 				<YAxis />
-				{showTooltip && (renderTooltip ? <Tooltip content={renderTooltip} /> : <Tooltip />)}
-				{showLegend && (renderLegend ? <Legend content={renderLegend} /> : <Legend />)}
+				{showTooltip &&
+					(renderTooltip ?
+						<Tooltip content={renderTooltip} />
+					:	<Tooltip />)}
+				{showLegend &&
+					(renderLegend ?
+						<Legend content={renderLegend} />
+					:	<Legend />)}
 				<Bar
 					dataKey={dataKey}
 					fill={

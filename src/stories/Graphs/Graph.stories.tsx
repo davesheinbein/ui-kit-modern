@@ -467,7 +467,12 @@ export const CustomTooltip = (args: GraphProps) => (
 		showAxes
 		showLegend={false}
 		colorScheme='primary'
-		tooltipRenderer={(props: import('recharts/types/component/Tooltip').TooltipProps<any, any>) => {
+		tooltipRenderer={(
+			props: import('recharts/types/component/Tooltip').TooltipProps<
+				any,
+				any
+			>
+		) => {
 			const { active, payload, label } = props;
 			if (active && payload && payload.length) {
 				return (
@@ -505,7 +510,11 @@ export const CustomLegend = (args: GraphProps) => (
 		showAxes
 		showLegend
 		colorScheme='rainbow'
-		legendRenderer={({ payload }: { payload?: LegendPayload<any, any>[] }) => (
+		legendRenderer={({
+			payload,
+		}: {
+			payload?: LegendPayload<any, any>[];
+		}) => (
 			<div style={{ display: 'flex', gap: 12 }}>
 				{payload &&
 					payload.map((entry, i) => (

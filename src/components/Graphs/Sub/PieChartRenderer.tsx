@@ -48,7 +48,17 @@ const PieChartRenderer: React.FC<PieChartRendererProps> = ({
 }) => {
 	if (!data || data.length === 0) {
 		if (renderEmpty) return renderEmpty();
-		return <div style={{ color: 'gray', textAlign: 'center', padding: 24 }}>No data available</div>;
+		return (
+			<div
+				style={{
+					color: 'gray',
+					textAlign: 'center',
+					padding: 24,
+				}}
+			>
+				No data available
+			</div>
+		);
 	}
 	return (
 		<ResponsiveContainer
@@ -84,8 +94,14 @@ const PieChartRenderer: React.FC<PieChartRendererProps> = ({
 						/>
 					))}
 				</Pie>
-				{showTooltip && (renderTooltip ? <Tooltip content={renderTooltip} /> : <Tooltip />)}
-				{showLegend && (renderLegend ? <Legend content={renderLegend} /> : <Legend />)}
+				{showTooltip &&
+					(renderTooltip ?
+						<Tooltip content={renderTooltip} />
+					:	<Tooltip />)}
+				{showLegend &&
+					(renderLegend ?
+						<Legend content={renderLegend} />
+					:	<Legend />)}
 			</PieChart>
 		</ResponsiveContainer>
 	);

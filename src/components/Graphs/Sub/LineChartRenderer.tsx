@@ -78,8 +78,14 @@ const LineChartRenderer: React.FC<
 				)}
 				<XAxis dataKey={labelKey} />
 				<YAxis />
-				{showTooltip && (renderTooltip ? <Tooltip content={renderTooltip} /> : <Tooltip />)}
-				{showLegend && (renderLegend ? <Legend content={renderLegend} /> : <Legend />)}
+				{showTooltip &&
+					(renderTooltip ?
+						<Tooltip content={renderTooltip} />
+					:	<Tooltip />)}
+				{showLegend &&
+					(renderLegend ?
+						<Legend content={renderLegend} />
+					:	<Legend />)}
 				<Line
 					type='monotone'
 					dataKey={dataKey}
