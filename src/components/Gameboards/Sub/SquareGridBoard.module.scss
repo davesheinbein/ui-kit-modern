@@ -1,0 +1,44 @@
+// SquareGridBoard SCSS module for unique NxN grid layout
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.squareGridBoard {
+	padding: 8px;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.squareGridBoard__grid {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+.squareGridBoard__row {
+	display: flex;
+	flex-direction: row;
+	gap: 2px;
+}
+.squareGridBoard__cell {
+	background: var(--cell-bg, #fff);
+	border: 1px solid #e5e7eb;
+	border-radius: 4px;
+	min-width: 40px;
+	min-height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+	font-weight: 500;
+	transition: background 0.2s;
+	cursor: pointer;
+	user-select: none;
+}
+.squareGridBoard__cell--active {
+	background: #bae6fd;
+	border-color: #38bdf8;
+}
+.squareGridBoard__cell--disabled {
+	background: #f1f5f9;
+	color: #94a3b8;
+	cursor: not-allowed;
+}

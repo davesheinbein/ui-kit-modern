@@ -1,0 +1,58 @@
+// LayeredGridBoard SCSS module for layered grid layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.layered-grid-board {
+	display: grid;
+	grid-template-columns: repeat(3, 40px);
+	grid-template-rows: repeat(3, 40px);
+	gap: 6px;
+	position: relative;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	padding: 24px;
+	min-width: 160px;
+	min-height: 160px;
+}
+.layered-grid-layer {
+	position: absolute;
+	top: 24px;
+	left: 24px;
+	width: calc(3 * 40px + 2 * 6px);
+	height: calc(3 * 40px + 2 * 6px);
+	pointer-events: none;
+}
+.layered-grid-cell {
+	width: 40px;
+	height: 40px;
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 500;
+	font-size: 1rem;
+	color: #222;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+	transition: background 0.2s;
+}
+.layered-grid-cell--layer0 {
+	background: #60a5fa88;
+	border: 2px solid #60a5fa;
+}
+.layered-grid-cell--layer1 {
+	background: #fbbf2488;
+	border: 2px solid #fbbf24;
+}
+.layered-grid-cell--layer2 {
+	background: #34d39988;
+	border: 2px solid #34d399;
+}
+.layered-grid-cell--layer3 {
+	background: #f472b688;
+	border: 2px solid #f472b6;
+}
+.layered-grid-cell--layer4 {
+	background: #a78bfa88;
+	border: 2px solid #a78bfa;
+}

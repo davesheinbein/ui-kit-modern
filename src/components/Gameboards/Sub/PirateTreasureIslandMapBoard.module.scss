@@ -1,0 +1,32 @@
+// PirateTreasureIslandMapBoard SCSS module for unique island/treasure map layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.pirate-treasure-island-map-board {
+	padding: 12px;
+	background: linear-gradient(
+		135deg,
+		#b3e0ff 60%,
+		#e0f7fa 100%
+	);
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	position: relative;
+	width: 100%;
+	max-width: 520px;
+}
+.pirate-treasure-island-map-board__island {
+	filter: drop-shadow(0 2px 6px #a0522d33);
+	transition: fill 0.2s;
+}
+.pirate-treasure-island-map-board__island-label {
+	font-family: 'Pirata One', cursive, sans-serif;
+	letter-spacing: 1px;
+}
+.pirate-treasure-island-map-board__treasure {
+	filter: drop-shadow(0 1px 4px #ffd70066);
+}
+.pirate-treasure-island-map-board__treasure-label {
+	font-weight: bold;
+	font-family: 'Nunito Sans', sans-serif;
+}

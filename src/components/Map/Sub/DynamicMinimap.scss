@@ -1,0 +1,137 @@
+.minimap-overlay {
+	position: absolute;
+	bottom: 1.5rem;
+	right: 1.5rem;
+	z-index: 100;
+	background: var(--minimap-bg, rgba(255, 255, 255, 0.92));
+	box-shadow: 0 2px 12px 0 #0002;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition:
+		box-shadow 0.2s,
+		left 0.2s,
+		top 0.2s,
+		width 0.2s,
+		height 0.2s;
+	pointer-events: auto;
+	border-radius: var(--minimap-radius, 12px);
+	border: var(--minimap-border, 2px solid #3334);
+	outline: none;
+}
+.minimap-overlay.square {
+	--minimap-radius: 12px;
+}
+.minimap-overlay.circle {
+	--minimap-radius: 50%;
+}
+.minimap-overlay.with-border {
+	--minimap-border: 2px solid
+		var(--minimap-border-color, #3334);
+}
+.minimap-overlay:focus {
+	box-shadow:
+		0 0 0 3px var(--minimap-focus, #2563eb80),
+		0 2px 12px 0 #0002;
+}
+.minimap-overlay[data-dragging],
+.minimap-overlay[data-resizing] {
+	box-shadow: 0 4px 24px 0 #0004;
+	cursor: move;
+}
+.minimap-overlay[data-docked] {
+	box-shadow: 0 2px 16px 0 #0006;
+}
+.minimap-svg {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.minimap-bg {
+	fill: var(--minimap-bg-fill, #f3f4f6);
+	stroke: var(--minimap-bg-stroke, #d1d5db);
+	stroke-width: 2;
+	transition:
+		fill 0.2s,
+		stroke 0.2s;
+}
+.minimap-player {
+	filter: drop-shadow(0 1px 2px #0002);
+	transition: fill 0.2s;
+	fill: var(--minimap-player-color, #f87171);
+}
+.minimap-player-label {
+	font-family: inherit;
+	font-weight: 600;
+	pointer-events: none;
+	user-select: none;
+	fill: var(--minimap-player-label, #222);
+}
+.minimap-landmark {
+	stroke: #fff;
+	stroke-width: 2;
+	opacity: 0.85;
+	fill: var(--minimap-landmark-color, #6366f1);
+	transition: fill 0.2s;
+}
+.minimap-player-group:focus,
+.minimap-player-group:hover,
+.minimap-landmark-group:focus,
+.minimap-landmark-group:hover {
+	outline: 2px solid var(--minimap-focus, #2563eb);
+	outline-offset: 2px;
+	filter: brightness(1.2);
+	cursor: pointer;
+}
+.minimap-resize-handle {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 18px;
+	height: 18px;
+	background: var(--minimap-resize-bg, #e5e7eb);
+	border-radius: 0 0 8px 0;
+	cursor: nwse-resize;
+	box-shadow: 0 1px 2px #0001;
+	border: 1px solid var(--minimap-resize-border, #d1d5db);
+	transition:
+		background 0.2s,
+		border 0.2s;
+}
+.minimap-resize-handle:focus,
+.minimap-resize-handle:hover {
+	background: var(--minimap-resize-hover, #c7d2fe);
+	border-color: var(--minimap-focus, #2563eb);
+}
+
+// Dark mode
+.minimap-theme-dark {
+	--minimap-bg: rgba(30, 41, 59, 0.92);
+	--minimap-bg-fill: #1e293b;
+	--minimap-bg-stroke: #334155;
+	--minimap-player-color: #fbbf24;
+	--minimap-player-label: #f1f5f9;
+	--minimap-landmark-color: #38bdf8;
+	--minimap-border-color: #64748b;
+	--minimap-focus: #38bdf8;
+	--minimap-resize-bg: #334155;
+	--minimap-resize-border: #64748b;
+	--minimap-resize-hover: #0ea5e9;
+}
+
+// High contrast accessibility
+@media (forced-colors: active) {
+	.minimap-overlay {
+		--minimap-bg: Canvas;
+		--minimap-bg-fill: Canvas;
+		--minimap-bg-stroke: CanvasText;
+		--minimap-player-color: Highlight;
+		--minimap-player-label: CanvasText;
+		--minimap-landmark-color: Highlight;
+		--minimap-border-color: CanvasText;
+		--minimap-focus: Highlight;
+		--minimap-resize-bg: Canvas;
+		--minimap-resize-border: CanvasText;
+		--minimap-resize-hover: Highlight;
+	}
+}

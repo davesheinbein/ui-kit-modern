@@ -1,0 +1,33 @@
+// IslandHoppingMapBoard SCSS module for unique layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.island-hopping-map-board {
+	padding: 16px;
+	background: var(--board-bg, #e0f7fa);
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.island-hopping-map-board__svg {
+	width: 100%;
+	height: auto;
+	max-width: 400px;
+	display: block;
+}
+.island-hopping-map-board__island {
+	transition: filter 0.2s;
+	&:hover {
+		filter: drop-shadow(0 0 8px #38bdf8);
+	}
+}
+.island-hopping-map-board__connection {
+	stroke-dasharray: 6 4;
+}
+.island-hopping-map-board__label {
+	font-family: Nunito, sans-serif;
+	font-weight: bold;
+	pointer-events: none;
+}

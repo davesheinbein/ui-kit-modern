@@ -1,0 +1,60 @@
+// PostApocalypticWastelandMapBoard SCSS module for unique wasteland layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.post-apocalyptic-wasteland-map-board {
+	padding: 12px;
+	background: linear-gradient(
+		135deg,
+		#f5e9c6 60%,
+		#b0a16b 100%
+	);
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(80, 60, 20, 0.08);
+	position: relative;
+}
+.post-apocalyptic-wasteland-map-board__svg {
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+	border-radius: 12px;
+}
+.post-apocalyptic-wasteland-map-board__zone {
+	filter: drop-shadow(0 2px 6px rgba(80, 60, 20, 0.12));
+	transition: fill 0.2s;
+}
+.post-apocalyptic-wasteland-map-board__zone-label {
+	font-family: var(
+		--font-family,
+		'Nunito Sans',
+		sans-serif
+	);
+	font-weight: bold;
+	letter-spacing: 0.04em;
+}
+.post-apocalyptic-wasteland-map-board__resource {
+	filter: drop-shadow(0 1px 4px rgba(80, 120, 60, 0.1));
+	transition: fill 0.2s;
+}
+.post-apocalyptic-wasteland-map-board__resource-label {
+	font-family: var(
+		--font-family,
+		'Nunito Sans',
+		sans-serif
+	);
+	font-size: 12px;
+	font-weight: 600;
+}
+.post-apocalyptic-wasteland-map-board__background {
+	pointer-events: none;
+}
+.post-apocalyptic-wasteland-map-board__legend {
+	margin-top: 16px;
+	padding: 0;
+	list-style: none;
+	font-size: 15px;
+	color: #4b3e1e;
+}
+.post-apocalyptic-wasteland-map-board__legend li {
+	margin-bottom: 4px;
+}

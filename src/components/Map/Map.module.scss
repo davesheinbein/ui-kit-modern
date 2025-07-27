@@ -1,6 +1,278 @@
 @use '../../styles/Animations.scss' as *; // Centralized animation keyframes & classes
 
+:root {
+	--map-bg: linear-gradient(
+		135deg,
+		#f8fafc 0%,
+		#e0e7ef 100%
+	);
+	--map-overlay-bg: rgba(255, 255, 255, 0.92);
+	--map-overlay-bg-dark: rgba(30, 41, 59, 0.92);
+	--map-overlay-accent: #2563eb;
+	--map-overlay-accent-dark: #60a5fa;
+	--map-overlay-shadow: 0 2px 12px 0 #2563eb18;
+	--map-overlay-radius: 12px;
+	--map-container-radius: 24px;
+	--map-container-shadow: 0 6px 32px 0 #2563eb22;
+	--map-key-bg: rgba(255, 255, 255, 0.98);
+	--map-key-bg-dark: rgba(30, 41, 59, 0.98);
+	--map-key-radius: 16px;
+	--map-key-shadow: 0 2px 16px 0 #2563eb18;
+	--map-custom-radius: 8px;
+	--map-custom-shadow: 0 1px 6px 0 #2563eb22;
+	--map-focus-outline: 2px solid #2563eb;
+	--map-focus-outline-dark: 2px solid #60a5fa;
+}
+
+[data-theme='dark'] {
+	--map-bg: linear-gradient(
+		135deg,
+		#1e293b 0%,
+		#334155 100%
+	);
+	--map-overlay-bg: var(--map-overlay-bg-dark);
+	--map-overlay-accent: var(--map-overlay-accent-dark);
+	--map-key-bg: var(--map-key-bg-dark);
+	--map-focus-outline: var(--map-focus-outline-dark);
+}
+
 .map__container {
 	width: 100%;
 	height: 100%;
+	background: var(--map-bg);
+	border-radius: var(--map-container-radius);
+	box-shadow: var(--map-container-shadow);
+	position: relative;
+	overflow: hidden;
+	transition: background 0.3s;
 }
+
+// Map controls
+.map__controls {
+	position: absolute;
+	top: 24px;
+	right: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	z-index: 30;
+	background: var(--map-overlay-bg);
+	border-radius: var(--map-overlay-radius);
+	box-shadow: var(--map-overlay-shadow);
+	padding: 8px;
+	transition:
+		background 0.3s,
+		box-shadow 0.3s;
+}
+
+.map__controls--theme-dark {
+	--map-overlay-bg: var(--map-overlay-bg-dark);
+	--map-overlay-accent: var(--map-overlay-accent-dark);
+}
+
+.map__controls--theme-light {
+	--map-overlay-bg: rgba(255, 255, 255, 0.92);
+	--map-overlay-accent: #2563eb;
+}
+
+.map__control_button {
+	min-width: 32px;
+	height: 32px;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 6px;
+	font-weight: 600;
+	font-size: 14px;
+	transition: all 0.2s;
+	background: transparent;
+	border: 1px solid transparent;
+	color: var(--map-overlay-accent);
+}
+
+.map__control_button:hover:not(:disabled) {
+	background: rgba(37, 99, 235, 0.1);
+	border-color: rgba(37, 99, 235, 0.2);
+}
+
+.map__control_button:focus {
+	outline: var(--map-focus-outline);
+	outline-offset: 2px;
+}
+
+.map__control_button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+// Map overlays
+.map__compass-overlay,
+.map__coordinates-overlay,
+.map__grid-overlay,
+.map__fogofwar-overlay,
+.map__minimap-overlay {
+	position: absolute;
+	background: var(--map-overlay-bg);
+	border-radius: var(--map-overlay-radius);
+	box-shadow: var(--map-overlay-shadow);
+	padding: 8px 18px;
+	font-weight: 600;
+	color: var(--map-overlay-accent);
+	z-index: 20;
+	user-select: none;
+	pointer-events: none;
+	font-size: 1rem;
+	transition:
+		background 0.3s,
+		color 0.3s,
+		box-shadow 0.3s;
+	opacity: 1;
+	animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.map__compass-overlay {
+	top: 24px;
+	left: 24px;
+}
+.map__coordinates-overlay {
+	bottom: 24px;
+	left: 24px;
+}
+.map__grid-overlay {
+	top: 24px;
+	right: 24px;
+}
+.map__fogofwar-overlay {
+	bottom: 24px;
+	right: 24px;
+}
+.map__minimap-overlay {
+	bottom: 24px;
+	right: 24px;
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.95rem;
+	background: var(--map-overlay-bg);
+	box-shadow: var(--map-overlay-shadow);
+	transition:
+		background 0.3s,
+		box-shadow 0.3s;
+}
+
+// Overlay focus/hover for accessibility
+.map__compass-overlay:focus,
+.map__coordinates-overlay:focus,
+.map__grid-overlay:focus,
+.map__fogofwar-overlay:focus,
+.map__minimap-overlay:focus {
+	outline: var(--map-focus-outline);
+	outline-offset: 2px;
+}
+
+// Responsive overlays
+@media (max-width: 600px) {
+	.map__compass-overlay,
+	.map__coordinates-overlay,
+	.map__grid-overlay,
+	.map__fogofwar-overlay {
+		padding: 6px 10px;
+		font-size: 0.92rem;
+		border-radius: 8px;
+	}
+	.map__minimap-overlay {
+		width: 56px;
+		height: 56px;
+		font-size: 0.85rem;
+	}
+	.map__controls {
+		top: 16px;
+		right: 16px;
+		padding: 6px;
+		gap: 6px;
+	}
+	.map__control_button {
+		min-width: 28px;
+		height: 28px;
+		font-size: 12px;
+	}
+}
+
+// Custom children
+.map__custom {
+	position: absolute;
+	top: 24px;
+	right: 24px;
+	background: #fff;
+	border-radius: var(--map-custom-radius);
+	box-shadow: var(--map-custom-shadow);
+	padding: 6px 16px;
+	font-weight: 600;
+	color: var(--map-overlay-accent);
+	z-index: 30;
+	transition:
+		background 0.3s,
+		color 0.3s,
+		box-shadow 0.3s;
+}
+[data-theme='dark'] .map__custom {
+	background: #1e293b;
+	color: var(--map-overlay-accent-dark);
+}
+
+// Map Key (Legend)
+.map__key-panel {
+	position: absolute;
+	bottom: 32px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--map-key-bg);
+	border-radius: var(--map-key-radius);
+	box-shadow: var(--map-key-shadow);
+	padding: 12px 28px;
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	transition:
+		background 0.3s,
+		box-shadow 0.3s;
+}
+[data-theme='dark'] .map__key-panel {
+	background: var(--map-key-bg-dark);
+}
+
+// Accessibility: high-contrast mode
+@media (forced-colors: active) {
+	.map__container,
+	.map__compass-overlay,
+	.map__coordinates-overlay,
+	.map__grid-overlay,
+	.map__fogofwar-overlay,
+	.map__minimap-overlay,
+	.map__custom,
+	.map__key-panel,
+	.map__controls {
+		forced-color-adjust: none;
+		background: Canvas;
+		color: CanvasText;
+		border: 1.5px solid CanvasText;
+		box-shadow: none;
+	}
+}
+
+// Add more overlay/controls classes as needed for future features

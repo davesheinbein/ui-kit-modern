@@ -1,0 +1,65 @@
+// PushYourLuckPathBoard SCSS module for unique path layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.push-your-luck-path-board {
+	padding: 12px;
+	background: linear-gradient(
+		135deg,
+		#fef3c7 60%,
+		#fbbf24 100%
+	);
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(180, 120, 40, 0.08);
+	position: relative;
+}
+.push-your-luck-path-board__svg {
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+	border-radius: 12px;
+}
+.push-your-luck-path-board__segment {
+	stroke: #888;
+	stroke-width: 4px;
+	opacity: 0.7;
+}
+.push-your-luck-path-board__node {
+	filter: drop-shadow(0 2px 6px rgba(180, 120, 40, 0.12));
+	transition: fill 0.2s;
+}
+.push-your-luck-path-board__node-label {
+	font-family: var(
+		--font-family,
+		'Nunito Sans',
+		sans-serif
+	);
+	font-weight: bold;
+	letter-spacing: 0.04em;
+}
+.push-your-luck-path-board__risk {
+	filter: drop-shadow(0 1px 4px rgba(190, 24, 93, 0.1));
+	transition: fill 0.2s;
+}
+.push-your-luck-path-board__risk-label {
+	font-family: var(
+		--font-family,
+		'Nunito Sans',
+		sans-serif
+	);
+	font-size: 13px;
+	font-weight: 600;
+}
+.push-your-luck-path-board__background {
+	pointer-events: none;
+}
+.push-your-luck-path-board__legend {
+	margin-top: 16px;
+	padding: 0;
+	list-style: none;
+	font-size: 15px;
+	color: #be185d;
+}
+.push-your-luck-path-board__legend li {
+	margin-bottom: 4px;
+}

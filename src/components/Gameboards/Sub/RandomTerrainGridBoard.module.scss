@@ -1,0 +1,67 @@
+// RandomTerrainGridBoard SCSS module for unique terrain grid layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.randomTerrainGridBoard {
+	padding: 8px;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	display: inline-block;
+}
+.gridRow {
+	display: flex;
+}
+.gridCell {
+	width: 40px;
+	height: 40px;
+	border: 1px solid #e2e8f0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.9rem;
+	font-weight: 500;
+	transition: background 0.2s;
+}
+.grass {
+	background: linear-gradient(
+		135deg,
+		#b6e3a6 60%,
+		#7fc97f 100%
+	);
+}
+.water {
+	background: linear-gradient(
+		135deg,
+		#a6d8e3 60%,
+		#4fc3f7 100%
+	);
+}
+.mountain {
+	background: linear-gradient(
+		135deg,
+		#d1cfcf 60%,
+		#a7a7a7 100%
+	);
+}
+.forest {
+	background: linear-gradient(
+		135deg,
+		#b6e3c6 60%,
+		#388e3c 100%
+	);
+}
+.desert {
+	background: linear-gradient(
+		135deg,
+		#f9e4b7 60%,
+		#fbc02d 100%
+	);
+}
+.snow {
+	background: linear-gradient(
+		135deg,
+		#e3eaf6 60%,
+		#b3c6e3 100%
+	);
+}

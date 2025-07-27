@@ -1,0 +1,39 @@
+// LoopTrackBoard SCSS module for circular loop layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.loop-track-board {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 16px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	padding: 24px;
+	min-width: 320px;
+	min-height: 320px;
+	position: relative;
+}
+.loop-track-board__svg {
+	display: block;
+	margin: 0 auto;
+	background: transparent;
+}
+.loop-track-board__labels {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 16px;
+	justify-content: center;
+}
+.loop-track-board__node-label {
+	background: var(--node-label-bg, #e0e7ef);
+	color: var(--node-label-color, #222);
+	border-radius: 6px;
+	padding: 4px 12px;
+	font-size: 1rem;
+	font-weight: 500;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}

@@ -1,0 +1,36 @@
+// PlanetMapBoard SCSS module for unique globe/territory layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.planet-map-board {
+	padding: 16px;
+	background: linear-gradient(
+		135deg,
+		#e0f2fe 60%,
+		#bae6fd 100%
+	);
+	border-radius: 50%;
+	box-shadow: 0 2px 16px rgba(52, 120, 203, 0.08);
+	position: relative;
+	width: 100%;
+	max-width: 480px;
+}
+.planet-map-board__planet {
+	filter: drop-shadow(0 2px 8px #64748b33);
+	transition: fill 0.2s;
+}
+.planet-map-board__region {
+	opacity: 0.92;
+	cursor: pointer;
+	transition: opacity 0.2s;
+}
+.planet-map-board__region-label {
+	font-family: 'Nunito Sans', sans-serif;
+	letter-spacing: 1px;
+	text-shadow: 0 1px 4px #fff8;
+}
+.planet-map-board__planet-label {
+	font-family: 'Pirata One', cursive, sans-serif;
+	letter-spacing: 2px;
+	text-shadow: 0 2px 8px #bae6fd88;
+}

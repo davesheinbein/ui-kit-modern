@@ -1,0 +1,80 @@
+// ModularRoomDungeonBuilder SCSS module for modular dungeon layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.dungeonBoard {
+	position: relative;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 12px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	padding: 16px;
+	overflow: auto;
+}
+.grid {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 0;
+}
+.gridRow {
+	display: flex;
+}
+.gridCell {
+	border: 1px solid var(--grid-cell-border, #e5e7eb);
+	background: var(--grid-cell-bg, #f3f4f6);
+	width: 48px;
+	height: 48px;
+	box-sizing: border-box;
+}
+
+.room {
+	position: absolute;
+	border-radius: 10px;
+	box-shadow: 0 2px 12px rgba(99, 102, 241, 0.1);
+	border: 2.5px solid var(--room-border, #6366f1);
+	color: var(--room-text, #22223b);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700;
+	font-size: 1.08rem;
+	cursor: pointer;
+	z-index: 1;
+	transition:
+		box-shadow 0.2s,
+		border 0.2s;
+	outline: none;
+}
+.room:focus,
+.room:hover {
+	border: 2.5px solid #fbbf24;
+	box-shadow: 0 4px 16px rgba(251, 191, 36, 0.18);
+}
+.tile {
+	position: absolute;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(251, 191, 36, 0.1);
+	border: 2px solid var(--tile-border, #fbbf24);
+	color: var(--tile-text, #22223b);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.05rem;
+	font-weight: 600;
+	cursor: pointer;
+	z-index: 2;
+	transition:
+		box-shadow 0.2s,
+		border 0.2s,
+		background 0.2s;
+	outline: none;
+}
+.tile:focus,
+.tile:hover {
+	border: 2px solid #6366f1;
+	background: #f3f4f6;
+	box-shadow: 0 4px 16px rgba(99, 102, 241, 0.13);
+}

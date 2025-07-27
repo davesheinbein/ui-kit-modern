@@ -1,0 +1,17 @@
+// ConstellationMapBoard SCSS module for unique layout
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.constellation-map-board {
+	padding: 8px;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	width: 100%;
+	max-width: 500px;
+}
+.constellation-map-board svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}

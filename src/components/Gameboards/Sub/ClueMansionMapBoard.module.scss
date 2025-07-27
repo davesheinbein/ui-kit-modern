@@ -1,0 +1,39 @@
+// ClueMansionMapBoard SCSS module for unique layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.clue-mansion-map-board {
+	padding: 12px;
+	background: var(--board-bg, #fef9c3);
+	border-radius: 12px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+	position: relative;
+	min-width: 320px;
+	min-height: 240px;
+}
+.clue-mansion-map-board svg {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+.clue-mansion-map-board__room {
+	transition: filter 0.2s;
+	filter: drop-shadow(0 2px 6px #fbbf2433);
+}
+.clue-mansion-map-board__room-label {
+	font-family: var(
+		--font-family-heading,
+		'Nunito Sans',
+		sans-serif
+	);
+	font-size: 14px;
+	font-weight: bold;
+	fill: #222;
+	text-shadow: 1px 1px 2px #fff3;
+}
+.clue-mansion-map-board__passage {
+	stroke: #888;
+	stroke-width: 3;
+	opacity: 0.7;
+	transition: stroke 0.2s;
+}

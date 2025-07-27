@@ -75,6 +75,40 @@
 	}
 }
 
+.input--border {
+	border: 1.5px solid var(--color-border-input, #d1d5db);
+	border-radius: var(--radius-md, 6px);
+	transition: border-color 0.2s;
+
+	&:focus {
+		border-color: var(--color-primary, #3b82f6);
+	}
+}
+
+.input--shadow {
+	box-shadow: 0 2px 8px 0 rgba(31, 41, 55, 0.08);
+	border: none;
+	transition: box-shadow 0.2s;
+
+	&:focus {
+		box-shadow: 0 4px 16px 0 rgba(59, 130, 246, 0.15);
+	}
+}
+
+.input--borderShadow {
+	border: 1.5px solid var(--color-border-input, #d1d5db);
+	border-radius: var(--radius-md, 6px);
+	box-shadow: 0 2px 8px 0 rgba(31, 41, 55, 0.08);
+	transition:
+		border-color 0.2s,
+		box-shadow 0.2s;
+
+	&:focus {
+		border-color: var(--color-primary, #3b82f6);
+		box-shadow: 0 4px 16px 0 rgba(59, 130, 246, 0.15);
+	}
+}
+
 .size-small {
 	.input {
 		padding: var(--spacing-2);
@@ -258,6 +292,28 @@
 	color: var(--color-text-secondary);
 	margin-top: var(--spacing-1);
 }
+
+.input--text {
+	// Example: text-specific styles
+}
+
+.input--email {
+	// Example: email-specific styles
+}
+
+.input--password {
+	// Example: password-specific styles
+}
+
+.input--number {
+	// Example: number-specific styles
+}
+
+.input--search {
+	// Example: search-specific styles
+}
+
+// Add more as needed for other input types
 
 @media (max-width: 768px) {
 	.size-large {

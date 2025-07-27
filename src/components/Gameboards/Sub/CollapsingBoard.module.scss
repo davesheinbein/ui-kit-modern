@@ -1,0 +1,31 @@
+// CollapsingBoard SCSS module for unique layout
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.collapsing-board {
+	padding: 8px;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.collapsing-board__grid {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(48px, 1fr)
+	);
+	gap: 8px;
+}
+.collapsing-board__cell {
+	background: var(--cell-bg, #fff);
+	border-radius: 4px;
+	min-height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.3s;
+}
+.collapsing-board__cell--collapsed {
+	opacity: 0.3;
+	pointer-events: none;
+}

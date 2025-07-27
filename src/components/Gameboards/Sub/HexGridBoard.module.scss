@@ -1,0 +1,11 @@
+// HexGridBoard SCSS module for unique hex grid layout
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.hexGridBoard {
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 8px;
+	display: block;
+}

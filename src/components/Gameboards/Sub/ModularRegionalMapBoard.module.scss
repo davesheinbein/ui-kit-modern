@@ -1,0 +1,80 @@
+// ModularRegionalMapBoard SCSS module for unique territory/region layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.modular-regional-map-board {
+	padding: 16px;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.modular-regional-map-board__regions {
+	display: flex;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+.modular-regional-map-board__region {
+	min-width: 120px;
+	min-height: 120px;
+	border-radius: 10px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+	padding: 12px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+}
+.modular-regional-map-board__region-label {
+	font-weight: bold;
+	font-size: 1.1rem;
+	margin-bottom: 8px;
+}
+.modular-regional-map-board__tiles {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.modular-regional-map-board__tile {
+	min-width: 48px;
+	min-height: 48px;
+	border-radius: 8px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.1rem;
+	font-weight: 600;
+	transition:
+		background 0.2s,
+		box-shadow 0.2s,
+		color 0.2s;
+	cursor: pointer;
+	outline: none;
+}
+.modular-regional-map-board__tile-label {
+	font-weight: 600;
+	font-family: var(
+		--font-sans,
+		'Nunito Sans',
+		Arial,
+		sans-serif
+	);
+	pointer-events: none;
+	user-select: none;
+}
+.modular-regional-map-board__tile:hover,
+.modular-regional-map-board__tile:focus {
+	background: #fbbf24 !important;
+	color: #22223b;
+	box-shadow: 0 2px 8px rgba(251, 191, 36, 0.18);
+}
+.modular-regional-map-board__tile:active {
+	background: #fde68a !important;
+	color: #b45309;
+	box-shadow: 0 1px 2px rgba(251, 191, 36, 0.22);
+}

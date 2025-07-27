@@ -1,0 +1,40 @@
+// WindingSnakePathBoard SCSS module for unique winding snake path layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.winding-snake-path-board {
+	background: linear-gradient(
+		180deg,
+		#e0f2fe 0%,
+		#0e7490 100%
+	);
+	border-radius: 24px;
+	box-shadow: 0 4px 24px rgba(30, 64, 175, 0.12);
+	padding: 16px;
+	position: relative;
+}
+
+.winding-snake-path-board svg {
+	display: block;
+	margin: 0 auto;
+}
+
+.winding-snake-path-board__segment {
+	opacity: 0.9;
+	transition: fill 0.2s;
+}
+
+.winding-snake-path-board__path {
+	filter: drop-shadow(0 0 8px #22d3ee);
+}
+
+.winding-snake-path-board__label {
+	font-family: var(
+		--font-sans,
+		'Nunito Sans',
+		Arial,
+		sans-serif
+	);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+}

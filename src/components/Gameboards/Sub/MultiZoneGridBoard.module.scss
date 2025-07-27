@@ -1,0 +1,44 @@
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.multi-zone-grid-board {
+	padding: 12px;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.multi-zone-grid-board__grid {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+.multi-zone-grid-board__row {
+	display: flex;
+	gap: 2px;
+}
+.multi-zone-grid-board__cell {
+	border-radius: 6px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+	transition: background 0.2s;
+	min-width: 32px;
+	min-height: 32px;
+	text-align: center;
+	font-family: var(
+		--font-family,
+		Nunito,
+		Arial,
+		sans-serif
+	);
+}
+.multi-zone-grid-board__legend {
+	margin-top: 12px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+.multi-zone-grid-board__legend-item {
+	font-size: 13px;
+	font-weight: 500;
+	border-radius: 4px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}

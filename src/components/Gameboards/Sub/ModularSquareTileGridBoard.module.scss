@@ -1,0 +1,71 @@
+// ModularSquareTileGridBoard SCSS module for modular square grid layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.squareTileGridBoard {
+	position: relative;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+	padding: 12px;
+	overflow: auto;
+}
+
+.grid {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	gap: 6px;
+	background: #e5e7eb;
+	border-radius: 12px;
+	padding: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.gridRow {
+	display: flex;
+}
+.gridCell {
+	border: 1px solid var(--grid-cell-border, #e5e7eb);
+	background: var(--grid-cell-bg, #f3f4f6);
+	width: 48px;
+	height: 48px;
+	box-sizing: border-box;
+}
+.tile {
+	position: absolute;
+	border-radius: 8px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+	background: var(--tile-color, #f3f4f6);
+	font-size: 1.2rem;
+	font-weight: 600;
+	cursor: pointer;
+	min-width: 44px;
+	min-height: 44px;
+	border: 2px solid #fff;
+	position: relative;
+	user-select: none;
+	transition:
+		box-shadow 0.18s,
+		background 0.18s,
+		transform 0.18s;
+}
+.tile:focus {
+	outline: 2px solid var(--tile-focus, #fbbf24);
+}
+.tile:hover {
+	background: #60a5fa;
+	color: #fff;
+	box-shadow: 0 4px 16px rgba(96, 165, 250, 0.18);
+	transform: translateY(-2px) scale(1.04);
+	z-index: 2;
+}
+.tile[data-highlight='true'] {
+	outline: 2px solid #fbbf24;
+	outline-offset: 2px;
+}
+.tile .emoji {
+	font-size: 1.5em;
+	margin-left: 2px;
+}

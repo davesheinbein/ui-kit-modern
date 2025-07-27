@@ -45,3 +45,18 @@ export const leaderboardTableData = [
 export const leaderboardMock = [
 	// ...full leaderboardMock array from index.ts...
 ];
+
+// Sample table columns and data for Table.stories.tsx
+export const sampleTableColumns = [
+	{ key: 'name', label: 'Name', align: 'left' },
+	{ key: 'score', label: 'Score', align: 'right' },
+	{ key: 'country', label: 'Country', align: 'center' },
+];
+
+export const sampleTableData = [
+	{ id: 1, name: 'Alice', score: 3200, country: '🇺🇸' },
+	{ id: 2, name: 'Bob', score: 2950, country: '🇬🇧' },
+	{ id: 3, name: 'Carlos', score: 2875, country: '🇪🇸' },
+	{ id: 4, name: 'Diana', score: 2750, country: '🇩🇪' },
+	{ id: 5, name: 'Eva', score: 2600, country: '🇫🇷' },
+];

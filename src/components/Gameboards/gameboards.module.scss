@@ -1,0 +1,1029 @@
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/utilities.scss' as *;
+@use '../../styles/Animations.scss' as *; // Centralized animation keyframes & classes
+
+// Unique layouts for advanced boards
+.spiral-grid-board {
+	background: var(--board-bg, #f8fafc);
+	border-radius: 50%;
+	padding: 16px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.maze-board {
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	padding: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 32px);
+	gap: 4px;
+}
+.hex-grid-board {
+	background: var(--board-bg, #f8fafc);
+	border-radius: 12px;
+	padding: 12px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px;
+}
+.isometric-grid-board {
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	padding: 12px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px;
+	transform: skewY(-20deg);
+}
+.path-board {
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	padding: 12px;
+	display: flex;
+	gap: 8px;
+}
+.territory-board {
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	padding: 12px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+.abstract-board {
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	padding: 12px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+.thematic-board {
+	background: linear-gradient(
+		135deg,
+		#f8fafc 60%,
+		#e0e7ef 100%
+	);
+	border-radius: 12px;
+	padding: 16px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+/**
+ * Gameboards.module.scss - Modern Game Board Component Styles with DRY Design System
+ */
+
+// All animation keyframes and reusable animation classes should be added to src/styles/Animations.scss.
+// Do not define animation logic here. Use only the centralized animation classes or keyframes;
+
+// ========================================
+// Base Graph Container with Modern Containment
+// ========================================
+
+.gameboardsContainer {
+	@include container-base;
+	@include flex-column;
+	width: 100%;
+	margin: var(--spacing-6) 0 var(--spacing-2) 0;
+	gap: var(--spacing-3);
+	background: var(--color-surface);
+	border-radius: var(--radius-xl);
+	box-shadow:
+		0 4px 24px 0 rgba(37, 99, 235, 0.08),
+		0 1.5px 4px 0 rgba(0, 0, 0, 0.04);
+	padding: var(--spacing-6);
+	transition:
+		box-shadow 0.18s,
+		background 0.18s;
+}
+
+.gameboardsTitle {
+	margin: 0 0 var(--spacing-3) 0;
+	font-size: 1.25rem;
+	color: var(--color-primary);
+	font-weight: 600;
+	letter-spacing: 0.01em;
+	text-align: left;
+}
+
+.gameboardsSubtitle {
+	margin: 0 0 var(--spacing-2) 0;
+	font-size: 1.05rem;
+	color: var(--color-text-secondary);
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	text-align: left;
+	line-height: 1.4;
+}
+
+// ========================================
+// Board Type Specific Styles with Modern Interactions
+// ========================================
+
+.squareGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 8px;
+}
+.hexGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f3f8ff);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+// Rectangular Grid Board
+.rectangularGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f0f4fa);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 8px;
+}
+
+// Triangular Grid Board
+.triangularGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8f3ff);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 8px;
+}
+
+// Circular Grid Board
+.circularGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 50%;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 8px;
+}
+
+// Horse Track Board
+.horseTrackBoard {
+	@include flex-center;
+	background: var(--board-bg, #fffbe6);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 12px;
+}
+
+.isometricGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	.isometricGridBoard {
+		@include flex-center;
+		background: var(--board-bg, #f8fafc);
+		border-radius: 10px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+		padding: 10px;
+	}
+	.blockedTerrainGridBoard {
+		@include flex-center;
+		background: var(--board-bg, #f8e8e8);
+		border-radius: 10px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+		padding: 10px;
+	}
+	.teleportationZoneGridBoard {
+		@include flex-center;
+		background: var(--board-bg, #e8f8f8);
+		border-radius: 10px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+		padding: 10px;
+	}
+}
+.elevationGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8f8e8);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.multiZoneGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #e8f8fa);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.rotatingSquareGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.modularSquareTileGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.modularHexTileBoard {
+	@include flex-center;
+	background: var(--board-bg, #f3f8ff);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.fogOfWarGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #e8e8f8);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.slidingGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.layeredGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.randomTerrainGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.expandingGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.hiddenTileFlipBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.circularGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 50%;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+.spiralGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 50%;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 10px;
+}
+// Maze Board
+.mazePathBoard {
+	@include flex-center;
+	background: var(--board-bg, #fff8e1);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(255, 193, 7, 0.08);
+	padding: 10px;
+	position: relative;
+}
+// Isometric Grid Board
+.isometricGridBoard {
+	@include flex-center;
+	background: var(--board-bg, #e0f7fa);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 188, 212, 0.08);
+	padding: 10px;
+	transform: skewY(20deg);
+}
+// Path Board
+.pathBoard {
+	@include flex-center;
+	background: var(--board-bg, #f3e5f5);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(156, 39, 176, 0.08);
+	padding: 10px;
+}
+// Territory Board
+.territoryBoard {
+	@include flex-center;
+	background: var(--board-bg, #e8f5e9);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(76, 175, 80, 0.08);
+	padding: 12px;
+}
+// Abstract Board
+.abstractBoard {
+	@include flex-center;
+	background: var(--board-bg, #fff3e0);
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(255, 152, 0, 0.08);
+	padding: 10px;
+}
+// Thematic Board
+.thematicBoard {
+	@include flex-center;
+	background: var(--board-bg, #e1f5fe);
+	border-radius: 14px;
+	box-shadow: 0 2px 8px rgba(33, 150, 243, 0.08);
+	padding: 14px;
+}
+// Add more board type styles as needed
+
+.groupedBarChart {
+	.recharts-bar {
+		transition: all var(--transition-standard);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+// Line Charts
+.lineChart {
+	.recharts-line {
+		transition: stroke-width var(--transition-fast);
+		&:hover {
+			stroke-width: 3;
+		}
+	}
+	.recharts-dot {
+		transition: r var(--transition-fast);
+		&:hover {
+			r: 5;
+		}
+	}
+}
+
+.smoothLineChart {
+	.recharts-line {
+		transition: all var(--transition-standard);
+		filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+	}
+}
+
+.multiLineChart {
+	.recharts-line {
+		transition: stroke-width var(--transition-fast);
+		&:hover {
+			stroke-width: 3;
+		}
+	}
+}
+
+// Area Charts
+.areaChart {
+	.recharts-area {
+		transition: fill-opacity var(--transition-fast);
+		&:hover {
+			fill-opacity: 0.9;
+		}
+	}
+}
+
+.stackedAreaChart {
+	.recharts-area {
+		transition: all var(--transition-standard);
+	}
+}
+
+// Pie Charts
+.pieChart {
+	.recharts-pie-sector {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.donutChart {
+	.recharts-pie-sector {
+		transition: all var(--transition-fast);
+		&:hover {
+			transform: scale(1.05);
+			transform-origin: center;
+		}
+	}
+}
+
+// Radar Charts
+.radarChart {
+	.recharts-polar-grid {
+		stroke: var(--color-border);
+	}
+	.recharts-radar {
+		stroke-width: 3px;
+		fill-opacity: 0.18;
+	}
+}
+
+// Scatter Charts
+.scatterChart {
+	.recharts-scatter-symbol {
+		transition: all var(--transition-fast);
+		&:hover {
+			r: 6;
+			filter: brightness(1.2);
+		}
+	}
+}
+
+// Composed Charts
+.composedChart {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area {
+		transition: all var(--transition-fast);
+	}
+}
+
+// Treemap Charts
+.treemapChart {
+	.recharts-treemap-depth-1 {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+			stroke-width: 2;
+		}
+	}
+}
+
+// Funnel Charts
+.funnelChart {
+	.recharts-funnel-sector {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+			transform: scale(1.02);
+			transform-origin: center;
+		}
+	}
+}
+
+// Advanced Chart Types
+.sankeyChart {
+	.recharts-sankey-node {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+	.recharts-sankey-link {
+		transition: all var(--transition-fast);
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+}
+
+.sunburstChart {
+	.recharts-sunburst-sector {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.candlestickChart {
+	.recharts-candlestick {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.waterfallChart {
+	.recharts-bar {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.heatmapChart {
+	.recharts-heatmap-cell {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.2);
+		}
+	}
+}
+
+.violinChart {
+	.recharts-violin {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.boxplotChart {
+	.recharts-boxplot {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.gaugeChart {
+	.recharts-gauge {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+// Additional Chart Types
+.bubbleChart {
+	.recharts-scatter {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+
+	.recharts-scatter-dot {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.2);
+			transform: scale(1.1);
+		}
+	}
+}
+
+.errorBarChart {
+	.recharts-error-bar {
+		stroke: var(--color-text-muted);
+		stroke-width: 1.5;
+		transition: all var(--transition-fast);
+	}
+
+	.recharts-bar {
+		transition: all var(--transition-fast);
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.referenceLineChart {
+	.recharts-reference-line {
+		stroke: var(--color-danger);
+		stroke-width: 2;
+		stroke-dasharray: '5 5';
+		opacity: 0.8;
+	}
+}
+
+.referenceAreaChart {
+	.recharts-reference-area {
+		fill: var(--color-warning-light);
+		opacity: 0.3;
+		transition: opacity var(--transition-fast);
+
+		&:hover {
+			opacity: 0.5;
+		}
+	}
+}
+
+.brushZoomChart {
+	.recharts-brush {
+		.recharts-brush-slide {
+			fill: var(--color-primary-light);
+			opacity: 0.1;
+		}
+
+		.recharts-brush-texts {
+			fill: var(--color-text-primary);
+			font-size: 12px;
+		}
+	}
+}
+
+// ========================================
+// Chart Elements and Interactions
+// ========================================
+
+.recharts-tooltip-wrapper {
+	font-size: var(--font-size-sm);
+	background: var(--color-surface);
+	border-radius: var(--radius-md);
+	box-shadow: 0 2px 8px 0 rgba(37, 99, 235, 0.1);
+	border: 1px solid var(--color-border);
+	pointer-events: auto;
+}
+
+.recharts-cartesian-axis-tick-value {
+	fill: var(--color-text-muted);
+	font-size: var(--font-size-sm);
+}
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+	stroke: var(--color-border);
+	stroke-dasharray: 3 3;
+}
+
+.recharts-legend-wrapper {
+	padding-top: var(--spacing-3);
+	text-align: center;
+}
+
+.recharts-legend-item {
+	margin-right: var(--spacing-4);
+	font-size: var(--font-size-sm);
+	color: var(--color-text-secondary);
+}
+
+.graphsLegendLabel {
+	margin: 0 0 var(--spacing-1) 0;
+	font-size: 0.98rem;
+	color: var(--color-accent);
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	text-align: left;
+	line-height: 1.3;
+	background: linear-gradient(
+		90deg,
+		var(--color-accent) 0%,
+		var(--color-primary-light) 100%
+	);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+.graphsTooltipLabel {
+	margin: 0 0 var(--spacing-2) 0;
+	font-size: 0.95rem;
+	color: var(--color-secondary);
+	font-weight: 400;
+	letter-spacing: 0.01em;
+	text-align: left;
+	line-height: 1.2;
+	opacity: 0.85;
+}
+
+.graphsCustomTooltip {
+	background: var(--color-surface);
+	border-radius: var(--radius-md);
+	box-shadow: 0 2px 8px 0 rgba(37, 99, 235, 0.1);
+	border: 1px solid var(--color-border);
+	padding: var(--spacing-3);
+	min-width: 120px;
+	font-size: var(--font-size-sm);
+	color: var(--color-text-primary);
+	pointer-events: auto;
+	z-index: 10;
+}
+.graphsTooltipContent {
+	margin-top: var(--spacing-1);
+}
+.graphsTooltipTitle {
+	font-weight: 600;
+	margin-bottom: var(--spacing-1);
+	color: var(--color-primary);
+}
+.graphsTooltipItem {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	margin-bottom: 2px;
+}
+.graphsTooltipColor {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border-radius: 2px;
+	margin-right: 0.5em;
+}
+.graphsPieLabel {
+	font-size: 0.95rem;
+	font-weight: 500;
+	fill: var(--color-primary);
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+	pointer-events: none;
+}
+.graphsAxisLabel {
+	font-size: 1rem;
+	font-weight: 600;
+	fill: var(--color-accent);
+	letter-spacing: 0.01em;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+// ========================================
+// Chart Container Variants
+// ========================================
+
+.graphsContainer--modern {
+	@include elevated-surface;
+	padding: var(--spacing-8);
+	background: linear-gradient(
+		135deg,
+		var(--color-surface) 80%,
+		var(--color-primary-lightest) 100%
+	);
+	border-radius: var(--radius-2xl);
+}
+
+.graphsContainer--minimal {
+	padding: var(--spacing-4);
+	background: transparent;
+}
+
+.graphsContainer--compact {
+	margin: var(--spacing-2) 0;
+	padding: var(--spacing-3);
+}
+
+.graphsContainer--bordered {
+	border: 1.5px solid var(--color-border);
+	border-radius: var(--radius-lg);
+	padding: var(--spacing-4);
+}
+
+// ========================================
+// Data-Driven Color Themes
+// ========================================
+
+.graphsContainer--theme-primary {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area {
+		stroke: var(--color-primary);
+		fill: var(--color-primary);
+	}
+}
+
+.graphsContainer--theme-success {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area {
+		stroke: var(--color-success);
+		fill: var(--color-success);
+	}
+}
+
+.graphsContainer--theme-warning {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area {
+		stroke: var(--color-warning);
+		fill: var(--color-warning);
+	}
+}
+
+.graphsContainer--theme-danger {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area {
+		stroke: var(--color-danger);
+		fill: var(--color-danger);
+	}
+}
+
+// ========================================
+// Accessibility and Motion
+// ========================================
+
+@media (prefers-reduced-motion: reduce) {
+	.recharts-bar,
+	.recharts-line,
+	.recharts-area,
+	.recharts-pie-sector,
+	.recharts-scatter-symbol {
+		transition: none !important;
+	}
+}
+
+// ========================================
+// Responsive Design with Modern Containment
+// ========================================
+
+@media (max-width: 768px) {
+	.graphsContainer {
+		padding: var(--spacing-3);
+		border-radius: var(--radius-lg);
+	}
+	.graphsTitle {
+		font-size: 1.1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.graphsContainer {
+		padding: var(--spacing-2);
+		border-radius: var(--radius-md);
+	}
+	.graphsTitle {
+		font-size: 1rem;
+	}
+}
+
+// ========================================
+// Chart Centering Wrapper
+// ========================================
+
+.graphsChartWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	min-height: 320px;
+	min-width: 280px;
+	padding: var(--spacing-2);
+	box-sizing: border-box;
+	background: transparent;
+	border-radius: var(--radius-lg);
+	transition: background 0.18s;
+}
+
+@media (max-width: 768px) {
+	.graphsChartWrapper {
+		min-height: 200px;
+		min-width: 160px;
+		padding: var(--spacing-1);
+	}
+}
+
+@media (max-width: 480px) {
+	.graphsChartWrapper {
+		min-height: 120px;
+		min-width: 80px;
+	}
+}
+
+// ========================================
+// Interactive Legend Styles
+// ========================================
+
+.graphsInteractiveLegend {
+	display: flex;
+	gap: var(--spacing-3);
+	margin-bottom: var(--spacing-2);
+	flex-wrap: wrap;
+}
+.graphsLegendItem {
+	background: none;
+	border: none;
+	padding: 0.25em 0.75em;
+	font-size: 0.98rem;
+	font-weight: 500;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	border-radius: var(--radius-md);
+	transition:
+		background 0.15s,
+		color 0.15s;
+	outline: none;
+	user-select: none;
+	opacity: 0.85;
+}
+.graphsLegendItem:hover,
+.graphsLegendItem:focus {
+	background: var(--color-primary-lightest);
+	color: var(--color-primary);
+	opacity: 1;
+}
+.graphsLegendItemActive {
+	font-weight: 700;
+	opacity: 1;
+}
+.graphsLegendItemInactive {
+	text-decoration: line-through;
+	opacity: 0.4;
+}
+.graphsLegendColor {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border-radius: 3px;
+	margin-right: 0.5em;
+	background: var(--color-primary);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+// ========================================
+// Empty and Unsupported Labels
+// ========================================
+
+.gameboards__emptyLabel {
+	color: var(--color-text-muted);
+	text-align: center;
+	padding: 2rem;
+}
+
+.gameboards__unsupportedKind {
+	color: var(--color-danger);
+	text-align: center;
+	padding: 2rem;
+}
+
+// ========================================
+// Radar Axis Tick
+// ========================================
+
+.graphs__radarAxisTick {
+	font-size: 14px;
+	fill: var(--color-accent);
+	font-weight: 600;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+// === Base Gameboard Styles ===
+.gameboard {
+	background: var(--board-bg, #f8fafc);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	padding: 16px;
+	margin-bottom: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+// === Square Grid Board ===
+.square-grid-board {
+	@extend .gameboard;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(40px, 1fr)
+	);
+	gap: 8px;
+}
+
+// === Hex Grid Board ===
+.hex-grid-board {
+	@extend .gameboard;
+	// Hex-specific layout
+}
+
+// === Circular Grid Board ===
+.circular-grid-board {
+	@extend .gameboard;
+	// Circular layout
+}
+
+// === Path-Based Boards ===
+.path-board {
+	@extend .gameboard;
+	// Path-specific layout
+}
+
+// === Map/Territory Boards ===
+.map-board {
+	@extend .gameboard;
+	// Map-specific layout
+}
+
+// === Abstract/Symbolic Boards ===
+.symbolic-board {
+	@extend .gameboard;
+	// Symbolic-specific layout
+}
+
+// === Tile/Card-Based Boards ===
+.tile-card-board {
+	@extend .gameboard;
+	// Tile/Card-specific layout
+}
+
+// === Themed Boards ===
+.themed-board {
+	@extend .gameboard;
+	// Themed-specific layout
+}
+
+// === Utility Classes ===
+.board-cell {
+	background: var(--cell-bg, #fff);
+	border: 1px solid #e5e7eb;
+	border-radius: 4px;
+	min-width: 40px;
+	min-height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

@@ -1,0 +1,75 @@
+// LadderPathBoard SCSS module for unique vertical ladder layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.ladder-board {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	justify-content: center;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	padding: 16px 32px;
+	min-width: 220px;
+	min-height: 320px;
+	position: relative;
+}
+.ladder-board__rails {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 16px;
+	bottom: 16px;
+	pointer-events: none;
+}
+.ladder-board__rail {
+	width: 8px;
+	height: 100%;
+	background: var(--rail-bg, #b6c2d6);
+	border-radius: 4px;
+	margin: 0 4px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.08);
+	position: absolute;
+}
+.ladder-board__rail:first-child {
+	left: 0;
+}
+.ladder-board__rail:last-child {
+	right: 0;
+}
+.ladder-board__rungs {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+	z-index: 1;
+}
+.ladder-board__rung {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 32px;
+	min-width: 120px;
+	background: var(--rung-bg, #e0e7ef);
+	border-radius: 8px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+	font-weight: 500;
+	font-size: 1rem;
+	color: var(--rung-color, #222);
+	transition: background 0.2s;
+}
+.ladder-board__rung-label {
+	padding: 0 12px;
+}
+.ladder-board__empty {
+	text-align: center;
+	color: #b6c2d6;
+	font-style: italic;
+	margin: 32px 0;
+}

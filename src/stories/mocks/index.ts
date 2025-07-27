@@ -5,3 +5,4 @@ export * from './grids';
 export * from './dropdowns';
 export * from './friends';
 export * from './providers';
+export * from './themes';

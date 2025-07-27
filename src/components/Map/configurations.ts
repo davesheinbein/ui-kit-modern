@@ -64,6 +64,14 @@ export interface MapMarker {
 	clickable?: boolean;
 	draggable?: boolean;
 	onClick?: () => void;
+	/**
+	 * Optional custom className for this marker (for advanced styling)
+	 */
+	className?: string;
+	/**
+	 * Optional custom style for this marker (for advanced styling)
+	 */
+	style?: React.CSSProperties;
 }
 
 export interface MapRegion {

@@ -1,0 +1,63 @@
+// WordLetterGridBoard SCSS module for unique word/letter grid layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.word-letter-grid-board {
+	background: linear-gradient(
+		180deg,
+		#f8fafc 0%,
+		#e0e7ef 100%
+	);
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(30, 64, 175, 0.08);
+	padding: 16px;
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.word-letter-grid-board__grid {
+	display: grid;
+	grid-template-rows: repeat(5, 1fr);
+	grid-template-columns: repeat(5, 1fr);
+	gap: 6px;
+}
+
+.word-letter-grid-board__row {
+	display: contents;
+}
+
+.word-letter-grid-board__cell {
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 1px 4px rgba(30, 64, 175, 0.04);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: #334155;
+	text-align: center;
+	padding: 12px 0;
+	min-width: 40px;
+	min-height: 40px;
+	transition: background 0.2s;
+}
+
+.word-letter-grid-board__cell:empty {
+	background: #e0e7ef;
+}
+
+.word-letter-grid-board__words {
+	margin-top: 18px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+}
+
+.word-letter-grid-board__word {
+	background: #e0e7ef;
+	border-radius: 6px;
+	padding: 6px 14px;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #0ea5e9;
+	letter-spacing: 0.04em;
+}

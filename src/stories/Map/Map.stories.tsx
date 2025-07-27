@@ -1,33 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import 'leaflet/dist/leaflet.css';
 import {
 	Map,
 	MapKind,
 	MapProps,
 } from '../../components/Map';
-import 'leaflet/dist/leaflet.css';
-import { commonDecorators } from '../config/decorators';
+import HeatmapOverlay from '../../components/Map/Sub/HeatmapOverlay';
+import MapCustomChildren from '../../components/Map/Sub/MapCustomChildren';
+import CompassOverlay from '../../components/Map/Sub/CompassOverlay';
+import GridOverlay from '../../components/Map/Sub/GridOverlay';
+import FogOfWarOverlay from '../../components/Map/Sub/FogOfWarOverlay';
+import MinimapOverlay from '../../components/Map/Sub/MinimapOverlay';
+import CoordinatesOverlay from '../../components/Map/Sub/CoordinatesOverlay';
 
-const meta = {
-	title: 'Map/Map',
+export default {
+	title: 'Map/ShowcaseAllFeatures',
 	component: Map,
-	decorators: commonDecorators,
 	parameters: {
-		docs: {
-			description: {
-				component: `
-**Unified Map Component**  
-All map types, variants, and features are supported via props.  
-Usage: \`<Map {...props} />\`
-
-**Visibility Note:**
-- Leaflet CSS is imported at the top of this file.
-- The map container must have an explicit height (e.g., 400px) to be visible.
-				`,
-			},
-		},
+		layout: 'centered',
 	},
 };
-export default meta;
 
 // Example marker data for each map kind
 const mapMarkers: Record<MapKind, MapProps['markers']> = {
@@ -455,3 +447,620 @@ export const AllMapKindsGallery = () => (
 	</div>
 );
 AllMapKindsGallery.storyName = 'All Map Kinds (Gallery)';
+
+export const HeatmapExample = (args: Partial<MapProps>) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='city-map'
+				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
+				markers={mapMarkers['city-map']}
+				heatmapOverlays={[
+					{
+						data: [
+							{ lat: 40.7128, lng: -74.006, value: 0.8 },
+							{ lat: 40.7138, lng: -74.005, value: 0.6 },
+							{ lat: 40.7148, lng: -74.004, value: 0.9 },
+						],
+						options: { radius: 25, blur: 15, maxZoom: 17 },
+					},
+				]}
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+HeatmapExample.storyName = 'Heatmap Overlay';
+
+export const ImageOverlayExample = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='city-map'
+				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
+				markers={mapMarkers['city-map']}
+				imageOverlays={[
+					{
+						url: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Manhattan_New_York_City_Map.png',
+						bounds: [
+							[40.700292, -74.017134],
+							[40.877483, -73.907005],
+						],
+						opacity: 0.5,
+						zIndex: 10,
+					},
+				]}
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+ImageOverlayExample.storyName = 'Image Overlay';
+
+export const LiveDataOverlayExample = (
+	args: Partial<MapProps>
+) => {
+	const [liveData, setLiveData] = useState([
+		{ id: 'player1', lat: 40.72, lng: -74.01 },
+		{ id: 'player2', lat: 40.73, lng: -74.0 },
+	]);
+	// Simulate live updates
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setLiveData((prev) =>
+				prev.map((p) => ({
+					...p,
+					lat: p.lat + (Math.random() - 0.5) * 0.001,
+					lng: p.lng + (Math.random() - 0.5) * 0.001,
+				}))
+			);
+		}, 2000);
+		return () => clearInterval(interval);
+	}, []);
+	return (
+		<div style={{ height: 400 }}>
+			<ClientOnly>
+				<Map
+					kind='city-map'
+					center={mapCenters['city-map']}
+					zoom={mapZooms['city-map']}
+					markers={mapMarkers['city-map']}
+					liveData={liveData}
+					{...args}
+				/>
+			</ClientOnly>
+		</div>
+	);
+};
+LiveDataOverlayExample.storyName = 'Live Data Overlay';
+
+export const SVGOverlayExample = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='city-map'
+				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
+				markers={mapMarkers['city-map']}
+				svgOverlays={[
+					{
+						svg: `<svg width='200' height='200'><circle cx='100' cy='100' r='80' fill='rgba(0,0,255,0.3)' /></svg>`,
+						bounds: [
+							[40.700292, -74.017134],
+							[40.877483, -73.907005],
+						],
+						zIndex: 12,
+					},
+				]}
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+SVGOverlayExample.storyName = 'SVG Overlay';
+
+export const CanvasOverlayExample = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='city-map'
+				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
+				markers={mapMarkers['city-map']}
+				canvasOverlays={[
+					{
+						render: (
+							ctx: CanvasRenderingContext2D,
+							bounds: [[number, number], [number, number]],
+							size: { x: number; y: number }
+						) => {
+							ctx.fillStyle = 'rgba(255,0,0,0.2)';
+							ctx.fillRect(0, 0, size.x, size.y);
+						},
+						bounds: [
+							[40.700292, -74.017134],
+							[40.877483, -73.907005],
+						],
+						zIndex: 13,
+					},
+				]}
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+CanvasOverlayExample.storyName = 'Canvas Overlay';
+
+export const ClusterMarkersExample = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='cluster-marker'
+				center={mapCenters['cluster-marker']}
+				zoom={mapZooms['cluster-marker']}
+				markers={mapMarkers['cluster-marker']}
+				clusterMarkers
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+ClusterMarkersExample.storyName = 'Clustered Markers';
+
+export const TooltipPopupExample = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='poi-marker'
+				center={mapCenters['poi-marker']}
+				zoom={mapZooms['poi-marker']}
+				markers={mapMarkers['poi-marker']}
+				showTooltips
+				showPopups
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+TooltipPopupExample.storyName = 'Tooltips & Popups';
+
+export const CustomControlsExample = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='city-map'
+				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
+				markers={mapMarkers['city-map']}
+				customControls={[
+					{
+						position: 'topright',
+						element: (
+							<button style={{ padding: 8 }}>
+								Custom Control
+							</button>
+						),
+					},
+				]}
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+CustomControlsExample.storyName = 'Custom Controls';
+
+export const MinimapExample = (args: Partial<MapProps>) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='mini-map'
+				center={mapCenters['mini-map']}
+				zoom={mapZooms['mini-map']}
+				markers={mapMarkers['mini-map']}
+				showMinimap
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+MinimapExample.storyName = 'Minimap';
+
+export const FullscreenExample = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='city-map'
+				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
+				markers={mapMarkers['city-map']}
+				fullscreenControl
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+FullscreenExample.storyName = 'Fullscreen Control';
+
+export const GeolocateExample = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='city-map'
+				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
+				markers={mapMarkers['city-map']}
+				geolocateControl
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+GeolocateExample.storyName = 'Geolocate Control';
+
+export const SearchExample = (args: Partial<MapProps>) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='city-map'
+				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
+				markers={mapMarkers['city-map']}
+				searchControl
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+SearchExample.storyName = 'Search Control';
+
+export const AccessibilityExample = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<ClientOnly>
+			<Map
+				kind='city-map'
+				center={mapCenters['city-map']}
+				zoom={mapZooms['city-map']}
+				markers={mapMarkers['city-map']}
+				ariaLabel='Accessible City Map'
+				keyboardNavigation
+				{...args}
+			/>
+		</ClientOnly>
+	</div>
+);
+AccessibilityExample.storyName = 'Accessibility Features';
+
+export const WeatherTrafficOverlayExample = (
+	args: Partial<MapProps>
+) => {
+	const [weatherEnabled, setWeatherEnabled] =
+		useState(true);
+	const [trafficEnabled, setTrafficEnabled] =
+		useState(false);
+	return (
+		<div style={{ height: 400 }}>
+			<ClientOnly>
+				<Map
+					kind='city-map'
+					center={mapCenters['city-map']}
+					zoom={mapZooms['city-map']}
+					markers={mapMarkers['city-map']}
+					weatherLayers={weatherEnabled}
+					trafficLayers={trafficEnabled}
+					onToggleWeather={setWeatherEnabled}
+					weatherEnabled={weatherEnabled}
+					onToggleTraffic={setTrafficEnabled}
+					trafficEnabled={trafficEnabled}
+					{...args}
+				/>
+			</ClientOnly>
+		</div>
+	);
+};
+WeatherTrafficOverlayExample.storyName =
+	'Weather & Traffic Overlays';
+
+export const MinimapKeyNavigationExample = (
+	args: Partial<MapProps>
+) => {
+	const [selectedKeyItem, setSelectedKeyItem] =
+		useState('nyc');
+	const keyItems = [
+		{ id: 'nyc', label: 'New York City' },
+		{ id: 'tokyo', label: 'Tokyo' },
+		{ id: 'paris', label: 'Paris' },
+	];
+	return (
+		<div style={{ height: 400 }}>
+			<ClientOnly>
+				<Map
+					kind='world-map'
+					center={mapCenters['world-map']}
+					zoom={mapZooms['world-map']}
+					markers={mapMarkers['world-map']}
+					showMinimap
+					keyItems={keyItems}
+					onKeyItemSelect={setSelectedKeyItem}
+					selectedKeyItem={selectedKeyItem}
+					ariaLabel='World Map with Key Navigation'
+					{...args}
+				/>
+			</ClientOnly>
+		</div>
+	);
+};
+MinimapKeyNavigationExample.storyName =
+	'Minimap & Key Navigation';
+
+// Overlay stories for explicit visual regression and documentation
+export const CompassOverlayStory = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<Map
+			kind='city-map'
+			center={{ lat: 48.8566, lng: 2.3522 }}
+			zoom={13}
+			{...args}
+		>
+			<CompassOverlay />
+		</Map>
+	</div>
+);
+CompassOverlayStory.storyName = 'Compass Overlay';
+
+export const GridOverlayStory = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<Map
+			kind='city-map'
+			center={{ lat: 48.8566, lng: 2.3522 }}
+			zoom={13}
+			{...args}
+		>
+			<GridOverlay />
+		</Map>
+	</div>
+);
+GridOverlayStory.storyName = 'Grid Overlay';
+
+export const FogOfWarOverlayStory = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<Map
+			kind='city-map'
+			center={{ lat: 48.8566, lng: 2.3522 }}
+			zoom={13}
+			{...args}
+		>
+			<FogOfWarOverlay />
+		</Map>
+	</div>
+);
+FogOfWarOverlayStory.storyName = 'Fog Of War Overlay';
+
+export const MinimapOverlayStory = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<Map
+			kind='city-map'
+			center={{ lat: 48.8566, lng: 2.3522 }}
+			zoom={13}
+			{...args}
+		>
+			<MinimapOverlay />
+		</Map>
+	</div>
+);
+MinimapOverlayStory.storyName = 'Minimap Overlay';
+
+export const CoordinatesOverlayStory = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<Map
+			kind='city-map'
+			center={{ lat: 48.8566, lng: 2.3522 }}
+			zoom={13}
+			{...args}
+		>
+			<CoordinatesOverlay />
+		</Map>
+	</div>
+);
+CoordinatesOverlayStory.storyName = 'Coordinates Overlay';
+
+export const MapCustomChildrenStory = (
+	args: Partial<MapProps>
+) => (
+	<div style={{ height: 400 }}>
+		<Map
+			kind='city-map'
+			center={{ lat: 48.8566, lng: 2.3522 }}
+			zoom={13}
+			{...args}
+		>
+			<MapCustomChildren>
+				<div
+					style={{
+						position: 'absolute',
+						top: 20,
+						left: 20,
+						background: 'rgba(0,0,0,0.7)',
+						color: '#fff',
+						padding: 8,
+						borderRadius: 4,
+					}}
+				>
+					Custom Overlay Content
+				</div>
+			</MapCustomChildren>
+		</Map>
+	</div>
+);
+MapCustomChildrenStory.storyName = 'Map Custom Children';
+
+/**
+ * Visually rich showcase story for Map: demonstrates all overlays, controls, markers, regions, and custom children.
+ */
+export const ShowcaseAllFeatures = () => {
+	const [zoom, setZoom] = useState(3);
+	const [center, setCenter] = useState({ lat: 40, lng: 0 });
+	const regionPolygon = [
+		{ lat: 45, lng: -10 },
+		{ lat: 50, lng: 10 },
+		{ lat: 40, lng: 30 },
+		{ lat: 35, lng: 10 },
+		{ lat: 38, lng: -10 },
+	];
+	const markers = [
+		{
+			id: 'nyc',
+			position: { lat: 40.7128, lng: -74.006 },
+			title: 'New York City',
+			color: '#2563eb',
+		},
+		{
+			id: 'paris',
+			position: { lat: 48.8566, lng: 2.3522 },
+			title: 'Paris',
+			color: '#f59e42',
+		},
+		{
+			id: 'tokyo',
+			position: { lat: 35.6895, lng: 139.6917 },
+			title: 'Tokyo',
+			color: '#10b981',
+		},
+		{
+			id: 'custom',
+			position: { lat: 45, lng: 10 },
+			title: 'Custom Marker',
+			icon: <span style={{ fontSize: 20 }}>⭐️</span>,
+		},
+	];
+	const regions = [
+		{
+			id: 'region1',
+			coordinates: regionPolygon,
+			title: 'Demo Region',
+			color: '#2563eb', // border color
+			strokeWidth: 2,
+			fillColor: 'rgba(37,99,235,0.2)',
+			fillOpacity: 0.5,
+		},
+	];
+	return (
+		<div
+			style={{
+				width: '100%',
+				maxWidth: 900,
+				height: 540,
+				margin: '0 auto',
+				background:
+					'linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%)',
+				borderRadius: 24,
+				boxShadow: '0 6px 32px 0 #2563eb22',
+				padding: 24,
+				display: 'flex',
+				flexDirection: 'column',
+				gap: 16,
+			}}
+		>
+			<div
+				style={{
+					fontWeight: 700,
+					fontSize: 22,
+					color: '#2563eb',
+					marginBottom: 8,
+				}}
+			>
+				🌍 Map Showcase: All Features
+			</div>
+			<Map
+				kind='world-map'
+				center={center}
+				zoom={zoom}
+				minZoom={2}
+				maxZoom={8}
+				style={{
+					height: 420,
+					borderRadius: 18,
+					boxShadow: '0 2px 12px 0 #2563eb18',
+				}}
+				markers={markers}
+				regions={regions}
+				showZoomControls
+				showAttribution={false}
+			>
+				{/* Overlays */}
+				<CompassOverlay />
+				<GridOverlay />
+				<FogOfWarOverlay />
+				<MinimapOverlay />
+				<CoordinatesOverlay />
+				{/* Custom children */}
+				<MapCustomChildren>
+					<div
+						style={{
+							position: 'absolute',
+							top: 24,
+							right: 24,
+							background: '#fff',
+							borderRadius: 8,
+							boxShadow: '0 1px 6px 0 #2563eb22',
+							padding: '6px 16px',
+							fontWeight: 600,
+							color: '#2563eb',
+							zIndex: 10,
+						}}
+					>
+						Custom Content
+					</div>
+				</MapCustomChildren>
+			</Map>
+			<div
+				style={{
+					fontSize: 15,
+					color: '#64748b',
+					marginTop: 8,
+				}}
+			>
+				Features: Overlays (Compass, Grid, Fog of War,
+				Minimap, Coordinates), Custom Children, Markers,
+				Regions, Controls
+			</div>
+		</div>
+	);
+};
+ShowcaseAllFeatures.storyName = 'Showcase: All Features';
+ShowcaseAllFeatures.parameters = {
+	layout: 'centered',
+	docs: {
+		storyDescription:
+			'A visually rich demonstration of all Map features: overlays, controls, markers, regions, and custom children.',
+	},
+};

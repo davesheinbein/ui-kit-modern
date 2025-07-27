@@ -1,0 +1,30 @@
+// EvolvingCardGridBoard SCSS module for unique layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.evolving-card-grid-board {
+	padding: 8px;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.evolving-card-grid-board__grid {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+.evolving-card-grid-board__row {
+	display: flex;
+	gap: 4px;
+}
+.evolving-card-grid-board__cell {
+	width: 64px;
+	height: 96px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	background: #e0f7fa;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}

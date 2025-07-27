@@ -1,0 +1,39 @@
+// TriangleMovementWebBoard SCSS module for unique triangle web layout
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.triangleMovementWebBoard {
+	padding: 8px;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.svg {
+	width: 100%;
+	height: auto;
+	max-width: 480px;
+	display: block;
+}
+.connectionLine {
+	stroke-dasharray: 6 4;
+	opacity: 0.7;
+}
+.triangle {
+	transition: fill 0.2s;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+}
+.node {
+	transition: fill 0.2s;
+}
+.label {
+	font-family: var(
+		--font-family,
+		'Nunito Sans',
+		sans-serif
+	);
+	font-weight: bold;
+	pointer-events: none;
+}

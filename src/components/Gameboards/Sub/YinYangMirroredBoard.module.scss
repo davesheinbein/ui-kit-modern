@@ -1,0 +1,27 @@
+// YinYangMirroredBoard SCSS module for unique mirrored layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.yinYangMirroredBoard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: var(--board-bg, #e0e7ef);
+	border-radius: 50%;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	padding: 16px;
+	width: fit-content;
+}
+.yinYangMirroredBoard__svg {
+	display: block;
+	border-radius: 50%;
+	background: transparent;
+}
+.yinYangMirroredBoard__labels {
+	margin-top: 12px;
+	font-size: 1.1em;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	display: flex;
+	gap: 16px;
+}

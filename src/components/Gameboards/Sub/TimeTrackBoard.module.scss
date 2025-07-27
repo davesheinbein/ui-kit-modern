@@ -1,0 +1,68 @@
+// TimeTrackBoard SCSS module for horizontal time-track layout
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+table-track-board {
+	padding: 12px;
+	background: var(--board-bg, #f3f4f6);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.timeTrackBoard__roundOrder {
+	display: flex;
+	gap: 8px;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--round-label, #374151);
+}
+.timeTrackBoard__round {
+	padding: 4px 10px;
+	border-radius: 6px;
+	background: var(--round-bg, #e0e7ef);
+	color: var(--round-color, #374151);
+	margin-right: 4px;
+}
+.activeRound {
+	background: var(--active-round-bg, #2563eb);
+	color: #fff;
+}
+.timeTrackBoard__track {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+.timeTrackBoard__cell {
+	min-width: 48px;
+	min-height: 48px;
+	background: var(--cell-bg, #fff);
+	border-radius: 8px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	outline: none;
+	transition: background 0.2s;
+}
+.activeCell {
+	background: var(--active-cell-bg, #2563eb);
+	color: #fff;
+}
+.completedCell {
+	background: var(--completed-cell-bg, #10b981);
+	color: #fff;
+}
+.timeTrackBoard__cellLabel {
+	font-size: 0.95rem;
+	margin-bottom: 2px;
+}
+.timeTrackBoard__cellIcon {
+	font-size: 1.2rem;
+	margin-top: 2px;
+}

@@ -1,0 +1,31 @@
+// FogOfWarMapBoard SCSS module for unique layout
+@use '../../styles/Variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.fog-of-war-map-board {
+	padding: 8px;
+	background: var(--board-bg, #f8fafc);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+	position: relative;
+	width: 100%;
+	max-width: 400px;
+}
+.fog-of-war-map-board__region {
+	transition: fill 0.2s;
+	opacity: 0.95;
+}
+.fog-of-war-map-board__fog {
+	fill: rgba(40, 40, 40, 0.7);
+	pointer-events: none;
+	opacity: 0.85;
+}
+.fog-of-war-map-board__label {
+	font-family: Nunito, Arial, sans-serif;
+	font-size: 1rem;
+	font-weight: 600;
+	fill: #222;
+	text-shadow:
+		0 1px 2px #fff,
+		0 0 2px #333;
+}

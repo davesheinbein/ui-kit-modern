@@ -1,0 +1,35 @@
+// PoliticalMapBoard SCSS module for unique territory/faction layout
+@use '../../../styles/Variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.political-map-board {
+	padding: 16px;
+	background: linear-gradient(
+		135deg,
+		#e0e7ef 60%,
+		#f1f5f9 100%
+	);
+	border-radius: 50%;
+	box-shadow: 0 2px 16px rgba(52, 120, 203, 0.08);
+	position: relative;
+	width: 100%;
+	max-width: 480px;
+}
+.political-map-board__base {
+	filter: drop-shadow(0 2px 8px #64748b33);
+	transition: fill 0.2s;
+}
+.political-map-board__region {
+	opacity: 0.92;
+	cursor: pointer;
+	transition: opacity 0.2s;
+}
+.political-map-board__region-label {
+	font-family: 'Nunito Sans', sans-serif;
+	letter-spacing: 1px;
+	text-shadow: 0 1px 4px #fff8;
+}
+.political-map-board__legend {
+	font-family: 'Nunito Sans', sans-serif;
+	font-size: 16px;
+}

@@ -1,16 +1,16 @@
 import React from 'react';
-import { Input } from '../../components/Inputs';
+import { StatefulInput } from '../../utils/storyHelpers';
 import type {
-	InputKind,
+	ExtendedInputKind,
 	InputSize,
 	InputStyle,
 } from '../../components/Inputs/configurations';
-import type { InputProps } from '../../components/Inputs';
+import type { InputProps } from '../../components/Inputs/Sub/types';
 import { commonDecorators } from '../config/decorators';
 
 export default {
 	title: 'Inputs/Input',
-	component: Input,
+	component: StatefulInput,
 	decorators: commonDecorators,
 	tags: ['autodocs'],
 	parameters: {
@@ -26,13 +26,13 @@ Usage: \`<Input {...props} />\`
 <Input kind="text" label="Text" />
 <Input kind="email" label="Email" variant="email" />
 <Input kind="password" label="Password" showPasswordToggle />
-				`,
+        `,
 			},
 		},
 	},
 };
 
-const kinds: InputKind[] = [
+const kinds: ExtendedInputKind[] = [
 	'text',
 	'email',
 	'password',
@@ -47,7 +47,7 @@ const kinds: InputKind[] = [
 	'custom',
 ];
 const sizes: InputSize[] = ['small', 'medium', 'large'];
-const styles: InputStyle[] = [
+const inputStyles: InputStyle[] = [
 	'outlined',
 	'filled',
 	'underlined',
@@ -60,7 +60,7 @@ export const VariantsGallery = () => (
 	>
 		{kinds.map((kind) => (
 			<div key={kind} style={{ minWidth: 260 }}>
-				<Input
+				<StatefulInput
 					kind={kind}
 					label={kind.replace(/-/g, ' ')}
 					style='outlined'
@@ -72,16 +72,16 @@ export const VariantsGallery = () => (
 VariantsGallery.storyName = 'All Input Kinds';
 
 export const Text = (args: Partial<InputProps>) => (
-	<Input
-		kind='text'
+	<StatefulInput
+		kind={'text' as ExtendedInputKind}
 		label='Text'
 		placeholder='Enter text'
 		{...args}
 	/>
 );
 export const Email = (args: Partial<InputProps>) => (
-	<Input
-		kind='email'
+	<StatefulInput
+		kind={'email' as ExtendedInputKind}
 		label='Email'
 		placeholder='Enter email'
 		required
@@ -89,8 +89,8 @@ export const Email = (args: Partial<InputProps>) => (
 	/>
 );
 export const Password = (args: Partial<InputProps>) => (
-	<Input
-		kind='password'
+	<StatefulInput
+		kind={'password' as ExtendedInputKind}
 		label='Password'
 		placeholder='Enter password'
 		showPasswordToggle
@@ -98,8 +98,8 @@ export const Password = (args: Partial<InputProps>) => (
 	/>
 );
 export const Number = (args: Partial<InputProps>) => (
-	<Input
-		kind='number'
+	<StatefulInput
+		kind={'number' as ExtendedInputKind}
 		label='Number'
 		placeholder='Enter number'
 		min={0}
@@ -108,17 +108,18 @@ export const Number = (args: Partial<InputProps>) => (
 	/>
 );
 export const Search = (args: Partial<InputProps>) => (
-	<Input
-		kind='search'
+	<StatefulInput
+		kind={'search' as ExtendedInputKind}
 		label='Search'
 		placeholder='Search...'
 		clearable
 		{...args}
 	/>
 );
+
 export const Custom = (args: Partial<InputProps>) => (
-	<Input
-		kind='custom'
+	<StatefulInput
+		kind={'custom' as ExtendedInputKind}
 		label='Custom'
 		icon='star'
 		{...args}
@@ -128,9 +129,9 @@ export const Custom = (args: Partial<InputProps>) => (
 export const Sizes = () => (
 	<div style={{ display: 'flex', gap: 24 }}>
 		{sizes.map((size) => (
-			<Input
+			<StatefulInput
 				key={size}
-				kind='text'
+				kind={'text' as ExtendedInputKind}
 				label={size}
 				size={size}
 			/>
@@ -140,13 +141,102 @@ export const Sizes = () => (
 
 export const Styles = () => (
 	<div style={{ display: 'flex', gap: 24 }}>
-		{styles.map((style) => (
-			<Input
-				key={style}
-				kind='text'
-				label={style}
-				style={style}
+		{inputStyles.map((inputStyle) => (
+			<StatefulInput
+				key={inputStyle}
+				kind={'text' as ExtendedInputKind}
+				label={inputStyle}
+				style={inputStyle}
 			/>
 		))}
 	</div>
 );
+
+export const Border = {
+	args: {
+		kind: 'text' as ExtendedInputKind,
+		appearance: 'border',
+		placeholder: 'Border Input',
+	},
+	render: (args: Partial<InputProps>) => {
+		// Omit style prop injected by Storybook
+		const { style, ...rest } = args;
+		return (
+			<StatefulInput
+				{...{
+					...rest,
+					kind: rest.kind as ExtendedInputKind,
+				}}
+			/>
+		);
+	},
+};
+
+export const Shadow = {
+	args: {
+		kind: 'text' as ExtendedInputKind,
+		appearance: 'shadow',
+		placeholder: 'Shadow Input',
+	},
+	render: (args: Partial<InputProps>) => {
+		const { style, ...rest } = args;
+		return (
+			<StatefulInput
+				{...{
+					...rest,
+					kind: rest.kind as ExtendedInputKind,
+				}}
+			/>
+		);
+	},
+};
+
+export const BorderShadow = {
+	args: {
+		kind: 'text' as ExtendedInputKind,
+		appearance: 'borderShadow',
+		placeholder: 'Border + Shadow Input',
+	},
+	render: (args: Partial<InputProps>) => {
+		const { style, ...rest } = args;
+		return (
+			<StatefulInput
+				{...{
+					...rest,
+					kind: rest.kind as ExtendedInputKind,
+				}}
+			/>
+		);
+	},
+};
+
+export const AllSizes = {
+	render: () => (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: 16,
+			}}
+		>
+			<StatefulInput
+				kind={'text' as ExtendedInputKind}
+				appearance='border'
+				size='small'
+				placeholder='Small Border'
+			/>
+			<StatefulInput
+				kind={'text' as ExtendedInputKind}
+				appearance='shadow'
+				size='medium'
+				placeholder='Medium Shadow'
+			/>
+			<StatefulInput
+				kind={'text' as ExtendedInputKind}
+				appearance='borderShadow'
+				size='large'
+				placeholder='Large Border+Shadow'
+			/>
+		</div>
+	),
+};
